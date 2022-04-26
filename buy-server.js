@@ -15,9 +15,9 @@ export async function main(ns) {
 	var source = "home";
 	// How many threads to run our script on a purchased server.
 	var nthread = 3;
-	// Run our hack script on this target.
+	// Hack this target.
 	var targetA = "n00dles";
-	// Run our hack script on this other target.
+	// Hack this other target.
 	var targetB = "foodnstuff";
 
 	// Continuously try to purchase a new server until we've reached the maximum
