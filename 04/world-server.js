@@ -14,22 +14,19 @@ function filter_pserv(server) {
 	// Filter out the purchased servers.
 	var serv = new Array();
 	serv = serv.concat(server);
-	for (const p of pserv) {
-		serv = serv.filter(s => s != p);
-	}
-	return serv;
+	return serv.filter(s => !pserv.includes(s));
 }
 
 /**
- * Whether we have the necessary programs on our home server to allow us to gain
- * root access on other servers.
+ * Whether we have the necessary programs on our home server to allow us to hack
+ * other servers.
  * 
  * @param ns The Netscript API.
  * @return true if we have the necessary programs; false otherwise.
  */
 function have_programs(ns) {
 	const home = "home";
-	const program = ["BruteSSH.exe", "FTPCrack.exe", "NUKE.exe"];
+	const program = ["BruteSSH.exe", "FTPCrack.exe", "hack.js", "NUKE.exe"];
 
 	// Ensure we have the prerequisite programs on our home server.
 	for (const p of program) {
@@ -107,7 +104,8 @@ export async function main(ns) {
 	const script_ram = ns.getScriptRam(script, source);
 	const nport = 2;  // Can open this many ports.
 	for (const s of server) {
-		// Skip over a server that requires 3 open ports.  Currently, we can only open 2 ports.
+		// Skip over a server that requires 3 or more open ports.  Currently, we can only
+		// open 2 ports.
 		if (ns.getServerNumPortsRequired(s) > nport) {
 			continue;
 		}
