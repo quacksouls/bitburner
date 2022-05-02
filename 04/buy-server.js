@@ -47,7 +47,6 @@ export async function main(ns) {
 	}
 	// Gain root access on the target server.
 	if (!have_programs(ns)) {
-		ns.alert("One or more hacking programs not found.");
 		ns.exit();
 	}
 	if (!ns.hasRootAccess(target)) {
