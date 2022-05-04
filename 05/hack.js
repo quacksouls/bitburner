@@ -12,15 +12,29 @@ export async function main(ns) {
 	// The target server, i.e. the server to hack.
 	const target = ns.args[0];
 
-	// Ensure we have root access on the target server.  We assume that currently
-	// we have access to servers that require up to 2 ports to be open.
+	// Ensure we have root access on the target server.
 	if (!ns.hasRootAccess(target)) {
-		await ns.brutessh(target);
-		// We don't necessarily start with the FTPCrack.exe program.
+		try {
+			await ns.brutessh(target);
+		} catch {}
 		try {
 			await ns.ftpcrack(target);
 		} catch {}
-		await ns.nuke(target);
+		try {
+			await ns.httpworm(target);
+		} catch {}
+		try {
+			await ns.relaysmtp(target);
+		} catch {}
+		try {
+			await ns.sqlinject(target);
+		} catch {}
+		try {
+			await ns.nuke(target);
+		} catch {
+			ns.alert("Can't gain root access to " + target);
+			ns.exit();
+		}
 	}
 
 	// How much money a server should have before we hack it.
