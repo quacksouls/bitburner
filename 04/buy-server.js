@@ -27,8 +27,6 @@ function have_programs(ns) {
 export async function main(ns) {
 	// We want each server to have 16GB of RAM.
 	const server_ram = 16;
-	// The ID of a purchased server.
-	var i = 0;
 	// Our hack script.
 	const script = "hack.js";
 	// Our hack script is located on our home server.
@@ -57,12 +55,14 @@ export async function main(ns) {
 
 	// Continuously try to purchase a new server until we've reached the maximum
 	// number of servers we can buy.
+	const pserv = ns.getPurchasedServers();
+	let i = pserv.length;
 	while (i < ns.getPurchasedServerLimit()) {
 		// Do we have enough money (on our home server) to buy a new server?
 		if (ns.getServerMoneyAvailable(source) > ns.getPurchasedServerCost(server_ram)) {
 			// If we have enough money, then:
 			// purchase a new server;
-			const hostname = ns.purchaseServer("pserv-" + i, server_ram);
+			const hostname = ns.purchaseServer("pserv", server_ram);
 			// copy our hack script over to the purchased server;
 			await ns.scp(script, source, hostname);
 			// run our hack script on the purchased server.
