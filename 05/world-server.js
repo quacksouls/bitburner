@@ -1,4 +1,16 @@
 /**
+ * A function for assertion.
+ * 
+ * @param cond Assert that this condition is true.
+ * @return Throw an assertion error if the given condition is false.
+ */
+function assert(cond) {
+	if (!cond) {
+		throw new Error("Assertion failed.");
+	}
+}
+
+/**
  * Exclude the purchased servers.
  * 
  * @param server An array of server names.
@@ -15,6 +27,72 @@ function filter_pserv(server) {
 	var serv = new Array();
 	serv = serv.concat(server);
 	return serv.filter(s => !pserv.has(s));
+}
+
+/**
+ * Try to hack a bunch of servers in the game world.
+ * 
+ * @param server Try to hack one or more servers in this list.
+ * @return An array of servers we can't hack at the moment.
+ */
+async function hack_servers(server) {
+	// Determine the maximum number of ports we can open on a server.
+	const nport = how_many_ports(ns);
+	if (-1 == nport) {
+		throw new Error("Missing core scripts/programs on home.");
+	}
+
+	// Gain root access on as many servers as possible on the network.  Copy our hack
+	// script to each server and use the server to hack itself.
+	const time = 10000;  // 10 seconds
+	const server = network(ns);
+	const script = "hack.js";
+	const source = "home";
+	const delta = 10;  // A Hack stat margin.
+	const script_ram = ns.getScriptRam(script, source);
+	for (const s of server) {
+		// Skip over a server that requires more ports than we can open.
+		if (ns.getServerNumPortsRequired(s) > nport) {
+			continue;
+		}
+		// Determine how many threads we can run on a server.  If we can't run our script
+		// on the server, then we skip the server.
+		const server_ram = ns.getServerMaxRam(s) - ns.getServerUsedRam(s);
+		const nthread = Math.floor(server_ram / script_ram);
+		if (nthread < 1) {
+			continue;
+		}
+		// If the server requires more than delta Hack stat than we have, skip the server.
+		if (ns.getHackingLevel() + delta < ns.getServerRequiredHackingLevel(s)) {
+			continue;
+		}
+		// Wait until we meet the minimum hacking skill requirement of a server.
+		while (ns.getHackingLevel() < ns.getServerRequiredHackingLevel(s)) {
+			await ns.sleep(time);
+		}
+		// Ensure we have root access on the server.
+		if (!ns.hasRootAccess(s)) {
+			try {
+				ns.brutessh(s);
+			} catch {}
+			try {
+				ns.ftpcrack(s);
+			} catch {}
+			try {
+				ns.httpworm(s);
+			} catch {}
+			try {
+				ns.relaysmtp(s);
+			} catch {}
+			try {
+				ns.sqlinject(s);
+			} catch {}
+			ns.nuke(s);
+		}
+		// Copy our hack script over to a server.  Use the server to hack the target.
+		await ns.scp(script, source, s);
+		ns.exec(script, s, nthread, target);
+	}
 }
 
 /**
@@ -96,63 +174,5 @@ function network(ns) {
  * @param {NS} ns
  */
 export async function main(ns) {
-	// Determine the number of ports we can open on other servers.
-	const nport = how_many_ports(ns);
-	if (-1 == nport) {
-		ns.alert("Missing core scripts/programs on home.");
-		ns.exit();
-	}
-	// Ensure our Hack stat is high enough to hack the target server.
-	const target = ns.args[0];
-	const time = 10000;  // 10 seconds
-	while (ns.getHackingLevel() < ns.getServerRequiredHackingLevel(target)) {
-		await ns.sleep(time);
-	}
-
-	// Gain root access on as many servers as possible on the network.  Copy our hack
-	// script to each server and use the server to hack the target.
-	// Note: also use the target server to hack itself.
-	const server = network(ns);
-	const script = "hack.js";
-	const source = "home";
-	const script_ram = ns.getScriptRam(script, source);
-	for (const s of server) {
-		// Skip over a server that requires more ports than we can open.
-		if (ns.getServerNumPortsRequired(s) > nport) {
-			continue;
-		}
-		// Determine how many threads we can run on a server.  If we can't run our script
-		// on the server, then we skip the server.
-		const server_ram = ns.getServerMaxRam(s) - ns.getServerUsedRam(s);
-		const nthread = Math.floor(server_ram / script_ram);
-		if (nthread < 1) {
-			continue;
-		}
-		// Wait until we meet the minimum hacking skill requirement of a server.
-		while (ns.getHackingLevel() < ns.getServerRequiredHackingLevel(s)) {
-			await ns.sleep(time);
-		}
-		// Ensure we have root access on the server.
-		if (!ns.hasRootAccess(s)) {
-			try {
-				ns.brutessh(s);
-			} catch {}
-			try {
-				ns.ftpcrack(s);
-			} catch {}
-			try {
-				ns.httpworm(s);
-			} catch {}
-			try {
-				ns.relaysmtp(s);
-			} catch {}
-			try {
-				ns.sqlinject(s);
-			} catch {}
-			ns.nuke(s);
-		}
-		// Copy our hack script over to a server.  Use the server to hack the target.
-		await ns.scp(script, source, s);
-		ns.exec(script, s, nthread, target);
-	}
+	
 }
