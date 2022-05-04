@@ -1,20 +1,16 @@
 /**
  * Exclude the purchased servers.
  * 
+ * @param ns The Netscript API.
  * @param server An array of server names.
  * @return An array of servers, but minus the purchased servers.
  */
-function filter_pserv(server) {
+function filter_pserv(ns, server) {
 	// All purchased servers.
-	const pserv = ["pserv-0",
-		"pserv-1","pserv-2","pserv-3","pserv-4","pserv-5","pserv-6",
-		"pserv-7","pserv-8","pserv-9","pserv-10","pserv-11","pserv-12",
-		"pserv-13","pserv-14","pserv-15","pserv-16","pserv-17","pserv-18",
-		"pserv-19","pserv-20","pserv-21","pserv-22","pserv-23","pserv-24"];
+	const pserv = new Set(ns.getPurchasedServers());
 	// Filter out the purchased servers.
-	var serv = new Array();
-	serv = serv.concat(server);
-	return serv.filter(s => !pserv.includes(s));
+	const serv = Array.from(server);
+	return serv.filter(s => !pserv.has(s));
 }
 
 /**
@@ -51,10 +47,9 @@ function network(ns) {
 	const root = "home";
 
 	// A set of all servers we can visit at the moment.
-	var server = new Set();
+	let server = new Set();
 	// A stack of servers to visit.  We start from our home server.
-	var stack = new Array();
-	stack.push(root);
+	let stack = new Array(root);
 
 	// Use depth-first search to navigate all servers we can visit.
 	while (stack.length > 0) {
@@ -65,9 +60,7 @@ function network(ns) {
 			server.add(s);
 			// Add all neighbours of s to the stack.  Take care to exclude the
 			// purchased servers.
-			for (const neighbour of filter_pserv(ns.scan(s))) {
-				stack.push(neighbour);
-			}
+			stack.push(...filter_pserv(ns, ns.scan(s)));
 		}
 	}
 	// Convert the set of servers to an array of servers.
