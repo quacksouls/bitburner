@@ -1,4 +1,5 @@
-import { assert, choose_best_server, copy_and_run, filter_pserv, how_many_ports, how_many_threads, is_bankrupt, network, root_access } from "./libbnr.js";
+// import { how_many_threads, is_bankrupt, root_access } from "./libbnr.js";
+import { assert, choose_best_server, copy_and_run, filter_pserv, network, Player, Server } from "./libbnr.js";
 
 /**
  * Determine which servers in the game world have been compromised.  We exclude all
@@ -16,7 +17,8 @@ function compromised_servers(ns, script, server) {
 	assert(server.length > 0);
 	let compromised = new Array();
 	for (const s of filter_pserv(ns, server)) {
-		if (ns.hasRootAccess(s) && ns.scriptRunning(script, s)) {
+		const serv = new Server(ns, s);
+		if (serv.has_root_access() && serv.is_running_script(script)) {
 			compromised.push(s);
 		}
 	}
@@ -24,7 +26,7 @@ function compromised_servers(ns, script, server) {
 }
 
 /**
- * Gain root access on a server, copy our hack scripts over to the server, and use
+ * Gain root access to a server, copy our hack scripts over to the server, and use
  * the server to hack a target.
  * 
  * @param ns The Netscript API.
@@ -32,12 +34,14 @@ function compromised_servers(ns, script, server) {
  * @param target Hack this server.
  */
 async function hack_a_server(ns, server, target) {
+	const serv = new Server(ns, server);
+	const targ = new Server(ns, target);
 	// Ensure we have root access on both servers.
-	if (!ns.hasRootAccess(server)) {
-		await root_access(ns, server);
+	if (!serv.has_root_access()) {
+		await serv.gain_root_access();
 	}
-	if (!ns.hasRootAccess(target)) {
-		await root_access(ns, target);
+	if (!targ.has_root_access()) {
+		await targ.gain_root_access();
 	}
 	// Copy our hack scripts over to a server.  Use the server to hack a target.
 	assert(await copy_and_run(ns, server, target));
@@ -57,10 +61,9 @@ async function hack_servers(ns, target) {
 	// Sanity check.
 	assert(target.length > 0);
 	// Determine the maximum number of ports we can open on a server.
-	const nport = how_many_ports(ns);
-	if (-1 == nport) {
-		throw new Error("Missing core scripts/programs on home.");
-	}
+	const player = new Player(ns);
+	const nport = player.num_ports();
+	assert(nport >= 0);
 	// A list of servers that were successfully hacked.
 	let hacked_server = new Array();
 
@@ -68,15 +71,16 @@ async function hack_servers(ns, target) {
 	// script to each server and use the server to hack itself.
 	let reject = new Array();  // Servers we can't hack at the moment.
 	const script = "hack.js";
-	// A Hack stat margin: 5% of our Hack stat, plus another 5.
-	const margin = Math.floor((0.05 * ns.getHackingLevel()) + 5);
+	// A Hack stat margin: 5% of our Hack stat, plus another 5 points.
+	const margin = Math.floor((0.05 * player.hacking_skill()) + 5);
 	for (const s of target) {
 		// Should we skip this server?
 		if (skip_server(ns, s, script, margin)) {
 			continue;
 		}
-		const hack_lvl = ns.getHackingLevel();
-		const required_lvl = ns.getServerRequiredHackingLevel(s);
+		const server = new Server(ns, s);
+		const hack_lvl = player.hacking_skill();
+		const required_lvl = server.hacking_skill();
 		// If the hacking skill requirement of the server is within the margin of our
 		// Hack stat, skip the server for now but make a note to attempt at a later time.
 		if (hack_lvl < required_lvl) {
@@ -88,7 +92,7 @@ async function hack_servers(ns, target) {
 		assert(hack_lvl >= required_lvl);
 		// If the server has no money available, skip the server for now and add it to the
 		// list of rejects.
-		if (is_bankrupt(s)) {
+		if (server.is_bankrupt()) {
 			reject.push(s);
 			continue;
 		}
@@ -100,12 +104,12 @@ async function hack_servers(ns, target) {
 }
 
 /**
- * Use a bankrupt server to hack a server that has money.
+ * Use a bankrupt server to hack a server that can hold money.
  * 
  * @param ns The Netscript API.
  * @param candidate Scan this array of servers to see whether any is bankrupt.
  * @param hacked_server Each server in this array has been successfully hacked.
- *     The implication is that each server is not bankrupt, i.e. has money available.
+ *     The implication is that each server is not bankrupt, i.e. can hold money.
  * @return An array of servers we cannot redirect at the moment.
  */
 async function redirect_bankrupt_server(ns, candidate, hacked_server) {
@@ -113,20 +117,20 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
 	assert(candidate.length > 0);
 	assert(hacked_server.length > 0);
 
-	let hserver = new Array();
-	hserver = hserver.concat(hacked_server);
+	let hserver = Array.from(hacked_server);
 	let reject = new Array();
-
+	const player = new Player(ns);
 	for (const s of candidate) {
-		if (ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(s)) {
+		const server = new Server(ns, s);
+		if (player.hacking_skill() >= server.hacking_skill()) {
 			// Redirect a bankrupt server to hack a target.
-			if (is_bankrupt(ns, s)) {
+			if (server.is_bankrupt()) {
 				// Choose a target server from a list of servers that have been hacked.
-				const target = choose_best_server(ns, hserver);
-				assert(!is_bankrupt(ns, target));
-				hserver = hserver.filter(s => s != target);
+				const target = new Server(ns, choose_best_server(ns, hserver));
+				assert(!target.is_bankrupt());
+				hserver = hserver.filter(s => s != target.hostname());
 				// Redirect the broke server to hack the target server.
-				await hack_a_server(ns, s, target);
+				await hack_a_server(ns, s, target.hostname());
 				continue;
 			}
 		}
@@ -145,36 +149,40 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
  *     than our current Hack stat, the margin is the extra Hack stat we are willing to wait
  *     to acquire.  Let h be our Hack stat, let m be the margin, and r the required hacking
  *     skill requirement of the server.  If h + m < r, then the hacking skill requirement of
- *     the server is too high and we should skill over this server.  In case h < r and
+ *     the server is too high and we should skip over this server.  In case h < r and
  *     h + m >= r, we are willing to wait for our Hack stat to increase by an extra m points.
  * @return true if we are to skip over the given server; false otherwise.
  */
 function skip_server(ns, server, script, margin) {
+	const SKIP = true;      // Skip this server.
+	const NO_SKIP = !SKIP;  // Don't skip over this server.
+	const serv = new Server(ns, server);
+	const player = new Player(ns);
 	const m = Math.floor(margin);
 	assert(m > 0);
 	// Determine the maximum number of ports we can open on a server.
-	const nport = how_many_ports(ns);
-	assert(nport > -1);
+	const nport = player.num_ports();
+	assert(nport >= 0);
 
 	// Skip over a server that requires more ports than we can open.
-	if (ns.getServerNumPortsRequired(server) > nport) {
-		return true;
+	if (serv.num_ports_required() > nport) {
+		return SKIP;
 	}
 	// If our hack script is already running on the server, then skip the server.
-	if (ns.isRunning(script, server, server)) {
-		return true;
+	if (serv.is_running_script(script)) {
+		return SKIP;
 	}
 	// Determine how many threads we can run our script on a server.  If we can't
 	// run our script on the server, then we skip the server.
-	const nthread = how_many_threads(ns, script, server);
+	const nthread = serv.num_threads(script);
 	if (nthread < 1) {
-		return true;
+		return SKIP;
 	}
 	// Skip over a server if its hacking skill requirement is too high.
-	if ((ns.getHackingLevel() + m) < ns.getServerRequiredHackingLevel(server)) {
-		return true;
+	if ((player.hacking_skill() + m) < serv.hacking_skill()) {
+		return SKIP;
 	}
-	return false;
+	return NO_SKIP;
 }
 
 /**
@@ -190,10 +198,12 @@ function skip_server(ns, server, script, margin) {
  * @return true if we are willing to tolerate the margin; false otherwise.
  */
 function tolerate_margin(ns, margin, server) {
-	const h = ns.getHackingLevel();
+	const serv = new Server(ns, server);
+	const player = new Player(ns);
+	const h = player.hacking_skill();
 	const m = Math.floor(margin);
 	assert(m > 0);
-	const requirement = ns.getServerRequiredHackingLevel(server);
+	const requirement = serv.hacking_skill();
 	assert(h < requirement);
 	if ((h + m) >= requirement) {
 		return true;
@@ -218,14 +228,18 @@ export async function main(ns) {
 	// let each server hack itself.  Exclude all purchased servers.
 	while (server.length > 0) {
 		let [reject, hacked] = await hack_servers(ns, server);
-		hacked_server = new Set(hacked_server.concat(hacked));
-		hacked_server = [...hacked_server];
+		hacked_server = [...new Set(hacked_server.concat(hacked))];
 		assert(hacked_server.length > 0);
 		// Redirect a bankrupt server to hack another target.
 		if (reject.length > 0) {
 			reject = await redirect_bankrupt_server(ns, reject, hacked_server);
 		}
 		server = reject;
+		// Write a log of which servers to hack later.
+		for (const s of server) {
+			const serv = new Server(ns, s);
+			ns.print(serv.hostname() + ": Hack level " + serv.hacking_skill());
+		}
 		await ns.sleep(time);
 	}
 }
