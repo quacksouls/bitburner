@@ -1,4 +1,4 @@
-import { assert, Player } from "./libbnr.js";
+import { assert, Hacknet, Player } from "./libbnr.js";
 
 /**
  * Setup our farm of Hacknet Nodes.  We leave each Node at Level 1, 1GB RAM, and 1 Core.  Our
@@ -9,28 +9,29 @@ import { assert, Player } from "./libbnr.js";
  * @return An array of IDs of all Hacknet Nodes in our farm.
  */
 async function setup_farm(ns, n) {
+	const hnet = new Hacknet(ns);
 	const nNode = Math.floor(n);
 	assert(nNode > 0);
-	assert(nNode < ns.hacknet.maxNumNodes());
+	assert(nNode < hnet.nodes_max());
 	const player = new Player(ns);
 	const time = 10000;  // 10 seconds
 
 	// If we already have a farm of n Hacknet Nodes, return the IDs of the Nodes.
-	if (ns.hacknet.numNodes() == nNode) {
+	if (hnet.nodes() == nNode) {
 		return [...Array(nNode).keys()];
 	}
 
 	// Purchase Hacknet Nodes for our farm.
-	for (let i = ns.hacknet.numNodes(); i < nNode; i++) {
+	for (let i = hnet.nodes(); i < nNode; i++) {
 		// Wait until we have sufficient funds to purchase another Hacknet Node.
-		while (player.money_available() < ns.hacknet.getPurchaseNodeCost()) {
+		while (player.money_available() < hnet.node_cost()) {
 			await ns.sleep(time);
 		}
 		// Purchase a new Hacknet Node.
-		const id = ns.hacknet.purchaseNode();
+		const id = hnet.node_buy();
 		assert(-1 != id);
 	}
-	assert(ns.hacknet.numNodes() == nNode);
+	assert(hnet.nodes() == nNode);
 	return [...Array(nNode).keys()];
 }
 
@@ -42,6 +43,7 @@ async function setup_farm(ns, n) {
  * @param farm The set of IDs of all Hacknet Nodes in our farm.
  */
 async function upgrade_core(ns, farm) {
+	const hnet = new Hacknet(ns);
 	const player = new Player(ns);
 	const howmany = 1;   // Upgrade this many Cores at a time.
 	const time = 10000;  // 10 seconds
@@ -51,12 +53,12 @@ async function upgrade_core(ns, farm) {
 	for (const node of farm) {
 		// We know that the number of Cores of a Node is at maximum if the cost of upgrading
 		// to another Core is Infinity.
-		while (isFinite(ns.hacknet.getCoreUpgradeCost(node, howmany))) {
+		while (isFinite(hnet.core_cost(node, howmany))) {
 			// Wait until we have enough money to upgrade a Node to another Core.
-			while (player.money_available() < ns.hacknet.getCoreUpgradeCost(node, howmany)) {
+			while (player.money_available() < hnet.core_cost(node, howmany)) {
 				await ns.sleep(time);
 			}
-			assert(ns.hacknet.upgradeCore(node, howmany));
+			assert(hnet.core_upgrade(node, howmany));
 		}
 	}
 }
@@ -69,6 +71,7 @@ async function upgrade_core(ns, farm) {
  * @param farm The set of IDs of all Hacknet Nodes in our farm.
  */
 async function upgrade_level(ns, farm) {
+	const hnet = new Hacknet(ns);
 	const player = new Player(ns);
 	const level = 1;     // Upgrade this many Levels at a time.
 	const time = 10000;  // 10 seconds
@@ -78,12 +81,12 @@ async function upgrade_level(ns, farm) {
 	for (const node of farm) {
 		// We know that the Level of a Node is at maximum if the cost of upgrading
 		// to another Level is Infinity.
-		while (isFinite(ns.hacknet.getLevelUpgradeCost(node, level))) {
+		while (isFinite(hnet.level_cost(node, level))) {
 			// Wait until we have enough money to upgrade a Node to another Level.
-			while (player.money_available() < ns.hacknet.getLevelUpgradeCost(node, level)) {
+			while (player.money_available() < hnet.level_cost(node, level)) {
 				await ns.sleep(time);
 			}
-			assert(ns.hacknet.upgradeLevel(node, level));
+			assert(hnet.level_upgrade(node, level));
 		}
 	}
 }
@@ -96,6 +99,7 @@ async function upgrade_level(ns, farm) {
  * @param farm The set of IDs of all Hacknet Nodes in our farm.
  */
 async function upgrade_ram(ns, farm) {
+	const hnet = new Hacknet(ns);
 	const player = new Player(ns);
 	const howmany = 1;   // Upgrade by 1GB RAM at a time.
 	const time = 10000;  // 10 seconds
@@ -105,12 +109,12 @@ async function upgrade_ram(ns, farm) {
 	for (const node of farm) {
 		// We know that the amount of RAM of a Node is at maximum if the cost of upgrading
 		// to another 1GB RAM is Infinity.
-		while (isFinite(ns.hacknet.getRamUpgradeCost(node, howmany))) {
+		while (isFinite(hnet.ram_cost(node, howmany))) {
 			// Wait until we have enough money to upgrade a Node to another 1GB RAM.
-			while (player.money_available() < ns.hacknet.getRamUpgradeCost(node, howmany)) {
+			while (player.money_available() < hnet.ram_cost(node, howmany)) {
 				await ns.sleep(time);
 			}
-			assert(ns.hacknet.upgradeRam(node, howmany));
+			assert(hnet.ram_upgrade(node, howmany));
 		}
 	}
 }
