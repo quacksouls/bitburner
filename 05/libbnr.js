@@ -1,6 +1,397 @@
+// A library of classes and functions that can be imported into other scripts.
+
+/****************************************************************************/
+/** Class *******************************************************************/
+/****************************************************************************/
+
 /**
- * A library of functions that can be imported into other scripts.
+ * A class that holds all information about a player.
  */
+export class Player {
+	/**
+	 * The name of the home server of this player.
+	 */
+	#home;
+	/**
+	 * The Netscript API.
+	 */
+	#ns;
+
+	/**
+	 * Initialize a Player object.
+	 * 
+	 * @param ns The Netscript API.
+	 */
+	constructor(ns) {
+		this.#home = "home";
+		this.#ns = ns;
+	}
+
+	/**
+	 * The current Hack stat of the player.
+	 */
+	hacking_skill() {
+		return this.#ns.getHackingLevel();
+	}
+
+	/**
+	 * The home server of the player.
+	 */
+	home() {
+		return this.#home;
+	}
+
+	/**
+	 * The amount of money available to this player.
+	 */
+	money_available() {
+		return this.#ns.getServerMoneyAvailable(this.home());
+	}
+
+	/**
+	 * Determine the number of ports a player can currently open on servers in the game world.  This
+	 * depends on whether the player has the necessary hacking programs on the home server.
+	 */
+	num_ports() {
+		// These are programs that can be created after satisfying certain conditions.
+		let program = ["BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe", "SQLInject.exe"];
+		// Determine the number of ports we can open on other servers.
+		program = program.filter(p => this.#ns.fileExists(p, this.home()));
+		return program.length;
+	}
+
+	/**
+	 * All purchased servers of this player.
+	 */
+	pserv() {
+		return this.#ns.getPurchasedServers();
+	}
+}
+
+/**
+ * A class that holds information specific to purchased servers.
+ */
+export class PurchasedServer {
+	/**
+	 * The Netscript API.
+	 */
+	#ns;
+
+	/**
+	 * Create an object to represent a purchased server.
+	 * 
+	 * @param ns The Netscript API.
+	 */
+	constructor(ns) {
+		this.#ns = ns;
+	}
+
+	/**
+	 * The cost of buying a server with the given amount of RAM (GB).
+	 * 
+	 * @param ram The amount of RAM (GB) to buy with this purchased server.
+	 *     RAM is assumed to be given as a power of 2.
+	 */
+	cost(ram) {
+		const valid_ram = new Set([2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]);
+		assert(valid_ram.has(ram));
+		return this.#ns.getPurchasedServerCost(ram);
+	}
+
+	/**
+	 * The maximum number of purchased servers that can be bought.
+	 */
+	limit() {
+		return this.#ns.getPurchasedServerLimit();
+	}
+
+	/**
+	 * Purchase a new server with the given hostname and amount of RAM (GB).
+	 * 
+	 * @param hostname The hostname of the new purchased server.  If a player already
+	 *     has a purchased server with the given hostname, append a numeric value
+	 *     to the hostname.
+	 * @param ram The amount of RAM (GB) of the purchased server.
+	 * @return The hostname of the newly purchased server.
+	 */
+	purchase(hostname, ram) {
+		return this.#ns.purchaseServer(hostname, ram);
+	}
+}
+
+/**
+ * A server class that holds all information about a server, whether it be
+ * a purchased server or a server found on the network in the game world.
+ */
+export class Server {
+	// The private properties below are adapated from the API documentation at
+	// https://github.com/danielyxie/bitburner/blob/dev/markdown/bitburner.server.md
+
+	/**
+	 * Whether a player has installed a backdoor on this server.
+	 */
+	#backdoor;
+	/**
+	 * The number of CPU cores on this server.  Maximum is 8.
+	 */
+	#cores;
+	/**
+	 * Whether the FTP port is open.
+	 */
+	#ftp_port_open;
+	/**
+	 * The amount of Hack stat required to hack this server.
+	 */
+	#hacking_skill;
+	/**
+	 * The home server of the player.
+	 */
+	#home;
+	/**
+	 * The hostname of this server.
+	 */
+	#hostname;
+	/**
+	 * Whether the HTTP port is open.
+	 */
+	#http_port_open;
+	/**
+	 * The maximum amount of money this server can hold.
+	 */
+	#money_max;
+	/**
+	 * How many ports must be opened on this server in order to run
+	 * NUKE.exe on it.
+	 */
+	#n_ports_required;
+	/**
+	 * The Netscript API.
+	 */
+	#ns;
+	/**
+	 * Whether this is a purchased server.
+	 */
+	#pserv;
+	/**
+	 * The maximum amount of RAM (in GB) on this server.
+	 */
+	#ram_max;
+	/**
+	 * The minimum security level to which this server can be weaked.
+	 */
+	#security_min;
+	/**
+	 * Whether the SMTP port is open.
+	 */
+	#smtp_port_open;
+	/**
+	 * Whether the SQL port is open.
+	 */
+	#sql_port_open;
+	/**
+	 * Whether the SSH port is open.
+	 */
+	#ssh_port_open;
+
+	/**
+	 * Create a server object with the given hostname.
+	 * 
+	 * @param ns The Netscript API.
+	 * @param hostname The hostname of a server.  The server must exist in the
+	 *     game world and can be either a purchased server or a server found on
+	 *     the network in the game world.
+	 */
+	constructor(ns, hostname) {
+		const server = ns.getServer(hostname);
+		this.#backdoor = server.backdoorInstalled;
+		this.#cores = server.cpuCores;
+		this.#ftp_port_open = server.ftpPortOpen;
+		this.#hacking_skill = server.requiredHackingSkill;
+		this.#home = "home";
+		this.#hostname = server.hostname;
+		this.#http_port_open = server.httpPortOpen;
+		this.#money_max = server.moneyMax;
+		this.#n_ports_required = server.numOpenPortsRequired;
+		this.#ns = ns;
+		this.#pserv = server.purchasedByPlayer;
+		this.#ram_max = server.maxRam;
+		this.#security_min = server.minDifficulty;
+		this.#smtp_port_open = server.smtpPortOpen;
+		this.#sql_port_open = server.sqlPortOpen;
+		this.#ssh_port_open = server.sshPortOpen;
+	}
+
+	/**
+	 * How much RAM (in GB) is available on this server.
+	 */
+	available_ram() {
+		const ram = this.#ram_max - this.#ns.getServerUsedRam(this.hostname());
+		return ram;
+	}
+
+	/**
+	 * Try to gain root access on this server.
+	 *
+	 * @return true if the player has root access to this server; false if
+	 *     root access cannot be obtained.
+	 */
+	async gain_root_access() {
+		// Do we already have root access to this server?
+		if (this.has_root_access()) {
+			return true;
+		}
+		// Try to open all required ports and nuke the server.
+		try { await this.#ns.brutessh(this.hostname()); } catch { }
+		try { await this.#ns.ftpcrack(this.hostname()); } catch { }
+		try { await this.#ns.httpworm(this.hostname()); } catch { }
+		try { await this.#ns.relaysmtp(this.hostname()); } catch { }
+		try { await this.#ns.sqlinject(this.hostname()); } catch { }
+		try {
+			await this.#ns.nuke(this.hostname());
+			return true;
+		} catch {
+			assert(!this.has_root_access());
+			return false;
+		}
+	}
+
+	/**
+	 * Increase the amount of money available on this server.
+	 *
+	 */
+	async grow() {
+		await this.#ns.grow(this.hostname());
+	}
+
+	/**
+	 * Steal money from this server.
+	 *
+	 */
+	async hack() {
+		await this.#ns.hack(this.hostname());
+	}
+
+	/**
+	 * The amount of Hack stat required to hack this server.
+	 */
+	hacking_skill() {
+		return this.#hacking_skill;
+	}
+
+	/**
+	 * Whether we have root access to this server.
+	 * 
+	 * @return true if we have root access to this server; false otherwise.
+	 */
+	has_root_access() {
+		if (this.#ns.hasRootAccess(this.hostname())) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * The hostname of this server.
+	 */
+	hostname() {
+		return this.#hostname;
+	}
+
+	/**
+	 * Determine whether the server is bankrupt, i.e. it can't hold any money.
+	 * This is not the same as there being zero money currently on the server.
+	 * The server can have zero money currently available, but we can grow the
+	 * server.  The server is bankrupt if the maximum amount of money it
+	 * can hold is zero.
+	 * 
+	 * @return true if the server is bankrupt; false otherwise.
+	 */
+	is_bankrupt() {
+		const max_money = Math.floor(this.#money_max);
+		if (0 == max_money) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Whether this server is currently running a script.
+	 *
+	 * @param script Check to see if this script is currently running on the server.
+	 * @return true if the given script is running on the server; false otherwise.
+	 */
+	is_running_script(script) {
+		if (this.#ns.scriptRunning(script, this.hostname())) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * The amount of money currently available on the server.
+	 *
+	 */
+	money_available() {
+		return this.#ns.getServerMoneyAvailable(this.hostname());
+	}
+
+	/**
+	 * The maximum amount of money this server can hold.
+	 */
+	money_max() {
+		return this.#money_max;
+	}
+
+	/**
+	 * The number of ports that must be opened in order to hack this server.
+	 */
+	num_ports_required() {
+		return this.#n_ports_required;
+	}
+
+	/**
+	  * Determine how many threads we can run a given script on this server.
+	  *
+	  * @param script We want to run this script on the server.  The script must
+	  *     exist on our home server.
+	  * @return The number of threads that can be used to run the given script on
+	  *     this server.
+	  */
+	num_threads(script) {
+		const script_ram = this.#ns.getScriptRam(script, this.#home);
+		const server_ram = this.available_ram();
+		const nthread = Math.floor(server_ram / script_ram);
+		return nthread;
+	}
+
+	/**
+	 * The current security level of this server.
+	 *
+	 * @param ns The Netscript API.
+	 */
+	security_level() {
+		return this.#ns.getServerSecurityLevel(this.hostname());
+	}
+
+	/**
+	 * The minimum security level to which this server can be weakened.
+	 */
+	security_min() {
+		return this.#security_min;
+	}
+
+	/**
+	 * Weaken the security of this server.
+	 *
+	 */
+	async weaken() {
+		await this.#ns.weaken(this.hostname());
+	}
+}
+
+/****************************************************************************/
+/** Helper functions ********************************************************/
+/****************************************************************************/
 
 /**
  * A function for assertion.
@@ -24,13 +415,14 @@ export function assert(cond) {
  */
 export function choose_best_server(ns, candidate) {
 	assert(candidate.length > 0);
-	let best = candidate[0];
+	let best = new Server(ns, candidate[0]);
 	for (const s of candidate) {
-		if (ns.getServerRequiredHackingLevel(best) < ns.getServerRequiredHackingLevel(s)) {
-			best = s;
+		const serv = new Server(ns, s);
+		if (best.hacking_skill() < serv.hacking_skill()) {
+			best = serv;
 		}
 	}
-	return best;
+	return best.hostname();
 }
 
 /**
@@ -48,15 +440,17 @@ export function choose_targets(ns, candidate) {
 	// Sanity check.
 	assert(candidate.length > 0);
 
+	const player = new Player(ns);
+	const nport = player.num_ports();
 	let target = new Array();
 	for (const s of candidate) {
+		const server = new Server(ns, s);
 		// Do we have the minimum hacking skill required?
-		if (ns.getHackingLevel() < ns.getServerRequiredHackingLevel(s)) {
+		if (player.hacking_skill() < server.hacking_skill()) {
 			continue;
 		}
 		// Can we open all required ports?
-		const nport = how_many_ports(ns);
-		if (ns.getServerNumPortsRequired(s) > nport) {
+		if (server.num_ports_required() > nport) {
 			continue;
 		}
 		// We have found a target server.
@@ -78,45 +472,50 @@ export function choose_targets(ns, candidate) {
  *     either servers.
  */
 export async function copy_and_run(ns, server, target) {
+	const SUCCESS = true;      // Succeed at copying and/or running the hacking script.
+	const FAILURE = !SUCCESS;  // Fail to copy and/or run the hacking script.
+	const player = new Player(ns);
+	const serv = new Server(ns, server);
+	const targ = new Server(ns, target);
+
 	// Sanity checks.
 	// No root access on either servers.
-	if (!ns.hasRootAccess(server)) {
+	if (!serv.has_root_access()) {
 		await ns.tprint("No root access on server: " + server);
-		return false;
+		return FAILURE;
 	}
-	if (!ns.hasRootAccess(target)) {
+	if (!targ.has_root_access()) {
 		await ns.tprint("No root access on server: " + target);
-		return false;
+		return FAILURE;
 	}
 	// Hack and library scripts not found on our home server.
 	const script = "hack.js";
 	const library = "libbnr.js";
-	const source = "home";
-	if (!ns.fileExists(script, source)) {
-		await ns.tprint("File " + script + " not found on server " + source);
-		return false;
+	if (!ns.fileExists(script, player.home())) {
+		await ns.tprint("File " + script + " not found on server " + player.home());
+		return FAILURE;
 	}
-	if (!ns.fileExists(library, source)) {
-		await ns.tprint("File " + library + " not found on server " + source);
-		return false;
+	if (!ns.fileExists(library, player.home())) {
+		await ns.tprint("File " + library + " not found on server " + player.home());
+		return FAILURE;
 	}
 	// No free RAM on server to run our hack script.
-	const nthread = how_many_threads(ns, script, server);
+	const nthread = serv.num_threads(script);
 	if (nthread < 1) {
 		await ns.tprint("No free RAM on server: " + server);
-		return false;
+		return FAILURE;
 	}
 
 	// Copy our scripts over to a server.  Use the server to hack a target.
-	await ns.scp(script, source, server);
-	await ns.scp(library, source, server);
+	await ns.scp(script, player.home(), server);
+	await ns.scp(library, player.home(), server);
 	await ns.exec(script, server, nthread, target);
-	return true;
+	return SUCCESS;
 }
 
 /**
- * Remove bankrupt servers from a given array of servers.  A server is bankrupt if it
- * has no money available.
+ * Remove bankrupt servers from a given array of servers.  A server is bankrupt if
+ * the maximum amount of money it can hold is zero.
  * 
  * @param ns The Netscript API.
  * @param candidate An array of servers to filter.
@@ -136,81 +535,24 @@ export function filter_bankrupt_servers(ns, candidate) {
  */
 export function filter_pserv(ns, server) {
 	// All purchased servers.
-	const pserv = new Set(ns.getPurchasedServers());
+	const player = new Player(ns);
+	const pserv = new Set(player.pserv());
 	// Filter out the purchased servers.
 	const serv = Array.from(server);
 	return serv.filter(s => !pserv.has(s));
 }
 
 /**
- * All hack programs that can be created once certain conditions are met.
- */
-export function hack_programs() {
-	const program = ["BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe", "SQLInject.exe"];
-	return program;
-}
-
-/**
- * Determine the number of ports we can open on servers in the game world.  This
- * depends on whether we have the necessary programs on our home server to allow us to
- * hack other servers.
+ * Whether a server is bankrupt.  A server is bankrupt if the maximum amount of money
+ * it can hold is zero.
  * 
  * @param ns The Netscript API.
- * @return The number of ports we can open on other servers.  Return -1 if we don't
- *     have the core programs and/or scripts on our home server.
+ * @param s Test this server for bankruptcy.
+ * @return true if the server is bankrupt; false otherwise.
  */
-export function how_many_ports(ns) {
-	const home = "home";
-	// These are programs/scripts that should remain on our home server after 
-	// installing Augmentations.
-	const core_program = ["hack.js", "libbnr.js", "NUKE.exe"];
-	// These are programs that can be created after satisfying certain conditions.
-	const other_program = hack_programs();
-
-	// Sanity check to ensure we have the core programs/scripts.
-	for (const p of core_program) {
-		if (!ns.fileExists(p, home)) {
-			ns.tprint(p + " not found on server " + home);
-			return -1;
-		}
-	}
-	// Determine the number of ports we can open on other servers.
-	let n = 0;
-	for (const p of other_program) {
-		if (ns.fileExists(p, home)) {
-			n++;
-		}
-	}
-	return n;
-}
-
-/**
- * Determine how many threads we can run a given script on a server.
- * 
- * @param ns The Netscript API.
- * @param script We want to run this script on a server.  The script must exists
- *     on our home server.
- * @param server The target server.
- * @return The number of threads to use to run the given script.
- */
-export function how_many_threads(ns, script, server) {
-	const source = "home";
-	const script_ram = ns.getScriptRam(script, source);
-	const server_ram = ns.getServerMaxRam(server) - ns.getServerUsedRam(server);
-	const nthread = Math.floor(server_ram / script_ram);
-	return nthread;
-}
-
-/**
- * Determine whether a server is bankrupt, i.e. has no money available.
- * 
- * @param ns The Netscript API.
- * @param server Test this server for bankruptcy.
- * @return true if the given server is bankrupt; false otherwise.
- */
-export function is_bankrupt(ns, server) {
-	const money_available = Math.floor(ns.getServerMoneyAvailable(server));
-	if (0 == money_available) {
+function is_bankrupt(ns, s) {
+	const server = new Server(ns, s);
+	if (server.is_bankrupt()) {
 		return true;
 	}
 	return false;
@@ -226,7 +568,8 @@ export function is_bankrupt(ns, server) {
 export function network(ns) {
 	// We scan the world network from a node, which is assumed to be our home server.
 	// We refer to our home server as the root of the tree.
-	const root = "home";
+	const player = new Player(ns);
+	const root = player.home();
 
 	// A set of all servers we can visit at the moment.
 	let server = new Set();
@@ -250,23 +593,4 @@ export function network(ns) {
 	// Remove the root node from our array.  We want all servers that are connected
 	// either directly or indirectly to the root node.
 	return server.filter(s => root != s);
-}
-
-/**
- * Try to gain root access on a target server.
- * 
- * @param ns The Netscript API.
- * @param target The target server.
- */
-export async function root_access(ns, target) {
-	try { await ns.brutessh(target); } catch { }
-	try { await ns.ftpcrack(target); } catch { }
-	try { await ns.httpworm(target); } catch { }
-	try { await ns.relaysmtp(target); } catch { }
-	try { await ns.sqlinject(target); } catch { }
-	try {
-		await ns.nuke(target);
-	} catch {
-		throw new Error("Can't gain root access to server: " + target);
-	}
 }
