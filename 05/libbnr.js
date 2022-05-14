@@ -5,6 +5,153 @@
 /****************************************************************************/
 
 /**
+ * A class for Hacknet Nodes.
+ */
+export class Hacknet {
+	/**
+	 * The Netscript API.
+	 */
+	#ns;
+
+	/**
+	 * Initialize a Hacknet Node object.
+	 */
+	constructor(ns) {
+		this.#ns = ns;
+	}
+
+	/**
+	 * The cost of upgrading the cores of a Hacknet Node. 
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the cores of the given Node this many times.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return The cost of upgrading the given Node n times.  Return infinity
+	 *     if the cores of the given Node is already at maximum.
+	 */
+	core_cost(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.getCoreUpgradeCost(id, k);
+	}
+
+	/**
+	 * Upgrade the cores of a Hacknet Node.
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the cores of the given Node this many times.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return * true if the cores have been successfully upgraded n times.
+	 *         * true if the cores have been upgraded k < n times to maximum.
+	 *         * false otherwise.
+	 */
+	core_upgrade(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.upgradeCore(id, k);
+	}
+
+	/**
+	 * The cost of upgrading the level of the given Hacknet Node.
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the level of the given Node this many times.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return The cost of upgrading the level of the given Node n times.
+	 *     Return infinity if the level of the given Node is already at maximum.
+	 */
+	level_cost(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.getLevelUpgradeCost(id, k);
+	}
+
+	/**
+	 * Upgrade the level of the given Hacknet Node.
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the level of the given Node this many times.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return * true if the level has been successfully upgraded n times.
+	 *         * true if the level has been upgraded k < n times to maximum.
+	 *         * false otherwise.
+	 */
+	level_upgrade(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.upgradeLevel(id, k);
+	}
+
+	/**
+	 * Purchase a Hacknet Node.
+	 * 
+	 * @return The ID of the newly purchased Hacknet Node.  Return -1 if the player
+	 *     cannot afford a new Hacknet Node.
+	 */
+	node_buy() {
+		return this.#ns.hacknet.purchaseNode();
+	}
+
+	/**
+	 * The cost of purchasing another Hacknet Node.
+	 */
+	node_cost() {
+		return this.#ns.hacknet.getPurchaseNodeCost();
+	}
+
+	/**
+	 * The number of Hacknet Nodes owned by a player.
+	 */
+	nodes() {
+		return this.#ns.hacknet.numNodes();
+	}
+
+	/**
+	 * The maximum number of Hacknet Nodes that a player can own.
+	 */
+	nodes_max() {
+		return this.#ns.hacknet.maxNumNodes() 
+	}
+
+	/**
+	 * The cost of upgrading the RAM of the given Hacknet Node.
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the RAM of the given Node by this many GB.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return The cost of upgrading the RAM of the given Hacknet Node.
+	 *     Return infinity if the RAM of the Node is already at maximum.
+	 */
+	ram_cost(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.getRamUpgradeCost(id, k);
+	}
+
+	/**
+	 * Upgrade the RAM of the given Hacknet Node.
+	 * 
+	 * @param id The ID of the Hacknet Node to upgrade.
+	 * @param n Upgrade the RAM of the given Node by this many GB.
+	 *     Must be a positive whole number.  Will round down to the
+	 *     nearest whole number.
+	 * @return * true if the RAM has been successfully upgraded by n GB.
+	 *         * true if the RAM has been upgraded by k < n GB to maximum.
+	 *         * false otherwise.
+	 */
+	ram_upgrade(id, n) {
+		const k = Math.floor(n);
+		assert(k > 0);
+		return this.#ns.hacknet.upgradeRam(id, k);
+	}
+}
+
+/**
  * A class that holds all information about a player.
  */
 export class Player {
