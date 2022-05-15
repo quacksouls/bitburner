@@ -291,10 +291,6 @@ export class Server {
 	 */
 	#hacking_skill;
 	/**
-	 * The home server of the player.
-	 */
-	#home;
-	/**
 	 * The hostname of this server.
 	 */
 	#hostname;
@@ -354,7 +350,6 @@ export class Server {
 		this.#cores = server.cpuCores;
 		this.#ftp_port_open = server.ftpPortOpen;
 		this.#hacking_skill = server.requiredHackingSkill;
-		this.#home = "home";
 		this.#hostname = server.hostname;
 		this.#http_port_open = server.httpPortOpen;
 		this.#money_max = server.moneyMax;
@@ -505,7 +500,8 @@ export class Server {
 	  *     this server.
 	  */
 	num_threads(script) {
-		const script_ram = this.#ns.getScriptRam(script, this.#home);
+		const player = new Player(this.#ns);
+		const script_ram = this.#ns.getScriptRam(script, player.home());
 		const server_ram = this.available_ram();
 		const nthread = Math.floor(server_ram / script_ram);
 		return nthread;
