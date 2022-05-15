@@ -1,4 +1,3 @@
-// import { how_many_threads, is_bankrupt, root_access } from "./libbnr.js";
 import { assert, choose_best_server, copy_and_run, filter_pserv, network, Player, Server } from "./libbnr.js";
 
 /**
