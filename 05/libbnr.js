@@ -341,7 +341,7 @@ export class Server {
 	 * @return true if the server is bankrupt; false otherwise.
 	 */
 	is_bankrupt() {
-		const max_money = Math.floor(this.#money_max);
+		const max_money = Math.floor(this.money_max());
 		if (0 == max_money) {
 			return true;
 		}
