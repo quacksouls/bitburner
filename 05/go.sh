@@ -16,15 +16,18 @@ export async function main(ns) {
 	const nthread = 1;
 
 	// First, use our home server to hack world servers that satisfy these criteria:
+	//
 	// (1) Require a hacking skill of 1 because our Hack stat is 1 after a soft reset.
 	// (2) Does not require any ports to be opened in order for us to run NUKE.exe on the
 	//     server.  The script should be able to figure out whether or not we can open
 	//     all ports on a world server.
-	const nthread_home = 4;
-	const target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
-	for (const server of target) {
-		ns.exec(player.script(), player.home(), nthread_home, server);
-	}
+	//
+	// We would likely have to restart this script once we can scan the network with a depth of
+	// more than 3.
+	//
+	// Change this number to a lower value if we don't have enough RAM on our home server.
+	const nthread_home = 128;
+	ns.exec("low-end.js", player.home(), nthread, nthread_home);
 
 	// Use servers in the game world to hack themselves.  We would likely have to restart this
 	// script once our Hack stat is high enough and/or we can scan the network with a depth
