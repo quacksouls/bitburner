@@ -69,12 +69,11 @@ async function hack_servers(ns, target) {
 	// Gain root access on as many servers as possible on the network.  Copy our hack
 	// script to each server and use the server to hack itself.
 	let reject = new Array();  // Servers we can't hack at the moment.
-	const script = "hack.js";
 	// A Hack stat margin: 5% of our Hack stat, plus another 5 points.
 	const margin = Math.floor((0.05 * player.hacking_skill()) + 5);
 	for (const s of target) {
 		// Should we skip this server?
-		if (skip_server(ns, s, script, margin)) {
+		if (skip_server(ns, s, player.script(), margin)) {
 			continue;
 		}
 		const server = new Server(ns, s);
@@ -221,8 +220,8 @@ export async function main(ns) {
 	let server = network(ns);
 	const time = 10000;  // 10 seconds
 	// A list of servers that have been successfully hacked.
-	const script = "hack.js";
-	let hacked_server = compromised_servers(ns, script, server);
+	const player = new Player(ns);
+	let hacked_server = compromised_servers(ns, player.script(), server);
 	// Continuously try to gain root access to servers in the game world and
 	// let each server hack itself.  Exclude all purchased servers.
 	while (server.length > 0) {
