@@ -36,9 +36,9 @@ export async function main(ns) {
 	}
 	// The amount of RAM provided from the command line must be a power of 2.
 	// RAM is assumed to be in GB.
-	const valid_ram = new Set([4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]);
+	const pserv = new PurchasedServer(ns);
 	const server_ram = Math.floor(ns.args[0]);
-	if (!valid_ram.has(server_ram)) {
+	if (!pserv.is_valid_ram(server_ram)) {
 		await ns.tprint(error_msg);
 		ns.exit();
 	}
@@ -49,7 +49,6 @@ export async function main(ns) {
 	let i = player.pserv().length;
 	let target = new Array();
 	const time = 10000;  // 10 seconds
-	const pserv = new PurchasedServer(ns);
 	while (i < pserv.limit()) {
 		// Do we have enough money to buy a new server?
 		if (player.money_available() > pserv.cost(server_ram)) {
