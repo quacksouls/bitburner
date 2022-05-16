@@ -13,9 +13,19 @@ export class Player {
 	 */
 	#home;
 	/**
+	 * The player's library of useful classes and functions.  Assumed to be
+	 * located on the player's home server.
+	 */
+	#library;
+	/**
 	 * The Netscript API.
 	 */
 	#ns;
+	/**
+	 * The hack script of the player.  Assumed to be located on the player's
+	 * home server.
+	 */
+	#script;
 
 	/**
 	 * Initialize a Player object.
@@ -24,7 +34,9 @@ export class Player {
 	 */
 	constructor(ns) {
 		this.#home = "home";
+		this.#library = "libbnr.js";
 		this.#ns = ns;
+		this.#script = "hack.js";
 	}
 
 	/**
@@ -39,6 +51,13 @@ export class Player {
 	 */
 	home() {
 		return this.#home;
+	}
+
+	/**
+	 * The name of the player's library of utility classes and functions.
+	 */
+	library() {
+		return this.#library;
 	}
 
 	/**
@@ -65,6 +84,13 @@ export class Player {
 	 */
 	pserv() {
 		return this.#ns.getPurchasedServers();
+	}
+
+	/**
+	 * The name of the hacking script of the player.
+	 */
+	script() {
+		return this.#script;
 	}
 }
 
@@ -498,27 +524,25 @@ export async function copy_and_run(ns, server, target) {
 		return FAILURE;
 	}
 	// Hack and library scripts not found on our home server.
-	const script = "hack.js";
-	const library = "libbnr.js";
-	if (!ns.fileExists(script, player.home())) {
-		await ns.tprint("File " + script + " not found on server " + player.home());
+	if (!ns.fileExists(player.script(), player.home())) {
+		await ns.tprint("File " + player.script() + " not found on server " + player.home());
 		return FAILURE;
 	}
-	if (!ns.fileExists(library, player.home())) {
-		await ns.tprint("File " + library + " not found on server " + player.home());
+	if (!ns.fileExists(player.library(), player.home())) {
+		await ns.tprint("File " + player.library() + " not found on server " + player.home());
 		return FAILURE;
 	}
 	// No free RAM on server to run our hack script.
-	const nthread = serv.num_threads(script);
+	const nthread = serv.num_threads(player.script());
 	if (nthread < 1) {
 		await ns.tprint("No free RAM on server: " + server);
 		return FAILURE;
 	}
 
 	// Copy our scripts over to a server.  Use the server to hack a target.
-	await ns.scp(script, player.home(), server);
-	await ns.scp(library, player.home(), server);
-	await ns.exec(script, server, nthread, target);
+	await ns.scp(player.script(), player.home(), server);
+	await ns.scp(player.library(), player.home(), server);
+	await ns.exec(player.script(), server, nthread, target);
 	return SUCCESS;
 }
 
