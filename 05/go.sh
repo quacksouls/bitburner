@@ -23,7 +23,7 @@ export async function main(ns) {
 	const nthread_home = 4;
 	const target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
 	for (const server of target) {
-		ns.exec("hack.js", player.home(), nthread_home, server);
+		ns.exec(player.script(), player.home(), nthread_home, server);
 	}
 
 	// Use servers in the game world to hack themselves.  We would likely have to restart this
