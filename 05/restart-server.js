@@ -13,7 +13,6 @@ export async function main(ns) {
 	// Cycle through our purchased servers to see whether to restart our
 	// hack script.
 	const player = new Player(ns);
-	const script = "hack.js";
 	let target = new Array();
 	for (const s of player.pserv()) {
 		// Determine the target servers to hack.  There are always at least 2 targets because
@@ -24,7 +23,7 @@ export async function main(ns) {
 			assert(target.length > 0);
 		}
 		const server = new Server(ns, s);
-		if (!server.is_running_script(script)) {
+		if (!server.is_running_script(player.script())) {
 			// Choose the best target server that has money available.
 			const t = choose_best_server(ns, target);
 			target = target.filter(s => s != t);
