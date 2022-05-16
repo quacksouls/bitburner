@@ -93,9 +93,22 @@ export class PurchasedServer {
 	 *     RAM is assumed to be given as a power of 2.
 	 */
 	cost(ram) {
-		const valid_ram = new Set([2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]);
-		assert(valid_ram.has(ram));
+		assert(this.is_valid_ram(ram));
 		return this.#ns.getPurchasedServerCost(ram);
+	}
+
+	/**
+	 * Whether the given amount of RAM (GB) is valid for a purchased server.
+	 *
+	 * @param ram The amount of RAM in GB.  Must be a power of 2.  Lowest is 2GB.
+	 *     Will round down to the nearest whole number.
+	 * @return true if the given amount of RAM is valid for a purchased server;
+	 *     false otherwise.
+	 */
+	is_valid_ram(ram) {
+		const n = Math.floor(ram);
+		const valid_ram = new Set([2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]);
+		return valid_ram.has(n);
 	}
 
 	/**
