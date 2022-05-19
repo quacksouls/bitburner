@@ -1,4 +1,4 @@
-import { choose_targets, filter_bankrupt_servers, network, Player } from "./libbnr.js";
+import { Player, PurchasedServer } from "./libbnr.js";
 
 /**
  * Restart our source of income and Hack experience points.  This script is useful whenever
@@ -42,6 +42,6 @@ export async function main(ns) {
 
 	// Purchase servers and use each purchased server to hack a target server.  Must restart this
 	// script once we can scan the network with a depth of more than 3.
-	const server_ram = 8;  // in GB
-	ns.exec("buy-server.js", player.home(), nthread, server_ram);
+	const pserv = new PurchasedServer(ns);
+	ns.exec("buy-server.js", player.home(), nthread, pserv.default_ram());
 }
