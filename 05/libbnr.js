@@ -102,6 +102,10 @@ export class PurchasedServer {
 	 * The Netscript API.
 	 */
 	#ns;
+	/**
+	 * Possible amount of RAM (GB) for a purchased server.
+	 */
+	#valid_ram;
 
 	/**
 	 * Create an object to represent a purchased server.
@@ -110,6 +114,7 @@ export class PurchasedServer {
 	 */
 	constructor(ns) {
 		this.#ns = ns;
+		this.#valid_ram = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384];
 	}
 
 	/**
@@ -124,6 +129,22 @@ export class PurchasedServer {
 	}
 
 	/**
+	 * Choose the default amount of RAM (GB) for a new purchased server.
+	 * The chosen amount of RAM should allow the purchased server to run our
+	 * hack script using at least 2 threads.
+	 */
+	default_ram() {
+		const player = new Player(this.#ns);
+		const script_ram = this.#ns.getScriptRam(player.script(), player.home());
+		let i = 0;
+		while (script_ram > this.#valid_ram[i]) {
+			i++;
+		}
+		assert((i + 1) <= this.#valid_ram.length);
+		return this.#valid_ram[i + 1];
+	}
+
+	/**
 	 * Whether the given amount of RAM (GB) is valid for a purchased server.
 	 *
 	 * @param ram The amount of RAM in GB.  Must be a power of 2.  Lowest is 2GB.
@@ -133,8 +154,7 @@ export class PurchasedServer {
 	 */
 	is_valid_ram(ram) {
 		const n = Math.floor(ram);
-		const valid_ram = new Set([2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]);
-		return valid_ram.has(n);
+		return this.#valid_ram.includes(n);
 	}
 
 	/**
@@ -163,21 +183,6 @@ export class PurchasedServer {
  * a purchased server or a server found on the network in the game world.
  */
 export class Server {
-	// The private properties below are adapated from the API documentation at
-	// https://github.com/danielyxie/bitburner/blob/dev/markdown/bitburner.server.md
-
-	/**
-	 * Whether a player has installed a backdoor on this server.
-	 */
-	#backdoor;
-	/**
-	 * The number of CPU cores on this server.  Maximum is 8.
-	 */
-	#cores;
-	/**
-	 * Whether the FTP port is open.
-	 */
-	#ftp_port_open;
 	/**
 	 * The amount of Hack stat required to hack this server.
 	 */
@@ -186,10 +191,6 @@ export class Server {
 	 * The hostname of this server.
 	 */
 	#hostname;
-	/**
-	 * Whether the HTTP port is open.
-	 */
-	#http_port_open;
 	/**
 	 * The maximum amount of money this server can hold.
 	 */
@@ -204,10 +205,6 @@ export class Server {
 	 */
 	#ns;
 	/**
-	 * Whether this is a purchased server.
-	 */
-	#pserv;
-	/**
 	 * The maximum amount of RAM (in GB) on this server.
 	 */
 	#ram_max;
@@ -215,18 +212,6 @@ export class Server {
 	 * The minimum security level to which this server can be weaked.
 	 */
 	#security_min;
-	/**
-	 * Whether the SMTP port is open.
-	 */
-	#smtp_port_open;
-	/**
-	 * Whether the SQL port is open.
-	 */
-	#sql_port_open;
-	/**
-	 * Whether the SSH port is open.
-	 */
-	#ssh_port_open;
 
 	/**
 	 * Create a server object with the given hostname.
@@ -238,21 +223,13 @@ export class Server {
 	 */
 	constructor(ns, hostname) {
 		const server = ns.getServer(hostname);
-		this.#backdoor = server.backdoorInstalled;
-		this.#cores = server.cpuCores;
-		this.#ftp_port_open = server.ftpPortOpen;
 		this.#hacking_skill = server.requiredHackingSkill;
 		this.#hostname = server.hostname;
-		this.#http_port_open = server.httpPortOpen;
 		this.#money_max = server.moneyMax;
 		this.#n_ports_required = server.numOpenPortsRequired;
 		this.#ns = ns;
-		this.#pserv = server.purchasedByPlayer;
 		this.#ram_max = server.maxRam;
 		this.#security_min = server.minDifficulty;
-		this.#smtp_port_open = server.smtpPortOpen;
-		this.#sql_port_open = server.sqlPortOpen;
-		this.#ssh_port_open = server.sshPortOpen;
 	}
 
 	/**
