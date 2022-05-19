@@ -19,17 +19,17 @@ function renew_targets(ns, target) {
  * Purchase the maximum number of servers and run our hack script on those servers.
  * The script chooses the "best" targets to hack.  Must provide the amount of RAM from
  * the command line.  The amount of RAM must be a power of 2.  For example, we can start
- * with buying servers each of which has 8GB RAM.  Later on when we have more money, we
+ * with buying servers each of which has 16GB RAM.  Later on when we have more money, we
  * can delete these servers and purchase servers with a higher amount of RAM, e.g. 32GB RAM.
  * 
  * Usage: run buy-server.js [RAMamount]
- * Example: run buy-server.js 8
+ * Example: run buy-server.js 16
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
 	// Sanity checks.
-	const error_msg = "Must provide the amount of RAM, e.g. 4, 8, 16, 32, etc.";
+	const error_msg = "Must provide the amount of RAM, e.g. 2, 4, 8, 16, 32, etc.";
 	if (ns.args.length < 1) {
 		await ns.tprint(error_msg);
 		ns.exit();
@@ -59,7 +59,7 @@ export async function main(ns) {
 			const server = new Server(ns, choose_best_server(ns, target));
 			target = target.filter(s => s != server.hostname());
 			// Run our hack script on the purchased server.
-			await server.gain_root_access();
+			assert(await server.gain_root_access());
 			assert(await copy_and_run(ns, hostname, server.hostname()));
 			i++;
 		}
