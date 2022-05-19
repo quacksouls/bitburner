@@ -120,9 +120,9 @@ async function upgrade_ram(ns, farm) {
  * from the command line.
  * 
  * Usage: run hnet-farm.js [nNode]
- * Recommended usage: run hnet-farm.js 9
+ * Recommended usage: run hnet-farm.js 3
  * 
- * Start with 9 Nodes.  When all Nodes have been maxed out, we can add more Nodes to the
+ * Start with 3 Nodes.  When all Nodes have been maxed out, we can add more Nodes to the
  * farm by running the script again, but with a higher number of nodes.
  * 
  * @param ns The Netscript API.
