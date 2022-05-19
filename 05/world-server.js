@@ -66,7 +66,7 @@ async function hack_servers(ns, target) {
 	// A list of servers that were successfully hacked.
 	let hacked_server = new Array();
 
-	// Gain root access on as many servers as possible on the network.  Copy our hack
+	// Gain root access to as many servers as possible on the network.  Copy our hack
 	// script to each server and use the server to hack itself.
 	let reject = new Array();  // Servers we can't hack at the moment.
 	// A Hack stat margin: 5% of our Hack stat, plus another 5 points.
@@ -88,7 +88,7 @@ async function hack_servers(ns, target) {
 			}
 		}
 		assert(hack_lvl >= required_lvl);
-		// If the server has no money available, skip the server for now and add it to the
+		// If the server is bankrupt, skip the server for now and add it to the
 		// list of rejects.
 		if (server.is_bankrupt()) {
 			reject.push(s);
@@ -127,7 +127,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
 				const target = new Server(ns, choose_best_server(ns, hserver));
 				assert(!target.is_bankrupt());
 				hserver = hserver.filter(s => s != target.hostname());
-				// Redirect the broke server to hack the target server.
+				// Redirect the bankrupt server to hack the target server.
 				await hack_a_server(ns, s, target.hostname());
 				continue;
 			}
@@ -211,6 +211,7 @@ function tolerate_margin(ns, margin, server) {
 
 /**
  * Use each server in the game world to hack itself.  We exclude purchased servers.
+ * A bankrupt server is used to hack another world server that isn't bankrupt.
  * 
  * Usage: run world-server.js
  * 
