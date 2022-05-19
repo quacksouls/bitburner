@@ -17,14 +17,14 @@ export async function main(ns) {
 	for (const s of player.pserv()) {
 		// Determine the target servers to hack.  There are always at least 2 targets because
 		// at least 2 servers in the game world require only 1 Hack stat and zero opened ports.
-		// Assume that each target has money available.
+		// Assume that each target is not bankrupt.
 		if (target.length < 1) {
 			target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
 			assert(target.length > 0);
 		}
 		const server = new Server(ns, s);
 		if (!server.is_running_script(player.script())) {
-			// Choose the best target server that has money available.
+			// Choose the best target server that is not bankrupt.
 			const t = choose_best_server(ns, target);
 			target = target.filter(s => s != t);
 			// Restart the hack script and run it against a target.
