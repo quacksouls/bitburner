@@ -4,17 +4,20 @@ import { assert, Server } from "./libbnr.js";
  * Hack a server and steal its money.  We weaken the server's security
  * as necessary, grow the server in case the amount of money on the server
  * is below our threshold, and hack the server when all conditions are met.
+ * This script accepts the first command line argument given to the script
+ * at runtime.  We want one command line argument, i.e. the name of the
+ * server we want to hack.
  * 
  * Usage: run hack.js [targetServer]
+ * Example: run hack.js n00dles
  *
- * @param ns Command line arguments given to the script at run time.  We only
- *     want one command line argument, i.e. the name of the server we want to hack.
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
 	// The target server, i.e. the server to hack.
 	const target = new Server(ns, ns.args[0]);
 
-	// Ensure we have root access on the target server.
+	// Ensure we have root access to the target server.
 	if (!target.has_root_access()) {
 		try {
 			await target.gain_root_access();
