@@ -8,6 +8,7 @@ import { network, Player } from "./libbnr.js";
  *     * world := Kill all scripts on all world servers where we have root access.
  * 
  * Usage: run kill-script.js [pserv | world]
+ * Example: run kill-script.js pserv
  * 
  * @param ns The Netscript API.
  */
