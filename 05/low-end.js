@@ -31,7 +31,7 @@ function low_end_servers(ns) {
 }
 
 /**
- * Whether to skip a server.  A server is skipped is it is not a low-end server.
+ * Whether to skip a server.  A server is skipped if it is not a low-end server.
  * 
  * @param ns The Netscript API.
  * @param server Do we skip this server?
