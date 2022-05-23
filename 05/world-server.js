@@ -1,4 +1,4 @@
-import { assert, choose_best_server, copy_and_run, filter_pserv, network, Player, Server } from "./libbnr.js";
+import { assert, choose_best_server, copy_and_run, filter_pserv, minutes_to_milliseconds, network, Player, seconds_to_milliseconds, Server } from "./libbnr.js";
 
 /**
  * Determine which servers in the game world have been compromised.  We exclude all
@@ -69,8 +69,8 @@ async function hack_servers(ns, target) {
 	// Gain root access to as many servers as possible on the network.  Copy our hack
 	// script to each server and use the server to hack itself.
 	let reject = new Array();  // Servers we can't hack at the moment.
-	// A Hack stat margin: 5% of our Hack stat, plus another 5 points.
-	const margin = Math.floor((0.05 * player.hacking_skill()) + 5);
+	// A Hack stat margin: 1% of our Hack stat, plus another 5 points.
+	const margin = Math.floor((0.01 * player.hacking_skill()) + 5);
 	for (const s of target) {
 		// Should we skip this server?
 		if (skip_server(ns, s, player.script(), margin)) {
@@ -210,16 +210,13 @@ function tolerate_margin(ns, margin, server) {
 }
 
 /**
- * Use each server in the game world to hack itself.  We exclude purchased servers.
- * A bankrupt server is used to hack another world server that isn't bankrupt.
- * 
- * Usage: run world-server.js
- * 
+ * Search for world servers to hack.  We exclude purchased servers.
+ *
  * @param ns The Netscript API.
  */
-export async function main(ns) {
+async function update(ns) {
 	let server = network(ns);
-	const time = 10000;  // 10 seconds
+	const time = seconds_to_milliseconds(10);
 	// A list of servers that have been successfully hacked.
 	const player = new Player(ns);
 	let hacked_server = compromised_servers(ns, player.script(), server);
@@ -234,11 +231,22 @@ export async function main(ns) {
 			reject = await redirect_bankrupt_server(ns, reject, hacked_server);
 		}
 		server = reject;
-		// Write a log of which servers to hack later.
-		for (const s of server) {
-			const serv = new Server(ns, s);
-			ns.print(serv.hostname() + ": Hack level " + serv.hacking_skill());
-		}
+		await ns.sleep(time);
+	}
+}
+
+/**
+ * Use each server in the game world to hack itself.  We exclude purchased servers.
+ * A bankrupt server is used to hack another world server that isn't bankrupt.
+ * 
+ * Usage: run world-server.js
+ * 
+ * @param ns The Netscript API.
+ */
+export async function main(ns) {
+	const time = minutes_to_milliseconds(10);
+	while (true) {
+		await update(ns);
 		await ns.sleep(time);
 	}
 }
