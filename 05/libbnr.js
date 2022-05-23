@@ -129,9 +129,9 @@ export class PurchasedServer {
 	}
 
 	/**
-	 * Choose the default amount of RAM (GB) for a new purchased server.
+	 * Choose the default amount of RAM (in GB) for a new purchased server.
 	 * The chosen amount of RAM should allow the purchased server to run our
-	 * hack script using at least 2 threads.
+	 * hacking script using at least 2 threads.
 	 */
 	default_ram() {
 		const player = new Player(this.#ns);
@@ -155,6 +155,20 @@ export class PurchasedServer {
 	is_valid_ram(ram) {
 		const n = Math.floor(ram);
 		return this.#valid_ram.includes(n);
+	}
+
+	/**
+	 * Delete all purchased servers.  This would also kill all scripts running
+	 * on each purchased server.
+	 */
+	kill_all() {
+		const player = new Player(this.#ns);
+		for (const server of player.pserv()) {
+			// Kill all scripts running on a purchased server.
+			this.#ns.killall(server);
+			// Delete the purchased server.
+			this.#ns.deleteServer(server);
+		}
 	}
 
 	/**
@@ -236,7 +250,7 @@ export class Server {
 	 * How much RAM (in GB) is available on this server.
 	 */
 	available_ram() {
-		const ram = this.#ram_max - this.#ns.getServerUsedRam(this.hostname());
+		const ram = this.ram_max() - this.#ns.getServerUsedRam(this.hostname());
 		return ram;
 	}
 
@@ -377,6 +391,13 @@ export class Server {
 	}
 
 	/**
+	 * The maximum amount of RAM (GB) of this server.
+	 */
+	ram_max() {
+		return this.#ram_max;
+	}
+
+	/**
 	 * The current security level of this server.
 	 *
 	 * @param ns The Netscript API.
@@ -390,6 +411,27 @@ export class Server {
 	 */
 	security_min() {
 		return this.#security_min;
+	}
+
+	/**
+	 * The number of threads to use for each instance of a script.  We want to
+	 * run various instances of a script, each instance uses a certain number
+	 * of threads.  Given the number of instances to run, we want to know how
+	 * many threads each instance can use.
+	 *
+	 * @param script The script to run on this server.
+	 * @param n We want to run this many instances of the given script.
+	 *     Must be a positive whole number.
+	 * @return The number of threads for each instance of the script.
+	 */
+	threads_per_instance(script, n) {
+		// Sanity check.
+		const ninstance = Math.floor(n);
+		assert(ninstance > 0);
+
+		const nthread = this.num_threads(script);
+		const nthread_per_instance = Math.floor(nthread / ninstance);
+		return nthread_per_instance;
 	}
 
 	/**
@@ -569,6 +611,20 @@ function is_bankrupt(ns, s) {
 }
 
 /**
+ * Convert the amount of time in minutes to milliseconds.
+ * 
+ * @param time The amount of time in minutes.  Must be a positive whole number.
+ * @return The given amount of time in milliseconds.
+ */
+export function minutes_to_milliseconds(time) {
+	const n = Math.floor(time);
+	assert(n > 0);
+	const second = 1000;         // 1,000 milliseconds in 1 second.
+	const minute = 60 * second;  // 60 seconds in 1 minute.
+	return n * minute;
+}
+
+/**
  * Scan the network of servers in the game world.  Each server must be reachable
  * from our home server.
  * 
@@ -603,4 +659,17 @@ export function network(ns) {
 	// Remove the root node from our array.  We want all servers that are connected
 	// either directly or indirectly to the root node.
 	return server.filter(s => root != s);
+}
+
+/**
+ * Convert the amount of time in seconds to milliseconds.
+ * 
+ * @param time The amount of time in seconds.  Must be a positive whole number.
+ * @return The given amount of time in milliseconds.
+ */
+export function seconds_to_milliseconds(time) {
+	const n = Math.floor(time);
+	assert(n > 0);
+	const second = 1000;  // 1,000 milliseconds in 1 second.
+	return n * second;
 }
