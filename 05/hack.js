@@ -1,4 +1,4 @@
-import { assert, Server } from "./libbnr.js";
+import { Server } from "./libbnr.js";
 
 /**
  * Hack a server and steal its money.  We weaken the server's security
@@ -27,11 +27,11 @@ export async function main(ns) {
 		}
 	}
 
-	// How much money a server should have before we hack it.  Assume the target is
-	// not bankrupt.  Set the money threshold at 75% of the server's maximum money.
-	assert(!target.is_bankrupt());
+	// How much money a server should have before we hack it.  Even if the server is
+	// bankrupt, successfully hacking it would increase our hacking experience points,
+	// although we would not receive any money.
+	// Set the money threshold at 75% of the server's maximum money.
 	const money_threshold = target.money_max() * 0.75;
-	assert(money_threshold > 0);
 
 	// The threshold for the server's security level.  If the target's
 	// security level is higher than the threshold, weaken the target
