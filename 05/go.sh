@@ -1,4 +1,4 @@
-import { Player, PurchasedServer } from "./libbnr.js";
+import { Player } from "./libbnr.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -24,14 +24,14 @@ function reboot(ns) {
 	// Use servers in the game world to hack themselves.
 	ns.exec("world-server.js", player.home(), nthread);
 
-	// Setup a farm of Hacknet Nodes.  Start with a small number of Nodes because we would
-	// likely not have sufficient funds after installing Augmentations.
-	const nNode = 6;
-	ns.exec("hnet-farm.js", player.home(), nthread, nNode);
+	// Setup a farm of Hacknet Nodes.
+	ns.exec("hnet-farm.js", player.home(), nthread);
 
 	// Purchase servers and use each purchased server to hack a target server.
-	const pserv = new PurchasedServer(ns);
-	ns.exec("buy-server.js", player.home(), nthread, pserv.default_ram());
+	ns.exec("buy-server.js", player.home(), nthread);
+
+	// Start our trade bot.
+	ns.exec("trade-bot.js", player.home(), nthread);
 }
 
 /**
