@@ -22,6 +22,16 @@ export class Player {
 	 */
 	#ns;
 	/**
+	 * Programs that allow a player to open ports on a world server.
+	 * These are port openers.
+	 */
+	#port_opener;
+	/**
+	 * Programs necessary for visiting the network of world servers.
+	 * These are usuallly network programs.
+	 */
+	#program;
+	/**
 	 * The hack script of the player.  Assumed to be located on the player's
 	 * home server.
 	 */
@@ -36,6 +46,8 @@ export class Player {
 		this.#home = "home";
 		this.#library = "libbnr.js";
 		this.#ns = ns;
+		this.#port_opener = ["BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe", "SQLInject.exe"];
+		this.#program = ["DeepscanV1.exe", "DeepscanV2.exe", "NUKE.exe"];
 		this.#script = "hack.js";
 	}
 
@@ -44,6 +56,39 @@ export class Player {
 	 */
 	hacking_skill() {
 		return this.#ns.getHackingLevel();
+	}
+
+	/**
+	 * Whether the player has all programs to open all ports on any world server.
+	 * 
+	 * @return true if the player can open all ports on another server; false otherwise.
+	 */
+	has_all_port_openers() {
+		const limit = this.#port_opener.length;
+		const nport = this.num_ports();
+		if (nport == limit) {
+			return true;
+		}
+		assert(nport < limit);
+		return false;
+	}
+
+	/**
+	 * Whether the player has all programs to visit all world servers and open all ports on
+	 * any world server.
+	 * 
+	 * @return true if the player has all network programs and port openers; false otherwise.
+	 */
+	has_all_programs() {
+		let program = Array.from(this.#port_opener);
+		program = program.concat(this.#program);
+		assert(program.length > 0);
+		for (const p of program) {
+			if (!this.#ns.fileExists(p, this.home())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -73,7 +118,7 @@ export class Player {
 	 */
 	num_ports() {
 		// These are programs that can be created after satisfying certain conditions.
-		let program = ["BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe", "SQLInject.exe"];
+		let program = Array.from(this.#port_opener);
 		// Determine the number of ports we can open on other servers.
 		program = program.filter(p => this.#ns.fileExists(p, this.home()));
 		return program.length;
@@ -114,7 +159,7 @@ export class PurchasedServer {
 	 */
 	constructor(ns) {
 		this.#ns = ns;
-		this.#valid_ram = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384];
+		this.#valid_ram = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536];
 	}
 
 	/**
@@ -223,6 +268,14 @@ export class Server {
 	 */
 	#ram_max;
 	/**
+	 * Reserve this amount of RAM.  We want the server to always have
+	 * at least this amount of RAM available.  The reserve RAM is
+	 * important especially if this is the player's home server.  We
+	 * want to have a minimum amount of RAM on the home server for
+	 * various purposes.
+	 */
+	#ram_reserve;
+	/**
 	 * The minimum security level to which this server can be weaked.
 	 */
 	#security_min;
@@ -244,6 +297,13 @@ export class Server {
 		this.#ns = ns;
 		this.#ram_max = server.maxRam;
 		this.#security_min = server.minDifficulty;
+		// By default, we do not reserve any RAM.  However, if this is the player's
+		// home server, then reserve some RAM.
+		this.#ram_reserve = 0;
+		const player = new Player(ns);
+		if (this.hostname() == player.home()) {
+			this.#ram_reserve = 50;
+		}
 	}
 
 	/**
@@ -309,10 +369,7 @@ export class Server {
 	 * @return true if we have root access to this server; false otherwise.
 	 */
 	has_root_access() {
-		if (this.#ns.hasRootAccess(this.hostname())) {
-			return true;
-		}
-		return false;
+		return this.#ns.hasRootAccess(this.hostname());
 	}
 
 	/**
@@ -346,10 +403,7 @@ export class Server {
 	 * @return true if the given script is running on the server; false otherwise.
 	 */
 	is_running_script(script) {
-		if (this.#ns.scriptRunning(script, this.hostname())) {
-			return true;
-		}
-		return false;
+		return this.#ns.scriptRunning(script, this.hostname());
 	}
 
 	/**
@@ -375,17 +429,21 @@ export class Server {
 	}
 
 	/**
-	  * Determine how many threads we can run a given script on this server.
-	  *
-	  * @param script We want to run this script on the server.  The script must
-	  *     exist on our home server.
-	  * @return The number of threads that can be used to run the given script on
-	  *     this server.
-	  */
+	 * Determine how many threads we can run a given script on this server.
+	 * This function takes care not to use all available RAM on the player's
+	 * home server.  If this is the player's home server, the function reserves
+	 * some amount of RAM on the home server and use the remaining available RAM
+	 * to calculate the number of threads to devote to the given script.
+	 *
+	 * @param script We want to run this script on the server.  The script must
+	 *     exist on our home server.
+	 * @return The number of threads that can be used to run the given script on
+	 *     this server.
+	 */
 	num_threads(script) {
 		const player = new Player(this.#ns);
 		const script_ram = this.#ns.getScriptRam(script, player.home());
-		const server_ram = this.available_ram();
+		const server_ram = this.available_ram() - this.#ram_reserve;
 		const nthread = Math.floor(server_ram / script_ram);
 		return nthread;
 	}
@@ -428,7 +486,6 @@ export class Server {
 		// Sanity check.
 		const ninstance = Math.floor(n);
 		assert(ninstance > 0);
-
 		const nthread = this.num_threads(script);
 		const nthread_per_instance = Math.floor(nthread / ninstance);
 		return nthread_per_instance;
@@ -604,10 +661,7 @@ export function filter_pserv(ns, server) {
  */
 function is_bankrupt(ns, s) {
 	const server = new Server(ns, s);
-	if (server.is_bankrupt()) {
-		return true;
-	}
-	return false;
+	return server.is_bankrupt();
 }
 
 /**
