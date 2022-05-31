@@ -12,7 +12,7 @@ function has_new_low_end(current_ln, new_ln) {
 	assert(current_ln.length >= 0);
 	assert(new_ln.length > 0);
 	assert(current_ln.length <= new_ln.length);
-	const NEW = true;      // Have new low-end servers to hack.
+	const NEW = true;     // Have new low-end servers to hack.
 	const NO_NEW = !NEW;  // No new low-end servers to hack.
 
 	if (current_ln.length < new_ln.length) {
@@ -113,7 +113,7 @@ async function update(ns, lowend) {
 		for (const server of lowend) {
 			ns.kill(player.script(), player.home(), server);
 		}
-		// Next, hack all low-end servers we can now visit.
+		// Next, hack all low-end servers we can now visit, include those newly found.
 		const home = new Server(ns, player.home());
 		const nthread = home.threads_per_instance(player.script(), target.length);
 		for (const server of target) {
@@ -134,13 +134,21 @@ async function update(ns, lowend) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-	const time = minutes_to_milliseconds(10);
-	let target = new Array();
+	// First, kill all instances of the hack script that are running on our
+	// home server against a low-end server.  We do this because after
+	// reloading the game, the value of the variable "target" is lost.
+	// Treat it like we are running this script for the first time.
+	const player = new Player(ns);
+	for (const server of low_end_servers(ns)) {
+		await ns.kill(player.script(), player.home(), server);
+	}
 
 	// Continuously try to search for low-end servers to hack.
+	const time = minutes_to_milliseconds(10);
+	let target = new Array();
 	while (true) {
 		target = await update(ns, target);
-		await ns.print("Low-end servers: " + target.join(" "));
+		await ns.print("Low-end servers: " + target.join(", "));
 		await ns.sleep(time);
 	}
 }
