@@ -135,6 +135,9 @@ function prime_factorization(n) {
 }
 
 /**
+ * Find Largest Prime Factor: Given a number, find its largest prime
+ * factor.  A prime factor is a factor that is a prime number.
+ *
  * Determine the largest prime factor of an integer.  This script accepts a
  * command line argument, namely a positive integer for which we want to
  * calcaluate the largest prime factor.  See Wikipedia for more details:
