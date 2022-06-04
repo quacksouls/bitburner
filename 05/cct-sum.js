@@ -29,30 +29,38 @@
  *     * 0 if n < 0.
  *     * p(n)
  */
-async function partition(ns, n) {
-    // Sanity check.
-    const num = Math.floor(n);
-    if (num < 0) {
-        return 0;
+let partition = (function () {
+    // A memoized version of the partition function.
+    let cache = new Map();
+    function p(ns, n) {
+        // Sanity check.
+        const num = Math.floor(n);
+        if (num < 0) {
+            return 0;
+        }
+        // Base case.
+        if (0 == num) {
+            return 1;
+        }
+        // Check the cache.
+        if (cache.has(n)) {
+            return cache.get(n);
+        }
+        // Recursion.
+        let sum = 0;
+        for (let k = 1; k <= num; k++) {
+            const c = (k * (3 * k - 1)) / 2;
+            const d = (k * (3 * k + 1)) / 2;
+            const a = p(ns, num - c);
+            const b = p(ns, num - d);
+            const sign = (-1) ** (k - 1);
+            sum += sign * (a + b);
+        }
+        cache.set(n, sum);
+        return cache.get(n);
     }
-    // Base case.
-    if (0 == num) {
-        return 1;
-    }
-    // Recursion.
-    let sum = 0;
-    const time = 1;
-    for (let k = 1; k <= num; k++) {
-        const c = (k*(3*k - 1)) / 2;
-        const d = (k*(3*k + 1)) / 2;
-        const a = await partition(ns, num - c);
-        const b = await partition(ns, num - d);
-        const sign = (-1) ** (k - 1);
-        sum += sign * (a + b);
-        await ns.sleep(time);
-    }
-    return sum;
-}
+    return p;
+})();
 
 /**
  * Total Ways to Sum: Given a number, how many different distinct ways can
@@ -72,6 +80,5 @@ async function partition(ns, n) {
  */
 export async function main(ns) {
     const n = Math.floor(ns.args[0]);
-    const p = await partition(ns, n);
-    ns.tprint(p - 1);
+    ns.tprint(partition(ns, n) - 1);
 }
