@@ -19,7 +19,7 @@
  * The number of possible partitions of a non-negative integer n.  That is,
  * the number of ways to write n as a sum of positive integers.  In number
  * theory, the partition function p(n) solves the problem.  Here, we use
- * a recurrence relation due Euler.
+ * a recurrence relation due to Euler.
  *
  * @param ns The Netscript API.
  * @param n We want to determine the number of partitions of this number.
