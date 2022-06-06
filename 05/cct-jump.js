@@ -35,7 +35,9 @@ function all_nonnegative(array) {
 }
 
 /**
- * Whether we can reach the last cell of an array.
+ * Whether we can reach the last cell of an array.  We use a greedy approach.
+ * Try to jump the maximum distance, otherwise backtrack and/or reduce the
+ * jump distance.
  *
  * @param array An array of integers.  Cannot be empty array.
  * @return true if starting from the first array cell we can reach
@@ -112,11 +114,11 @@ function is_last_cell(i, array) {
 
 /**
  * Array Jumping Game: You are given an array of integers where each element
- * represents the maximum possible jump distance from that position.  For example,
- * if you are at position i and your maximum jump length is n, then you can jump
- * to any position from i to i+n.  Assuming you are initially positioned at the
- * start of the array, determine whether you are able to reach the last index of
- * the array.
+ * represents the maximum possible jump distance from that position.  For
+ * example, if you are at position i and your maximum jump length is n, then
+ * you can jump to any position from i to i+n.  Assuming you are initially
+ * positioned at the start of the array, determine whether you are able to
+ * reach the last index of the array.
  *
  * The problem statement doesn't say anything about whether the integers are
  * negative, positive, or zero.  If an array element is a negative integer,
