@@ -15,24 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
-
-/**
- * Whether the given array has only non-negative numbers.
- *
- * @param array An array of integers.  Cannot be empty array.
- * @return true if the given array has only non-negative integers;
- *     false otherwise.
- */
-function all_nonnegative(array) {
-    assert(array.length > 0);
-    for (const a of array) {
-        if (a < 0) {
-            return false;
-        }
-    }
-    return true;
-}
+import { all_nonnegative, assert } from "./libbnr.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.
