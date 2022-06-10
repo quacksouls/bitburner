@@ -183,6 +183,7 @@ export async function main(ns) {
     // Test data.
     const triangle = [
         // Minimum sum: 11
+        // Path: [2,3,5,1]
         [
             [2],
             [3, 4],
@@ -190,10 +191,12 @@ export async function main(ns) {
             [4, 1, 8, 3]
         ],
         // Minimum sum: -10
+        // Path: [-10]
         [
             [-10]
         ],
         // Minimum sum: 31
+        // Path: [9,3,2,1,4,4,2,6]
         [
             [9],
             [4, 3],
@@ -205,6 +208,7 @@ export async function main(ns) {
             [6, 3, 9, 9, 9, 7, 6, 3]
         ],
         // Minimum sum: 10
+        // Path: [3,4,2,1]
         [
             [3],
             [6, 4],
@@ -212,6 +216,7 @@ export async function main(ns) {
             [9, 1, 8, 6]
         ],
         // Minimum sum: -1
+        // Path: [-1,3,-3]
         [
             [-1],
             [2, 3],
@@ -219,6 +224,7 @@ export async function main(ns) {
         ],
         // From https://rosettacode.org/wiki/Maximum_triangle_path_sum
         // Minimum sum: 475
+        // Path: [55,48,30,26,38,16,18,59,7,11,11,41,42,2,11,35,10,15]
         [
             [55],
             [94, 48],
@@ -242,7 +248,7 @@ export async function main(ns) {
     ];
     for (let i = 0; i < triangle.length; i++) {
         const [path, sum] = descend_naive(triangle[i]);
-        ns.tprint(i);
+        ns.tprint("Triangle: " + i);
         ns.tprint(sum);
         ns.tprint(path);
     }
