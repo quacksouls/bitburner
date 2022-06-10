@@ -54,14 +54,15 @@ function all_paths(triangle) {
  * approach, where all paths are considered.  The method would not work
  * if given a large triangle.
  *
- * TODO: Rewrite to use a more clever method.
+ * NOTE: Inefficient method because we are using lots of space and
+ * computation time.
  *
  * @param triangle A triangle represented as an array of arrays.
  * @return An array with two elements:
  *     * A path of minimum sum from the top of the triangle to the bottom.
  *     * The minimum sum.
  */
-function descend(triangle) {
+function descend_naive(triangle) {
     assert(is_triangle(triangle));
     if (1 == triangle.length) {
         return [triangle[0], triangle[0][0]];
@@ -232,7 +233,7 @@ export async function main(ns) {
         ]
     ];
     for (let i = 0; i < triangle.length; i++) {
-        const [path, sum] = descend(triangle[i]);
+        const [path, sum] = descend_naive(triangle[i]);
         ns.tprint(i);
         ns.tprint(sum);
         ns.tprint(path);
