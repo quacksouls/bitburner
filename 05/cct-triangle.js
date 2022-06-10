@@ -63,10 +63,12 @@ function all_paths(triangle) {
  *     * The minimum sum.
  */
 function descend_naive(triangle) {
+    // Sanity checks.
     assert(is_triangle(triangle));
     if (1 == triangle.length) {
         return [triangle[0], triangle[0][0]];
     }
+    // A triangle having at least 2 levels.
     const path = all_paths(triangle);
     return minimum_path(triangle, path);
 }
@@ -159,11 +161,11 @@ function path_sum(triangle, path) {
  * bottom of the triangle. In each step of the path, you may only move to
  * adjacent numbers in the row below.
  *
- * For example, if we are given this array
+ * For example, given this array
  *
  * [[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]
  *
- * We can represent it as this triangle
+ * we can represent it as this triangle
  *
  *       2
  *     3   4
@@ -180,15 +182,18 @@ function path_sum(triangle, path) {
 export async function main(ns) {
     // Test data.
     const triangle = [
+        // Minimum sum: 11
         [
             [2],
             [3, 4],
             [6, 5, 7],
             [4, 1, 8, 3]
         ],
+        // Minimum sum: -10
         [
             [-10]
         ],
+        // Minimum sum: 31
         [
             [9],
             [4, 3],
@@ -199,18 +204,21 @@ export async function main(ns) {
             [8, 6, 5, 7, 5, 2, 6],
             [6, 3, 9, 9, 9, 7, 6, 3]
         ],
+        // Minimum sum: 10
         [
             [3],
             [6, 4],
             [5, 2, 7],
             [9, 1, 8, 6]
         ],
+        // Minimum sum: -1
         [
             [-1],
             [2, 3],
             [1, -1, -3]
         ],
         // From https://rosettacode.org/wiki/Maximum_triangle_path_sum
+        // Minimum sum: 475
         [
             [55],
             [94, 48],
