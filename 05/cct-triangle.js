@@ -50,6 +50,101 @@ function all_paths(triangle) {
 }
 
 /**
+ * A deep copy of a triangle.
+ *
+ * @param triangle A triangle represented as an array of arrays.
+ * @return The same triangle, but as a deep copy.
+ */
+function clone(triangle) {
+    const new_triangle = new Array();
+    for (let i = 0; i < triangle.length; i++) {
+        const level = [...triangle[i]];
+        new_triangle.push(level);
+    }
+    return new_triangle;
+}
+
+/**
+ * Descend from the top to the bottom of a triangle, finding a path
+ * of minimum sum as we go.  We use a more efficient method than the
+ * one implemented in descend_naive().
+ *
+ * @param triangle A triangle represented as an array of arrays.
+ * @return An array with two elements:
+ *     * A path of minimum sum from the top of the triangle to the bottom.
+ *     * The minimum sum.
+ */
+function descend(triangle) {
+    // Sanity checks.
+    assert(is_triangle(triangle));
+    if (1 == triangle.length) {
+        return [triangle[0], triangle[0][0]];
+    }
+    // A triangle having at least 2 levels.  Consider the following triangle:
+    //
+    // (0)       2
+    // (1)     3   4
+    // (2)   6   5   7
+    // (3) 4   1   8   3
+    //
+    // Think of the problem in a top-down manner.  To obtain a path of minimum
+    // sum from level (0) to level (3), we must obtain a path of minimum sum
+    // from level (0) to level (2), which in turn requires that we obtain a path
+    // of minimum sum from level (0) to level (1).  Let min_sum be the minimum
+    // sum of a path from level (0) to level (i) and suppose this path ends at
+    // a[j], the j-th number at level (i).  Let b be an array of numbers at
+    // level (i + 1).  The minimum sum of a path from level (0) to level
+    // (i + 1) is given by
+    //
+    // min_sum + mininum(b[j], b[j + 1])
+    //
+    // Alternatively, consider the problem in a bottom-up manner.  Any minimum
+    // path must end at the bottom level of the triangle.  Let i be any level
+    // in the triangle, except for the last level.  Let mtriangle[i][j] be the
+    // j-th number at level (i) and update this number to
+    //
+    // mtriangle[i][j] := mtriangle[i][j] + minimum(b[j], b[j + 1])
+    //
+    // where b is an array of numbers at level (i + 1).  Move up one level and
+    // repeat the above calculation, propagating the minimum sum up the
+    // triangle so that mtriangle[0][0] is the minimum sum of any path.
+
+    // Get a deep copy of the triangle.  We don't want to modify the input
+    // triangle.
+    const mtriangle = clone(triangle);
+    const path = new Array();
+    // Start from the penultimate level and work upward to the top level.
+    // Keep track of a minimum path as we move along.
+    for (let i = (triangle.length - 2); i >= 0; i--) {
+        // The minimum sum at level i.
+        let minsum = Infinity;
+        // A node at level i + 1.  This is a node of a path of minimum sum.
+        let mink = Infinity;
+        for (let j = 0; j < triangle[i].length; j++) {
+            // Consider nodes at level i + 1.
+            const a = mtriangle[i + 1][j];
+            const b = mtriangle[i + 1][j + 1];
+            mtriangle[i][j] += Math.min(a, b);
+            // Update the path of minimum sum.  We keep track of the column
+            // index at level i + 1.
+            if (minsum > mtriangle[i][j]) {
+                minsum = mtriangle[i][j];
+                mink = (a < b) ? j : (j + 1);
+            }
+        }
+        path.push(mink);
+    }
+    path.push(0);
+    path.reverse();
+    // Reconstruct a path of minimum sum.  This path contains the intermediate
+    // nodes from the top of the triangle to the bottom level.
+    for (let i = 0; i < triangle.length; i++) {
+        path[i] = triangle[i][path[i]];
+    }
+    return [path, mtriangle[0][0]];
+}
+
+/**
  * Descend from the top to the bottom of a triangle.  We use a brute force
  * approach, where all paths are considered.  The method would not work
  * if given a large triangle.
@@ -224,7 +319,8 @@ export async function main(ns) {
         ],
         // From https://rosettacode.org/wiki/Maximum_triangle_path_sum
         // Minimum sum: 475
-        // Path: [55,48,30,26,38,16,18,59,7,11,11,41,42,2,11,35,10,15]
+        // Path 1: [55,48,30,26,38,16,18,59,7,11,11,41,42,2,11,35,10,15]
+        // Path 2: [55,48,30,26,38,36,18,59,7,11,11,41,42,2,40,1,18,2]
         [
             [55],
             [94, 48],
@@ -247,7 +343,7 @@ export async function main(ns) {
         ]
     ];
     for (let i = 0; i < triangle.length; i++) {
-        const [path, sum] = descend_naive(triangle[i]);
+        const [path, sum] = descend(triangle[i]);
         ns.tprint("Triangle: " + i);
         ns.tprint(sum);
         ns.tprint(path);
