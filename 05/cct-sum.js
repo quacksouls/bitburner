@@ -21,7 +21,6 @@
  * theory, the partition function p(n) solves the problem.  Here, we use
  * a recurrence relation due to Euler.
  *
- * @param ns The Netscript API.
  * @param n We want to determine the number of partitions of this number.
  *     Must be a non-negative integer.
  * @return Possible values:
@@ -32,7 +31,7 @@
 let partition = (function () {
     // A memoized version of the partition function.
     let cache = new Map();
-    function p(ns, n) {
+    function p(n) {
         // Sanity check.
         const num = Math.floor(n);
         if (num < 0) {
@@ -51,8 +50,8 @@ let partition = (function () {
         for (let k = 1; k <= num; k++) {
             const c = (k * (3 * k - 1)) / 2;
             const d = (k * (3 * k + 1)) / 2;
-            const a = p(ns, num - c);
-            const b = p(ns, num - d);
+            const a = p(num - c);
+            const b = p(num - d);
             const sign = (-1) ** (k - 1);
             sum += sign * (a + b);
         }
@@ -80,5 +79,5 @@ let partition = (function () {
  */
 export async function main(ns) {
     const n = Math.floor(ns.args[0]);
-    ns.tprint(partition(ns, n) - 1);
+    ns.tprint(partition(n) - 1);
 }
