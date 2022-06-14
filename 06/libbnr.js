@@ -22,6 +22,240 @@
 /****************************************************************************/
 
 /**
+ * A directed graph.  There can be at most one directed edge from vertex u to
+ * vertex v.
+ */
+export class DirectedGraph {
+    /**
+     * The adjacency map.  Each key is a vertex or node of the directed graph.
+     * Each value is an array of vertices to which the key is adjacent.  For
+     * example, given a node i, adj[i] is an array such that each node in the
+     * array is a neighbour of i.
+     */
+    #adj;
+
+    /**
+     * A directed graph object.
+     */
+    constructor() {
+        this.#adj = new Map();
+    }
+
+    /**
+     * Add an edge to this directed graph.
+     *
+     * @param u, v A directed edge from vertex u to vertex v.
+     * @return true if the edge was successfully added to the graph;
+     *     false otherwise or the edge is already in the graph.
+     */
+    add_edge(u, v) {
+        const SUCCESS = true;
+        const FAILURE = !SUCCESS;
+        // Already have the directed edge.
+        if (this.has_edge(u, v)) {
+            return FAILURE;
+        }
+
+        // First, add the nodes if we don't have them already.
+        if (!this.has_node(u)) {
+            assert(this.add_node(u));
+        }
+        if (!this.has_node(v)) {
+            assert(this.add_node(v));
+        }
+        // Now insert the directed edge (u, v).
+        const neighbour = this.#adj.get(u);
+        neighbour.push(v);
+        this.#adj.set(u, neighbour);
+        return SUCCESS;
+    }
+
+    /**
+     * Add a vertex to this directed graph.
+     *
+     * @param v Add this node.
+     * @return true if the given node was successfully added;
+     *     false otherwise or the node already exists in the graph.
+     */
+    add_node(v) {
+        const SUCCESS = true;
+        const FAILURE = !SUCCESS;
+        if (this.has_node(v)) {
+            return FAILURE;
+        }
+        this.#adj.set(v, new Array());
+        return SUCCESS;
+    }
+
+    /**
+     * All edges of this directed graph, as an array of arrays.
+     */
+    edges() {
+        const edge = new Array();
+        for (const u of this.nodes()) {
+            const neighbour = this.#adj.get(u);
+            for (const v of neighbour) {
+                edge.push([u, v]);
+            }
+        }
+        return edge;
+    }
+
+    /**
+     * Use Dijkstra's algorithm to determine the shortest directed path from a
+     * given node to all nodes in a directed graph.
+     *
+     * @param source The source vertex.  All shortest directed paths must start
+     *     from this node.
+     * @return These two data structures:
+     *     (1) A map of the shortest number of nodes in a directed path to a
+     *         target node.  Each path starts from the given source node.  For
+     *         example, the map element A[i] means the shortest number of nodes
+     *         in the path to node i.
+     *     (2) A map of the node preceeding a given node, in a shortest
+     *         directed path.  For example, the map element M[i] gives a node
+     *         that directly connects to node i, where M[i] and i are nodes in
+     *         a shortest directed path.
+     */
+    #dijkstra(source) {
+        // A map of the shortest number of nodes in a directed path to a
+        // target node.
+        let dist = new Map();
+        // A map of the node preceeding a given node.
+        let prev = new Map();
+        // A queue of nodes to visit.
+        let queue = new Array();
+        // Initialization.
+        for (const v of this.#adj.keys()) {
+            dist.set(v, Infinity);
+            prev.set(v, undefined);
+            queue.push(v);
+        }
+        // The distance from the source node to itself is zero.
+        dist.set(source, 0);
+        prev.set(source, undefined);
+        queue.push(source);
+
+        // Search for shortest directed paths from the source node to other
+        // nodes.  This is an unweighted graph so the weight between a node
+        // and any of its neighbours is 1.
+        const weight = 1;
+        while (queue.length > 0) {
+            const u = this.#minimumq(queue, dist);
+            queue = queue.filter(s => s != u);
+            // Consider the directed neighbours of u.  Each neighbour must
+            // still be in the queue.
+            let neighbour = Array.from(this.#adj.get(u));
+            neighbour = neighbour.filter(s => queue.includes(s));
+            for (const v of neighbour) {
+                const alt = dist.get(u) + weight;
+                // We have found a shorter directed path to v.
+                if (alt < dist.get(v)) {
+                    dist.set(v, alt);
+                    prev.set(v, u);
+                }
+            }
+        }
+        return [dist, prev];
+    }
+
+    /**
+     * Whether the graph has the given directed edge.
+     *
+     * @param u, v Check the graph for this directed edge.
+     * @return true if the graph has the directed edge (u, v);
+     *     false otherwise.
+     */
+    has_edge(u, v) {
+        const HAS_EDGE = true;
+        const DONT_HAVE_EDGE = !HAS_EDGE;
+        if (!this.has_node(u)) {
+            return DONT_HAVE_EDGE;
+        }
+        if (!this.has_node(v)) {
+            return DONT_HAVE_EDGE;
+        }
+        const neighbour = this.#adj.get(u);
+        return neighbour.includes(v);
+    }
+
+    /**
+     * Whether the graph has the given vertex.
+     *
+     * @param v Check for the presence or absence of this vertex.
+     * @return true if the graph already has the vertex;
+     *     false otherwise.
+     */
+    has_node(v) {
+        return this.#adj.has(v);
+    }
+
+    /**
+     * Choose the node i with minimum dist[i].  This is a simple implementation.
+     * For better performance, the queue should be implemented as a minimum
+     * priority queue.
+     *
+     * @param queue An array of nodes to visit.
+     * @param dist A map of the shortest number of nodes in a directed path to
+     *     a target node.
+     * @return The node i such that dist[i] is minimal.
+     */
+    #minimumq(queue, dist) {
+        assert(queue.length > 0);
+        assert(dist.size > 0);
+        let node = queue[0];
+        for (const v of queue) {
+            if (dist.get(v) < dist.get(node)) {
+                node = v;
+            }
+        }
+        return node;
+    }
+
+    /**
+     * All nodes of this directed graph, as an array.
+     */
+    nodes() {
+        return [...this.#adj.keys()];
+    }
+
+    /**
+     * Determine the shortest directed path from the source to the target.
+     *
+     * @param source Start our directed path from this node.
+     * @param target We want to reach this node.
+     * @return An array of shortest directed path from source to target.  An
+     *     empty array if the target is not reachable from the source.
+     */
+    shortest_path(source, target) {
+        assert(this.has_node(source));
+        assert(this.has_node(target));
+        const [dist, prev] = this.#dijkstra(source);
+        // Ensure the target is reachable from the source node.
+        if (!dist.has(target)) {
+            return [];
+        }
+        let stack = new Array();
+        let u = target;
+        // Start from the target and work backward to find the shortest
+        // directed path from the source to the target.
+        while (prev.get(u) != undefined) {
+            stack.push(u);
+            u = prev.get(u);
+        }
+        // Target is not reachable from the source node.
+        if (0 == stack.length) {
+            return [];
+        }
+
+        assert(stack.length > 0);
+        stack.push(source);
+        stack.reverse();
+        return stack;
+    }
+}
+
+/**
  * A class that holds all information about a player.
  */
 export class Player {
@@ -535,6 +769,23 @@ export class Server {
 /****************************************************************************/
 /** Helper functions ********************************************************/
 /****************************************************************************/
+
+/**
+ * Whether the given array has only non-negative numbers.
+ *
+ * @param array An array of integers.  Cannot be empty array.
+ * @return true if the given array has only non-negative integers;
+ *     false otherwise.
+ */
+export function all_nonnegative(array) {
+    assert(array.length > 0);
+    for (const a of array) {
+        if (a < 0) {
+            return false;
+        }
+    }
+    return true;
+}
 
 /**
  * A function for assertion.
