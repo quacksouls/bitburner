@@ -94,6 +94,8 @@ function unique_paths(n, k) {
  * bottom-right corner.  On each step, you may only move down or to the right.
  * Determine how many unique paths there are from start to finish.
  *
+ * See the function unique_paths() for more details.
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
