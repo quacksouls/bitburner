@@ -180,6 +180,10 @@ function pairing(x, y) {
  *
  * @param grid A map as an array of arrays.  This is essentially a binary
  *     matrix, where each entry is either 0 or 1.
+ * @return An array representing a shortest path in the grid, from the
+ *     top-left corner to the bottom-right corner.  Each element of the
+ *     array is a node ID.  We must use the function unpairing() to
+ *     convert a node ID to a location (r, c) in the grid.
  */
 function shortest_path(grid) {
     const graph = to_graph(grid);
