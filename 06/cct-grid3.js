@@ -183,7 +183,8 @@ function pairing(x, y) {
  * @return An array representing a shortest path in the grid, from the
  *     top-left corner to the bottom-right corner.  Each element of the
  *     array is a node ID.  We must use the function unpairing() to
- *     convert a node ID to a location (r, c) in the grid.
+ *     convert a node ID to a location (r, c) in the grid.  An empty array
+ *     if there is no path from the top-left to the bottom-right.
  */
 function shortest_path(grid) {
     const graph = to_graph(grid);
@@ -303,4 +304,19 @@ export async function main(ns) {
     for (const n of shortest_path(map_large)) {
         ns.tprint(unpairing(n));
     }
+
+    // Cannot reach the bottom-right in this map.
+    const map_no = [
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 1, 0],
+        [0, 0, 0, 1, 0]
+    ];
+    ns.tprint("Map");
+    for (let i = 0; i < map_no.length; i++) {
+        ns.tprint(map_no[i]);
+    }
+    ns.tprint("Path: none");
+    const path = shortest_path(map_no);
+    assert(0 == path.length);
 }
