@@ -27,9 +27,9 @@
 export class Graph {
     /**
      * The adjacency map.  Each key is a vertex or node of the graph.  Each
-     * value is an array of vertices to which the key is adjacent.  For example,
-     * given a node i, adj[i] is an array such that each node in the array is
-     * a neighbour of i.
+     * value is an array of vertices to which the key is adjacent.  For
+     * example, given a node i, adj[i] is an array such that each node in the
+     * array is a neighbour of i.
      */
     #adj;
 
@@ -153,15 +153,17 @@ export class Graph {
      *     from this node.
      * @return These two data structures:
      *     (1) A map of the shortest number of nodes in a path to a target
-     *         node.  Each path starts from the given source node.  For example,
-     *         the map element A[i] means the shortest number of nodes in a
-     *         path to node i.
+     *         node.  Each path starts from the given source node.  For
+     *         example, the map element A[i] means the shortest number of nodes
+     *         in a path to node i.
      *     (2) A map of the node preceeding a given node, in a shortest path.
      *         For example, the map element M[i] gives a node that directly
-     *         connects to node i, where M[i] and i are nodes in a shortest path.
+     *         connects to node i, where M[i] and i are nodes in a shortest
+     *         path.
      */
     #dijkstra(source) {
-        // The implementation is the same for both directed and undirected graphs.
+        // The implementation is the same for both directed and undirected
+        // graphs.
         // A map of the shortest number of nodes in a path to a target node.
         let dist = new Map();
         // A map of the node preceeding a given node.
@@ -244,9 +246,9 @@ export class Graph {
     }
 
     /**
-     * Choose the node i with minimum dist[i].  This is a simple implementation.
-     * For better performance, the queue should be implemented as a minimum
-     * priority queue.
+     * Choose the node i with minimum dist[i].  This is a simple
+     * implementation.  For better performance, the queue should be implemented
+     * as a minimum priority queue.
      *
      * @param queue An array of nodes to visit.
      * @param dist A map of the shortest number of nodes in a path to
@@ -1098,8 +1100,8 @@ export function minutes_to_milliseconds(time) {
 }
 
 /**
- * Scan the network of servers in the game world.  Each server must be reachable
- * from our home server.
+ * Scan the network of servers in the game world.  Each server must be
+ * reachable from our home server.
  *
  * @param ns The Netscript API.
  * @return An array of servers that can be reached from home.
