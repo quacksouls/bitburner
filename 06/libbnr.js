@@ -109,41 +109,6 @@ export class Graph {
     }
 
     /**
-     * All edges of this graph, as an array of arrays.
-     */
-    edges() {
-        // Directed graph.
-        if (this.#directed) {
-            const edge = new Array();
-            for (const u of this.nodes()) {
-                for (const v of this.neighbour(u)) {
-                    edge.push([u, v]);
-                }
-            }
-            return edge;
-        }
-        // Undirected graph.
-        assert(!this.#directed);
-        const edge = new Set();
-        for (const u of this.nodes()) {
-            for (const v of this.neighbour(u)) {
-                // Assume nodes to be comparable, i.e. we can compare
-                // the node values.  If each node is an integer, the
-                // nodes are comparable because there is an ordering
-                // of numbers.  If each node is a string of alphabetic
-                // characters, the nodes are also comparable because we
-                // can use lexicographic ordering.
-                if (u < v) {
-                    edge.add([u, v]);
-                } else {
-                    edge.add([v, u]);
-                }
-            }
-        }
-        return [...edge];
-    }
-
-    /**
      * Use Dijkstra's algorithm to determine a shortest path from a given
      * node to all nodes in a graph.
      *
@@ -200,6 +165,41 @@ export class Graph {
             }
         }
         return [dist, prev];
+    }
+
+    /**
+     * All edges of this graph, as an array of arrays.
+     */
+    edges() {
+        // Directed graph.
+        if (this.#directed) {
+            const edge = new Array();
+            for (const u of this.nodes()) {
+                for (const v of this.neighbour(u)) {
+                    edge.push([u, v]);
+                }
+            }
+            return edge;
+        }
+        // Undirected graph.
+        assert(!this.#directed);
+        const edge = new Set();
+        for (const u of this.nodes()) {
+            for (const v of this.neighbour(u)) {
+                // Assume nodes to be comparable, i.e. we can compare
+                // the node values.  If each node is an integer, the
+                // nodes are comparable because there is an ordering
+                // of numbers.  If each node is a string of alphabetic
+                // characters, the nodes are also comparable because we
+                // can use lexicographic ordering.
+                if (u < v) {
+                    edge.add([u, v]);
+                } else {
+                    edge.add([v, u]);
+                }
+            }
+        }
+        return [...edge];
     }
 
     /**
