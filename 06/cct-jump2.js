@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert, DirectedGraph } from "./libbnr.js";
+import { all_nonnegative, assert, Graph } from "./libbnr.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -79,11 +79,12 @@ function minimum_jump(array) {
  */
 function to_graph(array) {
     assert(array.length > 0);
+    const directed = true;
 
-    // Add the nodes of the graph.
-    // Each node ID is an index of the given array.
+    // First, add the nodes of the directed graph because the graph might be
+    // disconnected.  Each node ID is an index of the given array.
     const node = Array(array.length).fill().map((_, index) => index);
-    const graph = new DirectedGraph();
+    const graph = new Graph(directed);
     for (const v of node) {
         graph.add_node(v);
     }
@@ -100,7 +101,7 @@ function to_graph(array) {
         assert(max_jump > 0);
         for (let i = 1; i <= max_jump; i++) {
             const v = u + i;
-            // Is v a valid index for array?
+            // Is v a valid index in array?
             if (v > last_index) {
                 continue;
             }
@@ -143,6 +144,8 @@ export async function main(ns) {
     ];
     for (let i = 0; i < array.length; i++) {
         const [min_jump, path] = minimum_jump(array[i]);
+        ns.tprint("Array " + i);
+        ns.tprint(array[i]);
         ns.tprint(min_jump + ": " + path);
     }
 }

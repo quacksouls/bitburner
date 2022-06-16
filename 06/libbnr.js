@@ -22,261 +22,40 @@
 /****************************************************************************/
 
 /**
- * A directed graph.  There can be at most one directed edge from vertex u to
- * vertex v.
+ * A combinatorial graph, commonly referrred to as a graph.
  */
-export class DirectedGraph {
+export class Graph {
     /**
-     * The adjacency map.  Each key is a vertex or node of the directed graph.
-     * Each value is an array of vertices to which the key is adjacent.  For
-     * example, given a node i, adj[i] is an array such that each node in the
-     * array is a neighbour of i.
+     * The adjacency map.  Each key is a vertex or node of the graph.  Each
+     * value is an array of vertices to which the key is adjacent.  For example,
+     * given a node i, adj[i] is an array such that each node in the array is
+     * a neighbour of i.
      */
     #adj;
 
     /**
-     * A directed graph object.
+     * A boolean signifying whether each edge is directed or undirected.
      */
-    constructor() {
+    #directed;
+
+    /**
+     * A graph object.
+     *
+     * @param directed A boolean indicating whether each edge of the graph is
+     *     directed or undirected.  If true, then each edge is directed.  If
+     *     false, then each edge is undirected.
+     */
+    constructor(directed) {
         this.#adj = new Map();
+        if (directed) {
+            this.#directed = true;
+        } else {
+            this.#directed = false;
+        }
     }
 
     /**
-     * Add an edge to this directed graph.
-     *
-     * @param u, v A directed edge from vertex u to vertex v.
-     * @return true if the edge was successfully added to the graph;
-     *     false otherwise or the edge is already in the graph.
-     */
-    add_edge(u, v) {
-        const SUCCESS = true;
-        const FAILURE = !SUCCESS;
-        // Already have the directed edge.
-        if (this.has_edge(u, v)) {
-            return FAILURE;
-        }
-
-        // First, add the nodes if we don't have them already.
-        if (!this.has_node(u)) {
-            assert(this.add_node(u));
-        }
-        if (!this.has_node(v)) {
-            assert(this.add_node(v));
-        }
-        // Now insert the directed edge (u, v).
-        const neighbour = this.#adj.get(u);
-        neighbour.push(v);
-        this.#adj.set(u, neighbour);
-        return SUCCESS;
-    }
-
-    /**
-     * Add a vertex to this directed graph.
-     *
-     * @param v Add this node.
-     * @return true if the given node was successfully added;
-     *     false otherwise or the node already exists in the graph.
-     */
-    add_node(v) {
-        const SUCCESS = true;
-        const FAILURE = !SUCCESS;
-        if (this.has_node(v)) {
-            return FAILURE;
-        }
-        this.#adj.set(v, new Array());
-        return SUCCESS;
-    }
-
-    /**
-     * All edges of this directed graph, as an array of arrays.
-     */
-    edges() {
-        const edge = new Array();
-        for (const u of this.nodes()) {
-            const neighbour = this.#adj.get(u);
-            for (const v of neighbour) {
-                edge.push([u, v]);
-            }
-        }
-        return edge;
-    }
-
-    /**
-     * Use Dijkstra's algorithm to determine the shortest directed path from a
-     * given node to all nodes in a directed graph.
-     *
-     * @param source The source vertex.  All shortest directed paths must start
-     *     from this node.
-     * @return These two data structures:
-     *     (1) A map of the shortest number of nodes in a directed path to a
-     *         target node.  Each path starts from the given source node.  For
-     *         example, the map element A[i] means the shortest number of nodes
-     *         in the path to node i.
-     *     (2) A map of the node preceeding a given node, in a shortest
-     *         directed path.  For example, the map element M[i] gives a node
-     *         that directly connects to node i, where M[i] and i are nodes in
-     *         a shortest directed path.
-     */
-    #dijkstra(source) {
-        // A map of the shortest number of nodes in a directed path to a
-        // target node.
-        let dist = new Map();
-        // A map of the node preceeding a given node.
-        let prev = new Map();
-        // A queue of nodes to visit.
-        let queue = new Array();
-        // Initialization.
-        for (const v of this.#adj.keys()) {
-            dist.set(v, Infinity);
-            prev.set(v, undefined);
-            queue.push(v);
-        }
-        // The distance from the source node to itself is zero.
-        dist.set(source, 0);
-        prev.set(source, undefined);
-        queue.push(source);
-
-        // Search for shortest directed paths from the source node to other
-        // nodes.  This is an unweighted graph so the weight between a node
-        // and any of its neighbours is 1.
-        const weight = 1;
-        while (queue.length > 0) {
-            const u = this.#minimumq(queue, dist);
-            queue = queue.filter(s => s != u);
-            // Consider the directed neighbours of u.  Each neighbour must
-            // still be in the queue.
-            let neighbour = Array.from(this.#adj.get(u));
-            neighbour = neighbour.filter(s => queue.includes(s));
-            for (const v of neighbour) {
-                const alt = dist.get(u) + weight;
-                // We have found a shorter directed path to v.
-                if (alt < dist.get(v)) {
-                    dist.set(v, alt);
-                    prev.set(v, u);
-                }
-            }
-        }
-        return [dist, prev];
-    }
-
-    /**
-     * Whether the graph has the given directed edge.
-     *
-     * @param u, v Check the graph for this directed edge.
-     * @return true if the graph has the directed edge (u, v);
-     *     false otherwise.
-     */
-    has_edge(u, v) {
-        const HAS_EDGE = true;
-        const DONT_HAVE_EDGE = !HAS_EDGE;
-        if (!this.has_node(u)) {
-            return DONT_HAVE_EDGE;
-        }
-        if (!this.has_node(v)) {
-            return DONT_HAVE_EDGE;
-        }
-        const neighbour = this.#adj.get(u);
-        return neighbour.includes(v);
-    }
-
-    /**
-     * Whether the graph has the given vertex.
-     *
-     * @param v Check for the presence or absence of this vertex.
-     * @return true if the graph already has the vertex;
-     *     false otherwise.
-     */
-    has_node(v) {
-        return this.#adj.has(v);
-    }
-
-    /**
-     * Choose the node i with minimum dist[i].  This is a simple implementation.
-     * For better performance, the queue should be implemented as a minimum
-     * priority queue.
-     *
-     * @param queue An array of nodes to visit.
-     * @param dist A map of the shortest number of nodes in a directed path to
-     *     a target node.
-     * @return The node i such that dist[i] is minimal.
-     */
-    #minimumq(queue, dist) {
-        assert(queue.length > 0);
-        assert(dist.size > 0);
-        let node = queue[0];
-        for (const v of queue) {
-            if (dist.get(v) < dist.get(node)) {
-                node = v;
-            }
-        }
-        return node;
-    }
-
-    /**
-     * All nodes of this directed graph, as an array.
-     */
-    nodes() {
-        return [...this.#adj.keys()];
-    }
-
-    /**
-     * Determine the shortest directed path from the source to the target.
-     *
-     * @param source Start our directed path from this node.
-     * @param target We want to reach this node.
-     * @return An array of shortest directed path from source to target.  An
-     *     empty array if the target is not reachable from the source.
-     */
-    shortest_path(source, target) {
-        assert(this.has_node(source));
-        assert(this.has_node(target));
-        const [dist, prev] = this.#dijkstra(source);
-        // Ensure the target is reachable from the source node.
-        if (!dist.has(target)) {
-            return [];
-        }
-        let stack = new Array();
-        let u = target;
-        // Start from the target and work backward to find the shortest
-        // directed path from the source to the target.
-        while (prev.get(u) != undefined) {
-            stack.push(u);
-            u = prev.get(u);
-        }
-        // Target is not reachable from the source node.
-        if (0 == stack.length) {
-            return [];
-        }
-
-        assert(stack.length > 0);
-        stack.push(source);
-        stack.reverse();
-        return stack;
-    }
-}
-
-/**
- * An undirected graph.  There can be at most one edge from vertex u to
- * vertex v.
- */
-export class UndirectedGraph {
-    /**
-     * The adjacency map.  Each key is a vertex or node of the undirected graph.
-     * Each value is an array of vertices to which the key is adjacent.  For
-     * example, given a node i, adj[i] is an array such that each node in the
-     * array is a neighbour of i.
-     */
-    #adj;
-
-    /**
-     * An undirected graph object.
-     */
-    constructor() {
-        this.#adj = new Map();
-    }
-
-    /**
-     * Add an edge to this undirected graph.
+     * Add an edge to this graph.
      *
      * @param u, v An edge between vertices u and v.
      * @return true if the edge was successfully added to the graph;
@@ -297,18 +76,23 @@ export class UndirectedGraph {
         if (!this.has_node(v)) {
             assert(this.add_node(v));
         }
-        // Now insert the undirected edge (u, v).
+        // Now insert the edge (u, v).
+        // If the graph is directed, only need to add the edge (u, v).
+        // If the graph is undirected, also must add the edge (v, u).
         const u_neighbour = this.#adj.get(u);
-        const v_neighbour = this.#adj.get(v);
         u_neighbour.push(v);
-        v_neighbour.push(u);
         this.#adj.set(u, u_neighbour);
-        this.#adj.set(v, v_neighbour);
+        // Undirected graph.
+        if (!this.#directed) {
+            const v_neighbour = this.#adj.get(v);
+            v_neighbour.push(u);
+            this.#adj.set(v, v_neighbour);
+        }
         return SUCCESS;
     }
 
     /**
-     * Add a vertex to this undirected graph.
+     * Add a vertex to this graph.
      *
      * @param v Add this node.
      * @return true if the given node was successfully added;
@@ -325,9 +109,22 @@ export class UndirectedGraph {
     }
 
     /**
-     * All edges of this undirected graph, as an array of arrays.
+     * All edges of this graph, as an array of arrays.
      */
     edges() {
+        // Directed graph.
+        if (this.#directed) {
+            const edge = new Array();
+            for (const u of this.nodes()) {
+                const neighbour = this.#adj.get(u);
+                for (const v of neighbour) {
+                    edge.push([u, v]);
+                }
+            }
+            return edge;
+        }
+        // Undirected graph.
+        assert(!this.#directed);
         const edge = new Set();
         for (const u of this.nodes()) {
             const neighbour = this.#adj.get(u);
@@ -349,24 +146,23 @@ export class UndirectedGraph {
     }
 
     /**
-     * Use Dijkstra's algorithm to determine a shortest undirected path from a
-     * given node to all nodes in an undirected graph.
+     * Use Dijkstra's algorithm to determine a shortest path from a given
+     * node to all nodes in a graph.
      *
-     * @param source The source vertex.  All shortest undirected paths must
-     *     start from this node.
+     * @param source The source vertex.  All shortest paths must start
+     *     from this node.
      * @return These two data structures:
-     *     (1) A map of the shortest number of nodes in an undirected path to a
-     *         target node.  Each path starts from the given source node.  For
-     *         example, the map element A[i] means the shortest number of nodes
-     *         in the path to node i.
-     *     (2) A map of the node preceeding a given node, in a shortest
-     *         undirected path.  For example, the map element M[i] gives a node
-     *         that directly connects to node i, where M[i] and i are nodes in
-     *         a shortest undirected path.
+     *     (1) A map of the shortest number of nodes in a path to a target
+     *         node.  Each path starts from the given source node.  For example,
+     *         the map element A[i] means the shortest number of nodes in a
+     *         path to node i.
+     *     (2) A map of the node preceeding a given node, in a shortest path.
+     *         For example, the map element M[i] gives a node that directly
+     *         connects to node i, where M[i] and i are nodes in a shortest path.
      */
     #dijkstra(source) {
-        // A map of the shortest number of nodes in an undirected path to a
-        // target node.
+        // The implementation is the same for both directed and undirected graphs.
+        // A map of the shortest number of nodes in a path to a target node.
         let dist = new Map();
         // A map of the node preceeding a given node.
         let prev = new Map();
@@ -383,20 +179,20 @@ export class UndirectedGraph {
         prev.set(source, undefined);
         queue.push(source);
 
-        // Search for shortest undirected paths from the source node to other
-        // nodes.  This is an unweighted graph so the weight between a node
+        // Search for shortest paths from the source node to other nodes.
+        // This is an unweighted graph so the weight between a node
         // and any of its neighbours is 1.
         const weight = 1;
         while (queue.length > 0) {
             const u = this.#minimumq(queue, dist);
             queue = queue.filter(s => s != u);
-            // Consider the undirected neighbours of u.  Each neighbour must
+            // Consider the neighbours of u.  Each neighbour must
             // still be in the queue.
             let neighbour = Array.from(this.#adj.get(u));
             neighbour = neighbour.filter(s => queue.includes(s));
             for (const v of neighbour) {
                 const alt = dist.get(u) + weight;
-                // We have found a shorter undirected path to v.
+                // We have found a shorter path to v.
                 if (alt < dist.get(v)) {
                     dist.set(v, alt);
                     prev.set(v, u);
@@ -407,11 +203,10 @@ export class UndirectedGraph {
     }
 
     /**
-     * Whether the graph has the given undirected edge.
+     * Whether the graph has the given edge.
      *
-     * @param u, v Check the graph for this undirected edge.
-     * @return true if the graph has the undirected edge (u, v);
-     *     false otherwise.
+     * @param u, v Check the graph for this edge.
+     * @return true if the graph has the edge (u, v); false otherwise.
      */
     has_edge(u, v) {
         const HAS_EDGE = true;
@@ -422,6 +217,13 @@ export class UndirectedGraph {
         if (!this.has_node(v)) {
             return DONT_HAVE_EDGE;
         }
+        // Directed graph.
+        if (this.#directed) {
+            const neighbour = this.#adj.get(u);
+            return neighbour.includes(v);
+        }
+        // Undirected graph.
+        assert(!this.#directed);
         const u_neighbour = this.#adj.get(u);
         const v_neighbour = this.#adj.get(v);
         if (u_neighbour.includes(v)) {
@@ -435,8 +237,7 @@ export class UndirectedGraph {
      * Whether the graph has the given vertex.
      *
      * @param v Check for the presence or absence of this vertex.
-     * @return true if the graph already has the vertex;
-     *     false otherwise.
+     * @return true if the graph already has the vertex; false otherwise.
      */
     has_node(v) {
         return this.#adj.has(v);
@@ -448,8 +249,8 @@ export class UndirectedGraph {
      * priority queue.
      *
      * @param queue An array of nodes to visit.
-     * @param dist A map of the shortest number of nodes in an undirected path
-     *     to a target node.
+     * @param dist A map of the shortest number of nodes in a path to
+     *     a target node.
      * @return The node i such that dist[i] is minimal.
      */
     #minimumq(queue, dist) {
@@ -465,22 +266,22 @@ export class UndirectedGraph {
     }
 
     /**
-     * All nodes of this undirected graph, as an array.
+     * All nodes of this graph, as an array.
      */
     nodes() {
         return [...this.#adj.keys()];
     }
 
     /**
-     * Determine a shortest undirected path from the source to the target.
+     * Determine a shortest path from the source to the target.
      *
-     * @param source Start our undirected path from this node.
+     * @param source Start our path from this node.
      * @param target We want to reach this node.
-     * @return An array representing a shortest undirected path from source
-     *     to target.  An empty array if the target is not reachable from
-     *     the source.
+     * @return An array representing a shortest path from source to target.
+     *     An empty array if the target is not reachable from the source.
      */
     shortest_path(source, target) {
+        // The implementation is the same for directed and undirected graphs.
         assert(this.has_node(source));
         assert(this.has_node(target));
         const [dist, prev] = this.#dijkstra(source);
@@ -491,7 +292,7 @@ export class UndirectedGraph {
         let stack = new Array();
         let u = target;
         // Start from the target and work backward to find a shortest
-        // undirected path from the source to the target.
+        // path from the source to the target.
         while (prev.get(u) != undefined) {
             stack.push(u);
             u = prev.get(u);

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, UndirectedGraph } from "./libbnr.js";
+import { assert, Graph } from "./libbnr.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.
@@ -205,8 +205,9 @@ function shortest_path(grid) {
  */
 function to_graph(grid) {
     assert(grid.length > 0);
+    const directed = false;
     const ncol = grid[0].length;
-    const graph = new UndirectedGraph();
+    const graph = new Graph(directed);
     for (let r = 0; r < grid.length; r++) {
         assert(ncol == grid[r].length);
         for (let c = 0; c < ncol; c++) {
