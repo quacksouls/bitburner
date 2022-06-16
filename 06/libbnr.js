@@ -1184,21 +1184,31 @@ export function sequence(n) {
  *     empty array if the target is not reachable from the source.
  */
 export function shortest_path(ns, source, target) {
-    const [dist, prev] = dijkstra(ns, source);
-    // Ensure the target is reachable from the source node.
-    if (!dist.has(target)) {
-        return [];
-    }
-    let stack = new Array();
-    let u = target;
-    // Start from the target and work backward to find the shortest
-    // path from the source to the target.
-    while (prev.get(u) != undefined) {
-        stack.push(u);
-        u = prev.get(u);
-    }
-    assert(stack.length > 0);
+    // Represent the network of world servers as an undirected graph.
+    const stack = new Array();
+    const visit = new Set();
     stack.push(source);
-    stack.reverse();
-    return stack;
+    const directed = false;
+    const graph = new Graph(directed);
+    // Use breath-first search to navigate the network.
+    while (stack.length > 0) {
+        const s = stack.pop();
+        // Have we visited the server s yet?
+        if (visit.has(s)) {
+            continue;
+        }
+        visit.add(s);
+        // All neighbours of s, excluding the purchased servers.
+        const neighbour = [...filter_pserv(ns, ns.scan(s))];
+        stack.push(...neighbour);
+        for (const t of neighbour) {
+            // Have we visited the server t yet?
+            if (visit.has(t)) {
+                continue;
+            }
+            assert(graph.add_edge(s, t));
+        }
+    }
+    // A shortest path from source to target.
+    return graph.shortest_path(source, target);
 }
