@@ -192,11 +192,11 @@ export class Graph {
                 // of numbers.  If each node is a string of alphabetic
                 // characters, the nodes are also comparable because we
                 // can use lexicographic ordering.
-                if (u < v) {
-                    edge.add([u, v]);
-                } else {
-                    edge.add([v, u]);
+                if (u > v) {
+                    continue;
                 }
+                assert(!edge.has([u, v]));
+                edge.add([u, v]);
             }
         }
         return [...edge];
