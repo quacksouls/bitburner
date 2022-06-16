@@ -280,7 +280,9 @@ export class Graph {
      * All nodes of this graph, as an array.
      */
     nodes() {
-        return [...this.#adj.keys()];
+        const vertex = [...this.#adj.keys()];
+        vertex.sort();
+        return vertex;
     }
 
     /**
