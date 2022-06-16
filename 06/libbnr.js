@@ -1174,11 +1174,12 @@ export function sequence(n) {
 }
 
 /**
- * Determine the shortest path from the source to the target.
+ * Determine a shortest path from the source server to the target server
+ * in the network of world servers.
  *
  * @param ns The Netscript API.
- * @param source Start our path from this node.
- * @param target We want to reach this node.
+ * @param source Start our path from this server.
+ * @param target We want to reach this server.
  * @return An array of shortest path from source to target.  An
  *     empty array if the target is not reachable from the source.
  */
