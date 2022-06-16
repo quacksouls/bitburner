@@ -79,12 +79,12 @@ export class Graph {
         // Now insert the edge (u, v).
         // If the graph is directed, only need to add the edge (u, v).
         // If the graph is undirected, also must add the edge (v, u).
-        const u_neighbour = this.#adj.get(u);
+        const u_neighbour = this.neighbour(u);
         u_neighbour.push(v);
         this.#adj.set(u, u_neighbour);
         // Undirected graph.
         if (!this.#directed) {
-            const v_neighbour = this.#adj.get(v);
+            const v_neighbour = this.neighbour(v);
             v_neighbour.push(u);
             this.#adj.set(v, v_neighbour);
         }
@@ -116,8 +116,7 @@ export class Graph {
         if (this.#directed) {
             const edge = new Array();
             for (const u of this.nodes()) {
-                const neighbour = this.#adj.get(u);
-                for (const v of neighbour) {
+                for (const v of this.neighbour(u)) {
                     edge.push([u, v]);
                 }
             }
@@ -127,8 +126,7 @@ export class Graph {
         assert(!this.#directed);
         const edge = new Set();
         for (const u of this.nodes()) {
-            const neighbour = this.#adj.get(u);
-            for (const v of neighbour) {
+            for (const v of this.neighbour(u)) {
                 // Assume nodes to be comparable, i.e. we can compare
                 // the node values.  If each node is an integer, the
                 // nodes are comparable because there is an ordering
@@ -190,7 +188,7 @@ export class Graph {
             queue = queue.filter(s => s != u);
             // Consider the neighbours of u.  Each neighbour must
             // still be in the queue.
-            let neighbour = Array.from(this.#adj.get(u));
+            let neighbour = Array.from(this.neighbour(u));
             neighbour = neighbour.filter(s => queue.includes(s));
             for (const v of neighbour) {
                 const alt = dist.get(u) + weight;
@@ -221,13 +219,13 @@ export class Graph {
         }
         // Directed graph.
         if (this.#directed) {
-            const neighbour = this.#adj.get(u);
+            const neighbour = this.neighbour(u);
             return neighbour.includes(v);
         }
         // Undirected graph.
         assert(!this.#directed);
-        const u_neighbour = this.#adj.get(u);
-        const v_neighbour = this.#adj.get(v);
+        const u_neighbour = this.neighbour(u);
+        const v_neighbour = this.neighbour(v);
         if (u_neighbour.includes(v)) {
             assert(v_neighbour.includes(u));
             return HAS_EDGE;
@@ -265,6 +263,17 @@ export class Graph {
             }
         }
         return node;
+    }
+
+    /**
+     * The neighbours of a vertex.
+     *
+     * @param v A node of this graph.
+     * @return An array representing the neighbours of the given node.
+     */
+    neighbour(v) {
+        assert(this.has_node(v));
+        return this.#adj.get(v);
     }
 
     /**
