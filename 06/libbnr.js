@@ -1148,6 +1148,19 @@ export function seconds_to_milliseconds(time) {
 }
 
 /**
+ * A sequence of non-negative integers, starting from zero.  Each number
+ * in the sequence is one more than the previous number.
+ *
+ * @param n How many numbers in the sequence.  Must be positive.  If
+ *     n := 4, then our sequence is [0, 1, 2, 3].
+ * @return An array representing a sequence of n numbers starting from 0.
+ */
+export function sequence(n) {
+    assert(n > 0);
+    return Array(n).fill().map((_, index) => index);
+}
+
+/**
  * Determine the shortest path from the source to the target.
  *
  * @param ns The Netscript API.

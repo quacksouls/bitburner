@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert, Graph } from "./libbnr.js";
+import { all_nonnegative, assert, Graph, sequence } from "./libbnr.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -83,7 +83,7 @@ function to_graph(array) {
 
     // First, add the nodes of the directed graph because the graph might be
     // disconnected.  Each node ID is an index of the given array.
-    const node = Array(array.length).fill().map((_, index) => index);
+    const node = sequence(array.length);
     const graph = new Graph(directed);
     for (const v of node) {
         graph.add_node(v);
