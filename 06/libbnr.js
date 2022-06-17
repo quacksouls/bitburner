@@ -978,62 +978,6 @@ export async function copy_and_run(ns, server, target) {
 }
 
 /**
- * Use Dijkstra's algorithm to determine the shortest path from a given node
- * to all nodes in a network.
- *
- * @param ns The Netscript API.
- * @param source The source node.  All shortest paths must start from this node.
- * @return These two data structures:
- *     (1) A map of the shortest number of nodes in a path to a target node.
- *         Each path starts from the given source node.  For example, the map
- *         element A[i] means the shortest number of nodes in the path to node
- *         i.
- *     (2) A map of the node preceeding a given node, in a shortest path.  For
- *         example, the map element M[i] gives a node that directly connects to
- *         node i, where M[i] and i are nodes in a shortest path.
- */
-function dijkstra(ns, source) {
-    // A map of the shortest number of nodes in a path to a target node.
-    let dist = new Map();
-    // A map of the node preceeding a given node.
-    let prev = new Map();
-    // A queue of nodes to visit.
-    let queue = new Array();
-    // Initialization.
-    for (const v of network(ns)) {
-        dist.set(v, Infinity);
-        prev.set(v, undefined);
-        queue.push(v);
-    }
-    // The distance from the source node to itself is zero.
-    dist.set(source, 0);
-    prev.set(source, undefined);
-    queue.push(source);
-
-    // Search for shortest paths from the source node to other nodes.
-    // This is an unweighted network so the weight between a node
-    // and any of its neighbours is 1.
-    const weight = 1;
-    while (queue.length > 0) {
-        const u = minimumq(queue, dist);
-        queue = queue.filter(s => s != u);
-        // Consider the neighbours of u.  Each neighbour must still be in
-        // the queue.
-        let neighbour = [...filter_pserv(ns, ns.scan(u))];
-        neighbour = neighbour.filter(s => queue.includes(s));
-        for (const v of neighbour) {
-            const alt = dist.get(u) + weight;
-            // We have found a shorter path to v.
-            if (alt < dist.get(v)) {
-                dist.set(v, alt);
-                prev.set(v, u);
-            }
-        }
-    }
-    return [dist, prev];
-}
-
-/**
  * Remove bankrupt servers from a given array of servers.  A server is bankrupt
  * if the maximum amount of money it can hold is zero.
  *
@@ -1073,27 +1017,6 @@ export function filter_pserv(ns, server) {
 function is_bankrupt(ns, s) {
     const server = new Server(ns, s);
     return server.is_bankrupt();
-}
-
-/**
- * Choose the node i with minimum dist[i].  This is a simple implementation.
- * For better performance, the queue should be implemented as a minimum
- * priority queue.
- *
- * @param queue An array of nodes to visit.
- * @param dist A map of the shortest number of nodes in a path to a target node.
- * @return The node i such that dist[i] is minimal.
- */
-function minimumq(queue, dist) {
-    assert(queue.length > 0);
-    assert(dist.size > 0);
-    let node = queue[0];
-    for (const v of queue) {
-        if (dist.get(v) < dist.get(node)) {
-            node = v;
-        }
-    }
-    return node;
 }
 
 /**
