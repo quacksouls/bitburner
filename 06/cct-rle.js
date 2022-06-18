@@ -138,26 +138,19 @@ function rotate(string) {
  * string as input.  Encode it using run-length encoding with the minimum
  * possible output length.
  *
+ * Usage: run cct-rle.js [cct] [hostName]
+ *
  * @param ns
  */
 export async function main(ns) {
-    const string = [
-        "BANANA",
-        "aaaaabccc",
-        "aAaAaA",
-        "111112333",
-        "zzzzzzzzzzzzzzzzzzz"
-    ];
-    const result = [
-        "1B1A1N1A1N1A",
-        "5a1b3c",
-        "1a1A1a1A1a1A",
-        "511233",
-        "9z9z1z"
-    ];
-    for (let i = 0; i < string.length; i++) {
-        const e = rle(string[i]);
-        assert(e == result[i]);
-        ns.tprint(string[i] + " -> " + e);
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const string = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        rle(string), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
