@@ -32,11 +32,11 @@ function end_reachable(array) {
     const REACHABLE = true;
     const NOT_REACHABLE = !REACHABLE;
 
-    let i = 0;                // Current array index.
-    let index = new Array();  // Index of intermediary cells.
-    let jump = new Array();   // Jump length of array cell index[i].
+    let i = 0;                  // Current array index.
+    const index = new Array();  // Index of intermediary cells.
+    const jump = new Array();   // Jump length of array cell index[i].
     let reduce_distance = false;
-    let d;                    // The jump distance.
+    let d;                      // The jump distance.
     while (i < array.length) {
         if (reduce_distance) {
             // Decrease by 1 the jump distance.
