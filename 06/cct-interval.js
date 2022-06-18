@@ -114,26 +114,19 @@ function valid_interval(array) {
  * the first number is always less than the second (e.g. [1, 5]).  The
  * intervals must be returned in ASCENDING order.
  *
- * Edit this script to give the input array of intervals.
- *
- * Usage: run cct-interval.js
+ * Usage: run cct-interval.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const interval = [
-        [[1, 4], [20, 22], [3, 10], [25, 35], [35, 40], [39, 61], [5, 7],
-         [8, 16]],
-        [[1, 3], [8, 10], [2, 6], [10, 16]],
-        [[1, 3], [2, 4], [6, 8], [9, 10]],
-        [[6, 8], [1, 9], [2, 4], [4, 7]],
-        [[1, 3], [2, 6], [8, 10], [15, 18]],
-        [[1, 4], [4, 5]],
-        [[1, 5], [3, 7], [4, 6], [6, 8]]
-    ];
-    for (let i = 0; i < interval.length; i++) {
-        ns.tprint(i);
-        ns.tprint(interval[i]);
-        ns.tprint(merge(interval[i]));
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const array = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        merge(array), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
