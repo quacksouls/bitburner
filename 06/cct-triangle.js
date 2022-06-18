@@ -25,7 +25,7 @@ import { assert } from "./libbnr.js";
  */
 function all_paths(triangle) {
     let path = new Array();
-    // Every path starts the top of the triangle.
+    // Every path starts from the top of the triangle.
     path.push([[0, 0]]);
     for (let i = 1; i < triangle.length; i++) {
         const new_path = new Array();
@@ -272,80 +272,17 @@ function path_sum(triangle, path) {
  * 1, we have [3, 4].  From 3, we can move down to either 6 or 5, but we
  * cannot move from 3 to 7 because 7 is not directly below 3.
  *
+ * Usage: run cct-triangle.js [cct] [hostName]
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Test data.
-    const triangle = [
-        // Minimum sum: 11
-        // Path: [2,3,5,1]
-        [
-            [2],
-            [3, 4],
-            [6, 5, 7],
-            [4, 1, 8, 3]
-        ],
-        // Minimum sum: -10
-        // Path: [-10]
-        [
-            [-10]
-        ],
-        // Minimum sum: 31
-        // Path: [9,3,2,1,4,4,2,6]
-        [
-            [9],
-            [4, 3],
-            [8, 4, 2],
-            [7, 8, 7, 1],
-            [4, 6, 7, 9, 4],
-            [4, 7, 6, 3, 5, 4],
-            [8, 6, 5, 7, 5, 2, 6],
-            [6, 3, 9, 9, 9, 7, 6, 3]
-        ],
-        // Minimum sum: 10
-        // Path: [3,4,2,1]
-        [
-            [3],
-            [6, 4],
-            [5, 2, 7],
-            [9, 1, 8, 6]
-        ],
-        // Minimum sum: -1
-        // Path: [-1,3,-3]
-        [
-            [-1],
-            [2, 3],
-            [1, -1, -3]
-        ],
-        // From https://rosettacode.org/wiki/Maximum_triangle_path_sum
-        // Minimum sum: 475
-        // Path 1: [55,48,30,26,38,16,18,59,7,11,11,41,42,2,11,35,10,15]
-        // Path 2: [55,48,30,26,38,36,18,59,7,11,11,41,42,2,40,1,18,2]
-        [
-            [55],
-            [94, 48],
-            [95, 30, 96],
-            [77, 71, 26, 67],
-            [97, 13, 76, 38, 45],
-            [7, 36, 79, 16, 37, 68],
-            [48, 7, 9, 18, 70, 26, 6],
-            [18, 72, 79, 46, 59, 79, 29, 90],
-            [20, 76, 87, 11, 32, 7, 7, 49, 18],
-            [27, 83, 58, 35, 71, 11, 25, 57, 29, 85],
-            [14, 64, 36, 96, 27, 11, 58, 56, 92, 18, 55],
-            [2, 90, 3, 60, 48, 49, 41, 46, 33, 36, 47, 23],
-            [92, 50, 48, 2, 36, 59, 42, 79, 72, 20, 82, 77, 42],
-            [56, 78, 38, 80, 39, 75, 2, 71, 66, 66, 1, 3, 55, 72],
-            [44, 25, 67, 84, 71, 67, 11, 61, 40, 57, 58, 89, 40, 56, 36],
-            [85, 32, 25, 85, 57, 48, 84, 35, 47, 62, 17, 1, 1, 99, 89, 52],
-            [6, 71, 28, 75, 94, 48, 37, 10, 23, 51, 6, 48, 53, 18, 74, 98, 15],
-            [27, 2, 92, 23, 8, 71, 76, 84, 15, 52, 92, 63, 81, 10, 44, 10, 69, 93]
-        ]
-    ];
-    for (let i = 0; i < triangle.length; i++) {
-        const [path, sum] = descend(triangle[i]);
-        ns.tprint("Triangle: " + i);
-        ns.tprint(sum);
-        ns.tprint(path);
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const triangle = ns.codingcontract.getData(cct, host);
+    const [_, sum] = descend(triangle);
+    assert(ns.codingcontract.attempt(sum, cct, host));
 }
