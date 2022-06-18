@@ -284,5 +284,8 @@ export async function main(ns) {
     // Solve the coding contract.
     const triangle = ns.codingcontract.getData(cct, host);
     const [_, sum] = descend(triangle);
-    assert(ns.codingcontract.attempt(sum, cct, host));
+    const result = ns.codingcontract.attempt(
+        sum, cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
