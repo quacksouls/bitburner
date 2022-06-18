@@ -30,6 +30,9 @@ function ring(m, tlr, tlc, brr, brc) {
     // Left to right.
     let array = m[tlr];
     let elem = Array.from(array.slice(tlc, brc + 1));
+    if (tlr == brr) {
+        return elem;
+    }
     // Top to bottom.
     for (let r = tlr + 1; r <= brr; r++) {
         elem.push(m[r][brc]);
@@ -70,7 +73,7 @@ function spiral(m) {
     let brr = nrow - 1;  // bottom-right row
     let brc = ncol - 1;  // bottom-right column
     let elem = new Array();
-    while (tlr < brr) {
+    while (tlr <= brr) {
         elem = elem.concat(ring(m, tlr, tlc, brr, brc));
         tlr++;
         tlc++;
@@ -85,21 +88,19 @@ function spiral(m) {
  * matrix, return the elements of that matrix in clockwise spiral order.
  *
  * Output the elements of a 2-D matrix in spiral order, going in clockwise
- * direction.  Edit the script to write in the input matrix.
+ * direction.
+ *
+ * Usage: run cct-spiral.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const rectangle_mat = [
-        [0, 1, 2, 3, 4],
-        [5, 6, 7, 8, 9],
-        [10, 11, 12, 13, 14],
-        [15, 16, 17, 18, 19]];
-    const square_mat = [
-        [0, 1, 2, 3],
-        [4, 5, 6, 7],
-        [8, 9, 10, 11],
-        [12, 13, 14, 15]];
-    ns.tprint(spiral(rectangle_mat));
-    ns.tprint(spiral(square_mat));
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const matrix = ns.codingcontract.getData(cct, host);
+    const array = spiral(matrix);
+    assert(ns.codingcontract.attempt(array.toString(), cct, host));
 }
