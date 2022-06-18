@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { assert } from "./libbnr.js";
+
 /**
  * The number of ways to partition an integer using only integers from  a
  * given set.  Let n be our target sum and let our set of denominations be
@@ -114,11 +116,17 @@ let partition = (function () {
  *
  * https://algorithmist.com/wiki/Coin_change
  *
+ * Usage: run cct-sum2.js [cct] [hostName]
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // From a coding contract.
-    const n = 189;
-    const array = [1, 2, 3, 4, 7, 9, 10, 11, 12, 13, 14];
-    ns.tprint(partition(n, array.length, array));
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const [n, denomination] = ns.codingcontract.getData(cct, host);
+    const npart = partition(n, denomination.length, denomination);
+    assert(ns.codingcontract.attempt(npart, cct, host));
 }
