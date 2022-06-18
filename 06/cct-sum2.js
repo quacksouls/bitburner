@@ -40,17 +40,65 @@
  * @return The number of ways to partition n using only integers from
  *     the denomination array.
  */
-function partition(n, m, denom) {
-    // Base cases.
-    if ((n < 0) || (m <= 0)) {
-        return 0;
+let partition = (function () {
+    // A memoized version.
+    const cache = new Map();
+    function c(n, m, denom) {
+        // Base cases.
+        if ((n < 0) || (m <= 0)) {
+            return 0;
+        }
+        if (0 == n) {
+            return 1;
+        }
+        // Check the cache.
+        if (cache.has(n)) {
+            const map = cache.get(n);
+            if (map.has(m)) {
+                return map.get(m);
+            }
+        }
+        // Recursion.
+        // C(n - d_{m-1}, m)
+        const nd = n - denom[m - 1];
+        let pa;
+        if (cache.has(nd)) {
+            const map = cache.get(nd);
+            if (map.has(m)) {
+                pa = map.get(m);
+            } else {
+                pa = c(nd, m, denom);
+                map.set(m, pa);
+                cache.set(nd, map);
+            }
+        } else {
+            const map = new Map();
+            pa = c(nd, m, denom);
+            map.set(m, pa);
+            cache.set(nd, map);
+        }
+        // C(n, m-1)
+        const md = m - 1;
+        let pb;
+        if (cache.has(n)) {
+            const map = cache.get(n);
+            if (map.has(md)) {
+                pb = map.get(md);
+            } else {
+                pb = c(n, md, denom);
+                map.set(md, pb);
+                cache.set(n, map);
+            }
+        } else {
+            const map = new Map();
+            pb = c(n, md, denom);
+            map.set(md, pb);
+            cache.set(n, map);
+        }
+        return pa + pb;
     }
-    if (0 == n) {
-        return 1;
-    }
-    // Recursion.
-    return partition(n - denom[m - 1], m, denom) + partition(n, m - 1, denom);
-}
+    return c;
+})();
 
 /**
  * Total Ways to Sum II: You are given an array with two elements. The first
@@ -69,6 +117,7 @@ function partition(n, m, denom) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // From a coding contract.
     const n = 189;
     const array = [1, 2, 3, 4, 7, 9, 10, 11, 12, 13, 14];
     ns.tprint(partition(n, array.length, array));
