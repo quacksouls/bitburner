@@ -130,22 +130,19 @@ function to_graph(array) {
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
- * Usage: run cct-jump2.js
+ * Usage: run cct-jump2.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const array = [
-        [2, 3, 1, 1, 4],
-        [2, 4, 1, 2, 3, 2, 4, 2],
-        [3, 2, 1, 0, 4],
-        [1, 5, 2, 1, 0, 2, 0],
-        [5, 4, 3, 2, 1, 0, 0]
-    ];
-    for (let i = 0; i < array.length; i++) {
-        const [min_jump, path] = minimum_jump(array[i]);
-        ns.tprint("Array " + i);
-        ns.tprint(array[i]);
-        ns.tprint(min_jump + ": " + path);
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const array = ns.codingcontract.getData(cct, host);
+    const [min_jump, _] = minimum_jump(array);
+    const result = ns.codingcontract.attempt(
+        min_jump, cct, host, { returnReward: true });
+    ns.tprint(host + ": " + cct + ": " + result);
 }
