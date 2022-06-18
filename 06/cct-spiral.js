@@ -102,5 +102,8 @@ export async function main(ns) {
     // Solve the coding contract.
     const matrix = ns.codingcontract.getData(cct, host);
     const array = spiral(matrix);
-    assert(ns.codingcontract.attempt(array.toString(), cct, host));
+    const result = ns.codingcontract.attempt(
+        array.toString(), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
