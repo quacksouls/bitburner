@@ -69,6 +69,7 @@ function partition(n, m, denom) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    ns.tprint(partition(7, 3, [1, 2, 5]));
-    ns.tprint(partition(10, 4, [2, 5, 3, 6]));
+    const n = 189;
+    const array = [1, 2, 3, 4, 7, 9, 10, 11, 12, 13, 14];
+    ns.tprint(partition(n, array.length, array));
 }
