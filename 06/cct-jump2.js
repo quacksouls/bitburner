@@ -143,6 +143,7 @@ export async function main(ns) {
     const array = ns.codingcontract.getData(cct, host);
     const [min_jump, _] = minimum_jump(array);
     const result = ns.codingcontract.attempt(
-        min_jump, cct, host, { returnReward: true });
+        min_jump, cct, host, { returnReward: true }
+    );
     ns.tprint(host + ": " + cct + ": " + result);
 }
