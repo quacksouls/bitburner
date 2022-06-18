@@ -128,5 +128,8 @@ export async function main(ns) {
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
     const npart = partition(n, denomination.length, denomination);
-    assert(ns.codingcontract.attempt(npart, cct, host));
+    const result = ns.codingcontract.attempt(
+        npart, cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
