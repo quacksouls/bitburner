@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
-
 /**
  * The number of ways to partition an integer using only integers from  a
  * given set.  Let n be our target sum and let our set of denominations be
