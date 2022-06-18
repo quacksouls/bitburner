@@ -40,15 +40,48 @@ function bipartite(n, edge) {
     const graph = to_graph(n, edge);
     const BLUE = 0;
     const RED = 1;
-    const colour = colouring(graph, BLUE, RED);
-    if (0 == colour.length) {
-        return [];
+    const WHITE = -1;  // An uncoloured node is white.
+    let colour = new Array(n).fill(WHITE);
+    let v = choose_white_node(colour, WHITE);
+    // All root nodes of trees.  If the graph is disconnected, then it has
+    // a number of subgraphs each of which can be considered a tree by
+    // means of breath-first search.
+    const root = new Array();
+    // Colour all nodes of the graph.
+    while (v >= 0) {
+        root.push(v);
+        const col = colouring(graph, v, BLUE, RED, WHITE);
+        if (0 == col.length) {
+            return [];
+        }
+        colour = update_colouring(colour, col, WHITE);
+        v = choose_white_node(colour, WHITE);
     }
     // Determine whether the graph has a 2-colouring.
-    if (is_bipartite(graph, colour)) {
-        return colour;
+    for (const r of root) {
+        if (!is_bipartite(graph, r, colour)) {
+            return [];
+        }
     }
-    return [];
+    return colour;
+}
+
+/**
+ * Choose a white node from a graph.
+ *
+ * @param colour A colouring of the nodes of a graph, where colour[i]
+ *     represents the colour of node i.
+ * @param white The colour value for white.
+ * @return A node that is white.  Return -1 if each node has been coloured.
+ */
+function choose_white_node(colour, white) {
+    assert(colour.length > 0);
+    for (let i = 0; i < colour.length; i++) {
+        if (white == colour[i]) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 /**
@@ -56,21 +89,22 @@ function bipartite(n, edge) {
  * that the endpoints of an edge have different colours.
  *
  * @param graph We want to colour this graph.
+ * @param root Start the colouring from this node.
  * @param blue, red Colour the graph using these colours.
+ * @param white Each node that is not yet coloured is set to white.
  * @return An array a where the element a[i] represents the colour of node i
  *     in the graph.  An empty array if the graph cannot be coloured with the
  *     given colours such that the endpoints of each edge have different
  *     colours.  Even if the returned array is not empty, we must still test
  *     to see whether the graph has a 2-colouring.
  */
-function colouring(graph, blue, red) {
+function colouring(graph, root, blue, red, white) {
     // colour[i] := the colour of node i in the graph.
     const n = graph.nodes().length;
-    const colour = new Array(n).fill(-1);
+    const colour = new Array(n).fill(white);
     const BLUE = blue;
     const RED = red;
     // Colour the root node.
-    const root = 0;
     assert(graph.has_node(root));
     const stack = new Array();
     stack.push(root);
@@ -111,16 +145,16 @@ function colouring(graph, blue, red) {
  * Whether a graph is bipartite.
  *
  * @param graph Check this graph to see whether it is bipartite.
+ * @param root Start our breath-first search from this node.
  * @param colour A colouring of the nodes of the graph.
  * @return true if the graph is bipartite; false otherwise.
  */
-function is_bipartite(graph, colour) {
+function is_bipartite(graph, root, colour) {
     const BIPARTITE = true;
     const NOT_BIPARTITE = !BIPARTITE;
     // Mark the root node as visited.
     const stack = new Array();
     const visit = new Set();
-    const root = 0;
     stack.push(root);
     visit.add(root);
     // Use breath-first search to help us determine whether the
@@ -171,6 +205,34 @@ function to_graph(n, edge) {
 }
 
 /**
+ * Update the colouring array.
+ *
+ * @param prev_colour The current colouring of the nodes of a graph.
+ * @param new_colour The new colouring of the nodes.
+ * @param white The colour used to represent a node that is yet to be coloured.
+ * @return An array rerepsenting the updated colouring.
+ */
+function update_colouring(prev_colour, new_colour, white) {
+    assert(prev_colour.length > 0);
+    assert(prev_colour.length == new_colour.length);
+    const colour = Array.from(prev_colour);
+    for (let i = 0; i < prev_colour.length; i++) {
+        // Find a white node.
+        if (white != prev_colour[i]) {
+            continue;
+        }
+        if (white == new_colour[i]) {
+            continue;
+        }
+        // Previously node i was white, but now has been coloured.
+        assert(white == prev_colour[i]);
+        assert(white != new_colour[i]);
+        colour[i] = new_colour[i];
+    }
+    return colour;
+}
+
+/**
  * Proper 2-Coloring of a Graph: You are given data, representing a graph.
  * Note that "graph", as used here, refers to the field of graph theory and
  * has no relation to statistics or plotting.  The first element of the data
@@ -187,42 +249,18 @@ function to_graph(n, edge) {
  *
  * This problem is equivalent to determining whether a graph is bipartite.
  * From the problem description, we only need to deal with undirected graphs.
- * The input is an array of two elements [n, E], where n is the number of
- * nodes in the graph and E is the set of edges of the graph.
  *
- * Edit the script to give the number of nodes and the edge set.
+ * Usage: run cct-bipartite.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const node = 0;
-    const edge = 1;
-    // A small graph with a 2-colouring.
-    // colouring: [0, 0, 1, 1]
-    const grapha = [
-        4,
-        [[0, 2], [0, 3], [1, 2], [1, 3]]
-    ];
-    ns.tprint(bipartite(grapha[node], grapha[edge]));
-    // A tree with a 2-colouring.
-    // colouring: [0, 1, 1, 0, 0, 0, 0, 1]
-    const graphb = [
-        8,
-        [[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6], [4, 7]]
-    ];
-    ns.tprint(bipartite(graphb[node], graphb[edge]));
-    // A triangle graph with no 2-colouring.
-    // colouring: []
-    const graphc = [
-        3,
-        [[0, 1], [0, 2], [1, 2]]
-    ];
-    ns.tprint(bipartite(graphc[node], graphc[edge]));
-    // Another graph without a 2-colouring.
-    // colouring: []
-    const graphd = [
-        9,
-        [[0, 1], [1, 2], [1, 4], [2, 5], [3, 4], [3, 6], [4, 5], [4, 6], [4, 7], [5, 8]]
-    ];
-    ns.tprint(bipartite(graphd[node], graphd[edge]));
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // The number of nodes and the edge set.
+    const [n, edge] = ns.codingcontract.getData(cct, host);
+    const colour = bipartite(n, edge);
+    assert(ns.codingcontract.attempt(colour.toString(), cct, host));
 }
