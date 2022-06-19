@@ -190,7 +190,8 @@ function shortest_path(grid) {
     const graph = to_graph(grid);
     const a = pairing(0, 0);
     const b = pairing(grid.length - 1, grid[0].length - 1);
-    return graph.shortest_path(a, b);
+    const path = graph.shortest_path(a, b);
+    return to_path(path);
 }
 
 /**
@@ -244,6 +245,48 @@ function to_graph(grid) {
 }
 
 /**
+ * Convert from a graph-theoretic path to a path given in terms of the
+ * following directions.
+ *
+ * * U := move up by one step.
+ * * D := move down by one step.
+ * * L := move left by one step.
+ * * R := move right by one step.
+ *
+ * @param gpath An array of nodes giving a path in a graph.
+ * @return A string comprised of the characters U, D, L, R to indicate
+ *     a path.  An empty string if @gpath is an empty array.
+ */
+function to_path(gpath) {
+    if (0 == gpath.length) {
+        return "";
+    }
+    const path = new Array();
+    let [rold, cold] = unpairing(gpath[0]);
+    for (const v of gpath.slice(1, gpath.length)) {
+        const [r, c] = unpairing(v);
+        // Are we moving up?
+        if (rold - 1 == r) {
+            path.push("U");
+        }
+        // Are we moving down?
+        if (rold + 1 == r) {
+            path.push("D");
+        }
+        // Are we moving left?
+        if (cold - 1 == c) {
+            path.push("L");
+        }
+        // Are we moving right?
+        if (cold + 1 == c) {
+            path.push("R");
+        }
+        [rold, cold] = [r, c];
+    }
+    return path.join("");
+}
+
+/**
  * Use the inverse of the Cantor pairing function to break a non-negative
  * integer into a pair of coordinates (x, y).
  *
@@ -252,9 +295,9 @@ function to_graph(grid) {
  */
 function unpairing(z) {
     assert(z >= 0);
-    const numer = Math.sqrt(8*z + 1) - 1;
+    const numer = Math.sqrt(8 * z + 1) - 1;
     const w = Math.floor(numer / 2);
-    const t = ((w**2) + w) / 2;
+    const t = ((w ** 2) + w) / 2;
     const y = z - t;
     const x = w - y;
     return [x, y];
@@ -267,57 +310,26 @@ function unpairing(z) {
  * initially positioned in top-left corner of that grid and that you are trying
  * to reach the bottom-right corner.  In each step, you may move up, down, left
  * or right.  Furthermore, you cannot move onto spaces which have obstacles.
- * Determine if paths exist from start to destination, and find the shortest
- * one.
+ * Determine a shortest path from start to finish, if one exists. The answer
+ * should be given as a string of UDLR characters, indicating the moves along
+ * the path.
  *
- * Edit the script to give the grid layout.
+ * NOTE: If there are multiple equally short paths, any of them is accepted as
+ * answer.  If there are no paths, the answer should be an empty string.
+ *
+ * Usage: run cct-grid3.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const map_small = [
-        [0, 1, 0, 0, 0],
-        [0, 0, 0, 1, 0]
-    ];
-    ns.tprint("Map");
-    for (let i = 0; i < map_small.length; i++) {
-        ns.tprint(map_small[i]);
-    }
-    ns.tprint("Path");
-    for (const n of shortest_path(map_small)) {
-        ns.tprint(unpairing(n));
-    }
-
-    const map_large = [
-        [0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0]
-    ];
-    ns.tprint("Map");
-    for (let i = 0; i < map_large.length; i++) {
-        ns.tprint(map_large[i]);
-    }
-    ns.tprint("Path");
-    for (const n of shortest_path(map_large)) {
-        ns.tprint(unpairing(n));
-    }
-
-    // Cannot reach the bottom-right in this map.
-    const map_no = [
-        [0, 0, 0, 1, 0],
-        [0, 0, 0, 1, 0],
-        [0, 0, 0, 1, 0],
-        [0, 0, 0, 1, 0]
-    ];
-    ns.tprint("Map");
-    for (let i = 0; i < map_no.length; i++) {
-        ns.tprint(map_no[i]);
-    }
-    ns.tprint("Path: none");
-    const path = shortest_path(map_no);
-    assert(0 == path.length);
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const grid = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        shortest_path(grid), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
