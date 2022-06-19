@@ -47,20 +47,19 @@ function subarray_sum(array) {
  *
  * https://en.wikipedia.org/wiki/Maximum_subarray_problem
  *
- * Usage: run cct-subarray.js
+ * Usage: run cct-sum.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const array = [
-        [-2, 1, -3, 4, -1, 2, 1, -5, 4],
-        [1],
-        [5, 4, -1, 7, 8],
-        [-3, -4, 5, -1, 2, -4, 6, -1],
-        [-1, -2, -3, -4, -5, -6],
-        [1, 2, 3, 4, 5, 6]];
-    for (const arr of array) {
-        const sum = subarray_sum(arr);
-        ns.tprint(sum);
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const array = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        subarray_sum(array), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
