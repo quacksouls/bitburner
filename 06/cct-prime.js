@@ -66,29 +66,16 @@ function is_even(n) {
 /**
  * The largest prime factor of a positive integer.
  *
- * @param ns The Netscript API.
  * @param n A positive integer greater than 1.
  * @return The largest prime factor of the given integer.
  *     -1 if there is an error.
  */
-function max_prime_factor(ns, n) {
-    // Some sanity checks.
-    const ERROR = -1;
-    try {
-        assert(n > 1);
-    } catch {
-        ns.tprint("Must provide an integer greater than 1.");
-        return ERROR;
-    }
-    try {
-        assert(Number.isSafeInteger(n));
-    } catch {
-        ns.tprint(n + " is too large.");
-        return ERROR;
-    }
+function max_prime_factor(n) {
+    // Sanity checks.
+    assert(n > 1);
+    assert(Number.isSafeInteger(n));
     // Determine the largest prime factor.
     const pfactor = prime_factorization(n);
-    ns.tprint(pfactor);
     const max_factor = pfactor.reduce(function (x, y) {
         return Math.max(x, y);
     }, -Infinity);
@@ -144,23 +131,19 @@ function prime_factorization(n) {
  *
  * https://en.wikipedia.org/wiki/Integer_factorization
  *
- * Usage: run cct-prime.js [number]
- * Example: run cct-prime.js 42
+ * Usage: run cct-sum.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Sanity checks.
-    const error_msg = "Must provide a positive integer greater than 1."
-    if (ns.args.length < 1) {
-        ns.tprint(error_msg);
-        ns.exit();
-    }
-    const n = Math.floor(ns.args[0]);
-    const p = max_prime_factor(ns, n);
-    if (p < 0) {
-        ns.tprint("Unexpected error.");
-        ns.exit();
-    }
-    ns.tprint(p);
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const n = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        max_prime_factor(n), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
