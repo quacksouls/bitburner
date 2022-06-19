@@ -23,14 +23,14 @@ import { all_nonnegative, assert } from "./libbnr.js";
  * jump distance.
  *
  * @param array An array of integers.  Cannot be empty array.
- * @return true if starting from the first array cell we can reach
- *     the last array cell; false otherwise.
+ * @return 1 if starting from the first array cell we can reach
+ *     the last array cell; 0 otherwise.
  */
 function end_reachable(array) {
     // Sanity check.
     assert(all_nonnegative(array));
-    const REACHABLE = true;
-    const NOT_REACHABLE = !REACHABLE;
+    const REACHABLE = 1;
+    const NOT_REACHABLE = 0;
 
     let i = 0;                  // Current array index.
     const index = new Array();  // Index of intermediary cells.
@@ -113,17 +113,21 @@ function is_last_cell(i, array) {
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
+ * Submit your answer as 1 (meaning true) or 0 (meaning false).
+ *
+ * Usage: run cct-jump.js [cct] [hostName]
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const array = [
-        [2, 3, 1, 1, 4],
-        [2, 4, 1, 2, 3, 2, 4, 2],
-        [3, 2, 1, 0, 4],
-        [1, 5, 2, 1, 0, 2, 0],
-        [5, 4, 3, 2, 1, 0, 0]
-    ];
-    for (let i = 0; i < array.length; i++) {
-        ns.tprint(end_reachable(array[i]));
-    }
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const array = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        end_reachable(array), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
