@@ -96,12 +96,21 @@ function unique_paths(n, k) {
  *
  * See the function unique_paths() for more details.
  *
+ * Usage: run cct-sum.js [cct] [hostName]
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const row = 3;
-    const column = 7;
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const [row, column] = ns.codingcontract.getData(cct, host);
     const k = column - 1;
     const n = (row - 1) + k;
-    ns.tprint(unique_paths(n, k));
+    const result = ns.codingcontract.attempt(
+        unique_paths(n, k), cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
