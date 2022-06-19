@@ -75,9 +75,19 @@ let partition = (function () {
  *
  * Use Euler's pentagonal number theorem.
  *
+ * Usage: run cct-sum.js [cct] [hostName]
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const n = Math.floor(ns.args[0]);
-    ns.tprint(partition(n) - 1);
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const n = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        partition(n) - 1, cct, host, { returnReward: true }
+    );
+    ns.tprint(host + ": " + cct + ": " + result);
 }
