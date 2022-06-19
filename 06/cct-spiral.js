@@ -28,25 +28,36 @@ import { assert } from "./libbnr.js";
  */
 function ring(m, tlr, tlc, brr, brc) {
     // Left to right.
-    let array = m[tlr];
-    let elem = Array.from(array.slice(tlc, brc + 1));
-    if (tlr == brr) {
-        return elem;
+    let array = new Array();
+    let elem = new Array();
+    if (tlc <= brc) {
+        array = m[tlr];
+        elem = Array.from(array.slice(tlc, brc + 1));
     }
     // Top to bottom.
-    for (let r = tlr + 1; r <= brr; r++) {
-        elem.push(m[r][brc]);
+    if (tlr <= brr) {
+        for (let r = tlr + 1; r <= brr; r++) {
+            elem.push(m[r][brc]);
+        }
+    }
+    // Do we have a matrix of one column?
+    if (tlc == brc) {
+        return elem;
     }
     // Right to left.
-    array = m[brr];
-    let arr = Array.from(array.slice(tlc, brc));
-    elem = elem.concat(arr.reverse());
-    // Bottom to top.
-    arr = new Array();
-    for (let r = tlr + 1; r < brr; r++) {
-        arr.push(m[r][tlc]);
+    if (tlc < brc) {
+        array = m[brr];
+        const arr = Array.from(array.slice(tlc, brc));
+        elem = elem.concat(arr.reverse());
     }
-    elem = elem.concat(arr.reverse());
+    // Bottom to top.
+    if (tlr < brr) {
+        const arr = new Array();
+        for (let r = tlr + 1; r < brr; r++) {
+            arr.push(m[r][tlc]);
+        }
+        elem = elem.concat(arr.reverse());
+    }
     return elem;
 }
 
@@ -73,7 +84,7 @@ function spiral(m) {
     let brr = nrow - 1;  // bottom-right row
     let brc = ncol - 1;  // bottom-right column
     let elem = new Array();
-    while (tlr <= brr) {
+    while ((tlr <= brr) && (tlc <= brc)) {
         elem = elem.concat(ring(m, tlr, tlc, brr, brc));
         tlr++;
         tlc++;
@@ -101,9 +112,8 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const matrix = ns.codingcontract.getData(cct, host);
-    const array = spiral(matrix);
     const result = ns.codingcontract.attempt(
-        array.toString(), cct, host, { returnReward: true }
+        spiral(matrix), cct, host, { returnReward: true }
     );
     ns.tprint(host + ": " + cct + ": " + result);
 }
