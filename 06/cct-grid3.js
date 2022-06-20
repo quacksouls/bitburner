@@ -304,15 +304,15 @@ function unpairing(z) {
 }
 
 /**
- * Shortest Path in a Grid: You are given a 2D array of numbers (array of array
- * of numbers) representing a grid.  The 2D array contains 1's and 0's, where 1
+ * Shortest Path in a Grid: You are given a 2D array of numbers (array of
+ * arrays) representing a grid.  The 2D array contains 1s and 0s, where 1
  * represents an obstacle and 0 represents a free space.  Assume you are
- * initially positioned in top-left corner of that grid and that you are trying
- * to reach the bottom-right corner.  In each step, you may move up, down, left
- * or right.  Furthermore, you cannot move onto spaces which have obstacles.
- * Determine a shortest path from start to finish, if one exists. The answer
- * should be given as a string of UDLR characters, indicating the moves along
- * the path.
+ * initially positioned at the top-left square of the grid and you are trying
+ * to reach the bottom-right square.  In each step, you may move up, down,
+ * left or right.  Furthermore, you cannot move onto spaces that have
+ * obstacles.  Determine a shortest path from start to finish, if one exists.
+ * The answer should be given as a string of UDLR characters, indicating the
+ * moves along the path.
  *
  * NOTE: If there are multiple equally short paths, any of them is accepted as
  * answer.  If there are no paths, the answer should be an empty string.
