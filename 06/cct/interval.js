@@ -114,7 +114,7 @@ function valid_interval(array) {
  * the first number is always less than the second (e.g. [1, 5]).  The
  * intervals must be returned in ASCENDING order.
  *
- * Usage: run cct-interval.js [cct] [hostName]
+ * Usage: run interval.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
