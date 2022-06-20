@@ -15,6 +15,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { assert } from "./libbnr.js";
+
+/**
+ * The number of ways to change n using coins in the given set of
+ * denominations.
+ *
+ * @param n We want to partition this number.  Must be a positive integer.
+ * @param denom The array of denominations.  An array of positive integers to
+ *     use to partition n.  Elements of the array are unique.
+ * @return The number of ways to change n using the given denominations.
+ */
+function coin_change(n, denom) {
+    assert(n > 0);
+    assert(denom.length > 0);
+    // Sort the array of denominations in ascending order.
+    const denomination = Array.from(new Set(denom));
+    denomination.sort(
+        function(a, b) {
+            return a - b;
+        }
+    );
+    // Remove any coin value higher than n.
+    let i = denomination.length - 1;
+    while (n < denomination[i]) {
+        denomination.pop();
+        i = denomination.length - 1;
+    }
+    return partition(n, denomination.length, denomination);
+}
+
 /**
  * The number of ways to partition an integer using only integers from  a
  * given set.  Let n be our target sum and let our set of denominations be
@@ -35,8 +65,9 @@
  *
  * @param n We want to partition this number.  Must be a positive integer.
  * @param m Use the first m values in the array of denominations.
- * @param denom An array of positive integers to use to partition n.
- *     Elements of the array are unique.  The array of denominations.
+ * @param denom The array of denominations.  An array of positive integers to
+ *     use to partition n.  Elements of the array are unique and the array
+ *     is sorted in ascending order.
  * @return The number of ways to partition n using only integers from
  *     the denomination array.
  */
@@ -114,18 +145,21 @@ let partition = (function () {
  *
  * https://algorithmist.com/wiki/Coin_change
  *
- * Usage: run cct-sum2.js [cct] [hostName]
+ * Usage: run sum2.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // FIXME: Fail with this test case:
+    // [12,[1,2,3,4,5,6,7,8,9,10,11,12]]
+
     // The file name of the coding contract.
     const cct = ns.args[0];
     // The host name of the server where the coding contract is located.
     const host = ns.args[1];
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
-    const npart = partition(n, denomination.length, denomination);
+    const npart = coin_change(n, denomination);
     const result = ns.codingcontract.attempt(
         npart, cct, host, { returnReward: true }
     );
