@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, count_one, parity_position } from "./libbnr.js";
+import { array_sum, assert, count_one, parity_position } from "./libbnr.js";
 
 /**
  * Use Hamming code to encode a string of bits.
@@ -122,12 +122,7 @@ function set_parity(msg, nparity) {
     // Count the number of 1s in the encoded message, excluding the
     // very first position.
     const _msga = _msg.slice(1, _msg.length);
-    const init_value = 0;
-    const n1 = _msga.reduce(
-        function (sum, current) {
-            return sum + current;
-        }, init_value
-    );
+    const n1 = array_sum(_msga);
     // Set the overall parity bit.
     _msg[0] = n1 % 2;
     return _msg;

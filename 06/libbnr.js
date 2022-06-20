@@ -855,6 +855,23 @@ export function all_nonnegative(array) {
 }
 
 /**
+ * Sum the elements of an array.
+ *
+ * @param array We want to add the elements of this array.
+ * @return The sum of the elements in the given array.
+ */
+export function array_sum(array) {
+    assert(array.length > 0);
+    const init_value = 0;
+    const total = array.reduce(
+        function (sum, current) {
+            return sum + current;
+        }, init_value
+    );
+    return total;
+}
+
+/**
  * A function for assertion.
  *
  * @param cond Assert that this condition is true.
