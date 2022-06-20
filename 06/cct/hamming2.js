@@ -147,7 +147,7 @@ function to_integer(msg, nparity) {
     // Index 1 is reserved for a redundant bit, so is index 2.  Therefore, we
     // start at index 3.
     const pos = new Set(parity_position(nparity));
-    let data = new Array();
+    const data = new Array();
     for (let i = 3; i < msg.length; i++) {
         if (pos.has(i)) {
             continue;
