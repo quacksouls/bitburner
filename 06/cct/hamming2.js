@@ -97,6 +97,7 @@ function num_parity(msg) {
         i++;
         pos = 2 ** i;
     }
+    assert(i == Math.ceil(Math.log2(msg.length)));
     return i;
 }
 
