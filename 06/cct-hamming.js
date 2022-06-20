@@ -15,36 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, parity_position } from "./libbnr.js";
-
-/**
- * Count the total occurrence of 1 in a bit string.  This function does not
- * necessarily count all 1s in a bit string.  Some positions can be skipped.
- *
- * @param msg A bit string, representing an incomplete message.  The location
- *     of each parity bit has been filled with rubbish.
- * @param p The position of a parity (or redundant) bit.  Its value is always
- *     a power of 2.  We start counting from this position in the bit string.
- *     The value of @p also tells us how many consecutive positions to skip.
- * @return The number of 1s in the given bit string, while skipping over
- *     some positions.
- */
-function count_one(msg, p) {
-    assert(msg.length > 0);
-    assert(p > 0);
-    let n1 = 0;
-    let i = p;
-    const skip = 2 ** p;
-    while (i < msg.length) {
-        for (let j = i; j < i + p; j++) {
-            if (1 == msg[j]) {
-                n1++;
-            }
-        }
-        i += skip;
-    }
-    return n1;
-}
+import { assert, count_one, parity_position } from "./libbnr.js";
 
 /**
  * Use Hamming code to encode a string of bits.
