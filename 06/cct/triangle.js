@@ -272,7 +272,7 @@ function path_sum(triangle, path) {
  * 1, we have [3, 4].  From 3, we can move down to either 6 or 5, but we
  * cannot move from 3 to 7 because 7 is not directly below 3.
  *
- * Usage: run cct-triangle.js [cct] [hostName]
+ * Usage: run triangle.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
