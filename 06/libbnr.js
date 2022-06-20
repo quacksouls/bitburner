@@ -1071,6 +1071,27 @@ export function network(ns) {
 }
 
 /**
+ * The positions (or indices) where the parity bits are placed in a bit string
+ * that has been encoded using Hamming code.  These parity bits are also known
+ * as redundant bits to distinguish them from the overall parity bit placed at
+ * index 0 in the encoded bit string.
+ *
+ * @param p The number of parity bits.
+ * @return An array, where each element represents the position or index of a
+ *     parity bit.  These parity bits are also called redundant bits.
+ *     This array does not include the position of the overall parity
+ *     bit, which is assumed to be at index 0 in the encoded message.
+ */
+export function parity_position(p) {
+    assert(p > 0);
+    const array = new Array();
+    for (let i = 0; i < p; i++) {
+        array.push(2 ** i);
+    }
+    return array;
+}
+
+/**
  * Convert the amount of time in seconds to milliseconds.
  *
  * @param time The amount of time in seconds.  Must be a positive whole number.

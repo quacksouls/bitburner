@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, parity_position } from "./libbnr.js";
 
 /**
  * Count the total occurrence of 1 in a bit string.  This function does not
@@ -124,25 +124,6 @@ function num_parity(data) {
 }
 
 /**
- * The positions where the parity bits are to be placed.  These
- * parity bits are also known as redundant bits.
- *
- * @param p The number of parity bits.
- * @return An array, where each element represents the position of a
- *     parity bit.  These parity bits are also called redundant bits.
- *     This array does not include the position of the overall parity
- *     bit, which is assumed to be at position 0 in the encoded message.
- */
-function parity_position(p) {
-    assert(p > 0);
-    const array = new Array();
-    for (let i = 0; i < p; i++) {
-        array.push(2 ** i);
-    }
-    return array;
-}
-
-/**
  * Set each parity bit.  The encoded message has a number of locations
  * that are reserved for parity bits.  We set each of these location to
  * 1 or 0.
@@ -206,5 +187,5 @@ function set_parity(msg, nparity) {
  */
 export async function main(ns) {
     const n = 21;
-    ns.tprint(encode(n));
+    ns.tprint(encode(n).join(""));
 }
