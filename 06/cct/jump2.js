@@ -121,16 +121,16 @@ function to_graph(array) {
  * reach the end, then the answer should be 0.
  *
  * This is similar to Array Jumping Game.  The only difference is that you
- * must determine the smallest number of jumps to each the end of the array.
- * Edit the script to give it the input array.  As with Array Jumping Game,
- * we make various assumptions to simplify the problem:
+ * must determine the smallest number of jumps to reach the end of the array.
+ * As with Array Jumping Game, we make various assumptions to simplify the
+ * problem:
  *
  * (1) Each integer in the array is non-negative.
  * (2) We start from the zeroth index of the array, i.e. the first element.
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
- * Usage: run cct-jump2.js [cct] [hostName]
+ * Usage: run jump2.js [cct] [hostName]
  *
  * @param ns The Netscript API.
  */
