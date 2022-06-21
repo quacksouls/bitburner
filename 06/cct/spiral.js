@@ -34,8 +34,12 @@ function ring(m, tlr, tlc, brr, brc) {
         array = m[tlr];
         elem = Array.from(array.slice(tlc, brc + 1));
     }
+    // Is this a matrix of one row?
+    if (tlr == brr) {
+        return elem;
+    }
     // Top to bottom.
-    if (tlr <= brr) {
+    if (tlr < brr) {
         for (let r = tlr + 1; r <= brr; r++) {
             elem.push(m[r][brc]);
         }
