@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * The Burrows-Wheeler transform rearranges a string of characters into
@@ -152,5 +152,12 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         rle(string), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/rle.txt";
+        await log_cct_failure(ns, log, cct, host, string);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
