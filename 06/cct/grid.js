@@ -96,7 +96,7 @@ function unique_paths(n, k) {
  *
  * See the function unique_paths() for more details.
  *
- * Usage: run cct-grid.js [cct] [hostName]
+ * Usage: run grid.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
