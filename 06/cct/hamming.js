@@ -21,7 +21,7 @@ import { array_sum, assert, count_one, parity_position } from "./libbnr.js";
  * Use Hamming code to encode a string of bits.
  *
  * @param n A positive integer.  This is our data.
- * @return The Hamming encoding of the given data.
+ * @return A bit string representing the Hamming encoding of the given data.
  */
 function encode(n) {
     assert(n > 0);
@@ -37,7 +37,7 @@ function encode(n) {
     const TRASH = -1;
     let msg = lay_data_bits(data, nparity, TRASH);
     msg = set_parity(msg, nparity);
-    return msg;
+    return msg.join("");
 }
 
 /**
@@ -45,7 +45,7 @@ function encode(n) {
  * is reserved for the overall parity bit.  Position 2^i in the message is
  * reserved for a parity (or redundant) bit, where i = 0, 1, 2, ...
  *
- * @param An array of bits, representing the bit string of the data.
+ * @param data An array of bits, representing the bit string of the data.
  * @param p The number of parity bits in the encoded message.
  * @param trash Rubbish placed at positions not occupied by a data bit.
  * @return An incomplete bit string, where only the data bits are placed.
@@ -141,13 +141,17 @@ function set_parity(msg, nparity) {
  * to the binary value, i.e. the binary value has to be encoded as is.
  *
  * This is the problem of using Hamming code to encode a binary string, i.e.
- * a string of bits.  Further details here:
+ * a string of bits.  The Hamming code is extended with an additional overall
+ * parity bit, which is located at index 0 in the encoded bit string.  Further
+ * details here:
  *
  * https://en.wikipedia.org/wiki/Hamming_code
  * https://medium.com/swlh/hamming-code-generation-correction-with-explanations-using-c-codes-38e700493280
  * https://users.cs.fiu.edu/~downeyt/cop3402/hamming.html
  * https://www.youtube.com/watch?v=X8jsijhllIA
  * https://harryli0088.github.io/hamming-code/
+ *
+ * Usage: run hamming.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
