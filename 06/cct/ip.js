@@ -63,7 +63,7 @@ function all_ip(string) {
  * Extract 4 octets from a digit string.
  *
  * @param string A string of decimal digits.
- * @param i, j, k The boundary if each octet, where the boundary is with
+ * @param i, j, k The boundary of each octet, where the boundary is with
  *     respect to the digit string.  Going from left to right in the digit
  *     string, the first octet starts from index 0 and ends at index i - 1,
  *     inclusive.  The range of indices of the first octet can be written as
