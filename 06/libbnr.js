@@ -1004,7 +1004,10 @@ export async function copy_and_run(ns, server, target) {
  *     filled with rubbish.
  * @param p The position of a parity (or redundant) bit.  Its value is always
  *     a power of 2.  We start counting from this position in the bit string.
- *     The value of @p also tells us how many consecutive positions to skip.
+ *     The value of p also tells us how many consecutive positions to skip.
+ *     In Hamming code, when checking parity we check p consecutive positions
+ *     and skip p consecutive positions, giving us a window of 2p consecutive
+ *     positions.  To reach the next window, we should skip 2p positions.
  * @return The number of 1s in the given bit string, while skipping over
  *     some positions.
  */
