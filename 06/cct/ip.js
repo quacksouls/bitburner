@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * All valid IPv4 addresses from a string of digits.
@@ -146,7 +146,7 @@ function is_valid_octet(octet) {
  * From the problem description, we only need to consider IPv4 addresses.
  * Don't need to handle IPv6 addresses.
  *
- * Usage: run cct-ip.js [cct] [hostName]
+ * Usage: run ip.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -160,5 +160,12 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         all_ip(string), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/ip.txt";
+        await log_cct_failure(ns, log, cct, host, string);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
