@@ -1013,7 +1013,7 @@ export function count_one(msg, p) {
     assert(p > 0);
     let n1 = 0;
     let i = p;
-    const skip = 2 ** p;
+    const skip = 2 * p;
     while (i < msg.length) {
         for (let j = i; j < i + p; j++) {
             if (1 == msg[j]) {
