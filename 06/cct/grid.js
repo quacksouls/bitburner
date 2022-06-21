@@ -82,7 +82,15 @@ function unique_paths(n, k) {
     const mink = Math.min(k, n - k);
     let result = 1;
     for (let i = 0; i < mink; i++) {
-        result *= (n - i) / (i + 1);
+        // This line of code can result in a floating point number:
+        //
+        // result *= (n - 1) / (i + 1);
+        //
+        // because (n - 1) / (i + 1) is not necessarily an integer.
+        // Safer to first calculate the product
+        //
+        // result * (n - i)
+        result = (result * (n - i)) / (i + 1);
     }
     return result;
 }
