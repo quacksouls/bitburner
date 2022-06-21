@@ -156,6 +156,21 @@ function set_parity(msg, nparity) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const n = 21;
-    ns.tprint(encode(n).join(""));
+    // The file name of the coding contract.
+    const cct = ns.args[0];
+    // The host name of the server where the coding contract is located.
+    const host = ns.args[1];
+    // Solve the coding contract.
+    const n = ns.codingcontract.getData(cct, host);
+    const result = ns.codingcontract.attempt(
+        encode(n), cct, host, { returnReward: true }
+    );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/hamming.txt";
+        await log_cct_failure(ns, log, cct, host, n);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
+    ns.tprint(host + ": " + cct + ": " + result);
 }
