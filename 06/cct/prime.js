@@ -131,7 +131,7 @@ function prime_factorization(n) {
  *
  * https://en.wikipedia.org/wiki/Integer_factorization
  *
- * Usage: run cct-sum.js [cct] [hostName]
+ * Usage: run prime.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
