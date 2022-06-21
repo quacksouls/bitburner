@@ -138,7 +138,7 @@ function rotate(string) {
  * string as input.  Encode it using run-length encoding with the minimum
  * possible output length.
  *
- * Usage: run cct-rle.js [cct] [hostName]
+ * Usage: run rle.js [cct] [hostname]
  *
  * @param ns
  */
