@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * The number of unique paths from top-left to bottom-right in an m x n
@@ -112,5 +112,13 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         unique_paths(n, k), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/grid.txt";
+        const data = "[" + row + ", " + column + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
