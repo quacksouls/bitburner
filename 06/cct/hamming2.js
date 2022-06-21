@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { array_sum, assert, count_one, parity_position } from "./libbnr.js";
+import {
+    array_sum, assert, count_one, log_cct_failure, parity_position
+} from "./libbnr.js";
 
 /**
  * Check the parity bits.
@@ -172,7 +174,7 @@ function to_integer(msg, nparity) {
  * Note 2: Index 0 is an overall parity bit.
  * Note 3: There's a ~55% chance of having an altered bit.
  *
- * Usage: run hamming2.js [cct] [hostName]
+ * Usage: run hamming2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -186,5 +188,12 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         decode(msg), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/hamming2.txt";
+        await log_cct_failure(ns, log, cct, host, msg);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
