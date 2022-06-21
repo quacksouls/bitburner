@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Graph } from "./libbnr.js";
+import { assert, Graph, log_cct_failure } from "./libbnr.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.
@@ -331,5 +331,12 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         shortest_path(grid), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/grid3.txt";
+        await log_cct_failure(ns, log, cct, host, grid);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }

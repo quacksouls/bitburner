@@ -1068,6 +1068,25 @@ function is_bankrupt(ns, s) {
 }
 
 /**
+ * Log a failure when attempting to solve a coding contract.
+ *
+ * @param ns The Netscript API.
+ * @param fname Write our log to this file.  Must be a text file with
+ *     file extension ".txt".
+ * @param cct The file name of the coding contract.
+ * @param host The hostname of the server where the coding contract is located.
+ * @param data The data used for solving the coding contract.
+ */
+export async function log_cct_failure(ns, fname, cct, host, data) {
+    const append = "a";
+    const newline = "\n";
+    const date = new Date(Date.now());
+    await ns.write(fname, date.toISOString(), append);
+    await ns.write(fname, ", " + host + ", " + cct + newline, append);
+    await ns.write(fname, data + newline, append);
+}
+
+/**
  * Convert the amount of time in minutes to milliseconds.
  *
  * @param time The amount of time in minutes.  Must be a positive whole number.
