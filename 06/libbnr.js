@@ -1090,6 +1090,23 @@ export async function log_cct_failure(ns, fname, cct, host, data) {
 }
 
 /**
+ * Format a matrix as a string.
+ *
+ * @param mat A matrix, i.e. an array of arrays.
+ * @return The given matrix as a string.
+ */
+export function matrix_to_string(mat) {
+    let string = "";
+    const delim = ", ";
+    for (let i = 0; i < mat.length; i++) {
+        string += "[" + mat[i] + "]" + delim;
+    }
+    string = string.slice(0, string.length - delim.length);
+    string = "[" + string + "]";
+    return string;
+}
+
+/**
  * Convert the amount of time in minutes to milliseconds.
  *
  * @param time The amount of time in minutes.  Must be a positive whole number.

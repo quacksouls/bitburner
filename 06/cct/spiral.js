@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "./libbnr.js";
+import { assert, log_cct_failure, matrix_to_string } from "./libbnr.js";
 
 /**
  * Trace out a ring inside a 2-D matrix.
@@ -122,14 +122,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/spiral.txt";
-        // Format the matrix as a string.
-        let data = "";
-        const delim = ", ";
-        for (let i = 0; i < matrix.length; i++) {
-            data += "[" + matrix[i] + "]" + delim;
-        }
-        data = data.slice(0, data.length - delim.length);
-        data = "[" + data + "]";
+        const data = matrix_to_string(matrix);
         await log_cct_failure(ns, log, cct, host, data);
         ns.tprint(host + ": " + cct + ": FAILURE");
         return;
