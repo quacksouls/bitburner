@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { array_sum, assert, count_one, parity_position } from "./libbnr.js";
+import {
+    array_sum, assert, count_one, log_cct_failure, parity_position
+} from "./libbnr.js";
 
 /**
  * Use Hamming code to encode a string of bits.
