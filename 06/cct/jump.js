@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert } from "./libbnr.js";
+import { all_nonnegative, assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.
@@ -131,5 +131,13 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         end_reachable(array), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/jump.txt";
+        const data = "[" + array.join(",") + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
