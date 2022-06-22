@@ -21,8 +21,8 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * Obtain a factor of a positive integer.
  *
  * @param n A positive integer greater than 1.
- * @return A factor of n.  If 1 and n are the only factors of n,
- *     then n is prime so return n.
+ * @return A factor of n.  If 1 and n are the only factors of n, then n is
+ *     prime so return n.
  */
 function factor(n) {
     assert(n > 1);
@@ -31,9 +31,11 @@ function factor(n) {
     if (is_even(n)) {
         return 2;
     }
-    // Use trial division to find a factor of n.  Any factor of
-    // n is at most sqrt(n).  Divide n by odd integers between
-    // 3 and sqrt(n), inclusive.
+    // Use trial division to find a factor of n.  Suppose n can be factorized
+    // as n = ab, where a > 1 and b > 1.  If n is a perfect square, then
+    // n = ab = a^2.  Assume n is not a perfect square.  One of the factors a
+    // and b is at most sqrt(n).  Divide n by odd integers between 3 and
+    // sqrt(n), inclusive.
     const max = Math.ceil(Math.sqrt(n));
     let i = 3;
     while (i <= max) {
@@ -68,7 +70,7 @@ function is_even(n) {
  *
  * @param n A positive integer greater than 1.
  * @return The largest prime factor of the given integer.
- *     -1 if there is an error.
+ *     Return -1 if there is an error.
  */
 function max_prime_factor(n) {
     // Sanity checks.
@@ -125,9 +127,8 @@ function prime_factorization(n) {
  * Find Largest Prime Factor: Given a number, find its largest prime
  * factor.  A prime factor is a factor that is a prime number.
  *
- * Determine the largest prime factor of an integer.  This script accepts a
- * command line argument, namely a positive integer for which we want to
- * calcaluate the largest prime factor.  See Wikipedia for more details:
+ * Determine the largest prime factor of an integer.  See Wikipedia for
+ * more details:
  *
  * https://en.wikipedia.org/wiki/Integer_factorization
  *
