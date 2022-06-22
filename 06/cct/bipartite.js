@@ -33,10 +33,13 @@ import {
  */
 function bipartite(n, edge) {
     assert(n > 0);
+    // In Bitburner v1.7.0, the game does not accept an empty array as [].
+    // The empty array must be formatted as a string representation.
+    const empty_array = "[]";
     // The graph must have at least one edge.  A graph with nodes only and
     // no edges is not bipartite.
     if (0 == edge.length) {
-        return [];
+        return empty_array;
     }
     // Use breath-first search to colour each node of the graph.
     const graph = to_graph(n, edge);
@@ -54,7 +57,7 @@ function bipartite(n, edge) {
         root.push(v);
         const col = colouring(graph, v, BLUE, RED, WHITE);
         if (0 == col.length) {
-            return [];
+            return empty_array;
         }
         colour = update_colouring(colour, col, WHITE);
         v = choose_white_node(colour, WHITE);
@@ -62,7 +65,7 @@ function bipartite(n, edge) {
     // Determine whether the graph has a 2-colouring.
     for (const r of root) {
         if (!is_bipartite(graph, r, colour)) {
-            return [];
+            return empty_array;
         }
     }
     return colour;
