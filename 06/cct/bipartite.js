@@ -20,7 +20,7 @@ import {
 } from "./libbnr.js";
 
 /**
- * Whether an undirected graph is bipartite.  Assume the graph is
+ * Whether an undirected graph is bipartite.  Do not assume the graph is
  * connected, i.e. each node is reachable from any other node.
  *
  * @param n The number of nodes in the graph.  Must be positive.
@@ -116,8 +116,8 @@ function colouring(graph, root, blue, red, white) {
     const visit = new Set();
     visit.add(root);
     colour[root] = BLUE;
-    // Use breath-first search to colour each node.  We assume the graph is
-    // connected.
+    // Use breath-first search to colour each node.  We do not assume the graph
+    // to be connected.
     while (stack.length > 0) {
         const u = stack.pop();
         for (const v of graph.neighbour(u)) {
@@ -187,6 +187,7 @@ function is_bipartite(graph, root, colour) {
  * @param n The number of nodes in the graph.
  * @param edge An array of edges of the graph.  Each array element is an
  *     edge of the form [u, v], where u and v are nodes of the graph.
+ * @return An undirected graph having n nodes and the given edge set.
  */
 function to_graph(n, edge) {
     assert(n > 0);
