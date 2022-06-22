@@ -34,9 +34,11 @@ function merge(interval) {
     // Sort the array in ascending order using the first element of
     // each subarray.
     const array = Array.from(interval);
-    array.sort(function (a, b) {
-        return a[0] - b[0];
-    });
+    array.sort(
+        function (a, b) {
+            return a[0] - b[0];
+        }
+    );
     // Compare two intervals and merge them as necessary.
     let i = 0;
     let j = i + 1;
