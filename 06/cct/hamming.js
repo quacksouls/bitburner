@@ -46,23 +46,27 @@ function encode(n) {
  * reserved for a parity (or redundant) bit, where i = 0, 1, 2, ...
  *
  * @param data An array of bits, representing the bit string of the data.
- * @param p The number of parity bits in the encoded message.
+ * @param p The number of parity bits in the encoded message.  This number
+ *     does not include the overall parity bit.
  * @param trash Rubbish placed at positions not occupied by a data bit.
  * @return An incomplete bit string, where only the data bits are placed.
- *     A position not occupied by a data bit is filled with rubbish as
- *     determined by @trash.
+ *     A position not occupied by a data bit is filled with rubbish whose
+ *     value is determined by trash.
  */
 function lay_data_bits(data, p, trash) {
     // The number of bits in our encoded message.  The extra one bit
     // is the overall parity bit, which is used to check the parity
     // of the whole message.
     const m = data.length + p + 1;
-    // Determine the positions where the parity bits are to be placed.
+    // Determine the positions where the parity (i.e. redundant) bits are
+    // to be placed.
     const pos = new Set(parity_position(p));
     // Lay out the data bits.
     const msg = Array(m).fill(trash);
     const _data = Array.from(data);
     _data.reverse();  // Reverse so we can use pop().
+    // Index 0 is reserved for the overall parity bit.  Indices 1 and 2 are
+    // for parity (i.e. redundant) bits.  So we start at index 3.
     for (let k = 3; k < m; k++) {
         if (pos.has(k)) {
             continue;
@@ -79,8 +83,10 @@ function lay_data_bits(data, p, trash) {
  *
  * 2^p >= k + p + 1
  *
+ *
  * @param data The bit string to be encoded using Hamming code.
- * @return The number of parity bits.
+ * @return The number of parity bits.  This number does not include the overall
+ *     parity bit.
  */
 function num_parity(data) {
     assert(data.length > 0);
@@ -96,19 +102,22 @@ function num_parity(data) {
 
 /**
  * Set each parity bit.  The encoded message has a number of locations
- * that are reserved for parity bits.  We set each of these location to
+ * that are reserved for parity bits.  We set each of these locations to
  * 1 or 0.
  *
  * @param msg An incomplete encoded message.  Assume only the data bits
  *     to have been laid out.
- * @param nparity The number of parity bits in the encoded message.
- * @return The same as the input @msg array, but the location of parity
- *     bits have been set.  We do not modify @msg.
+ * @param nparity The number of parity bits in the encoded message.  This
+ *     number does not include the overall parity bit.
+ * @return The same as the input msg array, but the location of parity
+ *     bits have been set.  We do not modify msg.  We also set the
+ *     overall parity bit.
  */
 function set_parity(msg, nparity) {
     assert(msg.length > 0);
     assert(nparity > 0);
-    // The positions where the parity bits are placed.
+    // The positions where the parity bits are placed.  Do not include the
+    // position of the overall parity bit.
     const pos = parity_position(nparity);
     // Set each parity bit.
     const _msg = Array.from(msg);
@@ -130,20 +139,26 @@ function set_parity(msg, nparity) {
 
 /**
  * HammingCodes: Integer to Encoded Binary: You are given a decimal value.
- * Convert it into a binary string and encode it as a 'Hamming-Code'.
- * For example, the decimal value 8 will result in the binary string
- * 1000, which will be encoded with the pattern 'pppdpddd', where p is a
- * parity bit and d a data bit.  As another example, the binary
- * representation of the decimal value 21 is or '10101'.  The binary string
- * is encoded along the pattern 'pppdpdddpd' to result in '1001101011'.
- * NOTE: You need a parity bit at index 0 as an 'overall' parity bit.
- * Important rule for encoding: Not allowed to add additional leading '0's
- * to the binary value, i.e. the binary value has to be encoded as is.
+ * Convert it into a binary string and encode it as a Hamming code.  For
+ * example, the decimal value 8 will result in the binary string 1000, which
+ * will be encoded with the pattern 'pppdpddd', where p is a parity bit and d
+ * a data bit.  As another example, the binary representation of the decimal
+ * value 21 is '10101'.  The binary string is encoded as the pattern
+ * 'pppdpdddpd' to result in '1001101011'.
+ * NOTE: You need a parity bit at index 0 as an overall parity bit.  Important
+ * rule for encoding: Not allowed to add additional leading 0s to the binary
+ * value, i.e. the binary value has to be encoded as is.
  *
  * This is the problem of using Hamming code to encode a binary string, i.e.
  * a string of bits.  The Hamming code is extended with an additional overall
- * parity bit, which is located at index 0 in the encoded bit string.  Further
- * details here:
+ * parity bit, which is located at index 0 in the encoded bit string.  The
+ * original paper where Hamming code is described:
+ *
+ * R. W. Hamming.  Error detecting and error correcting codes.  The Bell System
+ * Technical Journal, volume 29, issue 2, 1950, pp.147--160.
+ * DOI: 10.1002/j.1538-7305.1950.tb00463.x
+ *
+ * Expository notes here:
  *
  * https://en.wikipedia.org/wiki/Hamming_code
  * https://medium.com/swlh/hamming-code-generation-correction-with-explanations-using-c-codes-38e700493280
