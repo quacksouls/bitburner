@@ -34,8 +34,7 @@ function clone(triangle) {
 
 /**
  * Descend from the top to the bottom of a triangle, finding a path
- * of minimum sum as we go.  We use a more efficient method than the
- * one implemented in descend_naive().
+ * of minimum sum as we go.
  *
  * @param triangle A triangle represented as an array of arrays.
  * @return An array with two elements:
@@ -163,7 +162,7 @@ function is_triangle(triangle) {
  * 1, we have [3, 4].  From 3, we can move down to either 6 or 5, but we
  * cannot move from 3 to 7 because 7 is not directly below 3.
  *
- * Usage: run triangle.js [cct] [hostName]
+ * Usage: run triangle.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
