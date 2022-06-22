@@ -18,42 +18,6 @@
 import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
- * The Burrows-Wheeler transform rearranges a string of characters into
- * runs of similar characters.  See the original paper:
- *
- * M. Burrows and D. J. Wheeler.  A Block-sorting Lossless Data Compression
- * Algorithm.  SRC Research Report 124, 1994.
- * https://web.archive.org/web/20220612203723/https://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-124.pdf
- *
- * @param string A string of characters.
- * @return The Burrows-Wheeler transform of the given string.
- */
-function bwt(string) {
-    // Sanity check.
-    assert(string.length > 0);
-
-    // Rotate the string n times, where n is the number of
-    // characters in the string.
-    const matrix = new Array();
-    const lastidx = string.length - 1;
-    let s = Array.from(string).join("");
-    matrix.push(s);
-    for (let i = 0; i < lastidx; i++) {
-        s = rotate(s);
-        matrix.push(s);
-    }
-    assert(string.length == matrix.length);
-    // Sort the strings in lexicographic order.
-    matrix.sort();
-    // Take the last character of each string.
-    const t = new Array();
-    for (const s of matrix) {
-        t.push(s[lastidx]);
-    }
-    return t.join("");
-}
-
-/**
  * Encode a string consisting of the same character.
  *
  * @param c A character.
@@ -114,19 +78,6 @@ function rle(string) {
         }
     }
     return e.join("");
-}
-
-/**
- * Rotate a string such that the last character of the string is placed at
- * the beginning of the string.
- *
- * @param string Rotate this string.
- * @return A rotation of the given string.  The input string is not modified.
- */
-function rotate(string) {
-    const s = Array.from(string);
-    const a = s.pop();
-    return a + s.join("");
 }
 
 /**
