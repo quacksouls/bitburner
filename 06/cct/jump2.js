@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert, Graph, sequence } from "./libbnr.js";
+import {
+    all_nonnegative, assert, Graph, log_cct_failure, sequence
+} from "./libbnr.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -147,5 +149,13 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         min_jump, cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/jump2.txt";
+        const data = "[" + array.join(",") + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
