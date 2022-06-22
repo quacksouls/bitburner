@@ -62,7 +62,7 @@ function merge(interval) {
 /**
  * Whether to merge two intervals.
  *
- * @param intA An interval.
+ * @param intA An interval, represented as an array [x, y] of two elements.
  * @param intB Another interval.
  * @return true if the given intervals should be merged;
  *     false otherwise.
@@ -114,7 +114,7 @@ function valid_interval(array) {
  * the first number is always less than the second (e.g. [1, 5]).  The
  * intervals must be returned in ASCENDING order.
  *
- * Usage: run interval.js [cct] [hostName]
+ * Usage: run interval.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
