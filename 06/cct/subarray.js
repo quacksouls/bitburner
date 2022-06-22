@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * The largest sum of a non-empty, contiguous subarray.
@@ -60,5 +60,13 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         subarray_sum(array), cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/subarray.txt";
+        const data = "[" + array + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
