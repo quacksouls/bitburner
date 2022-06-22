@@ -18,7 +18,7 @@
 import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
- * Encode a string consisting of the same character.
+ * Encode a string that consists of the same characters.
  *
  * @param c A character.
  * @param n The run-length of the given character.
@@ -45,13 +45,11 @@ function encode(c, n) {
 /**
  * The run-length encoding (RLE) of a string.
  *
- * @param string We want to compress this string by means of
- *     run-length encoding.
+ * @param string We want to compress this string by means of run-length
+ *     encoding.
  * @return The RLE of the given string.
  */
 function rle(string) {
-    // const str = bwt(string);
-    // RLE without the Burrows-Wheeler transform.
     const str = string;
     let n = 1;
     let c = str[0];
