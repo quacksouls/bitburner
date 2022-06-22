@@ -74,7 +74,7 @@ function minimum_jump(array) {
 /**
  * Construct a directed, unweighted graph from the given array.
  *
- * @param An array of non-negative integers.
+ * @param array An array of non-negative integers.
  * @return A directed, unweighted graph representation of the given array.
  */
 function to_graph(array) {
@@ -96,6 +96,8 @@ function to_graph(array) {
         if (!can_jump(u, array)) {
             continue;
         }
+        // All possible jumps, where each jump distance is between 1 and
+        // array[u], inclusive.
         const max_jump = array[u];
         assert(u < last_index);
         assert(max_jump > 0);
@@ -130,7 +132,7 @@ function to_graph(array) {
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
- * Usage: run jump2.js [cct] [hostName]
+ * Usage: run jump2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
