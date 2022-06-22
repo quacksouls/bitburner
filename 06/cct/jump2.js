@@ -98,10 +98,10 @@ function to_graph(array) {
         }
         // All possible jumps, where each jump distance is between 1 and
         // array[u], inclusive.
-        const max_jump = array[u];
+        const max_distance = array[u];
         assert(u < last_index);
-        assert(max_jump > 0);
-        for (let i = 1; i <= max_jump; i++) {
+        assert(max_distance > 0);
+        for (let i = 1; i <= max_distance; i++) {
             const v = u + i;
             // Is v a valid index in array?
             if (v > last_index) {
