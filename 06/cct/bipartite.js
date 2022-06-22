@@ -252,7 +252,7 @@ function update_colouring(prev_colour, new_colour, white) {
  * This problem is equivalent to determining whether a graph is bipartite.
  * From the problem description, we only need to deal with undirected graphs.
  *
- * Usage: run cct-bipartite.js [cct] [hostName]
+ * Usage: run bipartite.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
