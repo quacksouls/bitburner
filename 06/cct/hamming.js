@@ -97,6 +97,20 @@ function num_parity(data) {
         p++;
         max = 2 ** p;
     } while (max < (k + p + 1));
+    // The encoded message has m := k + p + 1 bits, as explained below.
+    //
+    // k := the number of bits in the data, represented as a bit string.
+    // p := the number of parity (i.e. redundant) bits.
+    // 1 := the extra bit reserved for the overall parity bit.
+    //
+    // The number p of parity (i.e. redundant) bits is
+    //
+    // p = [log(m)]
+    //
+    // where the operator [] means the ceiling function and log() is the
+    // logarithm using base 2.
+    const m = k + p + 1;
+    assert(p == Math.ceil(Math.log2(m)));
     return p;
 }
 
