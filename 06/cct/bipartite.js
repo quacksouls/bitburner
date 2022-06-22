@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Graph, sequence } from "./libbnr.js";
+import {
+    assert, Graph, log_cct_failure, matrix_to_string, sequence
+} from "./libbnr.js";
 
 /**
  * Whether an undirected graph is bipartite.  Assume the graph is
@@ -259,8 +261,19 @@ export async function main(ns) {
     const cct = ns.args[0];
     // The host name of the server where the coding contract is located.
     const host = ns.args[1];
-    // The number of nodes and the edge set.
+    // Solve the coding contract.
     const [n, edge] = ns.codingcontract.getData(cct, host);
     const colour = bipartite(n, edge);
-    assert(ns.codingcontract.attempt(colour.toString(), cct, host));
+    const result = ns.codingcontract.attempt(
+        colour, cct, host, { returnReward: true }
+    );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/bipartite.txt";
+        const data = "[" + n + ", " + matrix_to_string(edge) + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
+    ns.tprint(host + ": " + cct + ": " + result);
 }
