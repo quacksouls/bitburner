@@ -33,7 +33,7 @@ function is_obstacle(grid, r, c) {
 }
 
 /**
- * The number of unique paths from top-left square to the bottom-right square
+ * The number of unique paths from the top-left square to the bottom-right square
  * in an m x n grid, while avoiding obstacles.  Consider the grid below.
  *
  * 00000
