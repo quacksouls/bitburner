@@ -28,7 +28,7 @@ import { assert, Graph, log_cct_failure } from "./libbnr.js";
 function can_move_down(grid, r, c) {
     const CAN_MOVE = true;
     const NO_MOVE = !CAN_MOVE;
-    // We are at the bottom-most edge of the grid.
+    // Are we at the bottom-most edge of the grid?
     const lastidx = grid.length - 1;
     if (lastidx == r) {
         return NO_MOVE;
@@ -56,7 +56,7 @@ function can_move_down(grid, r, c) {
 function can_move_left(grid, r, c) {
     const CAN_MOVE = true;
     const NO_MOVE = !CAN_MOVE;
-    // We are at the left-most edge of the grid.
+    // Are we at the left-most edge of the grid?
     if (0 == c) {
         return NO_MOVE;
     }
@@ -84,7 +84,7 @@ function can_move_right(grid, r, c) {
     const CAN_MOVE = true;
     const NO_MOVE = !CAN_MOVE;
     const lastidx = grid[r].length - 1;
-    // We are at the right-most edge of the grid.
+    // Are we at the right-most edge of the grid?
     if (lastidx == c) {
         return NO_MOVE;
     }
@@ -109,7 +109,7 @@ function can_move_right(grid, r, c) {
 function can_move_up(grid, r, c) {
     const CAN_MOVE = true;
     const NO_MOVE = !CAN_MOVE;
-    // We are at the top-most edge of the grid.
+    // Are we at the top-most edge of the grid?
     if (0 == r) {
         return NO_MOVE;
     }
@@ -180,11 +180,10 @@ function pairing(x, y) {
  *
  * @param grid A map as an array of arrays.  This is essentially a binary
  *     matrix, where each entry is either 0 or 1.
- * @return An array representing a shortest path in the grid, from the
- *     top-left corner to the bottom-right corner.  Each element of the
- *     array is a node ID.  We must use the function unpairing() to
- *     convert a node ID to a location (r, c) in the grid.  An empty array
- *     if there is no path from the top-left to the bottom-right.
+ * @return A string representing a shortest path in the grid, from the
+ *     top-left corner to the bottom-right corner.  Each character of the
+ *     string is either U, D, L, R.  An empty string if there are no paths
+ *     from the top-left to the bottom-right.
  */
 function shortest_path(grid) {
     const graph = to_graph(grid);
@@ -224,17 +223,17 @@ function to_graph(grid) {
                 const v = pairing(r, c - 1);
                 graph.add_edge(u, v);
             }
-            // Can we move right?
+            // Can we move one step right?
             if (can_move_right(grid, r, c)) {
                 const v = pairing(r, c + 1);
                 graph.add_edge(u, v);
             }
-            // Can we move up?
+            // Can we move one step up?
             if (can_move_up(grid, r, c)) {
                 const v = pairing(r - 1, c);
                 graph.add_edge(u, v);
             }
-            // Can we move down?
+            // Can we move one step down?
             if (can_move_down(grid, r, c)) {
                 const v = pairing(r + 1, c);
                 graph.add_edge(u, v);
@@ -253,14 +252,16 @@ function to_graph(grid) {
  * * L := move left by one step.
  * * R := move right by one step.
  *
- * @param gpath An array of nodes giving a path in a graph.
+ * @param gpath An array of nodes representing a path in a graph.
  * @return A string comprised of the characters U, D, L, R to indicate
- *     a path.  An empty string if @gpath is an empty array.
+ *     a path.  An empty string if gpath is an empty array.
  */
 function to_path(gpath) {
+    // No shortest paths in the grid.
     if (0 == gpath.length) {
         return "";
     }
+    // We have a shortest path in the grid.
     const path = new Array();
     let [rold, cold] = unpairing(gpath[0]);
     for (const v of gpath.slice(1, gpath.length)) {
@@ -317,7 +318,7 @@ function unpairing(z) {
  * NOTE: If there are multiple equally short paths, any of them is accepted as
  * answer.  If there are no paths, the answer should be an empty string.
  *
- * Usage: run grid3.js [cct] [hostName]
+ * Usage: run grid3.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
