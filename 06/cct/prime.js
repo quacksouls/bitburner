@@ -101,21 +101,21 @@ function prime_factorization(n) {
     if (prime.includes(n)) {
         return [n];
     }
-    // A list of factors of n.  We want to break these factors
-    // into prime factors.
+    // A list of factors of n.  We want to break these factors into prime
+    // factors.
     const candidate = [n];
     // The prime factors of n.
     const pfactor = new Array();
     while (candidate.length > 0) {
         const k = candidate.pop();
         const a = factor(k);
-        // k is prime.
+        // k cannot be factorized any further, hence is prime.
         if (a == k) {
             pfactor.push(k);
             continue;
         }
-        // The integer a is a factor of k.  Obtain another factor
-        // b such that ab == k.
+        // The integer a is a factor of k.  Obtain another factor b such that
+        // ab == k, where a > 1, b > 1, and each factor is less than k.
         assert(a > 1);
         assert(a < k);
         const b = k / a;
