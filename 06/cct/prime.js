@@ -78,9 +78,13 @@ function max_prime_factor(n) {
     assert(Number.isSafeInteger(n));
     // Determine the largest prime factor.
     const pfactor = prime_factorization(n);
-    const max_factor = pfactor.reduce(function (x, y) {
-        return Math.max(x, y);
-    }, -Infinity);
+    const init_value = -Infinity;
+    const max_factor = pfactor.reduce(
+        function (x, y) {
+            return Math.max(x, y);
+        },
+        init_value
+    );
     return max_factor;
 }
 
@@ -99,9 +103,9 @@ function prime_factorization(n) {
     }
     // A list of factors of n.  We want to break these factors
     // into prime factors.
-    let candidate = [n];
+    const candidate = [n];
     // The prime factors of n.
-    let pfactor = new Array();
+    const pfactor = new Array();
     while (candidate.length > 0) {
         const k = candidate.pop();
         const a = factor(k);
