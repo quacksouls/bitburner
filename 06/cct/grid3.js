@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Graph, log_cct_failure } from "./libbnr.js";
+import { assert, Graph, log_cct_failure, matrix_to_string } from "./libbnr.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.
@@ -335,7 +335,8 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/grid3.txt";
-        await log_cct_failure(ns, log, cct, host, grid);
+        const data = matrix_to_string(grid);
+        await log_cct_failure(ns, log, cct, host, data);
         ns.tprint(host + ": " + cct + ": FAILURE");
         return;
     }
