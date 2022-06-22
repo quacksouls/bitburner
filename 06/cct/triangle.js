@@ -18,38 +18,6 @@
 import { assert } from "./libbnr.js";
 
 /**
- * All possible paths from the top of the triangle to the bottom.
- *
- * @param triangle A triangle represented as an array of arrays.
- * @return All possible paths for descending the given triangle.
- */
-function all_paths(triangle) {
-    let path = new Array();
-    // Every path starts from the top of the triangle.
-    path.push([[0, 0]]);
-    for (let i = 1; i < triangle.length; i++) {
-        const new_path = new Array();
-        for (let j = 0; j < path.length; j++) {
-            const p = Array.from(path[j]);
-            const q = Array.from(p);
-            // The triangle level, increasing as we descend from top to bottom.
-            // The top level is always zero.  The index of an array element at
-            // a given level.
-            const [level, element] = p[p.length - 1];
-            p.push([level + 1, element]);
-            q.push([level + 1, element + 1]);
-            new_path.push(p);
-            new_path.push(q);
-        }
-        path = new_path;
-    }
-    // The total number of possible paths from top to bottom.
-    const npath = 2 ** (triangle.length - 1);
-    assert(npath == path.length);
-    return path;
-}
-
-/**
  * A deep copy of a triangle.
  *
  * @param triangle A triangle represented as an array of arrays.
@@ -145,30 +113,6 @@ function descend(triangle) {
 }
 
 /**
- * Descend from the top to the bottom of a triangle.  We use a brute force
- * approach, where all paths are considered.  The method would not work
- * if given a large triangle.
- *
- * NOTE: Inefficient method because we are using lots of space and
- * computation time.
- *
- * @param triangle A triangle represented as an array of arrays.
- * @return An array with two elements:
- *     * A path of minimum sum from the top of the triangle to the bottom.
- *     * The minimum sum.
- */
-function descend_naive(triangle) {
-    // Sanity checks.
-    assert(is_triangle(triangle));
-    if (1 == triangle.length) {
-        return [triangle[0], triangle[0][0]];
-    }
-    // A triangle having at least 2 levels.
-    const path = all_paths(triangle);
-    return minimum_path(triangle, path);
-}
-
-/**
  * Whether the given array represents a valid triangle.
  *
  * @param triangle A triangle represented as an array of arrays.
@@ -193,59 +137,6 @@ function is_triangle(triangle) {
         }
     }
     return VALID;
-}
-
-/**
- * The path with minimum sum.
- *
- * @param triangle A triangle represented as an array of arrays.
- * @param path An array of arrays, representing all possible paths.
- *     Each subarray represents a path from the top of the triangle
- *     to the bottom.
- * @return An array with two elements:
- *     * An array representing a path of minimum sum.
- *     * The sum of the given path.
- */
-function minimum_path(triangle, path) {
-    let min_sum = Infinity;
-    let min_path = new Array();
-    // Determine a path of minimum sum.
-    for (let i = 0; i < path.length; i++) {
-        const sum = path_sum(triangle, path[i]);
-        if (min_sum > sum) {
-            min_sum = sum;
-            min_path = path[i];
-        }
-    }
-    // Reconstruct the path.
-    const p = new Array();
-    for (let i = 0; i < min_path.length; i++) {
-        const [level, index] = min_path[i];
-        const node = triangle[level][index];
-        p.push(node);
-    }
-    return [p, min_sum];
-}
-
-/**
- * The sum of the given path.
- *
- * @param triangle A triangle represented as an array of arrays.
- * @param path A path from the top of the triangle to the bottom.
- * @return The sum of the given path.
- */
-function path_sum(triangle, path) {
-    let sum = 0;
-    for (let i = 0; i < path.length; i++) {
-        // The i-th node in a path.
-        // Level is the level in the triangle at which a node is
-        // located.  This also represents a subarray in @array whose
-        // index is "level".  The variable "index" represents the value
-        // of an element from the subarray indexed by "level".
-        const [level, index] = path[i];
-        sum += triangle[level][index];
-    }
-    return sum;
 }
 
 /**
