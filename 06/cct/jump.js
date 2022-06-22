@@ -38,6 +38,7 @@ function end_reachable(array) {
     let reduce_distance = false;
     let d;                      // The jump distance.
     while (i < array.length) {
+        // Do we need to reduce the jump distance?
         if (reduce_distance) {
             // Decrease by 1 the jump distance.
             d = jump.pop();
@@ -50,7 +51,7 @@ function end_reachable(array) {
             jump.push(d);
         }
         assert(index.length == jump.length);
-        // We are at the last array cell.
+        // Are we at the last array cell?
         if (is_last_cell(i, array)) {
             return REACHABLE;
         }
@@ -58,6 +59,7 @@ function end_reachable(array) {
         d = jump[jump.length - 1];
         i = index[index.length - 1];
         if (0 == d) {
+            // Does the first array cell have zero as the jump distace?
             if (0 == i) {
                 return NOT_REACHABLE;
             }
@@ -67,7 +69,7 @@ function end_reachable(array) {
             reduce_distance = true;
             continue;
         }
-        // We can jump the given distance.
+        // Can we jump the given distance?
         if (i + d < array.length) {
             i += d;
             continue;
@@ -115,7 +117,7 @@ function is_last_cell(i, array) {
  *
  * Submit your answer as 1 (meaning true) or 0 (meaning false).
  *
- * Usage: run jump.js [cct] [hostName]
+ * Usage: run jump.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
