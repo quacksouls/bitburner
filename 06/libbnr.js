@@ -1127,13 +1127,19 @@ export function matrix_to_string(mat) {
  *
  * @param price An array where price[i] represents the price of a stock on
  *     day i.  All prices are for the same stock.
- * @return The maximum profit we can make, assuming at most one transaction.
- *     Return 0 if no profit can be made.
+ * @return An array [mp, i, j].
+ *     * mp := The maximum profit we can make, assuming at most one transaction.
+ *       Return 0 if no profit can be made.
+ *     * i := The index in the array where the lowest price occurs.  We buy on
+ *       day i.
+ *     * j := We sell on day j.
  */
 export function max_profit_kadane(price) {
     assert(price.length > 0);
     let max_profit = 0;
     let min_price = price[0];
+    let buy_day = 0;
+    let sell_day = 0;
     // Must start on the second day.  On the first day, we have only one
     // price value so the minimum of one value is that value itself.
     for (let i = 1; i < price.length; i++) {
@@ -1141,7 +1147,10 @@ export function max_profit_kadane(price) {
         // price so far.  If the price on day i is lower than mp, we set mp to
         // to the new minimum price.  Otherwise, we move to the price on the
         // next day.
-        min_price = Math.min(min_price, price[i]);
+        if (min_price > price[i]) {
+            min_price = price[i];
+            buy_day = i;
+        }
         // Why do we need to keep track of the minimum price so far?  Let mp be
         // the minimum price up to and including day i.  Let price[i] be the
         // price on day i.  The profit pf is defined as the price on day i
@@ -1170,9 +1179,13 @@ export function max_profit_kadane(price) {
         //     price should be adjusted to the price on day i.  The minimum
         //     price so far is the minimum of mp and price[i].
         //
-        max_profit = Math.max(max_profit, price[i] - min_price);
+        const profit = price[i] - min_price;
+        if (max_profit < profit) {
+            max_profit = profit;
+            sell_day = i;
+        }
     }
-    return max_profit;
+    return [max_profit, buy_day, sell_day];
 }
 
 /**
