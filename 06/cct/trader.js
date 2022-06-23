@@ -18,7 +18,7 @@
 import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
- * The maximum profit to be made when we are restricted to at most 1
+ * The maximum profit to be made when we are restricted to at most one
  * transaction.  The algorithm is similar to Kadane's algorithm.  However, we
  * must keep track of the minimum price as well as the maximum profit.
  * Essentially, we want to buy low and sell high, but we are restricted to one
@@ -27,6 +27,10 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * (1) Only one buy action.
  * (2) Only one sell action.
  * (3) Must first buy before we can sell.
+ *
+ * The idea is to determine two days i and j, where i < j and
+ * price[i] < price[j], such that the difference price[j] - price[i] is
+ * maximized.
  *
  * Refer to the following for more details:
  *
