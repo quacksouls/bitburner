@@ -66,14 +66,13 @@ function lay_data_bits(data, p, trash) {
     // Lay out the data bits.
     const msg = Array(m).fill(trash);
     const _data = Array.from(data);
-    _data.reverse();  // Reverse so we can use pop().
     // Index 0 is reserved for the overall parity bit.  Indices 1 and 2 are
     // for parity (i.e. redundant) bits.  So we start at index 3.
     for (let k = 3; k < m; k++) {
         if (pos.has(k)) {
             continue;
         }
-        msg[k] = _data.pop();
+        msg[k] = _data.shift();
     }
     return msg;
 }
