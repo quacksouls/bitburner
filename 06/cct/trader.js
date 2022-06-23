@@ -93,7 +93,7 @@ function max_profit(price) {
  * This is similar, but not identical, to the problem
  * "Subarray with Maximum Sum".
  *
- * Usage: run jump.js [cct] [hostname]
+ * Usage: run trader.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
