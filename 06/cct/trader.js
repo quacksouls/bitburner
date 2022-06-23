@@ -37,7 +37,7 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * @return The maximum profit we can make, assuming at most 1 transaction.
  *     Return 0 if no profit can be made.
  */
-function max_profit(price) {
+function maximize_profit(price) {
     assert(price.length > 0);
     let max_profit = 0;
     let min_price = price[0];
@@ -105,7 +105,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(
-        max_profit(array), cct, host, { returnReward: true }
+        maximize_profit(array), cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
