@@ -136,7 +136,10 @@ async function update(ns, lowend) {
         // Next, hack all low-end servers we can now visit, include those
         // newly found.
         const home = new Server(ns, player.home());
-        const nthread = home.threads_per_instance(player.script(), target.length);
+        let nthread = home.threads_per_instance(player.script(), target.length);
+        if (nthread < 1) {
+            nthread = 1;
+        }
         for (const server of target) {
             ns.exec(player.script(), player.home(), nthread, server);
         }
