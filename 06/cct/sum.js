@@ -21,7 +21,28 @@ import { log_cct_failure } from "./libbnr.js";
  * The number of possible partitions of a non-negative integer n.  That is,
  * the number of ways to write n as a sum of positive integers.  In number
  * theory, the partition function p(n) solves the problem.  Here, we use
- * a recurrence relation due to Euler.
+ * a recurrence relation due to Euler, derived from using Euler's pentagonal
+ * number theorem.  The recurrence relation is
+ *
+ * p(n) := \sum_{k \in PP} (-1)^{k-1} \{ A + B \}
+ *
+ * where
+ *
+ * A := p(n - k(3k - 1) / 2)
+ * B := p(n - k(3k + 1) / 2)
+ * PP := The set of all positive integers.
+ *
+ * In practice, we only sum up to and including k = n.  Refer to the following
+ * for more details:
+ *
+ * https://en.wikipedia.org/wiki/Pentagonal_number_theorem
+ *
+ * On Euler's Pentagonal Theorem
+ * https://www.mathpages.com/home/kmath623/kmath623.htm
+ *
+ * John A. Ewell.  Recurrences for the Partition Function and Its Relatives.
+ * Rocky Mountain Journal of Mathematics, volume 34, issue 2, pp.619--627, 2004.
+ * DOI: 10.1216/rmjm/1181069871
  *
  * @param n We want to determine the number of partitions of this number.
  *     Must be a non-negative integer.
