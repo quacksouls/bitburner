@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Player } from "./libbnr.js";
+
 /**
- * The player's karma.  This is an Easter egg, buried in the source code
- * of the game.  Refer to this file:
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Extra.ts
+ * The player's karma.
  *
  * Usage: run karma.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    ns.tprint("Karma: " + ns.heart.break());
+    const player = new Player(ns);
+    ns.tprint("Karma: " + player.karma());
 }
