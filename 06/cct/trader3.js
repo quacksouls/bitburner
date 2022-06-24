@@ -92,7 +92,7 @@ export async function main(ns) {
     );
     // Log the result in case of failure.
     if (0 == result.length) {
-        const log = "/cct/trader.txt";
+        const log = "/cct/trader3.txt";
         const data = "[" + array.join(",") + "]";
         await log_cct_failure(ns, log, cct, host, data);
         ns.tprint(host + ": " + cct + ": FAILURE");
