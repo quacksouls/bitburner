@@ -891,6 +891,27 @@ export function all_nonnegative(array) {
 }
 
 /**
+ * Remove from the given array the elements at the indices provided.
+ *
+ * @param array An array.  Cannot be empty.
+ * @param i, j We want to remove the elements at these indices.  Assume i < j.
+ * @return An array obtained from removing the elements at indices i and j
+ *     in the given array.
+ */
+export function array_slice(array, i, j) {
+    // Sanity checks.
+    assert(array.length > 0);
+    assert(i >= 0);
+    assert(i < array.length);
+    assert(i < j);
+    assert(j < array.length);
+    // Remove the two elements at the given indices.
+    let subarr = array.slice(0, i);
+    subarr = subarr.concat(array.slice(i + 1, j));
+    return subarr.concat(array.slice(j + 1, array.length));
+}
+
+/**
  * Sum the elements of an array.
  *
  * @param array We want to add the elements of this array.

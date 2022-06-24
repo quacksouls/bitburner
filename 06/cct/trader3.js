@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, max_profit_kadane } from "./libbnr.js";
+import {
+    array_slice, assert, log_cct_failure, max_profit_kadane
+} from "./libbnr.js";
 
 /**
  * The maximimum profit that can be made when we are restricted to at most
@@ -38,29 +40,8 @@ function maximize_profit(price) {
     if (2 == price.length) {
         return max_profit;
     }
-    const new_price = slice(price, i, j);
+    const new_price = array_slice(price, i, j);
     return max_profit + max_profit_kadane(new_price);
-}
-
-/**
- * Remove the element at index i from the given array.
- *
- * @param array An array.  Cannot be empty.
- * @param i, j We want to remove the elements at these indices.  Assume i < j.
- * @return An array obtained from removing the elements at indices i and j
- *     in the given array.
- */
-function slice(array, i, j) {
-    // Sanity checks.
-    assert(array.length > 0);
-    assert(i >= 0);
-    assert(i < array.length);
-    assert(i < j);
-    assert(j < array.length);
-    // Remove the two elements at the given indices.
-    let subarr = array.slice(0, i);
-    subarr = subarr.concat(array.slice(i + 1, j));
-    return subarr.concat(array.slice(j + 1, array.length));
 }
 
 /**
