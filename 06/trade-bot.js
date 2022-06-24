@@ -28,11 +28,13 @@ function buy_stock(ns, stk) {
     if (skip_stock(ns, stk)) {
         return;
     }
+    // Try a given number of times to buy shares of a stock.  Each time we
+    // fail to purchase shares of a stock, we reduce by 10% the number of
+    // stocks we want to buy and purchase only 90% of the previous number.
     let nshare = num_shares(ns, stk);
     assert(nshare > 0);
     const ntry = 10;
     const reduction_rate = 0.9;
-    // Try a given number of times to buy shares of a stock.
     for (let i = 0; i < ntry; i++) {
         const result = ns.stock.buy(stk, nshare);
         // We have successfully bought some shares of a stock.
@@ -106,7 +108,7 @@ function meet_money_threshold(ns) {
 function money_reserve() {
     const million = 10 ** 6;
     const billion = 1000 * million;
-    const reserve = 50 * billion;
+    const reserve = 100 * billion;
     return reserve;
 }
 
@@ -123,7 +125,8 @@ function num_shares(ns, stk) {
     if (!has_funds(ns)) {
         return 0;
     }
-    // Threshold amount of money we are willing to spend on shares.
+    // The amount of money we are willing to spend to purchase shares of a
+    // stock.
     const player = new Player(ns);
     const spend_ratio = 0.01;
     const million = 10 ** 6;
@@ -204,7 +207,7 @@ function skip_stock(ns, stk) {
 }
 
 /**
- * Automate our trading on the World Stock Exchange.
+ * Automate our trading on the World Stock Exchange.  This is our trade bot.
  *
  * @param ns The Netscript API.
  */
@@ -212,7 +215,8 @@ export async function main(ns) {
     ns.disableLog("sleep");
     ns.disableLog("getServerMoneyAvailable");
 
-    // Wait until we have enough money before trading on the Stock Market.
+    // Wait until we have enough money before purchasing the various APIs
+    // and data access.
     // Wait for 6 seconds because the Stock Market updates approximately
     // every 6 seconds.
     const time = seconds_to_milliseconds(6);
@@ -220,6 +224,11 @@ export async function main(ns) {
         await ns.sleep(time);
     }
     purchase_api_access(ns);
+    // Wait until we have a large amount of money before trading on the Stock
+    // Market.  Gambling on the Stock Market requires huge wealth.
+    while (!meet_money_threshold(ns)) {
+        await ns.sleep(time);
+    }
     // Continuously trade on the Stock Market.
     while (true) {
         // Iterate over each stock.  Decide whether to buy or sell.
