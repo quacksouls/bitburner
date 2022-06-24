@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { log_cct_failure } from "./libbnr.js";
+
 /**
  * The number of possible partitions of a non-negative integer n.  That is,
  * the number of ways to write n as a sum of positive integers.  In number
@@ -89,5 +91,12 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         partition(n) - 1, cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/sum.txt";
+        await log_cct_failure(ns, log, cct, host, n);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
