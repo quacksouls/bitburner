@@ -75,7 +75,7 @@ let partition = (function () {
  *
  * Use Euler's pentagonal number theorem.
  *
- * Usage: run cct-sum.js [cct] [hostName]
+ * Usage: run sum.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
