@@ -641,6 +641,31 @@ export class Server {
     }
 
     /**
+     * Whether the server has enough RAM to run a given script, using at
+     * least one thread.  We ignore any amount of RAM that has been reserved,
+     * using all available RAM to help us make a decision.
+     *
+     * @param script We want to run this script on this server.
+     * @return true if the given script can be run on this server;
+     *     false otherwise.
+     */
+    can_run_script(script) {
+        const CAN_RUN = true;
+        const CANNOT_RUN = !CAN_RUN;
+        const player = new Player(this.#ns);
+        const script_ram = this.#ns.getScriptRam(script, player.home());
+        const server_ram = this.available_ram();
+        if (server_ram < 1) {
+            return CANNOT_RUN;
+        }
+        const nthread = Math.floor(server_ram / script_ram);
+        if (nthread < 1) {
+            return CANNOT_RUN;
+        }
+        return CAN_RUN;
+    }
+
+    /**
      * Try to gain root access on this server.
      *
      * @return true if the player has root access to this server; false if

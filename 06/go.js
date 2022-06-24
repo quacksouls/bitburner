@@ -15,45 +15,60 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "./libbnr.js";
+import { assert, Player, Server } from "./libbnr.js";
 
 /**
  * This function should be run immediately after the soft reset of installing
  * a bunch of Augmentations.  Our purpose is to gain some money and Hack
- * experience points early on when our stats are low.
+ * experience points early on when our stats are low.  We assume our home
+ * server has a small amount of RAM.
  *
  * @param ns The Netscript API.
- * @return An array of low-end servers.  Each of these servers are being hacked
- *     by our hacking script, running from our home server.
  */
-function reboot(ns) {
+function reboot_low(ns) {
     const player = new Player(ns);
+    const server = new Server(ns, player.home());
     const nthread = 1;
+    const script = ["hnet-farm.js", "world-server.js", "buy-server.js"];
 
-    // First, use our home server to hack world servers that satisfy these
-    // criteria:
-    //
-    // (1) Require a hacking skill of 1 because our Hack stat is 1 after a soft
-    //     reset.
-    // (2) Does not require any ports to be opened in order for us to run
-    //     NUKE.exe on the server.  The script should be able to figure out
-    //     whether or not we can open all ports on a world server.
-    ns.exec("low-end.js", player.home(), nthread);
-
-    // Use servers in the game world to hack themselves.
-    ns.exec("world-server.js", player.home(), nthread);
-
-    // Setup a farm of Hacknet Nodes.
-    ns.exec("hnet-farm.js", player.home(), nthread);
-
-    // Purchase servers and use each purchased server to hack a target server.
-    ns.exec("buy-server.js", player.home(), nthread);
-
-    // Start our trade bot.
-    ns.exec("trade-bot.js", player.home(), nthread);
+    // If we cannot run any of these scripts on our home server, then at
+    // various points in the game we need to kill one or more scripts to
+    // free some RAM.
+    for (const s of script) {
+        if (server.can_run_script(s)) {
+            ns.exec(s, player.home(), nthread);
+        }
+    }
 }
 
 /**
+ * This function should be run immediately after the soft reset of installing
+ * a bunch of Augmentations.  Our purpose is to gain some money and Hack
+ * experience points early on when our stats are low.  We assume our home
+ * server has at least 128GB RAM.
+ *
+ * @param ns The Netscript API.
+ */
+function reboot_high(ns) {
+    const player = new Player(ns);
+    const server = new Server(ns, player.home());
+    const nthread = 1;
+    const script = [
+        "low-end.js", "world-server.js", "hnet-farm.js",
+        "buy-server.js", "trade-bot.js"
+    ];
+
+    for (const s of script) {
+        assert(server.can_run_script(s));
+        ns.exec(s, player.home(), nthread);
+    }
+}
+
+/**
+ * NOTE: This script requires an upgraded home server to run successfully.
+ * The reason is that it will run various other scripts, each of which requires
+ * RAM.  Our home server should have at least 256GB RAM.
+ *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
  * automatically restart scripts to:
@@ -64,8 +79,19 @@ function reboot(ns) {
  *     (3) Gain root access to servers in the game world (excluding purchased
  *         servers) and use each server to hack itself.
  *
+ * Usage: run go.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    reboot(ns);
+    const player = new Player(ns);
+    const server = new Server(ns, player.home());
+    const ram = server.available_ram();
+    const threshold = 128;
+
+    if (ram < threshold) {
+        reboot_low(ns);
+    } else {
+        reboot_high(ns);
+    }
 }
