@@ -50,20 +50,15 @@ function maximize_profit(price) {
     // divides the array into two parts: the left subarray and the right
     // subarray.
     let max_profit = 0;
-    let mpl = 0;
-    let mpr = 0;
     for (let k = 0; k < price.length; k++) {
         // The left and right subarrays in the partition.
         const left = price.slice(0, k + 1);
         const right = price.slice(k + 1, price.length);
         // The maximum profit of each subarray in the partition.
-        let _;
-        let __;
-        [mpl, _, __] = max_profit_kadane(left);
-        if (0 == right.length) {
-            mpr = 0;
-        } else {
-            [mpr, _, __] = max_profit_kadane(right);
+        const mpl = max_profit_kadane(left);
+        let mpr = 0;
+        if (right.length > 0) {
+            mpr = max_profit_kadane(right);
         }
         // The running maximum profit.
         max_profit = Math.max(max_profit, mpl + mpr);

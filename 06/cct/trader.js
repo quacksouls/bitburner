@@ -39,9 +39,8 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const [profit, _, __] = max_profit_kadane(array);
     const result = ns.codingcontract.attempt(
-        profit, cct, host, { returnReward: true }
+        max_profit_kadane(array), cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
