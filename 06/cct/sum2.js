@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "./libbnr.js";
+import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * The number of ways to change n using coins in the given set of
@@ -32,7 +32,7 @@ function coin_change(n, denom) {
     // Sort the array of denominations in ascending order.
     const denomination = Array.from(new Set(denom));
     denomination.sort(
-        function(a, b) {
+        function (a, b) {
             return a - b;
         }
     );
@@ -46,28 +46,40 @@ function coin_change(n, denom) {
 }
 
 /**
- * The number of ways to partition an integer using only integers from  a
- * given set.  Let n be our target sum and let our set of denominations be
- * D := [d_0, d_1, ..., d_{m-1}].  The problem has the following recursive
- * interpretation.  Let C(n, m) be the number of ways to partition n using the
- * first m denominations in D, i.e. using all denominations in D.  Consider
- * the denomination d_{m-1}.  Either a partition contains d_{m-1} or it does
- * not.  If a partition contains d_{m-1}, then the partition can have one more
- * more copies of d_{m-1}.  The number of partitions that contain d_{m-1} is
- * C(n - d_{m-1}, m).  If a partition does not contain d_{m-1}, then zero
- * copies of d_{m-1} occur in the partition.  The number of partitions that
- * exclude d_{m-1} is the number C(n, m-1).  Thus we have the recurrence
- * relation C(n, m) := C(n - d_{m-1}, m) + C(n, m-1).  The base cases are
+ * The number of ways to partition an integer using only integers from a given
+ * set.  Let n be our target sum and let our m denominations be
+ * D := [d_0, d_1, ..., d_{m-1}], where d_i < d_j whenever i < j.  We make the
+ * following assumptions:
  *
- * * C(n, m) := 1 if n = 0.
- * * C(n, m) := 0 if n < 0.
- * * C(n, m) := 0 if n >= 1 and m <= 0.
+ * (1) n >= 0.
+ * (2) Each d_i > 0.
+ * (3) Each d_i <= n.
  *
- * @param n We want to partition this number.  Must be a positive integer.
+ * The problem has the following recursive interpretation.  Let C(n, m) be the
+ * number of ways to partition n using the first m denominations in D, i.e.
+ * using all denominations in D.  Consider the denomination d_{m-1}.  Either a
+ * partition contains d_{m-1} or it does not.  If a partition contains d_{m-1},
+ * then the partition can have one or more copies of d_{m-1}.  The number of
+ * partitions that contain d_{m-1} is C(n - d_{m-1}, m).  If a partition does
+ * not contain d_{m-1}, then zero copies of d_{m-1} occur in the partition.
+ * The number of partitions that exclude d_{m-1} is the number C(n, m-1).  Thus
+ * we have the recurrence relation
+ *
+ * C(n, m) := C(n - d_{m-1}, m) + C(n, m-1)
+ *
+ * The base cases are:
+ *
+ * (1) C(n, m) := 1 if n = 0.  There is only one way to partition zero, namely
+ *     choose none of the available integers in D.
+ * (2) C(n, m) := 0 if n < 0.  This follows from our assumptions above.
+ * (3) C(n, m) := 0 if n >= 1 and m < 1.  Our integer is positive, but we
+ *     cannot choose any of the integers in D.
+ *
+ * @param n We want to partition this integer.
  * @param m Use the first m values in the array of denominations.
  * @param denom The array of denominations.  An array of positive integers to
- *     use to partition n.  Elements of the array are unique and the array
- *     is sorted in ascending order.
+ *     use to partition n.  Elements of the array are unique and the array is
+ *     assumed to be sorted in ascending order.
  * @return The number of ways to partition n using only integers from
  *     the denomination array.
  */
@@ -76,12 +88,21 @@ let partition = (function () {
     const cache = new Map();
     function c(n, m, denom) {
         // Base cases.
-        if ((n < 0) || (m <= 0)) {
+        // Case (2): C(n, m) := 0 if n < 0.
+        if (n < 0) {
             return 0;
         }
+        // Case (3): C(n, m) := 0 if n >= 1 and m < 1.
+        if ((n >= 1) && (m < 1)) {
+            return 0;
+        }
+        // Case (1): C(n, m) := 1 if n = 0.
         if (0 == n) {
             return 1;
         }
+        // Sanity checks.
+        assert(n > 0);
+        assert(m > 0);
         // Check the cache.
         if (cache.has(n)) {
             const map = cache.get(n);
@@ -150,9 +171,6 @@ let partition = (function () {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // FIXME: Fail with this test case:
-    // [12,[1,2,3,4,5,6,7,8,9,10,11,12]]
-
     // The file name of the coding contract.
     const cct = ns.args[0];
     // The host name of the server where the coding contract is located.
@@ -163,5 +181,13 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         npart, cct, host, { returnReward: true }
     );
+    // Log the result in case of failure.
+    if (0 == result.length) {
+        const log = "/cct/sum2.txt";
+        const data = "[" + n + ", [" + denomination + "]" + "]";
+        await log_cct_failure(ns, log, cct, host, data);
+        ns.tprint(host + ": " + cct + ": FAILURE");
+        return;
+    }
     ns.tprint(host + ": " + cct + ": " + result);
 }
