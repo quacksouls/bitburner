@@ -166,7 +166,7 @@ let partition = (function () {
  *
  * https://algorithmist.com/wiki/Coin_change
  *
- * Usage: run sum2.js [cct] [hostName]
+ * Usage: run sum2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
