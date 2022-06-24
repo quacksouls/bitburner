@@ -507,7 +507,9 @@ export class PurchasedServer {
      */
     default_ram() {
         const player = new Player(this.#ns);
-        const script_ram = this.#ns.getScriptRam(player.script(), player.home());
+        const script_ram = this.#ns.getScriptRam(
+            player.script(), player.home()
+        );
         let i = 0;
         while (script_ram > this.#valid_ram[i]) {
             i++;
