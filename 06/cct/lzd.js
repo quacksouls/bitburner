@@ -81,13 +81,14 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * We have these chunks: "3123", "12", "0", "21".  The uncompressed string is
  * "123222".  Refer to the following for more details on the LZ algorithm.
  *
- * J. Ziv and A. Lempel.  A universal algorithm for sequential data
- * compression.  IEEE Transactions on Information Theory, volume 23, issue 3,
- * pp.337--343, 1977.
- * DOI: 10.1109/TIT.1977.1055714
- *
- * Colt McAnlis and Aleks Haecky.  Understanding Compression: Data Compression
- * for Modern Developers.  O'Reilly, 2016.
+ * [1] J. Ziv and A. Lempel.  A universal algorithm for sequential data
+ *     compression.  IEEE Transactions on Information Theory, volume 23,
+ *     issue 3, pp.337--343, 1977.
+ *     DOI: 10.1109/TIT.1977.1055714
+ * [2] Colt McAnlis and Aleks Haecky.  Understanding Compression: Data
+ *     Compression for Modern Developers.  O'Reilly, 2016.
+ * [3] The Hitchhiker's Guide to Compression
+ *     https://go-compression.github.io/
  *
  * @param data We want to decompress this string.  The string is assumed to be
  *     the output of a variant of the LZ compression algorithm.  Cannot be an
