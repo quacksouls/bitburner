@@ -16,85 +16,157 @@
  */
 
 import {
-    array_slice, assert, log_cct_failure, max_profit_kadane
+    assert, log_cct_failure, max_profit_kadane, sequence
 } from "./libbnr.js";
 
 /**
- * The maximimum profit that can be made when we are restricted to at most k
- * transactions.  Let mp be the cumulative maximum profit.  Use Kadane's
- * algorithm to determine the maximum profit when we are restricted to 1
- * transaction.  We have two cases:
+ * The maximimum profit that can be made when we are restricted to at most t
+ * transactions.  When we we are restricted to at most 2 transactions, we find
+ * all possible partitions of the price array into 2 non-overlapping subarrays.
+ * For each such partition we have 2 subarrays.  We run Kadane's algorithm on
+ * each subarray, sum the results of both subarrays, and return the sum as the
+ * maximum profit possible.
  *
- * (1) The result of Kadane's algorithm is 0.  We are done.  Return the value
- *     of mp.
- * (2) The result of Kadane's algorithm is positive.  Add the result to mp.
- *     Now we must prepare the price array for the next transaction.  Kadane's
- *     algorithm should output an array [p, i, j], where p is the profit
- *     resulting from using Kadane's algorithm on the current price array.
- *     The values of i and j are indices in the current price array, where
- *     i < j.  Essentially, we buy on day i and sell on day j, giving us the
- *     maximum profit of p.  We must remove from the current price array the
- *     elements at indices i and j, producing the updated price array.  Use
- *     the updated price array for the next transation, where we again apply
- *     Kadane's algorithm.
+ * Now consider t > 2.  We use the same idea as per the case when we are
+ * restricted to at most 2 transactions.  The minor difference now is that we
+ * must partition the price array into t non-overlapping subarrays.  We run
+ * Kadane's algorithm on each subarray, add together the result of each run of
+ * the algorithm, and return the sum as the maximum possible profit.  The only
+ * tricky part is generating all possible partitions of the price array, where
+ * each partition consists of t non-overlapping subarrays.  The above method is
+ * conceptually simple to understand as it builds on the intuition for the case
+ * where t = 2.  However, the method can be slow.  Let k := t - 1.  Given a set
+ * of n elements, we have C(n, k) ways to choose k numbers that partition the
+ * price array into t non-overlapping subarrays.  Thus there are C(n, k)
+ * possible partitions of the price array into t non-overlapping subarrays.
+ * Notice that when t = 2, we need only to choose k = t - 1 = 1 number to act
+ * as a barrier for dividing the price array into 2 non-overlapping subarrays.
+ * Therefore in the worst case the above method has factorial running time,
+ * which is worse than exponential running time.
  *
- * As can be seen from the above, we repeatedly apply Kadane's algorithm until
- * either of the following occurs.  Let t be the t-th transaction, where
- * 0 < t <= k.
- *
- * (1) During the t-th transaction, Kadane's algorithm outputs 0.  No profits
- *     can be made from transaction t onward.  Our maximum profit is the
- *     current value of the cumulative maximum profit.
- * (2) We have t = k.  The t-th transaction is our final transaction.  Our
- *     maximum profit is the sum of the values output by Kadane's algorithm
- *     for each of the k transactions.
- *
- * @param k The maximum number of transactions.
+ * @param t The maximum number of transactions.
  * @param price An array of prices, where price[i] is the price of a stock
  *     on day i.  All prices relate to the same stock.
  * @return The maximum profit to be made, assumming we can perform at most
- *     k transactions.  Return 0 if no profit can be made.
+ *     t transactions.  Return 0 if no profit can be made.
  */
-function maximize_profit(k, price) {
-    assert(k >= 0);
+function maximize_profit(t, price) {
+    assert(t >= 0);
     assert(price.length > 0);
     // No transactions means no profit.  We don't buy and sell, therefore
     // no profit at all.
-    if (0 == k) {
+    if (0 == t) {
         return 0;
     }
-    // Perform at most k transactions.
-    assert(k > 0);
-    let newprice = Array.from(price);
-    let max_profit = 0;
-    for (let t = 1; t <= k; t++) {
-        // Make the t-th transaction.
-        const [profit, i, j] = max_profit_kadane(newprice);
-        // No profit can be made in the t-th transaction.  Return the
-        // maximum profit so far.
-        if (0 == profit) {
-            return max_profit;
-        }
-        // We can make a profit in the t-th transaction.  Add the profit to
-        // the cumulative maximum profit.
-        assert(profit > 0);
-        max_profit += profit;
-        // Prepare the price array for the next transaction.
-        assert(i < j);
-        if (2 == newprice.length) {
-            // Only 2 price values in the current price array.  This means the
-            // next transaction won't have any prices to use.  That is, this is
-            // our last transaction.
-            // What if the current price array has 3 elements?  After slicing
-            // away 2 price values, we are left with an array of 1 element.
-            // The maximum profit of a price array of 1 element is 0.  Kadane's
-            // algorithm can handle an array of 1 element.
-            return max_profit;
-        }
-        assert(newprice.length > 2);
-        newprice = array_slice(newprice, i, j);
+    // If t = 1, we are restricted to at most 1 transaction.  Simply use
+    // Kadane's algorithm on the price array.
+    if (1 == t) {
+        return max_profit_kadane(price);
     }
-    return max_profit;
+    // Perform at most t transactions.  Let S := {0, 1, 2, ..., n-1} be the set
+    // of all indices of the price array and define k := t - 1.  We generate
+    // all k-combinations of the set S.  The k-combinations are generated in
+    // lexicographic order.
+    assert(t >= 2);
+    // Our initial array for a k-combination consists of the first k indices of
+    // the price array.
+    const k = t - 1;
+    const n = price.length;
+    let c = sequence(k);
+    // For each partition, calculate the maximum possible profit.  Compare the
+    // result with the running maximum mp.
+    let mp = 0;
+    while (c.length > 0) {
+        mp = Math.max(mp, profit(price, t, c));
+        c = next_combination(c, k, n);
+    }
+    return mp;
+}
+
+/**
+ * Use a current k-combination to generate the next k-combination in
+ * lexicographic order.  We use Algorithm 2.6 from the book:
+ *
+ * Donald L. Kreher and Douglas R. Stinson.  Combinatorial Algorithms:
+ * Generation, Enumeration, and Search.  CRC Press, 1999, p.43.
+ *
+ * The algorithm given in the book uses 1-based counting.  Here, we adapt the
+ * algorithm to use 0-based counting.
+ *
+ * @param c An array representing the current k-combination.  Cannot be empty.
+ * @param k We want to generate a k-combination.  Must be at least 1.
+ * @param n The size of the price array.
+ * @return The next k-combination in lexicographic order.  Return an empty
+ *     array if we cannot generate anymore k-combinations.
+ */
+function next_combination(c, k, n) {
+    // Sanity checks.
+    assert(c.length > 0);
+    assert(k > 0);
+    assert(n > 0);
+    // The basic idea of the algorithm is to increment an element of the
+    // combination array as high as we can, starting from the right-most
+    // element and work our way down to the first element.  Each call of the
+    // function increments the right-most element by 1 and we call the function
+    // as many times as necesary until we can no longer increment the
+    // right-most element of the array.  Then we move down to the second-last
+    // element of the array and repeat the process.  And so on all the way
+    // down to the first element of the array.
+    // Initialization.
+    const max = k - 1;
+    const lastidx = n - 1;
+    let i = max;
+    while ((i >= 0) && (c[i] == lastidx - max + i)) {
+        i--;
+    }
+    // We have exhausted all possible k-combinations.
+    if (i < 0) {
+        return [];
+    }
+    // Generate the next k-combination.
+    const newc = Array.from(c);
+    for (let j = i; j < k; j++) {
+        newc[j] = c[i] + 1 + j - i;
+    }
+    return newc;
+}
+
+/**
+ * The maximum profit to be made from a given partition of the price array.
+ *
+ * @param price An array of prices, where price[i] is the price of a stock
+ *     on day i.  All prices relate to the same stock.
+ * @param t The maximum number of transactions we are allowed to make.  Must
+ *     be at least 2.
+ * @param c A k-combination of the indices of the price array.  We use this
+ *     array to partition the price array into t non-overlapping subarrays.
+ * @return The maximum profit possible using the given partition of the price
+ *     array.
+ */
+function profit(price, t, c) {
+    // Sanity checks.
+    assert(price.length > 0);
+    assert(t >= 2);
+    const k = t - 1;
+    assert(c.length == k);
+    // Calculate the maximum profit by using the given partition of the
+    // price array.  In the array c, each element c[i] is a value in a
+    // k-combination of the indices of the price array.  The first subarray
+    // starts from index 0 of the price array and ends at index c[0].  The
+    // second subarray starts from index c[0] + 1 and ends at index c[1].  The
+    // third subarray starts from index c[1] + 1 and ends at index c[2].  And
+    // so on.  The k-th subarray starts from index c[k-2] + 1 and ends at index
+    // c[k-1].  The t-th subarray starts from index c[k-1] + 1 and ends at
+    // index n-1.
+    let array = price.slice(0, c[0] + 1);
+    let maxprofit = max_profit_kadane(array);
+    for (let i = 0; i < (k - 1); i++) {
+        array = price.slice(c[i] + 1, c[i + 1] + 1);
+        maxprofit += max_profit_kadane(array);
+    }
+    array = price.slice(c[k - 1] + 1, price.length);
+    maxprofit += max_profit_kadane(array);
+    return maxprofit;
 }
 
 /**
@@ -121,14 +193,14 @@ export async function main(ns) {
     // The host name of the server where the coding contract is located.
     const host = ns.args[1];
     // Solve the coding contract.
-    const [k, price] = ns.codingcontract.getData(cct, host);
+    const [t, price] = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(
-        maximize_profit(k, price), cct, host, { returnReward: true }
+        maximize_profit(t, price), cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/trader4.txt";
-        const data = "[" + k + ", [" + price.join(",") + "]]";
+        const data = "[" + t + ", [" + price.join(",") + "]]";
         await log_cct_failure(ns, log, cct, host, data);
         ns.tprint(host + ": " + cct + ": FAILURE");
         return;
