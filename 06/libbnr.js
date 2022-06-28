@@ -143,15 +143,15 @@ export class Graph {
         prev.set(source, undefined);
         queue.push(source);
 
-        // Search for shortest paths from the source node to other nodes.
-        // This is an unweighted graph so the weight between a node
-        // and any of its neighbours is 1.
+        // Search for shortest paths from the source node to other nodes.  This
+        // is an unweighted graph so the weight between a node and any of its
+        // neighbours is 1.
         const weight = 1;
         while (queue.length > 0) {
             const u = this.#minimumq(queue, dist);
             queue = queue.filter(s => s != u);
-            // Consider the neighbours of u.  Each neighbour must
-            // still be in the queue.
+            // Consider the neighbours of u.  Each neighbour must still be in
+            // the queue.
             let neighbour = Array.from(this.neighbour(u));
             neighbour = neighbour.filter(s => queue.includes(s));
             for (const v of neighbour) {
@@ -185,12 +185,11 @@ export class Graph {
         const edge = new Set();
         for (const u of this.nodes()) {
             for (const v of this.neighbour(u)) {
-                // Assume nodes to be comparable, i.e. we can compare
-                // the node values.  If each node is an integer, the
-                // nodes are comparable because there is an ordering
-                // of numbers.  If each node is a string of alphabetic
-                // characters, the nodes are also comparable because we
-                // can use lexicographic ordering.
+                // Assume nodes to be comparable, i.e. we can compare the node
+                // values.  If each node is an integer, the nodes are
+                // comparable because there is an ordering of numbers.  If each
+                // node is a string of alphabetic characters, the nodes are
+                // also comparable because we can use lexicographic ordering.
                 if (u > v) {
                     continue;
                 }
@@ -303,8 +302,8 @@ export class Graph {
         }
         let stack = new Array();
         let u = target;
-        // Start from the target and work backward to find a shortest
-        // path from the source to the target.
+        // Start from the target and work backward to find a shortest path from
+        // the source to the target.
         while (prev.get(u) != undefined) {
             stack.push(u);
             u = prev.get(u);
@@ -495,7 +494,8 @@ export class PurchasedServer {
         this.#ns = ns;
         this.#valid_ram = [
             2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384,
-            32768, 65536, 131072, 262144];
+            32768, 65536, 131072, 262144
+        ];
     }
 
     /**
