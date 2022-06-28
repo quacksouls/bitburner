@@ -47,10 +47,9 @@ export class Graph {
      */
     constructor(directed) {
         this.#adj = new Map();
+        this.#directed = false;
         if (directed) {
             this.#directed = true;
-        } else {
-            this.#directed = false;
         }
     }
 
