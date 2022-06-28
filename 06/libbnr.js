@@ -639,7 +639,20 @@ export class Server {
         this.#ram_reserve = 0;
         const player = new Player(ns);
         if (this.hostname() == player.home()) {
-            this.#ram_reserve = 50;
+            // By default, we reserve 50GB RAM on the player's home server.  If
+            // the home server has less than this amount of RAM, we do not
+            // reserve any RAM at all.
+            const default_ram = 50;
+            this.#ram_reserve = default_ram;
+            // Reserve a higher amount of RAM, depending on the maximum RAM on
+            // the home server.
+            if (this.ram_max() >= 512) {
+                this.#ram_reserve = 200;
+            } else if (this.ram_max() >= 256) {
+                this.#ram_reserve = 100;
+            } else if (this.ram_max() < default_ram) {
+                this.#ram_reserve = 0;
+            }
         }
     }
 
