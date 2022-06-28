@@ -365,7 +365,8 @@ export class Player {
         this.#ns = ns;
         this.#port_opener = [
             "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
-            "SQLInject.exe"];
+            "SQLInject.exe"
+        ];
         this.#program = ["DeepscanV1.exe", "DeepscanV2.exe", "NUKE.exe"];
         this.#script = "hack.js";
     }
