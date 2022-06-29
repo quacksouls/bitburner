@@ -50,7 +50,7 @@ import {
  * @return The maximum profit to be made, assumming we can perform at most
  *     t transactions.  Return 0 if no profit can be made.
  */
-function maximize_profit(t, price) {
+async function maximize_profit(ns, t, price) {
     assert(t >= 0);
     assert(price.length > 0);
     // No transactions means no profit.  We don't buy and sell, therefore
@@ -76,9 +76,11 @@ function maximize_profit(t, price) {
     // For each partition, calculate the maximum possible profit.  Compare the
     // result with the running maximum mp.
     let mp = 0;
+    const time = 10;
     while (c.length > 0) {
         mp = Math.max(mp, profit(price, t, c));
         c = next_combination(c, k, n);
+        await ns.sleep(time);
     }
     return mp;
 }
@@ -194,8 +196,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [t, price] = ns.codingcontract.getData(cct, host);
+    const mp = await maximize_profit(ns, t, price);
     const result = ns.codingcontract.attempt(
-        maximize_profit(t, price), cct, host, { returnReward: true }
+        mp, cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
