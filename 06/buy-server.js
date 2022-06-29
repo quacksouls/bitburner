@@ -65,19 +65,16 @@ function skip_stage(ns, ram, money) {
     const NO_SKIP = !SKIP;  // Do not skip a stage.
     assert(ram > 0);
     assert(money > 0);
-
     // Skip the stage if our money is at least the threshold.
     const player = new Player(ns);
     if (player.money_available() >= money) {
         return SKIP;
     }
-
     // Do not skip the stage if we have zero purchased servers.
     const current_pserv = player.pserv();
     if (current_pserv.length < 1) {
         return NO_SKIP;
     }
-
     // Skip the stage if each purchased server has more than the
     // given amount of RAM.
     assert(current_pserv.length > 0);
@@ -85,7 +82,6 @@ function skip_stage(ns, ram, money) {
     if (server.ram_max() > ram) {
         return SKIP;
     }
-
     // Skip the stage if we have the maximum number of purchased servers
     // and each server has the given amount of RAM.
     if (has_max_pserv(ns) && (server.ram_max() == ram)) {
@@ -109,21 +105,22 @@ async function stage_one(ns) {
     const ten_million = 10 * million;
     const pserv = new PurchasedServer(ns);
     if (skip_stage(ns, pserv.default_ram(), ten_million)) {
+        ns.print("Skip stage 1.");
         return;
     }
     if (has_max_pserv(ns)) {
+        ns.print("At stage 1.  Already has max pserv.");
         return;
     }
-
     // If we have zero purchased servers, then start with purchased servers
     // that have the default amount of RAM.
+    ns.print("Buy servers with default RAM.");
     const player = new Player(ns);
     const current_pserv = player.pserv();
     if (current_pserv.length < 1) {
         await update(ns, pserv.default_ram());
         return;
     }
-
     // Assume we have at least 1 purchased server.  Furthermore, each purchased
     // server has the default amount of RAM.
     assert(current_pserv.length > 0);
@@ -146,13 +143,12 @@ async function next_stage(ns, ram, money) {
     const pserv = new PurchasedServer(ns);
     assert(pserv.is_valid_ram(ram));
     assert(money > 0);
-
     // Do we skip this stage?
     const threshold = 10 * money;
     if (skip_stage(ns, ram, threshold)) {
+        ns.print("Ram: " + ram + ".  Skip stage.");
         return;
     }
-
     // Wait until we have at least the given amount of money.
     const player = new Player(ns);
     const time = seconds_to_milliseconds(10);
@@ -161,6 +157,7 @@ async function next_stage(ns, ram, money) {
     }
     // If we have zero purchased servers, then buy servers with
     // the given amount of RAM.
+    ns.print("Buy servers with RAM: " + ram);
     const current_pserv = player.pserv();
     if (current_pserv.length < 1) {
         await update(ns, ram);
@@ -190,7 +187,6 @@ async function update(ns, ram) {
     const pserv = new PurchasedServer(ns);
     const server_ram = Math.floor(ram);
     assert(pserv.is_valid_ram(server_ram));
-
     // Continuously try to purchase a new server until we've reached the
     // maximum number of servers we can buy.
     const player = new Player(ns);
@@ -226,19 +222,27 @@ async function update(ns, ram) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Make the log less verbose.
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("sleep");
+
     const million = 10 ** 6;
     const billion = 1000 * million;
     const trillion = 1000 * billion;
+    const quadrillion = 1000 * trillion;
     const money_threshold = [
-        10 * million, 100 * million, 100 * billion, trillion];
+        10 * million, 100 * million, 100 * billion, trillion
+    ];
     const ram = [128, 1024, 16384, 32768];  // Power of 2.
-    const time = minutes_to_milliseconds(10);
-
+    const time = minutes_to_milliseconds(1);
     // Do we reboot our farm of purchased servers?
+    ns.print("Starting stage 1.");
     await stage_one(ns);
     // Upgrade to purchased servers that have more RAM.
     let i = 0;
     for (const money of money_threshold) {
+        ns.print("Stage with RAM: " + ram[i]);
         await next_stage(ns, ram[i], money);
         i++;
         await ns.sleep(time);
@@ -247,13 +251,18 @@ export async function main(ns) {
     // and all network programs.
     const player = new Player(ns);
     while (!player.has_all_programs()) {
+        ns.print("Waiting to aquire all programs.");
         await ns.sleep(time);
     }
     // Upgrade to servers, each having over 50TB RAM.
-    const high_threshold = [2 * trillion, 50 * trillion, 100 * trillion];
-    const ram_threshold = [65536, 131072, 262144];  // Power of 2.
+    const high_threshold = [
+        2 * trillion, 50 * trillion, 100 * trillion, quadrillion,
+        10 * quadrillion
+    ];
+    const ram_threshold = [65536, 131072, 262144, 524288, 1048576];  // 2^i
     i = 0;
     for (const money of high_threshold) {
+        ns.print("Stage with RAM: " + ram_threshold[i]);
         await next_stage(ns, ram_threshold[i], money);
         i++;
         await ns.sleep(time);
