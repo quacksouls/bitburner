@@ -16,12 +16,12 @@
  */
 
 import {
-    assert, log_cct_failure, max_profit_kadane, sequence
+    assert, log_cct_failure, max_profit_kadane, stock_traderIII
 } from "./libbnr.js";
 
 /**
  * The maximimum profit that can be made when we are restricted to at most t
- * transactions.  When we we are restricted to at most 2 transactions, we find
+ * transactions.  When we are restricted to at most 2 transactions, we find
  * all possible partitions of the price array into 2 non-overlapping subarrays.
  * For each such partition we have 2 subarrays.  We run Kadane's algorithm on
  * each subarray, sum the results of both subarrays, and return the sum as the
@@ -37,18 +37,60 @@ import {
  * conceptually simple to understand as it builds on the intuition for the case
  * where t = 2.  However, the method can be slow.  Let k := t - 1.  Given a set
  * of n elements, we have C(n, k) ways to choose k numbers that partition the
- * price array into t non-overlapping subarrays.  Thus there are C(n, k)
- * possible partitions of the price array into t non-overlapping subarrays.
- * Notice that when t = 2, we need only to choose k = t - 1 = 1 number to act
- * as a barrier for dividing the price array into 2 non-overlapping subarrays.
- * Therefore in the worst case the above method has factorial running time,
- * which is worse than exponential running time.
+ * price array into t non-overlapping subarrays.  Here, the number C(n, k) is
+ * the binomial coefficient.  Thus there are C(n, k) possible partitions of the
+ * price array into t non-overlapping subarrays.  Notice that when t = 2, we
+ * need only to choose k = t - 1 = 1 number to act as a barrier for dividing
+ * the price array into 2 non-overlapping subarrays.  Therefore in the worst
+ * case the above method has factorial running time, which is worse than
+ * exponential running time.
  *
+ * Let's see whether we can use recursion to calculate the solution for day i
+ * based on our solution for day i-1.  Suppose price[i] is the value of the
+ * stock on day i.  Define p[t][i] as the maximum profit obtained by using at
+ * most t transactions up to and including day i.  We have two cases for day i.
+ *
+ * (1) If no transactions are made on day i, then the value of p[t][i] is
+ *     equivalent to p[t][i-1], i.e. p[t][i] = p[t][i-1].
+ * (2) Suppose we sell on the i-th day.  Then we must have bought one share of
+ *     the stock on a day j, where 0 <= j <= i-1.  Purchasing a share on day j
+ *     and selling it at a later day i would net us a profit of
+ *
+ *     price[i] - price[j]
+ *
+ *     for one transaction.  What about the profits from the remaining t-1
+ *     transactions.  Those profits are collectively represented as p[t-1][j].
+ *     If we sell on the i-th day and this is our t-th transaction, then the
+ *     profit from all t transactions can be written as
+ *
+ *     (*) price[i] - price[j] + p[t-1][j]
+ *
+ *     To maximize our profit from all t transactions, we need to maximize the
+ *     value of expression (*).  We calculate the value of (*) for each value
+ *     of j between 0 and i-1, inclusive.  That is, we have the expression
+ *
+ *     (**) max{price[i] - price[j] + p[t-1][j]}
+ *
+ *     where 0 <= j <= i-1.  Therefore p[t][i] is defined as the maximum of
+ *     p[t][i-1] and expression (**).
+ *
+ * The base cases are:
+ *
+ * (i) p[0][i] := 0 for all i.
+ * (ii) p[t][0] := 0 for all t.
+ *
+ * If n is the number of elements in the price array, the maximum profit we can
+ * obtain is p[t][n-1] provided we are restricted to at most t transactions.
+ * Refer to the following page for more details:
+ *
+ * https://www.techiedelight.com/find-maximum-profit-earned-at-most-k-stock-transactions/
+ *
+ * @param ns The Netscript API.
  * @param t The maximum number of transactions.
- * @param price An array of prices, where price[i] is the price of a stock
- *     on day i.  All prices relate to the same stock.
- * @return The maximum profit to be made, assumming we can perform at most
- *     t transactions.  Return 0 if no profit can be made.
+ * @param price An array of prices, where price[i] is the price of one share of
+ *     a stock on day i.  All prices relate to the same stock.
+ * @return The maximum profit to be made, assumming we can perform at most t
+ *     transactions.  Return 0 if no profit can be made.
  */
 async function maximize_profit(ns, t, price) {
     assert(t >= 0);
@@ -63,112 +105,65 @@ async function maximize_profit(ns, t, price) {
     if (1 == t) {
         return max_profit_kadane(price);
     }
-    // Perform at most t transactions.  Let S := {0, 1, 2, ..., n-1} be the set
-    // of all indices of the price array and define k := t - 1.  We generate
-    // all k-combinations of the set S.  The k-combinations are generated in
-    // lexicographic order.
-    assert(t >= 2);
-    // Our initial array for a k-combination consists of the first k indices of
-    // the price array.
-    const k = t - 1;
-    const n = price.length;
-    let c = sequence(k);
-    // For each partition, calculate the maximum possible profit.  Compare the
-    // result with the running maximum mp.
-    let mp = 0;
-    const time = 10;
-    while (c.length > 0) {
-        mp = Math.max(mp, profit(price, t, c));
-        c = next_combination(c, k, n);
-        await ns.sleep(time);
+    // If t = 2, we are restricted to at most 2 transactions.
+    if (2 == t) {
+        return stock_traderIII(price);
     }
-    return mp;
-}
-
-/**
- * Use a current k-combination to generate the next k-combination in
- * lexicographic order.  We use Algorithm 2.6 from the book:
- *
- * Donald L. Kreher and Douglas R. Stinson.  Combinatorial Algorithms:
- * Generation, Enumeration, and Search.  CRC Press, 1999, p.43.
- *
- * The algorithm given in the book uses 1-based counting.  Here, we adapt the
- * algorithm to use 0-based counting.
- *
- * @param c An array representing the current k-combination.  Cannot be empty.
- * @param k We want to generate a k-combination.  Must be at least 1.
- * @param n The size of the price array.
- * @return The next k-combination in lexicographic order.  Return an empty
- *     array if we cannot generate anymore k-combinations.
- */
-function next_combination(c, k, n) {
-    // Sanity checks.
-    assert(c.length > 0);
-    assert(k > 0);
-    assert(n > 0);
-    // The basic idea of the algorithm is to increment an element of the
-    // combination array as high as we can, starting from the right-most
-    // element and work our way down to the first element.  Each call of the
-    // function increments the right-most element by 1 and we call the function
-    // as many times as necesary until we can no longer increment the
-    // right-most element of the array.  Then we move down to the second-last
-    // element of the array and repeat the process.  And so on all the way
-    // down to the first element of the array.
-    // Initialization.
-    const max = k - 1;
-    const lastidx = n - 1;
-    let i = max;
-    while ((i >= 0) && (c[i] == lastidx - max + i)) {
-        i--;
+    // Perform at most t >= 3 transactions.  Let p[t][i] be the maximum profit
+    // obtained by using at most t transactions up to and including day i.  The
+    // value of p[t][i] is the maximum of these two expressions:
+    //
+    // (1) p[t][i-1]
+    // (2) max{price[i] - price[j] + p[t-1][j]} for all 0 <= j <= i-1.
+    //
+    // Using the recursive structure of p[t][i], we create a 2-D array to hold
+    // the previous values p[r][c].  The row number r represents the current
+    // maximum number of transactions.  The column number c represents the
+    // current day.
+    assert(t >= 3);
+    // The base case p[0][i] := 0 for all i.
+    const p = new Array();
+    p.push(new Array(price.length).fill(0));
+    for (let i = 1; i <= t; i++) {
+        // The base case p[t][0] := 0 for all t.
+        const array = new Array(price.length);
+        array[0] = 0;
+        p.push(array);
     }
-    // We have exhausted all possible k-combinations.
-    if (i < 0) {
-        return [];
+    // The case of at least t >= 1 transactions.  Here, 1 <= tau <= t.
+    const time = 1;
+    for (let tau = 1; tau <= t; tau++) {
+        // Let the number of transactions be at most tau.  Consider each
+        // day > 0 in the price array.  As we move to the next day, we do not
+        // have to recalculate the maximization expression
+        //
+        // max{price[i] - price[j] + p[t-1][j]}
+        //
+        // for all 0 <= j <= i-1.  Define the number
+        //
+        // mp := max(p[t-1][k] - price[k])
+        //
+        // where 0 <= k <= i-2.  Then we have the expression
+        //
+        // max{price[i] - price[j] + p[t-1][j]}
+        // = price[i] + max(mp, p[t-1][i-1] - price[i-1])
+        //
+        // Thus p[t][i] is the maximum of p[t][i-1] and the expression
+        //
+        // price[i] + max(mp, p[t-1][i-1] - price[i-1])
+        let mp = p[tau-1][0] - price[0];
+        for (let day = 1; day < price.length; day++) {
+            // The maximum profit if we do not make a transaction on this day.
+            const a = p[tau][day - 1];
+            // The maximum profit if we make a transaction on this day.
+            mp = Math.max(mp, p[tau-1][day-1] - price[day-1]);
+            // The maximum profit using at most t transactions up to and
+            // including this day.
+            p[tau][day] = Math.max(a, price[day] + mp);
+            await ns.sleep(time);
+        }
     }
-    // Generate the next k-combination.
-    const newc = Array.from(c);
-    for (let j = i; j < k; j++) {
-        newc[j] = c[i] + 1 + j - i;
-    }
-    return newc;
-}
-
-/**
- * The maximum profit to be made from a given partition of the price array.
- *
- * @param price An array of prices, where price[i] is the price of a stock
- *     on day i.  All prices relate to the same stock.
- * @param t The maximum number of transactions we are allowed to make.  Must
- *     be at least 2.
- * @param c A k-combination of the indices of the price array.  We use this
- *     array to partition the price array into t non-overlapping subarrays.
- * @return The maximum profit possible using the given partition of the price
- *     array.
- */
-function profit(price, t, c) {
-    // Sanity checks.
-    assert(price.length > 0);
-    assert(t >= 2);
-    const k = t - 1;
-    assert(c.length == k);
-    // Calculate the maximum profit by using the given partition of the
-    // price array.  In the array c, each element c[i] is a value in a
-    // k-combination of the indices of the price array.  The first subarray
-    // starts from index 0 of the price array and ends at index c[0].  The
-    // second subarray starts from index c[0] + 1 and ends at index c[1].  The
-    // third subarray starts from index c[1] + 1 and ends at index c[2].  And
-    // so on.  The k-th subarray starts from index c[k-2] + 1 and ends at index
-    // c[k-1].  The t-th subarray starts from index c[k-1] + 1 and ends at
-    // index n-1.
-    let array = price.slice(0, c[0] + 1);
-    let maxprofit = max_profit_kadane(array);
-    for (let i = 0; i < (k - 1); i++) {
-        array = price.slice(c[i] + 1, c[i + 1] + 1);
-        maxprofit += max_profit_kadane(array);
-    }
-    array = price.slice(c[k - 1] + 1, price.length);
-    maxprofit += max_profit_kadane(array);
-    return maxprofit;
+    return p[t][price.length - 1];
 }
 
 /**
