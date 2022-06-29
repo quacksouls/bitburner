@@ -152,12 +152,12 @@ async function maximize_profit(ns, t, price) {
         // Thus p[t][i] is the maximum of p[t][i-1] and the expression
         //
         // price[i] + max(mp, p[t-1][i-1] - price[i-1])
-        let mp = p[tau-1][0] - price[0];
+        let mp = p[tau - 1][0] - price[0];
         for (let day = 1; day < price.length; day++) {
             // The maximum profit if we do not make a transaction on this day.
             const a = p[tau][day - 1];
             // The maximum profit if we make a transaction on this day.
-            mp = Math.max(mp, p[tau-1][day-1] - price[day-1]);
+            mp = Math.max(mp, p[tau - 1][day - 1] - price[day - 1]);
             // The maximum profit using at most t transactions up to and
             // including this day.
             p[tau][day] = Math.max(a, price[day] + mp);
