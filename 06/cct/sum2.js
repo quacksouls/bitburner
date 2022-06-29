@@ -42,7 +42,8 @@ function coin_change(n, denom) {
         denomination.pop();
         i = denomination.length - 1;
     }
-    return partition(n, denomination.length, denomination);
+    const np = Math.floor(partition(n, denomination.length, denomination));
+    return np;
 }
 
 /**
