@@ -130,7 +130,8 @@ async function maximize_profit(ns, t, price) {
         array[0] = 0;
         p.push(array);
     }
-    // The case of at least t >= 1 transactions.  Here, 1 <= tau <= t.
+    // The case of at least t >= 3 transactions.  Here, 1 <= tau <= t.  Build
+    // up our table from tau = 1 up to and include tau = t.
     const time = 1;
     for (let tau = 1; tau <= t; tau++) {
         // Let the number of transactions be at most tau.  Consider each
