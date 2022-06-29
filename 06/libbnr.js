@@ -494,7 +494,7 @@ export class PurchasedServer {
         this.#ns = ns;
         this.#valid_ram = [
             2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384,
-            32768, 65536, 131072, 262144
+            32768, 65536, 131072, 262144, 524288, 1048576
         ];
     }
 
@@ -1177,10 +1177,13 @@ export function matrix_to_string(mat) {
  * @param price An array where price[i] represents the price of a stock on
  *     day i.  All prices are for the same stock.
  * @return The maximum profit we can make, assuming at most one transaction.
- *       Return 0 if no profit can be made.
+ *       Return 0 if no profit can be made or the price array is empty.
  */
 export function max_profit_kadane(price) {
-    assert(price.length > 0);
+    // Empty price array means zero profit.
+    if (0 == price.length) {
+        return 0;
+    }
     let max_profit = 0;
     let min_price = price[0];
     // Must start on the second day.  On the first day, we have only one
