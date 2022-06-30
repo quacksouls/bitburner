@@ -57,7 +57,7 @@ function buy_stock(ns, stk) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    if (player.money_available() <= money_reserve()) {
+    if (player.money() <= money_reserve()) {
         return false;
     }
     return true;
@@ -91,7 +91,7 @@ function is_profitable(ns, stk) {
  */
 function meet_money_threshold(ns) {
     const player = new Player(ns);
-    if (player.money_available() < money_reserve()) {
+    if (player.money() < money_reserve()) {
         return false;
     }
     return true;
@@ -132,7 +132,7 @@ function num_shares(ns, stk) {
     const million = 10 ** 6;
     const billion = 1000 * million;
     const spend_threshold = 10 * billion;
-    const amount = (player.money_available() - money_reserve()) * spend_ratio;
+    const amount = (player.money() - money_reserve()) * spend_ratio;
     const funds = Math.min(spend_threshold, amount);
     // Calculate how many shares of the stock we can buy.
     const price = ns.stock.getAskPrice(stk);

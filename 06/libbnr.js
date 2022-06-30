@@ -439,7 +439,7 @@ export class Player {
     /**
      * The amount of money available to this player.
      */
-    money_available() {
+    money() {
         return this.#ns.getServerMoneyAvailable(this.home());
     }
 
