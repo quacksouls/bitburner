@@ -22,6 +22,29 @@ import {
 } from "./libbnr.js";
 
 /**
+ * Buy servers, each having as high an amount of RAM as we can afford.
+ *
+ * @param ns The Netscript API.
+ */
+async function buy_servers(ns) {
+    // The amount of RAM for each purchased server.  If 0, we try to purchase
+    // servers where the amount of RAM allows us to run our hack script using
+    // 2 threads.
+    const pserv = new PurchasedServer(ns);
+    const default_ram = pserv.default_ram();
+    const minserv = 8;
+    const ram = pserv_ram(ns, minserv);
+    if (ram <= default_ram) {
+        // Try to purchase servers, each with the default amount of ram.
+        await stage_one(ns);
+        return;
+    }
+    // Try to purchase servers, each with higher amount of RAM.
+    assert(ram > default_ram);
+    await next_stage(ns, ram);
+}
+
+/**
  * Whether we have the maximum number of purchased servers.
  *
  * @param ns The Netscript API.
@@ -35,6 +58,94 @@ function has_max_pserv(ns) {
         return false;
     }
     return true;
+}
+
+/**
+ * Purchase servers that have more than the default amount of RAM.  Call this
+ * function multiple times with different arguments to upgrade our purchased
+ * servers to higher RAM.
+ *
+ * @param ns The Netscript API.
+ * @param ram The amount of RAM for each purchased server.
+ */
+async function next_stage(ns, ram) {
+    const pserv = new PurchasedServer(ns);
+    assert(pserv.is_valid_ram(ram));
+    // If we have zero purchased servers, then buy servers with the given
+    // amount of RAM.
+    const player = new Player(ns);
+    const current_pserv = player.pserv();
+    const msg = "Buy servers with RAM: " + ram;
+    if (current_pserv.length < 1) {
+        ns.print(msg);
+        await update(ns, ram);
+        return;
+    }
+    // Assume we have at least 1 purchased server.
+    assert(current_pserv.length > 0);
+    const server = new Server(ns, current_pserv[0]);
+    if (server.ram_max() < ram) {
+        // If each purchased server has less than the given amount of RAM, then
+        // delete the servers and purchase servers with the given amount of RAM.
+        ns.print(msg);
+        pserv.kill_all();
+        await update(ns, ram);
+    } else if (server.ram_max() == ram) {
+        // The current purchased servers have the same amount of RAM as our
+        // target RAM.  Continue purchasing more servers with the current
+        // amount of RAM.
+        ns.print(msg);
+        await update(ns, ram);
+    } else {
+        // Each current purchased server has more RAM than the given amount of
+        // RAM.
+        assert(ram < server.ram_max());
+        return;
+    }
+}
+
+/**
+ * The possible amount of RAM for each purchased server.
+ *
+ * @param ns The Netscript API.
+ * @param minserv The minimum number of servers to buy.  Must be a positive
+ *     integer.
+ * @return The amount of RAM for each purchased server.  Return 0 if we cannot
+ *     afford the given number of purchased server.
+ */
+function pserv_ram(ns, minserv) {
+    assert(minserv > 0);
+    // The possible amount of RAM for a purchased server.  We want the lowest
+    // value to be the default amount of RAM.
+    const pserv = new PurchasedServer(ns);
+    const default_ram = pserv.default_ram();
+    const ram = [default_ram];
+    for (const r of pserv.valid_ram()) {
+        if (r > default_ram) {
+            ram.push(r);
+        }
+    }
+    // Sort the array of RAM in descending order.
+    ram.sort(
+        function (a, b) {
+            return b - a;
+        }
+    );
+    // Let's see whether we can purchase servers, each having the given amount
+    // of RAM.  Start with the highest amount of RAM.  See if we can buy at
+    // least minserv servers, each with the given amount of RAM.  If not, then
+    // decrease the amount of RAM and repeat the above process.
+    const player = new Player(ns);
+    let psram = 0;
+    for (const r of ram) {
+        const cost = minserv * ns.getPurchasedServerCost(r);
+        if (cost > player.money()) {
+            continue;
+        }
+        psram = r;
+        break;
+    }
+    return psram;
 }
 
 /**
@@ -53,45 +164,6 @@ function renew_targets(ns, target) {
 }
 
 /**
- * Whether to skip a stage.
- *
- * @param ns The Netscript API.
- * @param ram The RAM threshold.
- * @param money The money threshold.
- * @return true if a particular stage should be skipped; false otherwise.
- */
-function skip_stage(ns, ram, money) {
-    const SKIP = true;      // Skip a stage.
-    const NO_SKIP = !SKIP;  // Do not skip a stage.
-    assert(ram > 0);
-    assert(money > 0);
-    // Skip the stage if our money is at least the threshold.
-    const player = new Player(ns);
-    if (player.money_available() >= money) {
-        return SKIP;
-    }
-    // Do not skip the stage if we have zero purchased servers.
-    const current_pserv = player.pserv();
-    if (current_pserv.length < 1) {
-        return NO_SKIP;
-    }
-    // Skip the stage if each purchased server has more than the
-    // given amount of RAM.
-    assert(current_pserv.length > 0);
-    const server = new Server(ns, current_pserv[0]);
-    if (server.ram_max() > ram) {
-        return SKIP;
-    }
-    // Skip the stage if we have the maximum number of purchased servers
-    // and each server has the given amount of RAM.
-    if (has_max_pserv(ns) && (server.ram_max() == ram)) {
-        return SKIP;
-    }
-
-    return NO_SKIP;
-}
-
-/**
  * This is the early stage, where it is assumed we are starting the game or
  * have just installed a bunch of Augmentations.  Each purchased server should
  * have a small amount of RAM, enough to run our hacking script using at least
@@ -100,78 +172,36 @@ function skip_stage(ns, ram, money) {
  * @param ns The Netscript API.
  */
 async function stage_one(ns) {
-    // Do we skip this stage?
-    const million = 10 ** 6;
-    const ten_million = 10 * million;
+    // Do we already have the maximum number of purchased servers?
     const pserv = new PurchasedServer(ns);
-    if (skip_stage(ns, pserv.default_ram(), ten_million)) {
-        ns.print("Skip stage 1.");
-        return;
-    }
+    const default_ram = pserv.default_ram();
     if (has_max_pserv(ns)) {
-        ns.print("At stage 1.  Already has max pserv.");
+        const msg = "RAM: " + default_ram + ".  Already has max pserv.";
+        ns.print(msg);
         return;
     }
     // If we have zero purchased servers, then start with purchased servers
     // that have the default amount of RAM.
-    ns.print("Buy servers with default RAM.");
     const player = new Player(ns);
     const current_pserv = player.pserv();
+    const msg = "Buy servers with default RAM: " + default_ram;
     if (current_pserv.length < 1) {
-        await update(ns, pserv.default_ram());
+        ns.print(msg);
+        await update(ns, default_ram);
         return;
     }
-    // Assume we have at least 1 purchased server.  Furthermore, each purchased
-    // server has the default amount of RAM.
+    // Assume we have at least 1 purchased server.
     assert(current_pserv.length > 0);
     assert(current_pserv.length < pserv.limit());
     const server = new Server(ns, current_pserv[0]);
-    assert(server.ram_max() == pserv.default_ram());
-    await update(ns, pserv.default_ram());
-}
-
-/**
- * Here we purchase servers that have more than the default amount of RAM.
- * Call this function multiple times with different arguments to upgrade our
- * purchased servers to higher RAM.
- *
- * @param ns The Netscript API.
- * @param ram The threshold for RAM.
- * @param money The threshold for money.
- */
-async function next_stage(ns, ram, money) {
-    const pserv = new PurchasedServer(ns);
-    assert(pserv.is_valid_ram(ram));
-    assert(money > 0);
-    // Do we skip this stage?
-    const threshold = 10 * money;
-    if (skip_stage(ns, ram, threshold)) {
-        ns.print("Ram: " + ram + ".  Skip stage.");
+    // Skip the stage if a current purchased server has more than the default
+    // amount of RAM.
+    if (default_ram < server.ram_max()) {
         return;
     }
-    // Wait until we have at least the given amount of money.
-    const player = new Player(ns);
-    const time = seconds_to_milliseconds(10);
-    while (player.money_available() < money) {
-        await ns.sleep(time);
-    }
-    // If we have zero purchased servers, then buy servers with
-    // the given amount of RAM.
-    ns.print("Buy servers with RAM: " + ram);
-    const current_pserv = player.pserv();
-    if (current_pserv.length < 1) {
-        await update(ns, ram);
-        return;
-    }
-    // Assume we have at least 1 purchased server.  If each purchased
-    // server has less than the given amount of RAM, then delete the
-    // servers and purchase servers with the given amount of RAM.
-    assert(current_pserv.length > 0);
-    const server = new Server(ns, current_pserv[0]);
-    if (server.ram_max() < ram) {
-        pserv.kill_all();
-    }
-    await update(ns, ram);
+    assert(server.ram_max() == default_ram);
+    ns.print(msg);
+    await update(ns, default_ram);
 }
 
 /**
@@ -179,23 +209,23 @@ async function next_stage(ns, ram, money) {
  * servers.  The function chooses the "best" targets to hack.
  *
  * @param ns The Netscript API.
- * @param ram The amount of RAM for each purchased server.  Must be a power
- *     of 2.
+ * @param ram The amount of RAM for each purchased server.  Must be a positive
+ *     integer and a power of 2.
  */
 async function update(ns, ram) {
     // The amount of RAM must be a power of 2.  RAM is assumed to be in GB.
     const pserv = new PurchasedServer(ns);
     const server_ram = Math.floor(ram);
     assert(pserv.is_valid_ram(server_ram));
-    // Continuously try to purchase a new server until we've reached the
+    // Continuously try to purchase a new server until we have reached the
     // maximum number of servers we can buy.
     const player = new Player(ns);
     let i = player.pserv().length;
     let target = new Array();
-    const time = seconds_to_milliseconds(10);
+    const time = seconds_to_milliseconds(5);
     while (i < pserv.limit()) {
         // Do we have enough money to buy a new server?
-        if (player.money_available() > pserv.cost(server_ram)) {
+        if (player.money() > pserv.cost(server_ram)) {
             // Purchase a new server.
             const hostname = pserv.purchase("pserv", server_ram);
             // Choose the best target server.
@@ -214,8 +244,8 @@ async function update(ns, ram) {
 
 /**
  * Continuously try to purchase servers and use those to hack world servers.
- * If our funds are sufficient, try to upgrade to servers with higher
- * amounts of RAM.
+ * If our funds are sufficient, try to upgrade to servers with higher amounts
+ * of RAM.
  *
  * Usage: run buy-server.js
  *
@@ -223,48 +253,14 @@ async function update(ns, ram) {
  */
 export async function main(ns) {
     // Make the log less verbose.
+    ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("getServerUsedRam");
     ns.disableLog("sleep");
-
-    const million = 10 ** 6;
-    const billion = 1000 * million;
-    const trillion = 1000 * billion;
-    const quadrillion = 1000 * trillion;
-    const money_threshold = [
-        10 * million, 100 * million, 100 * billion, trillion
-    ];
-    const ram = [128, 1024, 16384, 32768];  // Power of 2.
+    // Continuously try to purchase servers.
     const time = minutes_to_milliseconds(1);
-    // Do we reboot our farm of purchased servers?
-    ns.print("Starting stage 1.");
-    await stage_one(ns);
-    // Upgrade to purchased servers that have more RAM.
-    let i = 0;
-    for (const money of money_threshold) {
-        ns.print("Stage with RAM: " + ram[i]);
-        await next_stage(ns, ram[i], money);
-        i++;
-        await ns.sleep(time);
-    }
-    // Wait until we have all programs to open every port on any world server
-    // and all network programs.
-    const player = new Player(ns);
-    while (!player.has_all_programs()) {
-        ns.print("Waiting to aquire all programs.");
-        await ns.sleep(time);
-    }
-    // Upgrade to servers, each having over 50TB RAM.
-    const high_threshold = [
-        2 * trillion, 50 * trillion, 100 * trillion, quadrillion,
-        10 * quadrillion
-    ];
-    const ram_threshold = [65536, 131072, 262144, 524288, 1048576];  // 2^i
-    i = 0;
-    for (const money of high_threshold) {
-        ns.print("Stage with RAM: " + ram_threshold[i]);
-        await next_stage(ns, ram_threshold[i], money);
-        i++;
+    while (true) {
+        await buy_servers(ns);
         await ns.sleep(time);
     }
 }
