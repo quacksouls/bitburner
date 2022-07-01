@@ -74,14 +74,10 @@ function all_substrings(data, i, str) {
  *     (3) k := Start our further processing from this index onward.
  */
 function buffer_excludes_Si(data, i, chunk_type) {
-    // The first chunk type, which follows the format L<string>.
-    const STRING = 1;
-    // The second chunk type, following the format LX.
-    const DIGIT = 2;
     assert(data.length > 0);
     assert(i >= 0);
     assert(i < data.length);
-    assert((STRING == chunk_type) || (DIGIT == chunk_type));
+    assert((lstr_format() == chunk_type) || (lx_format() == chunk_type));
     // The search buffer does not include the character S[i].  It would not help
     // us to look ahead to the character at index i+1.  Suppose we look ahead
     // and consider the substring S[i...i+1].  Our updated search buffer is
@@ -90,7 +86,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
     // contained in the updated search buffer.  The way we compress S[i], and
     // possibly S[i+1...i+8], depends on the format of the latest chunk.
     const max = 9;
-    if (DIGIT == chunk_type) {
+    if (lx_format() == chunk_type) {
         // Try to compress the new chunk along the format L<string>.
         // Possibilities to consider.
         // (1) The substring S[i...i+j] is composed of the same character, where
@@ -114,7 +110,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
             if (str.length <= 3) {
                 const ell = str.length;
                 const chunk = ell + str;
-                return [[chunk, STRING, j]];
+                return [[chunk, lstr_format(), j]];
             }
             // If the substring has length greater than 3, we use the format
             //
@@ -129,7 +125,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
             const ell = str.length - 1;
             const chunka = "1" + str[0];
             const chunkb = ell + "1";
-            return [[chunka + chunkb, DIGIT, j]];
+            return [[chunka + chunkb, lx_format(), j]];
         }
         // The second possibility is that the characters S[i] and S[i+1] are
         // different.  Construct all possible chunks, using at most 9
@@ -138,7 +134,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
         return extended_chunks(data, i, prefix);
     }
     // The latest chunk follows the format L<string>.
-    assert(STRING == chunk_type);
+    assert(lstr_format() == chunk_type);
     // Try to compress the new chunk along the format LX.  Possibilities
     // to consider.
     // (1) The substring S[i...i+j] is composed of the same character, where
@@ -162,7 +158,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
             const ell = str.length;
             const chunka = "0";
             const chunkb = ell + str;
-            return [[chunka + chunkb, STRING, j]];
+            return [[chunka + chunkb, lstr_format(), j]];
         }
         // If the substring has length greater than 3, we use the format
         //
@@ -179,7 +175,7 @@ function buffer_excludes_Si(data, i, chunk_type) {
         const chunka = "0";
         const chunkb = "1" + str[0];
         const chunkc = ell + "1";
-        return [[chunka + chunkb + chunkc, DIGIT, j]];
+        return [[chunka + chunkb + chunkc, lx_format(), j]];
     }
     // The second possibility is that the characters S[i] and S[i+1] are
     // different.  The character data[i] is not contained in the search buffer.
@@ -211,14 +207,10 @@ function buffer_excludes_Si(data, i, chunk_type) {
  *     (3) k := Start our further processing from this index onward.
  */
 function buffer_includes_Si(data, i, chunk_type) {
-    // The first chunk type, which follows the format L<string>.
-    const STRING = 1;
-    // The second chunk type, following the format LX.
-    const DIGIT = 2;
     assert(data.length > 0);
     assert(i > 0);
     assert(i < data.length);
-    assert((STRING == chunk_type) || (DIGIT == chunk_type));
+    assert((lstr_format() == chunk_type) || (lx_format() == chunk_type));
     // Starting from index i, find the longest string that is contained in the
     // sliding window.  As we append another character to the string, the
     // sliding window shifts by one character to the right.  Note that the
@@ -262,7 +254,7 @@ function buffer_includes_Si(data, i, chunk_type) {
     // most 8 characters, then the next character should not be found in the
     // sliding window.  In either case, we now compress the string.
     const b = step[step.length - 1];
-    if (STRING == chunk_type) {
+    if (lstr_format() == chunk_type) {
         // The latest chunk was compressed by using the format L<string>.  Now
         // use the format LX.  The format LX is perfect for the current
         // situation because the string is contained in a sliding window.  We
@@ -273,7 +265,7 @@ function buffer_includes_Si(data, i, chunk_type) {
         const X = b;
         const k = i + L;
         const chunk = L + "" + X;
-        return [chunk, DIGIT, k];
+        return [chunk, lx_format(), k];
     }
     // The latest chunk was compressed by using the format LX.  Now switch to
     // the format L<string>.  Consider the following cases:
@@ -287,17 +279,17 @@ function buffer_includes_Si(data, i, chunk_type) {
     //     number of characters in the string.  Instead, we should use the
     //     format "0 LX", where "0" means we switch off the string format
     //     L<string> and now proceed to use the digit format LX.
-    assert(DIGIT == chunk_type);
+    assert(lx_format() == chunk_type);
     const L = str.length;
     const k = i + L;
     if (str.length < 3) {
         const chunk = L + str;
-        return [chunk, STRING, k];
+        return [chunk, lstr_format(), k];
     }
     const X = b;
     const chunka = "0";
     const chunkb = L + "" + X;
-    return [chunka + chunkb, DIGIT, k];
+    return [chunka + chunkb, lx_format(), k];
 }
 
 /**
@@ -613,9 +605,6 @@ function build_buffer(data, i) {
  */
 function compress(data) {
     assert(data.length > 0);
-    // The first chunk type, which follows the format L<string>.  The second
-    // chunk type is LX.
-    const STRING = 1;
     // Construct our early search buffer and compress it as our very first
     // candidate encoding of the input string.  The very first chunk always
     // follows the format L<string>.
@@ -692,14 +681,12 @@ function extended_chunks(data, i, prefix) {
     // L<string>.  If the length of str is 9 or we have processed all
     // characters of the input string "data", then we are done.  Compress the
     // string.
-    // The first chunk type L<string>
-    const STRING = 1;
     const max = 9;
     const [str, j] = build_buffer(data, i);
     if ((max == str.length) || (j >= data.length)) {
         const ell = str.length;
         const chunk = prefix + ell + str;
-        return [[chunk, STRING, j]];
+        return [[chunk, lstr_format(), j]];
     }
     // If the length of str is at most 8, then try all possible lengths for
     // str.  Each possibility adds one more character to str, until we have a
@@ -713,7 +700,7 @@ function extended_chunks(data, i, prefix) {
         const ell = s.length;
         const chunk = prefix + ell + s;
         const k = i + ell;
-        candidate.push([chunk, STRING, k]);
+        candidate.push([chunk, lstr_format(), k]);
     }
     return candidate;
 }
