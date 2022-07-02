@@ -18,7 +18,7 @@
 import { assert, log_cct_failure } from "./libbnr.js";
 
 /**
- * Encode a string that consists of the same characters.
+ * Encode a string that consists of the same character.
  *
  * @param c A character.
  * @param n The run-length of the given character.
