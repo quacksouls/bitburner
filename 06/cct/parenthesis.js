@@ -89,7 +89,7 @@ function is_parenthesis(c) {
  * @param expr We want to prune one character from this expression.  The
  *     expression is represented as a string.
  * @param i Remove the character expr[i] at index i.
- * @return An sub-expression obtained by removing from expr the character
+ * @return A sub-expression obtained by removing from expr the character
  *     at index i.  We do not modify the given expression.
  */
 function slice(expr, i) {
