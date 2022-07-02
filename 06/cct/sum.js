@@ -35,14 +35,13 @@ import { log_cct_failure } from "./libbnr.js";
  * In practice, we only sum up to and including k = n.  Refer to the following
  * for more details:
  *
- * https://en.wikipedia.org/wiki/Pentagonal_number_theorem
- *
- * On Euler's Pentagonal Theorem
- * https://www.mathpages.com/home/kmath623/kmath623.htm
- *
- * John A. Ewell.  Recurrences for the Partition Function and Its Relatives.
- * Rocky Mountain Journal of Mathematics, volume 34, issue 2, pp.619--627, 2004.
- * DOI: 10.1216/rmjm/1181069871
+ * [1] https://en.wikipedia.org/wiki/Pentagonal_number_theorem
+ * [2] On Euler's Pentagonal Theorem
+ *     https://www.mathpages.com/home/kmath623/kmath623.htm
+ * [3] John A. Ewell.  Recurrences for the Partition Function and Its Relatives.
+ *     Rocky Mountain Journal of Mathematics, volume 34, issue 2, pp.619--627,
+ *     2004.
+ *     DOI: 10.1216/rmjm/1181069871
  *
  * @param n We want to determine the number of partitions of this number.
  *     Must be a non-negative integer.
