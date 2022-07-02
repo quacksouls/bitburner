@@ -159,6 +159,10 @@ async function update(ns, lowend) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // We want a less verbose log.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("sleep");
     // First, kill all instances of the hack script that are running on our
     // home server against a low-end server.  We do this because after
     // reloading the game, the value of the variable "target" is lost.
