@@ -32,7 +32,10 @@ async function buy_servers(ns) {
     // 2 threads.
     const pserv = new PurchasedServer(ns);
     const default_ram = pserv.default_ram();
-    const minserv = 8;
+    // By default, we want to purchase minserv servers.  As for the remaining
+    // servers that make up the number to reach the maximum number of purchased
+    // servers, we wait until we have enough money to purchase each of them.
+    const minserv = 13;
     const ram = pserv_ram(ns, minserv);
     if (ram <= default_ram) {
         // Try to purchase servers, each with the default amount of ram.
