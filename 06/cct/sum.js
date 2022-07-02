@@ -32,7 +32,7 @@ import { log_cct_failure } from "./libbnr.js";
  * B := p(n - k(3k + 1) / 2)
  * PP := The set of all positive integers.
  *
- * In practice, we only sum up to and including k = n.  Refer to the following
+ * In practice, we only sum up to and including k := n.  Refer to the following
  * for more details:
  *
  * [1] https://en.wikipedia.org/wiki/Pentagonal_number_theorem
@@ -46,7 +46,7 @@ import { log_cct_failure } from "./libbnr.js";
  * @param n We want to determine the number of partitions of this number.
  *     Must be a non-negative integer.
  * @return Possible values:
- *     * 1 if n == 0.
+ *     * 1 if n = 0.
  *     * 0 if n < 0.
  *     * p(n)
  */
