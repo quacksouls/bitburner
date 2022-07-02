@@ -216,7 +216,7 @@ function to_graph(n, edge) {
  * @param prev_colour The current colouring of the nodes of a graph.
  * @param new_colour The new colouring of the nodes.
  * @param white The colour used to represent a node that is yet to be coloured.
- * @return An array rerepsenting the updated colouring.
+ * @return An array representing the updated colouring.
  */
 function update_colouring(prev_colour, new_colour, white) {
     assert(prev_colour.length > 0);
