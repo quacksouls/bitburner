@@ -73,7 +73,6 @@ function all_ip(string) {
  *     octet has the range of indices [i + j, i + j + k - 1].  Finally, the
  *     fourth octet has the range of indices [i + j + k, n - 1], where n is
  *     the length of the digit string.
- *
  * @return An array where each element is a string of digits representing an
  *     octet of the digit string.
  */
