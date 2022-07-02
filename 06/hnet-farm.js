@@ -29,7 +29,7 @@ function is_fully_upgraded(ns) {
     const max_ram = 64;
     const MAXED_OUT = true;
     const NOT_MAXED_OUT = !MAXED_OUT;
-
+    // Iterate through each node of our Hacknet farm.
     for (const node of farm) {
         const stat = ns.hacknet.getNodeStats(node);
         if (stat.cores < max_core) {
