@@ -56,6 +56,7 @@ function maximize_profit(price) {
     }
     // Keep track of the running maximum profit by considering the price
     // difference between consecutive days.
+    assert(price.length >= 2);
     const lastidx = price.length - 1;
     let max_profit = 0;
     for (let i = 0; i < lastidx; i++) {
