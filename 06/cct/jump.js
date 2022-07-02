@@ -22,7 +22,7 @@ import { all_nonnegative, assert, log_cct_failure } from "./libbnr.js";
  * Try to jump the maximum distance, otherwise backtrack and/or reduce the
  * jump distance.
  *
- * @param array An array of integers.  Cannot be empty array.
+ * @param array An array of integers.  Cannot be an empty array.
  * @return 1 if starting from the first array cell we can reach
  *     the last array cell; 0 otherwise.
  */
