@@ -63,7 +63,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/subarray.txt";
-        const data = "[" + array + "]";
+        const data = "[" + array.join(",") + "]";
         await log_cct_failure(ns, log, cct, host, data);
         ns.tprint(host + ": " + cct + ": FAILURE");
         return;
