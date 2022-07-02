@@ -114,6 +114,7 @@ function is_valid_ip(octet) {
  * @return true if the given segment is a valid IPv4 octet; false otherwise.
  */
 function is_valid_octet(octet) {
+    assert(octet.length > 0);
     const VALID = true;
     const NOT_VALID = !VALID;
     // An octet cannot begin with '0'.  The exception to this rule
