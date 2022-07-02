@@ -944,7 +944,8 @@ export function array_sum(array) {
     const total = array.reduce(
         function (sum, current) {
             return sum + current;
-        }, init_value
+        },
+        init_value
     );
     return total;
 }
