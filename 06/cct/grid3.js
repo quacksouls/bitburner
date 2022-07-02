@@ -188,6 +188,8 @@ function pairing(x, y) {
  *     from the top-left to the bottom-right.
  */
 function shortest_path(grid) {
+    // Represent the grid as an undirected graph.  Find a shortest path from
+    // the top-left corner to the bottom-right corner.
     const graph = to_graph(grid);
     const a = pairing(0, 0);
     const b = pairing(grid.length - 1, grid[0].length - 1);
