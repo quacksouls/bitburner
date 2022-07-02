@@ -171,7 +171,6 @@ export async function main(ns) {
     for (const server of low_end_servers(ns)) {
         await ns.kill(player.script(), player.home(), server);
     }
-
     // Continuously try to search for low-end servers to hack.
     const time = minutes_to_milliseconds(10);
     let target = new Array();
