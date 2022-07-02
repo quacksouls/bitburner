@@ -952,6 +952,25 @@ export function array_sort_ascending(array) {
 }
 
 /**
+ * Sort an array in descending order.
+ *
+ * @param array We want to sort this array.
+ * @return A new array whose elements are sorted in descending order.  If the
+ *     array has duplicate elements, then we are actually sorting the array in
+ *     non-increasing order.
+ */
+export function array_sort_descending(array) {
+    assert(array.length > 0);
+    const arr = Array.from(array);
+    arr.sort(
+        function (a, b) {
+            return b - a;
+        }
+    );
+    return arr;
+}
+
+/**
  * Sum the elements of an array.
  *
  * @param array We want to add the elements of this array.

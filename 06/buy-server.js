@@ -16,9 +16,9 @@
  */
 
 import {
-    assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, minutes_to_milliseconds, network, Player,
-    PurchasedServer, seconds_to_milliseconds, Server
+    array_sort_descending, assert, choose_best_server, choose_targets,
+    copy_and_run, filter_bankrupt_servers, minutes_to_milliseconds, network,
+    Player, PurchasedServer, seconds_to_milliseconds, Server
 } from "./libbnr.js";
 
 /**
@@ -119,18 +119,14 @@ function pserv_ram(ns, minserv) {
     // value to be the default amount of RAM.
     const pserv = new PurchasedServer(ns);
     const default_ram = pserv.default_ram();
-    const ram = [default_ram];
+    let ram = [default_ram];
     for (const r of pserv.valid_ram()) {
         if (r > default_ram) {
             ram.push(r);
         }
     }
     // Sort the array of RAM in descending order.
-    ram.sort(
-        function (a, b) {
-            return b - a;
-        }
-    );
+    ram = array_sort_descending(ram);
     // Let's see whether we can purchase servers, each having the given amount
     // of RAM.  Start with the highest amount of RAM.  See if we can buy at
     // least minserv servers, each with the given amount of RAM.  If not, then
