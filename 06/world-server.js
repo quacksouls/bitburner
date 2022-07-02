@@ -137,8 +137,8 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
     // Sanity checks.
     assert(candidate.length > 0);
     assert(hacked_server.length > 0);
-
-    let hserver = Array.from(hacked_server);
+    // An array of hacked servers.  We remove bankrupt servers from this list.
+    let hserver = filter_bankrupt_servers(ns, Array.from(hacked_server));
     let reject = new Array();
     const player = new Player(ns);
     for (const s of candidate) {
