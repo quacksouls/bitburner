@@ -38,8 +38,8 @@ function all_ip(string) {
         for (let j = 1; j <= max_octet_length; j++) {
             for (let k = 1; k <= max_octet_length; k++) {
                 for (let u = 1; u <= max_octet_length; u++) {
-                    // Ensure the length of each octet sums to the length of
-                    // a valid IPv4 address.
+                    // Ensure the length of each octet sums to the length of a
+                    // valid IPv4 address.
                     if (ip_length != i + j + k + u) {
                         continue;
                     }
@@ -49,8 +49,8 @@ function all_ip(string) {
                     if (!is_valid_ip(octet)) {
                         continue;
                     }
-                    // We have found a valid IPv4 address.  Octets in an
-                    // IPv4 address are delimited by a period.
+                    // We have found a valid IPv4 address.  Octets in an IPv4
+                    // address are delimited by a period.
                     ip.push(octet.join("."));
                 }
             }
