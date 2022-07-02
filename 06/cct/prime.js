@@ -26,7 +26,6 @@ import { array_max, assert, log_cct_failure } from "./libbnr.js";
  */
 function factor(n) {
     assert(n > 1);
-
     // If n is even, then 2 is a factor of n.
     if (is_even(n)) {
         return 2;
