@@ -120,13 +120,13 @@ async function stage_one(ns, n) {
 
 /**
  * Assume we have millions or even billions of dollars.  Add more nodes to
- * our Hacknet and fully upgrade each node.
+ * our Hacknet farm and fully upgrade each node.
  *
  * @param ns The Netscript API.
  * @param n Increase the number of nodes to this number.  Must be a positive
  *     whole number.
  * @param money The money threshold.  We must have at least this much money
- *     in order to purchase more nodes for the Hacknet and fully upgrade
+ *     in order to purchase more nodes for the Hacknet farm and fully upgrade
  *     the newly expanded farm.
  */
 async function next_stage(ns, n, money) {
