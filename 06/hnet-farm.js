@@ -266,6 +266,7 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+    // Various money thresholds.
     const million = 10 ** 6;
     const billion = 1000 * million;
     const trillion = 1000 * billion;
