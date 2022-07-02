@@ -23,8 +23,8 @@ import { all_nonnegative, assert, log_cct_failure } from "./libbnr.js";
  * jump distance.
  *
  * @param array An array of integers.  Cannot be an empty array.
- * @return 1 if starting from the first array cell we can reach
- *     the last array cell; 0 otherwise.
+ * @return 1 if starting from the first array cell we can reach the last array
+ *     cell; 0 otherwise.
  */
 function end_reachable(array) {
     // Sanity check.
