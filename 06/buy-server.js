@@ -114,7 +114,7 @@ async function next_stage(ns, ram) {
  * @param minserv The minimum number of servers to buy.  Must be a positive
  *     integer.
  * @return The amount of RAM for each purchased server.  Return 0 if we cannot
- *     afford the given number of purchased server.
+ *     afford the given number of purchased servers.
  */
 function pserv_ram(ns, minserv) {
     assert(minserv > 0);
