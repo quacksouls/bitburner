@@ -59,6 +59,9 @@ function can_jump(i, array) {
  */
 function minimum_jump(array) {
     assert(all_nonnegative(array));
+    // We interpret the array and its elements as a directed graph.  The
+    // minimum jump length is found by computing the shortest path from the
+    // first cell to the last cell.
     const start = 0;
     const end = array.length - 1;
     const graph = to_graph(array);
