@@ -48,6 +48,9 @@ import { assert, log_cct_failure } from "./libbnr.js";
 function maximize_profit(price) {
     // Sanity checks.
     assert(price.length > 0);
+    // If the price array has only one value, can buy on the first day.
+    // However, we won't be able to sell at all.  Therefore the maximum profit
+    // should be zero.
     if (1 == price.length) {
         return 0;
     }
