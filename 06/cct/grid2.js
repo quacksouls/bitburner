@@ -25,10 +25,7 @@ import { assert, log_cct_failure, matrix_to_string } from "./libbnr.js";
  * @return true if an obstacle is located at (r, c); false otherwise.
  */
 function is_obstacle(grid, r, c) {
-    if (1 == grid[r][c]) {
-        return true;
-    }
-    return false;
+    return 1 == grid[r][c];
 }
 
 /**
