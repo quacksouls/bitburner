@@ -97,12 +97,8 @@ import { assert, log_cct_failure } from "./libbnr.js";
  */
 function decompress(data) {
     assert(data.length > 0);
-    // The first chunk type, which follows the format L<string>.
-    const STRING = 1;
-    // The second chunk type, following the format LX.
-    const DIGIT = 2;
-    // Always start with the chunk type 1.
-    let chunk_type = STRING;
+    // Always start with the chunk format L<string>.
+    let chunk_type = lstr_chunk();
     // Where are we in the compressed string?
     let i = 0;
     // The uncompressed string.
@@ -111,11 +107,11 @@ function decompress(data) {
     while (i < data.length) {
         const L = parseInt(data[i], base);
         // Is this chunk of type L<string>?
-        if (STRING == chunk_type) {
+        if (lstr_chunk() == chunk_type) {
             // Do we end the chunk now?
             if (end_now(L)) {
                 i++;
-                chunk_type = DIGIT;
+                chunk_type = lx_chunk();
                 continue;
             }
             // Copy the following L characters and append them to the
@@ -123,16 +119,16 @@ function decompress(data) {
             const start = i + 1;
             const end = start + L;
             result = result.concat(data.slice(start, end));
-            chunk_type = DIGIT;
+            chunk_type = lx_chunk();
             i = end;
             continue;
         }
         // This chunk is of type LX, which has 2 characters.
-        assert(DIGIT == chunk_type);
+        assert(lx_chunk() == chunk_type);
         // Do we end the chunk now?
         if (end_now(L)) {
             i++;
-            chunk_type = STRING;
+            chunk_type = lstr_chunk();
             continue;
         }
         // Backtrack X characters in the uncompressed string.  Copy and append
@@ -142,7 +138,7 @@ function decompress(data) {
             const k = result.length - X;
             result = result.concat(result[k]);
         }
-        chunk_type = STRING;
+        chunk_type = lstr_chunk();
         i += 2;
     }
     return result;
@@ -158,6 +154,20 @@ function decompress(data) {
  */
 function end_now(ell) {
     return 0 == ell;
+}
+
+/**
+ * The integer value that represents the chunk format L<string>.
+ */
+function lstr_chunk() {
+    return 1;
+}
+
+/**
+ * The integer value that represents the chunk format LX.
+ */
+function lx_chunk() {
+    return 2;
 }
 
 /**
