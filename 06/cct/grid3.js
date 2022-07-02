@@ -194,7 +194,7 @@ function shortest_path(grid) {
     const a = pairing(0, 0);
     const b = pairing(grid.length - 1, grid[0].length - 1);
     const path = graph.shortest_path(a, b);
-    return to_path(path);
+    return path_to_string(path);
 }
 
 /**
@@ -260,7 +260,7 @@ function to_graph(grid) {
  * @return A string comprised of the characters U, D, L, R to indicate
  *     a path.  An empty string if gpath is an empty array.
  */
-function to_path(gpath) {
+function path_to_string(gpath) {
     // No shortest paths in the grid.
     if (0 == gpath.length) {
         return "";
