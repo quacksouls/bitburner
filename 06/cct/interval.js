@@ -43,7 +43,7 @@ function merge(interval) {
     let j = i + 1;
     const start = 0;
     const end = 1;
-    const howmany = 1;  // How many elements to delete;
+    const howmany = 1;  // How many elements to delete.
     while (j < array.length) {
         if (merge_interval(array[i], array[j])) {
             // Merge intervals i and j.
