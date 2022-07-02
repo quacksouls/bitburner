@@ -89,7 +89,7 @@ function merge_interval(intA, intB) {
 /**
  * Whether each interval is valid.
  *
- * @param array An array of intervals.
+ * @param array An array of intervals.  Cannot be an empty array.
  * @return true if each interval is valid; false otherwise.
  */
 function valid_interval(array) {
