@@ -106,7 +106,8 @@ async function maximize_profit(ns, t, price) {
     if (1 == t) {
         return max_profit_kadane(price);
     }
-    // If t = 2, we are restricted to at most 2 transactions.
+    // If t = 2, we are restricted to at most 2 transactions.  This is the case
+    // of Algorithmic Stock Trader III.
     if (2 == t) {
         return stock_traderIII(price);
     }
@@ -117,7 +118,7 @@ async function maximize_profit(ns, t, price) {
     // (1) p[t][i-1]
     // (2) max{price[i] - price[j] + p[t-1][j]} for all 0 <= j <= i-1.
     //
-    // Using the recursive structure of p[t][i], we create a 2-D array to hold
+    // Using the recursive structure of p[t][i], we create a 2-D matrix to hold
     // the previous values p[r][c].  The row number r represents the current
     // maximum number of transactions.  The column number c represents the
     // current day.
@@ -132,7 +133,7 @@ async function maximize_profit(ns, t, price) {
         p.push(array);
     }
     // The case of at least t >= 3 transactions.  Here, 1 <= tau <= t.  Build
-    // up our table from tau = 1 up to and include tau = t.
+    // up our table from tau = 1 up to and including tau = t.
     const time = 1;
     for (let tau = 1; tau <= t; tau++) {
         // Let the number of transactions be at most tau.  Consider each
@@ -143,7 +144,7 @@ async function maximize_profit(ns, t, price) {
         //
         // for all 0 <= j <= i-1.  Define the number
         //
-        // mp := max(p[t-1][k] - price[k])
+        // mp := max{p[t-1][k] - price[k]}
         //
         // where 0 <= k <= i-2.  Then we have the expression
         //
