@@ -148,6 +148,8 @@ function is_obstacle(grid, r, c) {
 function pairing(x, y) {
     assert(x >= 0);
     assert(y >= 0);
+    // One of a and b is even, while the other is odd.  The product ab is even,
+    // therefore (1/2) * ab is an integer.
     const a = x + y;
     const b = a + 1;
     return (1 / 2) * (a * b) + y;
