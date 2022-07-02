@@ -1455,10 +1455,7 @@ export function stock_traderIII(price) {
         const right = price.slice(k + 1, price.length);
         // The maximum profit of each subarray in the partition.
         const mpl = max_profit_kadane(left);
-        let mpr = 0;
-        if (right.length > 0) {
-            mpr = max_profit_kadane(right);
-        }
+        const mpr = max_profit_kadane(right);
         // The running maximum profit.
         max_profit = Math.max(max_profit, mpl + mpr);
     }
