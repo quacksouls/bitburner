@@ -120,9 +120,9 @@ function secded(msg, nparity) {
     if (0 == error.length) {
         return msg;
     }
-    // An error in the bit string.  The sum of the indices of the erroneous
-    // parity bits.  This sum gives the index of where an error occurs.
-    // Correct one error.
+    // We have an error in the bit string.  Calculate the sum of the indices of
+    // the erroneous parity bits.  This sum gives the index of where an error
+    // occurs.  Correct one error.
     const i = array_sum(error);
     const _msg = Array.from(msg);
     _msg[i] = (_msg[i] + 1) % 2;
