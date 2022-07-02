@@ -49,12 +49,13 @@ function can_jump(i, array) {
 /**
  * The minimum number of jumps to reach the end of an array.
  *
- * @param array An array of non-negative integers.
- * @return Array of two elements:
- *     * The minimum number of jumps from the first to the last cell.
- *       If we cannot reach the last cell, then the minimum number is 0.
- *     * An array representing the jump path.  An empty array if we
- *       cannot reach the last cell.
+ * @param array An array of non-negative integers.  Cannot be an empty array.
+ * @return Array [min_jump, path] of two elements:
+ *     (1) min_jump := The minimum number of jumps from the first to the last
+ *         cell.  If we cannot reach the last cell, then the minimum number is
+ *         0.
+ *     (2) path := An array representing the jump path.  An empty array if we
+ *         cannot reach the last cell.
  */
 function minimum_jump(array) {
     assert(all_nonnegative(array));
