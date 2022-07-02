@@ -159,6 +159,7 @@ export async function main(ns) {
     // We want a less verbose log.
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
     ns.disableLog("sleep");
     // First, kill all instances of the hack script that are running on our
     // home server against a low-end server.  We do this because after
