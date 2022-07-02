@@ -60,7 +60,7 @@ import {
  *     price[i] - price[j]
  *
  *     for one transaction.  What about the profits from the remaining t-1
- *     transactions.  Those profits are collectively represented as p[t-1][j].
+ *     transactions?  Those profits are collectively represented as p[t-1][j].
  *     If we sell on the i-th day and this is our t-th transaction, then the
  *     profit from all t transactions can be written as
  *
