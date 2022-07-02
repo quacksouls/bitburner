@@ -256,6 +256,7 @@ export async function main(ns) {
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously try to purchase servers.
     const time = minutes_to_milliseconds(1);
