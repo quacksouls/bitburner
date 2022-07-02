@@ -23,12 +23,13 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * following operators between decimal digits: addition (+), subtraction (-),
  * multiplication (*).
  *
+ * @param ns The Netscript API.
  * @param string A string of decimal digits.  Cannot be empty.
  * @param target An expression must evaluate to this number.
  * @return An array of strings, each of which is an expression that evaluates
  *     to the target number.
  */
-function all_expressions(string, target) {
+async function all_expressions(ns, string, target) {
     assert(string.length > 0);
     // We try all possibilities.  We use depth-first search for backtracking.
     // Each partial solution is an array [i, expr] as follows:
@@ -43,10 +44,11 @@ function all_expressions(string, target) {
     const candidate = [-1, string];
     stack.push(candidate);
     seen.add(candidate);
+    const time = 1;
     while (stack.length > 0) {
         const [i, expr] = stack.pop();
-        // Create new expressions by inserting operators at all possible
-        // indices.
+        // Create new expressions by inserting different operators at the next
+        // available position.
         const newexpr = insert_operators(expr, i);
         // No new expressions can be created from the given expression.
         if (0 == newexpr.length) {
@@ -71,12 +73,13 @@ function all_expressions(string, target) {
                 solution.push(expression);
             }
         }
+        await ns.sleep(time);
     }
     return solution;
 }
 
 /**
- * Insert all possible operators at each possible index in a given expression.
+ * Insert all possible operators at the next available index.
  *
  * @param expr An expression, represented as a string.  Cannot be an empty
  *     string.
@@ -117,6 +120,23 @@ function insert_operators(expr, i) {
     // insert op at each of the indices in Ind, each insertion creates a new
     // expression that can later be processed via backtracking.
     //
+    // A simpler solution is to define the empty operator.  We extend our list
+    // of operators [+, -, *] to include the empty operator.  Our list of
+    // operators is now: +, -, *, "".  We insert each operator at index j := i+2
+    // and create 4 new expressions:
+    //
+    // (1) exp[j-1] + exp[j]
+    // (2) exp[j-1] - exp[j]
+    // (3) exp[j-1] * exp[j]
+    // (4) exp[j-1] "" exp[j]
+    //
+    // Case (4) means that we consider exp[j-1] and exp[j] as one number, namely
+    // a number with two digits.  Later on when we process an expression that
+    // contains case (4), we would have two mathematical operators separated by
+    // two decimal digits.  The exception is when exp[j-1] = 0 and case (4)
+    // would result in a number that has a leading zero.  In this case, we skip
+    // the insertion of the empty operator.
+    //
     // Now consider two decimal digits
     //
     // expr[j-1] expr[j]
@@ -124,16 +144,16 @@ function insert_operators(expr, i) {
     // in expr and we want to insert op at index j.  Normally we can insert op
     // and obtain the new substring
     //
-    // (1) expr[j-1] op expr[j+1]
+    // (i) expr[j-1] op expr[j+1]
     //
     // We can also perform the insertion as follows:
     //
-    // (2) expr[j-1] op neg expr[j+2]
+    // (ii) expr[j-1] op neg expr[j+2]
     //
     // where "neg" means the negative sign.  The decimal digit expr[j+2] is now
     // a negative integer.  As implied by the problem statement, we are not
-    // allowed to flip the sign of any digit.  Thus case (1) above is allowed,
-    // but case (2) is prohibited.
+    // allowed to flip the sign of any digit.  Thus case (i) above is allowed,
+    // but case (ii) is prohibited.
     const candidate = new Array();
     // All possible operators.  We do not include the operator "--" because it
     // is equivalent to the addition operator.  The operator "+-" is equivalent
@@ -141,12 +161,16 @@ function insert_operators(expr, i) {
     // would flip the sign of a digit from positive to negative.  We are
     // prohibited from flipping the sign of each decimal digit.
     const operator = ["+", "-", "*"];
-    // Add an operator at each possible location.
-    for (let j = i + 2; j <= k; j++) {
-        for (const op of operator) {
-            const newexpr = expr.slice(0, j) + op + expr.slice(j, n);
-            candidate.push([j, newexpr]);
-        }
+    // Add a mathematical operator at index i+2 in expr.
+    const j = i + 2;
+    for (const op of operator) {
+        const newexpr = expr.slice(0, j) + op + expr.slice(j, n);
+        candidate.push([j, newexpr]);
+    }
+    // Insert the empty operator.  Do so if expr[j-1] is not the digit 0.
+    if ("0" != expr[j - 1]) {
+        const newexpr = new String(expr);
+        candidate.push([i + 1, newexpr]);
     }
     return candidate;
 }
@@ -196,8 +220,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
+    const solution = await all_expressions(ns, string, target);
     const result = ns.codingcontract.attempt(
-        all_expressions(string, target), cct, host, { returnReward: true }
+        solution, cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
