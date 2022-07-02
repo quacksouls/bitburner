@@ -43,11 +43,8 @@ function bipartite(n, edge) {
     }
     // Use breath-first search to colour each node of the graph.
     const graph = to_graph(n, edge);
-    const BLUE = 0;
-    const RED = 1;
-    const WHITE = -1;  // An uncoloured node is white.
-    let colour = new Array(n).fill(WHITE);
-    let v = choose_white_node(colour, WHITE);
+    let colour = new Array(n).fill(white());
+    let v = choose_white_node(colour);
     // All root nodes of trees.  If the graph is disconnected, then it has
     // a number of subgraphs each of which can be considered a tree by
     // means of breath-first search.
@@ -55,12 +52,12 @@ function bipartite(n, edge) {
     // Colour all nodes of the graph.
     while (v >= 0) {
         root.push(v);
-        const col = colouring(graph, v, BLUE, RED, WHITE);
+        const col = colouring(graph, v);
         if (0 == col.length) {
             return empty_array;
         }
-        colour = update_colouring(colour, col, WHITE);
-        v = choose_white_node(colour, WHITE);
+        colour = update_colouring(colour, col);
+        v = choose_white_node(colour);
     }
     // Determine whether the graph has a 2-colouring.
     for (const r of root) {
@@ -72,17 +69,23 @@ function bipartite(n, edge) {
 }
 
 /**
+ * An integer value that represents the colour blue.
+ */
+function blue() {
+    return 0;
+}
+
+/**
  * Choose a white node from a graph.
  *
  * @param colour A colouring of the nodes of a graph, where colour[i]
  *     represents the colour of node i.
- * @param white The colour value for white.
  * @return A node that is white.  Return -1 if each node has been coloured.
  */
-function choose_white_node(colour, white) {
+function choose_white_node(colour) {
     assert(colour.length > 0);
     for (let i = 0; i < colour.length; i++) {
-        if (white == colour[i]) {
+        if (white() == colour[i]) {
             return i;
         }
     }
@@ -95,27 +98,23 @@ function choose_white_node(colour, white) {
  *
  * @param graph We want to colour this graph.
  * @param root Start the colouring from this node.
- * @param blue, red Colour the graph using these colours.
- * @param white Each node that is not yet coloured is set to white.
  * @return An array a where the element a[i] represents the colour of node i
  *     in the graph.  An empty array if the graph cannot be coloured with the
  *     given colours such that the endpoints of each edge have different
  *     colours.  Even if the returned array is not empty, we must still test
  *     to see whether the graph has a 2-colouring.
  */
-function colouring(graph, root, blue, red, white) {
+function colouring(graph, root) {
     // colour[i] := the colour of node i in the graph.
     const n = graph.nodes().length;
-    const colour = new Array(n).fill(white);
-    const BLUE = blue;
-    const RED = red;
+    const colour = new Array(n).fill(white());
     // Colour the root node.
     assert(graph.has_node(root));
     const stack = new Array();
     stack.push(root);
     const visit = new Set();
     visit.add(root);
-    colour[root] = BLUE;
+    colour[root] = blue();
     // Use breath-first search to colour each node.  We do not assume the graph
     // to be connected.
     while (stack.length > 0) {
@@ -127,12 +126,12 @@ function colouring(graph, root, blue, red, white) {
             // Colour the neighbours of u.
             visit.add(v);
             stack.push(v);
-            if (BLUE == colour[u]) {
-                colour[v] = RED;
+            if (blue() == colour[u]) {
+                colour[v] = red();
                 continue;
             }
-            assert(RED == colour[u]);
-            colour[v] = BLUE;
+            assert(red() == colour[u]);
+            colour[v] = blue();
             // Determine whether v is connected to any node of the same colour.
             for (const w of graph.neighbour(v)) {
                 // The graph is not bipartite because v is neighbour with a
@@ -182,6 +181,13 @@ function is_bipartite(graph, root, colour) {
 }
 
 /**
+ * An integer value that represents the colour red.
+ */
+function red() {
+    return 1;
+}
+
+/**
  * Construct an undirected graph given the number of nodes and an edge set.
  *
  * @param n The number of nodes in the graph.
@@ -215,27 +221,33 @@ function to_graph(n, edge) {
  *
  * @param prev_colour The current colouring of the nodes of a graph.
  * @param new_colour The new colouring of the nodes.
- * @param white The colour used to represent a node that is yet to be coloured.
  * @return An array representing the updated colouring.
  */
-function update_colouring(prev_colour, new_colour, white) {
+function update_colouring(prev_colour, new_colour) {
     assert(prev_colour.length > 0);
     assert(prev_colour.length == new_colour.length);
     const colour = Array.from(prev_colour);
     for (let i = 0; i < prev_colour.length; i++) {
         // Find a white node.
-        if (white != prev_colour[i]) {
+        if (white() != prev_colour[i]) {
             continue;
         }
-        if (white == new_colour[i]) {
+        if (white() == new_colour[i]) {
             continue;
         }
         // Previously node i was white, but now has been coloured.
-        assert(white == prev_colour[i]);
-        assert(white != new_colour[i]);
+        assert(white() == prev_colour[i]);
+        assert(white() != new_colour[i]);
         colour[i] = new_colour[i];
     }
     return colour;
+}
+
+/**
+ * An integer value that represents the colour white.
+ */
+function white() {
+    return -1;
 }
 
 /**
