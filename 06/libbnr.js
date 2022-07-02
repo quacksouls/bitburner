@@ -573,6 +573,17 @@ export class PurchasedServer {
     purchase(hostname, ram) {
         return this.#ns.purchaseServer(hostname, ram);
     }
+
+    /**
+     * The possible amount of RAM a purchased server can have.  According to this page
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/markdown/bitburner.ns.getpurchasedservercost.md
+     *
+     * the highest amount of RAM for a purchased server is 1048576.
+     */
+    valid_ram() {
+        return this.#valid_ram;
+    }
 }
 
 /**
