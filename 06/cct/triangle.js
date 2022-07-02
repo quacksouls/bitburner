@@ -33,13 +33,14 @@ function clone(triangle) {
 }
 
 /**
- * Descend from the top to the bottom of a triangle, finding a path
- * of minimum sum as we go.
+ * Descend from the top to the bottom of a triangle, finding a path of minimum
+ * sum as we go.
  *
  * @param triangle A triangle represented as an array of arrays.
- * @return An array with two elements:
- *     * A path of minimum sum from the top of the triangle to the bottom.
- *     * The minimum sum.
+ * @return An array [path, min_sum] as follows:
+ *     (1) path := A path of minimum sum from the top of the triangle to the
+ *         bottom.
+ *     (2) min_sum := The minimum path sum.
  */
 function descend(triangle) {
     // Sanity checks.
@@ -115,8 +116,7 @@ function descend(triangle) {
  * Whether the given array represents a valid triangle.
  *
  * @param triangle A triangle represented as an array of arrays.
- * @return true if the array represents a triangle;
- *     false otherwise.
+ * @return true if the array represents a triangle; false otherwise.
  */
 function is_triangle(triangle) {
     assert(triangle.length > 0);
