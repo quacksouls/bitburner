@@ -108,11 +108,10 @@ function is_valid_ip(octet) {
 }
 
 /**
- * Whether a given segment is a valid octet in an IP address.
+ * Whether a given segment is a valid octet in an IPv4 address.
  *
- * @param octet A digit string.
- * @return true if the given segment is a valid IP octet;
- *     false otherwise.
+ * @param octet A digit string.  Cannot be an empty string.
+ * @return true if the given segment is a valid IPv4 octet; false otherwise.
  */
 function is_valid_octet(octet) {
     const VALID = true;
