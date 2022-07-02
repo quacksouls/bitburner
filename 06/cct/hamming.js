@@ -84,7 +84,6 @@ function lay_data_bits(data, p, trash) {
  *
  * 2^p >= k + p + 1
  *
- *
  * @param data The bit string to be encoded using Hamming code.
  * @return The number of parity bits.  This number does not include the overall
  *     parity bit.
@@ -100,9 +99,9 @@ function num_parity(data) {
     } while (max < (k + p + 1));
     // The encoded message has m := k + p + 1 bits, as explained below.
     //
-    // k := the number of bits in the data, represented as a bit string.
-    // p := the number of parity (i.e. redundant) bits.
-    // 1 := the extra bit reserved for the overall parity bit.
+    // k := The number of bits in the data, represented as a bit string.
+    // p := The number of parity (i.e. redundant) bits.
+    // 1 := The extra bit reserved for the overall parity bit.
     //
     // The number p of parity (i.e. redundant) bits is
     //
