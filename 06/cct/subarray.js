@@ -46,7 +46,7 @@ function subarray_sum(array) {
  *
  * https://en.wikipedia.org/wiki/Maximum_subarray_problem
  *
- * Usage: run sum.js [cct] [hostname]
+ * Usage: run subarray.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
