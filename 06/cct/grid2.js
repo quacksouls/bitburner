@@ -22,8 +22,7 @@ import { assert, log_cct_failure, matrix_to_string } from "./libbnr.js";
  *
  * @param grid A grid of m x n squares.
  * @param r, c A pair of coordinates in the grid.
- * @return true if an obstacle is located at (r, c);
- *     false otherwise.
+ * @return true if an obstacle is located at (r, c); false otherwise.
  */
 function is_obstacle(grid, r, c) {
     if (1 == grid[r][c]) {
