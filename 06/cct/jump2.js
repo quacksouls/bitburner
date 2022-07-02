@@ -85,16 +85,14 @@ function minimum_jump(array) {
  */
 function to_graph(array) {
     assert(array.length > 0);
-    const directed = true;
-
     // First, add the nodes of the directed graph because the graph might be
     // disconnected.  Each node ID is an index of the given array.
     const node = sequence(array.length);
+    const directed = true;
     const graph = new Graph(directed);
     for (const v of node) {
         graph.add_node(v);
     }
-
     // Add the directed edges of the graph.
     const last_index = array.length - 1;
     for (const u of node) {
