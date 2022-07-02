@@ -64,8 +64,8 @@ let partition = (function () {
             return 1;
         }
         // Check the cache.
-        if (cache.has(n)) {
-            return cache.get(n);
+        if (cache.has(num)) {
+            return cache.get(num);
         }
         // Recursion.
         let sum = 0;
@@ -77,8 +77,8 @@ let partition = (function () {
             const sign = (-1) ** (k - 1);
             sum += sign * (a + b);
         }
-        cache.set(n, sum);
-        return cache.get(n);
+        cache.set(num, sum);
+        return cache.get(num);
     }
     return p;
 })();
