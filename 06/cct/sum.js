@@ -52,7 +52,7 @@ import { log_cct_failure } from "./libbnr.js";
  */
 let partition = (function () {
     // A memoized version of the partition function.
-    let cache = new Map();
+    const cache = new Map();
     function p(n) {
         // Sanity check.
         const num = Math.floor(n);
