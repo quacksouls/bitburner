@@ -78,12 +78,10 @@ async function setup_farm(ns, n) {
     assert(nNode < ns.hacknet.maxNumNodes());
     const player = new Player(ns);
     const time = seconds_to_milliseconds(10);
-
     // We already have a farm of n or more Hacknet nodes.
     if (ns.hacknet.numNodes() >= nNode) {
         return;
     }
-
     // Purchase Hacknet nodes for our farm.
     for (let i = ns.hacknet.numNodes(); i < nNode; i++) {
         // Wait until we have sufficient funds to purchase another Hacknet node.
@@ -136,7 +134,6 @@ async function next_stage(ns, n, money) {
     const nNode = Math.floor(n);
     assert(nNode > 0);
     assert(money > 0);
-
     // Wait until we have reached the money threshold.
     const player = new Player(ns);
     const time = seconds_to_milliseconds(10);
@@ -164,7 +161,6 @@ async function upgrade_core(ns, farm) {
     const player = new Player(ns);
     const howmany = 1;  // Upgrade this many Cores at a time.
     const time = seconds_to_milliseconds(10);
-
     // Add another Core to each Hacknet Node.
     for (const node of farm) {
         // The number of Cores of a Node is at maximum if the cost of upgrading
@@ -192,7 +188,6 @@ async function upgrade_level(ns, farm) {
     const player = new Player(ns);
     const level = 1;  // Upgrade this many Levels at a time.
     const time = seconds_to_milliseconds(10);
-
     // Add another Level to each Hacknet node.
     for (const node of farm) {
         // The Level of a node is at maximum if the cost of upgrading
@@ -220,7 +215,6 @@ async function upgrade_ram(ns, farm) {
     const player = new Player(ns);
     const howmany = 1;  // Upgrade by 1GB RAM at a time.
     const time = seconds_to_milliseconds(10);
-
     // Add another 1GB RAM to each Hacknet node.
     for (const node of farm) {
         // The amount of RAM of a node is at maximum if the cost of upgrading
@@ -246,7 +240,6 @@ async function update(ns) {
     // Our farm of Hacknet nodes.
     const farm = hacknet_nodes(ns);
     assert(farm.length > 0);
-
     // Upgrade the Level of each Hacknet node by one point.
     await upgrade_level(ns, farm);
     // Add another Core to each Hacknet node.
@@ -274,7 +267,6 @@ export async function main(ns) {
         10 * million, 100 * million, billion, 100 * billion, trillion
     ];
     const node = [6, 12, 24, 30, 33];
-
     // Bootstrap our farm of Hacknet nodes.
     await stage_one(ns, 3);
     // Add increasingly more nodes to the farm.
