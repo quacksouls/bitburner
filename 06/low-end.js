@@ -37,7 +37,6 @@ function has_new_low_end(current_ln, new_ln) {
     if (current_ln.length < new_ln.length) {
         return NEW;
     }
-
     // If the two arrays are of equal length, ensure that both
     // have the same low-end servers.
     assert(current_ln.length == new_ln.length);
@@ -96,7 +95,6 @@ function skip_server(ns, server) {
     const NO_SKIP = !SKIP;
     const player = new Player(ns);
     const serv = new Server(ns, server);
-
     // Skip a server if its hacking skill requirement is higher
     // than our Hack stat.
     if (player.hacking_skill() < serv.hacking_skill()) {
@@ -126,7 +124,6 @@ async function update(ns, lowend) {
     assert(lowend.length >= 0);
     const player = new Player(ns);
     const target = low_end_servers(ns);
-
     // Hack the new low-end servers.
     if (has_new_low_end(lowend, target)) {
         // First, kill all instances of the hack script.
