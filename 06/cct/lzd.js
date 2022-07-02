@@ -31,7 +31,7 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * (2) data := The chunk data, which is the second part of any chunk.  The
  *     chunk data can be further decomposed into two types:
  *     (a) Literal characters.  A chunk with this second part is denoted as
- *         "L<string>", where <string> a string of L characters.  We append
+ *         "L<string>", where <string> is a string of L characters.  We append
  *         these L characters directly into the uncompressed string.  For
  *         example, given the chunk "3abc", the digit "3" is the first part of
  *         the chunk and the string "abc" is the second part.  The length 3,
@@ -60,11 +60,11 @@ import { assert, log_cct_failure } from "./libbnr.js";
  *         uncompressed string "abcdbc".  Two down, three to go.  The third
  *         character to copy and append is "d", resulting in the uncompressed
  *         string "abcdbcd".  The fourth character we want is "b" and we now
- *         hhave the uncompressed string "abcdbcdb".  Our fifth character is
+ *         have the uncompressed string "abcdbcdb".  Our fifth character is
  *         "c" and our uncompressed string is "abcdbcdbc".
  *
  * The chunk type alternates and we always start with a chunk of the type
- * "L<string>".  The compressed data follows the format
+ * L<string>.  The compressed data follows the format
  *
  * L<string> LX L<string> LX ...
  *
