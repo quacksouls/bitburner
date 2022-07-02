@@ -271,7 +271,8 @@ export async function main(ns) {
     const billion = 1000 * million;
     const trillion = 1000 * billion;
     const threshold = [
-        10 * million, 100 * million, billion, 100 * billion, trillion];
+        10 * million, 100 * million, billion, 100 * billion, trillion
+    ];
     const node = [6, 12, 24, 30, 33];
 
     // Bootstrap our farm of Hacknet nodes.
