@@ -154,7 +154,7 @@ let partition = (function () {
 })();
 
 /**
- * Total Ways to Sum II: You are given an array with two elements. The first
+ * Total Ways to Sum II: You are given an array with two elements.  The first
  * element is an integer n.  The second element is an array of numbers
  * representing the set of available integers.  How many different ways can
  * that number n be written as a sum of integers contained in the given set?
