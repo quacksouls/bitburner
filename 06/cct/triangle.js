@@ -139,11 +139,11 @@ function is_triangle(triangle) {
 }
 
 /**
- * Minimum Path Sum in a Triangle: You are given a 2D array of numbers
+ * Minimum Path Sum in a Triangle: You are given a 2-D array of numbers
  * (array of array of numbers) that represents a triangle (the first array
- * has one element, and each array has one more element than the one before
- * it, forming a triangle). Find the minimum path sum from the top to the
- * bottom of the triangle. In each step of the path, you may only move to
+ * has one element, each sequent array has one more element than the one before
+ * it, forming a triangle).  Find the minimum path sum from the top to the
+ * bottom of the triangle.  In each step of the path, you may only move to
  * adjacent numbers in the row below.
  *
  * For example, given this array
