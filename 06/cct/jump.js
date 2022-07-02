@@ -86,7 +86,7 @@ function end_reachable(array) {
  * Whether we are at the last array cell.
  *
  * @param i Index of the current array cell.
- * @param array An array of integers.  Cannot be empty array.
+ * @param array An array of integers.  Cannot be an empty array.
  * @return true if i is the last index of the array;
  *     false otherwise.
  */
