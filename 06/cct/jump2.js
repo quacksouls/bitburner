@@ -31,10 +31,9 @@ function can_jump(i, array) {
     // Sanity checks.
     assert(i >= 0);
     assert(i < array.length);
-
+    // Cannot jump if the maximum number of jumps is zero.
     const JUMP = true;
     const NO_JUMP = !JUMP;
-    // Cannot jump if the maximum number of jumps is zero.
     if (0 == array[i]) {
         return NO_JUMP;
     }
