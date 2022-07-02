@@ -16,7 +16,7 @@
  */
 
 import {
-    assert, minutes_to_milliseconds, Player, seconds_to_milliseconds
+    assert, minutes_to_milliseconds, Player, seconds_to_milliseconds, sequence
 } from "./libbnr.js";
 
 /**
@@ -61,7 +61,7 @@ function hacknet_nodes(ns) {
     if (nNode < 1) {
         return [];
     }
-    return [...Array(nNode).keys()];
+    return sequence(nNode);
 }
 
 /**
