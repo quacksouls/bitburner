@@ -25,7 +25,8 @@ import {
  * all possible partitions of the price array into 2 non-overlapping subarrays.
  * For each such partition we have 2 subarrays.  We run Kadane's algorithm on
  * each subarray, sum the results of both subarrays, and return the sum as the
- * maximum profit possible.
+ * maximum profit possible.  The true maximum profit is the maximum of the
+ * results of all partitions.
  *
  * Now consider t > 2.  We use the same idea as per the case when we are
  * restricted to at most 2 transactions.  The minor difference now is that we
