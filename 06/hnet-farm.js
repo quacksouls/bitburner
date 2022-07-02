@@ -51,7 +51,7 @@ function is_fully_upgraded(ns) {
 }
 
 /**
- * All nodes in our Hacknet.
+ * All nodes in our Hacknet farm.
  *
  * @param ns The Netscript API.
  * @return An array of node IDs.  An empty array if we have zero nodes.
