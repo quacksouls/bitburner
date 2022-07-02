@@ -20,7 +20,7 @@ import { assert, log_cct_failure } from "./libbnr.js";
 /**
  * All valid IPv4 addresses from a string of digits.
  *
- * @param string A string of decimal digits.
+ * @param string A string of decimal digits.  Cannot be an empty string.
  * @return An array where each element is a string representing a valid
  *     IPv4 address.  An empty array if no valid IPv4 addresses can be
  *     generated from the given string.
