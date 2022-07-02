@@ -37,10 +37,10 @@ function all_ip(string) {
     for (let i = 1; i <= max_octet_length; i++) {
         for (let j = 1; j <= max_octet_length; j++) {
             for (let k = 1; k <= max_octet_length; k++) {
-                for (let u = 1; u <= max_octet_length; u++) {
+                for (let ell = 1; ell <= max_octet_length; ell++) {
                     // Ensure the length of each octet sums to the length of a
                     // valid IPv4 address.
-                    if (ip_length != i + j + k + u) {
+                    if (ip_length != i + j + k + ell) {
                         continue;
                     }
                     // Extract each segment.
