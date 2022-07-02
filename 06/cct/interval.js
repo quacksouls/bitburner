@@ -24,7 +24,7 @@ import { assert, log_cct_failure } from "./libbnr.js";
  *     array [a, b] of two elements, where a < b.  So this is an array of
  *     arrays.
  * @return An array of intervals, where all overlapping intervals have
- *     been merged.
+ *     been merged.  Intervals in the array are sorted in ascending order.
  */
 function merge(interval) {
     // Sanity checks.
