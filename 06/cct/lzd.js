@@ -105,11 +105,11 @@ function decompress(data) {
     let result = "";
     const base = 10;
     while (i < data.length) {
-        const L = parseInt(data[i], base);
+        const ell = parseInt(data[i], base);
         // Is this chunk of type L<string>?
         if (lstr_chunk() == chunk_type) {
             // Do we end the chunk now?
-            if (end_now(L)) {
+            if (end_now(ell)) {
                 i++;
                 chunk_type = lx_chunk();
                 continue;
@@ -117,7 +117,7 @@ function decompress(data) {
             // Copy the following L characters and append them to the
             // uncompressed string.
             const start = i + 1;
-            const end = start + L;
+            const end = start + ell;
             result = result.concat(data.slice(start, end));
             chunk_type = lx_chunk();
             i = end;
@@ -126,16 +126,16 @@ function decompress(data) {
         // This chunk is of type LX, which has 2 characters.
         assert(lx_chunk() == chunk_type);
         // Do we end the chunk now?
-        if (end_now(L)) {
+        if (end_now(ell)) {
             i++;
             chunk_type = lstr_chunk();
             continue;
         }
         // Backtrack X characters in the uncompressed string.  Copy and append
         // the X-th character to the uncompressed string.  Repeat L times.
-        const X = parseInt(data[i + 1], base);
-        for (let j = 0; j < L; j++) {
-            const k = result.length - X;
+        const x = parseInt(data[i + 1], base);
+        for (let j = 0; j < ell; j++) {
+            const k = result.length - x;
             result = result.concat(result[k]);
         }
         chunk_type = lstr_chunk();
