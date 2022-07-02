@@ -16,8 +16,9 @@
  */
 
 import {
-    assert, choose_best_server, copy_and_run, filter_pserv,
-    minutes_to_milliseconds, network, Player, seconds_to_milliseconds, Server
+    assert, choose_best_server, copy_and_run, filter_bankrupt_servers,
+    filter_pserv, minutes_to_milliseconds, network, Player,
+    seconds_to_milliseconds, Server
 } from "./libbnr.js";
 
 /**
