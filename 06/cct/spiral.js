@@ -27,7 +27,7 @@ import { assert, log_cct_failure, matrix_to_string } from "./libbnr.js";
  *     "r" and "c" mean row and column, respectively.
  */
 function ring(m, tlr, tlc, brr, brc) {
-    // Left to right.
+    // Top-left to top-right.
     let array = new Array();
     let elem = new Array();
     if (tlc <= brc) {
@@ -38,7 +38,7 @@ function ring(m, tlr, tlc, brr, brc) {
     if (tlr == brr) {
         return elem;
     }
-    // Top to bottom.
+    // Top-right to bottom-right.
     if (tlr < brr) {
         for (let r = tlr + 1; r <= brr; r++) {
             elem.push(m[r][brc]);
@@ -48,13 +48,13 @@ function ring(m, tlr, tlc, brr, brc) {
     if (tlc == brc) {
         return elem;
     }
-    // Right to left.
+    // Bottom-right to bottom-left.
     if (tlc < brc) {
         array = m[brr];
         const arr = Array.from(array.slice(tlc, brc));
         elem = elem.concat(arr.reverse());
     }
-    // Bottom to top.
+    // Bottom-right to top-right.
     if (tlr < brr) {
         const arr = new Array();
         for (let r = tlr + 1; r < brr; r++) {
