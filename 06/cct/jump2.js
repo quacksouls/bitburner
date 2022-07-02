@@ -80,7 +80,7 @@ function minimum_jump(array) {
 /**
  * Construct a directed, unweighted graph from the given array.
  *
- * @param array An array of non-negative integers.
+ * @param array An array of non-negative integers.  Cannot be an empty array.
  * @return A directed, unweighted graph representation of the given array.
  */
 function to_graph(array) {
