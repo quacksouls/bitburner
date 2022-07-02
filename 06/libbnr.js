@@ -933,6 +933,25 @@ export function array_max(array) {
 }
 
 /**
+ * Sort an array in ascending order.
+ *
+ * @param array We want to sort this array.
+ * @return A new array whose elements are sorted in ascending order.  If the
+ *     array has duplicate elements, we are actually sorting in non-decreasing
+ *     order.
+ */
+export function array_sort_ascending(array) {
+    assert(array.length > 0);
+    const arr = Array.from(array);
+    arr.sort(
+        function (a, b) {
+            return a - b;
+        }
+    );
+    return arr;
+}
+
+/**
  * Sum the elements of an array.
  *
  * @param array We want to add the elements of this array.
