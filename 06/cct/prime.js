@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "./libbnr.js";
+import { array_max, assert, log_cct_failure } from "./libbnr.js";
 
 /**
  * Obtain a factor of a positive integer.
@@ -78,14 +78,7 @@ function max_prime_factor(n) {
     assert(Number.isSafeInteger(n));
     // Determine the largest prime factor.
     const pfactor = prime_factorization(n);
-    const init_value = -Infinity;
-    const max_factor = pfactor.reduce(
-        function (x, y) {
-            return Math.max(x, y);
-        },
-        init_value
-    );
-    return max_factor;
+    return array_max(pfactor);
 }
 
 /**

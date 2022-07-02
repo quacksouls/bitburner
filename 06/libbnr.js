@@ -904,6 +904,24 @@ export function all_nonnegative(array) {
 }
 
 /**
+ * The maximum element of an array.
+ *
+ * @param We want to determine the maximum element of this array.
+ * @return The largest element of the given array.
+ */
+export function array_max(array) {
+    assert(array.length > 0);
+    const init_value = -Infinity;
+    const max = array.reduce(
+        function (x, y) {
+            return Math.max(x, y);
+        },
+        init_value
+    );
+    return max;
+}
+
+/**
  * Sum the elements of an array.
  *
  * @param array We want to add the elements of this array.
