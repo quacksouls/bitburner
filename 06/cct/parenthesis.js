@@ -97,6 +97,7 @@ function slice(expr, i) {
     assert(expr.length > 0);
     assert(i >= 0);
     assert(i < expr.length);
+    // Remove the character at index i.
     return expr.slice(0, i) + expr.slice(i + 1, expr.length);
 }
 
