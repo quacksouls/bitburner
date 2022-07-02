@@ -84,10 +84,10 @@ function decode(msg) {
  *
  * @param msg A bit string that has been encoded using Hamming code.
  *     The 0-th position is reserved for the overall parity bit.  The first
- *     parity (or redundant) bit is at the 1st position.  The second parity
- *     bit is at index 2.  Index 3 is the first index where a data bit is
- *     located.  Assuming the message string has at least 1 bit, the encoded
- *     bit string has at least 4 bits.
+ *     parity (or redundant) bit is at index 1.  The second parity bit is at
+ *     index 2.  Index 3 is the first index where a data bit is located.
+ *     Assuming the message string has at least 1 bit, the encoded bit string
+ *     has at least 4 bits.
  * @return The number of redundant bits, excluding the overall parity bit.
  */
 function num_parity(msg) {
