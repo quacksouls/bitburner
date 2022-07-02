@@ -30,7 +30,6 @@ function merge(interval) {
     // Sanity checks.
     assert(interval.length > 0);
     assert(valid_interval(interval));
-
     // Sort the array in ascending order using the first element of
     // each subarray.
     const array = Array.from(interval);
