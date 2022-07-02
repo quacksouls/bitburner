@@ -33,8 +33,8 @@ function is_obstacle(grid, r, c) {
 }
 
 /**
- * The number of unique paths from the top-left square to the bottom-right square
- * in an m x n grid, while avoiding obstacles.  Consider the grid below.
+ * The number of unique paths from the top-left square to the bottom-right
+ * square in an m x n grid, while avoiding obstacles.  Consider the grid below.
  *
  * 00000
  * 01000
@@ -145,13 +145,14 @@ function unique_paths(grid) {
 }
 
 /**
- * Unique Paths in a Grid II: You are given a 2D array of numbers (array of
- * array of numbers) representing a grid.  The 2D array contains 1s and 0s,
- * where 1 represents an obstacle and 0 represents a free space.  Assume you
- * are initially positioned in top-left corner of that grid and that you are
- * trying to reach the bottom-right corner.  In each step, you may only move
- * down or to the right.  Furthermore, you cannot move onto spaces which have
- * obstacles.  Determine how many unique paths there are from start to finish.
+ * Unique Paths in a Grid II: You are given a 2-D array of numbers (array of
+ * arrays of numbers) representing a grid, i.e. a 2-D matrix.  The 2-D array
+ * contains 1s and 0s, where 1 represents an obstacle and 0 represents a free
+ * space.  Assume you are initially positioned in top-left square of that grid
+ * and that you are trying to reach the bottom-right square.  In each step, you
+ * may only move down or to the right.  Furthermore, you cannot move onto a
+ * square that has an obstacle.  Determine how many unique paths there are from
+ * start to finish.
  *
  * See the function unique_paths() for more details.
  *
