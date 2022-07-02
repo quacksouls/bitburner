@@ -44,7 +44,7 @@ import { assert, log_cct_failure } from "./libbnr.js";
  * paths from the top-left corner to the bottom-right corner.  At each
  * vertex we are allowed to move either down or right.  Each path must have
  * n = (r - 1) + (c - 1) = r + c - 2 segments, i.e. r - 1 downward segments
- * and c - 1 rightward segments.  Choose k = r - 1 of the n segments to be
+ * and c - 1 rightward segments.  Choose k := r - 1 of the n segments to be
  * downward segments.  The remaining n - k = c - 1 segments must be
  * rightward segments.  The total number of unique paths is the combination
  * number C(n, k), which is read as "n choose k" or as a k-combination of a
