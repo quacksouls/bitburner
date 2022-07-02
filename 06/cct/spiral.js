@@ -82,7 +82,7 @@ function spiral(m) {
         assert(a.length > 0);
         assert(ncol == a.length);
     }
-
+    // The spiral order of a matrix.
     let tlr = 0;         // top-left row
     let tlc = tlr;       // top-left column
     let brr = nrow - 1;  // bottom-right row
