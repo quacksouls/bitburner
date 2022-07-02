@@ -69,10 +69,14 @@ function is_obstacle(grid, r, c) {
  * The problem can also be solved in a recursive manner.  Define p[i][j] as the
  * number of paths starting from (0, 0), end at (i, j), and do not include any
  * obstacles.  Since our movement is restricted to only right or down, we can
- * reach (i, j) in either of two ways: (1) from (i-1, j); or (2) from (i, j-1).
+ * reach (i, j) in either of two ways:
+ *
+ * (1) From (i-1, j) to (i, j).
+ * (2) From (i, j-1) to (i, j).
+ *
  * Thus we have the recurrence relation
  *
- * p[i][j] = p[i-1][j] + p[i][j-1]
+ * p[i][j] := p[i-1][j] + p[i][j-1]
  *
  * where i >= 1 and j >= 1.  There are 3 other possibilities for the values of
  * i and j.
