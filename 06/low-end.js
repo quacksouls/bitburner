@@ -33,7 +33,7 @@ function has_new_low_end(current_ln, new_ln) {
     assert(current_ln.length <= new_ln.length);
     const NEW = true;     // Have new low-end servers to hack.
     const NO_NEW = !NEW;  // No new low-end servers to hack.
-
+    // We have new low-end servers.
     if (current_ln.length < new_ln.length) {
         return NEW;
     }
