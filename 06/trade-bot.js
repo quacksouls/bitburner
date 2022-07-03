@@ -57,7 +57,8 @@ function buy_stock(ns, stk) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    if (player.money() <= money_reserve()) {
+    const multiplier = 10;
+    if (player.money() <= multiplier * money_reserve()) {
         return false;
     }
     return true;
@@ -126,14 +127,17 @@ function num_shares(ns, stk) {
         return 0;
     }
     // The amount of money we are willing to spend to purchase shares of a
-    // stock.
+    // stock.  If the amount is less than the spending threshold, then do not
+    // purchase any shares.
     const player = new Player(ns);
     const spend_ratio = 0.01;
     const million = 10 ** 6;
     const billion = 1000 * million;
     const spend_threshold = 10 * billion;
-    const amount = (player.money() - money_reserve()) * spend_ratio;
-    const funds = Math.min(spend_threshold, amount);
+    const funds = (player.money() - money_reserve()) * spend_ratio;
+    if (funds < spend_threshold) {
+        return 0;
+    }
     // Calculate how many shares of the stock we can buy.
     const price = ns.stock.getAskPrice(stk);
     const nshare = Math.floor(funds / price);
