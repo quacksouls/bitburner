@@ -30,7 +30,6 @@ function reboot_low(ns) {
     const server = new Server(ns, player.home());
     const nthread = 1;
     const script = ["hnet-farm.js", "world-server.js", "buy-server.js"];
-
     // If we cannot run any of these scripts on our home server, then at
     // various points in the game we need to kill one or more scripts to
     // free some RAM.
