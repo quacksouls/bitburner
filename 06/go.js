@@ -18,10 +18,10 @@
 import { assert, Player, Server } from "./libbnr.js";
 
 /**
- * This function should be run immediately after the soft reset of installing
- * a bunch of Augmentations.  Our purpose is to gain some money and Hack
+ * This function should be run immediately after the soft reset of installing a
+ * bunch of Augmentations.  Our purpose is to gain some money and Hack
  * experience points early on when our stats are low.  We assume our home
- * server has a small amount of RAM.
+ * server has a small amount of RAM, possibly less than 128GB RAM.
  *
  * @param ns The Netscript API.
  */
@@ -42,10 +42,10 @@ function reboot_low(ns) {
 }
 
 /**
- * This function should be run immediately after the soft reset of installing
- * a bunch of Augmentations.  Our purpose is to gain some money and Hack
+ * This function should be run immediately after the soft reset of installing a
+ * bunch of Augmentations.  Our purpose is to gain some money and Hack
  * experience points early on when our stats are low.  We assume our home
- * server has at least 128GB RAM.
+ * server has at least 256GB RAM.
  *
  * @param ns The Netscript API.
  */
@@ -65,19 +65,19 @@ function reboot_high(ns) {
 }
 
 /**
- * NOTE: This script requires an upgraded home server to run successfully.
- * The reason is that it will run various other scripts, each of which requires
+ * NOTE: This script requires an upgraded home server to run successfully. The
+ * reason is that it will run various other scripts, each of which requires
  * RAM.  Our home server should have at least 256GB RAM.
  *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
  * automatically restart scripts to:
  *
- *     (1) Purchase Hacknet Nodes and manage our farm of Nodes.
- *     (2) Purchase servers and use each purchased server to hack a target
- *         server in the game world.
- *     (3) Gain root access to servers in the game world (excluding purchased
- *         servers) and use each server to hack itself.
+ * (1) Purchase Hacknet nodes and manage our farm of nodes.
+ * (2) Buy servers and use each purchased server to hack a target server in the
+ *     game world.
+ * (3) Gain root access to servers in the game world (excluding purchased
+ *     servers) and use each server to hack itself.
  *
  * Usage: run go.js
  *
@@ -87,7 +87,7 @@ export async function main(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const ram = server.available_ram();
-    const threshold = 128;
+    const threshold = 256;
 
     if (ram < threshold) {
         reboot_low(ns);
