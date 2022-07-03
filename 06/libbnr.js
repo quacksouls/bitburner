@@ -1096,8 +1096,8 @@ export function choose_best_server(ns, candidate) {
  * Determine a bunch of servers in the game world to hack.  A target server is
  * chosen based on these criteria:
  *
- *     (1) We meet the hacking skill requirement of the server.
- *     (2) We can open all ports required to gain root access to the server.
+ * (1) We meet the hacking skill requirement of the server.
+ * (2) We can open all ports required to gain root access to the server.
  *
  * @param ns The Netscript API.
  * @param candidate Use this array to search for targets to hack.
