@@ -33,7 +33,6 @@ import { Server } from "/libbnr.js";
 export async function main(ns) {
     // The target server, i.e. the server to hack.
     const target = new Server(ns, ns.args[0]);
-
     // Ensure we have root access to the target server.
     if (!target.has_root_access()) {
         try {
@@ -44,18 +43,15 @@ export async function main(ns) {
             ns.exit();
         }
     }
-
     // How much money a server should have before we hack it.  Even if the
     // server is bankrupt, successfully hacking it would increase our hacking
     // experience points, although we would not receive any money.
     // Set the money threshold at 75% of the server's maximum money.
     const money_threshold = target.money_max() * 0.75;
-
     // The threshold for the server's security level.  If the target's
     // security level is higher than the threshold, weaken the target
     // before doing anything else.
     const security_threshold = target.security_min() + 5;
-
     // Continuously hack/grow/weaken the target server.
     while (true) {
         const money_available = target.money_available();
