@@ -1133,7 +1133,7 @@ export function choose_best_server(ns, candidate) {
 export function choose_targets(ns, candidate) {
     // Sanity check.
     assert(candidate.length > 0);
-
+    // Find a bunch of target servers to hack.
     const player = new Player(ns);
     const nport = player.num_ports();
     const target = new Array();
