@@ -568,11 +568,20 @@ export class Player {
         program = program.concat(this.#program);
         assert(program.length > 0);
         for (const p of program) {
-            if (!this.#ns.fileExists(p, this.home())) {
+            if (!this.has_program(p)) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Whether we have a given program.
+     *
+     * @param p A program we want to check.
+     */
+    has_program(p) {
+        return this.#ns.fileExists(p, this.home());
     }
 
     /**
