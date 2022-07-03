@@ -309,7 +309,7 @@ export class Graph {
         if (0 == stack.length) {
             return [];
         }
-
+        // Reconstruct the full path from source to target.
         assert(stack.length > 0);
         stack.push(source);
         stack.reverse();
