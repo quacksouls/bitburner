@@ -148,7 +148,7 @@ function pserv_ram(ns, minserv) {
     const player = new Player(ns);
     let psram = 0;
     for (const r of ram) {
-        const cost = minserv * ns.getPurchasedServerCost(r);
+        const cost = minserv * pserv.cost(r);
         if (cost > player.money()) {
             continue;
         }
