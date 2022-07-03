@@ -16,7 +16,7 @@
  */
 
 import {
-    assert, filter_pserv, minutes_to_milliseconds, network, Player, Server
+    assert, filter_pserv, network, Player, Server, Time
 } from "/libbnr.js";
 
 /**
@@ -170,11 +170,12 @@ export async function main(ns) {
         await ns.kill(player.script(), player.home(), server);
     }
     // Continuously try to search for low-end servers to hack.
-    const time = minutes_to_milliseconds(1);
+    const time = new Time();
+    const t = time.minute();
     let target = new Array();
     while (true) {
         target = await update(ns, target);
         await ns.print("Low-end servers: " + target.join(", "));
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }

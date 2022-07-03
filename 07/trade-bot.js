@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Money, Player, seconds_to_milliseconds } from "/libbnr.js";
+import { assert, Money, Player, Time } from "/libbnr.js";
 
 /**
  * Purchase shares of a stock.
@@ -218,15 +218,16 @@ export async function main(ns) {
     // and data access.
     // Wait for 6 seconds because the Stock Market updates approximately
     // every 6 seconds.
-    const time = seconds_to_milliseconds(6);
+    const time = new Time();
+    const t = 6 * time.second();
     while (!meet_money_threshold(ns)) {
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
     purchase_api_access(ns);
     // Wait until we have a large amount of money before trading on the Stock
     // Market.  Gambling on the Stock Market requires huge wealth.
     while (!meet_money_threshold(ns)) {
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
     // Continuously trade on the Stock Market.
     while (true) {
@@ -235,6 +236,6 @@ export async function main(ns) {
             sell_stock(ns, stk);
             buy_stock(ns, stk);
         }
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }

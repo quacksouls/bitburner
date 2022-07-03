@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network, minutes_to_milliseconds, Player, Server } from "/libbnr.js";
+import { network, Player, Server, Time } from "/libbnr.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?
@@ -154,7 +154,8 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
 
-    const time = minutes_to_milliseconds(5);
+    const time = new Time();
+    const t = 5 * time.minute();
     const server = network(ns);
     server.push("home");
     // Continuously search for coding contracts.  Solve a coding contract,
@@ -171,6 +172,6 @@ export async function main(ns) {
                 solve(ns, cct, s);
             }
         }
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }

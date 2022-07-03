@@ -534,9 +534,10 @@ export class Player {
         // stop when our Hack stat is at least 50 because that is the threshold
         // at which we are able to create the BruteSSH.exe program.
         const threshold = 50;
-        const time = minutes_to_milliseconds(1);
+        const time = new Time();
+        const t = time.minute();
         while (this.hacking_skill() < threshold) {
-            await this.#ns.sleep(time);
+            await this.#ns.sleep(t);
         }
         assert(this.#ns.singularity.stopAction());
     }
@@ -963,6 +964,39 @@ export class Server {
     }
 }
 
+/**
+ * A class for handling time.
+ */
+export class Time {
+    /**
+     * Initialize a time object.
+     */
+    constructor() {
+        // There isn't anything we need to do here.
+    }
+
+    /**
+     * One millisecond.
+     */
+    millisecond() {
+        return 1;
+    }
+
+    /**
+     * The number of milliseconds in one minute.
+     */
+    minute() {
+        return 60 * this.second();
+    }
+
+    /**
+     * The number of milliseconds in one second.
+     */
+    second() {
+        return 1000 * this.millisecond();
+    }
+}
+
 /****************************************************************************/
 /** Helper functions ********************************************************/
 /****************************************************************************/
@@ -1367,20 +1401,6 @@ export function max_profit_kadane(price) {
 }
 
 /**
- * Convert the amount of time in minutes to milliseconds.
- *
- * @param time The amount of time in minutes.  Must be a positive whole number.
- * @return The given amount of time in milliseconds.
- */
-export function minutes_to_milliseconds(time) {
-    const n = Math.floor(time);
-    assert(n > 0);
-    const second = 1000;         // 1,000 milliseconds in 1 second.
-    const minute = 60 * second;  // 60 seconds in 1 minute.
-    return n * minute;
-}
-
-/**
  * Scan the network of servers in the game world.  Each server must be
  * reachable from our home server.
  *
@@ -1436,19 +1456,6 @@ export function parity_position(p) {
         array.push(2 ** i);
     }
     return array;
-}
-
-/**
- * Convert the amount of time in seconds to milliseconds.
- *
- * @param time The amount of time in seconds.  Must be a positive whole number.
- * @return The given amount of time in milliseconds.
- */
-export function seconds_to_milliseconds(time) {
-    const n = Math.floor(time);
-    assert(n > 0);
-    const second = 1000;  // 1,000 milliseconds in 1 second.
-    return n * second;
 }
 
 /**

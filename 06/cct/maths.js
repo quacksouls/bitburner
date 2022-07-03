@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "/libbnr.js";
+import { assert, log_cct_failure, Time } from "/libbnr.js";
 
 /**
  * All valid mathematical expressions, each of which evaluates to a target
@@ -44,7 +44,8 @@ async function all_expressions(ns, string, target) {
     const candidate = [-1, string];
     stack.push(candidate);
     seen.add(candidate);
-    const time = 1;
+    const time = new Time();
+    const t = time.millisecond();
     while (stack.length > 0) {
         const [i, expr] = stack.pop();
         // Create new expressions by inserting different operators at the next
@@ -73,7 +74,7 @@ async function all_expressions(ns, string, target) {
                 solution.push(expression);
             }
         }
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
     return solution;
 }

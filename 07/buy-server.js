@@ -17,8 +17,8 @@
 
 import {
     array_sort_descending, assert, choose_best_server, choose_targets,
-    copy_and_run, filter_bankrupt_servers, minutes_to_milliseconds, network,
-    Player, PurchasedServer, seconds_to_milliseconds, Server
+    copy_and_run, filter_bankrupt_servers, network, Player, PurchasedServer,
+    Server, Time
 } from "/libbnr.js";
 
 /**
@@ -231,7 +231,8 @@ async function update(ns, ram) {
     const player = new Player(ns);
     let i = player.pserv().length;
     let target = new Array();
-    const time = seconds_to_milliseconds(5);
+    const time = new Time();
+    const t = 5 * time.second();
     while (i < pserv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > pserv.cost(server_ram)) {
@@ -247,7 +248,7 @@ async function update(ns, ram) {
             i++;
         }
         // Sleep for a while.
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }
 
@@ -268,9 +269,10 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously try to purchase servers.
-    const time = minutes_to_milliseconds(1);
+    const time = new Time();
+    const t = time.minute();
     while (true) {
         await buy_servers(ns);
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }

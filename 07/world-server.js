@@ -17,8 +17,7 @@
 
 import {
     assert, choose_best_server, copy_and_run, filter_bankrupt_servers,
-    filter_pserv, minutes_to_milliseconds, network, Player,
-    seconds_to_milliseconds, Server
+    filter_pserv, network, Player, Server, Time
 } from "/libbnr.js";
 
 /**
@@ -245,7 +244,8 @@ function tolerate_margin(ns, margin, server) {
  */
 async function update(ns) {
     let server = network(ns);
-    const time = seconds_to_milliseconds(10);
+    const time = new Time();
+    const t = 10 * time.second();
     // A list of servers that have been successfully hacked.
     const player = new Player(ns);
     let hacked_server = compromised_servers(ns, player.script(), server);
@@ -260,7 +260,7 @@ async function update(ns) {
             reject = await redirect_bankrupt_server(ns, reject, hacked_server);
         }
         server = reject;
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }
 
@@ -274,9 +274,10 @@ async function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const time = minutes_to_milliseconds(10);
+    const time = new Time();
+    const t = 10 * time.minute();
     while (true) {
         await update(ns);
-        await ns.sleep(time);
+        await ns.sleep(t);
     }
 }

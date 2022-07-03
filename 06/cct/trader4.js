@@ -134,7 +134,8 @@ async function maximize_profit(ns, t, price) {
     }
     // The case of at least t >= 3 transactions.  Here, 1 <= tau <= t.  Build
     // up our table from tau = 1 up to and including tau = t.
-    const time = 1;
+    const time = new Time();
+    const interval = time.millisecond();
     for (let tau = 1; tau <= t; tau++) {
         // Let the number of transactions be at most tau.  Consider each
         // day > 0 in the price array.  As we move to the next day, we do not
@@ -163,7 +164,7 @@ async function maximize_profit(ns, t, price) {
             // The maximum profit using at most t transactions up to and
             // including this day.
             p[tau][day] = Math.max(a, price[day] + mp);
-            await ns.sleep(time);
+            await ns.sleep(interval);
         }
     }
     return p[t][price.length - 1];
