@@ -88,7 +88,8 @@ export async function main(ns) {
     const server = new Server(ns, player.home());
     const ram = server.available_ram();
     const threshold = 256;
-
+    // Run some or all utility scripts, depending on the amount of RAM on our
+    // home server.
     if (ram < threshold) {
         reboot_low(ns);
     } else {
