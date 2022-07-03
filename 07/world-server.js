@@ -274,6 +274,11 @@ async function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Make the log less verbose.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("sleep");
+    // Continuously look for world servers to hack.
     const time = new Time();
     const t = 10 * time.minute();
     while (true) {
