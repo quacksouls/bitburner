@@ -57,7 +57,7 @@ function reboot_high(ns) {
         "low-end.js", "world-server.js", "hnet-farm.js",
         "buy-server.js", "trade-bot.js"
     ];
-
+    // Run all of our utility scripts.
     for (const s of script) {
         assert(server.can_run_script(s));
         ns.exec(s, player.home(), nthread);
