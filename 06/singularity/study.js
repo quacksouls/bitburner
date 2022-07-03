@@ -26,6 +26,8 @@ import { assert, minutes_to_milliseconds, Player } from "/libbnr.js";
  * (1) Immediately after installing one or more Augmentations.
  * (2) When we start all over on a different BitNode.
  *
+ * Usage: run singularity/study.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
