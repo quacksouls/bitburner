@@ -18,7 +18,7 @@
 import { shortest_path } from "/libbnr.js";
 
 /**
- * Determine the shortest path from our home server to a target server.
+ * Determine a shortest path from our home server to a target server.
  * Must provide the target server from the command line.
  *
  * Usage: run shortest-path.js [targetServer]
