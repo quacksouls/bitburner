@@ -29,10 +29,7 @@ function reboot_low(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const nthread = 1;
-    const script = [
-        "/singularity/study.js", "hnet-farm.js", "world-server.js",
-        "buy-server.js"
-    ];
+    const script = ["hnet-farm.js", "world-server.js", "buy-server.js"];
     // If we cannot run any of these scripts on our home server, then at
     // various points in the game we need to kill one or more scripts to
     // free some RAM.
@@ -56,8 +53,8 @@ function reboot_high(ns) {
     const server = new Server(ns, player.home());
     const nthread = 1;
     const script = [
-        "/singularity/study.js", "low-end.js", "world-server.js",
-        "hnet-farm.js", "buy-server.js", "trade-bot.js", "/cct/solver.js"
+        "low-end.js", "world-server.js", "hnet-farm.js",
+        "buy-server.js", "trade-bot.js", "/cct/solver.js"
     ];
     // Run all of our utility scripts.
     for (const s of script) {
