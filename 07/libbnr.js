@@ -125,9 +125,9 @@ export class Graph {
         // The implementation is the same for both directed and undirected
         // graphs.
         // A map of the shortest number of nodes in a path to a target node.
-        let dist = new Map();
+        const dist = new Map();
         // A map of the node preceeding a given node.
-        let prev = new Map();
+        const prev = new Map();
         // A queue of nodes to visit.
         let queue = new Array();
         // Initialization.
@@ -297,7 +297,7 @@ export class Graph {
         if (!dist.has(target)) {
             return [];
         }
-        let stack = new Array();
+        const stack = new Array();
         let u = target;
         // Start from the target and work backward to find a shortest path from
         // the source to the target.
@@ -1139,7 +1139,7 @@ export function choose_targets(ns, candidate) {
 
     const player = new Player(ns);
     const nport = player.num_ports();
-    let target = new Array();
+    const target = new Array();
     for (const s of candidate) {
         const server = new Server(ns, s);
         // Do we have the minimum hacking skill required?
@@ -1410,7 +1410,7 @@ export function network(ns) {
     // A set of all servers we can visit at the moment.
     let server = new Set();
     // A stack of servers to visit.  We start from our home server.
-    let stack = new Array(root);
+    const stack = new Array(root);
     // Use depth-first search to navigate all servers we can visit.
     while (stack.length > 0) {
         const s = stack.pop();
