@@ -54,7 +54,7 @@ function reboot_high(ns) {
     const nthread = 1;
     const script = [
         "low-end.js", "world-server.js", "hnet-farm.js",
-        "buy-server.js", "trade-bot.js"
+        "buy-server.js", "trade-bot.js", "/cct/solver.js"
     ];
     // Run all of our utility scripts.
     for (const s of script) {
