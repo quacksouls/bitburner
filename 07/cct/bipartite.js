@@ -16,7 +16,7 @@
  */
 
 import {
-    assert, Graph, log_cct_failure, matrix_to_string, sequence
+    assert, Graph, log_cct_failure, matrix_to_string, MyArray
 } from "/libbnr.js";
 
 /**
@@ -198,7 +198,8 @@ function red() {
 function to_graph(n, edge) {
     assert(n > 0);
     assert(edge.length > 0);
-    const node = new Set(sequence(n));
+    const array = new MyArray();
+    const node = new Set(array.sequence(n));
     const directed = false;
     const graph = new Graph(directed);
     // First, add the edges.

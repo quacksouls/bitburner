@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Money, Player, sequence, Time } from "/libbnr.js";
+import { assert, Money, MyArray, Player, Time } from "/libbnr.js";
 
 /**
  * Whether each node in our Hacknet is fully upgraded.
@@ -59,7 +59,8 @@ function hacknet_nodes(ns) {
     if (nNode < 1) {
         return [];
     }
-    return sequence(nNode);
+    const array = new MyArray();
+    return array.sequence(nNode);
 }
 
 /**

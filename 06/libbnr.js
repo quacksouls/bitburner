@@ -362,6 +362,127 @@ export class Money {
 }
 
 /**
+ * A class to hold various utility methods for dealing with arrays.  Cannot
+ * name it "Array" because there is already a class called "Array" in the
+ * standard API library.
+ */
+export class MyArray {
+    /**
+     * Initialize an array object.
+     */
+    constructor() {
+        // Nothing to do here.
+    }
+
+    /**
+     * Whether the given array has only non-negative numbers.
+     *
+     * @param array An array of integers.  Cannot be an empty array.
+     * @return true if the given array has only non-negative integers;
+     *     false otherwise.
+     */
+    all_nonnegative(array) {
+        assert(array.length > 0);
+        for (const a of array) {
+            if (a < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * The maximum element of an array.
+     *
+     * @param We want to determine the maximum element of this array.  Cannot
+     *     be an empty array.
+     * @return The largest element of the given array.
+     */
+    max(array) {
+        assert(array.length > 0);
+        const init_value = -Infinity;
+        const mx = array.reduce(
+            function (x, y) {
+                return Math.max(x, y);
+            },
+            init_value
+        );
+        return mx;
+    }
+
+    /**
+     * A sequence of non-negative integers, starting from zero.  Each number in
+     * the sequence is one more than the previous number.
+     *
+     * @param num How many numbers in the sequence.  Must be positive.  If
+     *     num := 4, then our sequence is [0, 1, 2, 3].
+     * @return An array representing a sequence of num numbers starting from 0.
+     */
+    sequence(num) {
+        const n = Math.floor(num);
+        assert(n > 0);
+        return Array(n).fill().map((_, index) => index);
+    }
+
+    /**
+     * Sort an array in ascending order.
+     *
+     * @param array We want to sort this array.  Cannot be an empty array.
+     * @return A new array whose elements are sorted in ascending order.  If
+     *     the array has duplicate elements, we are actually sorting in
+     *     non-decreasing order.
+     */
+    sort_ascending(array) {
+        assert(array.length > 0);
+        const arr = Array.from(array);
+        arr.sort(
+            function (a, b) {
+                return a - b;
+            }
+        );
+        return arr;
+    }
+
+    /**
+     * Sort an array in descending order.
+     *
+     * @param array We want to sort this array.  Cannot be an empty array.
+     * @return A new array whose elements are sorted in descending order.  If
+     *     the array has duplicate elements, then we are actually sorting the
+     *     array in non-increasing order.
+     */
+    sort_descending(array) {
+        assert(array.length > 0);
+        const arr = Array.from(array);
+        arr.sort(
+            function (a, b) {
+                return b - a;
+            }
+        );
+        return arr;
+    }
+
+    /**
+     * Sum the elements of an array.
+     *
+     * @param array We want to add the elements of this array.  Cannot be an
+     *     empty array.
+     * @return The sum of the elements in the given array.
+     */
+    sum(array) {
+        assert(array.length > 0);
+        const init_value = 0;
+        const total = array.reduce(
+            function (sum, current) {
+                return sum + current;
+            },
+            init_value
+        );
+        return total;
+    }
+}
+
+/**
  * A class that holds all information about a player.
  */
 export class Player {
@@ -969,97 +1090,6 @@ export class Time {
 /****************************************************************************/
 
 /**
- * Whether the given array has only non-negative numbers.
- *
- * @param array An array of integers.  Cannot be empty array.
- * @return true if the given array has only non-negative integers;
- *     false otherwise.
- */
-export function all_nonnegative(array) {
-    assert(array.length > 0);
-    for (const a of array) {
-        if (a < 0) {
-            return false;
-        }
-    }
-    return true;
-}
-
-/**
- * The maximum element of an array.
- *
- * @param We want to determine the maximum element of this array.
- * @return The largest element of the given array.
- */
-export function array_max(array) {
-    assert(array.length > 0);
-    const init_value = -Infinity;
-    const max = array.reduce(
-        function (x, y) {
-            return Math.max(x, y);
-        },
-        init_value
-    );
-    return max;
-}
-
-/**
- * Sort an array in ascending order.
- *
- * @param array We want to sort this array.
- * @return A new array whose elements are sorted in ascending order.  If the
- *     array has duplicate elements, we are actually sorting in non-decreasing
- *     order.
- */
-export function array_sort_ascending(array) {
-    assert(array.length > 0);
-    const arr = Array.from(array);
-    arr.sort(
-        function (a, b) {
-            return a - b;
-        }
-    );
-    return arr;
-}
-
-/**
- * Sort an array in descending order.
- *
- * @param array We want to sort this array.
- * @return A new array whose elements are sorted in descending order.  If the
- *     array has duplicate elements, then we are actually sorting the array in
- *     non-increasing order.
- */
-export function array_sort_descending(array) {
-    assert(array.length > 0);
-    const arr = Array.from(array);
-    arr.sort(
-        function (a, b) {
-            return b - a;
-        }
-    );
-    return arr;
-}
-
-/**
- * Sum the elements of an array.
- *
- * @param array We want to add the elements of this array.
- * @return The sum of the elements in the given array.
- */
-export function array_sum(array) {
-    assert(array.length > 0);
-    const init_value = 0;
-    const total = array.reduce(
-        function (sum, current) {
-            return sum + current;
-        },
-        init_value
-    );
-    return total;
-}
-
-/**
  * A function for assertion.
  *
  * @param cond Assert that this condition is true.
@@ -1419,19 +1449,6 @@ export function parity_position(p) {
         array.push(2 ** i);
     }
     return array;
-}
-
-/**
- * A sequence of non-negative integers, starting from zero.  Each number
- * in the sequence is one more than the previous number.
- *
- * @param n How many numbers in the sequence.  Must be positive.  If
- *     n := 4, then our sequence is [0, 1, 2, 3].
- * @return An array representing a sequence of n numbers starting from 0.
- */
-export function sequence(n) {
-    assert(n > 0);
-    return Array(n).fill().map((_, index) => index);
 }
 
 /**

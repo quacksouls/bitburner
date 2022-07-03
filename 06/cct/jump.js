@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert, log_cct_failure } from "/libbnr.js";
+import { assert, log_cct_failure, MyArray } from "/libbnr.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.
@@ -28,7 +28,8 @@ import { all_nonnegative, assert, log_cct_failure } from "/libbnr.js";
  */
 function end_reachable(array) {
     // Sanity check.
-    assert(all_nonnegative(array));
+    const myarr = new MyArray();
+    assert(myarr.all_nonnegative(array));
     const REACHABLE = 1;
     const NOT_REACHABLE = 0;
     // Use a greedy method to try to reach the last array cell.

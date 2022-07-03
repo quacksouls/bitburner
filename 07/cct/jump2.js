@@ -15,9 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    all_nonnegative, assert, Graph, log_cct_failure, sequence
-} from "/libbnr.js";
+import { assert, Graph, log_cct_failure, MyArray } from "/libbnr.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -57,7 +55,8 @@ function can_jump(i, array) {
  *         cannot reach the last cell.
  */
 function minimum_jump(array) {
-    assert(all_nonnegative(array));
+    const myarr = new MyArray();
+    assert(myarr.all_nonnegative(array));
     // We interpret the array and its elements as a directed graph.  The
     // minimum jump length is found by computing the shortest path from the
     // first cell to the last cell.
@@ -86,7 +85,8 @@ function to_graph(array) {
     assert(array.length > 0);
     // First, add the nodes of the directed graph because the graph might be
     // disconnected.  Each node ID is an index of the given array.
-    const node = sequence(array.length);
+    const myarr = new MyArray();
+    const node = myarr.sequence(array.length);
     const directed = true;
     const graph = new Graph(directed);
     for (const v of node) {

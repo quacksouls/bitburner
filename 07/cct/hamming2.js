@@ -16,7 +16,7 @@
  */
 
 import {
-    array_sum, assert, count_one, log_cct_failure, parity_position
+    assert, count_one, log_cct_failure, MyArray, parity_position
 } from "/libbnr.js";
 
 /**
@@ -123,12 +123,13 @@ function secded(msg, nparity) {
     // We have an error in the bit string.  Calculate the sum of the indices of
     // the erroneous parity bits.  This sum gives the index of where an error
     // occurs.  Correct one error.
-    const i = array_sum(error);
+    const array = new MyArray();
+    const i = array.sum(error);
     const _msg = Array.from(msg);
     _msg[i] = (_msg[i] + 1) % 2;
     // Check the overall parity bit.  This allows us to check for the presence
     // of a second error, but we would not be able to correct the second error.
-    const n1 = array_sum(_msg.slice(1, _msg.length));
+    const n1 = array.sum(_msg.slice(1, _msg.length));
     assert(_msg[0] == (n1 % 2));
     return _msg;
 }
