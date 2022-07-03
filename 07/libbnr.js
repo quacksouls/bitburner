@@ -470,6 +470,32 @@ export class Player {
     script() {
         return this.#script;
     }
+
+    /**
+     * WARNING: This method assumes that we have access to the Singularity API.
+     *
+     * Study at Rotham University to raise our Hack stat.  Use this method
+     * under the following situations:
+     *
+     * (1) Immediately after installing one or more Augmentations.
+     * (2) When we start all over on a different BitNode.
+     */
+    async study() {
+        // Study the free computer science course at a university.
+        const uni = "Rothman University";
+        const course = "Study Computer Science";
+        const focus = true;
+        assert(this.#ns.singularity.universityCourse(uni, course, focus));
+        // Stop our study when our Hack stat has reached a certain amount.  We
+        // stop when our Hack stat is at least 50 because that is the threshold
+        // at which we are able to create the BruteSSH.exe program.
+        const threshold = 50;
+        const time = minutes_to_milliseconds(1);
+        while (this.hacking_skill() < threshold) {
+            await this.#ns.sleep(time);
+        }
+        assert(this.#ns.singularity.stopAction());
+    }
 }
 
 /**

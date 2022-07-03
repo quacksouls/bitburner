@@ -25,7 +25,7 @@ import { assert, Player, Server } from "/libbnr.js";
  *
  * @param ns The Netscript API.
  */
-function reboot_low(ns) {
+async function reboot_low(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const nthread = 1;
@@ -38,6 +38,8 @@ function reboot_low(ns) {
             ns.exec(s, player.home(), nthread);
         }
     }
+    // Study computer science to raise our Hack stat.
+    await player.study();
 }
 
 /**
@@ -48,7 +50,7 @@ function reboot_low(ns) {
  *
  * @param ns The Netscript API.
  */
-function reboot_high(ns) {
+async function reboot_high(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const nthread = 1;
@@ -61,6 +63,8 @@ function reboot_high(ns) {
         assert(server.can_run_script(s));
         ns.exec(s, player.home(), nthread);
     }
+    // Study computer science to raise our Hack stat.
+    await player.study();
 }
 
 /**
@@ -90,8 +94,8 @@ export async function main(ns) {
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     if (ram < threshold) {
-        reboot_low(ns);
+        await reboot_low(ns);
     } else {
-        reboot_high(ns);
+        await reboot_high(ns);
     }
 }
