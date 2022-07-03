@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "./libbnr.js";
+import { assert, log_cct_failure } from "/libbnr.js";
 
 /**
  * Use a variant of the Lempel-Ziv (LZ) algorithm to decompress a string.  The

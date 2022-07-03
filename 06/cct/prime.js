@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { array_max, assert, log_cct_failure } from "./libbnr.js";
+import { array_max, assert, log_cct_failure } from "/libbnr.js";
 
 /**
  * Obtain a factor of a positive integer.

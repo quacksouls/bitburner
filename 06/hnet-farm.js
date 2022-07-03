@@ -17,7 +17,7 @@
 
 import {
     assert, minutes_to_milliseconds, Player, seconds_to_milliseconds, sequence
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * Whether each node in our Hacknet is fully upgraded.

@@ -17,7 +17,7 @@
 
 import {
     all_nonnegative, assert, Graph, log_cct_failure, sequence
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * Whether we can jump from the current array cell.

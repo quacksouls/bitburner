@@ -17,7 +17,7 @@
 
 import {
     assert, Graph, log_cct_failure, matrix_to_string, sequence
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * Whether an undirected graph is bipartite.  Do not assume the graph is

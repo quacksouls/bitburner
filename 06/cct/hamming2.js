@@ -17,7 +17,7 @@
 
 import {
     array_sum, assert, count_one, log_cct_failure, parity_position
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * Check the parity bits.

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { array_sort_ascending, assert, log_cct_failure } from "./libbnr.js";
+import { array_sort_ascending, assert, log_cct_failure } from "/libbnr.js";
 
 /**
  * The number of ways to change n using coins in the given set of

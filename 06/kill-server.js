@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "./libbnr.js";
+import { Player } from "/libbnr.js";
 
 /**
  * Delete all purchased servers.  This would also kill all scripts running

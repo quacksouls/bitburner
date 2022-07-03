@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, matrix_to_string } from "./libbnr.js";
+import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
 
 /**
  * Trace out a ring inside a 2-D matrix.

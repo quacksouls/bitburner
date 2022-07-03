@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_nonnegative, assert, log_cct_failure } from "./libbnr.js";
+import { all_nonnegative, assert, log_cct_failure } from "/libbnr.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.

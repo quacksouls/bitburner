@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "./libbnr.js";
+import { assert, log_cct_failure } from "/libbnr.js";
 
 /**
  * Whether the parentheses in the given expression are balanced.

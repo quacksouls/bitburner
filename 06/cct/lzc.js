@@ -1,4 +1,4 @@
-import { log_cct_failure } from "./libbnr.js";
+import { log_cct_failure } from "/libbnr.js";
 
 /**
  * Compress a string using LZ encoding.  This function is due to

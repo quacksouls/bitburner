@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Player, Server } from "./libbnr.js";
+import { assert, Player, Server } from "/libbnr.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Player, seconds_to_milliseconds } from "./libbnr.js";
+import { assert, Player, seconds_to_milliseconds } from "/libbnr.js";
 
 /**
  * Purchase shares of a stock.

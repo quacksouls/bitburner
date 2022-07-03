@@ -19,7 +19,7 @@ import {
     array_sort_descending, assert, choose_best_server, choose_targets,
     copy_and_run, filter_bankrupt_servers, minutes_to_milliseconds, network,
     Player, PurchasedServer, seconds_to_milliseconds, Server
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.

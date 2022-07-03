@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { shortest_path } from "./libbnr.js";
+import { shortest_path } from "/libbnr.js";
 
 /**
  * Determine the shortest path from our home server to a target server.

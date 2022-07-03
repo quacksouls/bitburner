@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Server } from "./libbnr.js";
+import { Server } from "/libbnr.js";
 
 /**
  * Hack a server and steal its money.  We weaken the server's security

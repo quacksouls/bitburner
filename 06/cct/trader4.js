@@ -17,7 +17,7 @@
 
 import {
     assert, log_cct_failure, max_profit_kadane, stock_traderIII
-} from "./libbnr.js";
+} from "/libbnr.js";
 
 /**
  * The maximimum profit that can be made when we are restricted to at most t
