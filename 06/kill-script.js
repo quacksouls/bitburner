@@ -21,9 +21,8 @@ import { network, Player } from "/libbnr.js";
  * Kill all scripts on world or purchased servers.  Must provide one of the
  * following at the command line:
  *
- *     * pserv := Kill all scripts on all purchased servers.
- *     * world := Kill all scripts on all world servers where we have root
- *           access.
+ * (1) pserv := Kill all scripts on all purchased servers.
+ * (2) world := Kill all scripts on all world servers where we have root access.
  *
  * Usage: run kill-script.js [pserv | world]
  * Example: run kill-script.js pserv
