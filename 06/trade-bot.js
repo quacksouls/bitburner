@@ -189,7 +189,6 @@ function skip_stock(ns, stk) {
     const NO_SKIP = !SKIP;
     const forecast_threshold = 0.575;
     const volatility_threshold = 0.05;
-
     // Skip if there is a low chance of increase in the next tick.
     if (ns.stock.getForecast(stk) < forecast_threshold) {
         return SKIP;
@@ -214,7 +213,6 @@ function skip_stock(ns, stk) {
 export async function main(ns) {
     ns.disableLog("sleep");
     ns.disableLog("getServerMoneyAvailable");
-
     // Wait until we have enough money before purchasing the various APIs
     // and data access.
     // Wait for 6 seconds because the Stock Market updates approximately
