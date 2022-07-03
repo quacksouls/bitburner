@@ -25,8 +25,8 @@ import {
  * exclude all purchased servers.  A server in the game world is said to be
  * compromised provided that:
  *
- *     (1) We have root access to the server.
- *     (2) Our hack scripts are currently running on the server.
+ * (1) We have root access to the server.
+ * (2) Our hack scripts are currently running on the server.
  *
  * @param ns The Netscript API.
  * @param script A hack script.  We want to check whether a server is running
