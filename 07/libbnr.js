@@ -32,7 +32,6 @@ export class Graph {
      * array is a neighbour of i.
      */
     #adj;
-
     /**
      * A boolean signifying whether each edge is directed or undirected.
      */
@@ -67,7 +66,6 @@ export class Graph {
         if (this.has_edge(u, v)) {
             return FAILURE;
         }
-
         // First, add the nodes if we don't have them already.
         if (!this.has_node(u)) {
             assert(this.add_node(u));
@@ -142,7 +140,6 @@ export class Graph {
         dist.set(source, 0);
         prev.set(source, undefined);
         queue.push(source);
-
         // Search for shortest paths from the source node to other nodes.  This
         // is an unweighted graph so the weight between a node and any of its
         // neighbours is 1.
@@ -1179,7 +1176,6 @@ export async function copy_and_run(ns, server, target) {
     const player = new Player(ns);
     const serv = new Server(ns, server);
     const targ = new Server(ns, target);
-
     // Sanity checks.
     // No root access on either servers.
     if (!serv.has_root_access()) {
@@ -1207,7 +1203,6 @@ export async function copy_and_run(ns, server, target) {
         await ns.tprint("No free RAM on server: " + server);
         return FAILURE;
     }
-
     // Copy our scripts over to a server.  Use the server to hack a target.
     await ns.scp(player.script(), player.home(), server);
     await ns.scp(player.library(), player.home(), server);
@@ -1412,12 +1407,10 @@ export function network(ns) {
     // server.  We refer to our home server as the root of the tree.
     const player = new Player(ns);
     const root = player.home();
-
     // A set of all servers we can visit at the moment.
     let server = new Set();
     // A stack of servers to visit.  We start from our home server.
     let stack = new Array(root);
-
     // Use depth-first search to navigate all servers we can visit.
     while (stack.length > 0) {
         const s = stack.pop();
