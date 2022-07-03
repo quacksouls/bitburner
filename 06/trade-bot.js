@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Player, seconds_to_milliseconds } from "/libbnr.js";
+import { assert, Money, Player, seconds_to_milliseconds } from "/libbnr.js";
 
 /**
  * Purchase shares of a stock.
@@ -107,10 +107,8 @@ function meet_money_threshold(ns) {
  * @return The minimum amount of money to be held in reserve.
  */
 function money_reserve() {
-    const million = 10 ** 6;
-    const billion = 1000 * million;
-    const reserve = 100 * billion;
-    return reserve;
+    const money = new Money();
+    return 100 * money.billion()
 }
 
 /**
@@ -130,10 +128,9 @@ function num_shares(ns, stk) {
     // stock.  If the amount is less than the spending threshold, then do not
     // purchase any shares.
     const player = new Player(ns);
+    const money = new Money();
     const spend_ratio = 0.01;
-    const million = 10 ** 6;
-    const billion = 1000 * million;
-    const spend_threshold = 10 * billion;
+    const spend_threshold = 10 * money.billion();
     const funds = (player.money() - money_reserve()) * spend_ratio;
     if (funds < spend_threshold) {
         return 0;

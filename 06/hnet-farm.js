@@ -16,7 +16,8 @@
  */
 
 import {
-    assert, minutes_to_milliseconds, Player, seconds_to_milliseconds, sequence
+    assert, minutes_to_milliseconds, Money, Player, seconds_to_milliseconds,
+    sequence
 } from "/libbnr.js";
 
 /**
@@ -260,11 +261,10 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Various money thresholds.
-    const million = 10 ** 6;
-    const billion = 1000 * million;
-    const trillion = 1000 * billion;
+    const money = new Money();
     const threshold = [
-        10 * million, 100 * million, billion, 100 * billion, trillion
+        10 * money.million(), 100 * money.million(), money.billion(),
+        100 * money.billion(), money.trillion()
     ];
     const node = [6, 12, 24, 30, 33];
     // Bootstrap our farm of Hacknet nodes.
@@ -272,8 +272,8 @@ export async function main(ns) {
     // Add increasingly more nodes to the farm.
     let i = 0;
     const time = minutes_to_milliseconds(10);
-    for (const money of threshold) {
-        await next_stage(ns, node[i], money);
+    for (const mon of threshold) {
+        await next_stage(ns, node[i], mon);
         i++;
         await ns.sleep(time);
     }

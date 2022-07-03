@@ -321,6 +321,50 @@ export class Graph {
 }
 
 /**
+ * A class to hold information about money.
+ */
+export class Money {
+    /**
+     * The value for one million.
+     */
+    #million;
+    /**
+     * Initialize a money object.
+     */
+    constructor() {
+        this.#million = 10 ** 6;
+    }
+
+    /**
+     * One billion, i.e. 10^9.
+     */
+    billion() {
+        return 1000 * this.million();
+    }
+
+    /**
+     * One million, i.e. 10^6.
+     */
+    million() {
+        return this.#million;
+    }
+
+    /**
+     * One quadrillion, i.e. 10^15.
+     */
+    quadrillion() {
+        return 1000 * this.trillion();
+    }
+
+    /**
+     * One trillion, i.e. 10^12.
+     */
+    trillion() {
+        return 1000 * this.billion();
+    }
+}
+
+/**
  * A class that holds all information about a player.
  */
 export class Player {
