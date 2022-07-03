@@ -35,14 +35,24 @@ async function buy_servers(ns) {
     // By default, we want to purchase minserv servers.  As for the remaining
     // servers that make up the number to reach the maximum number of purchased
     // servers, we wait until we have enough money to purchase each of them.
+    // Set minserv to a small number so we can bootstrap a source of passive
+    // income and Hack points
     const minserv = 13;
-    const ram = pserv_ram(ns, minserv);
+    let ram = pserv_ram(ns, minserv);
     if (ram <= default_ram) {
         // Try to purchase servers, each with the default amount of ram.
         await stage_one(ns);
         return;
     }
-    // Try to purchase servers, each with higher amount of RAM.
+    // Here we assume we already have purchased servers, each with the default
+    // amount of RAM.  Now try to purchase servers, each with a higher amount
+    // of RAM than the default amount.  We wait to accumulate enough money to
+    // purchase the maximum number of servers.
+    const maxserv = pserv.limit();
+    ram = pserv_ram(ns, maxserv);
+    if (ram <= default_ram) {
+        return;
+    }
     assert(ram > default_ram);
     await next_stage(ns, ram);
 }
