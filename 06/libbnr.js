@@ -17,7 +17,7 @@
 
 // A library of classes and functions that can be imported into other scripts.
 
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /****************************************************************************/
 /** Class *******************************************************************/

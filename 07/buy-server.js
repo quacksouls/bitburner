@@ -21,7 +21,7 @@ import {
 } from "/libbnr.js";
 import { MyArray } from "/lib.array.js";
 import { network } from "/lib.network.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.

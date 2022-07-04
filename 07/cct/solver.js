@@ -17,7 +17,7 @@
 
 import { Player, Server } from "/libbnr.js";
 import { network } from "/lib.network.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?

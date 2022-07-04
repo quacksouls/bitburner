@@ -18,7 +18,7 @@
 import {
     assert, log_cct_failure, max_profit_kadane, stock_traderIII
 } from "/libbnr.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * The maximimum profit that can be made when we are restricted to at most t

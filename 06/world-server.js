@@ -20,7 +20,7 @@ import {
     filter_pserv, Player, Server
 } from "/libbnr.js";
 import { network } from "/lib.network.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * Determine which servers in the game world have been compromised.  We

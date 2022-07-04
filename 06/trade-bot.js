@@ -17,7 +17,7 @@
 
 import { assert, Player } from "/libbnr.js";
 import { Money } from "/lib.money.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * Purchase shares of a stock.

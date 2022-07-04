@@ -16,7 +16,7 @@
  */
 
 import { assert, log_cct_failure } from "/libbnr.js";
-import { Time } from "/lib.time.js";
+import { Time } from "/lib/time.js";
 
 /**
  * All valid mathematical expressions, each of which evaluates to a target
