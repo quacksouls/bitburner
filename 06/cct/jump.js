@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, MyArray } from "/libbnr.js";
+import { assert, log_cct_failure } from "/libbnr.js";
+import { MyArray } from "/lib.array.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.

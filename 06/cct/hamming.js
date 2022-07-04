@@ -16,8 +16,9 @@
  */
 
 import {
-    assert, count_one, log_cct_failure, MyArray, parity_position
+    assert, count_one, log_cct_failure, parity_position
 } from "/libbnr.js";
+import { MyArray } from "/lib.array.js";
 
 /**
  * Use Hamming code to encode a string of bits.

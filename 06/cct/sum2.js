@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, MyArray } from "/libbnr.js";
+import { assert, log_cct_failure } from "/libbnr.js";
+import { MyArray } from "/lib.array.js";
 
 /**
  * The number of ways to change n using coins in the given set of
@@ -31,7 +32,7 @@ function coin_change(n, denom) {
     assert(denom.length > 0);
     // Sort the array of denominations in ascending order.
     let denomination = Array.from(new Set(denom));
-    const array = new Array();
+    const array = new MyArray();
     denomination = array.sort_ascending(denomination);
     // Remove any coin value higher than n.
     let i = denomination.length - 1;

@@ -15,9 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    assert, log_cct_failure, matrix_to_string, MyArray
-} from "/libbnr.js";
+import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
+import { MyArray } from "/lib.array.js";
 import { Graph } from "/lib.network.js";
 
 /**
