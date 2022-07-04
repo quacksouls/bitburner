@@ -16,7 +16,7 @@
  */
 
 import { Player } from "/libbnr.js";
-import { network } from "/lib.network.js";
+import { network } from "/lib/network.js";
 
 /**
  * Kill all scripts on world or purchased servers.  Must provide one of the

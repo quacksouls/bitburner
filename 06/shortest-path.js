@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { shortest_path } from "/lib.network.js";
+import { shortest_path } from "/lib/network.js";
 
 /**
  * Determine a shortest path from our home server to a target server.

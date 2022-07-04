@@ -20,7 +20,7 @@ import {
     filter_bankrupt_servers, Player, PurchasedServer, Server
 } from "/libbnr.js";
 import { MyArray } from "/lib.array.js";
-import { network } from "/lib.network.js";
+import { network } from "/lib/network.js";
 import { Time } from "/lib/time.js";
 
 /**

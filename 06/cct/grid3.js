@@ -16,7 +16,7 @@
  */
 
 import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
-import { Graph } from "/lib.network.js";
+import { Graph } from "/lib/network.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.

@@ -17,7 +17,7 @@
 
 import { assert, log_cct_failure } from "/libbnr.js";
 import { MyArray } from "/lib.array.js";
-import { Graph } from "/lib.network.js";
+import { Graph } from "/lib/network.js";
 
 /**
  * Whether we can jump from the current array cell.
