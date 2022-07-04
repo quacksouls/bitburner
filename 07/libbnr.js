@@ -500,6 +500,10 @@ export class Player {
      */
     #ns;
     /**
+     * The Hack stat requirement of a program.
+     */
+    #prequire;
+    /**
      * Programs that allow a player to open ports on a world server.
      * These are port openers.
      */
@@ -530,6 +534,48 @@ export class Player {
         ];
         this.#program = ["DeepscanV1.exe", "DeepscanV2.exe", "NUKE.exe"];
         this.#script = "hack.js";
+        // The Hack stat requirement of various programs.
+        this.#prequire = new Map();
+        this.#prequire.set("BruteSSH.exe", 50);
+        this.#prequire.set("FTPCrack.exe", 100);
+        this.#prequire.set("HTTPWorm.exe", 500);
+        this.#prequire.set("relaySMTP.exe", 250);
+        this.#prequire.set("SQLInject.exe", 750);
+    }
+
+    /**
+     * WARNING: This method assumes that we have access to the Singularity API.
+     *
+     * Create a program.  At the moment, we only support the creation of a port
+     * opener program.
+     *
+     * @param program A string representing the name of the program we want to
+     *     create.
+     */
+    async create_program(program) {
+        // Check that this is a valid program name.
+        assert(program.length > 0);
+        assert(this.#port_opener.includes(program));
+        // Do we already have the program?  We can have a program without
+        // meeting the Hack stat requirement.  A number of Augmentations allow
+        // us to start with various port opener programs after a soft reset.
+        if (this.has_program(program)) {
+            return;
+        }
+        // Ensure we meet the Hack stat requirement for creating the program.
+        const threshold = this.#prequire.get(program);
+        assert(threshold > 0);
+        assert(this.hacking_skill() >= threshold);
+        // Work on creating the program.
+        const focus = true;
+        const time = new Time();
+        const t = time.minute();
+        assert(this.#ns.singularity.createProgram(program, focus));
+        while (this.#ns.singularity.isBusy()) {
+            assert(!this.has_program(program));
+            await this.#ns.sleep(t);
+        }
+        assert(this.has_program(program));
     }
 
     /**
@@ -650,17 +696,18 @@ export class Player {
      *
      * (1) Immediately after installing one or more Augmentations.
      * (2) When we start all over on a different BitNode.
+     *
+     * @param threshold Study until we have reached at least this amount of
+     *     Hack stat.
      */
-    async study() {
+    async study(threshold) {
+        assert(threshold > 0);
         // Study the free computer science course at a university.
         const uni = "Rothman University";
         const course = "Study Computer Science";
         const focus = true;
         assert(this.#ns.singularity.universityCourse(uni, course, focus));
-        // Stop our study when our Hack stat has reached a certain amount.  We
-        // stop when our Hack stat is at least 50 because that is the threshold
-        // at which we are able to create the BruteSSH.exe program.
-        const threshold = 50;
+        // Stop our study when our Hack stat is at least the given threshold.
         const time = new Time();
         const t = time.minute();
         while (this.hacking_skill() < threshold) {
