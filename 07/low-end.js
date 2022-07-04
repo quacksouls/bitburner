@@ -16,8 +16,9 @@
  */
 
 import {
-    assert, filter_pserv, network, Player, Server
+    assert, filter_pserv, Player, Server
 } from "/libbnr.js";
+import { network } from "/lib.network.js";
 import { Time } from "/lib.time.js";
 
 /**

@@ -17,8 +17,9 @@
 
 import {
     assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, network, Player, Server
+    filter_bankrupt_servers, Player, Server
 } from "/libbnr.js";
+import { network } from "/lib.network.js";
 
 /**
  * Restart all scripts on a purchased server.  This is useful in the case where

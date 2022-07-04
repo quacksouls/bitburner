@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network } from "/libbnr.js";
+import { network } from "/lib.network.js";
 
 /**
  * Find coding contracts on world servers.  This script essentially searches

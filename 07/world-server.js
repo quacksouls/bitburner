@@ -17,8 +17,9 @@
 
 import {
     assert, choose_best_server, copy_and_run, filter_bankrupt_servers,
-    filter_pserv, network, Player, Server
+    filter_pserv, Player, Server
 } from "/libbnr.js";
+import { network } from "/lib.network.js";
 import { Time } from "/lib.time.js";
 
 /**

@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network, Player } from "/libbnr.js";
+import { Player } from "/libbnr.js";
+import { network } from "/lib.network.js";
 
 /**
  * Kill all scripts on world or purchased servers.  Must provide one of the

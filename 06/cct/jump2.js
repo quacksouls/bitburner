@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Graph, log_cct_failure, MyArray } from "/libbnr.js";
+import { assert, log_cct_failure, MyArray } from "/libbnr.js";
+import { Graph } from "/lib.network.js";
 
 /**
  * Whether we can jump from the current array cell.

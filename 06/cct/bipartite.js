@@ -16,8 +16,9 @@
  */
 
 import {
-    assert, Graph, log_cct_failure, matrix_to_string, MyArray
+    assert, log_cct_failure, matrix_to_string, MyArray
 } from "/libbnr.js";
+import { Graph } from "/lib.network.js";
 
 /**
  * Whether an undirected graph is bipartite.  Do not assume the graph is
