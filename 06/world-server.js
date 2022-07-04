@@ -17,8 +17,9 @@
 
 import {
     assert, choose_best_server, copy_and_run, filter_bankrupt_servers,
-    filter_pserv, network, Player, Server, Time
+    filter_pserv, network, Player, Server
 } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Determine which servers in the game world have been compromised.  We

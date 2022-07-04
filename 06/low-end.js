@@ -16,8 +16,9 @@
  */
 
 import {
-    assert, filter_pserv, network, Player, Server, Time
+    assert, filter_pserv, network, Player, Server
 } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Whether there are new low-end servers we can now hack.

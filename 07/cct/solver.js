@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network, Player, Server, Time } from "/libbnr.js";
+import { network, Player, Server } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?

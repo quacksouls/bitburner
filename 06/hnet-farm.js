@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Money, MyArray, Player, Time } from "/libbnr.js";
+import { assert, Money, MyArray, Player } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Whether each node in our Hacknet is fully upgraded.

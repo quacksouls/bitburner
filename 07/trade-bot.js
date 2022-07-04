@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Money, Player, Time } from "/libbnr.js";
+import { assert, Money, Player } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Purchase shares of a stock.

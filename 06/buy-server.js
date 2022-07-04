@@ -17,9 +17,9 @@
 
 import {
     assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, MyArray, network, Player, PurchasedServer, Server,
-    Time
+    filter_bankrupt_servers, MyArray, network, Player, PurchasedServer, Server
 } from "/libbnr.js";
+import { Time } from "/lib.time.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.
