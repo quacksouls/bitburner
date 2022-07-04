@@ -16,7 +16,7 @@
  */
 
 import { assert, Player } from "/libbnr.js";
-import { Money } from "/lib.money.js";
+import { Money } from "/lib/money.js";
 import { Time } from "/lib/time.js";
 
 /**
