@@ -1061,39 +1061,6 @@ export class Server {
     }
 }
 
-/**
- * A class for handling time.
- */
-export class Time {
-    /**
-     * Initialize a time object.
-     */
-    constructor() {
-        // There isn't anything we need to do here.
-    }
-
-    /**
-     * One millisecond.
-     */
-    millisecond() {
-        return 1;
-    }
-
-    /**
-     * The number of milliseconds in one minute.
-     */
-    minute() {
-        return 60 * this.second();
-    }
-
-    /**
-     * The number of milliseconds in one second.
-     */
-    second() {
-        return 1000 * this.millisecond();
-    }
-}
-
 /****************************************************************************/
 /** Helper functions ********************************************************/
 /****************************************************************************/
