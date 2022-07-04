@@ -16,7 +16,7 @@
  */
 
 import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
-import { MyArray } from "/lib.array.js";
+import { MyArray } from "/lib/array.js";
 import { Graph } from "/lib/network.js";
 
 /**

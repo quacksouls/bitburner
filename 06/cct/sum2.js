@@ -16,7 +16,7 @@
  */
 
 import { assert, log_cct_failure } from "/libbnr.js";
-import { MyArray } from "/lib.array.js";
+import { MyArray } from "/lib/array.js";
 
 /**
  * The number of ways to change n using coins in the given set of

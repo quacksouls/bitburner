@@ -16,7 +16,7 @@
  */
 
 import { assert, Player } from "/libbnr.js";
-import { MyArray } from "/lib.array.js";
+import { MyArray } from "/lib/array.js";
 import { Money } from "/lib.money.js";
 import { Time } from "/lib/time.js";
 
