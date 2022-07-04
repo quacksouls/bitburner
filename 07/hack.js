@@ -16,10 +16,7 @@
  */
 
 // Keep this script as independent as possible so that its RAM requirement is
-// as low as possible.  If we import anything, ensure that the imported class
-// or function has minimal RAM requirement.
-
-import { Time } from "/lib.time.js";
+// as low as possible.  Avoid importing anything into this script.
 
 /**
  * Try to gain root access on a server.
@@ -84,8 +81,7 @@ export async function main(ns) {
     // before doing anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
     // Continuously hack/grow/weaken the target server.
-    const time = new Time();
-    const t = time.millisecond();
+    const time = 1;  // One millisecond.
     while (true) {
         const money_available = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
@@ -98,6 +94,6 @@ export async function main(ns) {
             // Otherwise, hack it.
             await ns.hack(target);
         }
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
