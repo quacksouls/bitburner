@@ -16,10 +16,11 @@
  */
 
 import {
-    assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, Player, Server
+    assert, choose_best_server, choose_targets, filter_bankrupt_servers
 } from "/libbnr.js";
 import { network } from "/lib/network.js";
+import { Player } from "/lib/player.js";
+import { Server } from "/lib/server.js";
 
 /**
  * Restart all scripts on a purchased server.  This is useful in the case where
@@ -48,11 +49,13 @@ export async function main(ns) {
         }
         const server = new Server(ns, s);
         if (!server.is_running_script(player.script())) {
-            // Choose the best target server that is not bankrupt.
+            // Choose the best target server that is not bankrupt.  Run our
+            // hack script against this target server.
             const t = choose_best_server(ns, target);
             target = target.filter(s => s != t);
-            // Restart the hack script and run it against a target.
-            assert(await copy_and_run(ns, server.hostname(), t));
+            const target_server = new Server(ns, t);
+            assert(await target_server.gain_root_access());
+            assert(await server.deploy(target_server.hostname()));
         }
     }
 }

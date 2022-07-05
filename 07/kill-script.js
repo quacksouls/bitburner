@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/libbnr.js";
+import { Player } from "/lib/player.js";
 import { network } from "/lib/network.js";
 
 /**

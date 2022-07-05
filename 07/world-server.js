@@ -16,10 +16,11 @@
  */
 
 import {
-    assert, choose_best_server, copy_and_run, filter_bankrupt_servers,
-    filter_pserv, Player, Server
+    assert, choose_best_server, filter_bankrupt_servers, filter_pserv
 } from "/libbnr.js";
 import { network } from "/lib/network.js";
+import { Player } from "/lib/player.js";
+import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
 
 /**
@@ -66,8 +67,8 @@ async function hack_a_server(ns, server, target) {
     if (!targ.has_root_access()) {
         await targ.gain_root_access();
     }
-    // Copy our hack scripts over to a server.  Use the server to hack a target.
-    assert(await copy_and_run(ns, server, target));
+    // Copy our hack script over to a server.  Use the server to hack a target.
+    assert(await serv.deploy(targ.hostname()));
 }
 
 /**
@@ -279,6 +280,7 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously look for world servers to hack.
     const time = new Time();

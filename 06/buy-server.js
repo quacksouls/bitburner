@@ -16,11 +16,13 @@
  */
 
 import {
-    assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, Player, PurchasedServer, Server
+    assert, choose_best_server, choose_targets, filter_bankrupt_servers,
 } from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
 import { network } from "/lib/network.js";
+import { Player } from "/lib/player.js";
+import { PurchasedServer } from "/lib/pserv.js";
+import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
 
 /**
@@ -241,13 +243,16 @@ async function update(ns, ram) {
         if (player.money() > pserv.cost(server_ram)) {
             // Purchase a new server.
             const hostname = pserv.purchase("pserv", server_ram);
+            const server = new Server(ns, hostname);
             // Choose the best target server.
             target = renew_targets(ns, target);
-            const server = new Server(ns, choose_best_server(ns, target));
-            target = target.filter(s => s != server.hostname());
+            const target_server = new Server(
+                ns, choose_best_server(ns, target)
+            );
+            target = target.filter(s => s != target_server.hostname());
             // Run our hack script on the purchased server.
-            assert(await server.gain_root_access());
-            assert(await copy_and_run(ns, hostname, server.hostname()));
+            assert(await target_server.gain_root_access());
+            assert(await server.deploy(target_server.hostname()));
             i++;
         }
         // Sleep for a while.

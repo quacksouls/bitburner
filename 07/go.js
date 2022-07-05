@@ -15,33 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Player, Server } from "/libbnr.js";
-
-/**
- * Create various programs to help us open ports on a world server.
- *
- * @param The Netscript API.
- */
-async function create_programs(ns) {
-    // The port opener programs are as follows, together with their minimum
-    // Hack requirement:
-    //
-    // (1) BruteSSH.exe, 50
-    // (2) FTPCrack.exe, 100
-    // (3) relaySMTP.exe, 250
-    // (4) HTTPWorm.exe, 500
-    // (5) SQLInject.exe, 750
-    //
-    // First, create the BruteSSH.exe program.
-    const player = new Player(ns);
-    const ssh_threshold = 50;
-    await player.study(ssh_threshold);
-    await player.create_program("BruteSSH.exe");
-    // Finally, create the FTPCrack.exe program.
-    const ftp_threshold = 100;
-    await player.study(ftp_threshold);
-    await player.create_program("FTPCrack.exe");
-}
+import { assert } from "/libbnr.js";
+import { Player } from "/lib/player.js";
+import { Server } from "/lib/server.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -87,8 +63,6 @@ async function reboot_high(ns) {
         assert(server.can_run_script(s));
         ns.exec(s, player.home(), nthread);
     }
-    // Create various programs to open a number of ports.
-    await create_programs(ns);
 }
 
 /**

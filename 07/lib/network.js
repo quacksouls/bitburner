@@ -17,7 +17,8 @@
 
 // A class and various utility functions related to network.
 
-import { filter_pserv, Player } from "/libbnr.js";
+import { assert, filter_pserv } from "/libbnr.js";
+import { Player } from "/lib/player.js";
 
 /**
  * A combinatorial graph, commonly referrred to as a graph.

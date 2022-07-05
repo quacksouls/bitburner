@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, Player } from "/libbnr.js";
+import { assert } from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
 import { Money } from "/lib/money.js";
+import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
 
 /**

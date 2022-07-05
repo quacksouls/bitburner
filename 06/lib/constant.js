@@ -15,22 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/lib/player.js";
+// A bunch of constant values.  These can be numeric constants or string
+// constants.
 
 /**
- * Delete all purchased servers.  This would also kill all scripts running
- * on each purchased server.
- *
- * Usage: run kill-server.js
- *
- * @param ns The Netscript API.
+ * The home server of the player.
  */
-export async function main(ns) {
-    const player = new Player(ns);
-    for (const server of player.pserv()) {
-        // Kill all scripts running on a purchased server.
-        ns.killall(server);
-        // Delete the purchased server.
-        ns.deleteServer(server);
-    }
-}
+export const home = "home";
+/**
+ * These programs are port openers.  Each program can be used to open a
+ * specific port on a server.
+ */
+export const program = [
+    "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
+    "SQLInject.exe"
+];
+/**
+ * The hack script.  This script is used for hacking a server.
+ */
+export const script = "hack.js";
