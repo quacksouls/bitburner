@@ -31,7 +31,7 @@ import { assert, filter_pserv } from "/lib/util.js";
  */
 function has_new_low_end(current_ln, new_ln) {
     assert(current_ln.length >= 0);
-    assert(new_ln.length > 0);
+    assert(new_ln.length >= 0);
     assert(current_ln.length <= new_ln.length);
     const NEW = true;     // Have new low-end servers to hack.
     const NO_NEW = !NEW;  // No new low-end servers to hack.
@@ -42,6 +42,9 @@ function has_new_low_end(current_ln, new_ln) {
     // If the two arrays are of equal length, ensure that both
     // have the same low-end servers.
     assert(current_ln.length == new_ln.length);
+    if (0 == current_ln.length) {
+        return NO_NEW;
+    }
     const new_set = new Set(new_ln);
     for (const s of current_ln) {
         assert(new_set.has(s));
