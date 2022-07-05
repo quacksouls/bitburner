@@ -27,7 +27,7 @@ import { assert } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  */
-async function reboot_low(ns) {
+function reboot_low(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const nthread = 1;
@@ -50,7 +50,7 @@ async function reboot_low(ns) {
  *
  * @param ns The Netscript API.
  */
-async function reboot_high(ns) {
+function reboot_high(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     const nthread = 1;
@@ -92,8 +92,8 @@ export async function main(ns) {
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     if (ram < threshold) {
-        await reboot_low(ns);
+        reboot_low(ns);
     } else {
-        await reboot_high(ns);
+        reboot_high(ns);
     }
 }
