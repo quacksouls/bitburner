@@ -16,7 +16,7 @@
  */
 
 import { home, program, script } from "/lib/constant.js";
-import { assert } from "/libbnr.js";
+import { assert } from "/lib/util.js";
 
 /**
  * A class that holds all information about a player.

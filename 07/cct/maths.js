@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "/libbnr.js";
+import { log_cct_failure } from "/lib/cct.js";
 import { Time } from "/lib/time.js";
+import { assert } from "/lib/util.js";
 
 /**
  * All valid mathematical expressions, each of which evaluates to a target

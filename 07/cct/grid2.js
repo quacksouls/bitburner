@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
+import { log_cct_failure, matrix_to_string } from "/lib/cct.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Whether an obstacle is found at the coordinates (r, c).

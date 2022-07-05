@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, max_profit_kadane } from "/libbnr.js";
+import { log_cct_failure, max_profit_kadane } from "/lib/cct.js";
 
 /**
  * Algorithmic Stock Trader I: You are given an array of numbers representing

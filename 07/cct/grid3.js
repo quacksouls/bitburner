@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
+import { log_cct_failure, matrix_to_string } from "/lib/cct.js";
 import { Graph } from "/lib/network.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.

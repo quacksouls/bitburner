@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    assert, choose_best_server, choose_targets, filter_bankrupt_servers,
-} from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
+import {
+    assert, choose_best_server, choose_targets, filter_bankrupt_servers,
+} from "/lib/util.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.

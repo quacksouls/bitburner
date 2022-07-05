@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, filter_pserv } from "/libbnr.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
+import { assert, filter_pserv } from "/lib/util.js";
 
 /**
  * Whether there are new low-end servers we can now hack.

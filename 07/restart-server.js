@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    assert, choose_best_server, choose_targets, filter_bankrupt_servers
-} from "/libbnr.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
+import {
+    assert, choose_best_server, choose_targets, filter_bankrupt_servers
+} from "/lib/util.js";
 
 /**
  * Restart all scripts on a purchased server.  This is useful in the case where

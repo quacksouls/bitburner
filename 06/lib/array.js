@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "/libbnr.js";
+import { assert } from "/lib/util.js";
 
 /**
  * A class to hold various utility methods for dealing with arrays.  Cannot

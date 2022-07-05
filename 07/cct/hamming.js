@@ -15,10 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    assert, count_one, log_cct_failure, parity_position
-} from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
+import { count_one, log_cct_failure, parity_position } from "/lib/cct.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Use Hamming code to encode a string of bits.

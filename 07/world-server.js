@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    assert, choose_best_server, filter_bankrupt_servers, filter_pserv
-} from "/libbnr.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
+import {
+    assert, choose_best_server, filter_bankrupt_servers, filter_pserv
+} from "/lib/util.js";
 
 /**
  * Determine which servers in the game world have been compromised.  We

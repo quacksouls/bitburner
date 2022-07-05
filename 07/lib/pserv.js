@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert } from "/libbnr.js";
 import { home, script } from "/lib/constant.js";
+import { assert } from "/lib/util.js";
 
 /**
  * A class that holds information specific to purchased servers.

@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure, matrix_to_string } from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
+import { log_cct_failure, matrix_to_string } from "/lib/cct.js";
 import { Graph } from "/lib/network.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Whether an undirected graph is bipartite.  Do not assume the graph is

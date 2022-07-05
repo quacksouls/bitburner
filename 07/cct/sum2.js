@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assert, log_cct_failure } from "/libbnr.js";
 import { MyArray } from "/lib/array.js";
+import { log_cct_failure } from "/lib/cct.js";
+import { assert } from "/lib/util.js";
 
 /**
  * The number of ways to change n using coins in the given set of

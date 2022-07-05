@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure } from "/libbnr.js";
+import { log_cct_failure } from "/lib/cct.js";
 
 /**
  * The number of possible partitions of a non-negative integer n.  That is,
