@@ -36,7 +36,7 @@ function buy_stock(ns, stk) {
     // stocks we want to buy and purchase only 90% of the previous number.
     let nshare = num_shares(ns, stk);
     assert(nshare > 0);
-    const ntry = 10;
+    const ntry = 100;
     const reduction_rate = 0.9;
     for (let i = 0; i < ntry; i++) {
         const result = ns.stock.buy(stk, nshare);
@@ -45,7 +45,7 @@ function buy_stock(ns, stk) {
             break;
         }
         // Can't buy the given number of shares of a stock.  Reduce
-        // the number of shares by 10% and try again.
+        // the number of shares and try again.
         nshare = Math.floor(nshare * reduction_rate);
     }
 }
