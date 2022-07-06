@@ -236,6 +236,10 @@ async function study(ns, threshold) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Make the log less verbose.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("sleep");
     // Study to raise our Hack stat high enough so we can begin creating the
     // BruteSSH.exe program.
     const sshp = "BruteSSH.exe";
