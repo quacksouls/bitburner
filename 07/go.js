@@ -66,6 +66,26 @@ function reboot_high(ns) {
 }
 
 /**
+ * Run various scripts that use the Singularity API.  Each function from this
+ * API tends to use a huge amount of RAM.  Check beforehand to see whether we
+ * have enough RAM on the home server.
+ *
+ * @param ns The Netscript API.
+ */
+function singularity_scripts(ns) {
+    const player = new Player(ns);
+    const server = new Server(ns, player.home());
+    const script = "/singularity/program.js";
+    if (!server.can_run_script(script)) {
+        const msg = "Not enough RAM to run script " + script;
+        ns.tprint(msg);
+        return;
+    }
+    const nthread = 1;
+    ns.exec(script, player.home(), nthread);
+}
+
+/**
  * NOTE: This script requires an upgraded home server to run successfully. The
  * reason is that it will run various other scripts, each of which requires
  * RAM.  Our home server should have at least 256GB RAM.
@@ -93,7 +113,9 @@ export async function main(ns) {
     // home server.
     if (ram < threshold) {
         reboot_low(ns);
-    } else {
-        reboot_high(ns);
+        return;
     }
+    assert(ram >= threshold);
+    singularity_scripts(ns);
+    reboot_high(ns);
 }

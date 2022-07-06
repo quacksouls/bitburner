@@ -34,3 +34,11 @@ export const program = [
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
+/**
+ * These are utility programs.  They are useful when we need to manually
+ * traverse the network of world servers.
+ */
+export const utility_program = [
+    "DeepscanV1.exe", "DeepscanV2.exe", "ServerProfiler.exe", "AutoLink.exe",
+    "Formulas.exe"
+];
