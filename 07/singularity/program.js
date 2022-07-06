@@ -221,7 +221,7 @@ async function study(ns, threshold) {
     assert(ns.singularity.universityCourse(uni, course, focus));
     // Stop our study when our Hack stat is at least the given threshold.
     const t = new Time();
-    const time = t.minute();
+    const time = 10 * t.second();
     while (ns.getHackingLevel() < threshold) {
         await ns.sleep(time);
     }
