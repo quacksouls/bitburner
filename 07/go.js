@@ -75,7 +75,7 @@ function reboot_high(ns) {
 function singularity_scripts(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
-    const script = "/singularity/program.js";
+    const script = "/singularity/study.js";
     if (!server.can_run_script(script)) {
         const msg = "Not enough RAM to run script " + script;
         ns.tprint(msg);
