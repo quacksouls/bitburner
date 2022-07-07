@@ -163,7 +163,8 @@ function is_valid_program(name) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
+    // Suppress various log messages.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
 
     await buy_all_programs(ns);
