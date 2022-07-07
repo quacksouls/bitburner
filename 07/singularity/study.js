@@ -16,6 +16,7 @@
  */
 
 import { home } from "/lib/constant.js";
+import { Money } from "/lib/money.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -166,7 +167,9 @@ export async function main(ns) {
     // focus.
     const crime_script = "/singularity/crime.js";
     const nthread = 1;
-    ns.exec(crime_script, home, nthread);
+    const m = new Money();
+    const threshold = 10 * m.million();
+    ns.exec(crime_script, home, nthread, threshold);
     // This script does not require the player to focus on an action.  It is
     // safe to execute this script while another Singularity script is running.
     const script = "/singularity/program.js";

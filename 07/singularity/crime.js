@@ -16,7 +16,6 @@
  */
 
 import { home } from "/lib/constant.js";
-import { Money } from "/lib/money.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -167,19 +166,20 @@ function lowest_time(ns, crime) {
  * Commit various crimes to supplement our income.  Early in the game when our
  * funds are limited, crimes can be a source of income to help us
  * purchase/upgrade our Hacknet farm or purchase various servers with small
- * amounts of RAM.
+ * amounts of RAM.  The script accepts a command line argument:
  *
- * Usage: run singularity/crime.js
+ * (1) threshold := As long as our income is less than this threshold, continue
+ *     to commit crimes to raise our income.
+ *
+ * Usage: run singularity/crime.js [threshold]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    const threshold = Math.floor(ns.args[0]);
     // Make the log less verbose.
     ns.disableLog("sleep");
-    // The money threshold.  We commit crimes as long as our funds is less than
-    // this threshold.
-    const m = new Money();
-    const threshold = 10 * m.million();
+    // Commit crimes as long as our funds is less than the given threshold.
     const t = new Time();
     const time = t.second();
     while (ns.getServerMoneyAvailable(home) < threshold) {
