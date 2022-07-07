@@ -67,9 +67,20 @@ async function all_expressions(ns, string, target) {
             }
             seen.add(expression);
             stack.push([idx, expression]);
-            // Skip the expression if there is a leading 0 in a number.
+            // Found a leading 0 in a number.  We have two cases to consider:
+            //
+            // (1) The index of the digit 0 is less than the last index in the
+            //     expression string.  Here, it is safe to skip the evaluation
+            //     of the expression.
+            // (2) The digit 0 is located at the last index in the expression
+            //     string.  If idx is the highest index at which an operator is
+            //     found and k is the last index of the expression string, then
+            //     k = idx + 1.  In this case, we evaluate the expression.
             if ("0" == expression[idx + 1]) {
-                continue;
+                const lastidx = expression.length - 1;
+                if (idx + 1 != lastidx) {
+                    continue;
+                }
             }
             // Does this expression evaluate to the target number?
             if (target == evaluate(expression)) {
