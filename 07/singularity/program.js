@@ -18,27 +18,9 @@
 import {
     home, program as popen, utility_program as utilp
 } from "/lib/constant.js";
+import { all_programs } from "/lib/singularity.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
-
-/**
- * All programs that can be created.  These programs can also be purchased via
- * the dark web.
- */
-function all_programs() {
-    const program = new Map();
-    program.set("BruteSSH.exe", 50);
-    program.set("FTPCrack.exe", 100);
-    program.set("HTTPWorm.exe", 500);
-    program.set("relaySMTP.exe", 250);
-    program.set("SQLInject.exe", 750);
-    program.set("DeepscanV1.exe", 75);
-    program.set("DeepscanV2.exe", 400);
-    program.set("ServerProfiler.exe", 75);
-    program.set("AutoLink.exe", 25);
-    program.set("Formulas.exe", 1000);
-    return program;
-}
 
 /**
  * Purchase all programs from the dark web.
