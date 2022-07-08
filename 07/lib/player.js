@@ -27,11 +27,6 @@ export class Player {
      */
     #home;
     /**
-     * The player's library of useful classes and functions.  Assumed to be
-     * located on the player's home server.
-     */
-    #library;
-    /**
      * The Netscript API.
      */
     #ns;
