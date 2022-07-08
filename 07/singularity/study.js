@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
-import { all_programs } from "/lib/singularity.js";
+import { all_programs, study } from "/lib/singularity.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -89,35 +89,6 @@ function is_valid_program(name) {
     assert(name.length > 0);
     const program = all_programs();
     return program.has(name);
-}
-
-/**
- * Study at Rotham University to raise our Hack stat.  Use this function
- * under the following situations:
- *
- * (1) Immediately after installing one or more Augmentations.
- * (2) When we start all over on a different BitNode.
- *
- * This function assumes the player is currently in Sector-12.
- *
- * @param ns The Netscript API.
- * @param threshold Study until we have reached at least this amount of
- *     Hack stat.
- */
-async function study(ns, threshold) {
-    assert(threshold > 0);
-    // Study the free computer science course at a university.
-    const uni = "Rothman University";
-    const course = "Study Computer Science";
-    const focus = true;
-    assert(ns.singularity.universityCourse(uni, course, focus));
-    // Stop our study when our Hack stat is at least the given threshold.
-    const t = new Time();
-    const time = 10 * t.second();
-    while (ns.getHackingLevel() < threshold) {
-        await ns.sleep(time);
-    }
-    assert(ns.singularity.stopAction());
 }
 
 /**
