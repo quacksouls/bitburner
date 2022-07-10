@@ -148,6 +148,14 @@ export class Server {
     }
 
     /**
+     * The number of CPU Cores on this server.
+     */
+    cores() {
+        const serv = this.#ns.getServer(this.hostname());
+        return serv.cpuCores;
+    }
+
+    /**
      * Copy our hack script over to this server.  Run the hack script on this
      * server.
      *
