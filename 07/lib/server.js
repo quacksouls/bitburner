@@ -49,10 +49,6 @@ export class Server {
      */
     #ns;
     /**
-     * The maximum amount of RAM (in GB) on this server.
-     */
-    #ram_max;
-    /**
      * Reserve this amount of RAM.  We want the server to always have at least
      * this amount of RAM available.  The reserve RAM is important especially
      * if this is the player's home server.  We want to have a minimum amount
@@ -85,7 +81,6 @@ export class Server {
         this.#money_max = server.moneyMax;
         this.#n_ports_required = server.numOpenPortsRequired;
         this.#ns = ns;
-        this.#ram_max = server.maxRam;
         this.#script = script;
         this.#security_min = server.minDifficulty;
         // By default, we do not reserve any RAM.  However, if this is the
@@ -338,7 +333,8 @@ export class Server {
      * The maximum amount of RAM (GB) of this server.
      */
     ram_max() {
-        return this.#ram_max;
+        const serv = this.#ns.getServer(this.hostname());
+        return serv.maxRam;
     }
 
     /**
