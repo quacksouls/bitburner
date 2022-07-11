@@ -48,7 +48,7 @@ function choose_upgrade(ns) {
         }
     }
     // Upgrade the RAM.
-    assert((ram_cost >= core_cost) || (server.cores() == core_limit()));
+    assert((ram_cost <= core_cost) || (server.cores() == core_limit()));
     assert(server.ram_max() < ram_limit());
     return "RAM";
 }
