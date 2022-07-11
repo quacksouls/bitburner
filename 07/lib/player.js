@@ -200,6 +200,14 @@ export class Player {
     }
 
     /**
+     * The number of people the player has killed.
+     */
+    nkill() {
+        const stat = this.#ns.getPlayer();
+        return stat.numPeopleKilled;
+    }
+
+    /**
      * Determine the number of ports a player can currently open on servers in
      * the game world.  This depends on whether the player has the necessary
      * hacking programs on the home server.
