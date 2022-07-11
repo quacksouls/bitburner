@@ -68,6 +68,14 @@ export class Player {
     }
 
     /**
+     * The player's current Charisma level.
+     */
+    charisma() {
+        const stat = this.#ns.getPlayer();
+        return stat.charisma;
+    }
+
+    /**
      * The player's defense level.
      */
     defense() {
