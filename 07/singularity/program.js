@@ -150,4 +150,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
 
     await buy_all_programs(ns);
+    const script = "/singularity/faction.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }
