@@ -19,10 +19,6 @@ import { home } from "/lib/constant.js";
 import { assert } from "/lib/util.js";
 
 /**
- * NOTE: This script requires an upgraded home server to run successfully. The
- * reason is that it will run various other scripts, each of which requires
- * RAM.  Our home server should have at least 256GB RAM.
- *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
  * automatically restart scripts to:
