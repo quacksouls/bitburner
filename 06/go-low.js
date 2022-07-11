@@ -33,14 +33,14 @@ async function reboot(ns) {
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
     const nthread = 1;
-    const solver = "/cct/solver.js";
-    const script = ["world-server.js", "hnet-farm.js", solver];
+    const target = "world-server.js";
+    const script = ["hnet-farm.js", target];
     const t = new Time();
     const time = 10 * t.second();
     for (const s of script) {
         ns.exec(s, home, nthread);
         await ns.sleep(time);
-        if (solver != s) {
+        if (target != s) {
             assert(ns.kill(s, home));
         }
     }
