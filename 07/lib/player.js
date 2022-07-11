@@ -60,6 +60,30 @@ export class Player {
     }
 
     /**
+     * The player's agility level.
+     */
+    agility() {
+        const stat = this.#ns.getPlayer();
+        return stat.agility;
+    }
+
+    /**
+     * The player's defense level.
+     */
+    defense() {
+        const stat = this.#ns.getPlayer();
+        return stat.defense;
+    }
+
+    /**
+     * The player's dexterity level.
+     */
+    dexterity() {
+        const stat = this.#ns.getPlayer();
+        return stat.dexterity;
+    }
+
+    /**
      * The current Hack stat of the player.
      */
     hacking_skill() {
@@ -160,5 +184,13 @@ export class Player {
      */
     script() {
         return this.#script;
+    }
+
+    /**
+     * The player's strength level.
+     */
+    strength() {
+        const stat = this.#ns.getPlayer();
+        return stat.strength;
     }
 }
