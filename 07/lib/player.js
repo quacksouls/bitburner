@@ -167,6 +167,23 @@ export class Player {
     }
 
     /**
+     * The position the player holds at a given company.
+     *
+     * @param company The name of a company.
+     * @return The position the player currently holds at the given company.
+     *     Return an empty string if the player does not hold any position at
+     *     the given company.
+     */
+    job(company) {
+        const stat = this.#ns.getCharacterInformation();
+        const i = stat.jobs.findIndex(c => c == company);
+        if (i < 0) {
+            return "";
+        }
+        return stat.jobTitles[i];
+    }
+
+    /**
      * The player's karma.  This is an Easter egg, buried in the source code
      * of the game.  Refer to this file:
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Extra.ts
