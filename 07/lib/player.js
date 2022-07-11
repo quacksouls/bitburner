@@ -100,6 +100,14 @@ export class Player {
     }
 
     /**
+     * An array of all factions to which the player is a member.
+     */
+    faction() {
+        const stat = this.#ns.getPlayer();
+        return stat.factions;
+    }
+
+    /**
      * The current Hack stat of the player.
      */
     hacking_skill() {
