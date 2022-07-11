@@ -73,7 +73,7 @@ export async function main(ns) {
     // server is bankrupt, successfully hacking it would increase our hacking
     // experience points, although we would not receive any money.
     // Set the money threshold at 75% of the server's maximum money.
-    const money_threshold = ns.getServerMaxMoney(target) * 0.75;
+    const money_threshold = Math.floor(ns.getServerMaxMoney(target) * 0.75);
     // The threshold for the server's security level.  If the target's
     // security level is higher than the threshold, weaken the target
     // before doing anything else.
