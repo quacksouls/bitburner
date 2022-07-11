@@ -16,12 +16,38 @@
  */
 
 import { home } from "/lib/constant.js";
+import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * NOTE: This script requires an upgraded home server to run successfully. The
- * reason is that it will run various other scripts, each of which requires
- * RAM.  Our home server should have at least 256GB RAM.
+ * This function should be run immediately after the soft reset of installing a
+ * bunch of Augmentations or after visiting a new BitNode.  Our purpose is to
+ * gain some money and Hack experience points early on when our stats are low.
+ * We assume our home server has a small amount of RAM, possibly less than
+ * 64GB RAM.
+ *
+ * @param ns The Netscript API.
+ */
+async function reboot(ns) {
+    // Execute a script, let it run for a while, kill the script, and run
+    // another script.  Assume we do not have enough RAM to let multiple
+    // scripts running at the same time.
+    const nthread = 1;
+    const script = ["world-server.js", "hnet-farm.js", "buy-server.js"];
+    const t = new Time();
+    const time = 10 * t.second();
+    for (const s of script) {
+        ns.exec(s, home, nthread);
+        await ns.sleep(time);
+        if ("buy-server.js" != s) {
+            assert(ns.kill(s, home));
+        }
+    }
+}
+
+/**
+ * NOTE: This script assumes our home server has a small amount of RAM,
+ * possibly less than 64GB RAM.
  *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
@@ -33,25 +59,10 @@ import { assert } from "/lib/util.js";
  * (3) Gain root access to servers in the game world (excluding purchased
  *     servers) and use each server to hack itself.
  *
- * Usage: run go.js
+ * Usage: run go-low.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Run some or all utility scripts, depending on the amount of RAM on our
-    // home server.
-    const mid_ram = 256;
-    const high_ram = 2048;
-    const server = ns.getServer(home);
-    const nthread = 1;
-    let script = "";
-    if (server.maxRam >= high_ram) {
-        script = "go-high.js";
-    } else if (server.maxRam >= mid_ram) {
-        script = "go-mid.js";
-    } else {
-        assert(server.maxRam < mid_ram);
-        script = "go-low.js";
-    }
-    ns.exec(script, home, nthread);
+    await reboot(ns);
 }
