@@ -236,8 +236,8 @@ async function update(ns, ram) {
     const player = new Player(ns);
     let i = player.pserv().length;
     let target = new Array();
-    const time = new Time();
-    const t = 5 * time.second();
+    const t = new Time();
+    const time = 5 * t.second();
     while (i < pserv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > pserv.cost(server_ram)) {
@@ -256,7 +256,7 @@ async function update(ns, ram) {
             i++;
         }
         // Sleep for a while.
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
 
@@ -277,10 +277,10 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously try to purchase servers.
-    const time = new Time();
-    const t = time.minute();
+    const t = new Time();
+    const time = t.minute();
     while (true) {
         await buy_servers(ns);
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
