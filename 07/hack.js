@@ -65,7 +65,7 @@ export async function main(ns) {
             await gain_root_access(ns, target);
         } catch {
             const error_msg = "Can't gain root access to " + target;
-            await ns.tprint(error_msg);
+            ns.tprint(error_msg);
             ns.exit();
         }
     }
