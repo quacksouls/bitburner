@@ -76,6 +76,14 @@ export class Player {
     }
 
     /**
+     * The current city where the player is located.
+     */
+    city() {
+        const stat = this.#ns.getPlayer();
+        return stat.city;
+    }
+
+    /**
      * The player's defense level.
      */
     defense() {
