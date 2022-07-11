@@ -18,6 +18,7 @@
 import {
     home, program as popen, utility_program as utilp
 } from "/lib/constant.js";
+import { Player } from "/lib/player.js";
 import { all_programs } from "/lib/singularity.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -58,10 +59,11 @@ async function buy_programs(ns, program) {
     }
     // Purchase the remaining programs.
     const t = new Time();
-    const time = t.minute();
+    const time = t.second();
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
         while (ns.getServerMoneyAvailable(home) < cost) {
+            await work(ns);
             await ns.sleep(time);
         }
         assert(ns.singularity.purchaseProgram(p));
@@ -76,8 +78,9 @@ async function buy_programs(ns, program) {
  */
 async function buy_tor_router(ns) {
     const t = new Time();
-    const time = 30 * t.second();
+    const time = t.second();
     while (!ns.singularity.purchaseTor()) {
+        await work(ns);
         await ns.sleep(time);
     }
 }
@@ -135,6 +138,36 @@ function is_valid_program(name) {
     assert(name.length > 0);
     const program = all_programs();
     return program.has(name);
+}
+
+/**
+ * Work to boost our income.
+ *
+ * @param ns The Netscript API.
+ */
+async function work(ns) {
+    const player = new Player(ns);
+    const hack_lvl = 250;
+    const charisma_lvl = hack_lvl;
+    if (player.hacking_skill() < hack_lvl) {
+        return;
+    }
+    // Work for a company.  Every once in a while, apply for a promotion to
+    // earn more money per second.  By default, we work a business job.
+    // However, if our Charisma level is low, work a software job instead to
+    // raise our Charisma.
+    const company = "MegaCorp";
+    let field = "Business";
+    if (player.charisma() < charisma_lvl) {
+        field = "Software";
+    }
+    const focus = true;
+    ns.singularity.applyToCompany(company, field);
+    const t = new Time();
+    const time = t.minute();
+    ns.singularity.workForCompany(company, focus);
+    await ns.sleep(time);
+    ns.singularity.stopAction();
 }
 
 /**
