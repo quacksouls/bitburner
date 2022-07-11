@@ -677,7 +677,8 @@ async function netburners(ns) {
         }
         ns.singularity.joinFaction(target);
     }
-    await work_and_buy(ns, target);
+    const work_type = "Hacking Contracts";
+    await work_and_buy(ns, target, work_type);
 }
 
 /**
