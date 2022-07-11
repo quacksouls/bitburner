@@ -48,10 +48,8 @@ async function gain_root_access(ns, server) {
 /**
  * Hack a server and steal its money.  We weaken the server's security as
  * necessary, grow the server in case the amount of money on the server is
- * below our threshold, and hack the server when all conditions are met.  This
- * script accepts the first command line argument given to the script at
- * runtime.  We want one command line argument, i.e. the name of the* server we
- * want to hack.
+ * below our threshold, and hack the server when all conditions are met.  We
+ * want one command line argument, i.e. the name of the server to hack.
  *
  * Usage: run hack.js [targetServer]
  * Example: run hack.js n00dles
