@@ -40,8 +40,8 @@ function choose_upgrade(ns) {
         return "";
     }
     // Upgrade the Cores.
-    const core_cost = ns.singularity.getUpgradeHomeCoresCost();
-    const ram_cost = ns.singularity.getUpgradeHomeRamCost();
+    const core_cost = Math.ceil(ns.singularity.getUpgradeHomeCoresCost());
+    const ram_cost = Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     if (core_cost < ram_cost) {
         if (server.cores() < core_limit()) {
             return "Cores";
