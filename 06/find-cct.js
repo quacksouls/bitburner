@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/lib/constant.js";
 import { network } from "/lib/network.js";
 
 /**
@@ -25,7 +26,7 @@ import { network } from "/lib/network.js";
  */
 export async function main(ns) {
     const server = network(ns);
-    server.push("home");
+    server.push(home);
     for (const host of server) {
         const file = ns.ls(host, ".cct");
         if (file.length < 1) {
