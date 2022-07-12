@@ -247,8 +247,8 @@ function tolerate_margin(ns, margin, server) {
  */
 async function update(ns) {
     let server = network(ns);
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // A list of servers that have been successfully hacked.
     const player = new Player(ns);
     let hacked_server = compromised_servers(ns, player.script(), server);
@@ -263,7 +263,7 @@ async function update(ns) {
             reject = await redirect_bankrupt_server(ns, reject, hacked_server);
         }
         server = reject;
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
 
@@ -283,10 +283,10 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously look for world servers to hack.
-    const time = new Time();
-    const t = 10 * time.minute();
+    const t = new Time();
+    const time = 10 * t.minute();
     while (true) {
         await update(ns);
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
