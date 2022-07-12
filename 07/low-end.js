@@ -125,7 +125,7 @@ function skip_server(ns, server) {
  * @return An array of low-end servers, possibly updated to include new low-end
  *     servers that have been hacked during this update.
  */
-async function update(ns, lowend) {
+function update(ns, lowend) {
     assert(lowend.length >= 0);
     const player = new Player(ns);
     const target = low_end_servers(ns);
@@ -179,8 +179,8 @@ export async function main(ns) {
     const time = t.minute();
     let target = new Array();
     while (true) {
-        target = await update(ns, target);
-        await ns.print("Low-end servers: " + target.join(", "));
+        target = update(ns, target);
+        ns.print("Low-end servers: " + target.join(", "));
         await ns.sleep(time);
     }
 }
