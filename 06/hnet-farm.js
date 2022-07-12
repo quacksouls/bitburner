@@ -165,14 +165,10 @@ async function stage_one(ns, n) {
  * @param ns The Netscript API.
  */
 async function update(ns) {
-    // Our farm of Hacknet nodes.
     const farm = hacknet_nodes(ns);
     assert(farm.length > 0);
-    // Upgrade the Level of each Hacknet node by one point.
     await upgrade_level(ns, farm);
-    // Add another Core to each Hacknet node.
     await upgrade_core(ns, farm);
-    // Upgrade the RAM of each Hacknet node to another 1GB.
     await upgrade_ram(ns, farm);
 }
 
