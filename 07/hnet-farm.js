@@ -80,8 +80,8 @@ async function setup_farm(ns, n) {
     assert(nNode > 0);
     assert(nNode < ns.hacknet.maxNumNodes());
     const player = new Player(ns);
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // We already have a farm of n or more Hacknet nodes.
     if (ns.hacknet.numNodes() >= nNode) {
         return;
@@ -90,7 +90,7 @@ async function setup_farm(ns, n) {
     for (let i = ns.hacknet.numNodes(); i < nNode; i++) {
         // Wait until we have sufficient funds to purchase another Hacknet node.
         while (player.money() < ns.hacknet.getPurchaseNodeCost()) {
-            await ns.sleep(t);
+            await ns.sleep(time);
         }
         // Purchase a new Hacknet node.
         const id = ns.hacknet.purchaseNode();
@@ -112,14 +112,14 @@ async function stage_one(ns, n) {
     const nNode = Math.floor(n);
     assert(nNode > 0);
     assert(nNode <= 3);
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // Bootstrap our farm in case we have zero nodes.
     await setup_farm(ns, nNode);
     // Fully upgrade each node.
     while (!is_fully_upgraded(ns)) {
         await update(ns);
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
 
@@ -141,16 +141,16 @@ async function next_stage(ns, n, money) {
     assert(money > 0);
     // Wait until we have reached the money threshold.
     const player = new Player(ns);
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     while (player.money() < money) {
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
     // Add more nodes to our farm and fully upgrade each node.
     await setup_farm(ns, nNode);
     while (!is_fully_upgraded(ns)) {
         await update(ns, nNode);
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
 
@@ -166,8 +166,8 @@ async function upgrade_core(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
     const howmany = 1;  // Upgrade this many Cores at a time.
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // Add another Core to each Hacknet Node.
     for (const node of farm) {
         // The number of Cores of a Node is at maximum if the cost of upgrading
@@ -176,7 +176,7 @@ async function upgrade_core(ns, farm) {
             // Wait until we have enough money to upgrade to one more Core.
             const cost = ns.hacknet.getCoreUpgradeCost(node, howmany);
             while (player.money() < cost) {
-                await ns.sleep(t);
+                await ns.sleep(time);
             }
             assert(ns.hacknet.upgradeCore(node, howmany));
         }
@@ -194,8 +194,8 @@ async function upgrade_level(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
     const level = 1;  // Upgrade this many Levels at a time.
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // Add another Level to each Hacknet node.
     for (const node of farm) {
         // The Level of a node is at maximum if the cost of upgrading
@@ -204,7 +204,7 @@ async function upgrade_level(ns, farm) {
             // Wait until we have enough money to upgrade to another Level.
             const cost = ns.hacknet.getLevelUpgradeCost(node, level);
             while (player.money() < cost) {
-                await ns.sleep(t);
+                await ns.sleep(time);
             }
             assert(ns.hacknet.upgradeLevel(node, level));
         }
@@ -222,8 +222,8 @@ async function upgrade_ram(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
     const howmany = 1;  // Upgrade by 1GB RAM at a time.
-    const time = new Time();
-    const t = 10 * time.second();
+    const t = new Time();
+    const time = 10 * t.second();
     // Add another 1GB RAM to each Hacknet node.
     for (const node of farm) {
         // The amount of RAM of a node is at maximum if the cost of upgrading
@@ -232,7 +232,7 @@ async function upgrade_ram(ns, farm) {
             // Wait until we have enough money to upgrade to another 1GB RAM.
             const cost = ns.hacknet.getRamUpgradeCost(node, howmany);
             while (player.money() < cost) {
-                await ns.sleep(t);
+                await ns.sleep(time);
             }
             assert(ns.hacknet.upgradeRam(node, howmany));
         }
@@ -279,11 +279,11 @@ export async function main(ns) {
     await stage_one(ns, 3);
     // Add increasingly more nodes to the farm.
     let i = 0;
-    const time = new Time();
-    const t = 10 * time.minute();
+    const t = new Time();
+    const time = 10 * t.minute();
     for (const mon of threshold) {
         await next_stage(ns, node[i], mon);
         i++;
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
