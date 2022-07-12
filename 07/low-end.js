@@ -67,7 +67,7 @@ function has_new_low_end(current_ln, new_ln) {
 function low_end_servers(ns) {
     const server = filter_pserv(ns, network(ns));
     const player = new Player(ns);
-    let lowend = new Array();
+    const lowend = new Array();
     for (const s of server) {
         if (skip_server(ns, s)) {
             continue;
