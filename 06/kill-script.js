@@ -42,15 +42,12 @@ export async function main(ns) {
     if ("pserv" == stype) {
         // Kill all scripts on purchased servers.
         for (const server of player.pserv()) {
-            // Kill all scripts running on a purchased server.
             ns.killall(server);
         }
     } else if ("world" == stype) {
         // Kill all scripts on world servers where we have root access.
         let server = network(ns);
         server = server.filter(s => ns.hasRootAccess(s));
-        // Visit each server where we have root access and kill all running
-        // scripts.
         for (const s of server) {
             ns.killall(s);
         }
