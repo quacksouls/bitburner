@@ -269,10 +269,10 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Various money thresholds.
-    const money = new Money();
+    const m = new Money();
     const threshold = [
-        10 * money.million(), 100 * money.million(), money.billion(),
-        100 * money.billion(), money.trillion()
+        10 * m.million(), 100 * m.million(), m.billion(), 100 * m.billion(),
+        m.trillion()
     ];
     const node = [6, 12, 24, 30, 33];
     // Bootstrap our farm of Hacknet nodes.
