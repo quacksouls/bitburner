@@ -77,9 +77,9 @@ async function hack_a_server(ns, server, target) {
  * @param ns The Netscript API.
  * @param target Try to hack one or more servers on this list.  Can't be
  *     an empty array.
- * @return An array of two elements:
- *     * An array of servers we can't hack at the moment.
- *     * An array of servers that have been hacked.
+ * @return An array [reject, hacked] as follows.
+ *     (1) reject := An array of servers we can't hack at the moment.
+ *     (2) hacked := An array of servers that have been hacked.
  */
 async function hack_servers(ns, target) {
     // Sanity check.
