@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/lib/constant.js";
 import { shortest_path } from "/lib/network.js";
 
 /**
@@ -34,9 +35,9 @@ export async function main(ns) {
         ns.exit();
     }
     const target = ns.args[0];
-    const path = shortest_path(ns, "home", target);
+    const path = shortest_path(ns, home, target);
     if (path.length < 1) {
-        ns.tprint("Target server must be reachable from home.");
+        ns.tprint("Target server must be reachable from " + home + ".");
         ns.exit();
     }
     ns.tprint(path.join(" -> "));
