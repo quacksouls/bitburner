@@ -100,9 +100,10 @@ function augmentations_to_buy(ns, fac) {
     if (0 == fac_aug.length) {
         return augment;
     }
-    // A map {aug: cost} of Augmentations and their respective costs.
+    // A map {aug: cost} of Augmentations and their respective costs.  Use the
+    // ceiling function to avoid comparison of floating point numbers.
     for (const aug of fac_aug) {
-        const cost = ns.singularity.getAugmentationPrice(aug);
+        const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
         augment.set(aug, cost);
     }
     return augment;
