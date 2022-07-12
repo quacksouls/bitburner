@@ -637,7 +637,7 @@ async function megacorporation(ns, city, company, fac, rep) {
 }
 
 /**
- * Join the early game faction Netburners.  Requirement to receive an
+ * Join the early game faction Netburners.  Requirements to receive an
  * invitation:
  *
  * (1) Be anywhere in the game world.  Stay put where we started,
