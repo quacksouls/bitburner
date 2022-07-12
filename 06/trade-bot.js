@@ -110,8 +110,8 @@ function meet_money_threshold(ns) {
  * @return The minimum amount of money to be held in reserve.
  */
 function money_reserve() {
-    const money = new Money();
-    return 100 * money.billion()
+    const m = new Money();
+    return 100 * m.billion()
 }
 
 /**
@@ -131,9 +131,9 @@ function num_shares(ns, stk) {
     // stock.  If the amount is less than the spending threshold, then do not
     // purchase any shares.
     const player = new Player(ns);
-    const money = new Money();
+    const m = new Money();
     const spend_ratio = 0.01;
-    const spend_threshold = 10 * money.billion();
+    const spend_threshold = 10 * m.billion();
     const funds = (player.money() - money_reserve()) * spend_ratio;
     if (funds < spend_threshold) {
         return 0;
