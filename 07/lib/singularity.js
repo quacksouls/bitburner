@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions for scripts that use the Singularity API.
 
+import { shortest_path } from "/lib/network.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -42,6 +43,24 @@ export function all_programs() {
     program.set("AutoLink.exe", 25);
     program.set("Formulas.exe", 1000);
     return program;
+}
+
+/**
+ * Connect to a given server.  The target server can be multiple hops away.
+ *
+ * @param ns The Netscript API.
+ * @param source The source node.  We are currently on this server.
+ * @param target We want to connect to this server.  Not necessarily a neighbour node.
+ */
+export function connect_to(ns, source, target) {
+    const path = shortest_path(ns, source, target);
+    assert(path.length > 0);
+    assert(source == path[0]);
+    path.shift();
+    while (path.length > 0) {
+        const node = path.shift();
+        assert(ns.singularity.connect(node));
+    }
 }
 
 /**
