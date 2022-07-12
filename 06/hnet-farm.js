@@ -159,6 +159,24 @@ async function next_stage(ns, n, money) {
 }
 
 /**
+ * Upgrade the stats of each Hacknet node by one point.  Assume we have
+ * at least one node.
+ *
+ * @param ns The Netscript API.
+ */
+async function update(ns) {
+    // Our farm of Hacknet nodes.
+    const farm = hacknet_nodes(ns);
+    assert(farm.length > 0);
+    // Upgrade the Level of each Hacknet node by one point.
+    await upgrade_level(ns, farm);
+    // Add another Core to each Hacknet node.
+    await upgrade_core(ns, farm);
+    // Upgrade the RAM of each Hacknet node to another 1GB.
+    await upgrade_ram(ns, farm);
+}
+
+/**
  * Upgrade the Core of each Hacknet node in our farm.  Our objective is to
  * upgrade the Core of each node by one point.  Call this function multiple
  * times to max out the number of Cores.
@@ -241,24 +259,6 @@ async function upgrade_ram(ns, farm) {
             assert(ns.hacknet.upgradeRam(node, howmany));
         }
     }
-}
-
-/**
- * Upgrade the stats of each Hacknet node by one point.  Assume we have
- * at least one node.
- *
- * @param ns The Netscript API.
- */
-async function update(ns) {
-    // Our farm of Hacknet nodes.
-    const farm = hacknet_nodes(ns);
-    assert(farm.length > 0);
-    // Upgrade the Level of each Hacknet node by one point.
-    await upgrade_level(ns, farm);
-    // Add another Core to each Hacknet node.
-    await upgrade_core(ns, farm);
-    // Upgrade the RAM of each Hacknet node to another 1GB.
-    await upgrade_ram(ns, farm);
 }
 
 /**
