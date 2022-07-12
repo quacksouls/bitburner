@@ -22,6 +22,21 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * All nodes in our Hacknet farm.
+ *
+ * @param ns The Netscript API.
+ * @return An array of node IDs.  An empty array if we have zero nodes.
+ */
+function hacknet_nodes(ns) {
+    const nNode = ns.hacknet.numNodes();
+    if (nNode < 1) {
+        return [];
+    }
+    const array = new MyArray();
+    return array.sequence(nNode);
+}
+
+/**
  * Whether each node in our Hacknet farm is fully upgraded.
  *
  * @param ns The Netscript API.
@@ -57,18 +72,34 @@ function is_fully_upgraded(ns) {
 }
 
 /**
- * All nodes in our Hacknet farm.
+ * Assume we have millions or even billions of dollars.  Add more nodes to
+ * our Hacknet farm and fully upgrade each node.
  *
  * @param ns The Netscript API.
- * @return An array of node IDs.  An empty array if we have zero nodes.
+ * @param n Increase the number of nodes to this number.  Must be a positive
+ *     whole number.
+ * @param money The money threshold.  We must have at least this much money
+ *     in order to purchase more nodes for the Hacknet farm and fully upgrade
+ *     the newly expanded farm.
  */
-function hacknet_nodes(ns) {
-    const nNode = ns.hacknet.numNodes();
-    if (nNode < 1) {
-        return [];
+async function next_stage(ns, n, money) {
+    // Sanity checks.
+    const nNode = Math.floor(n);
+    assert(nNode > 0);
+    assert(money > 0);
+    // Wait until we have reached the money threshold.
+    const player = new Player(ns);
+    const t = new Time();
+    const time = 10 * t.second();
+    while (player.money() < money) {
+        await ns.sleep(time);
     }
-    const array = new MyArray();
-    return array.sequence(nNode);
+    // Add more nodes to our farm and fully upgrade each node.
+    await setup_farm(ns, nNode);
+    while (!is_fully_upgraded(ns)) {
+        await update(ns, nNode);
+        await ns.sleep(time);
+    }
 }
 
 /**
@@ -123,37 +154,6 @@ async function stage_one(ns, n) {
     // Fully upgrade each node.
     while (!is_fully_upgraded(ns)) {
         await update(ns);
-        await ns.sleep(time);
-    }
-}
-
-/**
- * Assume we have millions or even billions of dollars.  Add more nodes to
- * our Hacknet farm and fully upgrade each node.
- *
- * @param ns The Netscript API.
- * @param n Increase the number of nodes to this number.  Must be a positive
- *     whole number.
- * @param money The money threshold.  We must have at least this much money
- *     in order to purchase more nodes for the Hacknet farm and fully upgrade
- *     the newly expanded farm.
- */
-async function next_stage(ns, n, money) {
-    // Sanity checks.
-    const nNode = Math.floor(n);
-    assert(nNode > 0);
-    assert(money > 0);
-    // Wait until we have reached the money threshold.
-    const player = new Player(ns);
-    const t = new Time();
-    const time = 10 * t.second();
-    while (player.money() < money) {
-        await ns.sleep(time);
-    }
-    // Add more nodes to our farm and fully upgrade each node.
-    await setup_farm(ns, nNode);
-    while (!is_fully_upgraded(ns)) {
-        await update(ns, nNode);
         await ns.sleep(time);
     }
 }
