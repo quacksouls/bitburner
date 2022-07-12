@@ -90,7 +90,6 @@ async function hack_servers(ns, target) {
     assert(nport >= 0);
     // A list of servers that were successfully hacked.
     const hacked_server = new Array();
-
     // Gain root access to as many servers as possible on the network.  Copy
     // our hack script to each server and use the server to hack itself.
     const reject = new Array();  // Servers we can't hack at the moment.
