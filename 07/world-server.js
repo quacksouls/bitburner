@@ -39,7 +39,7 @@ import {
  */
 function compromised_servers(ns, script, server) {
     assert(server.length > 0);
-    let compromised = new Array();
+    const compromised = new Array();
     for (const s of filter_pserv(ns, server)) {
         const serv = new Server(ns, s);
         if (serv.has_root_access() && serv.is_running_script(script)) {
@@ -89,11 +89,11 @@ async function hack_servers(ns, target) {
     const nport = player.num_ports();
     assert(nport >= 0);
     // A list of servers that were successfully hacked.
-    let hacked_server = new Array();
+    const hacked_server = new Array();
 
     // Gain root access to as many servers as possible on the network.  Copy
     // our hack script to each server and use the server to hack itself.
-    let reject = new Array();  // Servers we can't hack at the moment.
+    const reject = new Array();  // Servers we can't hack at the moment.
     // A Hack stat margin: 1% of our Hack stat, plus another 5 points.
     const margin = Math.floor((0.01 * player.hacking_skill()) + 5);
     for (const s of target) {
@@ -142,7 +142,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
     assert(hacked_server.length > 0);
     // An array of hacked servers.  We remove bankrupt servers from this list.
     let hserver = filter_bankrupt_servers(ns, Array.from(hacked_server));
-    let reject = new Array();
+    const reject = new Array();
     const player = new Player(ns);
     for (const s of candidate) {
         const server = new Server(ns, s);
