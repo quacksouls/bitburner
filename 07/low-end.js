@@ -85,11 +85,11 @@ function low_end_servers(ns) {
  * Whether to skip a server.  A server is skipped if it is not a low-end server.
  * We exclude these servers:
  *
- *     * Purchased servers.
- *     * A world server whose hacking skill requirement is higher than
- *       our Hack stat.
- *     * A world server for which we cannot open all ports.
- *     * A world server that is currently running our hacking script.
+ * (1) Purchased servers.
+ * (2) A world server whose hacking skill requirement is higher than our Hack
+ *     stat.
+ * (3) A world server for which we cannot open all ports.
+ * (4) A world server that is currently running our hacking script.
  *
  * @param ns The Netscript API.
  * @param server Do we skip this server?
