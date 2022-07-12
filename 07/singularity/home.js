@@ -17,7 +17,7 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
+import { work } from "/lib/singularity.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -96,14 +96,16 @@ async function upgrade(ns) {
 async function upgrade_cores(ns) {
     const player = new Player(ns);
     const core_cost = ns.singularity.getUpgradeHomeCoresCost();
+    const company = "MegaCorp";
     while (player.money() < core_cost) {
-        await work(ns);
+        await work(ns, company);
     }
     let success = ns.singularity.upgradeHomeCores();
     while (!success) {
-        await work(ns);
+        await work(ns, company);
         success = ns.singularity.upgradeHomeCores();
     }
+    ns.singularity.quitJob(company);
 }
 
 /**
@@ -114,41 +116,16 @@ async function upgrade_cores(ns) {
 async function upgrade_ram(ns) {
     const player = new Player(ns);
     const ram_cost = ns.singularity.getUpgradeHomeRamCost();
+    const company = "MegaCorp";
     while (player.money() < ram_cost) {
-        await work(ns);
+        await work(ns, company);
     }
     let success = ns.singularity.upgradeHomeRam();
     while (!success) {
-        await work(ns);
+        await work(ns, company);
         success = ns.singularity.upgradeHomeRam();
     }
-}
-
-/**
- * Work to boost our income.
- *
- * @param ns The Netscript API.
- */
-async function work(ns) {
-    const hack_lvl = 250;
-    const charisma_lvl = hack_lvl;
-    const player = new Player(ns);
-    assert(player.hacking_skill() >= hack_lvl);
-    // If our Charisma is low, work as a software engineer to level up our
-    // Charisma.  Otherwise work a business job because it usually pays higher
-    // than a software or IT job.
-    let field = "Business";
-    if (player.charisma() < charisma_lvl) {
-        field = "Software";
-    }
-    const company = "MegaCorp";
-    const focus = true;
-    ns.singularity.applyToCompany(company, field);
-    const t = new Time();
-    const time = t.minute();
-    ns.singularity.workForCompany(company, focus);
-    await ns.sleep(time);
-    ns.singularity.stopAction();
+    ns.singularity.quitJob(company);
 }
 
 /**

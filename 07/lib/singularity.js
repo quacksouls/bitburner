@@ -92,3 +92,33 @@ export async function study(ns, threshold) {
     }
     assert(ns.singularity.stopAction());
 }
+
+/**
+ * Work to boost our income.
+ *
+ * @param ns The Netscript API.
+ * @param company We want to work for this company.
+ */
+export async function work(ns, company) {
+    const hack_lvl = 250;
+    const charisma_lvl = hack_lvl;
+    if (ns.getHackingLevel() < hack_lvl) {
+        return;
+    }
+    // Work for a company.  Every once in a while, apply for a promotion to
+    // earn more money per second.  By default, we work a business job.
+    // However, if our Charisma level is low, work a software job instead to
+    // raise our Charisma.
+    let field = "Business";
+    const stat = ns.getPlayer();
+    if (stat.charisma < charisma_lvl) {
+        field = "Software";
+    }
+    const focus = true;
+    ns.singularity.applyToCompany(company, field);
+    const t = new Time();
+    const time = t.minute();
+    ns.singularity.workForCompany(company, focus);
+    await ns.sleep(time);
+    ns.singularity.stopAction();
+}
