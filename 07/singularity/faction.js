@@ -32,7 +32,7 @@ import { assert } from "/lib/util.js";
  *     grants us $1m and the BruteSSH.exe program after a soft reset.
  * (2) Netburners, CyberSec, and Tian Di Hui should be the next group of
  *     factions to join.  These factions have Augmentations that raise various
- *     Hack related stats.
+ *     hack-related stats.
  * (3) BitRunners has an Augmentation that allows us to start with the
  *     FTPCrack.exe and relaySMTP.exe programs after a soft reset.
  * (4) Aevum has the PCMatrix Augmentation that allows us to start with
@@ -46,7 +46,7 @@ import { assert } from "/lib/util.js";
  * (6) Volhaven should be the last city faction to join.
  * (7) NiteSec and The Black Hand are the remaining two hacking groups to join.
  *     They have Augmentations to boost various hack-related stats.
- * (8) We can join the Megacorporation factions in any order we want.  These
+ * (8) We can join the megacorporation factions in any order we want.  These
  *     factions have various Augmentations that boost a number of
  *     social-related stats, i.e. reputation from factions and companies.
  * (9) Criminal organizations have Augmentations to boost various combat stats
