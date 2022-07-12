@@ -221,16 +221,16 @@ export async function main(ns) {
     // and data access.
     // Wait for 6 seconds because the Stock Market updates approximately
     // every 6 seconds.
-    const time = new Time();
-    const t = 6 * time.second();
+    const t = new Time();
+    const time = 6 * t.second();
     while (!meet_money_threshold(ns)) {
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
     purchase_api_access(ns);
     // Wait until we have a large amount of money before trading on the Stock
     // Market.  Gambling on the Stock Market requires huge wealth.
     while (!meet_money_threshold(ns)) {
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
     // Continuously trade on the Stock Market.
     while (true) {
@@ -239,6 +239,6 @@ export async function main(ns) {
             sell_stock(ns, stk);
             buy_stock(ns, stk);
         }
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
