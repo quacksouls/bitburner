@@ -34,7 +34,7 @@ export async function main(ns) {
     const error_msg = "Must provide one command line argument: pserv | world";
     // Must provide a command line argument to this script.
     if (ns.args.length < 1) {
-        await ns.tprint(error_msg);
+        ns.tprint(error_msg);
         ns.exit();
     }
     const stype = ns.args[0];
@@ -55,7 +55,7 @@ export async function main(ns) {
             ns.killall(s);
         }
     } else {
-        await ns.tprint(error_msg);
+        ns.tprint(error_msg);
         ns.exit();
     }
 }
