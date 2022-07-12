@@ -190,7 +190,6 @@ function skip_server(ns, server, script, margin) {
     // Determine the maximum number of ports we can open on a server.
     const nport = player.num_ports();
     assert(nport >= 0);
-
     // Skip over a server that requires more ports than we can open.
     if (serv.num_ports_required() > nport) {
         return SKIP;
