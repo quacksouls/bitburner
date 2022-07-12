@@ -22,7 +22,11 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Whether each node in our Hacknet is fully upgraded.
+ * Whether each node in our Hacknet farm is fully upgraded.
+ *
+ * @param ns The Netscript API.
+ * @return true if each node in our Hacknet farm is fully upgraded;
+ *     false otherwise.
  */
 function is_fully_upgraded(ns) {
     const farm = hacknet_nodes(ns);
