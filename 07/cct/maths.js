@@ -186,6 +186,12 @@ function insert_operators(expr, i) {
         const newexpr = new String(expr);
         candidate.push([i + 1, newexpr]);
     }
+    // If we have not yet inserted an operator into the digit string, then make
+    // a new expression by letting the whole digit string be a negative integer.
+    if (-1 == i) {
+        const newexpr = "-" + new String(expr);
+        candidate.push([0, newexpr]);
+    }
     return candidate;
 }
 
