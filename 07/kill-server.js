@@ -28,9 +28,7 @@ import { Player } from "/lib/player.js";
 export async function main(ns) {
     const player = new Player(ns);
     for (const server of player.pserv()) {
-        // Kill all scripts running on a purchased server.
         ns.killall(server);
-        // Delete the purchased server.
         ns.deleteServer(server);
     }
 }
