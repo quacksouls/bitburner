@@ -7,8 +7,6 @@ export async function main(ns) {
     // We want each server to have 16GB of RAM because we will run 2 instances
     // of hack.js on a server, each instance using 3 threads.
     const ram = 16;
-    // The ID of a purchased server.
-    var i = 0;
     // Our hack script.
     const script = "hack.js";
     // Our hack script is located on our home server.
@@ -21,6 +19,7 @@ export async function main(ns) {
     const targetB = "foodnstuff";
     // Continuously try to purchase a new server until we've reached the
     // maximum number of servers we can buy.
+    let i = 0;
     while (i < ns.getPurchasedServerLimit()) {
         // Do we have enough money (on our home server) to buy a new server?
         if (
@@ -28,7 +27,7 @@ export async function main(ns) {
         ) {
             // If we have enough money, then:
             // (1) purchase a new server;
-            var hostname = ns.purchaseServer("pserv-" + i, ram);
+            var hostname = ns.purchaseServer("pserv", ram);
             // (2) copy our hack script over to the purchased server;
             await ns.scp(script, source, hostname);
             // (3) run 2 instances of our hack script on the purchased server.
