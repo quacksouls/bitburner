@@ -2,8 +2,6 @@
  * Hack a server and steal its money.  We weaken the server's security
  * as necessary, grow the server in case the amount of money on the server
  * is below our threshold, and hack the server when all conditions are met.
- * Code adapted from the tutorial at
- * https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html
  *
  * @param ns Command line arguments given to the script at runtime.  We only
  *     want one command line argument, i.e. the name of the server to hack.
@@ -22,6 +20,7 @@ export async function main(ns) {
         ns.getServerMinSecurityLevel(target) + 5
     );
     // Continously hack/grow/weaken the target server.
+    const time = 1;  // One millisecond.
     while (true) {
         if (ns.getServerSecurityLevel(target) > security_threshold) {
             await ns.weaken(target);
@@ -30,5 +29,6 @@ export async function main(ns) {
         } else {
             await ns.hack(target);
         }
+        await ns.sleep(time);
     }
 }
