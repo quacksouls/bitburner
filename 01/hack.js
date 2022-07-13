@@ -11,23 +11,23 @@
 export async function main(ns) {
     // The target server, i.e. the server to hack.
     const target = ns.args[0];
-    // How much money a server should have before we hack it.
-    // Set the money threshold at 75% of the server's maximum money.
-    const moneyThresh = ns.getServerMaxMoney(target) * 0.75;
+    // How much money a server should have before we hack it.  Set the money
+    // threshold at 75% of the server's maximum money.  Use the ceiling
+    // function to avoid comparison of floating point numbers.
+    const money_threshold = Math.ceil(ns.getServerMaxMoney(target) * 0.75);
     // The threshold for the server's security level.  If the target's
     // security level is higher than the threshold, weaken the target
     // before doing anything else.
-    const securityThresh = ns.getServerMinSecurityLevel(target) + 5;
-    // Infinite loop that continously hacks/grows/weakens the target server.
+    const security_threshold = Math.ceil(
+        ns.getServerMinSecurityLevel(target) + 5
+    );
+    // Continously hacks/grows/weakens the target server.
     while (true) {
-        if (ns.getServerSecurityLevel(target) > securityThresh) {
-            // If the server's security level is above our threshold, weaken it.
+        if (ns.getServerSecurityLevel(target) > security_threshold) {
             await ns.weaken(target);
-        } else if (ns.getServerMoneyAvailable(target) < moneyThresh) {
-            // If the server's money is less than our threshold, grow it.
+        } else if (ns.getServerMoneyAvailable(target) < money_threshold) {
             await ns.grow(target);
         } else {
-            // Otherwise, hack it.
             await ns.hack(target);
         }
     }
