@@ -5,9 +5,8 @@
  * Code adapted from the tutorial at
  * https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html
  *
- * @param ns Command line arguments given to the script at run time.  We only
- *     want one command line argument, i.e. the name of the server we want to
- *     hack.
+ * @param ns Command line arguments given to the script at runtime.  We only
+ *     want one command line argument, i.e. the name of the server to hack.
  */
 export async function main(ns) {
     // The target server, i.e. the server to hack.

@@ -1,7 +1,7 @@
 /**
  * Purchase new servers and run our hack script on those servers.
  *
- * @param {NS} ns
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // We want each server to have 16GB of RAM because we will run 2 instances
@@ -19,8 +19,8 @@ export async function main(ns) {
     var targetA = "n00dles";
     // Hack this other target.
     var targetB = "foodnstuff";
-    // Continuously try to purchase a new server until we've reached the maximum
-    // number of servers we can buy.
+    // Continuously try to purchase a new server until we've reached the
+    // maximum number of servers we can buy.
     while (i < ns.getPurchasedServerLimit()) {
         // Do we have enough money (on our home server) to buy a new server?
         if (

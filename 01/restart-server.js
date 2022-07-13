@@ -3,7 +3,7 @@
  * all scripts running on a purchased server have been killed.  We start running
  * those scripts again.
  *
- * @param {NS} ns
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // Our hack script.
@@ -18,11 +18,9 @@ export async function main(ns) {
     // hack.js script.
     for (const server of ns.getPurchasedServers()) {
         if (!ns.isRunning(script, server, targetA)) {
-            // Restart the hack script and run it against targetA.
             ns.exec(script, server, nthread, targetA);
         }
         if (!ns.isRunning(script, server, targetB)) {
-            // Restart the hack script and run it against targetB.
             ns.exec(script, server, nthread, targetB);
         }
     }
