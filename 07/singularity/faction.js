@@ -86,22 +86,26 @@ function all_factions() {
  *     (1) aug := The key is the name of an Augmentation.
  *     (2) cost := The value is the cost of the corresponding Augmentation.
  *
- *     Return an empty map if we already have purchased all Augmentations from
- *     the given faction.
+ *     This is never an empty map because we can always level up the NeuroFlux
+ *     Governor Augmentation.
  */
 function augmentations_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
-    // All Augmentations we have not yet purchased from the given faction.
+    // All Augmentations we have not yet purchased from the given faction.  The
+    // NeuroFlux Governor Augmentation can be levelled up infinitely many
+    // times.  Add it to the list of faction Augmentations.
     const purchased = true;
     const owned_aug = new Set(ns.singularity.getOwnedAugmentations(purchased));
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter(a => !owned_aug.has(a));
-    const augment = new Map();
-    if (0 == fac_aug.length) {
-        return augment;
+    const nfg = "NeuroFlux Governor";
+    if (!fac_aug.includes(nfg)) {
+        fac_aug.push(nfg);
     }
+    assert(fac_aug.length > 0);
     // A map {aug: cost} of Augmentations and their respective costs.  Use the
     // ceiling function to avoid comparison of floating point numbers.
+    const augment = new Map();
     for (const aug of fac_aug) {
         const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
         augment.set(aug, cost);
@@ -735,14 +739,16 @@ function prerequisites(ns, aug) {
 async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
     const augment = augmentations_to_buy(ns, fac);
-    if (0 == augment.size) {
-        return;
-    }
+    assert(augment.size > 0);
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
+    // (3) Leave the NeuroFlux Governor Augmentation to last.
+    const nfg = "NeuroFlux Governor";
+    assert(augment.has(nfg));
+    assert(augment.delete(fg));
     while (augment.size > 0) {
         // Choose the most expensive Augmentation.
         const [aug, cost] = choose_augmentation(augment);
@@ -768,6 +774,17 @@ async function purchase_augmentations(ns, fac) {
         }
         await purchase_aug(ns, aug, cost, fac);
         assert(augment.delete(aug));
+    }
+    // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
+    const player = new Player(ns);
+    let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg));
+    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg));
+    let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
+    while ((cost <= player.money()) && (nfg_rep <= fac_rep)) {
+        await purchase_aug(ns, nfg, cost, fac);
+        cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg));
+        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg));
+        fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
     }
 }
 
