@@ -7,13 +7,13 @@
  */
 export async function main(ns) {
     // Our hack script.
-    var script = "hack.js";
+    const script = "hack.js";
     // How many threads to run our script on a purchased server.
-    var nthread = 3;
+    const nthread = 3;
     // Hack this target.
-    var targetA = "n00dles";
+    const targetA = "n00dles";
     // Hack this other target.
-    var targetB = "foodnstuff";
+    const targetB = "foodnstuff";
     // Cycle through our purchased servers to see whether to restart our
     // hack.js script.
     for (const server of ns.getPurchasedServers()) {
