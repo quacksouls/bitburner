@@ -5,10 +5,10 @@
  * @param {NS} ns
  */
 export async function main(ns) {
-	for (const server of ns.getPurchasedServers()) {
-		// Kill all scripts running on a purchased server.
-		ns.killall(server);
-		// Delete the purchased server.
-		ns.deleteServer(server);
-	}
+    for (const server of ns.getPurchasedServers()) {
+        // Kill all scripts running on a purchased server.
+        ns.killall(server);
+        // Delete the purchased server.
+        ns.deleteServer(server);
+    }
 }
