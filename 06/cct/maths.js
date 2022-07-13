@@ -214,14 +214,17 @@ function evaluate(str) {
  * Output: [1+2+3, 1*2*3]
  *
  * In the above example, we have two possible valid solutions.  Note that the
- * expression "1*-2*-3" also evaluates to 6.  The solution for Example 1
- * implies the following restrictions on any solution we output.
+ * expression "1*-2*-3" also evaluates to 6.  From the problem description, we
+ * infer the following restrictions on any solution we output.
  *
  * (1) Each decimal digit is non-negative.
  * (2) We are not allowed to flip the sign of a digit.  For example, in the
  *     expression "1*-2*-3" we flipped the sign of the digit "2" from positive
  *     to negative.  Thus the expression "1*-2*-3" is an invalid solution,
  *     although it evaluates to the target number.
+ * (3) We are not allowed to insert the operator "-" at index 0 of the digit
+ *     string.
+ * (4) The digit string does not have "0" at index 0.
  *
  * Usage: run maths.js [cct] [hostname]
  *
