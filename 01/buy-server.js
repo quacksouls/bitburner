@@ -44,7 +44,7 @@ export async function main(ns) {
         ) {
             // If we have enough money, then:
             // (1) purchase a new server;
-            var hostname = ns.purchaseServer("pserv", ram);
+            const hostname = ns.purchaseServer("pserv", ram);
             // (2) copy our hack script over to the purchased server;
             await ns.scp(script, source, hostname);
             // (3) run 2 instances of our hack script on the purchased server.
