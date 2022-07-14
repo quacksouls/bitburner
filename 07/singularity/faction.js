@@ -748,7 +748,7 @@ async function purchase_augmentations(ns, fac) {
     // (3) Leave the NeuroFlux Governor Augmentation to last.
     const nfg = "NeuroFlux Governor";
     assert(augment.has(nfg));
-    assert(augment.delete(fg));
+    assert(augment.delete(nfg));
     while (augment.size > 0) {
         // Choose the most expensive Augmentation.
         const [aug, cost] = choose_augmentation(augment);
