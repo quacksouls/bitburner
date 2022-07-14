@@ -1,12 +1,13 @@
 /**
  * Hack a server and steal its money.  We weaken the server's security
  * as necessary, grow the server in case the amount of money on the server
- * is below our threshold, and hack the server when all conditions are met.
- * Code adapted from the tutorial at
- * https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html
+ * is below our threshold, and hack the server when all conditions are met.  We
+ * want one command line argument, i.e. the name of the server to hack.
  *
- * @param ns Command line arguments given to the script at run time.  We only
- *     want one command line argument, i.e. the name of the server we want to hack.
+ * Usage: run hack.js [server]
+ * Example: run hack.js n00dles
+ *
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // The target server, i.e. the server to hack.
