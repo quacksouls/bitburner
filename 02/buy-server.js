@@ -41,9 +41,9 @@ export async function main(ns) {
     let i = 0;
     while (i < ns.getPurchasedServerLimit()) {
         // Do we have enough money (on our home server) to buy a new server?
-        if (
-            ns.getServerMoneyAvailable(source) > ns.getPurchasedServerCost(ram)
-        ) {
+        const money = ns.getServerMoneyAvailable(source);
+        const cost = ns.getPurchasedServerCost(ram);
+        if (money > cost) {
             // If we have enough money, then:
             // (1) purchase a new server;
             const hostname = ns.purchaseServer("pserv", ram);
