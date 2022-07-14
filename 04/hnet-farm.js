@@ -136,7 +136,7 @@ async function upgrade_ram(ns, farm) {
 /**
  * Purchase Hacknet Nodes and manage our farm of Nodes.
  *
- * @param {NS} ns
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // Setup our farm of Hacknet Nodes.  Each Node should be at base stats for
