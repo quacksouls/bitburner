@@ -14,8 +14,7 @@ function filter_pserv(server) {
         "pserv-22", "pserv-23"
     ];
     // Filter out the purchased servers.
-    var serv = new Array();
-    serv = serv.concat(server);
+    let serv = Array.from(server);
     for (const p of pserv) {
         serv = serv.filter(s => s != p);
     }
