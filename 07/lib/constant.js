@@ -19,6 +19,18 @@
 // constants.
 
 /**
+ * All available crimes.
+ */
+export function all_crimes() {
+    const crime = [
+        "assassinate", "bond forgery", "deal drugs", "grand theft auto",
+        "heist", "homicide", "kidnap and ransom", "larceny", "mug someone",
+        "rob store", "shoplift", "traffick illegal arms"
+    ];
+    return crime;
+}
+
+/**
  * All programs that can be created.  These programs can also be purchased via
  * the dark web.
  */

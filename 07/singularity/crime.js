@@ -15,23 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js";
+import { all_crimes, home } from "/lib/constant.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
-
-/**
- * A list of available crimes.
- *
- * @return An array of strings, where each element is the name of a crime.
- */
-function all_crimes() {
-    const crime = [
-        "assassinate", "bond forgery", "deal drugs", "grand theft auto",
-        "heist", "homicide", "kidnap and ransom", "larceny", "mug someone",
-        "rob store", "shoplift", "traffick illegal arms"
-    ];
-    return crime;
-}
 
 /**
  * Choose which crime to commit.  We want to commit the crime that has the
