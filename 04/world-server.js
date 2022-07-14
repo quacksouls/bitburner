@@ -70,14 +70,10 @@ function network(ns) {
         const s = stack.pop();
         // Have we visited the server s yet?
         if (!server.has(s)) {
-            // The server s is now visited.
             server.add(s);
-            // Add all neighbours of s to the stack.  Take care to exclude the
-            // purchased servers.
             stack.push(...filter_pserv(ns, ns.scan(s)));
         }
     }
-    // Convert the set of servers to an array of servers.
     server = [...server];
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
