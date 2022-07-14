@@ -156,14 +156,9 @@ async function upgrade_ram(ns, farm) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Setup our farm of Hacknet Nodes.  Each Node should be at base stats for
-    // now.
     const nNode = 12;
     const farm = await setup_farm(ns, nNode);
-    // Upgrade the Level of each Hacknet Node to maximum.
     await upgrade_level(ns, farm);
-    // Upgrade the Cores of each Hacknet Node to maximum.
     await upgrade_core(ns, farm);
-    // Max out the amount of RAM of each Hacknet Node.
     await upgrade_ram(ns, farm);
 }
