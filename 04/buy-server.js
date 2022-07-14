@@ -59,16 +59,11 @@ export async function main(ns) {
         const money = ns.getServerMoneyAvailable(source);
         const cost = ns.getPurchasedServerCost(server_ram);
         if (money > cost) {
-            // If we have enough money, then:
-            // purchase a new server;
             const hostname = ns.purchaseServer("pserv", server_ram);
-            // copy our hack script over to the purchased server;
             await ns.scp(script, source, hostname);
-            // run our hack script on the purchased server.
             ns.exec(script, hostname, nthread, target);
             i++;
         }
-        // Sleep for a while.
         await ns.sleep(time);
     }
 }
