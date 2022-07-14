@@ -64,7 +64,7 @@ function network(ns) {
     // A set of all servers we can visit at the moment.
     let server = new Set();
     // A stack of servers to visit.  We start from our home server.
-    let stack = new Array(root);
+    const stack = new Array(root);
     // Use depth-first search to navigate all servers we can visit.
     while (stack.length > 0) {
         const s = stack.pop();
