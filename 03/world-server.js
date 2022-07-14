@@ -34,7 +34,7 @@ function have_programs(ns) {
     // Ensure we have the prerequisite programs on our home server.
     for (const p of program) {
         if (!ns.fileExists(p, home)) {
-            ns.alert(p + " not found on server " + home);
+            ns.tprint(p + " not found on server " + home);
             return false;
         }
     }
@@ -55,7 +55,7 @@ function have_min_hack_level(ns) {
     const min_hack_lvl = 213;
     const hack_lvl = ns.getHackingLevel();
     if (hack_lvl < min_hack_lvl) {
-        ns.alert("Hack level too low: " + hack_lvl);
+        ns.tprint("Hack level too low: " + hack_lvl);
         return false;
     }
     return true;
