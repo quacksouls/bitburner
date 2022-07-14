@@ -84,7 +84,7 @@ function network(ns) {
  * Use servers in the game world to hack a target.  We exclude purchased
  * servers.
  *
- * @param {NS} ns
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // Ensure we have the prerequisite programs to gain root access on other
