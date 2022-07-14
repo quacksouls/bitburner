@@ -483,8 +483,8 @@ async function illuminati(ns) {
  */
 async function install_backdoor(ns, hostname) {
     // Ensure we have at least the required Hack stat.
-    const server = new Server(ns, hostname);
     const player = new Player(ns);
+    const server = new Server(ns, hostname);
     if (player.hacking_skill() < server.hacking_skill()) {
         await study(ns, server.hacking_skill());
     }
@@ -498,9 +498,9 @@ async function install_backdoor(ns, hostname) {
         await ns.sleep(time);
     }
     assert(server.has_root_access());
-    connect_to(ns, player.home(), server.hostname());
+    connect_to(ns, home, hostname);
     await ns.singularity.installBackdoor();
-    connect_to(ns, server.hostname(), player.home());
+    connect_to(ns, hostname, home);
 }
 
 /**
@@ -781,7 +781,7 @@ async function purchase_augmentations(ns, fac) {
     let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg));
     let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
     while ((cost <= player.money()) && (nfg_rep <= fac_rep)) {
-        await purchase_aug(ns, nfg, cost, fac);
+        assert(ns.singularity.purchaseAugmentation(fac, nfg));
         cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg));
         nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg));
         fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
