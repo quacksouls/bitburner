@@ -19,7 +19,8 @@ import { home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { connect_to, study } from "/lib/singularity.js";
+import { connect_to } from "/lib/singularity.js";
+import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

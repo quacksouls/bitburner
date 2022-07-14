@@ -17,7 +17,8 @@
 
 import { home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
-import { all_programs, study } from "/lib/singularity.js";
+import { all_programs } from "/lib/singularity.js";
+import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
