@@ -19,6 +19,30 @@
 // constants.
 
 /**
+ * All programs that can be created.  These programs can also be purchased via
+ * the dark web.
+ */
+export function all_programs() {
+    // A map where the key/value pair is as follows:
+    //
+    // key := The name of a program.
+    // value := The minimum Hack stat at which we are able to create the
+    //     program.
+    const program = new Map();
+    program.set("BruteSSH.exe", 50);
+    program.set("FTPCrack.exe", 100);
+    program.set("HTTPWorm.exe", 500);
+    program.set("relaySMTP.exe", 250);
+    program.set("SQLInject.exe", 750);
+    program.set("DeepscanV1.exe", 75);
+    program.set("DeepscanV2.exe", 400);
+    program.set("ServerProfiler.exe", 75);
+    program.set("AutoLink.exe", 25);
+    program.set("Formulas.exe", 1000);
+    return program;
+}
+
+/**
  * The home server of the player.
  */
 export const home = "home";

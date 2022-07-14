@@ -15,9 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js";
+import { all_programs, home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
-import { all_programs } from "/lib/singularity.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
