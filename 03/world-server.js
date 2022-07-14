@@ -77,7 +77,7 @@ function network(ns) {
     // from the root.
     const depth = 3;
     // All servers that are directly connected to the root node.
-    var server = filter_pserv(ns.scan(root));
+    let server = filter_pserv(ns.scan(root));
     for (let i = 1; i < depth; i++) {
         // Scan the immediate neighbours of a server at depth i.
         let neighbour = new Array();
