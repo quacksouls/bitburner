@@ -21,7 +21,7 @@ function have_programs(ns) {
 /**
  * Purchase new servers and run our hack script on those servers.
  *
- * @param {NS} ns
+ * @param ns The Netscript API.
  */
 export async function main(ns) {
     // We want each server to have 16GB of RAM.
