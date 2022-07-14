@@ -21,6 +21,9 @@
  * is below our threshold, and hack the server when all conditions are met.  We
  * want one command line argument, i.e. the name of the server to hack.
  *
+ * Usage: run hack.js [server]
+ * Example: run hack.js n00dles
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
