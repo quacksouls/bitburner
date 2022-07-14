@@ -12,8 +12,8 @@
 export async function main(ns) {
     // The target server, i.e. the server to hack.
     const target = ns.args[0];
-    // Ensure we have root access on the target server.  We assume that currently
-    // we have access to servers that require up to 2 ports to be open.
+    // Ensure we have root access on the target server.  We assume we have
+    // access to servers that require up to 2 ports to be open.
     if (!ns.hasRootAccess(target)) {
         await ns.brutessh(target);
         await ns.ftpcrack(target);
