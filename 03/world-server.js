@@ -23,8 +23,8 @@ function filter_pserv(server) {
 }
 
 /**
- * Whether we have the necessary programs on our home server to allow us to gain
- * root access on other servers.
+ * Whether we have the necessary programs on our home server to allow us to
+ * gain root access on other servers.
  *
  * @param ns The Netscript API.
  * @return true if we have the necessary programs; false otherwise.
@@ -43,16 +43,16 @@ function have_programs(ns) {
 }
 
 /**
- * Ensure our Hack stat is high enough to allow us to hack all servers currently
- * available to us.
+ * Ensure our Hack stat is high enough to allow us to hack all servers
+ * currently available to us.
  *
  * @param ns The Netscript API.
  * @return true if we meet the minimum Hack level; false otherwise.
  */
 function have_min_hack_level(ns) {
-    // The server omega-net requires a minimum Hack level of 213.  The server is
-    // also at most 3 hops from our home server.  We assume that currently we can
-    // only access servers that are at most 3 hops away from home.
+    // The server omega-net requires a minimum Hack level of 213.  The server
+    // is also at most 3 hops from our home server.  We assume that currently
+    // we can only access servers that are at most 3 hops away from home.
     const min_hack_lvl = 213;
     const hack_lvl = ns.getHackingLevel();
     if (hack_lvl < min_hack_lvl) {
@@ -63,18 +63,19 @@ function have_min_hack_level(ns) {
 }
 
 /**
- * Scan the network of servers in the game world.  Each server must be reachable
- * from our home server.
+ * Scan the network of servers in the game world.  Each server must be
+ * reachable from our home server.
  *
  * @param ns The Netscript API.
  * @return An array of servers that can be reached from home.
  */
 function network(ns) {
-    // We scan the world network from a node, which is assumed to be our home server.
-    // We refer to our home server as the root of the tree.
+    // We scan the world network from a node, which is assumed to be our home
+    // server.  We refer to our home server as the root of the tree.
     const root = "home";
-    // The depth of the tree starting from the root.  Currently we are limited to a
-    // depth of 3.  We can scan for servers that are at most 3 hops away from the root.
+    // The depth of the tree starting from the root.  Currently we are limited
+    // to a depth of 3.  We can scan for servers that are at most 3 hops away
+    // from the root.
     const depth = 3;
     // All servers that are directly connected to the root node.
     var server = filter_pserv(ns.scan(root));
@@ -89,8 +90,8 @@ function network(ns) {
     }
     // Remove duplicate server names.
     server = [...new Set(server)];
-    // Remove the root node from our array.  We want all servers that are connected
-    // either directly or indirectly to the root node.
+    // Remove the root node from our array.  We want all servers that are
+    // connected either directly or indirectly to the root node.
     return server.filter(s => root != s);
 }
 
@@ -101,7 +102,8 @@ function network(ns) {
  * @param {NS} ns
  */
 export async function main(ns) {
-    // Ensure we have the prerequisite programs to gain root access on other servers.
+    // Ensure we have the prerequisite programs to gain root access on other
+    // servers.
     if (!have_programs(ns)) {
         ns.exit();
     }
@@ -109,8 +111,8 @@ export async function main(ns) {
     if (!have_min_hack_level(ns)) {
         ns.exit();
     }
-    // Gain root access on all servers that we can see on the network.  Copy our hack
-    // script to each server and use the server to hack joesguns.
+    // Gain root access on all servers that we can see on the network.  Copy
+    // our hack script to each server and use the server to hack joesguns.
     // Note: use joesguns to hack joesguns.
     const server = network(ns);
     const script = "hack.js";
@@ -123,14 +125,15 @@ export async function main(ns) {
             ns.ftpcrack(s);
             ns.nuke(s);
         }
-        // Determine how many threads we can run on a server.  If we can't run our script
-        // on the server, then we skip the server.
+        // Determine how many threads we can run on a server.  If we can't run
+        // our script on the server, then we skip the server.
         const server_ram = ns.getServerMaxRam(s) - ns.getServerUsedRam(s);
         const nthread = Math.floor(server_ram / script_ram);
         if (nthread < 1) {
             continue;
         }
-        // Copy our hack script over to a server.  Use the server to hack the target.
+        // Copy our hack script over to a server.  Use the server to hack the
+        // target.
         await ns.scp(script, source, s);
         ns.exec(script, s, nthread, target);
     }
