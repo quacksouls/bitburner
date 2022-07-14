@@ -18,6 +18,8 @@
 /**
  * Purchase new servers and run our hack script on those servers.
  *
+ * Usage: run buy-server.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
