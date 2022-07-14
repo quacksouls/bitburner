@@ -131,3 +131,8 @@ export const utility_program = [
     "DeepscanV1.exe", "DeepscanV2.exe", "ServerProfiler.exe", "AutoLink.exe",
     "Formulas.exe"
 ];
+
+/**
+ * The minimum required Hack stat to enable a player to work at most companies.
+ */
+export const work_hack_lvl = 250;
