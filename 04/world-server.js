@@ -43,7 +43,7 @@ function have_programs(ns) {
     // Ensure we have the prerequisite programs on our home server.
     for (const p of program) {
         if (!ns.fileExists(p, home)) {
-            ns.alert(p + " not found on server " + home);
+            ns.tprint(p + " not found on server " + home);
             return false;
         }
     }
