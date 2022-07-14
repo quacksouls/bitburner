@@ -21,14 +21,32 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Study at Rotham University to raise our Hack stat.  Use this function
- * under the following situations:
+ * Increase our Hack stat.  Continue doing so until our Hack stat is at least
+ * a given threshold.
+ *
+ * @param ns The Netscript API.
+ * @param threshold We want to increase our Hack stat to be at leat this
+ *     threshold.
+ */
+export async function raise_hack(ns, threshold) {
+    assert(threshold > 0);
+    const t = new Time();
+    const time = t.second();
+    while (ns.getHackingLevel() < threshold) {
+        await study(ns, threshold);
+        await ns.sleep(time);
+    }
+}
+
+/**
+ * Study at a university to raise our Hack stat.  Use this function under the
+ * following situations:
  *
  * (1) Immediately after installing one or more Augmentations.
  * (2) When we start all over on a different BitNode.
  * (3) If there is a special need to increase our Hack stat.
  *
- * This function assumes the player is currently in Sector-12.
+ * Note that some cities have universities, while others do not.
  *
  * @param ns The Netscript API.
  * @param threshold Study until we have reached at least this amount of
@@ -37,7 +55,24 @@ import { assert } from "/lib/util.js";
 export async function study(ns, threshold) {
     assert(threshold > 0);
     // Study the free computer science course at a university.
-    const uni = "Rothman University";
+    const stat = ns.getPlayer();
+    let uni = "";
+    switch(stat.city) {
+    case "Aevum":
+        uni = "Summit University";
+        break;
+    case "Sector-12":
+        uni = "Rothman University";
+        break;
+    case "Volhaven":
+        uni = "ZB Institute of Technology";
+        break;
+    default:
+        // Might need to handle this case more gracefully.
+        ns.tprint("No universities in " + stat.city);
+        assert(false);
+        break;
+    }
     const course = "Study Computer Science";
     const focus = true;
     assert(ns.singularity.universityCourse(uni, course, focus));
