@@ -111,6 +111,7 @@ export function all_programs() {
  * The home server of the player.
  */
 export const home = "home";
+
 /**
  * These programs are port openers.  Each program can be used to open a
  * specific port on a server.
@@ -119,10 +120,12 @@ export const program = [
     "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
     "SQLInject.exe"
 ];
+
 /**
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
+
 /**
  * These are utility programs.  They are useful when we need to manually
  * traverse the network of world servers.
