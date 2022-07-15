@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home, program, script } from "/lib/constant.js";
+import { assert } from "/lib/util.js";
+
 /**
  * A class that holds all information about a player.
  */
@@ -23,11 +26,6 @@ export class Player {
      * The name of the home server of this player.
      */
     #home;
-    /**
-     * The player's library of useful classes and functions.  Assumed to be
-     * located on the player's home server.
-     */
-    #library;
     /**
      * The Netscript API.
      */
@@ -54,14 +52,11 @@ export class Player {
      * @param ns The Netscript API.
      */
     constructor(ns) {
-        this.#home = "home";
-        this.#library = "libbnr.js";
+        this.#home = home;
         this.#ns = ns;
-        this.#port_opener = [
-            "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
-            "SQLInject.exe"];
+        this.#port_opener = Array.from(program);
         this.#program = ["DeepscanV1.exe", "DeepscanV2.exe", "NUKE.exe"];
-        this.#script = "hack.js";
+        this.#script = script;
     }
 
     /**
@@ -100,11 +95,20 @@ export class Player {
         program = program.concat(this.#program);
         assert(program.length > 0);
         for (const p of program) {
-            if (!this.#ns.fileExists(p, this.home())) {
+            if (!this.has_program(p)) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Whether we have a given program.
+     *
+     * @param p A program we want to check.
+     */
+    has_program(p) {
+        return this.#ns.fileExists(p, this.home());
     }
 
     /**
@@ -115,16 +119,9 @@ export class Player {
     }
 
     /**
-     * The name of the player's library of utility classes and functions.
-     */
-    library() {
-        return this.#library;
-    }
-
-    /**
      * The amount of money available to this player.
      */
-    money_available() {
+    money() {
         return this.#ns.getServerMoneyAvailable(this.home());
     }
 
