@@ -21,9 +21,10 @@ import {
     owned_augmentations, purchase_augmentations
 } from "/lib/singularity.augmentation.js";
 import {
-    join_faction, raise_hack, work_for_faction
+    join_faction, raise_combat_stats, raise_hack, work_for_faction
 } from "/lib/singularity.faction.js";
 import { work } from "/lib/singularity.work.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Join the endgame faction Daedalus.  The requirements for receiving an
