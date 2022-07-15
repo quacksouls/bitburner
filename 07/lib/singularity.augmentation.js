@@ -20,6 +20,7 @@
 import { all_factions, home, work_hack_lvl } from "/lib/constant.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
+import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
