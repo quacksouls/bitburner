@@ -39,6 +39,9 @@ async function choose_faction(ns) {
             break;
         }
     }
+    if ("" == faction) {
+        return;
+    }
     // Join a faction.
     assert(faction.length > 0);
     let script = "";
@@ -139,7 +142,7 @@ async function choose_faction(ns) {
     default:
         break;
     }
-    assert(script.length > 0);
+    assert(script != "");
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
 }
