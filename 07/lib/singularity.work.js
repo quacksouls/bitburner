@@ -20,11 +20,14 @@
 import { home, work_hack_lvl } from "/lib/constant.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Choose the field of work.  Either "Business" or "Software".
+ *
+ * @param ns The Netscript API.
  */
-function choose_field() {
+function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
     const stat = ns.getPlayer();
     if (stat.charisma < charisma_lvl) {
@@ -52,7 +55,7 @@ export async function work(ns, threshold) {
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
     const company = "MegaCorp";
-    const field = choose_field();
+    const field = choose_field(ns);
     const focus = true;
     ns.singularity.applyToCompany(company, field);
     const t = new Time();
@@ -85,7 +88,7 @@ export async function work_for_company(ns, company, rep) {
     // Work for the company until we have accumulated the given amount of
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
-    const field = choose_field();
+    const field = choose_field(ns);
     const focus = true;
     ns.singularity.applyToCompany(company, field);
     const t = new Time();
@@ -96,5 +99,5 @@ export async function work_for_company(ns, company, rep) {
         ns.singularity.applyToCompany(company, field);
     }
     ns.singularity.stopAction();
-    ns.singularity.quitJob();
+    ns.singularity.quitJob(company);
 }
