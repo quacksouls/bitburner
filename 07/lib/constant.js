@@ -19,6 +19,16 @@
 // constants.
 
 /**
+ * All cities in the game world.
+ */
+export function all_cities() {
+    const city = [
+        "Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12", "Volhaven"
+    ];
+    return city;
+}
+
+/**
  * All available crimes.
  */
 export function all_crimes() {
