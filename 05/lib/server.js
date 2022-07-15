@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home, script } from "/lib/constant.js";
+import { assert } from "/lib/util.js";
+
 /**
  * A server class that holds all information about a server, whether it be
  * a purchased server or a server found on the network in the game world.
@@ -24,6 +27,10 @@ export class Server {
      * The amount of Hack stat required to hack this server.
      */
     #hacking_skill;
+    /**
+     * The player's home server.
+     */
+    #home;
     /**
      * The hostname of this server.
      */
@@ -42,16 +49,16 @@ export class Server {
      */
     #ns;
     /**
-     * The maximum amount of RAM (in GB) on this server.
-     */
-    #ram_max;
-    /**
      * Reserve this amount of RAM.  We want the server to always have at least
      * this amount of RAM available.  The reserve RAM is important especially
      * if this is the player's home server.  We want to have a minimum amount
      * of RAM on the home server for various purposes.
      */
     #ram_reserve;
+    /**
+     * The player's main hacking script.
+     */
+    #script;
     /**
      * The minimum security level to which this server can be weaked.
      */
@@ -66,20 +73,40 @@ export class Server {
      *     the network in the game world.
      */
     constructor(ns, hostname) {
+        assert(hostname.length > 0);
         const server = ns.getServer(hostname);
         this.#hacking_skill = server.requiredHackingSkill;
+        this.#home = home;
         this.#hostname = server.hostname;
         this.#money_max = server.moneyMax;
         this.#n_ports_required = server.numOpenPortsRequired;
         this.#ns = ns;
-        this.#ram_max = server.maxRam;
+        this.#script = script;
         this.#security_min = server.minDifficulty;
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
-        const player = new Player(ns);
-        if (this.hostname() == player.home()) {
-            this.#ram_reserve = 50;
+        if (this.hostname() == this.#home) {
+            // By default, we reserve 50GB RAM on the player's home server.  If
+            // the home server has less than this amount of RAM, we do not
+            // reserve any RAM at all.
+            const default_ram = 50;
+            this.#ram_reserve = default_ram;
+            // Reserve a higher amount of RAM, depending on the maximum RAM on
+            // the home server.
+            if (this.ram_max() >= 4096) {
+                this.#ram_reserve = 2048;
+            } else if (this.ram_max() >= 2048) {
+                this.#ram_reserve = 1024;
+            } else if (this.ram_max() >= 1024) {
+                this.#ram_reserve = 500;
+            } else if (this.ram_max() >= 512) {
+                this.#ram_reserve = 200;
+            } else if (this.ram_max() >= 256) {
+                this.#ram_reserve = 100;
+            } else if (this.ram_max() < default_ram) {
+                this.#ram_reserve = 0;
+            }
         }
     }
 
@@ -92,10 +119,77 @@ export class Server {
     }
 
     /**
+     * Whether the server has enough RAM to run a given script, using at
+     * least one thread.  We ignore any amount of RAM that has been reserved,
+     * using all available RAM to help us make a decision.
+     *
+     * @param script We want to run this script on this server.
+     * @return true if the given script can be run on this server;
+     *     false otherwise.
+     */
+    can_run_script(script) {
+        const CAN_RUN = true;
+        const CANNOT_RUN = !CAN_RUN;
+        const script_ram = this.#ns.getScriptRam(script, this.#home);
+        const server_ram = this.available_ram();
+        if (server_ram < 1) {
+            return CANNOT_RUN;
+        }
+        const nthread = Math.floor(server_ram / script_ram);
+        if (nthread < 1) {
+            return CANNOT_RUN;
+        }
+        return CAN_RUN;
+    }
+
+    /**
+     * Copy our hack script over to this server.  Run the hack script on this
+     * server.
+     *
+     * @param target We run our hack script against this target server.
+     * @return true if our hack script is running on the server using at least
+     *     one thread; false otherwise, e.g. no free RAM on the server or we
+     *     do not have root access on either servers.
+     */
+    async deploy(target) {
+        assert(target.length > 0);
+        const SUCCESS = true;
+        const FAILURE = !SUCCESS;
+        const targ = this.#ns.getServer(target);
+        // No root access on either servers.
+        if (!this.has_root_access()) {
+            this.#ns.tprint("No root access on " + this.hostname());
+            return FAILURE;
+        }
+        if (!targ.hasAdminRights) {
+            this.#ns.tprint("No root access on " + targ.hostname);
+            return FAILURE;
+        }
+        // Hack script not found on our home server.
+        if (!this.#ns.fileExists(this.#script, this.#home)) {
+            this.#ns.tprint("Hack script not found on server " + this.#home);
+            return FAILURE;
+        }
+        // No free RAM on server to run our hack script.
+        const nthread = this.num_threads(this.#script);
+        if (nthread < 1) {
+            this.#ns.tprint("No free RAM on server " + this.hostname());
+            return FAILURE;
+        }
+        // Copy our script over to this server.  Use the server to hack the
+        // target.
+        await this.#ns.scp(this.#script, this.#home, this.hostname());
+        this.#ns.exec(
+            this.#script, this.hostname(), nthread, targ.hostname
+        );
+        return SUCCESS;
+    }
+
+    /**
      * Try to gain root access on this server.
      *
-     * @return true if the player has root access to this server; false if
-     *     root access cannot be obtained.
+     * @return true if the player has root access to this server;
+     *     false if root access cannot be obtained.
      */
     async gain_root_access() {
         // Do we already have root access to this server?
@@ -167,10 +261,7 @@ export class Server {
      */
     is_bankrupt() {
         const max_money = Math.floor(this.money_max());
-        if (0 == max_money) {
-            return true;
-        }
-        return false;
+        return 0 == max_money;
     }
 
     /**
@@ -221,8 +312,7 @@ export class Server {
      *     than the available RAM.
      */
     num_threads(script) {
-        const player = new Player(this.#ns);
-        const script_ram = this.#ns.getScriptRam(script, player.home());
+        const script_ram = this.#ns.getScriptRam(script, this.#home);
         const server_ram = this.available_ram() - this.#ram_reserve;
         if (server_ram < 1) {
             return 0;
@@ -235,7 +325,8 @@ export class Server {
      * The maximum amount of RAM (GB) of this server.
      */
     ram_max() {
-        return this.#ram_max;
+        const serv = this.#ns.getServer(this.hostname());
+        return serv.maxRam;
     }
 
     /**
