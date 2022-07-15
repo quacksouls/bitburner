@@ -22,6 +22,7 @@ import { lower_karma } from "/lib/singularity.crime.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
 } from "/lib/singularity.faction.js";
+import { visit_city } from "/lib/singularity.network.js";
 import { raise_charisma, rise_to_cfo, work } from "/lib/singularity.work.js";
 import { assert } from "/lib/util.js";
 
@@ -152,7 +153,7 @@ async function tetrads(ns) {
     const threshold = 75;
     await raise_combat_stats(ns, threshold);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    await visit_city(ns, city);
+    await visit_city(ns, "Ishima");
     const faction = "Tetrads";
     const work_type = "Field Work";
     await join_faction(ns, faction);
