@@ -23,6 +23,7 @@ import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
 } from "/lib/singularity.faction.js";
 import { raise_charisma, rise_to_cfo, work } from "/lib/singularity.work.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Join the Silhouette criminal organization.  The requirements for receiving
