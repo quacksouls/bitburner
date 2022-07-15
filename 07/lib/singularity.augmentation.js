@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { all_factions, home } from "/lib/constant.js";
+import { all_factions, home, work_hack_lvl } from "/lib/constant.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
 import { assert } from "/lib/util.js";
@@ -232,13 +232,12 @@ export async function purchase_augmentations(ns, fac) {
  */
 async function purchase_aug(ns, aug, cost, fac) {
     let success = false;
-    const hack_lvl = 250;
     const t = new Time();
     const time = t.second();
     while (!success) {
         assert(!has_augmentation(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
-            if (ns.getHackingLevel() < hack_lvl) {
+            if (ns.getHackingLevel() < work_hack_lvl) {
                 await commit_crime(ns, cost);
             } else {
                 await work(ns, cost);
