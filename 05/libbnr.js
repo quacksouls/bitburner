@@ -22,62 +22,6 @@
 /****************************************************************************/
 
 /**
- * Copy our hack and library scripts over to a server and run the hack script
- * on the server.
- *
- * @param ns The Netscript API.
- * @param server Copy our hack and library scripts to this server.  Run our
- *     hack script on this server.
- * @param target We run our hack script against this target server.
- * @return true if our hack script is running on the server using at least one
- *     thread; false otherwise, e.g. no free RAM on the server or we don't have
- *     root access on either servers.
- */
-export async function copy_and_run(ns, server, target) {
-    // Succeed at copying and/or running the hacking script.
-    const SUCCESS = true;
-    // Fail to copy and/or run the hacking script.
-    const FAILURE = !SUCCESS;
-    const player = new Player(ns);
-    const serv = new Server(ns, server);
-    const targ = new Server(ns, target);
-
-    // Sanity checks.
-    // No root access on either servers.
-    if (!serv.has_root_access()) {
-        await ns.tprint("No root access on server: " + server);
-        return FAILURE;
-    }
-    if (!targ.has_root_access()) {
-        await ns.tprint("No root access on server: " + target);
-        return FAILURE;
-    }
-    // Hack and library scripts not found on our home server.
-    if (!ns.fileExists(player.script(), player.home())) {
-        const msg = "File " + player.script() + " not found on " + player.home();
-        await ns.tprint(msg);
-        return FAILURE;
-    }
-    if (!ns.fileExists(player.library(), player.home())) {
-        const msg = "File " + player.library() + " not found on " + player.home();
-        await ns.tprint(msg);
-        return FAILURE;
-    }
-    // No free RAM on server to run our hack script.
-    const nthread = serv.num_threads(player.script());
-    if (nthread < 1) {
-        await ns.tprint("No free RAM on server: " + server);
-        return FAILURE;
-    }
-
-    // Copy our scripts over to a server.  Use the server to hack a target.
-    await ns.scp(player.script(), player.home(), server);
-    await ns.scp(player.library(), player.home(), server);
-    await ns.exec(player.script(), server, nthread, target);
-    return SUCCESS;
-}
-
-/**
  * Use Dijkstra's algorithm to determine the shortest path from a given node
  * to all nodes in a network.
  *
