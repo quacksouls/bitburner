@@ -20,6 +20,7 @@
 import { shortest_path } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
+import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
