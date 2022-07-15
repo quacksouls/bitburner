@@ -18,6 +18,7 @@
 // Miscellaneous helper functions related to work.
 
 import { home, work_hack_lvl } from "/lib/constant.js";
+import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 
 /**
@@ -64,4 +65,36 @@ export async function work(ns, threshold) {
     }
     ns.singularity.stopAction();
     ns.singularity.quitJob(company);
+}
+
+/**
+ * Work for a company.  Stop working when we have accumulated a given amount
+ * of reputation points.
+ *
+ * @param ns The Netscript API.
+ * @param company We want to work for this company.
+ * @param rep Work for the company until we have at least this amount of
+ *     reputation points.
+ */
+export async function work_for_company(ns, company, rep) {
+    // Ensure we have the minimum Hack stat.
+    if (ns.getHackingLevel() < work_hack_lvl) {
+        await study(ns, work_hack_lvl);
+    }
+    assert(ns.getHackingLevel() >= work_hack_lvl);
+    // Work for the company until we have accumulated the given amount of
+    // reputation points.  Occasionally apply for a promotion to earn even
+    // more reputation points per second.
+    const field = choose_field();
+    const focus = true;
+    ns.singularity.applyToCompany(company, field);
+    const t = new Time();
+    const time = t.minute();
+    while (ns.singularity.getCompanyRep(company) < rep) {
+        ns.singularity.workForCompany(company, focus);
+        await ns.sleep(time);
+        ns.singularity.applyToCompany(company, field);
+    }
+    ns.singularity.stopAction();
+    ns.singularity.quitJob();
 }
