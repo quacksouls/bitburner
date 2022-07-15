@@ -45,6 +45,8 @@ function choose_field(ns) {
  *     threshold.
  */
 export async function work(ns, threshold) {
+    const stat = ns.getPlayer();
+    assert("Sector-12" == stat.city);
     let money = ns.getServerMoneyAvailable(home);
     if (money >= threshold) {
         return;
