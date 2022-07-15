@@ -21,6 +21,18 @@ import { home, work_hack_lvl } from "/lib/constant.js";
 import { Time } from "/lib/time.js";
 
 /**
+ * Choose the field of work.  Either "Business" or "Software".
+ */
+function choose_field() {
+    const charisma_lvl = work_hack_lvl;
+    const stat = ns.getPlayer();
+    if (stat.charisma < charisma_lvl) {
+        return "Software";
+    }
+    return "Business";
+}
+
+/**
  * Work to boost our income.  Stop working when we have accumulated a given
  * amount of money.
  *
@@ -33,18 +45,13 @@ export async function work(ns, threshold) {
     if (money >= threshold) {
         return;
     }
-    const charisma_lvl = work_hack_lvl;
     assert(ns.getHackingLevel() >= work_hack_lvl);
     // Work for a company until our money is at least the given threshold.
     // Every once in a while, apply for a promotion to earn more money per
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
     const company = "MegaCorp";
-    let field = "Business";
-    const stat = ns.getPlayer();
-    if (stat.charisma < charisma_lvl) {
-        field = "Software";
-    }
+    const field = choose_field();
     const focus = true;
     ns.singularity.applyToCompany(company, field);
     const t = new Time();
