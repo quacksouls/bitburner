@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_cities, work_hack_lvl } from "/lib/constant.js";
+import { all_cities, home, work_hack_lvl } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
 import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
@@ -126,4 +126,8 @@ export async function main(ns) {
     }
     assert(money > 0);
     await city_faction(ns, faction, money);
+    // The next script in the load chain.
+    const script = "/singularity/home.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }

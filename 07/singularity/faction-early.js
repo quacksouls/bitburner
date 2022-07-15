@@ -194,4 +194,9 @@ export async function main(ns) {
     default:
         break;
     }
+    // The next script in the load chain.
+    const player = new Player(ns);
+    const script = "/singularity/home.js";
+    const nthread = 1;
+    ns.exec(script, player.home(), nthread);
 }

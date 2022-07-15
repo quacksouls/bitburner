@@ -102,4 +102,9 @@ export async function main(ns) {
     }
     assert(server.length > 0);
     await hacking_group(ns, faction, server);
+    // The next script in the load chain.
+    const player = new Player(ns);
+    const script = "/singularity/home.js";
+    const nthread = 1;
+    ns.exec(script, player.home(), nthread);
 }
