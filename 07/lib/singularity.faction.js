@@ -70,6 +70,75 @@ export async function join_faction(ns, fac) {
 }
 
 /**
+ * Raise each of our combat stats to a given level.  An easy way to raise our
+ * combat stats is to join a faction and carry out field work for the faction.
+ *
+ * @param ns The Netscript API.
+ * @param threshold Each of our combat stats should be raised to at least this
+ *     value.  Must be a positive integer.
+ */
+export async function raise_combat_stats(ns, threshold) {
+    assert(threshold > 0);
+    // Join a faction.
+    const player = new Player(ns);
+    const joined_faction = player.faction();
+    assert("Sector-12" == player.city());
+    const target = "MegaCorp";
+    if (!joined_faction.includes(target)) {
+        await await_invitation(ns, target);
+        ns.singularity.joinFaction(target);
+    }
+    // Perform field work for the faction.
+    const work_type = "Field Work";
+    const focus = true;
+    const t = new Time();
+    const time = t.minute();
+    while (
+        (player.strength() < threshold)
+            || (player.defense() < threshold)
+            || (player.dexterity() < threshold)
+            || (player.agility() < threshold)
+    ) {
+        ns.singularity.workForFaction(target, work_type, focus);
+        await ns.sleep(time);
+    }
+    ns.singularity.stopAction();
+}
+
+/**
+ * Raise our Hack stat.  Stop when our Hack stat is at least a given level.
+ *
+ * @param ns The Netscript API.
+ * @param threshold We want our Hack stat to be at least this level.  Must be a
+ *     positive integer.
+ */
+export async function raise_hack(ns, threshold) {
+    assert(threshold > 0);
+    const player = new Player(ns);
+    if (player.hacking_skill() >= threshold) {
+        return;
+    }
+    // Join a faction.
+    const joined_faction = player.faction();
+    assert("Sector-12" == player.city());
+    const target = "MegaCorp";
+    if (!joined_faction.includes(target)) {
+        await await_invitation(ns, target);
+        ns.singularity.joinFaction(target);
+    }
+    // Carry out field work for the faction.
+    const work_type = "Field Work";
+    const focus = true;
+    const t = new Time();
+    const time = t.minute();
+    while (player.hacking_skill() < threshold) {
+        ns.singularity.workForFaction(target, work_type, focus);
+        await ns.sleep(time);
+    }
+    ns.singularity.stopAction();
+}
+
+/**
  * The total amount of reputation points we need to earn in order to purchase
  * all Augmentations from a faction.
  *

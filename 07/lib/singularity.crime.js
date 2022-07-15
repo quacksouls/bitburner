@@ -18,6 +18,7 @@
 // Miscellaneous helper functions related to crime.
 
 import { home } from "/lib/constant.js";
+import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -41,4 +42,56 @@ export async function commit_crime(ns, threshold) {
         money = ns.getServerMoneyAvailable(home);
     }
     ns.singularity.stopAction();
+}
+
+/**
+ * Accumulate negative karma.  Stop when our negative karma is at or lower than
+ * a given threshold.
+ *
+ * @param ns The Netscript API.
+ * @param threshold We want our negative karma to be at or lower than this
+ *     threshold.  Must be a negative integer.
+ * @param crime The crime we must carry out to lower our karma.
+ *     Either "shoplift" or "homicide".
+ * @param nkill If crime := "homicide", then we must also provide the target
+ *     number of people to kill.  Pass in 0 if the crime is not homicide.  Must
+ *     be a non-negative integer.
+ */
+export async function lower_karma(ns, threshold, crime, nkill) {
+    // Sanity checks.
+    assert(threshold < 0);
+    assert(("shoplift" == crime) || ("homicide" == crime));
+    assert(nkill >= 0);
+    // Shoplift.  Use the ceiling function to convert the karma value to an
+    // integer.  It is safer to compare integers than it is to compare floating
+    // point numbers.
+    const t = new Time();
+    const time = t.second();
+    const player = new Player(ns);
+    if ("shoplift" == crime) {
+        while (Math.ceil(player.karma()) > threshold) {
+            ns.singularity.commitCrime(crime);
+            while (ns.singularity.isBusy()) {
+                await ns.sleep(time);
+            }
+        }
+        assert(Math.ceil(player.karma()) < 0);
+        assert(Math.ceil(player.karma()) <= threshold);
+        return;
+    }
+    // Homicide.
+    assert("homicide" == crime);
+    assert(nkill > 0);
+    while (
+        (Math.ceil(player.karma()) > threshold)
+            || (player.nkill() < nkill)
+    ) {
+        ns.singularity.commitCrime(crime);
+        while (ns.singularity.isBusy()) {
+            await ns.sleep(time);
+        }
+    }
+    assert(Math.ceil(player.karma()) < 0);
+    assert(Math.ceil(player.karma()) <= threshold);
+    assert(player.nkill() >= nkill);
 }

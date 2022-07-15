@@ -18,6 +18,7 @@
 // Miscellaneous helper functions related to work.
 
 import { home, work_hack_lvl } from "/lib/constant.js";
+import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -34,6 +35,72 @@ function choose_field(ns) {
         return "Software";
     }
     return "Business";
+}
+
+/**
+ * Work for a company to raise our Charisma to a given amount.
+ *
+ * @param ns The Netscript API.
+ * @param hack_lvl The minimum amount of Hack we must have.
+ * @param threshold Continue working until our Charisma is at this level or
+ *     higher.  Assume to be a positive integer.
+ */
+export async function raise_charisma(ns, hack_lvl, threshold) {
+    // Sanity checks.
+    const player = new Player(ns);
+    if (player.charisma() >= threshold) {
+        return;
+    }
+    assert("Sector-12" == player.city());
+    assert(threshold > 0);
+    // Ensure we have the minimum Hack stat.
+    if (player.hacking_skill() < hack_lvl) {
+        await study(ns, hack_lvl);
+    }
+    assert(player.hacking_skill() >= hack_lvl);
+    // Work for a company as a software engineer until we have accumulated the
+    // given amount of Charisma level.
+    const company = "MegaCorp";
+    const field = "Software";
+    const focus = true;
+    ns.singularity.applyToCompany(company, field);
+    const t = new Time();
+    const time = t.minute();
+    while (player.charisma() < threshold) {
+        ns.singularity.workForCompany(company, focus);
+        await ns.sleep(time);
+        ns.singularity.applyToCompany(company, field);
+    }
+    ns.singularity.stopAction();
+    ns.singularity.quitJob(company);
+}
+
+/**
+ * Work at a company and rise to the position of Chief Financial Officer.
+ *
+ * @param ns The Netscript API.
+ * @param company We want to work for this company.
+ */
+export async function rise_to_cfo(ns, company) {
+    // Ensure we have the minimum Hack and Charisma stats.
+    const player = new Player(ns);
+    const charisma_lvl = work_hack_lvl;
+    assert(player.hacking_skill() >= work_hack_lvl);
+    assert(player.charisma() >= charisma_lvl);
+    // Work for the company in a business position.  Once in a while, apply for
+    // a promotion until we reach the position of Chief Financial Officer.
+    const field = "Business";
+    const focus = true;
+    const target_job = "Chief Financial Officer";
+    ns.singularity.applyToCompany(company, field);
+    const t = new Time();
+    const time = t.minute();
+    while (player.job(company) != target_job) {
+        ns.singularity.workForCompany(company, focus);
+        await ns.sleep(time);
+        ns.singularity.applyToCompany(company, field);
+    }
+    ns.singularity.stopAction();
 }
 
 /**
