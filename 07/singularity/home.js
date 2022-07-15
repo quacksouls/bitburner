@@ -66,7 +66,7 @@ function core_limit() {
  * largest amount of RAM the home server can have.
  */
 function ram_limit() {
-    const limit = 33554432;
+    const limit = 4194304;
     return limit;
 }
 
