@@ -395,73 +395,6 @@ export class Server {
 /****************************************************************************/
 
 /**
- * A function for assertion.
- *
- * @param cond Assert that this condition is true.
- * @return Throw an assertion error if the given condition is false.
- */
-export function assert(cond) {
-    if (!cond) {
-        throw new Error("Assertion failed.");
-    }
-}
-
-/**
- * Determine the best server to hack.  The definition of "best" is subjective.
- * However, at the moment the "best" server is the one that requires the
- * highest hacking skill.
- *
- * @param ns The Netscript API.
- * @param candidate Choose from among the servers in this array.
- * @return The best server to hack.
- */
-export function choose_best_server(ns, candidate) {
-    assert(candidate.length > 0);
-    let best = new Server(ns, candidate[0]);
-    for (const s of candidate) {
-        const serv = new Server(ns, s);
-        if (best.hacking_skill() < serv.hacking_skill()) {
-            best = serv;
-        }
-    }
-    return best.hostname();
-}
-
-/**
- * Determine a bunch of servers in the game world to hack.  A target server is
- * chosen based on these criteria:
- *
- *     (1) We meet the hacking skill requirement of the server.
- *     (2) We can open all ports required to gain root access to the server.
- *
- * @param ns The Netscript API.
- * @param candidate Use this array to search for targets to hack.
- * @return An array of target servers.
- */
-export function choose_targets(ns, candidate) {
-    // Sanity check.
-    assert(candidate.length > 0);
-
-    const player = new Player(ns);
-    const nport = player.num_ports();
-    let target = new Array();
-    for (const s of candidate) {
-        const server = new Server(ns, s);
-        // Do we have the minimum hacking skill required?
-        if (player.hacking_skill() < server.hacking_skill()) {
-            continue;
-        }
-        // Can we open all required ports?
-        if (server.num_ports_required() > nport) {
-            continue;
-        }
-        // We have found a target server.
-        target.push(s);
-    }
-    return target;
-}
-
-/**
  * Copy our hack and library scripts over to a server and run the hack script
  * on the server.
  *
@@ -571,48 +504,6 @@ function dijkstra(ns, source) {
         }
     }
     return [dist, prev];
-}
-
-/**
- * Remove bankrupt servers from a given array of servers.  A server is bankrupt
- * if the maximum amount of money it can hold is zero.
- *
- * @param ns The Netscript API.
- * @param candidate An array of servers to filter.
- * @return An array of servers, each of which is not bankrupt.
- */
-export function filter_bankrupt_servers(ns, candidate) {
-    assert(candidate.length > 0);
-    return candidate.filter(s => !is_bankrupt(ns, s));
-}
-
-/**
- * Exclude the purchased servers.
- *
- * @param ns The Netscript API.
- * @param server An array of server names.
- * @return An array of servers, but minus the purchased servers.
- */
-export function filter_pserv(ns, server) {
-    // All purchased servers.
-    const player = new Player(ns);
-    const pserv = new Set(player.pserv());
-    // Filter out the purchased servers.
-    const serv = Array.from(server);
-    return serv.filter(s => !pserv.has(s));
-}
-
-/**
- * Whether a server is bankrupt.  A server is bankrupt if the maximum amount
- * of money it can hold is zero.
- *
- * @param ns The Netscript API.
- * @param s Test this server for bankruptcy.
- * @return true if the server is bankrupt; false otherwise.
- */
-function is_bankrupt(ns, s) {
-    const server = new Server(ns, s);
-    return server.is_bankrupt();
 }
 
 /**
