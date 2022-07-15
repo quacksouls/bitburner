@@ -99,20 +99,6 @@ function minimumq(queue, dist) {
 }
 
 /**
- * Convert the amount of time in minutes to milliseconds.
- *
- * @param time The amount of time in minutes.  Must be a positive whole number.
- * @return The given amount of time in milliseconds.
- */
-export function minutes_to_milliseconds(time) {
-    const n = Math.floor(time);
-    assert(n > 0);
-    const second = 1000;         // 1,000 milliseconds in 1 second.
-    const minute = 60 * second;  // 60 seconds in 1 minute.
-    return n * minute;
-}
-
-/**
  * Scan the network of servers in the game world.  Each server must be reachable
  * from our home server.
  *
@@ -147,19 +133,6 @@ export function network(ns) {
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
     return server.filter(s => root != s);
-}
-
-/**
- * Convert the amount of time in seconds to milliseconds.
- *
- * @param time The amount of time in seconds.  Must be a positive whole number.
- * @return The given amount of time in milliseconds.
- */
-export function seconds_to_milliseconds(time) {
-    const n = Math.floor(time);
-    assert(n > 0);
-    const second = 1000;  // 1,000 milliseconds in 1 second.
-    return n * second;
 }
 
 /**
