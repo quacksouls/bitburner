@@ -1,4 +1,4 @@
-= Purpose of this directory
+# Purpose of this directory
 1. Retain functionalities of previous directories.
 1. Use the Singularity API to automate most aspects of the game.  To know
    whether or not you have access to the Singularity API, click on the tab
