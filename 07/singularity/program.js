@@ -15,9 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    all_programs, home, program as popen, utility_program as utilp
-} from "/lib/constant.js";
+import { all_programs, home, program as popen } from "/lib/constant.js";
 import { work } from "/lib/singularity.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -39,7 +37,6 @@ async function buy_all_programs(ns) {
     }
     // Purchase all remaining programs.
     await buy_programs(ns, popen);
-    await buy_programs(ns, utilp);
 }
 
 /**
