@@ -244,8 +244,8 @@ async function purchase_aug(ns, aug, cost, fac) {
                 await work(ns, cost);
             }
         }
-        success = ns.singularity.purchaseAugmentation(fac, aug);
         await ns.sleep(time);
+        success = ns.singularity.purchaseAugmentation(fac, aug);
     }
     assert(has_augmentation(ns, aug));
 }
