@@ -45,11 +45,13 @@ function hacknet_nodes(ns) {
  */
 function is_fully_upgraded(ns) {
     const farm = hacknet_nodes(ns);
+    const MAXED_OUT = true;
+    const NOT_MAXED_OUT = !MAXED_OUT;
+    // These constants are taken from the source file
+    // https://github.com/danielyxie/bitburner/blob/826357e8b8c4a071ba616e2941d7f563b12a4523/src/Hacknet/data/Constants.ts
     const max_core = 16;
     const max_level = 200;
     const max_ram = 64;
-    const MAXED_OUT = true;
-    const NOT_MAXED_OUT = !MAXED_OUT;
     // Iterate through each node of our Hacknet farm.
     for (const node of farm) {
         const stat = ns.hacknet.getNodeStats(node);
