@@ -20,7 +20,7 @@ import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
 import { commit_crime } from "/lib/singularity.crime.js";
-import { join_faction } from "/lib/singularity.faction.js";
+import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
 import { visit_city } from "/lib/singularity.network.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { work } from "/lib/singularity.work.js";
