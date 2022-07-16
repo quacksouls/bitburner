@@ -152,6 +152,7 @@ function is_valid_program(name) {
  */
 export async function main(ns) {
     // Suppress various log messages.
+    ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
 
