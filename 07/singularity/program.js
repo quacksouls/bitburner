@@ -56,14 +56,12 @@ async function buy_programs(ns, program) {
     // Purchase the remaining programs.
     const t = new Time();
     const time = t.second();
-    const company = "MegaCorp";
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
         while (ns.getServerMoneyAvailable(home) < cost) {
-            await work(ns, company);
+            await work(ns, cost);
             await ns.sleep(time);
         }
-        ns.singularity.quitJob(company);
         assert(ns.singularity.purchaseProgram(p));
         prog = prog.filter(e => e != p);
     }
