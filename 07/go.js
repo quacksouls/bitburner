@@ -37,7 +37,7 @@ export async function main(ns) {
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     const mid_ram = 256;
-    const high_ram = 2048;
+    const high_ram = 512;
     const server = ns.getServer(home);
     const nthread = 1;
     let script = "";

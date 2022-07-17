@@ -50,9 +50,7 @@ function singularity_scripts(ns) {
 }
 
 /**
- * NOTE: This script requires an upgraded home server to run successfully. The
- * reason is that it will run various other scripts, each of which requires
- * RAM.  Our home server should have at least 2048GB RAM.
+ * NOTE: Assume our home server to have at least 512GB RAM.
  *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
