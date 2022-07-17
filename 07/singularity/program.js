@@ -16,7 +16,7 @@
  */
 
 import { all_programs, home, program as popen } from "/lib/constant.js";
-import { work } from "/lib/singularity.js";
+import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

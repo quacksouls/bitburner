@@ -17,7 +17,7 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { work } from "/lib/singularity.js";
+import { work } from "/lib/singularity.work.js";
 import { assert } from "/lib/util.js";
 
 /**
