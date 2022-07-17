@@ -22,6 +22,7 @@ import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
 import { install_backdoor } from "/lib/singularity.network.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Join a hacking group.  The requirement for receiving an invitation is to
