@@ -112,6 +112,7 @@ export async function rise_to_cfo(ns, company) {
  *     threshold.
  */
 export async function work(ns, threshold) {
+    assert(threshold > 0);
     const stat = ns.getPlayer();
     assert("Sector-12" == stat.city);
     let money = ns.getServerMoneyAvailable(home);
