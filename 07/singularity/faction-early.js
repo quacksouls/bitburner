@@ -16,6 +16,7 @@
  */
 
 import { work_hack_lvl } from "/lib/constant.js";
+import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
