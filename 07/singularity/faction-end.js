@@ -30,7 +30,16 @@ import { assert } from "/lib/util.js";
  * Join the endgame faction Daedalus.  The requirements for receiving an
  * invitation:
  *
- * (1) Must have installed at least 30 Augmentations.
+ * (1) Must have installed at least 30 Augmentations.  This number might vary
+ *     and we should not hard code it in this function.  The relevant property
+ *     is available at
+ *
+ *     https://github.com/danielyxie/bitburner/blob/dev/markdown/bitburner.bitnodemultipliers.daedalusaugsrequirement.md
+ *
+ *     which can be accessed via the getBitNodeMultipliers() function.  The
+ *     function is available after the destruction of
+ *     "BitNode-5: Artificial Intelligence".
+ *
  * (2) Have at least $100b.
  * (3) Either of the following:
  *     (a) At least 2,500 Hack; or
