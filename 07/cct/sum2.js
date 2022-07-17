@@ -43,7 +43,7 @@ function coin_change(n, denom) {
     }
     const np = Math.floor(partition(n, denomination.length, denomination));
     const base = 10;
-    return parseInt(np, base);
+    return parseInt(np.toString(), base);
 }
 
 /**
