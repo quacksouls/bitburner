@@ -121,6 +121,23 @@ function nfg() {
 }
 
 /**
+ * The number of Augmentations we have purchased.  This number only includes
+ * those that have been bought and not yet installed.
+ *
+ * @param ns The Netscript API.
+ * @return How many Augmentations we have bought and yet to install.
+ */
+function num_augmentations(ns) {
+    const purchased = true;
+    const no_purchased = !purchased;
+    const owned_aug = ns.singularity.getOwnedAugmentations(no_purchased);
+    const owned_bought_aug = ns.singularity.getOwnedAugmentations(purchased);
+    assert(owned_bought_aug.length >= owned_aug.length);
+    const npurchase = owned_bought_aug.length - owned_aug.length;
+    return npurchase;
+}
+
+/**
  * All Augmentations we own and have already installed.
  *
  * @param ns The Netscript API.
@@ -175,6 +192,8 @@ export async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
     const augment = augmentations_to_buy(ns, fac);
     assert(augment.size > 0);
+    // Limit our purchases to this many Augmentations.
+    const max_aug = 5;
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
@@ -184,6 +203,9 @@ export async function purchase_augmentations(ns, fac) {
     assert(augment.has(nfg()));
     assert(augment.delete(nfg()));
     while (augment.size > 0) {
+        if (num_augmentations(ns) >= max_aug) {
+            break;
+        }
         // Choose the most expensive Augmentation.
         const [aug, cost] = choose_augmentation(augment);
         if (has_augmentation(ns, aug)) {
