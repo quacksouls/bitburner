@@ -148,7 +148,7 @@ export function owned_augmentations(ns) {
  *     we have already purchased all of its pre-requisites.
  */
 function prerequisites(ns, aug) {
-    assert(!has_augmentation(ns, aug));
+    assert("" != aug);
     const augment = new Map();
     const prereq = ns.singularity.getAugmentationPrereq(aug);
     if (0 == prereq.length) {
@@ -232,6 +232,15 @@ export async function purchase_augmentations(ns, fac) {
  * @param fac We want to purchase the given Augmentation from this faction.
  */
 async function purchase_aug(ns, aug, cost, fac) {
+    // Purchase any pre-requisites first.
+    const prereq = prerequisites(ns, aug);
+    while (prereq.size > 0) {
+        const [pre, price] = choose_augmentation(prereq);
+        await purchase_aug(ns, pre, price, fac);
+        assert(prereq.delete(pre));
+    }
+    // Having purchased all pre-requisites of an Augmentation, now purchase
+    // the Augmentation.
     let success = false;
     const t = new Time();
     const time = t.second();
