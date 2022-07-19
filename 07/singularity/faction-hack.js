@@ -79,6 +79,8 @@ async function hacking_group(ns, fac, target) {
  */
 export async function main(ns) {
     // Less verbose log.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("scan");
     ns.disableLog("sleep");
     // Join the appropriate faction.
     const faction = ns.args[0];
