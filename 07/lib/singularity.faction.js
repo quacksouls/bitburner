@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions related to factions.
 
-import { all_factions } from "/lib/constant.js";
+import { all_factions, home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { owned_augmentations } from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
@@ -181,6 +181,10 @@ export async function work_for_faction(ns, fac, work_type) {
     const t = new Time();
     const time = t.minute();
     while (ns.singularity.getFactionRep(fac) < threshold) {
+        // Donate some money to the faction in exchange for reputation points.
+        const amount = Math.floor(0.2 * ns.getServerMoneyAvailable(home));
+        ns.singularity.donateToFaction(fac, amount);
+        // Work for faction to raise reputation.
         ns.singularity.workForFaction(fac, work_type, focus);
         await ns.sleep(time);
     }
