@@ -119,7 +119,9 @@ export async function work(ns, threshold) {
     if (money >= threshold) {
         return;
     }
-    assert(ns.getHackingLevel() >= work_hack_lvl);
+    if (ns.getHackingLevel() < work_hack_lvl) {
+        return;
+    }
     // Work for a company until our money is at least the given threshold.
     // Every once in a while, apply for a promotion to earn more money per
     // second.  By default, we work a business job.  However, if our Charisma
