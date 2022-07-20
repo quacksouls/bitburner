@@ -116,15 +116,16 @@ export async function main(ns) {
     await study(ns, ftp_threshold);
     await create_program(ns, ftpp);
     // By now we should have completed all actions that require the player to
-    // focus.  Launch the next script that has actions requiring the player to
-    // focus.
+    // focus.  Launch the next script to accumulate some negative karma.
     const crime_script = "/singularity/crime.js";
     const nthread = 1;
     const m = new Money();
     const threshold = 10 * m.million();
     ns.exec(crime_script, home, nthread, threshold);
-    // These scripts do not require the player to focus on an action.  It is
-    // safe to execute the scripts while another Singularity script is running.
+    // The script "/singularity/daemon.js" determines whether we should be
+    // hacking the w0r1d_d43m0n server.  It terminates if the conditions are
+    // not met for the server to appear in the game world.  The script
+    // "/singularity/program.js" attempts to purchase port opener programs.
     const script = ["/singularity/daemon.js", "/singularity/program.js"];
     for (const s of script) {
         ns.exec(s, home, nthread);
