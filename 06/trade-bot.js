@@ -31,23 +31,10 @@ function buy_stock(ns, stk) {
     if (skip_stock(ns, stk)) {
         return;
     }
-    // Try a given number of times to buy shares of a stock.  Each time we
-    // fail to purchase shares of a stock, we reduce by 10% the number of
-    // stocks we want to buy and purchase only 90% of the previous number.
-    let nshare = num_shares(ns, stk);
+    // Purchase shares of a stock.
+    const nshare = num_shares(ns, stk);
     assert(nshare > 0);
-    const ntry = 100;
-    const reduction_rate = 0.9;
-    for (let i = 0; i < ntry; i++) {
-        const result = ns.stock.buy(stk, nshare);
-        // We have successfully bought some shares of a stock.
-        if (result > 0) {
-            break;
-        }
-        // Can't buy the given number of shares of a stock.  Reduce
-        // the number of shares and try again.
-        nshare = Math.floor(nshare * reduction_rate);
-    }
+    ns.stock.buy(stk, nshare);
 }
 
 /**
@@ -60,7 +47,7 @@ function buy_stock(ns, stk) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    const multiplier = 10;
+    const multiplier = 1.1;
     if (player.money() <= multiplier * money_reserve()) {
         return false;
     }
@@ -77,10 +64,10 @@ function has_funds(ns) {
  */
 function is_profitable(ns, stk) {
     const position = ns.stock.getPosition(stk);
-    const long = position[0];
+    const nlong = position[0];
     // Assume we have at least 1 share of the stock.
-    assert(long > 0);
-    if (ns.stock.getSaleGain(stk, long, "Long") > 0) {
+    assert(nlong > 0);
+    if (ns.stock.getSaleGain(stk, nlong, "Long") > 0) {
         return true;
     }
     return false;
@@ -111,7 +98,7 @@ function meet_money_threshold(ns) {
  */
 function money_reserve() {
     const m = new Money();
-    return 100 * m.billion()
+    return 50 * m.billion();
 }
 
 /**
@@ -127,22 +114,30 @@ function num_shares(ns, stk) {
     if (!has_funds(ns)) {
         return 0;
     }
-    // The amount of money we are willing to spend to purchase shares of a
-    // stock.  If the amount is less than the spending threshold, then do not
-    // purchase any shares.
+    // The minimum amount of money we are willing to spend to purchase shares
+    // of a stock.  If the amount is less than the spending threshold, then do
+    // not purchase any shares.
     const player = new Player(ns);
     const m = new Money();
-    const spend_ratio = 0.01;
-    const spend_threshold = 10 * m.billion();
-    const funds = (player.money() - money_reserve()) * spend_ratio;
+    const spend_threshold = 5 * m.billion();
+    //const spend_ratio = 0.01;
+    //const funds = (player.money() - money_reserve()) * spend_ratio;
+    const funds = player.money() - money_reserve();
     if (funds < spend_threshold) {
+        return 0;
+    }
+    // The maximum number of shares of the stock we can buy.  This takes into
+    // account the number of shares we already own.
+    const position = ns.stock.getPosition(stk);
+    const nlong = position[0];
+    const max_share = ns.stock.getMaxShares(stk) - nlong;
+    if (max_share < 1) {
         return 0;
     }
     // Calculate how many shares of the stock we can buy.
     const price = ns.stock.getAskPrice(stk);
     const nshare = Math.floor(funds / price);
-    const max_shares = ns.stock.getMaxShares(stk);
-    return Math.min(nshare, max_shares);
+    return Math.min(nshare, max_share);
 }
 
 /**
@@ -166,9 +161,9 @@ function purchase_api_access(ns) {
  */
 function sell_stock(ns, stk) {
     const position = ns.stock.getPosition(stk);
-    const long = position[0];
+    const nlong = position[0];
     // Skip the stock if we don't have any shares of the stock.
-    if (long < 1) {
+    if (nlong < 1) {
         return;
     }
     // Sell all shares of the stock if the forecast is below the threshold.
@@ -176,7 +171,7 @@ function sell_stock(ns, stk) {
     const forecast = ns.stock.getForecast(stk);
     if (forecast < threshold) {
         if (is_profitable(ns, stk)) {
-            ns.stock.sell(stk, long);
+            ns.stock.sell(stk, nlong);
         }
     }
 }
