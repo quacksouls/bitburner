@@ -38,6 +38,35 @@ function buy_stock(ns, stk) {
 }
 
 /**
+ * Whether we have access to Stock Market data and APIs.
+ *
+ * @param ns The Netscript API.
+ * @return true if we have access to all Stock Market data and APIs;
+ *     false otherwise.
+ */
+function has_api_access(ns) {
+    const HAS_ACCESS = true;
+    const NO_ACCESS = !HAS_ACCESS;
+    let success = ns.stock.purchaseWseAccount();
+    if (!success) {
+        return NO_ACCESS;
+    }
+    success = ns.stock.purchaseTixApi();
+    if (!success) {
+        return NO_ACCESS;
+    }
+    success = ns.stock.purchase4SMarketData();
+    if (!success) {
+        return NO_ACCESS;
+    }
+    success = ns.stock.purchase4SMarketDataTixApi();
+    if (!success) {
+        return NO_ACCESS;
+    }
+    return HAS_ACCESS;
+}
+
+/**
  * Whether we have sufficient funds for puchasing stocks.  This function
  * takes into account the minimum amount of money that should be held in
  * reserve whenever we trade on the Stock Market.
@@ -139,16 +168,16 @@ function num_shares(ns, stk) {
 }
 
 /**
- * Purchase access to market data and APIs.
+ * Purchase access to Stock Market data and APIs.
  *
  * @param ns The Netscript API.
  */
-function purchase_api_access(ns) {
-    assert(meet_money_threshold(ns));
-    assert(ns.stock.purchaseWseAccount());
-    assert(ns.stock.purchaseTixApi());
-    assert(ns.stock.purchase4SMarketData());
-    assert(ns.stock.purchase4SMarketDataTixApi());
+async function purchase_api_access(ns) {
+    const t = new Time();
+    const time = 5 * t.second();
+    while (!has_api_access(ns)) {
+        await ns.sleep(time);
+    }
 }
 
 /**
@@ -210,16 +239,11 @@ function skip_stock(ns, stk) {
 export async function main(ns) {
     ns.disableLog("sleep");
     ns.disableLog("getServerMoneyAvailable");
-    // Wait until we have enough money before purchasing the various APIs
-    // and data access.
+    await purchase_api_access(ns);
     // Wait for 6 seconds because the Stock Market updates approximately
     // every 6 seconds.
     const t = new Time();
     const time = 6 * t.second();
-    while (!meet_money_threshold(ns)) {
-        await ns.sleep(time);
-    }
-    purchase_api_access(ns);
     // Wait until we have a large amount of money before trading on the Stock
     // Market.  Gambling on the Stock Market requires huge wealth.
     while (!meet_money_threshold(ns)) {
