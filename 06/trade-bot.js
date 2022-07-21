@@ -98,7 +98,7 @@ function meet_money_threshold(ns) {
  */
 function money_reserve() {
     const m = new Money();
-    return 50 * m.billion();
+    return 50 * m.million();
 }
 
 /**
@@ -119,9 +119,7 @@ function num_shares(ns, stk) {
     // not purchase any shares.
     const player = new Player(ns);
     const m = new Money();
-    const spend_threshold = 5 * m.billion();
-    //const spend_ratio = 0.01;
-    //const funds = (player.money() - money_reserve()) * spend_ratio;
+    const spend_threshold = 5 * m.million();
     const funds = player.money() - money_reserve();
     if (funds < spend_threshold) {
         return 0;
