@@ -237,9 +237,9 @@ function skip_stock(ns, stk) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Make the log less verbose.
     ns.disableLog("sleep");
     ns.disableLog("getServerMoneyAvailable");
-    await purchase_api_access(ns);
     // Wait for 6 seconds because the Stock Market updates approximately
     // every 6 seconds.
     const t = new Time();
@@ -249,6 +249,7 @@ export async function main(ns) {
     while (!meet_money_threshold(ns)) {
         await ns.sleep(time);
     }
+    await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
     while (true) {
         // Iterate over each stock.  Decide whether to buy or sell.
