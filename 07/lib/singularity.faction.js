@@ -61,11 +61,26 @@ function is_valid_faction(fac) {
  */
 export async function join_faction(ns, fac) {
     assert(is_valid_faction(fac));
+    // Unlike other megacorporation factions, we must be working for Fulcrum
+    // Technologies while waiting for a faction invitation.  We can quit
+    // working once we have joined the faction.
+    if ("Fulcrum Secret Technologies" == fac) {
+        const company = "Fulcrum Technologies";
+        const field = "Software"
+        const focus = true;
+        ns.singularity.applyToCompany(company, field);
+        ns.singularity.workForCompany(company, focus);
+    }
     const player = new Player(ns);
     const joined_faction = new Set(player.faction());
     if (!joined_faction.has(fac)) {
         await await_invitation(ns, fac);
         ns.singularity.joinFaction(fac);
+    }
+    if ("Fulcrum Secret Technologies" == fac) {
+        const company = "Fulcrum Technologies";
+        ns.singularity.stopAction();
+        ns.singularity.quitJob(company);
     }
 }
 
