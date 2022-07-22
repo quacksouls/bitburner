@@ -22,6 +22,7 @@ import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity.network.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { work_for_company } from "/lib/singularity.work.js";
+import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
