@@ -54,10 +54,11 @@ function choose_upgrade(ns) {
 }
 
 /**
- * The maximum number of Cores on the home server.
+ * The maximum number of Cores on the home server.  This is not necessarily the
+ * greatest number of Cores the home server can have.
  */
 function core_limit() {
-    const limit = 8;
+    const limit = 7;
     return limit;
 }
 
@@ -66,7 +67,7 @@ function core_limit() {
  * largest amount of RAM the home server can have.
  */
 function ram_limit() {
-    const limit = 4194304;
+    const limit = 2097152;
     return limit;
 }
 
