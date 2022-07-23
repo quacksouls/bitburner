@@ -163,7 +163,7 @@ function pserv_ram(ns, minserv) {
 }
 
 /**
- * Obtain a new batch of target servers to hack.
+ * Obtain a new batch of target servers to hack.  Exclude bankrupt servers.
  *
  * @param ns The Netscript API.
  * @param target An array of current targets.
