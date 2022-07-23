@@ -23,6 +23,7 @@ import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
 import {
     assert, choose_best_server, choose_targets, filter_bankrupt_servers,
+    is_bankrupt
 } from "/lib/util.js";
 
 /**
@@ -246,9 +247,9 @@ async function update(ns, ram) {
             const server = new Server(ns, hostname);
             // Choose the best target server.
             target = renew_targets(ns, target);
-            const target_server = new Server(
-                ns, choose_best_server(ns, target)
-            );
+            const s = choose_best_server(ns, target);
+            assert(!is_bankrupt(ns, s));
+            const target_server = new Server(ns, s);
             target = target.filter(s => s != target_server.hostname());
             // Run our hack script on the purchased server.
             assert(await target_server.gain_root_access());
