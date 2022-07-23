@@ -22,8 +22,7 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Find and destroy the w0r1d_d43m0n server.  Perform a manual hack from the
- * terminal.
+ * Find and destroy the w0r1d_d43m0n server.
  *
  * @param ns The Netscript API.
  */
@@ -43,7 +42,7 @@ async function destroy(ns) {
     assert(player.hacking_skill() >= server.hacking_skill());
     assert(server.has_root_access());
     connect_to(ns, player.home(), server.hostname());
-    ns.alert("Hack the " + target);
+    await ns.singularity.installBackdoor();
 }
 
 /**
