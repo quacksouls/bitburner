@@ -94,18 +94,12 @@ async function upgrade(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_cores(ns) {
-    const player = new Player(ns);
     const core_cost = ns.singularity.getUpgradeHomeCoresCost();
-    const company = "MegaCorp";
-    while (player.money() < core_cost) {
-        await work(ns, company);
-    }
     let success = ns.singularity.upgradeHomeCores();
     while (!success) {
-        await work(ns, company);
+        await work(ns, core_cost);
         success = ns.singularity.upgradeHomeCores();
     }
-    ns.singularity.quitJob(company);
 }
 
 /**
@@ -114,18 +108,12 @@ async function upgrade_cores(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_ram(ns) {
-    const player = new Player(ns);
     const ram_cost = ns.singularity.getUpgradeHomeRamCost();
-    const company = "MegaCorp";
-    while (player.money() < ram_cost) {
-        await work(ns, company);
-    }
     let success = ns.singularity.upgradeHomeRam();
     while (!success) {
-        await work(ns, company);
+        await work(ns, ram_cost);
         success = ns.singularity.upgradeHomeRam();
     }
-    ns.singularity.quitJob(company);
 }
 
 /**
