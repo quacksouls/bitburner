@@ -36,7 +36,7 @@ function reboot(ns) {
 }
 
 /**
- * NOTE: Assume our home server has at least 256GB RAM.
+ * NOTE: Assume our home server has at least 128GB RAM.
  *
  * Restart our source of income and Hack experience points.  This script is
  * useful whenever we have installed a bunch of Augmentations and we want to
