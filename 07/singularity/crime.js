@@ -31,7 +31,8 @@ import { assert } from "/lib/util.js";
  * @return A string representing the name of a crime.
  */
 function choose_crime(ns) {
-    let crime = greatest_chance(ns, all_crimes());
+    const crimes = all_crimes().filter(c => c != "shoplift");
+    let crime = greatest_chance(ns, crimes);
     crime = lowest_time(ns, crime);
     return highest_reward(ns, crime);
 }
