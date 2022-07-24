@@ -15,7 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_programs, home, program as popen } from "/lib/constant.js";
+import {
+    all_programs, home, program as popen, work_hack_lvl
+} from "/lib/constant.js";
+import { raise_hack } from "/lib/singularity.study.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -75,12 +78,18 @@ async function buy_programs(ns, program) {
 async function buy_tor_router(ns) {
     const t = new Time();
     const time = t.second();
-    const company = "MegaCorp";
     while (!ns.singularity.purchaseTor()) {
-        await work(ns, company);
+        const hack_lvl = ns.getHackingLevel();
+        if (hack_lvl < work_hack_lvl) {
+            const threshold = hack_lvl + 5;
+            await raise_hack(ns, threshold);
+            await ns.sleep(time);
+            continue;
+        }
+        const threshold = 1.5 * ns.getServerMoneyAvailable(home);
+        await work(ns, threshold);
         await ns.sleep(time);
     }
-    ns.singularity.quitJob(company);
 }
 
 /**
