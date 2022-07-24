@@ -36,8 +36,8 @@ import { assert } from "/lib/util.js";
 export async function main(ns) {
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
-    const mid_ram = 256;
-    const high_ram = 2048;
+    const mid_ram = 128;
+    const high_ram = 512;
     const server = ns.getServer(home);
     const nthread = 1;
     let script = "";
@@ -49,5 +49,6 @@ export async function main(ns) {
         assert(server.maxRam < mid_ram);
         script = "go-low.js";
     }
+    assert("" != script);
     ns.exec(script, home, nthread);
 }
