@@ -105,7 +105,8 @@ async function netburners(ns) {
         // crimes, or work at a company, to boost our income.  Continue to
         // commit crimes (or working) as long as we have not yet received an
         // invitation from the Netburners faction.
-        let threshold = 2 * player.money();
+        const factor = 1.01;
+        let threshold = factor * player.money();
         let invite = ns.singularity.checkFactionInvitations();
         while (!invite.includes(faction)) {
             if (player.hacking_skill() < work_hack_lvl) {
@@ -113,9 +114,9 @@ async function netburners(ns) {
             } else {
                 await work(ns, threshold);
             }
-            threshold = 2 * player.money();
-            invite = ns.singularity.checkFactionInvitations();
             await ns.sleep(time);
+            threshold = factor * player.money();
+            invite = ns.singularity.checkFactionInvitations();
         }
         ns.singularity.joinFaction(faction);
     }
