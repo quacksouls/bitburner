@@ -31,7 +31,8 @@ import { assert } from "/lib/util.js";
  * @return A string representing the name of a crime.
  */
 function choose_crime(ns) {
-    const crimes = all_crimes().filter(c => c != "shoplift");
+    const exclude = new Set(["mug someone", "shoplift"]);
+    const crimes = all_crimes().filter(c => !exclude.has(c));
     let crime = greatest_chance(ns, crimes);
     crime = lowest_time(ns, crime);
     return highest_reward(ns, crime);
@@ -150,6 +151,28 @@ function lowest_time(ns, crime) {
 }
 
 /**
+ * Shoplift a few times to raise our combat stats.
+ *
+ * @param ns The Netscript API.
+ * @param threshold Raise our money to at least this threshold.
+ */
+async function shoplift(ns, threshold) {
+    const max = 20;
+    const t = new Time();
+    const time = t.second();
+    for (let i = 0; i < max; i++) {
+        ns.singularity.commitCrime("shoplift");
+        while (ns.singularity.isBusy()) {
+            await ns.sleep(time);
+        }
+        const money = ns.getServerMoneyAvailable(home);
+        if (money >= threshold) {
+            return;
+        }
+    }
+}
+
+/**
  * Commit various crimes to supplement our income.  Early in the game when our
  * funds are limited, crimes can be a source of income to help us
  * purchase/upgrade our Hacknet farm or purchase various servers with small
@@ -163,10 +186,11 @@ function lowest_time(ns, crime) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const threshold = Math.floor(ns.args[0]);
-    // Make the log less verbose.
     ns.disableLog("sleep");
+    const threshold = Math.floor(ns.args[0]);
+    assert(threshold > 0);
     // Commit crimes as long as our funds is less than the given threshold.
+    await shoplift(ns, threshold);
     const t = new Time();
     const time = t.second();
     while (ns.getServerMoneyAvailable(home) < threshold) {
