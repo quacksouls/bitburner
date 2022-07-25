@@ -78,6 +78,7 @@ async function buy_programs(ns, program) {
 async function buy_tor_router(ns) {
     const t = new Time();
     const time = t.second();
+    const cost = 200000;
     while (!ns.singularity.purchaseTor()) {
         const hack_lvl = ns.getHackingLevel();
         if (hack_lvl < work_hack_lvl) {
@@ -86,8 +87,7 @@ async function buy_tor_router(ns) {
             await ns.sleep(time);
             continue;
         }
-        const threshold = 1.5 * ns.getServerMoneyAvailable(home);
-        await work(ns, threshold);
+        await work(ns, cost);
         await ns.sleep(time);
     }
 }
