@@ -16,7 +16,6 @@
  */
 
 import { all_programs, home } from "/lib/constant.js";
-import { Money } from "/lib/money.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -115,19 +114,8 @@ export async function main(ns) {
     const ftp_threshold = hack_requirement(ftpp);
     await study(ns, ftp_threshold);
     await create_program(ns, ftpp);
-    // By now we should have completed all actions that require the player to
-    // focus.  Launch the next script to accumulate some negative karma.
-    const crime_script = "/singularity/crime.js";
+    // The next script in the load chain.
+    const script = "/singularity/money.js";
     const nthread = 1;
-    const m = new Money();
-    const threshold = 10 * m.million();
-    ns.exec(crime_script, home, nthread, threshold);
-    // The script "/singularity/daemon.js" determines whether we should be
-    // hacking the w0r1d_d43m0n server.  It terminates if the conditions are
-    // not met for the server to appear in the game world.  The script
-    // "/singularity/program.js" attempts to purchase port opener programs.
-    const script = ["/singularity/daemon.js", "/singularity/program.js"];
-    for (const s of script) {
-        ns.exec(s, home, nthread);
-    }
+    ns.exec(script, home, nthread);
 }
