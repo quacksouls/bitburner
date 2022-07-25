@@ -126,6 +126,7 @@ async function upgrade_ram(ns) {
  */
 export async function main(ns) {
     // Less verbose log.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
 
     await upgrade(ns);
