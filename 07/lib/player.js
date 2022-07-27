@@ -124,11 +124,7 @@ export class Player {
     has_all_port_openers() {
         const limit = this.#port_opener.length;
         const nport = this.num_ports();
-        if (nport == limit) {
-            return true;
-        }
-        assert(nport < limit);
-        return false;
+        return nport == limit;
     }
 
     /**
