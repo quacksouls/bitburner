@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { pserv_prefix } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -35,6 +36,10 @@ async function await_prerequisites(ns) {
     const time = 10 * t.second();
     const player = new Player(ns);
     while (!player.has_all_port_openers()) {
+        await ns.sleep(time);
+    }
+    // Our farm of purchased servers must meet certain minimum requirements.
+    while (!has_minimum_pserv(ns)) {
         await ns.sleep(time);
     }
     // Wait until we have a large amount of money before trading on the Stock
@@ -105,6 +110,36 @@ function has_funds(ns) {
         return false;
     }
     return true;
+}
+
+/**
+ * Whether we have a minimum running farm of purchased servers.  To meet this
+ * condition, our farm must satisfy the following:
+ *
+ * (1) Each purchased server in the farm must have at least 16,384GB RAM.
+ * (2) Our farm must have the maximum number of purchased server.
+ *
+ * @param ns The Netscript API.
+ * @return true if we have a minimum running purchased server farm;
+ *     false otherwise.
+ */
+function has_minimum_pserv(ns) {
+    const HAS = true;
+    const NOT = !HAS;
+    // Do we have the maximum number of purchased servers?
+    const player = new Player(ns);
+    const pserv_limit = ns.getPurchasedServerLimit();
+    if (player.pserv().length < pserv_limit) {
+        return NOT;
+    }
+    // Does each purchased server have at least 16,384GB RAM?
+    const min_ram = 16384;
+    const server = ns.getServer(pserv_prefix);
+    assert(server.purchasedByPlayer);
+    if (server.maxRam < min_ram) {
+        return NOT;
+    }
+    return HAS;
 }
 
 /**
@@ -275,6 +310,9 @@ export async function main(ns) {
         // Iterate over each stock.  Decide whether to buy or sell.
         for (const stk of ns.stock.getSymbols()) {
             sell_stock(ns, stk);
+            if (!has_minimum_pserv(ns)) {
+                continue;
+            }
             buy_stock(ns, stk);
         }
         await ns.sleep(time);
