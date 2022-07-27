@@ -17,14 +17,22 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { all_factions, home, work_hack_lvl } from "/lib/constant.js";
+import {
+    all_factions, aug_purchase_limit, home, work_hack_lvl
+} from "/lib/constant.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Which Augmentations we still need to purchase from a faction.
+ * Augmentations we still need to purchase from a faction.  From all
+ * Augmentations that are yet to be purchased, we choose n Augmentations where
+ * one of these has reputation requirement higher than the remaining n - 1.  We
+ * order the Augmentations from least reputation requirement to highest
+ * reputation requirement and make our decision using this ascending list.  For
+ * example, if n = 5 we would be purchasing the first 5 Augmentations that have
+ * the lowest reputation requirements.
  *
  * @param ns The Netscript API.
  * @param fac We want to purchase all Augmentations from this faction.
@@ -34,50 +42,42 @@ import { assert } from "/lib/util.js";
  *         this Augmentation.
  *     (2) cost := The value is the cost of the corresponding Augmentation.
  *
- *     This is never an empty map because we can always level up the NeuroFlux
- *     Governor Augmentation.
+ *     This is map never includes the NeuroFlux Governor Augmentation.  Cannot
+ *     be an empty map.
  */
-function augmentations_to_buy(ns, fac) {
+export function augmentations_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
-    // All Augmentations we have not yet purchased from the given faction.  The
-    // NeuroFlux Governor Augmentation can be levelled up infinitely many
-    // times.  Add it to the list of faction Augmentations.
+    // All Augmentations we have not yet purchased from the given faction.
+    // Exclude the NeuroFlux Governor.
     const purchased = true;
     const owned_aug = new Set(ns.singularity.getOwnedAugmentations(purchased));
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter(a => !owned_aug.has(a));
-    if (!fac_aug.includes(nfg())) {
-        fac_aug.push(nfg());
+    if (fac_aug.includes(nfg())) {
+        fac_aug = fac_aug.filter(a => a != nfg());
     }
     assert(fac_aug.length > 0);
+    // Choose n Augmentations that have the least reputation requirements.
+    const tobuy = new Array();
+    let i = 0;
+    while (i < aug_purchase_limit) {
+        const aug = lowest_reputation(ns, fac_aug);
+        tobuy.push(aug);
+        fac_aug = fac_aug.filter(a => a != aug);
+        if (0 == fac_aug.length) {
+            break;
+        }
+        i++;
+    }
+    assert(tobuy.length > 0);
     // A map {aug: cost} of Augmentations and their respective costs.  Use the
     // ceiling function to avoid comparison of floating point numbers.
     const augment = new Map();
-    for (const aug of fac_aug) {
+    for (const aug of tobuy) {
         const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
         augment.set(aug, cost);
     }
     return augment;
-}
-
-/**
- * The maximum number of Augmentations to purchase from a faction.  This number
- * does not include the NeuroFlux Governor.  We limit the number of
- * Augmentations to purchase to help speed up the process of buying all
- * Augmentations from a faction.  We purchase this number of Augmentations from
- * a faction and install them.  If the faction has any more Augmentations
- * (besides the NeuroFlux Governor), we purchase those after the installation.
- * Some Augmentations require a huge amount of faction reputation.  It can take
- * a very long time to accumulate enough reputation points, especially if an
- * Augmentation requires at least one million reputation points.  By purchasing
- * a given number of Augmentations and installing them, we gain some favour
- * with the faction.  In case our favour points are high enough, we would be
- * able to donate to the faction in exchange for reputation points.  This
- * should help to shorten the amount of time required to reach a certain amount
- * of reputation points.
- */
-function aug_purchase_limit() {
-    return 5;
 }
 
 /**
@@ -131,6 +131,31 @@ function is_valid_faction(fac) {
     assert(fac.length > 0);
     const faction = new Set(all_factions());
     return faction.has(fac);
+}
+
+/**
+ * Determine an Augmentation that requires the least reputation points.
+ *
+ * @param ns The Netscript API.
+ * @param augment An array of Augmentation names.  This array does not include
+ *     the NeuroFlux Governor.
+ * @return A string representing the name of an Augmentation that requires the
+ *     lowest amount of reputation points.
+ */
+function lowest_reputation(ns, augment) {
+    assert(augment.length > 0);
+    assert(!augment.includes(nfg()));
+    let min = Infinity;
+    let min_aug = "";
+    for (const aug of augment) {
+        const rep = Math.ceil(ns.singularity.getAugmentationRepReq(aug));
+        if (min > rep) {
+            min = rep;
+            min_aug = aug;
+        }
+    }
+    assert("" != min_aug);
+    return min_aug;
 }
 
 /**
@@ -218,10 +243,8 @@ export async function purchase_augmentations(ns, fac) {
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
-    assert(augment.has(nfg()));
-    assert(augment.delete(nfg()));
     while (augment.size > 0) {
-        if (num_augmentations(ns) >= aug_purchase_limit()) {
+        if (num_augmentations(ns) >= aug_purchase_limit) {
             break;
         }
         // Choose the most expensive Augmentation.

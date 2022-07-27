@@ -19,7 +19,9 @@
 
 import { all_factions, home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
-import { owned_augmentations } from "/lib/singularity.augmentation.js";
+import {
+    augmentations_to_buy, owned_augmentations
+} from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -155,22 +157,19 @@ export async function raise_hack(ns, threshold) {
 
 /**
  * The total amount of reputation points we need to earn in order to purchase
- * all Augmentations from a faction.
+ * some Augmentations from a faction.  This is not necessarily the highest
+ * reputation requirement of any Augmentation.
  *
  * @param ns The Netscript API.
  * @param fac We want to earn reputation points from this faction.
  * @return The maximum amount of reputation points we must earn from a faction.
  */
 function total_reputation(ns, fac) {
-    // A list of Augmentations from the faction.  Filter out those
-    // Augmentations we already own and have installed.
-    const my_aug = owned_augmentations(ns);
-    let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
-    fac_aug = fac_aug.filter(a => !my_aug.has(a));
-    assert(fac_aug.length > 0);
+    const augment = augmentations_to_buy(ns, fac);
+    assert(augment.size > 0);
     // The total reputation points we need to earn.
     let max = -Infinity;
-    for (const aug of fac_aug) {
+    for (const [aug, _] of augment) {
         const rep = ns.singularity.getAugmentationRepReq(aug);
         if (max < rep) {
             max = rep;
