@@ -61,6 +61,26 @@ function augmentations_to_buy(ns, fac) {
 }
 
 /**
+ * The maximum number of Augmentations to purchase from a faction.  This number
+ * does not include the NeuroFlux Governor.  We limit the number of
+ * Augmentations to purchase to help speed up the process of buying all
+ * Augmentations from a faction.  We purchase this number of Augmentations from
+ * a faction and install them.  If the faction has any more Augmentations
+ * (besides the NeuroFlux Governor), we purchase those after the installation.
+ * Some Augmentations require a huge amount of faction reputation.  It can take
+ * a very long time to accumulate enough reputation points, especially if an
+ * Augmentation requires at least one million reputation points.  By purchasing
+ * a given number of Augmentations and installing them, we gain some favour
+ * with the faction.  In case our favour points are high enough, we would be
+ * able to donate to the faction in exchange for reputation points.  This
+ * should help to shorten the amount of time required to reach a certain amount
+ * of reputation points.
+ */
+function aug_purchase_limit() {
+    return 5;
+}
+
+/**
  * Choose the most expensive Augmentation to buy.  Why should we buy the most
  * expensive Augmentation first?  The answer is simple.  After we have
  * purchased an Augmentation from a faction, the cost of each remaining
@@ -192,8 +212,6 @@ export async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
     const augment = augmentations_to_buy(ns, fac);
     assert(augment.size > 0);
-    // Limit our purchases to this many Augmentations.
-    const max_aug = 5;
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
@@ -203,7 +221,7 @@ export async function purchase_augmentations(ns, fac) {
     assert(augment.has(nfg()));
     assert(augment.delete(nfg()));
     while (augment.size > 0) {
-        if (num_augmentations(ns) >= max_aug) {
+        if (num_augmentations(ns) >= aug_purchase_limit()) {
             break;
         }
         // Choose the most expensive Augmentation.
