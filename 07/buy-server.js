@@ -16,6 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
+import { pserv_prefix } from "/lib/constant.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
@@ -243,7 +244,7 @@ async function update(ns, ram) {
         // Do we have enough money to buy a new server?
         if (player.money() > pserv.cost(server_ram)) {
             // Purchase a new server.
-            const hostname = pserv.purchase("pserv", server_ram);
+            const hostname = pserv.purchase(pserv_prefix, server_ram);
             const server = new Server(ns, hostname);
             // Choose the best target server.
             target = renew_targets(ns, target);

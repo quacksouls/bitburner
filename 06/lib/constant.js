@@ -33,6 +33,13 @@ export const program = [
 ];
 
 /**
+ * The prefix for the name of each purchased server.  The very first purchased
+ * server is always named "pserv".  Any subsequent purchased server is named as
+ * pserv-n, where n is a non-negative integer.
+ */
+export const pserv_prefix = "pserv";
+
+/**
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
