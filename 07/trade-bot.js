@@ -21,6 +21,30 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Wait until we have all prerequisites before we do anything related to the
+ * dark web.  For now, we wait until the following conditions are met:
+ *
+ * (1) We have all port opener programs.
+ * (2) Have at least a certain amount of money.
+ *
+ * @param ns The Netscript API.
+ */
+async function await_prerequisites(ns) {
+    // Must acquire all port opener programs.
+    const t = new Time();
+    const time = 10 * t.second();
+    const player = new Player(ns);
+    while (!player.has_all_port_openers()) {
+        await ns.sleep(time);
+    }
+    // Wait until we have a large amount of money before trading on the Stock
+    // Market.  Gambling on the Stock Market requires huge wealth.
+    while (!meet_money_threshold(ns)) {
+        await ns.sleep(time);
+    }
+}
+
+/**
  * Purchase shares of a stock.
  *
  * @param ns The Netscript API.
@@ -244,11 +268,7 @@ export async function main(ns) {
     // every 6 seconds.
     const t = new Time();
     const time = 6 * t.second();
-    // Wait until we have a large amount of money before trading on the Stock
-    // Market.  Gambling on the Stock Market requires huge wealth.
-    while (!meet_money_threshold(ns)) {
-        await ns.sleep(time);
-    }
+    await await_prerequisites(ns);
     await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
     while (true) {
