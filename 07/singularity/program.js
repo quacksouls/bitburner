@@ -62,6 +62,11 @@ async function buy_programs(ns, program) {
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
         while (ns.getServerMoneyAvailable(home) < cost) {
+            if (ns.getHackingLevel() < work_hack_lvl) {
+                await raise_hack(ns, target_hack_lvl(ns));
+                await ns.sleep(time);
+                continue;
+            }
             await work(ns, cost);
             await ns.sleep(time);
         }
@@ -80,10 +85,8 @@ async function buy_tor_router(ns) {
     const time = t.second();
     const cost = 200000;
     while (!ns.singularity.purchaseTor()) {
-        const hack_lvl = ns.getHackingLevel();
-        if (hack_lvl < work_hack_lvl) {
-            const threshold = hack_lvl + 5;
-            await raise_hack(ns, threshold);
+        if (ns.getHackingLevel() < work_hack_lvl) {
+            await raise_hack(ns, target_hack_lvl(ns));
             await ns.sleep(time);
             continue;
         }
@@ -145,6 +148,15 @@ function is_valid_program(name) {
     assert(name.length > 0);
     const program = all_programs();
     return program.has(name);
+}
+
+/**
+ * Raise our Hack stat to at least a given number.
+ *
+ * @param ns The Netscript API.
+ */
+function target_hack_lvl(ns) {
+    return ns.getHackingLevel() + 5;
 }
 
 /**
