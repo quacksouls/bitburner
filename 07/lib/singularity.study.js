@@ -68,13 +68,16 @@ export async function study(ns, threshold) {
         uni = "ZB Institute of Technology";
         break;
     default:
-        // Might need to handle this case more gracefully.
-        ns.tprint("No universities in " + stat.city);
-        assert(false);
+        uni = "";
         break;
+    }
+    // No university in the current city.
+    if ("" == uni) {
+        return;
     }
     const course = "Study Computer Science";
     const focus = true;
+    assert("" != uni);
     assert(ns.singularity.universityCourse(uni, course, focus));
     // Stop our study when our Hack stat is at least the given threshold.
     const t = new Time();
