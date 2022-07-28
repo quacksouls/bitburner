@@ -36,14 +36,9 @@ import { assert } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  * @param fac We want to purchase all Augmentations from this faction.
- * @return A map {aug: cost} as follows:
- *
- *     (1) aug := The key is the name of an Augmentation.  We do not yet have
- *         this Augmentation.
- *     (2) cost := The value is the cost of the corresponding Augmentation.
- *
- *     This is map never includes the NeuroFlux Governor Augmentation.  Cannot
- *     be an empty map.
+ * @return An array of Augmentation names.  We do not yet have these
+ *     Augmentations.  This array never includes the NeuroFlux Governor
+ *     Augmentation.  Cannot be an empty array.
  */
 export function augmentations_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
@@ -70,14 +65,7 @@ export function augmentations_to_buy(ns, fac) {
         i++;
     }
     assert(tobuy.length > 0);
-    // A map {aug: cost} of Augmentations and their respective costs.  Use the
-    // ceiling function to avoid comparison of floating point numbers.
-    const augment = new Map();
-    for (const aug of tobuy) {
-        const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
-        augment.set(aug, cost);
-    }
-    return augment;
+    return tobuy;
 }
 
 /**
@@ -87,23 +75,23 @@ export function augmentations_to_buy(ns, fac) {
  * Augmentation is raised by a multiplier.  Had we not purchased the most
  * expensive Augmentation, its cost would now be much higher than previously.
  *
- * @param augment A map {aug: cost} where the key is the name of an
- *     Augmentation and the value is the cost of the Augmentation.  Cannot be
- *     an empty map.
- * @return An array [aug, cost] where aug is the most expensive Augmentation
- *     from the given map.
+ * @param ns The Netscript API.
+ * @param augment An array of Augmentation names.  Cannot be an empty array.
+ * @return The name of the most expensive Augmentation from the given array.
  */
-function choose_augmentation(augment) {
-    assert(augment.size > 0);
+function choose_augmentation(ns, augment) {
+    assert(augment.length > 0);
     let max = -Infinity;
     let aug = "";
-    for (const [a, cost] of augment) {
+    for (const a of augment) {
+        const cost = Math.ceil(ns.singularity.getAugmentationPrice(a));
         if (max < cost) {
             max = cost;
             aug = a;
         }
     }
-    return [aug, max];
+    assert("" != aug);
+    return aug;
 }
 
 /**
@@ -200,29 +188,24 @@ export function owned_augmentations(ns) {
  *
  * @param ns The Netscript API.
  * @param aug A string representing the name of an Augmentation.
- * @return A map {a: cost} as follows:
- *
- *     (1) a := An Augmentation that is a pre-requisite of the given
- *         Augmentation.
- *     (2) cost := The cost of the given pre-requisite.
- *
- *     Return an empty map if the given Augmentation has no pre-requisites or
- *     we have already purchased all of its pre-requisites.
+ * @return An array of Augmentation names.  Each Augmentation in the array is a
+ *     pre-requisite of the given Augmentation.  Return an empty array if the
+ *     given Augmentation has no pre-requisites or we have already purchased
+ *     all of its pre-requisites.
  */
 function prerequisites(ns, aug) {
     assert("" != aug);
-    const augment = new Map();
+    const augment = new Array();
     const prereq = ns.singularity.getAugmentationPrereq(aug);
     if (0 == prereq.length) {
         return augment;
     }
-    // A map {a: cost} of Augmentations and their respective costs.
+    // An array of Augmentation names.
     for (const a of prereq) {
         if (has_augmentation(ns, a)) {
             continue;
         }
-        const cost = ns.singularity.getAugmentationPrice(a);
-        augment.set(a, cost);
+        augment.push(a);
     }
     return augment;
 }
@@ -235,42 +218,42 @@ function prerequisites(ns, aug) {
  */
 export async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
-    const augment = augmentations_to_buy(ns, fac);
-    assert(augment.size > 0);
+    let augment = augmentations_to_buy(ns, fac);
+    assert(augment.length > 0);
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
-    while (augment.size > 0) {
+    while (augment.length > 0) {
         if (num_augmentations(ns) >= aug_purchase_limit) {
             break;
         }
         // Choose the most expensive Augmentation.
-        const [aug, cost] = choose_augmentation(augment);
+        const aug = choose_augmentation(ns, augment);
         if (has_augmentation(ns, aug)) {
-            assert(augment.delete(aug));
+            augment = augment.filter(a => a != aug);
             continue;
         }
         // If the most expensive Augmentation has no pre-requisites or we have
         // already purchased all of its pre-requisites, then purchase the
         // Augmentation.
-        const prereq = prerequisites(ns, aug);
-        if (0 == prereq.size) {
-            await purchase_aug(ns, aug, cost, fac);
-            assert(augment.delete(aug));
+        let prereq = prerequisites(ns, aug);
+        if (0 == prereq.length) {
+            await purchase_aug(ns, aug, fac);
+            augment = augment.filter(a => a != aug);
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
         // purchased, then first purchase the pre-requisites.
-        while (prereq.size > 0) {
-            const [pre, price] = choose_augmentation(prereq);
-            await purchase_aug(ns, pre, price, fac);
-            assert(prereq.delete(pre));
+        while (prereq.length > 0) {
+            const pre = choose_augmentation(ns, prereq);
+            await purchase_aug(ns, pre, fac);
+            prereq = prereq.filter(a => a != pre);
         }
-        await purchase_aug(ns, aug, cost, fac);
-        assert(augment.delete(aug));
+        await purchase_aug(ns, aug, fac);
+        augment = augment.filter(a => a != aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
@@ -291,22 +274,22 @@ export async function purchase_augmentations(ns, fac) {
  *
  * @param ns The Netscript API.
  * @param aug We want to purchase this Augmentation.
- * @param cost The cost of the given Augmentation.
  * @param fac We want to purchase the given Augmentation from this faction.
  */
-async function purchase_aug(ns, aug, cost, fac) {
+async function purchase_aug(ns, aug, fac) {
     // Purchase any pre-requisites first.
-    const prereq = prerequisites(ns, aug);
-    while (prereq.size > 0) {
-        const [pre, price] = choose_augmentation(prereq);
-        await purchase_aug(ns, pre, price, fac);
-        assert(prereq.delete(pre));
+    let prereq = prerequisites(ns, aug);
+    while (prereq.length > 0) {
+        const pre = choose_augmentation(prereq);
+        await purchase_aug(ns, pre, fac);
+        prereq = prereq.filter(a => a != pre);
     }
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.
     let success = false;
     const t = new Time();
     const time = t.second();
+    const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     while (!success) {
         assert(!has_augmentation(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
