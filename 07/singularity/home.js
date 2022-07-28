@@ -36,7 +36,8 @@ function choose_upgrade(ns) {
     const player = new Player(ns);
     const server = new Server(ns, player.home());
     if (
-        (server.cores() == core_limit()) && (server.ram_max() == ram_limit())
+        (server.cores() == core_limit())
+            && (server.ram_max() == ram_limit())
     ) {
         return "";
     }
