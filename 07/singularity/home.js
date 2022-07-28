@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home, trade_bot_stop } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { work } from "/lib/singularity.work.js";
@@ -69,6 +70,32 @@ function core_limit() {
 function ram_limit() {
     const limit = 2097152;
     return limit;
+}
+
+/**
+ * Tell the trade bot to resume its transactions.  It can now buy and sell
+ * shares of stocks.
+ *
+ * @param ns The Netscript API.
+ */
+function trade_bot_resume(ns) {
+    if (ns.fileExists(trade_bot_stop, home)) {
+        ns.rm(trade_bot_stop, home);
+    }
+}
+
+/**
+ * Tell the trade bot to stop buying shares of stocks.  We do not want to spend
+ * any more money on buying shares.  However, the trade bot can sell shares.
+ * The idea is to cash in on the shares we have.
+ *
+ * @param ns The Netscript API.
+ */
+async function trade_bot_stop_buy(ns) {
+    const fname = trade_bot_stop;
+    const data = "Trade bot stop buy.";
+    const writeMode = "w";
+    await ns.write(fname, data, writeMode);
 }
 
 /**
@@ -129,7 +156,9 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
 
+    await trade_bot_stop_buy(ns);
     await upgrade(ns);
+    trade_bot_resume(ns);
     // The next script in the load chain.
     const player = new Player(ns);
     const script = "/singularity/install.js";
