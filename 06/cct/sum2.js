@@ -178,7 +178,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
-    const npart = coin_change(n, denomination);
+    const npart = parseInt(coin_change(n, denomination));
     const result = ns.codingcontract.attempt(
         npart, cct, host, { returnReward: true }
     );
