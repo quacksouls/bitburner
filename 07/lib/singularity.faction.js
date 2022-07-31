@@ -19,9 +19,7 @@
 
 import { all_factions, home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
-import {
-    augmentations_to_buy, owned_augmentations
-} from "/lib/singularity.augmentation.js";
+import { augmentations_to_buy } from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
