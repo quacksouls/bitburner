@@ -166,10 +166,10 @@ export async function raise_hack(ns, threshold) {
  */
 function total_reputation(ns, fac) {
     const augment = augmentations_to_buy(ns, fac);
-    assert(augment.size > 0);
+    assert(augment.length > 0);
     // The total reputation points we need to earn.
     let max = -Infinity;
-    for (const [aug, _] of augment) {
+    for (const aug of augment) {
         const rep = ns.singularity.getAugmentationRepReq(aug);
         if (max < rep) {
             max = rep;
