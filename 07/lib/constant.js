@@ -141,6 +141,11 @@ export const aug_purchase_limit = 5;
 export const home = "home";
 
 /**
+ * The amount of RAM for a mid-sized home server.
+ */
+export const mid_ram = 128;
+
+/**
  * These programs are port openers.  Each program can be used to open a
  * specific port on a server.
  */
