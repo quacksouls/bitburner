@@ -136,6 +136,11 @@ export function all_programs() {
 export const aug_purchase_limit = 5;
 
 /**
+ * The minimum amount of RAM for a high-end server.
+ */
+export const high_ram = 512;
+
+/**
  * The home server of the player.
  */
 export const home = "home";
