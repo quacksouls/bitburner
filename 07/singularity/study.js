@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_programs, home } from "/lib/constant.js";
+import { all_programs, home, mid_ram } from "/lib/constant.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -91,6 +91,32 @@ function is_valid_program(name) {
 }
 
 /**
+ * Raise our Hack stat enough to allow us to create various programs.
+ *
+ * @param ns The Netscript API.
+ */
+async function study_and_create(ns) {
+    const program = ["BruteSSH.exe", "FTPCrack.exe"];
+    const home_ram = ns.getServer(home).maxRam;
+    for (const p of program) {
+        await study(ns, hack_requirement(p));
+        await create_program(ns, p);
+        // If our home server is less than a mid-sized server, then run a
+        // script to compromise world servers.
+        if (home_ram < mid_ram) {
+            const script = "world-server.js";
+            assert(!ns.isRunning(script, home));
+            const t = new Time();
+            const time = 10 * t.second();
+            const nthread = 1;
+            ns.exec(script, home, nthread);
+            await ns.sleep(time);
+            assert(ns.kill(script, home));
+        }
+    }
+}
+
+/**
  * Study to raise our Hack stat so we can create various programs.
  *
  * Usage: run singularity/study.js
@@ -102,18 +128,8 @@ export async function main(ns) {
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
-    // Study to raise our Hack stat high enough so we can begin creating the
-    // BruteSSH.exe program.
-    const sshp = "BruteSSH.exe";
-    const ssh_threshold = hack_requirement(sshp);
-    await study(ns, ssh_threshold);
-    await create_program(ns, sshp);
-    // Study some more to raise our Hack stat high enough so we can begin
-    // creating the FTPCrack.exe program.
-    const ftpp = "FTPCrack.exe";
-    const ftp_threshold = hack_requirement(ftpp);
-    await study(ns, ftp_threshold);
-    await create_program(ns, ftpp);
+
+    await study_and_create(ns);
     // The next script in the load chain.
     const script = "/singularity/money.js";
     const nthread = 1;
