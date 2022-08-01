@@ -16,22 +16,35 @@
  */
 
 import { home } from "/lib/constant.js";
+import { Time } from "/lib/time.js";
+import { assert } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
  * bunch of Augmentations.  Our purpose is to gain some money and Hack
  * experience points early on when our stats are low.  We assume our home
- * server has a small amount of RAM, possibly at least 256GB RAM.
+ * server has a small amount of RAM, possibly at least 128GB RAM.
  *
  * @param ns The Netscript API.
  */
-function reboot(ns) {
+async function reboot(ns) {
+    const target = "world-server.js";
     const nthread = 1;
+    const t = new Time();
+    const time = t.minute();
     const script = [
-        "hnet-farm.js", "world-server.js", "buy-server.js", "/cct/solver.js"
+        "hnet-farm.js", target, "buy-server.js", "/cct/solver.js"
     ];
     for (const s of script) {
         ns.exec(s, home, nthread);
+    }
+    // Wait a while and then kill a script to free up some RAM on the home
+    // server.
+    await ns.sleep(time);
+    for (const s of script) {
+        if (s != target) {
+            assert(ns.kill(s, home));
+        }
     }
 }
 
@@ -66,6 +79,6 @@ function singularity_scripts(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    reboot(ns);
+    await reboot(ns);
     singularity_scripts(ns);
 }
