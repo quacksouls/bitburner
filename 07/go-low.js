@@ -33,17 +33,27 @@ async function reboot(ns) {
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
     const nthread = 1;
-    const target = "world-server.js";
-    const script = ["hnet-farm.js", target];
+    const script = ["hnet-farm.js", "world-server.js"];
     const t = new Time();
     const time = 10 * t.second();
     for (const s of script) {
         ns.exec(s, home, nthread);
         await ns.sleep(time);
-        if (target != s) {
-            assert(ns.kill(s, home));
-        }
+        assert(ns.kill(s, home));
     }
+}
+
+/**
+ * Start a load chain.  Each script in the chain uses functions from the
+ * Singularity API.  Each function from this API tends to use a huge amount
+ * of RAM.
+ *
+ * @param ns The Netscript API.
+ */
+function singularity_scripts(ns) {
+    const script = "/singularity/study.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }
 
 /**
@@ -60,10 +70,14 @@ async function reboot(ns) {
  * (3) Gain root access to servers in the game world (excluding purchased
  *     servers) and use each server to hack itself.
  *
+ * Our goal in this script is to raise the amount of RAM on our home server to
+ * at least 512GB.
+ *
  * Usage: run go-low.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
     await reboot(ns);
+    singularity_scripts(ns);
 }
