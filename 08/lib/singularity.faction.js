@@ -82,6 +82,15 @@ export async function join_faction(ns, fac) {
         ns.singularity.stopAction();
         ns.singularity.quitJob(company);
     }
+    // Join other factions to raise our Intelligence stat.
+    let faction = all_factions();
+    faction = faction.filter(f => f != fac);
+    const invite = new Set(ns.singularity.checkFactionInvitations());
+    for (const f of faction) {
+        if (invite.has(f)) {
+            ns.singularity.joinFaction(f);
+        }
+    }
 }
 
 /**
