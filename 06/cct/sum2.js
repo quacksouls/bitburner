@@ -178,9 +178,11 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
-    const npart = parseInt(coin_change(n, denomination));
+    const npart = coin_change(n, denomination);
+    // The game expects a string representation of an integer, instead of the
+    // integer literal.
     const result = ns.codingcontract.attempt(
-        npart, cct, host, { returnReward: true }
+        npart.toString(), cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
