@@ -195,6 +195,9 @@ function shortest_path(grid) {
     const graph = to_graph(grid);
     const a = pairing(0, 0);
     const b = pairing(grid.length - 1, grid[0].length - 1);
+    if (!graph.has_node(a) || !graph.has_node(b)) {
+        return "";
+    }
     const path = graph.shortest_path(a, b);
     return path_to_string(path);
 }
