@@ -20,6 +20,22 @@ import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * A boolean value meaning that we can move from one square to an adjacent
+ * square in a grid.
+ */
+function can_move() {
+    return true;
+}
+
+/**
+ * A boolean value meaning that we are not allowed to move from one square to
+ * an adjacent square in a grid.
+ */
+function cannot_move() {
+    return false;
+}
+
+/**
  * Whether we can move one step down from our current position on a grid.
  *
  * @param grid A map as an array of arrays.  This is essentially a binary
@@ -28,21 +44,19 @@ import { assert } from "/lib/util.js";
  * @return true if we can move from (r, c) one step down; false otherwise.
  */
 function can_move_down(grid, r, c) {
-    const CAN_MOVE = true;
-    const NO_MOVE = !CAN_MOVE;
     // Are we at the bottom-most edge of the grid?
     const lastidx = grid.length - 1;
     if (lastidx == r) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // Below us is an obstacle.
     assert(r >= 0);
     assert(r < lastidx);
     if (is_obstacle(grid, r + 1, c)) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // We can move one step down.
-    return CAN_MOVE;
+    return can_move();
 }
 
 /**
@@ -56,20 +70,18 @@ function can_move_down(grid, r, c) {
  *     false otherwise.
  */
 function can_move_left(grid, r, c) {
-    const CAN_MOVE = true;
-    const NO_MOVE = !CAN_MOVE;
     // Are we at the left-most edge of the grid?
     if (0 == c) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // To our left is an obstacle.
     assert(c > 0);
     assert(c < grid[r].length);
     if (is_obstacle(grid, r, c - 1)) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // We can move to the left.
-    return CAN_MOVE;
+    return can_move();
 }
 
 /**
@@ -83,21 +95,19 @@ function can_move_left(grid, r, c) {
  *     false otherwise.
  */
 function can_move_right(grid, r, c) {
-    const CAN_MOVE = true;
-    const NO_MOVE = !CAN_MOVE;
     const lastidx = grid[r].length - 1;
     // Are we at the right-most edge of the grid?
     if (lastidx == c) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // To our right is an obstacle.
     assert(c >= 0);
     assert(c < lastidx);
     if (is_obstacle(grid, r, c + 1)) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // We can move to the right.
-    return CAN_MOVE;
+    return can_move();
 }
 
 /**
@@ -109,20 +119,18 @@ function can_move_right(grid, r, c) {
  * @return true if we can move from (r, c) one step up; false otherwise.
  */
 function can_move_up(grid, r, c) {
-    const CAN_MOVE = true;
-    const NO_MOVE = !CAN_MOVE;
     // Are we at the top-most edge of the grid?
     if (0 == r) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // Above us is an obstacle.
     assert(r > 0);
     assert(r < grid.length);
     if (is_obstacle(grid, r - 1, c)) {
-        return NO_MOVE;
+        return cannot_move();
     }
     // We can move one step up.
-    return CAN_MOVE;
+    return can_move();
 }
 
 /**
