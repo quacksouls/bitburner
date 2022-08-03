@@ -17,6 +17,7 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
+import { join_all_factions } from "/lib/singularity.faction.js";
 import { connect_to } from "/lib/singularity.network.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -41,6 +42,9 @@ async function destroy(ns) {
     }
     assert(player.hacking_skill() >= server.hacking_skill());
     assert(server.has_root_access());
+    // First, try to raise our Intelligence stat.
+    join_all_factions(ns);
+    // Now hack the target server.
     connect_to(ns, player.home(), server.hostname());
     await ns.singularity.installBackdoor();
 }

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -70,5 +71,7 @@ function purchased_augmentations(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Try to raise our Intelligence stat before soft reset.
+    join_all_factions(ns);
     install(ns);
 }

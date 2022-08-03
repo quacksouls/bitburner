@@ -54,6 +54,20 @@ function is_valid_faction(fac) {
 }
 
 /**
+ * Join as many factions as we can.  We typically do this to raise our
+ * Intelligence stat.  Call this function prior to installing one or more
+ * Augmentations, or before hacking the w0r1d_d43m0n server.
+ */
+export function join_all_factions(ns) {
+    const invite = new Set(ns.singularity.checkFactionInvitations());
+    for (const f of all_factions()) {
+        if (invite.has(f)) {
+            ns.singularity.joinFaction(f);
+        }
+    }
+}
+
+/**
  * Join a faction.
  *
  * @param ns The Netscript API.
@@ -81,15 +95,6 @@ export async function join_faction(ns, fac) {
         const company = "Fulcrum Technologies";
         ns.singularity.stopAction();
         ns.singularity.quitJob(company);
-    }
-    // Join other factions to raise our Intelligence stat.
-    let faction = all_factions();
-    faction = faction.filter(f => f != fac);
-    const invite = new Set(ns.singularity.checkFactionInvitations());
-    for (const f of faction) {
-        if (invite.has(f)) {
-            ns.singularity.joinFaction(f);
-        }
     }
 }
 
