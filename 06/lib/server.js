@@ -94,9 +94,7 @@ export class Server {
             this.#ram_reserve = default_ram;
             // Reserve a higher amount of RAM, depending on the maximum RAM on
             // the home server.
-            if (this.ram_max() >= 2048) {
-                this.#ram_reserve = 1024;
-            } else if (this.ram_max() >= 1024) {
+            if (this.ram_max() >= 1024) {
                 this.#ram_reserve = 512;
             } else if (this.ram_max() >= 512) {
                 this.#ram_reserve = 256;
