@@ -154,8 +154,11 @@ async function upgrade_ram(ns) {
  */
 export async function main(ns) {
     // Less verbose log.
+    ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
 
     await trade_bot_stop_buy(ns);
     await upgrade(ns);
