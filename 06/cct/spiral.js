@@ -55,7 +55,7 @@ function ring(m, tlr, tlc, brr, brc) {
         const arr = Array.from(array.slice(tlc, brc));
         elem = elem.concat(arr.reverse());
     }
-    // Bottom-right to top-right.
+    // Bottom-left to top-left.
     if (tlr < brr) {
         const arr = new Array();
         for (let r = tlr + 1; r < brr; r++) {
