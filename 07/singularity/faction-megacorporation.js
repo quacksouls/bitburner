@@ -89,6 +89,7 @@ async function megacorporation(ns, city, company, fac, rep) {
  */
 export async function main(ns) {
     // Less verbose log.
+    ns.disableLog("getHackingLevel");
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Join the appropriate faction.
