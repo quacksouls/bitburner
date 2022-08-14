@@ -170,6 +170,8 @@ export async function main(ns) {
     // Suppress various log messages.
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
     ns.disableLog("sleep");
 
     await buy_all_programs(ns);
