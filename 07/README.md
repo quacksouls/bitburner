@@ -7,3 +7,5 @@
    do not have access to the Singularity API.  You must destroy BN4.1 to gain
    access to the API.  Destroy BN4.2 and BN4.3 to reduce the RAM cost of each
    Singularity function to its minimum.
+1. Everything starts from the script `go.js`.  The game play is automated.
+   All you need to do is run the script `go.js`.
