@@ -90,7 +90,10 @@ async function megacorporation(ns, city, company, fac, rep) {
 export async function main(ns) {
     // Less verbose log.
     ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
     ns.disableLog("sleep");
     // Join the appropriate faction.
     const faction = ns.args[0];
