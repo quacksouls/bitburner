@@ -41,9 +41,7 @@ function coin_change(n, denom) {
         denomination.pop();
         i = denomination.length - 1;
     }
-    const np = Math.floor(partition(n, denomination.length, denomination));
-    const base = 10;
-    return parseInt(np.toString(), base);
+    return partition(n, denomination);
 }
 
 /**
@@ -56,102 +54,37 @@ function coin_change(n, denom) {
  * (2) Each d_i > 0.
  * (3) Each d_i <= n.
  *
- * The problem has the following recursive interpretation.  Let C(n, m) be the
- * number of ways to partition n using the first m denominations in D, i.e.
- * using all denominations in D.  Consider the denomination d_{m-1}.  Either a
- * partition contains d_{m-1} or it does not.  If a partition contains d_{m-1},
- * then the partition can have one or more copies of d_{m-1}.  The number of
- * partitions that contain d_{m-1} is C(n - d_{m-1}, m).  If a partition does
- * not contain d_{m-1}, then zero copies of d_{m-1} occur in the partition.
- * The number of partitions that exclude d_{m-1} is the number C(n, m-1).  Thus
- * we have the recurrence relation
+ * The problem has the following recursive interpretation.  Let C(n) be the
+ * number of ways to partition n using a denomination d.  Then we have the
+ * recurrence relation
  *
- * C(n, m) := C(n - d_{m-1}, m) + C(n, m-1)
+ * C(n) := C(n) + C(n - d)
  *
- * The base cases are:
+ * We have the base case C(0) := 1 because there is only one way to make a
+ * change for zero, namely choose no coins at all.  Refer to the following page
+ * for more details:
  *
- * (1) C(n, m) := 1 if n = 0.  There is only one way to partition zero, namely
- *     choose none of the available integers in D.
- * (2) C(n, m) := 0 if n < 0.  This follows from our assumptions above.
- * (3) C(n, m) := 0 if n >= 1 and m < 1.  Our integer is positive, but we
- *     cannot choose any of the integers in D.
+ * https://www.educative.io/m/coin-changing-problem
  *
  * @param n We want to partition this integer.
- * @param m Use the first m values in the array of denominations.
  * @param denom The array of denominations.  An array of positive integers to
  *     use to partition n.  Elements of the array are unique and the array is
  *     assumed to be sorted in ascending order.
  * @return The number of ways to partition n using only integers from
  *     the denomination array.
  */
-let partition = (function () {
-    // A memoized version.
-    const cache = new Map();
-    function c(n, m, denom) {
-        // Base cases.
-        // Case (2): C(n, m) := 0 if n < 0.
-        if (n < 0) {
-            return 0;
+function partition(n, denom) {
+    // Use an array of n + 1 elements because we also need to take care of the
+    // base case.
+    const cache = Array(n + 1).fill(0);
+    cache[0] = 1;
+    for (const d of denom) {
+        for (let i = d; i < cache.length; i++) {
+            cache[i] += cache[i - d];
         }
-        // Case (3): C(n, m) := 0 if n >= 1 and m < 1.
-        if ((n >= 1) && (m < 1)) {
-            return 0;
-        }
-        // Case (1): C(n, m) := 1 if n = 0.
-        if (0 == n) {
-            return 1;
-        }
-        // Sanity checks.
-        assert(n > 0);
-        assert(m > 0);
-        // Check the cache.
-        if (cache.has(n)) {
-            const map = cache.get(n);
-            if (map.has(m)) {
-                return map.get(m);
-            }
-        }
-        // Recursion.
-        // C(n - d_{m-1}, m)
-        const nd = n - denom[m - 1];
-        let pa;
-        if (cache.has(nd)) {
-            const map = cache.get(nd);
-            if (map.has(m)) {
-                pa = map.get(m);
-            } else {
-                pa = c(nd, m, denom);
-                map.set(m, pa);
-                cache.set(nd, map);
-            }
-        } else {
-            const map = new Map();
-            pa = c(nd, m, denom);
-            map.set(m, pa);
-            cache.set(nd, map);
-        }
-        // C(n, m-1)
-        const md = m - 1;
-        let pb;
-        if (cache.has(n)) {
-            const map = cache.get(n);
-            if (map.has(md)) {
-                pb = map.get(md);
-            } else {
-                pb = c(n, md, denom);
-                map.set(md, pb);
-                cache.set(n, map);
-            }
-        } else {
-            const map = new Map();
-            pb = c(n, md, denom);
-            map.set(md, pb);
-            cache.set(n, map);
-        }
-        return pa + pb;
     }
-    return c;
-})();
+    return cache[cache.length - 1];
+}
 
 /**
  * Total Ways to Sum II: You are given an array with two elements.  The first
@@ -179,10 +112,8 @@ export async function main(ns) {
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
     const npart = coin_change(n, denomination);
-    // The game expects a string representation of an integer, instead of the
-    // integer literal.
     const result = ns.codingcontract.attempt(
-        npart.toString(), cct, host, { returnReward: true }
+        npart, cct, host, { returnReward: true }
     );
     // Log the result in case of failure.
     if (0 == result.length) {
