@@ -63,7 +63,7 @@ function buy_stock(ns, stk) {
     // Purchase shares of a stock.
     const nshare = num_shares(ns, stk);
     assert(nshare > 0);
-    ns.stock.buy(stk, nshare);
+    ns.stock.buyStock(stk, nshare);
 }
 
 /**
@@ -257,7 +257,7 @@ function sell_stock(ns, stk) {
     const forecast = ns.stock.getForecast(stk);
     if (forecast < threshold) {
         if (is_profitable(ns, stk)) {
-            ns.stock.sell(stk, nlong);
+            ns.stock.sellStock(stk, nlong);
         }
     }
 }

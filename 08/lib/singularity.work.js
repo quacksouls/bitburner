@@ -31,7 +31,7 @@ import { assert } from "/lib/util.js";
  */
 function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
-    const stat = ns.getPlayer();
+    const stat = ns.getPlayer().skills;
     if (stat.charisma < charisma_lvl) {
         return "Software";
     }

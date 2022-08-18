@@ -63,7 +63,7 @@ export class Player {
      * The player's agility level.
      */
     agility() {
-        const stat = this.#ns.getPlayer();
+        const stat = this.#ns.getPlayer().skills;
         return stat.agility;
     }
 
@@ -71,7 +71,7 @@ export class Player {
      * The player's current Charisma level.
      */
     charisma() {
-        const stat = this.#ns.getPlayer();
+        const stat = this.#ns.getPlayer().skills;
         return stat.charisma;
     }
 
@@ -87,7 +87,7 @@ export class Player {
      * The player's defense level.
      */
     defense() {
-        const stat = this.#ns.getPlayer();
+        const stat = this.#ns.getPlayer().skills;
         return stat.defense;
     }
 
@@ -95,7 +95,7 @@ export class Player {
      * The player's dexterity level.
      */
     dexterity() {
-        const stat = this.#ns.getPlayer();
+        const stat = this.#ns.getPlayer().skills;
         return stat.dexterity;
     }
 
@@ -235,7 +235,7 @@ export class Player {
      * The player's strength level.
      */
     strength() {
-        const stat = this.#ns.getPlayer();
+        const stat = this.#ns.getPlayer().skills;
         return stat.strength;
     }
 }

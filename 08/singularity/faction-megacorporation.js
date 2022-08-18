@@ -111,8 +111,10 @@ export async function main(ns) {
     );
     let city = "";
     let company = faction;
-    const min = 200000;
-    let rep = min;
+    // Since version 2.0, we need at least 400k company reputation to join the
+    // corresponding company faction.
+    // https://github.com/danielyxie/bitburner/blob/dev/doc/source/changelog.rst
+    const rep = 400000;
     switch (faction) {
     case "Bachman & Associates":
         city = "Aevum";
@@ -132,7 +134,6 @@ export async function main(ns) {
     case "Fulcrum Secret Technologies":
         city = "Aevum";
         company = "Fulcrum Technologies";
-        rep = 250000;
         break;
     case "KuaiGong International":
         city = "Chongqing";
@@ -152,7 +153,6 @@ export async function main(ns) {
     assert(city.length > 0);
     assert(company.length > 0);
     assert(faction.length > 0);
-    assert(rep >= min);
     await megacorporation(ns, city, company, faction, rep);
     // The next script in the load chain.
     const player = new Player(ns);
