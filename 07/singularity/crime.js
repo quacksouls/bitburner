@@ -42,15 +42,20 @@ function choose_crime(ns) {
  * Commit a crime to earn some income.
  *
  * @param ns The Netscript API.
+ * @param threshold Continue committing crimes as long as our money is less
+ *     than this amount.
  */
-async function commit_crime(ns) {
-    const crime = choose_crime(ns);
+async function commit_crime(ns, threshold) {
+    assert(threshold > 0);
     const t = new Time();
     const time = t.second();
-    ns.singularity.commitCrime(crime);
-    while (ns.singularity.isBusy()) {
+    const crime = choose_crime(ns);
+    const focus = true;
+    ns.singularity.commitCrime(crime, focus);
+    while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(time);
     }
+    ns.singularity.stopAction();
 }
 
 /**
@@ -154,22 +159,17 @@ function lowest_time(ns, crime) {
  * Shoplift a few times to raise our combat stats.
  *
  * @param ns The Netscript API.
- * @param threshold Raise our money to at least this threshold.
  */
-async function shoplift(ns, threshold) {
+async function shoplift(ns) {
+    const crime = "shoplift";
+    const stat = ns.singularity.getCrimeStats(crime);
+    // We want to shoplift this many times.
     const max = 20;
-    const t = new Time();
-    const time = t.second();
-    for (let i = 0; i < max; i++) {
-        ns.singularity.commitCrime("shoplift");
-        while (ns.singularity.isBusy()) {
-            await ns.sleep(time);
-        }
-        const money = ns.getServerMoneyAvailable(home);
-        if (money >= threshold) {
-            return;
-        }
-    }
+    const time = max * stat.time;
+    const focus = true;
+    ns.singularity.commitCrime(crime, focus);
+    await ns.sleep(time);
+    ns.singularity.stopAction();
 }
 
 /**
@@ -190,11 +190,6 @@ export async function main(ns) {
     const threshold = Math.floor(ns.args[0]);
     assert(threshold > 0);
     // Commit crimes as long as our funds is less than the given threshold.
-    await shoplift(ns, threshold);
-    const t = new Time();
-    const time = t.second();
-    while (ns.getServerMoneyAvailable(home) < threshold) {
-        await commit_crime(ns);
-        await ns.sleep(time);
-    }
+    await shoplift(ns);
+    await commit_crime(ns, threshold);
 }
