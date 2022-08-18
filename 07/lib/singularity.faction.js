@@ -70,6 +70,7 @@ export async function join_faction(ns, fac) {
         const focus = true;
         ns.singularity.applyToCompany(company, field);
         ns.singularity.workForCompany(company, focus);
+        ns.singularity.setFocus(focus);
     }
     const player = new Player(ns);
     const joined_faction = new Set(player.faction());
@@ -108,13 +109,13 @@ export async function raise_combat_stats(ns, threshold) {
     const focus = true;
     const t = new Time();
     const time = t.minute();
+    ns.singularity.workForFaction(target, work_type, focus);
     while (
         (player.strength() < threshold)
             || (player.defense() < threshold)
             || (player.dexterity() < threshold)
             || (player.agility() < threshold)
     ) {
-        ns.singularity.workForFaction(target, work_type, focus);
         await ns.sleep(time);
     }
     ns.singularity.stopAction();
@@ -146,8 +147,8 @@ export async function raise_hack(ns, threshold) {
     const focus = true;
     const t = new Time();
     const time = t.minute();
+    ns.singularity.workForFaction(target, work_type, focus);
     while (player.hacking_skill() < threshold) {
-        ns.singularity.workForFaction(target, work_type, focus);
         await ns.sleep(time);
     }
     ns.singularity.stopAction();
@@ -192,12 +193,11 @@ export async function work_for_faction(ns, fac, work_type) {
     const focus = true;
     const t = new Time();
     const time = t.minute();
+    ns.singularity.workForFaction(fac, work_type, focus);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
         const amount = Math.floor(0.2 * ns.getServerMoneyAvailable(home));
         ns.singularity.donateToFaction(fac, amount);
-        // Work for faction to raise reputation.
-        ns.singularity.workForFaction(fac, work_type, focus);
         await ns.sleep(time);
     }
     ns.singularity.stopAction();

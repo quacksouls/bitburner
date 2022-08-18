@@ -65,19 +65,26 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     const field = "Software";
     const focus = true;
     ns.singularity.applyToCompany(company, field);
+    ns.singularity.workForCompany(company, focus);
+    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (player.charisma() < threshold) {
-        ns.singularity.workForCompany(company, focus);
         await ns.sleep(time);
-        ns.singularity.applyToCompany(company, field);
+        const success = ns.singularity.applyToCompany(company, field);
+        // We have a promotion.  Work in the new job.
+        if (success) {
+            ns.singularity.workForCompany(company, focus);
+            ns.singularity.setFocus(focus);
+        }
     }
     ns.singularity.stopAction();
     ns.singularity.quitJob(company);
 }
 
 /**
- * Work at a company and rise to the position of Chief Financial Officer.
+ * Work at a company and rise to the position of Chief Financial Officer.  We
+ * do not quit the company after the function ends.
  *
  * @param ns The Netscript API.
  * @param company We want to work for this company.
@@ -94,12 +101,18 @@ export async function rise_to_cfo(ns, company) {
     const focus = true;
     const target_job = "Chief Financial Officer";
     ns.singularity.applyToCompany(company, field);
+    ns.singularity.workForCompany(company, focus);
+    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (player.job(company) != target_job) {
-        ns.singularity.workForCompany(company, focus);
         await ns.sleep(time);
-        ns.singularity.applyToCompany(company, field);
+        const success = ns.singularity.applyToCompany(company, field);
+        // We have a promotion.  Work in the new job.
+        if (success) {
+            ns.singularity.workForCompany(company, focus);
+            ns.singularity.setFocus(focus);
+        }
     }
     ns.singularity.stopAction();
 }
@@ -114,8 +127,7 @@ export async function rise_to_cfo(ns, company) {
  */
 export async function work(ns, threshold) {
     assert(threshold > 0);
-    let money = ns.getServerMoneyAvailable(home);
-    if (money >= threshold) {
+    if (ns.getServerMoneyAvailable(home) >= threshold) {
         return;
     }
     if (ns.getHackingLevel() < work_hack_lvl) {
@@ -126,16 +138,21 @@ export async function work(ns, threshold) {
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
     const company = "MegaCorp";
-    const field = choose_field(ns);
     const focus = true;
-    ns.singularity.applyToCompany(company, field);
+    ns.singularity.applyToCompany(company, choose_field(ns));
+    ns.singularity.workForCompany(company, focus);
+    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
-    while (money < threshold) {
-        ns.singularity.workForCompany(company, focus);
+    while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(time);
-        ns.singularity.applyToCompany(company, field);
-        money = ns.getServerMoneyAvailable(home);
+        const field = choose_field(ns);
+        const success = ns.singularity.applyToCompany(company, field);
+        // We have a promotion.  Start working in the new job.
+        if (success) {
+            ns.singularity.workForCompany(company, focus);
+            ns.singularity.setFocus(focus);
+        }
     }
     ns.singularity.stopAction();
     ns.singularity.quitJob(company);
@@ -151,6 +168,7 @@ export async function work(ns, threshold) {
  *     reputation points.
  */
 export async function work_for_company(ns, company, rep) {
+    assert(rep > 0);
     // Ensure we have the minimum Hack stat.
     if (ns.getHackingLevel() < work_hack_lvl) {
         await study(ns, work_hack_lvl);
@@ -161,13 +179,20 @@ export async function work_for_company(ns, company, rep) {
     // more reputation points per second.
     const field = choose_field(ns);
     const focus = true;
-    ns.singularity.applyToCompany(company, field);
+    ns.singularity.applyToCompany(company, choose_field(ns));
+    ns.singularity.workForCompany(company, focus);
+    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (ns.singularity.getCompanyRep(company) < rep) {
-        ns.singularity.workForCompany(company, focus);
         await ns.sleep(time);
-        ns.singularity.applyToCompany(company, field);
+        const field = choose_field(ns);
+        const success = ns.singularity.applyToCompany(company, field);
+        // We have a promotion.  Work in the new job.
+        if (success) {
+            ns.singularity.workForCompany(company, focus);
+            ns.singularity.setFocus(focus);
+        }
     }
     ns.singularity.stopAction();
     ns.singularity.quitJob(company);
