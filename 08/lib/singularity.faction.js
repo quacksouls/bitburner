@@ -41,6 +41,22 @@ async function await_invitation(ns, fac) {
 }
 
 /**
+ * Whether a given faction is a megacorporation faction.
+ *
+ * @param fac The name of a faction.
+ * @return true if the given faction is a megacorporation faction;
+ *     false otherwise.
+ */
+function is_megacorporation_faction(fac) {
+    const faction = [
+        "Bachman & Associates", "Blade Industries", "Clarke Incorporated",
+        "ECorp", "Four Sigma", "Fulcrum Secret Technologies",
+        "KuaiGong International", "MegaCorp", "NWO", "OmniTek Incorporated"
+    ];
+    return faction.includes(fac);
+}
+
+/**
  * Whether the given name represents a valid faction.
  *
  * @param fac A string representing the name of a faction.
@@ -75,25 +91,30 @@ export function join_all_factions(ns) {
  */
 export async function join_faction(ns, fac) {
     assert(is_valid_faction(fac));
-    // Unlike other megacorporation factions, we must be working for Fulcrum
-    // Technologies while waiting for a faction invitation.  We can quit
-    // working once we have joined the faction.
-    if ("Fulcrum Secret Technologies" == fac) {
-        const company = "Fulcrum Technologies";
+    // Since version 2.0 of the game, we must be working for a megacorporation
+    // while waiting for an invitation from the corresponding faction.  We can
+    // quit working once we have joined the faction.
+    let company = fac;
+    if (is_megacorporation_faction(fac)) {
+        if ("Fulcrum Secret Technologies" == fac) {
+            company = "Fulcrum Technologies";
+        }
         const field = "Software"
         const focus = true;
         ns.singularity.applyToCompany(company, field);
         ns.singularity.workForCompany(company, focus);
         ns.singularity.setFocus(focus);
     }
+    // Join the faction.
     const player = new Player(ns);
     const joined_faction = new Set(player.faction());
     if (!joined_faction.has(fac)) {
         await await_invitation(ns, fac);
         ns.singularity.joinFaction(fac);
     }
-    if ("Fulcrum Secret Technologies" == fac) {
-        const company = "Fulcrum Technologies";
+    // We are a member of the target faction.  Quit working for the
+    // corresponding megacorporation.
+    if (is_megacorporation_faction(fac)) {
         ns.singularity.stopAction();
         ns.singularity.quitJob(company);
     }
