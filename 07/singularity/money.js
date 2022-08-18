@@ -82,17 +82,16 @@ function load_chain(ns) {
  */
 export async function main(ns) {
     // Commit crime to raise some money.
+    const player_money = ns.getServerMoneyAvailable(home);
+    const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
-    if (
-        (ns.getServerMoneyAvailable(home) > threshold)
-            && (ns.getServer(home).maxRam >= high_ram)
-    ) {
+    if ((player_money > threshold) && (home_ram >= high_ram)) {
         load_chain(ns);
         return;
     }
     await commit_crimes(ns, threshold);
     // If our home server is not high-end, upgrade the RAM on the home server.
-    if (ns.getServer(home).maxRam < high_ram) {
+    if (home_ram < high_ram) {
         const cost = ns.singularity.getUpgradeHomeRamCost();
         let success = ns.singularity.upgradeHomeRam();
         while (!success) {
