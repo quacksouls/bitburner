@@ -171,12 +171,12 @@ export class Player {
      *     the given company.
      */
     job(company) {
-        const stat = this.#ns.getCharacterInformation();
-        const i = stat.jobs.findIndex(c => c == company);
-        if (i < 0) {
+        assert(company.length > 0);
+        const stat = this.#ns.getPlayer();
+        if (stat.jobs[company] == undefined) {
             return "";
         }
-        return stat.jobTitles[i];
+        return stat.jobs[company];
     }
 
     /**
