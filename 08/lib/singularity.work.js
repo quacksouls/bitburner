@@ -177,7 +177,6 @@ export async function work_for_company(ns, company, rep) {
     // Work for the company until we have accumulated the given amount of
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
-    const field = choose_field(ns);
     const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, focus);
