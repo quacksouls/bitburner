@@ -69,12 +69,11 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     const time = t.second();
     const player = new Player(ns);
     if ("shoplift" == crime) {
+        ns.singularity.commitCrime(crime);
         while (Math.ceil(player.karma()) > threshold) {
-            ns.singularity.commitCrime(crime);
-            while (ns.singularity.isBusy()) {
-                await ns.sleep(time);
-            }
+            await ns.sleep(time);
         }
+        ns.singularity.stopAction();
         assert(Math.ceil(player.karma()) < 0);
         assert(Math.ceil(player.karma()) <= threshold);
         return;
@@ -82,14 +81,12 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // Homicide.
     assert("homicide" == crime);
     assert(nkill > 0);
+    ns.singularity.commitCrime(crime);
     while (
         (Math.ceil(player.karma()) > threshold)
             || (player.nkill() < nkill)
     ) {
-        ns.singularity.commitCrime(crime);
-        while (ns.singularity.isBusy()) {
-            await ns.sleep(time);
-        }
+        await ns.sleep(time);
     }
     assert(Math.ceil(player.karma()) < 0);
     assert(Math.ceil(player.karma()) <= threshold);
