@@ -119,7 +119,8 @@ export async function raise_combat_stats(ns, threshold) {
     // Join a faction.
     const player = new Player(ns);
     const joined_faction = player.faction();
-    assert("Sector-12" == player.city());
+    // You can join a particular company by being anywhere in the game world.
+    // You do not have to be in the city where the company is located.
     const target = "MegaCorp";
     if (!joined_faction.includes(target)) {
         await await_invitation(ns, target);
