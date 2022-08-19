@@ -26,6 +26,72 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Install a backdoor on a megacorporation server.  Since version 2.0 of the
+ * game, we must have at least 400k reputation with a megacorporation as a
+ * pre-requisite for receiving an invitation from the corresponding faction.
+ * Installing a backdoor on the company server would reduce the reputation
+ * requirement to 300k.
+ *
+ * @param ns The Netscript API.
+ * @param fac The name of a megacorporation faction.
+ */
+async function install_backdoor_on_server(ns, fac) {
+    let target = "";
+    switch (fac) {
+    case "Bachman & Associates":
+        target = "b-and-a";
+        break;
+    case "Blade Industries":
+        target = "blade";
+        break;
+    case "Clarke Incorporated":
+        target = "clarkinc";
+        break;
+    case "ECorp":
+        target = "ecorp";
+        break;
+    case "Four Sigma":
+        target = "4sigma";
+        break;
+    case "Fulcrum Secret Technologies":
+        target = "fulcrumassets";
+        break;
+    case "KuaiGong International":
+        target = "kuai-gong";
+        break;
+    case "MegaCorp":
+        target = "megacorp";
+        break;
+    case "NWO":
+        target = "nwo";
+        break;
+    case "OmniTek Incorporated":
+        target = "omnitek";
+        break;
+    default:
+        target = "";
+        break;
+    }
+    assert("" != target);
+    // Ensure we have the required Hack stat.
+    const server = new Server(ns, target);
+    const player = new Player(ns);
+    if (player.hacking_skill() < server.hacking_skill()) {
+        await raise_hack(ns, server.hacking_skill());
+    }
+    assert(player.hacking_skill() >= server.hacking_skill());
+    // Ensure we have root access on the target server.
+    const t = new Time();
+    const time = t.second();
+    while (!server.has_root_access()) {
+        await server.gain_root_access();
+        await ns.sleep(time);
+    }
+    assert(server.has_root_access());
+    await install_backdoor(ns, target);
+}
+
+/**
  * Join a megacorporation faction.  The requirements for receiving an
  * invitation are:
  *
@@ -114,7 +180,11 @@ export async function main(ns) {
     // Since version 2.0, we need at least 400k company reputation to join the
     // corresponding company faction.
     // https://github.com/danielyxie/bitburner/blob/dev/doc/source/changelog.rst
-    const rep = 400000;
+    //
+    // However, the reputation requirement is reduced to 300k if we have
+    // installed a backdoor on the corresponding company server.
+    await install_backdoor_on_server(ns, faction);
+    const rep = 300000;
     switch (faction) {
     case "Bachman & Associates":
         city = "Aevum";
