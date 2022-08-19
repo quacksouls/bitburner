@@ -115,25 +115,6 @@ async function megacorporation(ns, city, company, fac, rep) {
     await visit_city(ns, city);
     // Work for the company to earn the required reputation points.
     await work_for_company(ns, company, rep);
-    if ("Fulcrum Secret Technologies" == fac) {
-        // Ensure we have the required Hack stat.
-        const target = "fulcrumassets";
-        const server = new Server(ns, target);
-        const player = new Player(ns);
-        if (player.hacking_skill() < server.hacking_skill()) {
-            await raise_hack(ns, server.hacking_skill());
-        }
-        assert(player.hacking_skill() >= server.hacking_skill());
-        // Ensure we have root access on the target server.
-        const t = new Time();
-        const time = t.second();
-        while (!server.has_root_access()) {
-            await server.gain_root_access();
-            await ns.sleep(time);
-        }
-        assert(server.has_root_access());
-        await install_backdoor(ns, target);
-    }
     // Join the faction, earn reputation points, and purchase all Augmentations.
     const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
