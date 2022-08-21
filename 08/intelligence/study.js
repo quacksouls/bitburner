@@ -27,8 +27,8 @@ import { assert } from "/lib/util.js";
  */
 async function study(ns) {
     const t = new Time();
-    const minute = 1;
-    const time = minute * t.minute();
+    const n = 60;
+    const time = n * t.minute();
     const uni = "Rothman University";
     const course = [
         "Study Computer Science",
@@ -58,12 +58,7 @@ async function study(ns) {
 }
 
 /**
- * Intelligence xp cannot be gained from studying at a university.  The source
- * file at
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Singularity.ts
- *
- * confirms this behaviour.
+ * Obtain Intelligence XP by studying at a university.
  *
  * @param ns The Netscript API.
  */
