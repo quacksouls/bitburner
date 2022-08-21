@@ -22,8 +22,8 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Study various university courses for one minute each and calculate the
- * amount of Intelligence gained.
+ * Study various university courses for an hour each and calculate the
+ * amount of Intelligence gained per minute.
  *
  * @param ns The Netscript API.
  */
