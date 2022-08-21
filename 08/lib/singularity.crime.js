@@ -45,6 +45,41 @@ export async function commit_crime(ns, threshold) {
 }
 
 /**
+ * Choose a crime that has the highest chance of success.
+ *
+ * @param ns The Netscript API.
+ * @param crime An array of crime names.
+ * @return An array of strings, where each element is the name of a crime.
+ *     If the array has multiple elements, then all crimes in the array have
+ *     the same chance of success.
+ */
+export function greatest_chance(ns, crime) {
+    assert(crime.length > 0);
+    let max = 0;
+    const chance = new Map();
+    const million = 10 ** 6;
+    for (const c of crime) {
+        // We want to avoid floating point numbers when we compare the chance
+        // of success of various crimes.  Convert the probability of success to
+        // an integer.
+        const prob = ns.singularity.getCrimeChance(c);
+        const n = Math.round(prob * million);
+        if (max < n) {
+            max = n;
+        }
+        if (chance.has(n)) {
+            const crime_name = chance.get(n);
+            crime_name.push(c);
+            chance.set(n, crime_name);
+            continue;
+        }
+        const crime_name = [c];
+        chance.set(n, crime_name);
+    }
+    return chance.get(max);
+}
+
+/**
  * Accumulate negative karma.  Stop when our negative karma is at or lower than
  * a given threshold.
  *
