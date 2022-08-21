@@ -15,9 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { all_programs, home } from "/lib/constant.js";
 import { assert } from "/lib/util.js";
 
 // Miscellaneous utility functions.
+
+/**
+ * Whether we have the given program on our home server.
+ *
+ * @param ns The Netscript API.
+ * @param program A string representing the name of a program.
+ * @return true if we already have the given program;
+ *     false otherwise.
+ */
+export function has_program(ns, program) {
+    assert(is_valid_program(program));
+    return ns.fileExists(program, home);
+}
 
 /**
  * The amount of Intelligence XP the player has.
@@ -76,4 +90,17 @@ export function intelligence_gain_per_minute(
     ns.tprint("Intelligence gain: " + gain);
     ns.tprint("Intelligence gain per minute: " + gpm);
     ns.tprint("");
+}
+
+/**
+ * Whether the given name is a valid program.
+ *
+ * @param name A string representing the name of a program.
+ * @return true if the given name is a valid program;
+ *     false otherwise.
+ */
+export function is_valid_program(name) {
+    assert(name.length > 0);
+    const program = all_programs();
+    return program.has(name);
 }

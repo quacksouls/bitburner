@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { all_programs, home } from "/lib/constant.js";
+import {
+    has_program, intelligence, intelligence_gain, is_valid_program
+} from "/intelligence/util.js";
+import { all_programs } from "/lib/constant.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -61,32 +63,6 @@ async function create_program(ns, program) {
 function hack_requirement(program) {
     const prog = all_programs();
     return prog.get(program);
-}
-
-/**
- * Whether we have the given program on our home server.
- *
- * @param ns The Netscript API.
- * @param program A string representing the name of a program.
- * @return true if we already have the given program;
- *     false otherwise.
- */
-function has_program(ns, program) {
-    assert(is_valid_program(program));
-    return ns.fileExists(program, home);
-}
-
-/**
- * Whether the given name is a valid program.
- *
- * @param name A string representing the name of a program.
- * @return true if the given name is a valid program;
- *     false otherwise.
- */
-function is_valid_program(name) {
-    assert(name.length > 0);
-    const program = all_programs();
-    return program.has(name);
 }
 
 /**
