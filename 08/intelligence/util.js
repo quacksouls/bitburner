@@ -18,7 +18,7 @@
 // Miscellaneous utility functions.
 
 /**
- * The amount of Intelligence xp the player has.
+ * The amount of Intelligence XP the player has.
  *
  * @param ns The Netscript API.
  */
