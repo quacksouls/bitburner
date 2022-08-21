@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence } from "/intelligence/util.js";
+import {
+    intelligence, intelligence_gain_per_minute
+} from "/intelligence/util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -41,19 +43,13 @@ async function study(ns) {
     ns.tprint("Study at " + uni);
     const focus = true;
     for (const c of course) {
-        ns.tprint("Course: " + c);
+        const action = "Course: " + c;
         const before = intelligence(ns);
-        ns.tprint("Intelligence before: " + before);
         assert(ns.singularity.universityCourse(uni, c, focus));
         await ns.sleep(time);
         ns.singularity.stopAction();
         const after = intelligence(ns);
-        ns.tprint("Intelligence after: " + after);
-        const gain = after - before;
-        ns.tprint("Intelligence gain: " + gain);
-        const gpm = gain / minute;
-        ns.tprint("Intelligence gain per minute: " + gpm);
-        ns.tprint("");
+        intelligence_gain_per_minute(ns, before, after, action, n);
     }
 }
 
