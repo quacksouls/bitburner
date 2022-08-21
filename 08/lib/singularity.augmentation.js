@@ -79,7 +79,7 @@ export function augmentations_to_buy(ns, fac) {
  * @param augment An array of Augmentation names.  Cannot be an empty array.
  * @return The name of the most expensive Augmentation from the given array.
  */
-function choose_augmentation(ns, augment) {
+export function choose_augmentation(ns, augment) {
     assert(augment.length > 0);
     let max = -Infinity;
     let aug = "";
@@ -102,7 +102,7 @@ function choose_augmentation(ns, augment) {
  * @return true if we have already purchased the given Augmentation;
  *     false otherwise.
  */
-function has_augmentation(ns, aug) {
+export function has_augmentation(ns, aug) {
     const purchased = true;
     const augment = new Set(ns.singularity.getOwnedAugmentations(purchased));
     return augment.has(aug);
@@ -115,7 +115,7 @@ function has_augmentation(ns, aug) {
  * @return true if the given string represents a valid faction name;
  *     false otherwise.
  */
-function is_valid_faction(fac) {
+export function is_valid_faction(fac) {
     assert(fac.length > 0);
     const faction = new Set(all_factions());
     return faction.has(fac);
@@ -149,7 +149,7 @@ function lowest_reputation(ns, augment) {
 /**
  * A string representing the name of the NeuroFlux Governor Augmentation.
  */
-function nfg() {
+export function nfg() {
     return "NeuroFlux Governor";
 }
 
@@ -193,7 +193,7 @@ export function owned_augmentations(ns) {
  *     given Augmentation has no pre-requisites or we have already purchased
  *     all of its pre-requisites.
  */
-function prerequisites(ns, aug) {
+export function prerequisites(ns, aug) {
     assert("" != aug);
     const augment = new Array();
     const prereq = ns.singularity.getAugmentationPrereq(aug);
