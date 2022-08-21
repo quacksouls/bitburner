@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence } from "/intelligence/util.js";
+import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { all_programs, home } from "/lib/constant.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -48,12 +48,8 @@ async function create_program(ns, program) {
     }
     assert(has_program(ns, program));
     const after = intelligence(ns);
-    const gain = after - before;
-    ns.tprint("Create program: " + program);
-    ns.tprint("Intelligence before: " + before);
-    ns.tprint("Intelligence after: " + after);
-    ns.tprint("Intelligence xp gain: " + gain);
-    ns.tprint("");
+    const action = "Create program: " + program;
+    intelligence_gain(ns, before, after, action);
 }
 
 /**

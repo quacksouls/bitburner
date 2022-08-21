@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence } from "/intelligence/util.js";
+import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { Server} from "/lib/server.js";
@@ -32,16 +32,13 @@ function upgrade_core(ns) {
         return;
     }
     const server = new Server(ns, home);
-    ns.tprint("Home Cores before: " + server.cores());
+    const cores_before = server.cores();
     const before = intelligence(ns);
     assert(ns.singularity.upgradeHomeCores());
-    ns.tprint("Home Cores after: " + server.cores());
+    const cores_after = server.cores();
     const after = intelligence(ns);
-    const gain = after - before;
-    ns.tprint("Intelligence before: " + before);
-    ns.tprint("Intelligence after: " + after);
-    ns.tprint("Intelligence gain: " + gain);
-    ns.tprint("");
+    const action = "Upgrade home Cores: " + cores_before + " -> " + cores_after;
+    intelligence_gain(ns, before, after, action);
 }
 
 /**
@@ -55,16 +52,13 @@ function upgrade_ram(ns) {
         return;
     }
     const server = new Server(ns, home);
-    ns.tprint("Home RAM before: " + server.ram_max());
+    const ram_before = server.ram_max();
     const before = intelligence(ns);
     assert(ns.singularity.upgradeHomeRam());
-    ns.tprint("Home RAM after: " + server.ram_max());
+    const ram_after = server.ram_max();
     const after = intelligence(ns);
-    const gain = after - before;
-    ns.tprint("Intelligence before: " + before);
-    ns.tprint("Intelligence after: " + after);
-    ns.tprint("Intelligence gain: " + gain);
-    ns.tprint("");
+    const action = "Upgrade home RAM: " + ram_before + " -> " + ram_after;
+    intelligence_gain(ns, before, after, action);
 }
 
 /**
