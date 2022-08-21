@@ -49,3 +49,31 @@ export function intelligence_gain(ns, before, after, action) {
     ns.tprint("Intelligence gain: " + gain);
     ns.tprint("");
 }
+
+/**
+ * Print the gain in Intelligence XP per minute.
+ *
+ * @param ns The Netscript API.
+ * @param before The amount of Intelligence XP before a certain action.
+ * @param after The amount of Intelligence XP after performing a certain
+ *     action.
+ * @param action The action whose performance might possibly result in a gain
+ *     in Intelligence XP.
+ * @param minute Divide the Intelligence XP gain by this many minutes.
+ */
+export function intelligence_gain_per_minute(
+    ns, before, after, action, minute
+) {
+    assert(before >= 0);
+    assert(after >= 0);
+    assert(action.length > 0);
+    assert(minute > 0);
+    const gain = after - before;
+    const gpm = gain / minute;
+    ns.tprint(action);
+    ns.tprint("Intelligence before: " + before);
+    ns.tprint("Intelligence after: " + after);
+    ns.tprint("Intelligence gain: " + gain);
+    ns.tprint("Intelligence gain per minute: " + gpm);
+    ns.tprint("");
+}
