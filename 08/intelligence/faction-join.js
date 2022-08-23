@@ -15,26 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
+import {
+    has_invitation, intelligence, intelligence_gain
+} from "/intelligence/util.js";
 import { all_factions } from "/lib/constant.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Whether we have an invitation to join a given faction.
- *
- * @param ns The Netscript API.
- * @param fac The name of the faction we want to join.
- * @return true if we have an invitation to join the given faction;
- *     false otherwise.
- */
-function has_invitation(ns, fac) {
-    const before = intelligence(ns);
-    const invite = ns.singularity.checkFactionInvitations();
-    const after = intelligence(ns);
-    const action = "Check faction invitations.";
-    intelligence_gain(ns, before, after, action);
-    return invite.includes(fac);
-}
 
 /**
  * Whether the given name represents a valid faction.

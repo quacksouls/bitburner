@@ -21,6 +21,19 @@ import { assert } from "/lib/util.js";
 // Miscellaneous utility functions.
 
 /**
+ * Whether we have an invitation to join a given faction.
+ *
+ * @param ns The Netscript API.
+ * @param fac The name of the faction we want to join.
+ * @return true if we have an invitation to join the given faction;
+ *     false otherwise.
+ */
+export function has_invitation(ns, fac) {
+    const invite = ns.singularity.checkFactionInvitations();
+    return invite.includes(fac);
+}
+
+/**
  * Whether we have the given program on our home server.
  *
  * @param ns The Netscript API.
