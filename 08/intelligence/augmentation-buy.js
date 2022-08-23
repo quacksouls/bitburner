@@ -116,7 +116,7 @@ async function purchase_aug(ns, aug, fac) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
-        const pre = choose_augmentation(prereq);
+        const pre = choose_augmentation(ns, prereq);
         await purchase_aug(ns, pre, fac);
         prereq = prereq.filter(a => a != pre);
     }
@@ -127,6 +127,9 @@ async function purchase_aug(ns, aug, fac) {
     const time = 5 * t.second();
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     const before = intelligence(ns);
+    if (has_augmentation(ns, aug)) {
+        return;
+    }
     while (!success) {
         assert(!has_augmentation(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
