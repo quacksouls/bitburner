@@ -84,11 +84,15 @@ export async function raise_hack(ns, threshold) {
  */
 export async function study(ns, threshold) {
     assert(threshold > 0);
-    // Study the free computer science course at a university.
     const uni = choose_university(ns);
-    if ("" == uni) {
+    const empty_str = "";
+    if (empty_str == uni) {
         return;
     }
+    // Go to a different location to gain some Intelligence XP.
+    assert(empty_str != uni);
+    ns.singularity.goToLocation(uni);
+    // Study the free computer science course at a university.
     const course = "Study Computer Science";
     const focus = true;
     assert(ns.singularity.universityCourse(uni, course, focus));
