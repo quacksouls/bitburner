@@ -21,6 +21,34 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Determine the university at which we should study.
+ *
+ * @param ns The Netscript API.
+ * @return A string representing the name of the university where we should
+ *     study.  An empty string if the player is located in a city that does not
+ *     have a university.
+ */
+function choose_university(ns) {
+    const city = ns.getPlayer().city;
+    let uni = "";
+    switch (city) {
+    case "Aevum":
+        uni = "Summit University";
+        break;
+    case "Sector-12":
+        uni = "Rothman University";
+        break;
+    case "Volhaven":
+        uni = "ZB Institute of Technology";
+        break;
+    default:
+        uni = "";
+        break;
+    }
+    return uni;
+}
+
+/**
  * Increase our Hack stat.  Continue doing so until our Hack stat is at least
  * a given threshold.
  *
@@ -46,7 +74,9 @@ export async function raise_hack(ns, threshold) {
  * (2) When we start all over on a different BitNode.
  * (3) If there is a special need to increase our Hack stat.
  *
- * Note that some cities have universities, while others do not.
+ * Note that some cities have universities, while others do not.  If you really
+ * want to study at a university, ensure you are located in a city that has a
+ * university.
  *
  * @param ns The Netscript API.
  * @param threshold Study until we have reached at least this amount of
@@ -55,29 +85,12 @@ export async function raise_hack(ns, threshold) {
 export async function study(ns, threshold) {
     assert(threshold > 0);
     // Study the free computer science course at a university.
-    const stat = ns.getPlayer();
-    let uni = "";
-    switch(stat.city) {
-    case "Aevum":
-        uni = "Summit University";
-        break;
-    case "Sector-12":
-        uni = "Rothman University";
-        break;
-    case "Volhaven":
-        uni = "ZB Institute of Technology";
-        break;
-    default:
-        uni = "";
-        break;
-    }
-    // No university in the current city.
+    const uni = choose_university(ns);
     if ("" == uni) {
         return;
     }
     const course = "Study Computer Science";
     const focus = true;
-    assert("" != uni);
     assert(ns.singularity.universityCourse(uni, course, focus));
     // Stop our study when our Hack stat is at least the given threshold.
     const t = new Time();
