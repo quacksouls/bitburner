@@ -87,7 +87,6 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     if (player.charisma() >= threshold) {
         return;
     }
-    assert("Sector-12" == player.city());
     assert(threshold > 0);
     // Ensure we have the minimum Hack stat.
     if (player.hacking_skill() < hack_lvl) {
@@ -96,7 +95,7 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     assert(player.hacking_skill() >= hack_lvl);
     // Work for a company as a software engineer until we have accumulated the
     // given amount of Charisma level.
-    const company = "MegaCorp";
+    const company = choose_company(ns);
     const field = "Software";
     const focus = true;
     ns.singularity.applyToCompany(company, field);
