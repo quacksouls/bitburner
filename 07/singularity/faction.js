@@ -46,101 +46,101 @@ async function choose_faction(ns) {
     assert(faction.length > 0);
     let script = "";
     switch (faction) {
-    case "Aevum":
-        script = "/singularity/faction-city.js";
-        break;
-    case "Bachman & Associates":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "BitRunners":
-        script = "/singularity/faction-hack.js";
-        break;
-    case "Blade Industries":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Chongqing":
-        script = "/singularity/faction-city.js";
-        break;
-    case "Clarke Incorporated":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "CyberSec":
-        script = "/singularity/faction-early.js";
-        break;
-    case "Daedalus":
-        script = "/singularity/faction-end.js";
-        break;
-    case "ECorp":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Four Sigma":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Fulcrum Secret Technologies":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Illuminati":
-        script = "/singularity/faction-end.js";
-        break;
-    case "Ishima":
-        script = "/singularity/faction-city.js";
-        break;
-    case "KuaiGong International":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "MegaCorp":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Netburners":
-        script = "/singularity/faction-early.js";
-        break;
-    case "New Tokyo":
-        script = "/singularity/faction-city.js";
-        break;
-    case "NiteSec":
-        script = "/singularity/faction-hack.js";
-        break;
-    case "NWO":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "OmniTek Incorporated":
-        script = "/singularity/faction-megacorporation.js";
-        break;
-    case "Sector-12":
-        script = "/singularity/faction-city.js";
-        break;
-    case "Silhouette":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "Slum Snakes":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "Speakers for the Dead":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "Tetrads":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "The Black Hand":
-        script = "/singularity/faction-hack.js";
-        break;
-    case "The Covenant":
-        script = "/singularity/faction-end.js";
-        break;
-    case "The Dark Army":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "The Syndicate":
-        script = "/singularity/faction-crime.js";
-        break;
-    case "Tian Di Hui":
-        script = "/singularity/faction-early.js";
-        break;
-    case "Volhaven":
-        script = "/singularity/faction-city.js";
-        break;
-    default:
-        break;
+        case "Aevum":
+            script = "/singularity/faction-city.js";
+            break;
+        case "Bachman & Associates":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "BitRunners":
+            script = "/singularity/faction-hack.js";
+            break;
+        case "Blade Industries":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Chongqing":
+            script = "/singularity/faction-city.js";
+            break;
+        case "Clarke Incorporated":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "CyberSec":
+            script = "/singularity/faction-early.js";
+            break;
+        case "Daedalus":
+            script = "/singularity/faction-end.js";
+            break;
+        case "ECorp":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Four Sigma":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Fulcrum Secret Technologies":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Illuminati":
+            script = "/singularity/faction-end.js";
+            break;
+        case "Ishima":
+            script = "/singularity/faction-city.js";
+            break;
+        case "KuaiGong International":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "MegaCorp":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Netburners":
+            script = "/singularity/faction-early.js";
+            break;
+        case "New Tokyo":
+            script = "/singularity/faction-city.js";
+            break;
+        case "NiteSec":
+            script = "/singularity/faction-hack.js";
+            break;
+        case "NWO":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "OmniTek Incorporated":
+            script = "/singularity/faction-megacorporation.js";
+            break;
+        case "Sector-12":
+            script = "/singularity/faction-city.js";
+            break;
+        case "Silhouette":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "Slum Snakes":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "Speakers for the Dead":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "Tetrads":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "The Black Hand":
+            script = "/singularity/faction-hack.js";
+            break;
+        case "The Covenant":
+            script = "/singularity/faction-end.js";
+            break;
+        case "The Dark Army":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "The Syndicate":
+            script = "/singularity/faction-crime.js";
+            break;
+        case "Tian Di Hui":
+            script = "/singularity/faction-early.js";
+            break;
+        case "Volhaven":
+            script = "/singularity/faction-city.js";
+            break;
+        default:
+            break;
     }
     assert(script != "");
     const nthread = 1;
