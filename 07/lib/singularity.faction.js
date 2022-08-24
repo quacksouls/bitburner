@@ -158,7 +158,6 @@ export async function raise_hack(ns, threshold) {
     }
     // Join a faction.
     const joined_faction = player.faction();
-    assert("Sector-12" == player.city());
     const target = "MegaCorp";
     if (!joined_faction.includes(target)) {
         await await_invitation(ns, target);
