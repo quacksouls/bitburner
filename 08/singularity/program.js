@@ -19,6 +19,7 @@ import {
     all_programs, home, program as popen, work_hack_lvl
 } from "/lib/constant.js";
 import { raise_hack } from "/lib/singularity.study.js";
+import { choose_hardware_company } from "/lib/singularity.util.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -29,6 +30,9 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function buy_all_programs(ns) {
+    // Visit a hardware store to increase our Intelligence XP.
+    const shop = await choose_hardware_company(ns);
+    ns.singularity.goToLocation(shop);
     // We require the Tor router before we can access the dark web.
     await buy_tor_router(ns);
     // Work out which programs we still need to purchase via the dark web.

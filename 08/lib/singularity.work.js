@@ -24,6 +24,42 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Choose a company at which to work.
+ *
+ * @param ns The Netscript API.
+ * @return A string representing the name of a company.
+ */
+function choose_company(ns) {
+    const city = ns.getPlayer().city;
+    let company = "";
+    switch (city) {
+        case "Aevum":
+            company = "ECorp";
+            break;
+        case "Chongqing":
+            company = "KuaiGong International";
+            break;
+        case "Ishima":
+            company = "Nova Medical";
+            break;
+        case "New Tokyo":
+            company = "Global Pharmaceuticals";
+            break;
+        case "Sector-12":
+            company = "MegaCorp";
+            break;
+        case "Volhaven":
+            company = "NWO";
+            break;
+        default:
+            company = "";
+            break;
+    }
+    assert("" != company);
+    return company;
+}
+
+/**
  * Choose the field of work.  Either "Business" or "Software".
  *
  * @param ns The Netscript API.
@@ -137,7 +173,8 @@ export async function work(ns, threshold) {
     // Every once in a while, apply for a promotion to earn more money per
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
-    const company = "MegaCorp";
+    const company = choose_company(ns);
+    ns.singularity.goToLocation(company);  // Increase Intelligence XP.
     const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, focus);
