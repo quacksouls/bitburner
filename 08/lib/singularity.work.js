@@ -96,6 +96,7 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     // Work for a company as a software engineer until we have accumulated the
     // given amount of Charisma level.
     const company = choose_company(ns);
+    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
     const field = "Software";
     const focus = true;
     ns.singularity.applyToCompany(company, field);
@@ -129,6 +130,7 @@ export async function rise_to_cfo(ns, company) {
     assert(player.charisma() >= charisma_lvl);
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
+    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
     const field = "Business";
     const focus = true;
     const target_job = "Chief Financial Officer";
@@ -198,6 +200,7 @@ export async function work(ns, threshold) {
  */
 export async function work_for_company(ns, company, rep) {
     assert(rep > 0);
+    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
     // Ensure we have the minimum Hack stat.
     if (ns.getHackingLevel() < work_hack_lvl) {
         await study(ns, work_hack_lvl);

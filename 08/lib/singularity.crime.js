@@ -97,6 +97,8 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     assert(threshold < 0);
     assert(("shoplift" == crime) || ("homicide" == crime));
     assert(nkill >= 0);
+    // Relocate to raise Intelligence XP.
+    ns.singularity.goToLocation("The Slums");
     // Shoplift.  Use the ceiling function to convert the karma value to an
     // integer.  It is safer to compare integers than it is to compare floating
     // point numbers.
