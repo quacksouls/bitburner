@@ -30,9 +30,8 @@ import { assert } from "/lib/util.js";
  * @return A string representing the name of a company.
  */
 function choose_company(ns) {
-    const city = ns.getPlayer().city;
     let company = "";
-    switch (city) {
+    switch (ns.getPlayer().city) {
         case "Aevum":
             company = "ECorp";
             break;
