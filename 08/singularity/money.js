@@ -17,63 +17,9 @@
 
 import { high_ram, home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
+import { choose_hardware_company } from "/lib/singularity.util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Determine the hardware company we should visit.  The company can sell us
- * more RAM for our home server.
- *
- * @param ns The Netscript API.
- * @return A string representing the name of a hardware store.
- */
-async function choose_hardware_company(ns) {
-    const city = ns.getPlayer().city;
-    let shop = "";
-    switch (city) {
-        case "Aevum":
-            shop = "NetLink Technologies";
-            break;
-        case "Chongqing":
-            // No hardware company in Chongqing.
-            shop = "";
-            break;
-        case "Ishima":
-            shop = "Storm Technologies";
-            break;
-        case "New Tokyo":
-            // No hardware company in New Tokyo.
-            shop = "";
-            break;
-        case "Sector-12":
-            shop = "Alpha Enterprises";
-            break;
-        case "Volhaven":
-            shop = "OmniTek Incorporated";
-            break;
-        default:
-            shop = "";
-            break;
-    }
-    // There are no hardware stores in Chongqing and New Tokyo.  If we are
-    // currently in either of these cities, travel to Sector-12 to increase our
-    // Intelligence XP.
-    if (("Chongqing" == city) || ("New Tokyo" == city)) {
-        const t = new Time();
-        const time = t.second();
-        const new_city = "Sector-12";
-        let success = ns.singularity.travelToCity(new_city);
-        while (!success) {
-            await ns.sleep(time);
-            success = ns.singularity.travelToCity(new_city);
-        }
-        shop = "Alpha Enterprises";
-    }
-    assert("Chongqing" != ns.getPlayer().city);
-    assert("New Tokyo" != ns.getPlayer().city);
-    assert("" != shop);
-    return shop;
-}
 
 /**
  * Choose the threshold amount of money to raise.
