@@ -155,6 +155,8 @@ export async function main(ns) {
     ns.disableLog("sleep");
     const threshold = Math.floor(ns.args[0]);
     assert(threshold > 0);
+    // Go to another location to increase our Intelligence XP.
+    ns.singularity.goToLocation("The Slums");
     // Commit crimes as long as our funds is less than the given threshold.
     await shoplift(ns);
     await commit_crime(ns, threshold);
