@@ -101,7 +101,6 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     const focus = true;
     ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (player.charisma() < threshold) {
@@ -110,7 +109,6 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
         }
     }
     ns.singularity.stopAction();
@@ -137,7 +135,6 @@ export async function rise_to_cfo(ns, company) {
     const target_job = "Chief Financial Officer";
     ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (player.job(company) != target_job) {
@@ -146,7 +143,6 @@ export async function rise_to_cfo(ns, company) {
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
         }
     }
     ns.singularity.stopAction();
@@ -177,7 +173,6 @@ export async function work(ns, threshold) {
     const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (ns.getServerMoneyAvailable(home) < threshold) {
@@ -187,7 +182,6 @@ export async function work(ns, threshold) {
         // We have a promotion.  Start working in the new job.
         if (success) {
             ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
         }
     }
     ns.singularity.stopAction();
@@ -216,7 +210,6 @@ export async function work_for_company(ns, company, rep) {
     const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
     const t = new Time();
     const time = t.minute();
     while (ns.singularity.getCompanyRep(company) < rep) {
@@ -226,7 +219,6 @@ export async function work_for_company(ns, company, rep) {
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
         }
     }
     ns.singularity.stopAction();
