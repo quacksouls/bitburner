@@ -43,9 +43,9 @@ import { assert } from "/lib/util.js";
  *     for receiving an invitation from the given faction.
  */
 async function hacking_group(ns, fac, target) {
-    const player = new Player(ns);
-    assert(player.city() == "Sector-12");
+    await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
+    const player = new Player(ns);
     const server = new Server(ns, target);
     if (player.hacking_skill() < server.hacking_skill()) {
         await raise_hack(ns, server.hacking_skill());

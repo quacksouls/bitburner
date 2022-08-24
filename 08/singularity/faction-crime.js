@@ -45,10 +45,12 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function silhouette(ns) {
+    // Relocate to raise Intelligence XP.
+    await visit_city(ns, "Sector-12");
+    const company = "MegaCorp";
     // Rise to a top position at a company.
     const charisma_lvl = work_hack_lvl;
     await raise_charisma(ns, work_hack_lvl, charisma_lvl);
-    const company = "MegaCorp";
     await rise_to_cfo(ns, company);
     // Karma at -22 or lower.
     const karma = -22;
@@ -144,6 +146,7 @@ async function speakers_for_the_dead(ns) {
  * @param ns The Netscript API.
  */
 async function tetrads(ns) {
+    await visit_city(ns, "Ishima");
     // Karma at -18 or lower.
     const karma = -18;
     const crime = "shoplift";
@@ -153,7 +156,6 @@ async function tetrads(ns) {
     const threshold = 75;
     await raise_combat_stats(ns, threshold);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    await visit_city(ns, "Ishima");
     const faction = "Tetrads";
     const work_type = "Field Work";
     await join_faction(ns, faction);
@@ -175,6 +177,7 @@ async function tetrads(ns) {
  * @param ns The Netscript API.
  */
 async function the_dark_army(ns) {
+    await visit_city(ns, "Chongqing");
     // Raise our Hack and combat stats.
     const threshold = 300;
     await raise_hack(ns, threshold);
@@ -185,7 +188,6 @@ async function the_dark_army(ns) {
     const nkill = 5;
     await lower_karma(ns, karma, crime, nkill);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    await visit_city(ns, "Chongqing");
     const faction = "The Dark Army";
     const work_type = "Field Work";
     await join_faction(ns, faction);
@@ -207,6 +209,7 @@ async function the_dark_army(ns) {
  * @param ns The Netscript API.
  */
 async function the_syndicate(ns) {
+    await visit_city(ns, "Sector-12");
     // Raise our Hack and combat stats.
     const threshold = 200;
     await raise_hack(ns, threshold);
@@ -221,7 +224,6 @@ async function the_syndicate(ns) {
     const money_threshold = 10 * m.million();
     await work(ns, money_threshold);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    assert("Sector-12" == ns.getPlayer().city);
     const faction = "The Syndicate";
     const work_type = "Field Work";
     await join_faction(ns, faction);
@@ -257,6 +259,7 @@ export async function main(ns) {
             || ("Tetrads" == faction)
             || ("The Dark Army" == faction)
     );
+    ns.singularity.goToLocation("The Slums");  // Increase Intelligence XP.
     switch (faction) {
         case "Silhouette":
             await silhouette(ns);

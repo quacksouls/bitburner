@@ -44,9 +44,9 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function cyberSec(ns) {
-    const player = new Player(ns);
-    assert(player.city() == "Sector-12");
+    await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
+    const player = new Player(ns);
     const target = "CSEC";
     const server = new Server(ns, target);
     if (player.hacking_skill() < server.hacking_skill()) {
@@ -87,9 +87,9 @@ async function cyberSec(ns) {
  * @param ns The Netscript API.
  */
 async function netburners(ns) {
-    const player = new Player(ns);
-    assert(player.city() == "Sector-12");
+    await visit_city(ns, "Sector-12");
     // Ensure we have at least the required Hack stat.
+    const player = new Player(ns);
     const hack_lvl = 80;
     if (player.hacking_skill() < hack_lvl) {
         await raise_hack(ns, hack_lvl);
@@ -144,8 +144,7 @@ async function tian_di_hui(ns) {
     }
     assert(player.hacking_skill() >= hack_lvl);
     // Travel to Ishima and wait for our income to be at least $1m.
-    const city = "Ishima";
-    await visit_city(ns, city);
+    await visit_city(ns, "Ishima");
     const m = new Money();
     const threshold = m.million();
     if (player.money() < threshold) {
