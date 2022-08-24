@@ -62,6 +62,7 @@ export async function choose_hardware_company(ns) {
         const t = new Time();
         const time = t.second();
         const new_city = "Sector-12";
+        ns.singularity.goToLocation("Travel Agency");
         let success = ns.singularity.travelToCity(new_city);
         while (!success) {
             await ns.sleep(time);
