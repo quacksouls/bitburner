@@ -32,18 +32,18 @@ function choose_university(ns) {
     const city = ns.getPlayer().city;
     let uni = "";
     switch (city) {
-    case "Aevum":
-        uni = "Summit University";
-        break;
-    case "Sector-12":
-        uni = "Rothman University";
-        break;
-    case "Volhaven":
-        uni = "ZB Institute of Technology";
-        break;
-    default:
-        uni = "";
-        break;
+        case "Aevum":
+            uni = "Summit University";
+            break;
+        case "Sector-12":
+            uni = "Rothman University";
+            break;
+        case "Volhaven":
+            uni = "ZB Institute of Technology";
+            break;
+        default:
+            uni = "";
+            break;
     }
     return uni;
 }
