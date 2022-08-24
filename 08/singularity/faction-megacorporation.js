@@ -112,7 +112,9 @@ async function install_backdoor_on_server(ns, fac) {
  *     company.
  */
 async function megacorporation(ns, city, company, fac, rep) {
+    // Relocate to raise Intelligence XP.
     await visit_city(ns, city);
+    ns.singularity.goToLocation(company);
     // Work for the company to earn the required reputation points.
     await work_for_company(ns, company, rep);
     // Join the faction, earn reputation points, and purchase all Augmentations.
