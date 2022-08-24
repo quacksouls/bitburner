@@ -189,17 +189,17 @@ export async function main(ns) {
             || ("Tian Di Hui" == faction)
     );
     switch (faction) {
-    case "CyberSec":
-        await cyberSec(ns);
-        break;
-    case "Netburners":
-        await netburners(ns);
-        break;
-    case "Tian Di Hui":
-        await tian_di_hui(ns);
-        break;
-    default:
-        break;
+        case "CyberSec":
+            await cyberSec(ns);
+            break;
+        case "Netburners":
+            await netburners(ns);
+            break;
+        case "Tian Di Hui":
+            await tian_di_hui(ns);
+            break;
+        default:
+            break;
     }
     // The next script in the load chain.
     const player = new Player(ns);

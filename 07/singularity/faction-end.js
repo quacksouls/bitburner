@@ -155,17 +155,17 @@ export async function main(ns) {
             || ("The Covenant" == faction)
     );
     switch (faction) {
-    case "Daedalus":
-        await daedalus(ns);
-        break;
-    case "Illuminati":
-        await illuminati(ns);
-        break;
-    case "The Covenant":
-        await the_covenant(ns);
-        break;
-    default:
-        break;
+        case "Daedalus":
+            await daedalus(ns);
+            break;
+        case "Illuminati":
+            await illuminati(ns);
+            break;
+        case "The Covenant":
+            await the_covenant(ns);
+            break;
+        default:
+            break;
     }
     // The next script in the load chain.
     const script = "/singularity/home.js";

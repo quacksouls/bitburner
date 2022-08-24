@@ -38,39 +38,39 @@ import { assert } from "/lib/util.js";
 async function install_backdoor_on_server(ns, fac) {
     let target = "";
     switch (fac) {
-    case "Bachman & Associates":
-        target = "b-and-a";
-        break;
-    case "Blade Industries":
-        target = "blade";
-        break;
-    case "Clarke Incorporated":
-        target = "clarkinc";
-        break;
-    case "ECorp":
-        target = "ecorp";
-        break;
-    case "Four Sigma":
-        target = "4sigma";
-        break;
-    case "Fulcrum Secret Technologies":
-        target = "fulcrumassets";
-        break;
-    case "KuaiGong International":
-        target = "kuai-gong";
-        break;
-    case "MegaCorp":
-        target = "megacorp";
-        break;
-    case "NWO":
-        target = "nwo";
-        break;
-    case "OmniTek Incorporated":
-        target = "omnitek";
-        break;
-    default:
-        target = "";
-        break;
+        case "Bachman & Associates":
+            target = "b-and-a";
+            break;
+        case "Blade Industries":
+            target = "blade";
+            break;
+        case "Clarke Incorporated":
+            target = "clarkinc";
+            break;
+        case "ECorp":
+            target = "ecorp";
+            break;
+        case "Four Sigma":
+            target = "4sigma";
+            break;
+        case "Fulcrum Secret Technologies":
+            target = "fulcrumassets";
+            break;
+        case "KuaiGong International":
+            target = "kuai-gong";
+            break;
+        case "MegaCorp":
+            target = "megacorp";
+            break;
+        case "NWO":
+            target = "nwo";
+            break;
+        case "OmniTek Incorporated":
+            target = "omnitek";
+            break;
+        default:
+            target = "";
+            break;
     }
     assert("" != target);
     // Ensure we have the required Hack stat.
@@ -167,39 +167,39 @@ export async function main(ns) {
     await install_backdoor_on_server(ns, faction);
     const rep = 300000;
     switch (faction) {
-    case "Bachman & Associates":
-        city = "Aevum";
-        break;
-    case "Blade Industries":
-        city = "Sector-12";
-        break;
-    case "Clarke Incorporated":
-        city = "Aevum";
-        break;
-    case "ECorp":
-        city = "Aevum";
-        break;
-    case "Four Sigma":
-        city = "Sector-12";
-        break;
-    case "Fulcrum Secret Technologies":
-        city = "Aevum";
-        company = "Fulcrum Technologies";
-        break;
-    case "KuaiGong International":
-        city = "Chongqing";
-        break;
-    case "MegaCorp":
-        city = "Sector-12";
-        break;
-    case "NWO":
-        city = "Volhaven";
-        break;
-    case "OmniTek Incorporated":
-        city = "Volhaven";
-        break;
-    default:
-        break;
+        case "Bachman & Associates":
+            city = "Aevum";
+            break;
+        case "Blade Industries":
+            city = "Sector-12";
+            break;
+        case "Clarke Incorporated":
+            city = "Aevum";
+            break;
+        case "ECorp":
+            city = "Aevum";
+            break;
+        case "Four Sigma":
+            city = "Sector-12";
+            break;
+        case "Fulcrum Secret Technologies":
+            city = "Aevum";
+            company = "Fulcrum Technologies";
+            break;
+        case "KuaiGong International":
+            city = "Chongqing";
+            break;
+        case "MegaCorp":
+            city = "Sector-12";
+            break;
+        case "NWO":
+            city = "Volhaven";
+            break;
+        case "OmniTek Incorporated":
+            city = "Volhaven";
+            break;
+        default:
+            break;
     }
     assert(city.length > 0);
     assert(company.length > 0);

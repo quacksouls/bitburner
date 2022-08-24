@@ -258,26 +258,26 @@ export async function main(ns) {
             || ("The Dark Army" == faction)
     );
     switch (faction) {
-    case "Silhouette":
-        await silhouette(ns);
-        break;
-    case "Slum Snakes":
-        await slum_snakes(ns);
-        break;
-    case "The Syndicate":
-        await the_syndicate(ns);
-        break;
-    case "Speakers for the Dead":
-        await speakers_for_the_dead(ns);
-        break;
-    case "Tetrads":
-        await tetrads(ns);
-        break;
-    case "The Dark Army":
-        await the_dark_army(ns);
-        break;
-    default:
-        break;
+        case "Silhouette":
+            await silhouette(ns);
+            break;
+        case "Slum Snakes":
+            await slum_snakes(ns);
+            break;
+        case "The Syndicate":
+            await the_syndicate(ns);
+            break;
+        case "Speakers for the Dead":
+            await speakers_for_the_dead(ns);
+            break;
+        case "Tetrads":
+            await tetrads(ns);
+            break;
+        case "The Dark Army":
+            await the_dark_army(ns);
+            break;
+        default:
+            break;
     }
     // The next script in the load chain.
     const script = "/singularity/home.js";

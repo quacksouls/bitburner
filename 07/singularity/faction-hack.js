@@ -94,17 +94,17 @@ export async function main(ns) {
     );
     let server = "";
     switch (faction) {
-    case "BitRunners":
-        server = "run4theh111z";
-        break;
-    case "NiteSec":
-        server = "avmnite-02h";
-        break;
-    case "The Black Hand":
-        server = "I.I.I.I";
-        break;
-    default:
-        break;
+        case "BitRunners":
+            server = "run4theh111z";
+            break;
+        case "NiteSec":
+            server = "avmnite-02h";
+            break;
+        case "The Black Hand":
+            server = "I.I.I.I";
+            break;
+        default:
+            break;
     }
     assert(server.length > 0);
     await hacking_group(ns, faction, server);

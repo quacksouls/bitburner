@@ -110,26 +110,26 @@ export async function main(ns) {
     const m = new Money();
     let money = 0;
     switch (faction) {
-    case "Aevum":
-        money = 40 * m.million();
-        break;
-    case "Chongqing":
-        money = 20 * m.million();
-        break;
-    case "Ishima":
-        money = 30 * m.million();
-        break;
-    case "New Tokyo":
-        money = 20 * m.million();
-        break;
-    case "Sector-12":
-        money = 15 * m.million();
-        break;
-    case "Volhaven":
-        money = 50 * m.million();
-        break;
-    default:
-        break;
+        case "Aevum":
+            money = 40 * m.million();
+            break;
+        case "Chongqing":
+            money = 20 * m.million();
+            break;
+        case "Ishima":
+            money = 30 * m.million();
+            break;
+        case "New Tokyo":
+            money = 20 * m.million();
+            break;
+        case "Sector-12":
+            money = 15 * m.million();
+            break;
+        case "Volhaven":
+            money = 50 * m.million();
+            break;
+        default:
+            break;
     }
     assert(money > 0);
     await city_faction(ns, faction, money);
