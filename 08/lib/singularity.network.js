@@ -72,6 +72,7 @@ export async function visit_city(ns, city) {
     if (player.city() == city) {
         return;
     }
+    ns.singularity.goToLocation("Travel Agency");  // Raise Intelligence XP.
     const t = new Time();
     const time = 5 * t.second();
     let success = ns.singularity.travelToCity(city);
