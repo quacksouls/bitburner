@@ -159,7 +159,8 @@ export async function main(ns) {
     let city = "";
     let company = faction;
     // Since version 2.0, we need at least 400k company reputation to join the
-    // corresponding company faction.
+    // corresponding company faction.  See
+    //
     // https://github.com/danielyxie/bitburner/blob/dev/doc/source/changelog.rst
     //
     // However, the reputation requirement is reduced to 300k if we have
