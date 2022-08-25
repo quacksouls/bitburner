@@ -102,7 +102,10 @@ async function study_and_create(ns) {
         await study(ns, hack_requirement(p));
         await create_program(ns, p);
         // If our home server is less than a mid-sized server, then run a
-        // script to compromise world servers.
+        // script to compromise world servers.  Let the script run for a while,
+        // then kill it.  The reason is that it is likely we do not have enough
+        // RAM on our home server to allow multiple scripts to run in the
+        // background.
         if (home_ram < mid_ram) {
             const script = "world-server.js";
             assert(!ns.isRunning(script, home));
