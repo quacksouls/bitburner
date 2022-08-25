@@ -67,7 +67,8 @@ function hack_requirement(program) {
 
 /**
  * Determine the amount of Intelligence XP gained from creating various
- * programs.
+ * programs.  Ensure you have at least 50 Hack prior to running this script.
+ * Study at Rotham University to raise your Hack stat.
  *
  * @param ns The Netscript API.
  */
