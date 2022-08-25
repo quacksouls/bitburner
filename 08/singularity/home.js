@@ -18,6 +18,7 @@
 import { home, trade_bot_stop } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
+import { choose_hardware_company } from "/lib/singularity.util.js";
 import { work } from "/lib/singularity.work.js";
 import { assert } from "/lib/util.js";
 
@@ -105,6 +106,10 @@ async function trade_bot_stop_buy(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade(ns) {
+    // Relocate to increase Intelligence XP.
+    const shop = choose_hardware_company(ns);
+    ns.singularity.goToLocation(shop);
+    // Upgrade home server.
     const attribute = choose_upgrade(ns);
     if ("" == attribute) {
         return;
