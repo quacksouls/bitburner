@@ -30,16 +30,10 @@ import { assert } from "/lib/util.js";
  * Join the endgame faction Daedalus.  The requirements for receiving an
  * invitation:
  *
- * (1) Must have installed at least 30 Augmentations.  This number might vary
- *     and we should not hard code it in this function.  The relevant property
- *     is available at
- *
- *     https://github.com/danielyxie/bitburner/blob/dev/markdown/bitburner.bitnodemultipliers.daedalusaugsrequirement.md
- *
- *     which can be accessed via the getBitNodeMultipliers() function.  The
- *     function is available after the destruction of
- *     "BitNode-5: Artificial Intelligence".
- *
+ * (1) Must have installed at least a certain number of Augmentations.  This
+ *     number varies.  It can be accessed via the getBitNodeMultipliers()
+ *     function, under the DaedalusAugsRequirement property.  The function is
+ *     available after the destruction of "BitNode-5: Artificial Intelligence".
  * (2) Have at least $100b.
  * (3) Either of the following:
  *     (a) At least 2,500 Hack; or
@@ -48,9 +42,10 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function daedalus(ns) {
-    // Ensure we have already installed at least 30 Augmentations.
+    // Ensure we have already installed a minimum number of Augmentations.
     const augment = owned_augmentations(ns);
-    assert(augment.size >= 30);
+    const min_augment = ns.getBitNodeMultipliers().DaedalusAugsRequirement;
+    assert(augment.size >= min_augment);
     // Have at least $100b.
     const m = new Money();
     const threshold = 100 * m.billion();
