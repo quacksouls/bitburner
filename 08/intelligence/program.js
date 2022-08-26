@@ -16,11 +16,53 @@
  */
 
 import {
-    has_program, intelligence, intelligence_gain, is_valid_program
+    has_program, intelligence, intelligence_gain
 } from "/intelligence/util.js";
-import { all_programs } from "/lib/constant.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * All programs that can be created.  These programs can also be purchased via
+ * the dark web.  We exclude Formulas.exe because we permanently unlocked that
+ * program after destroying BitNode 5.
+ */
+function all_programs() {
+    // A map where the key/value pair is as follows:
+    //
+    // key := The name of a program.
+    // value := The minimum Hack stat at which we are able to create the
+    //     program.  This value is specific to the current save file.
+    const program = new Map();
+    program.set("BruteSSH.exe", 1);
+    program.set("FTPCrack.exe", 24);
+    program.set("HTTPWorm.exe", 424);
+    program.set("relaySMTP.exe", 174);
+    program.set("SQLInject.exe", 674);
+    program.set("DeepscanV1.exe", 1);
+    program.set("DeepscanV2.exe", 324);
+    program.set("ServerProfiler.exe", 1);
+    program.set("AutoLink.exe", 1);
+    return program;
+}
+
+/**
+ * Whether we can create a given program.
+ *
+ * @param ns The Netscript API.
+ * @param program A string representing the name of the program we want to
+ *     create.
+ * @return true if we meet the requirement to create the given program;
+ *     false otherwise.
+ */
+function can_create(ns, program) {
+    const prog = all_programs();
+    const threshold = prog.get(program);
+    assert(threshold > 0);
+    if (ns.getHackingLevel() >= threshold) {
+        return true;
+    }
+    return false;
+}
 
 /**
  * Create a program.
@@ -30,22 +72,13 @@ import { assert } from "/lib/util.js";
  *     create.
  */
 async function create_program(ns, program) {
-    // Sanity checks.
-    assert(program.length > 0);
-    assert(is_valid_program(program));
-    assert(!has_program(ns, program));
-    // Ensure we meet the Hack stat requirement for creating the program.
-    const threshold = hack_requirement(program);
-    assert(threshold > 0);
-    assert(ns.getHackingLevel() >= threshold);
     // Work on creating the program.
     const focus = true;
     const t = new Time();
-    const time = t.minute();
+    const time = 30 * t.second();
     const before = intelligence(ns);
     assert(ns.singularity.createProgram(program, focus));
     while (ns.singularity.isBusy()) {
-        assert(!has_program(ns, program));
         await ns.sleep(time);
     }
     assert(has_program(ns, program));
@@ -55,31 +88,34 @@ async function create_program(ns, program) {
 }
 
 /**
- * The Hack stat requirement for creating a program.
+ * Whether a given string represents a valid program.
  *
- * @param program We want the Hack stat requirement for this program.
- * @return The Hack stat required to create the given program.
+ * @param prog A string representing a program name.
+ * @return true if the given string represents a valid program;
+ *     false otherwise.
  */
-function hack_requirement(program) {
-    const prog = all_programs();
-    return prog.get(program);
+function is_valid_program(prog) {
+    assert(prog.length > 0);
+    const program = all_programs();
+    return program.has(prog);
 }
 
 /**
  * Determine the amount of Intelligence XP gained from creating various
- * programs.  Ensure you have at least 50 Hack prior to running this script.
- * Study at Rotham University to raise your Hack stat.
+ * programs.  This script accepts a command line argument, i.e. the name
+ * of the program to create.
+ *
+ * Usage: run intelligence/program.js [programName]
+ * Example: run intelligence/program.js BruteSSH.exe
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    for (const [p, _] of all_programs()) {
-        if (ns.getHackingLevel() < hack_requirement(p)) {
-            continue;
-        }
-        if (has_program(ns, p)) {
-            continue;
-        }
-        await create_program(ns, p);
+    const prog = ns.args[0];
+    assert(is_valid_program(prog));
+    if (has_program(ns, prog)) {
+        return;
     }
+    assert(can_create(ns, prog));
+    await create_program(ns, prog);
 }
