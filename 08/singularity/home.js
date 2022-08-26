@@ -107,7 +107,7 @@ async function trade_bot_stop_buy(ns) {
  */
 async function upgrade(ns) {
     // Relocate to increase Intelligence XP.
-    const shop = choose_hardware_company(ns);
+    const shop = await choose_hardware_company(ns);
     ns.singularity.goToLocation(shop);
     // Upgrade home server.
     const attribute = choose_upgrade(ns);
