@@ -15,8 +15,8 @@ via the Singularity API.  Below are processes for creating a program.
 1. Open a web browser and go to the URL:
    `https://danielyxie.github.io/bitburner/`
 1. Import a save file.
-1. Execute the command:
-   `run intelligence/program.js [programName]`
+1. Execute the command
+   `run intelligence/program.js [programName]`.
    Substitute `[programName]` for the name of the program to create, e.g.
    `AutoLink.exe`.
 1. Wait for the creation process to complete.  Upon completion, the script
@@ -34,8 +34,8 @@ via the Singularity API.  Below are processes for creating a program.
 1. Open a web browser and go to the URL:
    `https://danielyxie.github.io/bitburner/`
 1. Import a save file.
-1. Execute the command:
-   `run intelligence/int.js`
+1. Execute the command
+   `run intelligence/int.js`.
    to print to the terminal the current Intelligence XP.
 1. Click on the `Create Program` tab.
 1. Click on the program you want to create, e.g. the `Create program` button
