@@ -96,8 +96,8 @@ function trade_bot_resume(ns) {
 async function trade_bot_stop_buy(ns) {
     const fname = trade_bot_stop;
     const data = "Trade bot stop buy.";
-    const writeMode = "w";
-    await ns.write(fname, data, writeMode);
+    const write_mode = "w";
+    await ns.write(fname, data, write_mode);
 }
 
 /**
