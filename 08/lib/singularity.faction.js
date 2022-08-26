@@ -99,7 +99,7 @@ export async function join_faction(ns, fac) {
         if ("Fulcrum Secret Technologies" == fac) {
             company = "Fulcrum Technologies";
         }
-        const field = "Software"
+        const field = "Software";
         const focus = true;
         ns.singularity.applyToCompany(company, field);
         ns.singularity.workForCompany(company, focus);
