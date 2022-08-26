@@ -17,7 +17,6 @@
 
 import { high_ram, home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
-import { choose_hardware_company } from "/lib/singularity.util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -75,7 +74,10 @@ function load_chain(ns) {
 }
 
 /**
- * Commit crimes to raise some money as well earn negative karma.
+ * Commit crimes to raise some money as well earn negative karma.  Assume that
+ * our home server has 32GB RAM.  Try to keep the RAM cost of this script as
+ * low as possible.  Do not add anything to the script unless absolutely
+ * necessary.
  *
  * Usage: run singularity/money.js
  *
@@ -93,9 +95,6 @@ export async function main(ns) {
     await commit_crimes(ns, threshold);
     // If our home server is not high-end, upgrade the RAM on the home server.
     if (home_ram < high_ram) {
-        // Go to another location to increase our Intelligence XP.
-        const shop = await choose_hardware_company(ns);
-        ns.singularity.goToLocation(shop);
         // Upgrade the RAM on the home server.
         const cost = ns.singularity.getUpgradeHomeRamCost();
         let success = ns.singularity.upgradeHomeRam();

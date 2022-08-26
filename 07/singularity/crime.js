@@ -147,6 +147,10 @@ async function shoplift(ns) {
  * (1) threshold := As long as our income is less than this threshold, continue
  *     to commit crimes to raise our income.
  *
+ * Assume that our home server has 32GB RAM.  Try to keep the RAM cost of this
+ * script as low as possible.  Do not add anything to the script unless
+ * absolutely necessary.
+ *
  * Usage: run singularity/crime.js [threshold]
  *
  * @param ns The Netscript API.
