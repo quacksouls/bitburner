@@ -18,6 +18,7 @@
 import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
+import { random_integer } from "/lib/random.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -54,23 +55,6 @@ function choose_location(loc) {
     }
     assert(loc != new_loc);
     return new_loc;
-}
-
-/**
- * A random integer between a minimum a and a maximum b, inclusive.  Code is
- * taken from
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
- *
- * @param a The minimum integer value.
- * @param b The maximum integer value.
- * @return A random integer in the range [a, b], inclusive.  The returned
- *     integer can be the given minimum or the given maximum.
- */
-function random_integer(a, b) {
-    const min = Math.ceil(a);
-    const max = Math.floor(b);
-    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 /**
