@@ -17,9 +17,11 @@
 
 // Miscellaneous helper functions relating to random number generations.
 
+import { assert } from "/lib/util.js";
+
 /**
  * A random integer between a minimum a and a maximum b, inclusive.  Code is
- * taken from
+ * adapted from
  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
  *
@@ -31,5 +33,8 @@
 export function random_integer(a, b) {
     const min = Math.ceil(a);
     const max = Math.floor(b);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    const n = Math.floor(Math.random() * (max - min + 1) + min);
+    assert(a <= n);
+    assert(n <= b);
+    return n;
 }
