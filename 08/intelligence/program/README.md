@@ -35,7 +35,7 @@ via the Singularity API.  Below are processes for creating a program.
    `https://danielyxie.github.io/bitburner/`
 1. Import a save file.
 1. Execute the command
-   `run intelligence/int.js`.
+   `run intelligence/int.js`
    to print to the terminal the current Intelligence XP.
 1. Click on the `Create Program` tab.
 1. Click on the program you want to create, e.g. the `Create program` button
