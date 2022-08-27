@@ -69,7 +69,7 @@ import { assert } from "/lib/util.js";
  *
  * L<string> LX L<string> LX ...
  *
- * If L:= 0, the chunk ends immediately and we start a new chunk of the type
+ * If L := 0, the chunk ends immediately and we start a new chunk of the type
  * different from the previous type.  A portion of the compressed data might be
  *
  * ... L<string> 0 L<string> ...
