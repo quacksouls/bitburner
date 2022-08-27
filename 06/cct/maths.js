@@ -33,25 +33,22 @@ import { assert } from "/lib/util.js";
  */
 async function all_expressions(ns, string, target) {
     assert(string.length > 0);
-    // We try all possibilities.  We use depth-first search for backtracking.
-    // Each partial solution is an array [i, expr] as follows:
+    // We try all possibilities.  Each partial solution is an array [i, expr]
+    // as follows:
     //
-    // i := The highest index in the partial expression expr where an operator
-    //     can be found.  If i < 0, then we have not inserted any operators
-    //     into expr.
-    // expr := A partial expression, represented as a string.
+    // (1) i := The highest index in the partial expression expr where an
+    //     operator can be found.  If i < 0, then we have not inserted any
+    //     operators into expr.
+    // (2) expr := A partial expression, represented as a string.
     const stack = new Array();
-    const seen = new Set();
     const solution = new Array();
-    const candidate = [-1, string];
-    stack.push(candidate);
-    seen.add(candidate);
-    const time = new Time();
-    const t = time.millisecond();
+    stack.push([-1, string]);
+    const t = new Time();
+    const time = t.millisecond();
     while (stack.length > 0) {
+        // Create new expressions by inserting different operators at all
+        // possible positions.
         const [i, expr] = stack.pop();
-        // Create new expressions by inserting different operators at the next
-        // available position.
         const newexpr = insert_operators(expr, i);
         // No new expressions can be created from the given expression.
         if (0 == newexpr.length) {
@@ -61,49 +58,73 @@ async function all_expressions(ns, string, target) {
         // number.
         for (let j = 0; j < newexpr.length; j++) {
             const [idx, expression] = newexpr[j];
-            // Have we seen this expression already?
-            if (seen.has(expression)) {
-                continue;
-            }
-            seen.add(expression);
             stack.push([idx, expression]);
-            // Found a leading 0 in a number.  We have two cases to consider:
-            //
-            // (1) The index of the digit 0 is less than the last index in the
-            //     expression string.  Here, it is safe to skip the evaluation
-            //     of the expression.
-            // (2) The digit 0 is located at the last index in the expression
-            //     string.  If idx is the highest index at which an operator is
-            //     found and k is the last index of the expression string, then
-            //     k = idx + 1.  In this case, we evaluate the expression.
-            if ("0" == expression[idx + 1]) {
-                const lastidx = expression.length - 1;
-                if (idx + 1 != lastidx) {
-                    continue;
-                }
-            }
-            // Does this expression evaluate to the target number?
-            if (target == evaluate(expression)) {
+            if (!has_leading_zero(expression)
+                && (target == evaluate(expression))
+               ) {
                 solution.push(expression);
             }
         }
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
-    return solution;
+    return [...new Set(solution)];
 }
 
 /**
- * Insert all possible operators at the next available index.
+ * Evaluate a mathematical expression.
+ *
+ * @param str A string representation of a mathematical expression.
+ * @return The value of the given mathematical expression.
+ */
+function evaluate(str) {
+    return Function(`"use strict"; return (${str})`)();
+}
+
+/**
+ * Whether an operand in an expression has a leading zero.  An operand can be
+ * zero itself.  However, if an operand is made up of multiple digits, then the
+ * very first digit cannot be zero.  For example, the expression "1+0-2" is
+ * accepted because we have an operand that is zero.  However, the expression
+ * "1+02" is invalid because the operand "02" has a leading zero.
+ *
+ * @param expr An expression represented as a string.  Cannot be an empty
+ *     string.
+ * @return true if an operand in the given expression has a leading zero;
+ *     false otherwise.
+ */
+function has_leading_zero(expr) {
+    assert(expr.length > 0);
+    assert("0" != expr[0]);
+    const whitespace = " ";
+    let newexpr = new String(expr);
+    for (const op of operators()) {
+        newexpr = newexpr.replaceAll(op, whitespace);
+    }
+    const digit = newexpr.split(whitespace);
+    for (const d of digit) {
+        if (("0" == d[0]) && (d.length > 1)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Insert all possible operators at each possible index.
  *
  * @param expr An expression, represented as a string.  Cannot be an empty
  *     string.
  * @param i The highest index in expr where an operator can be found.  The
  *     value of -1 means expr does not have any operators.
  * @return An array of new expressions, each expression is a string.  Each
- *     element of the array is an array of the form [idx, newexpr], where idx
- *     is the highest index in newexpr at which an operator is located.  Return
- *     an empty array if no new expressions can be created from the given
- *     expression.
+ *     element of the array is an array [idx, newexpr] as follows.
+ *
+ *     (1) idx := The highest index in newexpr at which an operator is located.
+ *     (2) newexpr := A string representing an expression created from the
+ *         given expression.
+ *
+ *     Return an empty array if no new expressions can be created from the
+ *     given expression.
  */
 function insert_operators(expr, i) {
     // Sanity checks.
@@ -134,23 +155,6 @@ function insert_operators(expr, i) {
     // insert op at each of the indices in Ind, each insertion creates a new
     // expression that can later be processed via backtracking.
     //
-    // A simpler solution is to define the empty operator.  We extend our list
-    // of operators [+, -, *] to include the empty operator.  Our list of
-    // operators is now: +, -, *, "".  We insert each operator at index j := i+2
-    // and create 4 new expressions:
-    //
-    // (1) exp[j-1] + exp[j]
-    // (2) exp[j-1] - exp[j]
-    // (3) exp[j-1] * exp[j]
-    // (4) exp[j-1] "" exp[j]
-    //
-    // Case (4) means that we consider exp[j-1] and exp[j] as one number, namely
-    // a number with two digits.  Later on when we process an expression that
-    // contains case (4), we would have two mathematical operators separated by
-    // two decimal digits.  The exception is when exp[j-1] = 0 and case (4)
-    // would result in a number that has a leading zero.  In this case, we skip
-    // the insertion of the empty operator.
-    //
     // Now consider two decimal digits
     //
     // expr[j-1] expr[j]
@@ -169,34 +173,24 @@ function insert_operators(expr, i) {
     // allowed to flip the sign of any digit.  Thus case (i) above is allowed,
     // but case (ii) is prohibited.
     const candidate = new Array();
-    // All possible operators.  We do not include the operator "--" because it
-    // is equivalent to the addition operator.  The operator "+-" is equivalent
-    // to the subtraction operator.  The operator "*-" is excluded because it
-    // would flip the sign of a digit from positive to negative.  We are
-    // prohibited from flipping the sign of each decimal digit.
-    const operator = ["+", "-", "*"];
-    // Add a mathematical operator at index i+2 in expr.
-    const j = i + 2;
-    for (const op of operator) {
-        const newexpr = expr.slice(0, j) + op + expr.slice(j, n);
-        candidate.push([j, newexpr]);
-    }
-    // Insert the empty operator.  Do so if expr[j-1] is not the digit 0.
-    if ("0" != expr[j - 1]) {
-        const newexpr = new String(expr);
-        candidate.push([i + 1, newexpr]);
+    for (let j = i + 2; j < n; j++) {
+        for (const op of operators()) {
+            const newexpr = expr.slice(0, j) + op + expr.slice(j, n);
+            candidate.push([j, newexpr]);
+        }
     }
     return candidate;
 }
 
 /**
- * Evaluate a mathematical expression.
- *
- * @param str A string representation of a mathematical expression.
- * @return The value of the given mathematical expression.
+ * All valid operators that can be inserted into a digit string.  We do not
+ * include the operator "--" because it is equivalent to the addition operator.
+ * The operator "+-" is equivalent to the subtraction operator.  The operator
+ * "*-" is excluded because it would flip the sign of a digit from positive to
+ * negative.  We are prohibited from flipping the sign of each decimal digit.
  */
-function evaluate(str) {
-    return Function(`"use strict"; return (${str})`)();
+function operators() {
+    return ["+", "-", "*"];
 }
 
 /**
@@ -213,7 +207,11 @@ function evaluate(str) {
  * Input: digits = "123", target = 6
  * Output: [1+2+3, 1*2*3]
  *
- * In the above example, we have two possible valid solutions.  Note that the
+ * Example 2:
+ * Input: digits = "105", target = 5
+ * Output: [1*0+5, 10-5]
+ *
+ * In Example 1, we have two possible valid solutions.  Note that the
  * expression "1*-2*-3" also evaluates to 6.  From the problem description, we
  * infer the following restrictions on any solution we output.
  *
@@ -225,6 +223,9 @@ function evaluate(str) {
  * (3) We are not allowed to insert the operator "-" at index 0 of the digit
  *     string.
  * (4) The digit string does not have "0" at index 0.
+ * (5) An operand can be zero, but it cannot have a leading zero.  For example,
+ *     an expression such as "1+0+3" is accepted, but the expression "1+03" is
+ *     invalid because the operand "03" has a leading zero.
  *
  * Usage: run maths.js [cct] [hostname]
  *
@@ -233,7 +234,7 @@ function evaluate(str) {
 export async function main(ns) {
     // The file name of the coding contract.
     const cct = ns.args[0];
-    // The host name of the server where the coding contract is located.
+    // The hostname of the server where the coding contract is located.
     const host = ns.args[1];
     // Solve the coding contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
