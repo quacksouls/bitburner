@@ -112,7 +112,7 @@ function unique_paths(n, k) {
 export async function main(ns) {
     // The file name of the coding contract.
     const cct = ns.args[0];
-    // The host name of the server where the coding contract is located.
+    // The hostname of the server where the coding contract is located.
     const host = ns.args[1];
     // Solve the coding contract.
     const [row, column] = ns.codingcontract.getData(cct, host);
