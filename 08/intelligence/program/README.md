@@ -1,8 +1,7 @@
 Use the various save files in this directory to test the Intelligence XP gain
 when you create programs both manually and via the Singularity API.  A save
-file prefixed with the name of a program means that you should only use that
-save file to create the particular program.  For example, you should use the
-save file
+file whose name contains the name of a program should only be used to create
+the particular program.  For example, you should use the save file
 
 `bitburnerSave_1661522461_BN1x4_AutoLink.json`
 
