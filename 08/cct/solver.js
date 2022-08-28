@@ -78,6 +78,9 @@ function solve(ns, cct, host) {
         case "Compression III: LZ Compression":
             script = prefix + "lzc.js";
             break;
+        case "Encryption I: Caesar Cipher":
+            script = prefix + "caesar.js";
+            break;
         case "Find All Valid Math Expressions":
             script = prefix + "maths.js";
             break;
