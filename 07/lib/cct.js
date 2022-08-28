@@ -20,6 +20,46 @@
 import { assert } from "/lib/util.js";
 
 /**
+ * The index of an alphabetic character.
+ *
+ * @param c A character of the English alphabet.  Cannot be empty string.
+ * @return The index of the given character, where index starts from zero.
+ */
+export function char_index(c) {
+    assert(1 == c.length);
+    const alphabet = new Map([
+        ["A", 0],
+        ["B", 1],
+        ["C", 2],
+        ["D", 3],
+        ["E", 4],
+        ["F", 5],
+        ["G", 6],
+        ["H", 7],
+        ["I", 8],
+        ["J", 9],
+        ["K", 10],
+        ["L", 11],
+        ["M", 12],
+        ["N", 13],
+        ["O", 14],
+        ["P", 15],
+        ["Q", 16],
+        ["R", 17],
+        ["S", 18],
+        ["T", 19],
+        ["U", 20],
+        ["V", 21],
+        ["W", 22],
+        ["X", 23],
+        ["Y", 24],
+        ["Z", 25]
+    ]);
+    assert(alphabet.has(c));
+    return alphabet.get(c);
+}
+
+/**
  * Count the total occurrence of 1 in a bit string.  This function does not
  * necessarily count all 1s in a bit string.  Some positions can be skipped.
  *
@@ -51,6 +91,25 @@ export function count_one(msg, p) {
         i += skip;
     }
     return n1;
+}
+
+/**
+ * An array of uppercase letters of the English alphabet.
+ */
+export function english_alphabet() {
+    return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+}
+
+/**
+ * Whether a character is an uppercase letter of the English alphabet.
+ *
+ * @param c A character.  Cannot be empty string.
+ * @return true if the given character is an uppercase letter of the English
+ *     alphabet; false otherwise.
+ */
+export function is_alphabetic(c) {
+    assert(1 == c.length);
+    return english_alphabet().includes(c);
 }
 
 /**

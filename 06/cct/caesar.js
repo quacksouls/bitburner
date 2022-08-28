@@ -15,15 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure } from "/lib/cct.js";
+import {
+    english_alphabet, char_index, is_alphabetic, log_cct_failure
+} from "/lib/cct.js";
 import { assert } from "/lib/util.js";
-
-/**
- * An array of uppercase letters of the English alphabet.
- */
-function english_alphabet() {
-    return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-}
 
 /**
  * The Caesar cipher on the given plaintext and left shift length k.  Suppose
@@ -66,64 +61,13 @@ function caesar(plaintext, k) {
             continue;
         }
         // Index of the ciphertext character.
-        let j = index(ptxt[i]) - ell;
+        let j = char_index(ptxt[i]) - ell;
         if (j < 0) {
             j = n + j;
         }
         ciphertext += alphabet[j];
     }
     return ciphertext;
-}
-
-/**
- * The index of an alphabetic character.
- *
- * @param c A character of the English alphabet.
- * @return The index of the given character, where index starts from zero.
- */
-function index(c) {
-    const alphabet = new Map([
-        ["A", 0],
-        ["B", 1],
-        ["C", 2],
-        ["D", 3],
-        ["E", 4],
-        ["F", 5],
-        ["G", 6],
-        ["H", 7],
-        ["I", 8],
-        ["J", 9],
-        ["K", 10],
-        ["L", 11],
-        ["M", 12],
-        ["N", 13],
-        ["O", 14],
-        ["P", 15],
-        ["Q", 16],
-        ["R", 17],
-        ["S", 18],
-        ["T", 19],
-        ["U", 20],
-        ["V", 21],
-        ["W", 22],
-        ["X", 23],
-        ["Y", 24],
-        ["Z", 25]
-    ]);
-    assert(alphabet.has(c));
-    return alphabet.get(c);
-}
-
-/**
- * Whether a character is an uppercase letter of the English alphabet.
- *
- * @param c A character.  Cannot be empty string.
- * @return true if the given character is an uppercase letter of the English
- *     alphabet; false otherwise.
- */
-function is_alphabetic(c) {
-    assert(1 == c.length);
-    return english_alphabet().includes(c);
 }
 
 /**
