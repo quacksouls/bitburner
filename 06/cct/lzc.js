@@ -7,6 +7,21 @@ import { log_cct_failure } from "/lib/cct.js";
  * https://github.com/stalefishies
  * https://github.com/danielyxie/bitburner/commit/174d17a5e20926745993969ede7ad1db9308036c
  *
+ * Explanation by stalefish#8304 on Discord server of Bitburner:
+ *
+ * The basic idea is to add one character at a time, keeping all possible
+ * routes to optimal compression open. If we have N characters currently
+ * compressed, we can split that into two parts: all the chunks except the
+ * last, and then that last chunk. To add an (N+1)th character to the
+ * compressed string, we are going to either modify that last chunk to include
+ * the new character, or start a new chunk with the new character - we never
+ * modify any chunk except the last. Thus, to keep all possible routes open, we
+ * need to consider every possible final chunk, keeping track of the shortest
+ * 'all chunks except the last' string for each possible final chunk. That's
+ * what the state table keeps track of: the string stored in the table is the
+ * shortest 'all chunks except the last', and each table location corresponds
+ * to each possible last chunk.
+ *
  * The code of this function is covered by this license:
  * Apache 2.0 with Commons Clause
  * https://github.com/danielyxie/bitburner/blob/dev/license.txt
