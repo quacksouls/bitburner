@@ -174,7 +174,7 @@ export class Server {
         }
         // Copy our script over to this server.  Use the server to hack the
         // target.
-        await this.#ns.scp(this.#script, this.#home, this.hostname());
+        await this.#ns.scp(this.#script, this.hostname(), this.#home);
         this.#ns.exec(
             this.#script, this.hostname(), nthread, targ.hostname
         );
