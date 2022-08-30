@@ -91,8 +91,7 @@ async function next_stage(ns, n, money) {
     assert(money > 0);
     // Wait until we have reached the money threshold.
     const player = new Player(ns);
-    const t = new Time();
-    const time = 10 * t.second();
+    const time = update_interval();
     while (player.money() < money) {
         await ns.sleep(time);
     }
@@ -117,8 +116,7 @@ async function setup_farm(ns, n) {
     assert(nNode > 0);
     assert(nNode < ns.hacknet.maxNumNodes());
     const player = new Player(ns);
-    const t = new Time();
-    const time = 10 * t.second();
+    const time = update_interval();
     // We already have a farm of n or more Hacknet nodes.
     if (ns.hacknet.numNodes() >= nNode) {
         return;
@@ -149,8 +147,7 @@ async function stage_one(ns, n) {
     const nNode = Math.floor(n);
     assert(nNode > 0);
     assert(nNode <= 3);
-    const t = new Time();
-    const time = 10 * t.second();
+    const time = update_interval();
     // Bootstrap our farm in case we have zero nodes.
     await setup_farm(ns, nNode);
     // Fully upgrade each node.
@@ -172,6 +169,14 @@ function update(ns) {
     upgrade_level(ns, farm);
     upgrade_core(ns, farm);
     upgrade_ram(ns, farm);
+}
+
+/**
+ * The interval between successive updates.
+ */
+function update_interval() {
+    const t = new Time();
+    return t.minute();
 }
 
 /**
