@@ -22,7 +22,8 @@ via the Singularity API.  Below are processes for creating a program.
    `program.js` would print to the terminal the amount of Intelligence XP
    gained as a result of creating the given program.
 1. Repeat the above process as many times as you want to gather as many data
-   points as you need for a particular program.
+   points as you need for a particular program.  Clear the browsing data
+   before you load the same (or another) save file.
 1. Save the data in the corresponding data file.  For example, data obtained
    from creating the `AutoLink.exe` program should be saved in the file
    `AutoLink.md`, under the section `Scripted`.
@@ -46,7 +47,8 @@ via the Singularity API.  Below are processes for creating a program.
    obtaining the gain in Intelligence XP as a result of creating the given
    program.
 1. Repeat the above process as many times as you want to gather as many data
-   points as you need for a particular program.
+   points as you need for a particular program.  Clear the browsing data
+   before you load the same (or another) save file.
 1. Save the data in the corresponding data file.  For example, data obtained
    from creating the `AutoLink.exe` program should be saved in the file
    `AutoLink.md`, under the section `Manual`.
