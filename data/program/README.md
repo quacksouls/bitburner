@@ -26,7 +26,7 @@ via the Singularity API.  Below are processes for creating a program.
    before you load the same (or another) save file.
 1. Save the data in the corresponding data file.  For example, data obtained
    from creating the `AutoLink.exe` program should be saved in the file
-   `AutoLink.md`, under the section `Scripted`.
+   `AutoLink.txt`, under the section `Scripted`.
 
 
 # Manual
@@ -51,4 +51,4 @@ via the Singularity API.  Below are processes for creating a program.
    before you load the same (or another) save file.
 1. Save the data in the corresponding data file.  For example, data obtained
    from creating the `AutoLink.exe` program should be saved in the file
-   `AutoLink.md`, under the section `Manual`.
+   `AutoLink.txt`, under the section `Manual`.
