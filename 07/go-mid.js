@@ -22,8 +22,7 @@ import { assert } from "/lib/util.js";
 /**
  * This function should be run immediately after the soft reset of installing a
  * bunch of Augmentations.  Our purpose is to gain some money and Hack
- * experience points early on when our stats are low.  We assume our home
- * server has a small amount of RAM, possibly at least 128GB RAM.
+ * experience points early on when our stats are low.
  *
  * @param ns The Netscript API.
  */

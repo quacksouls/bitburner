@@ -23,8 +23,6 @@ import { assert } from "/lib/util.js";
  * This function should be run immediately after the soft reset of installing a
  * bunch of Augmentations or after visiting a new BitNode.  Our purpose is to
  * gain some money and Hack experience points early on when our stats are low.
- * We assume our home server has a small amount of RAM, possibly less than
- * 64GB RAM.
  *
  * @param ns The Netscript API.
  */
