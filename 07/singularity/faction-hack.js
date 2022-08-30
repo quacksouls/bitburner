@@ -19,7 +19,7 @@ import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
 import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
-import { install_backdoor } from "/lib/singularity.network.js";
+import { install_backdoor, visit_city } from "/lib/singularity.network.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -43,9 +43,9 @@ import { assert } from "/lib/util.js";
  *     for receiving an invitation from the given faction.
  */
 async function hacking_group(ns, fac, target) {
-    const player = new Player(ns);
-    assert(player.city() == "Sector-12");
+    await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
+    const player = new Player(ns);
     const server = new Server(ns, target);
     if (player.hacking_skill() < server.hacking_skill()) {
         await raise_hack(ns, server.hacking_skill());
