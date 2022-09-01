@@ -40,6 +40,7 @@ export async function main(ns) {
     const prefix = github + "quacksouls/bitburner/main/01/";
     for (const f of dir_structure()) {
         const file = prefix + f;
+        ns.tprint(file);
         await ns.wget(file, f, home);
     }
 }
