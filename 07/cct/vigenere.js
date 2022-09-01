@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { char_index, is_alphabetic, log_cct_failure } from "/lib/cct.js";
+import {
+    char_index, is_alphabetic, log_cct_failure, print_error, print_success
+} from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -162,8 +164,8 @@ export async function main(ns) {
         const log = "/cct/vigenere.txt";
         const data = "[" + plaintext + ", " + key + "]";
         await log_cct_failure(ns, log, cct, host, data);
-        ns.tprint(host + ": " + cct + ": FAILURE");
+        print_error(ns, host, cct);
         return;
     }
-    ns.tprint(host + ": " + cct + ": " + result);
+    print_success(ns, host, cct, result);
 }

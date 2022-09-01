@@ -136,6 +136,17 @@ export function all_programs() {
 export const aug_purchase_limit = 5;
 
 /**
+ * Use ANSI escape codes to add colour.  Refer to this page for more details:
+ *
+ * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+ */
+export const colour = {
+    "GREEN": "\u001b[32m",
+    "RED":   "\u001b[31m",
+    "RESET": "\u001b[0m"
+};
+
+/**
  * The minimum amount of RAM for a high-end server.
  */
 export const high_ram = 512;

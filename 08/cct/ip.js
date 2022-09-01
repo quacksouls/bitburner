@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure } from "/lib/cct.js";
+import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -164,8 +164,8 @@ export async function main(ns) {
     if (0 == result.length) {
         const log = "/cct/ip.txt";
         await log_cct_failure(ns, log, cct, host, string);
-        ns.tprint(host + ": " + cct + ": FAILURE");
+        print_error(ns, host, cct);
         return;
     }
-    ns.tprint(host + ": " + cct + ": " + result);
+    print_success(ns, host, cct, result);
 }

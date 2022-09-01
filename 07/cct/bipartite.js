@@ -16,7 +16,9 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { log_cct_failure, matrix_to_string } from "/lib/cct.js";
+import {
+    log_cct_failure, matrix_to_string, print_error, print_success
+} from "/lib/cct.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -290,8 +292,8 @@ export async function main(ns) {
         const log = "/cct/bipartite.txt";
         const data = "[" + n + ", " + matrix_to_string(edge) + "]";
         await log_cct_failure(ns, log, cct, host, data);
-        ns.tprint(host + ": " + cct + ": FAILURE");
+        print_error(ns, host, cct);
         return;
     }
-    ns.tprint(host + ": " + cct + ": " + result);
+    print_success(ns, host, cct, result);
 }

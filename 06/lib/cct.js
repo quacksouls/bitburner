@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions for solving coding contracts.
 
+import { colour } from "/lib/constant.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -240,6 +241,33 @@ export function parity_position(p) {
         array.push(2 ** i);
     }
     return array;
+}
+
+/**
+ * Print to the terminal an error message about which Coding Contract we did
+ * not solve correctly.
+ *
+ * @param The Netscript API.
+ * @param host The hostname of the server where the Coding Contract was found.
+ * @param cct The file name of the Coding Contract.
+ */
+export function print_error(ns, host, cct) {
+    const prefix = host + ": " + cct + ": ";
+    ns.tprint(`${prefix + colour.RED + "FAILURE" + colour.RESET}`);
+}
+
+/**
+ * Print to the terminal a message about the reward from successfully solving
+ * a Coding Contract.
+ *
+ * @param The Netscript API.
+ * @param host The hostname of the server where the Coding Contract was found.
+ * @param cct The file name of the Coding Contract.
+ * @param reward The reward from solving the Coding Contract.
+ */
+export function print_success(ns, host, cct, reward) {
+    const prefix = host + ": " + cct + ": ";
+    ns.tprint(`${prefix + colour.GREEN + reward + colour.RESET}`);
 }
 
 /**

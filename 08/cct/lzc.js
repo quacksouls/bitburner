@@ -1,4 +1,4 @@
-import { log_cct_failure } from "/lib/cct.js";
+import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 
 /**
  * Compress a string using LZ encoding.  This function is due to
@@ -179,8 +179,8 @@ export async function main(ns) {
     if (0 == result.length) {
         const log = "/cct/lzc.txt";
         await log_cct_failure(ns, log, cct, host, data);
-        ns.tprint(host + ": " + cct + ": FAILURE");
+        print_error(ns, host, cct);
         return;
     }
-    ns.tprint(host + ": " + cct + ": " + result);
+    print_success(ns, host, cct, result);
 }

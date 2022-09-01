@@ -19,6 +19,17 @@
 // constants.
 
 /**
+ * Use ANSI escape codes to add colour.  Refer to this page for more details:
+ *
+ * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+ */
+export const colour = {
+    "GREEN": "\u001b[32m",
+    "RED":   "\u001b[31m",
+    "RESET": "\u001b[0m"
+};
+
+/**
  * The home server of the player.
  */
 export const home = "home";

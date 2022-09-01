@@ -16,7 +16,10 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { count_one, log_cct_failure, parity_position } from "/lib/cct.js";
+import {
+    count_one, log_cct_failure, parity_position, print_error,
+    print_success
+} from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -199,8 +202,8 @@ export async function main(ns) {
     if (0 == result.length) {
         const log = "/cct/hamming.txt";
         await log_cct_failure(ns, log, cct, host, n);
-        ns.tprint(host + ": " + cct + ": FAILURE");
+        print_error(ns, host, cct);
         return;
     }
-    ns.tprint(host + ": " + cct + ": " + result);
+    print_success(ns, host, cct, result);
 }
