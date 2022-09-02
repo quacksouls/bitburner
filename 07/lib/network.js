@@ -17,7 +17,7 @@
 
 // A class and various utility functions related to network.
 
-import { Player } from "/lib/player.js";
+import { home } from "/lib/constant.js";
 import { assert, filter_pserv } from "/lib/util.js";
 
 /**
@@ -326,8 +326,7 @@ export class Graph {
 export function network(ns) {
     // We scan the world network from a node, which is assumed to be our home
     // server.  We refer to our home server as the root of the tree.
-    const player = new Player(ns);
-    const root = player.home();
+    const root = home;
     // A set of all servers we can visit at the moment.
     let server = new Set();
     // A stack of servers to visit.  We start from our home server.
