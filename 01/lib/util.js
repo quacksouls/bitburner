@@ -17,8 +17,6 @@
 
 // Miscellaneous helper functions.
 
-import { home, program } from "/lib/constant.js";
-
 /**
  * A function for assertion.
  *
