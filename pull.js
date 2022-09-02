@@ -345,4 +345,5 @@ export async function main(ns) {
             ns.tprint(file);
         }
     }
+    ns.tprint("Download complete.");
 }
