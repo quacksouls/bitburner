@@ -16,7 +16,7 @@
  */
 
 import { home } from "/lib/constant.js";
-import { shortest_path } from "/lib/network.js";
+import { network, shortest_path } from "/lib/network.js";
 
 /**
  * Determine a shortest path from our home server to a target server.
@@ -34,7 +34,14 @@ export async function main(ns) {
         ns.tprint(error_msg);
         ns.exit();
     }
+    // Not a server in the game world.  Exclude purchased servers.
     const target = ns.args[0];
+    const server = new Set(network(ns));
+    if (!server.has(target)) {
+        ns.tprint("Server not found: " + target);
+        return;
+    }
+    // Find shortest path.
     const path = shortest_path(ns, home, target);
     if (path.length < 1) {
         ns.tprint("Target server must be reachable from " + home + ".");

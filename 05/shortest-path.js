@@ -15,10 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { shortest_path } from "./libbnr.js";
+import { home } from "/lib/constant.js";
+import { network, shortest_path } from "/lib/network.js";
 
 /**
- * Determine the shortest path from our home server to a target server.
+ * Determine a shortest path from our home server to a target server.
  * Must provide the target server from the command line.
  *
  * Usage: run shortest-path.js [targetServer]
@@ -30,13 +31,20 @@ export async function main(ns) {
     // Must provide a command line argument.
     const error_msg = "Must provide the name of the target server.";
     if (ns.args.length < 1) {
-        await ns.tprint(error_msg);
+        ns.tprint(error_msg);
         ns.exit();
     }
+    // Not a server in the game world.  Exclude purchased servers.
     const target = ns.args[0];
-    const path = shortest_path(ns, "home", target);
+    const server = new Set(network(ns));
+    if (!server.has(target)) {
+        ns.tprint("Server not found: " + target);
+        return;
+    }
+    // Find shortest path.
+    const path = shortest_path(ns, home, target);
     if (path.length < 1) {
-        await ns.tprint("Target server must be reachable from home.");
+        ns.tprint("Target server must be reachable from " + home + ".");
         ns.exit();
     }
     ns.tprint(path.join(" -> "));
