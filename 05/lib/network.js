@@ -318,10 +318,11 @@ export class Graph {
 
 /**
  * Scan the network of servers in the game world.  Each server must be
- * reachable from our home server.
+ * reachable from our home server.  We do not include purchased servers.
  *
  * @param ns The Netscript API.
- * @return An array of servers that can be reached from home.
+ * @return An array of servers that can be reached from home.  Purchased
+ *     servers are excluded.
  */
 export function network(ns) {
     // We scan the world network from a node, which is assumed to be our home
