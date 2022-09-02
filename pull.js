@@ -176,6 +176,9 @@ function dir_structure(d) {
     let filesystem = "";
     switch (d) {
         case "01":
+            filesystem = Array.from(dir_root());
+            filesystem = filesystem.concat(dir_lib());
+            break;
         case "02":
         case "03":
         case "04":
