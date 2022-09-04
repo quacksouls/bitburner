@@ -141,9 +141,10 @@ export const aug_purchase_limit = 5;
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
  */
 export const colour = {
-    "GREEN": "\u001b[32m",
-    "RED":   "\u001b[31m",
-    "RESET": "\u001b[0m"
+    "DARK_GREEN": "\u001b[38;5;22m",
+    "GREEN":      "\u001b[32m",
+    "RED":        "\u001b[31m",
+    "RESET":      "\u001b[0m"
 };
 
 /**
