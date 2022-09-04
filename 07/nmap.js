@@ -161,7 +161,7 @@ function decorate(ns, server) {
     // Add some more decorations to other servers.
     const serv = ns.getServer(server);
     const player = ns.getPlayer();
-    const nhack = "(" + serv.requiredHackingSkill + ")"
+    const nhack = "(" + serv.requiredHackingSkill + ")";
     const nport = "[" + serv.numOpenPortsRequired + "]";
     const s = server + " " + nhack + nport;
     if (player.skills.hacking < serv.requiredHackingSkill) {
