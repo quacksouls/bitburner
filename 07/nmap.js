@@ -120,7 +120,7 @@ function beautify(ns, grid, map) {
     const matrix = Array.from(grid);
     // Remove dead branches in the visualization.  A branch is said to be dead
     // if it does not lead to a server.
-    for (let i = 0; i < matrix.length - 2; i++) {
+    for (let i = 0; i < matrix.length - 1; i++) {
         const diff = matrix[i].length - matrix[i + 1].length;
         if (diff < 3) {
             continue;
