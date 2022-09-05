@@ -408,13 +408,50 @@ function to_string(matrix) {
  * called "home", we might have the network map:
  *
  * home
- * ├╴serv_a
- * │  ├╴serv_d
- * │  ├╴serv_e
- * │  │  └╴serv_g
- * │  └╴serv_f
- * ├╴serv_b
- * └╴serv_c
+ * ├╴servA (1)[0]
+ * │  ├╴servD (15)[2]
+ * │  ├╴servE (100)[2]
+ * │  │  └╴servG (302)[3]
+ * │  └╴servG (256)[2]
+ * ├╴servB (101)[1]
+ * └╴servC (150)[2]
+ *
+ * The above network map tells us various information about the servers in the
+ * game world, apart from how these servers are structured relative to each
+ * other.  For example, the line "serverName (n)[k]" tells us the name of a
+ * server (i.e. serverName), the minimum Hack stat we must have in order to
+ * hack this server (i.e. n), and the number of ports that must be opened on
+ * the server (i.e. k) so we can nuke the server.  The server servA requires us
+ * to have a minimum of 1 Hack and we do not need to open any ports on the
+ * server.  As we always start with 1 Hack, we can immediately nuke servA and
+ * gain root access on that server.  On the other hand, servG requires a
+ * minimum of 302 Hack and we must open 3 ports on the server.
+ *
+ * How do we reach a particular server?  To reach servG, we start from our
+ * home server and connect to servA.  From there, we connect to servE and
+ * finally connect to servG.  The network map printed by the script shows a
+ * shortest path from the home server to each server in the game world.  There
+ * might be more than one shortest path from home to a particular server.  The
+ * script chooses to print only one of these shortest paths.
+ *
+ * When printed to the terminal, various colours are applied to each server
+ * name, as explained below.
+ *
+ * 1. The whole line "serverName (n)[k]" is coloured green.  We have nuked
+ *    serverName and now have root access on the server.
+ * 2. The whole line "serverName (n)[k]" is coloured dark green.  We have
+ *    enough Hack stat to meet the minimum hacking skill requirement and we can
+ *    open all ports on the server.  However, we do not have root access on the
+ *    server because the server is yet to be nuked.
+ * 3. The whole line "serverName (n)[k]" is coloured red.  Our Hack stat is
+ *    less than the required minimum hacking skill and we cannot open all ports
+ *    on the server.
+ * 4. The part "serverName (n)" is coloured dark green whereas "[k]" is
+ *    coloured red.  We meet the minimum Hack stat required by the server, but
+ *    we cannot open all ports on the server.
+ * 5. The part "serverName (n)" is coloured red whereas "[k]" is coloured dark
+ *    green.  Our Hack stat is less than the minimum hacking skill required by
+ *    the server, but we can open all ports on the server.
  *
  * This script does not implement the functionalities of https://nmap.org.
  * However, it serves the same purpose as the script
@@ -422,6 +459,8 @@ function to_string(matrix) {
  * https://github.com/alainbryden/bitburner-scripts/blob/main/scan.js
  *
  * By default, we do not include purchased servers.
+ *
+ * Usage: run nmap.js
  *
  * @param ns The Netscript API.
  */
