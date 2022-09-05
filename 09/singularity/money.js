@@ -58,19 +58,35 @@ async function commit_crimes(ns, threshold) {
 }
 
 /**
- * Chain load the next scripts.  The script "/singularity/daemon.js" determines
- * whether we should be hacking the w0r1d_d43m0n server.  It terminates if the
- * conditions are not met for the server to appear in the game world.  The
- * script "/singularity/program.js" attempts to purchase port opener programs.
+ * Chain load the next scripts.  Here is a brief description of the purpose of
+ * each script.
+ *
+ * (1) /singularity/daemon.js := This script determines whether we should be
+ *     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
+ *     not met for the server to appear in the game world.
+ * (2) /singularity/program.js := This script attempts to purchase port opener
+ *     programs.  We need all five port opener programs so we can open all
+ *     ports of each server.
+ * (3) /gang/slum-snakes.js := Join the Slum Snakes faction as preparation for
+ *     creating a gang within that faction.
  *
  * @param ns The Netscript API.
  */
-function load_chain(ns) {
-    const script = ["/singularity/daemon.js", "/singularity/program.js"];
+async function load_chain(ns) {
+    const slum_snakes_script = "/gang/slum-snakes.js";
+    const script = ["/singularity/daemon.js", slum_snakes_script];
     const nthread = 1;
-    for (const s of script) {
-        ns.exec(s, home, nthread);
+    script.map(
+        s => ns.exec(s, home, nthread)
+    );
+    // Wait until we have joined the Slum Snakes faction.  Then launch another
+    // script.
+    const t = new Time();
+    const time = t.second();
+    while (ns.scriptRunning(slum_snakes_script, home)) {
+        await ns.sleep(time);
     }
+    ns.exec("/singularity/program.js", home, nthread);
 }
 
 /**
@@ -84,12 +100,14 @@ function load_chain(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Suppress various log messages.
+    ns.disableLog("sleep");
     // Commit crime to raise some money.
     const player_money = ns.getServerMoneyAvailable(home);
     const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
     if ((player_money > threshold) && (home_ram >= high_ram)) {
-        load_chain(ns);
+        await load_chain(ns);
         return;
     }
     await commit_crimes(ns, threshold);
@@ -108,5 +126,5 @@ export async function main(ns) {
         ns.exec(script, home, nthread);
         return;
     }
-    load_chain(ns);
+    await load_chain(ns);
 }
