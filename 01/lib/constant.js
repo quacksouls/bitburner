@@ -34,3 +34,12 @@ export const colour = {
  * The home server of the player.
  */
 export const home = "home";
+
+/**
+ * These programs are port openers.  Each program can be used to open a
+ * specific port on a server.
+ */
+export const program = [
+    "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
+    "SQLInject.exe"
+];

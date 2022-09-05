@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour, home } from "/lib/constant.js";
+import { colour, home, program as popen } from "/lib/constant.js";
 import { network, shortest_path } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -161,16 +161,29 @@ function decorate(ns, server) {
     // Add some more decorations to other servers.
     const serv = ns.getServer(server);
     const player = ns.getPlayer();
-    const nhack = "(" + serv.requiredHackingSkill + ")";
+    const hack_lvl = player.skills.hacking;
+    const required_hack_lvl = serv.requiredHackingSkill;
+    const nhack = "(" + required_hack_lvl + ")";
     const nport = "[" + serv.numOpenPortsRequired + "]";
-    const s = server + " " + nhack + nport;
-    if (player.skills.hacking < serv.requiredHackingSkill) {
-        return colour.RED + s + colour.RESET;
-    }
+    // Do we have root access on the server?
     if (serv.hasAdminRights) {
+        const s = server + " " + nhack + nport;
         return colour.GREEN + s + colour.RESET;
     }
-    return colour.DARK_GREEN + s + colour.RESET;
+    // Do we have the minimum required Hack stat?
+    let s = server + " " + nhack;
+    if (hack_lvl < required_hack_lvl) {
+        s = colour.RED + s + colour.RESET;
+    } else {
+        s = colour.DARK_GREEN + s + colour.RESET;
+    }
+    // Can we open all ports on the server?
+    if (num_ports(ns) < serv.numOpenPortsRequired) {
+        s += colour.RED + nport + colour.RESET;
+    } else {
+        s += colour.DARK_GREEN + nport + colour.RESET;
+    }
+    return s;
 }
 
 /**
@@ -224,6 +237,20 @@ function leaf() {
  */
 function newline() {
     return "\n";
+}
+
+/**
+ * Determine the number of ports a player can currently open on servers in
+ * the game world.  This depends on whether the player has the necessary
+ * hacking programs on the home server.
+ *
+ * @param ns The Netscript API.
+ * @return How many ports we can open on a world server.
+ */
+function num_ports(ns) {
+    let program = Array.from(popen);
+    program = program.filter(p => ns.fileExists(p, home));
+    return program.length;
 }
 
 /**
