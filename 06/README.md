@@ -6,3 +6,5 @@
    done under the default of 8GB RAM in BN1.1.  The scripts can also be run
    even if we have not destroyed BN1.1.  Simply raise enough money to upgrade
    our home RAM to at least 32GB.
+1. The game play is not yet automated.  We still need to manually run various
+   scripts.
