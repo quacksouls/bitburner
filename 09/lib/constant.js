@@ -201,56 +201,56 @@ export const task = {
     // Gang: hacking
     // Money: N/A
     // Respect: great
-    // Hack: great
+    // Wanted: great
     "CYBERTERROR": "Cyberterrorism",
     // Set a gang member to attempt distributed denial of service (DDoS)
     // attacks.
     // Gang: hacking
     // Money: N/A
     // Respect: yes
-    // Hack: yes
+    // Wanted: yes
     "DDOS": "DDoS Attacks",
     // Set a gang member as an ethical hacker.
     // Gang: hacking
     // Money: yes
     // Respect: N/A
-    // Hack: negative
+    // Wanted: negative
     "EHACK": "Ethical Hacking",
     // Set a gang member to commit financial fraud and digital counterfeiting.
     // Gang: hacking
     // Money: yes
     // Respect: slight
-    // Hack: slight
+    // Wanted: slight
     "FRAUD": "Fraud & Counterfeiting",
     // Set a gang member to attempt identity theft.
     // Gang: hacking
     // Money: yes
     // Respect: yes
-    // Hack: yes
+    // Wanted: yes
     "ID_THEFT": "Identity Theft",
     // Set a gang member to launder money.
     // Gang: hacking
     // Money: yes
     // Respect: yes
-    // Hack: yes
+    // Wanted: yes
     "LAUNDER": "Money Laundering",
     // Set a gang member to attempt phishing scams and attacks.
     // Gang: hacking
     // Money: yes
     // Respect: slight
-    // Hack: slight
+    // Wanted: slight
     "PHISHING": "Phishing",
     // Set a gang member to create and distribute ransomware.
     // Gang: hacking
     // Money: yes
     // Respect: slight
-    // Hack: slight
+    // Wanted: slight
     "RANSOMWARE": "Ransomware",
     // Set a gang member to create and distribute malicious viruses.
     // Gang: hacking
     // Money: N/A
     // Respect: yes
-    // Hack: yes
+    // Wanted: yes
     "VIRUS": "Plant Virus",
     //
     // Criminal gangs.
@@ -259,55 +259,55 @@ export const task = {
     // Gang: criminal
     // Money: yes
     // Respect: slight
-    // Combat: slight
+    // Wanted: slight
     "BLACKMAIL": "Threaten & Blackmail",
     // Set a gang member to run cons.
     // Gang: criminal
     // Money: yes
     // Respect: yes
-    // Combat: yes
+    // Wanted: yes
     "CON": "Run a Con",
     // Set a gang member to sell drugs.
     // Gang: criminal
     // Money: yes
     // Respect: slight
-    // Combat: slight
+    // Wanted: slight
     "DRUGS": "Deal Drugs",
     // Set a gang member to extort civilians in our turf.
     // Gang: criminal
     // Money: yes
     // Respect: slight
-    // Combat: yes
+    // Wanted: yes
     "EXTORT": "Strongarm Civilians",
     // Set a gang member to randomly mug a person.
     // Gang: criminal
     // Money: yes
     // Respect: slight
-    // Combat: very slight
+    // Wanted: very slight
     "MUG": "Mug People",
     // Set a gang member to commit armed robbery.
     // Gang: criminal
     // Money: yes
     // Respect: yes
-    // Combat: yes
+    // Wanted: yes
     "ROBBERY": "Armed Robbery",
     // Set a gang member to commit acts of terrorism.
     // Gang: criminal
     // Money: N/A
     // Respect: great
-    // Combat: great
+    // Wanted: great
     "TERROR": "Terrorism",
     // Set a gang member to traffick illegal arms.
     // Gang: criminal
     // Money: yes
     // Respect: yes
-    // Combat: yes
+    // Wanted: yes
     "TRAFFICK_ARMS": "Traffick Illegal Arms",
     // Set a gang member to attempt human trafficking.
     // Gang: criminal
     // Money: yes
     // Respect: yes
-    // Combat: yes
+    // Wanted: yes
     "TRAFFICK_HUMAN": "Human Trafficking",
     //
     // Both criminal and hacking gangs.
@@ -315,28 +315,28 @@ export const task = {
     // Set a gang member to train their Charisma stat.
     // Gang: criminal, hacking
     // Money: N/A
-    // Respect: N/A
+    // Wanted: N/A
     "CHARISMA": "Train Charisma",
     // Set a gang member to train their combat stats, i.e. Str, Def, Dex, Agi.
     // Gang: criminal, hacking
     // Money: N/A
-    // Respect: N/A
+    // Wanted: N/A
     "COMBAT": "Train Combat",
     // Set a gang member to train their Hack stat.
     // Gang: criminal, hacking
     // Money: N/A
-    // Respect: N/A
+    // Wanted: N/A
     "HACK": "Train Hacking",
     // Set a gang member to engage in territorial warfare against other gangs.
     // Gang: criminal, hacking
     // Money: N/A
-    // Respect: N/A
+    // Wanted: N/A
     "TURF_WAR": "Territory Warfare",
     // Set a gang member to be a vigilante and protect the city from criminals.
     // Gang: criminal, hacking
     // Money: N/A
     // Respect: N/A
-    // Combat: negative
+    // Wanted: negative
     "VIGILANTE": "Vigilante Justice"
 };
 
