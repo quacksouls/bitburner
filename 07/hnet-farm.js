@@ -50,7 +50,6 @@ function is_fully_upgraded(ns) {
     // These constants are taken from the source file
     // https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
     const max_core = 16;
-    const max_level = 200;
     const max_ram = 64;
     // Iterate through each node of our Hacknet farm.
     for (const node of farm) {
@@ -58,7 +57,7 @@ function is_fully_upgraded(ns) {
         if (stat.cores < max_core) {
             return NOT_MAXED_OUT;
         }
-        if (stat.level < max_level) {
+        if (stat.level < max_level()) {
             return NOT_MAXED_OUT;
         }
         if (stat.ram < max_ram) {
@@ -71,6 +70,67 @@ function is_fully_upgraded(ns) {
         assert(!isFinite(ns.hacknet.getRamUpgradeCost(node, howmany)));
     }
     return MAXED_OUT;
+}
+
+/**
+ * Whether it is time to upgrade the Cores and RAM.  Upgrading either the Cores
+ * or RAM is many times more expensive than upgrading the Level of a Hacknet
+ * node.  Make sure we upgrade the Cores or RAM sparingly.  That is, the
+ * interval between successive upgrades of the Cores or RAM should usually be
+ * longer than the corresponding interval for Level.
+ *
+ * @param ns The Netscript API.
+ * @return true if it is time to ugprade the Cores and RAM;
+ *     false otherwise.
+ */
+function is_upgrade_core_ram(ns) {
+    // Each time we upgrade the RAM by one unit, we effectively double the
+    // current amount of RAM.  Starting from 1GB, upgrading the RAM once would
+    // result in 2GB.  Upgrading the RAM another time would result in 4GB.  And
+    // so on until we have reached 64GB.  Therefore we can upgrade the RAM 6
+    // times.  Divide these 6 upgrades into the 200 Levels, we get the upgrade
+    // schedule:
+    //
+    // (1) 1st upgrade at 30 Level
+    // (2) 2nd upgrade at 60 Level
+    // (3) 3rd upgrade at 90 Level
+    // (4) 4th upgrade at 120 Level
+    // (5) 5th upgrade at 150 Level
+    // (6) 6th upgrade at 180 Level
+    //
+    // On the other hand, upgrading the Cores once would add one point to the
+    // current number of Cores.  As we have a maximum of 16 Cores and we start
+    // with 1 Core, we can upgrade the Cores a total of 15 times.  We follow
+    // the same upgrade schedule as per the schedule for upgrading RAM.
+    //
+    // Whenever it is time to upgrade the Cores and RAM, it might happen that
+    // we do not have sufficient funds to finance the upgrades.  In that case,
+    // we must skip the upgrade.  It is very likely that the Level of a Hacknet
+    // node is at maximum whereas its Cores and RAM are yet to be maxed out.
+    // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
+    const IS_TIME = true;
+    const NOT_TIME = !IS_TIME;
+    // Use the first Hacknet node to help us make a decision that affects the
+    // Cores and RAM of all nodes.
+    const idx = 0;
+    if (node_level(ns, idx) == max_level()) {
+        return IS_TIME;
+    }
+    const interval = 30;
+    const remainder = node_level(ns, idx) % interval;
+    if (0 == remainder) {
+        return IS_TIME;
+    }
+    return NOT_TIME;
+}
+
+/**
+ * The maximum Level of a Hacknet node.  This number is taken from the file
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
+ */
+function max_level() {
+    return 200;
 }
 
 /**
@@ -101,6 +161,18 @@ async function next_stage(ns, n, money) {
         update(ns, nNode);
         await ns.sleep(time);
     }
+}
+
+/**
+ * The Level of a Hacknet node.
+ *
+ * @param ns The Netscript API.
+ * @param i The ID of a Hacknet node.  Must be non-negative.
+ * @return The Level of the Hacknet node whose ID is i.
+ */
+function node_level(ns, i) {
+    assert(i >= 0);
+    return ns.hacknet.getNodeStats(i).level;
 }
 
 /**
@@ -167,6 +239,10 @@ function update(ns) {
     const farm = hacknet_nodes(ns);
     assert(farm.length > 0);
     upgrade_level(ns, farm);
+    // Should we also upgrade the Cores and RAM?
+    if (!is_upgrade_core_ram(ns)) {
+        return;
+    }
     upgrade_core(ns, farm);
     upgrade_ram(ns, farm);
 }
@@ -240,7 +316,7 @@ function upgrade_ram(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
     const howmany = 1;  // Upgrade the RAM this many times.
-    // Add another 1GB RAM to each Hacknet node.
+    // Double the current RAM of each Hacknet node.
     for (const node of farm) {
         // The amount of RAM of a node is at maximum if the cost of upgrading
         // the RAM is Infinity.
