@@ -158,6 +158,13 @@ export const high_ram = 512;
 export const home = "home";
 
 /**
+ * The maximum number of members in a gang.  This number is taken from the file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+ */
+export const max_gangster = 12;
+
+/**
  * The amount of RAM for a mid-sized home server.
  */
 export const mid_ram = 128;
