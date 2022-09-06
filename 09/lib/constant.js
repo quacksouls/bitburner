@@ -184,6 +184,163 @@ export const pserv_prefix = "pserv";
 export const script = "hack.js";
 
 /**
+ * Various tasks to which a gang member can be assigned.  The task names are
+ * taken from this file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/tasks.ts
+ */
+export const task = {
+    // Set a gang member to the idle state.  This is the default state upon
+    // recruitment.
+    // Gang: criminal, hacking
+    "IDLE": "Unassigned",
+    //
+    // Hacking gangs.
+    //
+    // Set a gang member to commit cyberterrorism.
+    // Gang: hacking
+    // Money: N/A
+    // Respect: great
+    // Hack: great
+    "CYBERTERROR": "Cyberterrorism",
+    // Set a gang member to attempt distributed denial of service (DDoS)
+    // attacks.
+    // Gang: hacking
+    // Money: N/A
+    // Respect: yes
+    // Hack: yes
+    "DDOS": "DDoS Attacks",
+    // Set a gang member as an ethical hacker.
+    // Gang: hacking
+    // Money: yes
+    // Respect: N/A
+    // Hack: negative
+    "EHACK": "Ethical Hacking",
+    // Set a gang member to commit financial fraud and digital counterfeiting.
+    // Gang: hacking
+    // Money: yes
+    // Respect: slight
+    // Hack: slight
+    "FRAUD": "Fraud & Counterfeiting",
+    // Set a gang member to attempt identity theft.
+    // Gang: hacking
+    // Money: yes
+    // Respect: yes
+    // Hack: yes
+    "ID_THEFT": "Identity Theft",
+    // Set a gang member to launder money.
+    // Gang: hacking
+    // Money: yes
+    // Respect: yes
+    // Hack: yes
+    "LAUNDER": "Money Laundering",
+    // Set a gang member to attempt phishing scams and attacks.
+    // Gang: hacking
+    // Money: yes
+    // Respect: slight
+    // Hack: slight
+    "PHISHING": "Phishing",
+    // Set a gang member to create and distribute ransomware.
+    // Gang: hacking
+    // Money: yes
+    // Respect: slight
+    // Hack: slight
+    "RANSOMWARE": "Ransomware",
+    // Set a gang member to create and distribute malicious viruses.
+    // Gang: hacking
+    // Money: N/A
+    // Respect: yes
+    // Hack: yes
+    "VIRUS": "Plant Virus",
+    //
+    // Criminal gangs.
+    //
+    // Set a gang member to threaten and blackmail high-profile targets.
+    // Gang: criminal
+    // Money: yes
+    // Respect: slight
+    // Combat: slight
+    "BLACKMAIL": "Threaten & Blackmail",
+    // Set a gang member to run cons.
+    // Gang: criminal
+    // Money: yes
+    // Respect: yes
+    // Combat: yes
+    "CON": "Run a Con",
+    // Set a gang member to sell drugs.
+    // Gang: criminal
+    // Money: yes
+    // Respect: slight
+    // Combat: slight
+    "DRUGS": "Deal Drugs",
+    // Set a gang member to extort civilians in our turf.
+    // Gang: criminal
+    // Money: yes
+    // Respect: slight
+    // Combat: yes
+    "EXTORT": "Strongarm Civilians",
+    // Set a gang member to randomly mug a person.
+    // Gang: criminal
+    // Money: yes
+    // Respect: slight
+    // Combat: very slight
+    "MUG": "Mug People",
+    // Set a gang member to commit armed robbery.
+    // Gang: criminal
+    // Money: yes
+    // Respect: yes
+    // Combat: yes
+    "ROBBERY": "Armed Robbery",
+    // Set a gang member to commit acts of terrorism.
+    // Gang: criminal
+    // Money: N/A
+    // Respect: great
+    // Combat: great
+    "TERROR": "Terrorism",
+    // Set a gang member to traffick illegal arms.
+    // Gang: criminal
+    // Money: yes
+    // Respect: yes
+    // Combat: yes
+    "TRAFFICK_ARMS": "Traffick Illegal Arms",
+    // Set a gang member to attempt human trafficking.
+    // Gang: criminal
+    // Money: yes
+    // Respect: yes
+    // Combat: yes
+    "TRAFFICK_HUMAN": "Human Trafficking",
+    //
+    // Both criminal and hacking gangs.
+    //
+    // Set a gang member to train their Charisma stat.
+    // Gang: criminal, hacking
+    // Money: N/A
+    // Respect: N/A
+    "CHARISMA": "Train Charisma",
+    // Set a gang member to train their combat stats, i.e. Str, Def, Dex, Agi.
+    // Gang: criminal, hacking
+    // Money: N/A
+    // Respect: N/A
+    "COMBAT": "Train Combat",
+    // Set a gang member to train their Hack stat.
+    // Gang: criminal, hacking
+    // Money: N/A
+    // Respect: N/A
+    "HACK": "Train Hacking",
+    // Set a gang member to engage in territorial warfare against other gangs.
+    // Gang: criminal, hacking
+    // Money: N/A
+    // Respect: N/A
+    "TURF_WAR": "Territory Warfare",
+    // Set a gang member to be a vigilante and protect the city from criminals.
+    // Gang: criminal, hacking
+    // Money: N/A
+    // Respect: N/A
+    // Combat: negative
+    "VIGILANTE": "Vigilante Justice"
+};
+
+/**
  * A file name.  If the trade bot detects the existence of this file on the
  * home server, it would stop purchasing shares of stocks.  The behaviour is
  * subject to certain conditions.  See the trade-bot.js script for more details.
