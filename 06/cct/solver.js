@@ -155,6 +155,8 @@ function solve(ns, cct, host) {
  * Find coding contracts on world servers.  This script essentially searches
  * the network of world servers to find coding contracts.
  *
+ * Usage: run cct/solver.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
