@@ -23,7 +23,12 @@
  */
 export function all_cities() {
     const city = [
-        "Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12", "Volhaven"
+        "Aevum",
+        "Chongqing",
+        "Ishima",
+        "New Tokyo",
+        "Sector-12",
+        "Volhaven"
     ];
     return city;
 }
@@ -33,9 +38,18 @@ export function all_cities() {
  */
 export function all_crimes() {
     const crime = [
-        "assassinate", "bond forgery", "deal drugs", "grand theft auto",
-        "heist", "homicide", "kidnap and ransom", "larceny", "mug someone",
-        "rob store", "shoplift", "traffick illegal arms"
+        "assassinate",
+        "bond forgery",
+        "deal drugs",
+        "grand theft auto",
+        "heist",
+        "homicide",
+        "kidnap and ransom",
+        "larceny",
+        "mug someone",
+        "rob store",
+        "shoplift",
+        "traffick illegal arms"
     ];
     return crime;
 }
@@ -75,20 +89,42 @@ export function all_crimes() {
 export function all_factions() {
     const faction = [
         // Early game factions, city factions, and hacking groups.
-        "Sector-12", "Netburners", "CyberSec", "Tian Di Hui", "BitRunners",
-        "Aevum", "Chongqing", "Ishima", "New Tokyo", "Volhaven", "NiteSec",
+        "Sector-12",
+        "Netburners",
+        "CyberSec",
+        "Tian Di Hui",
+        "BitRunners",
+        "Aevum",
+        "Chongqing",
+        "Ishima",
+        "New Tokyo",
+        "Volhaven",
+        "NiteSec",
         "The Black Hand",
         // Megacorporations.
-        "Bachman & Associates", "Blade Industries", "Clarke Incorporated",
-        "ECorp", "Four Sigma", "Fulcrum Secret Technologies",
-        "KuaiGong International", "MegaCorp", "NWO", "OmniTek Incorporated",
+        "Bachman & Associates",
+        "Blade Industries",
+        "Clarke Incorporated",
+        "ECorp",
+        "Four Sigma",
+        "Fulcrum Secret Technologies",
+        "KuaiGong International",
+        "MegaCorp",
+        "NWO",
+        "OmniTek Incorporated",
         // Criminal organizations.  The Syndicate has the Augmentation
         // BrachiBlades, which is a pre-requisite of an Augmentation from
         // Speakers for the Dead.
-        "Silhouette", "Slum Snakes", "The Syndicate", "Speakers for the Dead",
-        "Tetrads", "The Dark Army",
+        "Silhouette",
+        "Slum Snakes",
+        "The Syndicate",
+        "Speakers for the Dead",
+        "Tetrads",
+        "The Dark Army",
         // Endgame factions.
-        "Illuminati", "The Covenant", "Daedalus"
+        "Illuminati",
+        "The Covenant",
+        "Daedalus"
     ];
     return faction;
 }
@@ -167,7 +203,10 @@ export const mid_ram = 128;
  * specific port on a server.
  */
 export const program = [
-    "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
+    "BruteSSH.exe",
+    "FTPCrack.exe",
+    "HTTPWorm.exe",
+    "relaySMTP.exe",
     "SQLInject.exe"
 ];
 
@@ -195,8 +234,11 @@ export const trade_bot_stop = "trade_bot_stop_buy.txt";
  * traverse the network of world servers.
  */
 export const utility_program = [
-    "DeepscanV1.exe", "DeepscanV2.exe", "ServerProfiler.exe", "AutoLink.exe",
-    "Formulas.exe"
+    "AutoLink.exe",
+    "DeepscanV1.exe",
+    "DeepscanV2.exe",
+    "Formulas.exe",
+    "ServerProfiler.exe"
 ];
 
 /**

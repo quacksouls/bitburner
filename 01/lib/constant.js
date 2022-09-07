@@ -40,6 +40,9 @@ export const home = "home";
  * specific port on a server.
  */
 export const program = [
-    "BruteSSH.exe", "FTPCrack.exe", "HTTPWorm.exe", "relaySMTP.exe",
+    "BruteSSH.exe",
+    "FTPCrack.exe",
+    "HTTPWorm.exe",
+    "relaySMTP.exe",
     "SQLInject.exe"
 ];
