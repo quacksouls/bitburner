@@ -120,7 +120,7 @@ function is_last_cell(i, array) {
  *
  * Submit your answer as 1 (meaning true) or 0 (meaning false).
  *
- * Usage: run jump.js [cct] [hostname]
+ * Usage: run cct/jump.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

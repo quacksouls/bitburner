@@ -79,7 +79,7 @@ function maximize_profit(price) {
  *
  * Each price in the array relates to the same stock.
  *
- * Usage: run trader2.js [cct] [hostname]
+ * Usage: run cct/trader2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

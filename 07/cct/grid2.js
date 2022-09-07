@@ -159,7 +159,7 @@ function unique_paths(grid) {
  *
  * See the function unique_paths() for more details.
  *
- * Usage: run grid2.js [cct] [hostname]
+ * Usage: run cct/grid2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

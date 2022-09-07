@@ -191,7 +191,7 @@ function lx_chunk() {
  * either type.  You are given an LZ-encoded string.  Decode it and output the
  * original string.
  *
- * Usage: run lzd.js [cct] [hostname]
+ * Usage: run cct/lzd.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

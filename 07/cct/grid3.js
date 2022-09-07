@@ -337,7 +337,7 @@ function unpairing(z) {
  * NOTE: If there are multiple equally short paths, any of them is accepted as
  * answer.  If there are no paths, the answer should be an empty string.
  *
- * Usage: run grid3.js [cct] [hostname]
+ * Usage: run cct/grid3.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

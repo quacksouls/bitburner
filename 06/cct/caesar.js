@@ -84,7 +84,7 @@ function caesar(plaintext, k) {
  * This is Ceasar cipher encryption, where the plaintext alphabet is the
  * uppercase characters of the English alphabet.
  *
- * Usage: run caesar.js [cct] [hostname]
+ * Usage: run cct/caesar.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

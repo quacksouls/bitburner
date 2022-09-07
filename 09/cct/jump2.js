@@ -138,7 +138,7 @@ function to_graph(array) {
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
- * Usage: run jump2.js [cct] [hostname]
+ * Usage: run cct/jump2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

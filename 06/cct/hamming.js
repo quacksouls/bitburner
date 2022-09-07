@@ -184,7 +184,7 @@ function set_parity(msg, nparity) {
  * https://www.youtube.com/watch?v=X8jsijhllIA
  * https://harryli0088.github.io/hamming-code/
  *
- * Usage: run hamming.js [cct] [hostname]
+ * Usage: run cct/hamming.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

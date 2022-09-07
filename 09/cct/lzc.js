@@ -161,7 +161,7 @@ function compress(plain) {
  * either type.  You are given a string as input.  Encode it using Lempel-Ziv
  * encoding with the minimum possible output length.
  *
- * Usage: run lzc.js [cct] [hostname]
+ * Usage: run cct/lzc.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

@@ -207,7 +207,7 @@ function sanitize(string) {
  * This is essentially the balanced brackets problem.  The twist is that we
  * must remove the minimum number of parentheses to balance the parentheses.
  *
- * Usage: run parenthesis.js [cct] [hostname]
+ * Usage: run cct/parenthesis.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

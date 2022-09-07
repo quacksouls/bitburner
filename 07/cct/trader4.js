@@ -187,7 +187,7 @@ async function maximize_profit(ns, t, price) {
  * now make at most k transactions, where previously we were restricted to at
  * most two transactions.  Of course, k can be 0, 1, 2, or a higher integer.
  *
- * Usage: run trader4.js [cct] [hostname]
+ * Usage: run cct/trader4.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

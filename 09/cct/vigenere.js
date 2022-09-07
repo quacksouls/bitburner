@@ -145,7 +145,7 @@ function vigenere_square() {
  * This is Vigenère encryption, where the plaintext alphabet is the uppercase
  * characters of the English alphabet.
  *
- * Usage: run vigenere.js [cct] [hostname]
+ * Usage: run cct/vigenere.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

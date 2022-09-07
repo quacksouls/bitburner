@@ -32,7 +32,7 @@ import {
  * make at most two transactions, where previously we were restricted to at
  * most one transaction.
  *
- * Usage: run trader3.js [cct] [hostname]
+ * Usage: run cct/trader3.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

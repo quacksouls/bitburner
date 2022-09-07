@@ -177,7 +177,7 @@ function to_integer(msg, nparity) {
  * Note 2: Index 0 is an overall parity bit.
  * Note 3: There's a ~55% chance of having an altered bit.
  *
- * Usage: run hamming2.js [cct] [hostname]
+ * Usage: run cct/hamming2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

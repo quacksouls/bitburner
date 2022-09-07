@@ -100,7 +100,7 @@ function partition(n, denom) {
  *
  * https://algorithmist.com/wiki/Coin_change
  *
- * Usage: run sum2.js [cct] [hostname]
+ * Usage: run cct/sum2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

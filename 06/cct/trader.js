@@ -30,7 +30,7 @@ import {
  * This is similar, but not identical, to the problem
  * "Subarray with Maximum Sum".
  *
- * Usage: run trader.js [cct] [hostname]
+ * Usage: run cct/trader.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

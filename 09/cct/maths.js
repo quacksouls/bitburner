@@ -227,7 +227,7 @@ function operators() {
  *     an expression such as "1+0+3" is accepted, but the expression "1+03" is
  *     invalid because the operand "03" has a leading zero.
  *
- * Usage: run maths.js [cct] [hostname]
+ * Usage: run cct/maths.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

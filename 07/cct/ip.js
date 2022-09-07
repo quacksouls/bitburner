@@ -146,7 +146,7 @@ function is_valid_octet(octet) {
  * From the problem description, we only need to consider IPv4 addresses.
  * Don't need to handle IPv6 addresses.
  *
- * Usage: run ip.js [cct] [hostname]
+ * Usage: run cct/ip.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */

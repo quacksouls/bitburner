@@ -108,7 +108,7 @@ function spiral(m) {
  * Output the elements of a 2-D matrix in spiral order, going in clockwise
  * direction.
  *
- * Usage: run spiral.js [cct] [hostname]
+ * Usage: run cct/spiral.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
