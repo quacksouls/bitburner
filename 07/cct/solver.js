@@ -165,8 +165,8 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
 
-    const time = new Time();
-    const t = 5 * time.minute();
+    const t = new Time();
+    const time = 5 * t.minute();
     const server = network(ns);
     server.push("home");
     // Continuously search for coding contracts.  Solve a coding contract,
@@ -179,10 +179,10 @@ export async function main(ns) {
                 continue;
             }
             // Solve all coding contracts on this server.
-            for (const cct of file) {
-                solve(ns, cct, s);
-            }
+            file.map(
+                cct => solve(ns, cct, s)
+            );
         }
-        await ns.sleep(t);
+        await ns.sleep(time);
     }
 }
