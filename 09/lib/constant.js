@@ -206,6 +206,13 @@ export const max_gangster = 12;
 export const mid_ram = 128;
 
 /**
+ * Always have this amount of money in reserve.  When engaging in any
+ * purchasing activities, we do not want to spend all our money.  We spend only
+ * if doing so would leave us with at least this amount of money left over.
+ */
+export const money_reserve = 50 * (10**6);
+
+/**
  * These programs are port openers.  Each program can be used to open a
  * specific port on a server.
  */
