@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, pserv_prefix, trade_bot_stop } from "/lib/constant.js";
+import {
+    home, money_reserve, pserv_prefix, trade_bot_stop
+} from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -106,7 +108,7 @@ function has_api_access(ns) {
 function has_funds(ns) {
     const player = new Player(ns);
     const multiplier = 1.1;
-    if (player.money() <= multiplier * money_reserve()) {
+    if (player.money() <= multiplier * money_reserve) {
         return false;
     }
     return true;
@@ -170,23 +172,10 @@ function is_profitable(ns, stk) {
  */
 function meet_money_threshold(ns) {
     const player = new Player(ns);
-    if (player.money() < money_reserve()) {
+    if (player.money() < money_reserve) {
         return false;
     }
     return true;
-}
-
-/**
- * The minimum amount of money we should always have in reserve.  Whenever we
- * trade on the Stock Market, we don't want to spend all our money on buying
- * stocks.  Have at least some money lying around for various purposes, e.g.
- * purchase/upgrade servers and purchase/upgrade Hacknet nodes.
- *
- * @return The minimum amount of money to be held in reserve.
- */
-function money_reserve() {
-    const m = new Money();
-    return 50 * m.million();
 }
 
 /**
@@ -208,7 +197,7 @@ function num_shares(ns, stk) {
     const player = new Player(ns);
     const m = new Money();
     const spend_threshold = 5 * m.million();
-    const funds = player.money() - money_reserve();
+    const funds = player.money() - money_reserve;
     if (funds < spend_threshold) {
         return 0;
     }
