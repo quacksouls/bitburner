@@ -225,26 +225,20 @@ function skip_low_end(ns, host) {
  * compromise.
  *
  * @param ns The Netscript API.
- * @return true if there are more low-end servers yet to be hacked; false if we
- *     have compromised all low-end servers in the game world.
  */
 async function update(ns) {
-    const HAS_MORE = true;
-    const NO_MORE = !HAS_MORE;
     // No more low-end servers to compromise.
     if (is_complete(ns)) {
-        return NO_MORE;
+        return;
     }
     // Cannot hack any of the remaining low-end servers.
     if (!has_target(ns)) {
-        return HAS_MORE;
+        return;
     }
     // Hack all low-end servers we can compromise.
-    const skip = new Array();
     const target = new Array();
     for (const host of low_end_servers(ns)) {
         if (skip_low_end(ns, host)) {
-            skip.push(host);
             continue;
         }
         target.push(host);
@@ -253,10 +247,6 @@ async function update(ns) {
     assert(target.length > 0);
     assert(target.length > current.length);
     await hack_low_end(ns, target);
-    if (0 == skip.length) {
-        return NO_MORE;
-    }
-    return HAS_MORE;
 }
 
 /**
@@ -278,11 +268,10 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously search for low-end servers to hack.
-    let has_more = true;
     const t = new Time();
     const time = t.minute();
-    while (has_more) {
-        has_more = await update(ns);
+    while (true) {
+        await update(ns);
         await ns.sleep(time);
     }
 }
