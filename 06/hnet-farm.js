@@ -22,6 +22,20 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Assume we have millions or even billions of dollars.  Add more nodes to our
+ * Hacknet farm.
+ *
+ * @param ns The Netscript API.
+ * @param n Increase the number of nodes to this amount.  Must be a positive
+ *     integer.
+ */
+async function expand_farm(ns, n) {
+    const nNode = Math.floor(n);
+    assert(nNode > 0);
+    await setup_farm(ns, nNode);
+}
+
+/**
  * All nodes in our Hacknet farm.
  *
  * @param ns The Netscript API.
@@ -37,53 +51,19 @@ function hacknet_nodes(ns) {
 }
 
 /**
- * Whether each node in our Hacknet farm is fully upgraded.
+ * Whether it is time to upgrade the Cores and RAM of a Hacknet node.
+ * Upgrading either the Cores or RAM is many times more expensive than
+ * upgrading the Level of a Hacknet node.  Make sure we upgrade the Cores or
+ * RAM sparingly.  That is, the interval between successive upgrades of the
+ * Cores or RAM should usually be longer than the corresponding interval for
+ * Level.
  *
  * @param ns The Netscript API.
- * @return true if each node in our Hacknet farm is fully upgraded;
- *     false otherwise.
+ * @param idx Whether to upgrade the Cores and RAM of the Hacknet node having
+ *     this ID.
+ * @return true if it is time to ugprade the Cores and RAM; false otherwise.
  */
-function is_fully_upgraded(ns) {
-    const farm = hacknet_nodes(ns);
-    const MAXED_OUT = true;
-    const NOT_MAXED_OUT = !MAXED_OUT;
-    // These constants are taken from the source file
-    // https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
-    const max_core = 16;
-    const max_ram = 64;
-    // Iterate through each node of our Hacknet farm.
-    for (const node of farm) {
-        const stat = ns.hacknet.getNodeStats(node);
-        if (stat.cores < max_core) {
-            return NOT_MAXED_OUT;
-        }
-        if (stat.level < max_level()) {
-            return NOT_MAXED_OUT;
-        }
-        if (stat.ram < max_ram) {
-            return NOT_MAXED_OUT;
-        }
-        // Sanity checks to ensure the node is fully upgraded.
-        const howmany = 1;
-        assert(!isFinite(ns.hacknet.getCoreUpgradeCost(node, howmany)));
-        assert(!isFinite(ns.hacknet.getLevelUpgradeCost(node, howmany)));
-        assert(!isFinite(ns.hacknet.getRamUpgradeCost(node, howmany)));
-    }
-    return MAXED_OUT;
-}
-
-/**
- * Whether it is time to upgrade the Cores and RAM.  Upgrading either the Cores
- * or RAM is many times more expensive than upgrading the Level of a Hacknet
- * node.  Make sure we upgrade the Cores or RAM sparingly.  That is, the
- * interval between successive upgrades of the Cores or RAM should usually be
- * longer than the corresponding interval for Level.
- *
- * @param ns The Netscript API.
- * @return true if it is time to ugprade the Cores and RAM;
- *     false otherwise.
- */
-function is_upgrade_core_ram(ns) {
+function is_upgrade_core_ram(ns, idx) {
     // Each time we upgrade the RAM by one unit, we effectively double the
     // current amount of RAM.  Starting from 1GB, upgrading the RAM once would
     // result in 2GB.  Upgrading the RAM another time would result in 4GB.  And
@@ -110,9 +90,6 @@ function is_upgrade_core_ram(ns) {
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
     const IS_TIME = true;
     const NOT_TIME = !IS_TIME;
-    // Use the first Hacknet node to help us make a decision that affects the
-    // Cores and RAM of all nodes.
-    const idx = 0;
     if (node_level(ns, idx) == max_level()) {
         return IS_TIME;
     }
@@ -131,36 +108,6 @@ function is_upgrade_core_ram(ns) {
  */
 function max_level() {
     return 200;
-}
-
-/**
- * Assume we have millions or even billions of dollars.  Add more nodes to
- * our Hacknet farm and fully upgrade each node.
- *
- * @param ns The Netscript API.
- * @param n Increase the number of nodes to this number.  Must be a positive
- *     whole number.
- * @param money The money threshold.  We must have at least this much money
- *     in order to purchase more nodes for the Hacknet farm and fully upgrade
- *     the newly expanded farm.
- */
-async function next_stage(ns, n, money) {
-    // Sanity checks.
-    const nNode = Math.floor(n);
-    assert(nNode > 0);
-    assert(money > 0);
-    // Wait until we have reached the money threshold.
-    const player = new Player(ns);
-    const time = update_interval();
-    while (player.money() < money) {
-        await ns.sleep(time);
-    }
-    // Add more nodes to our farm and fully upgrade each node.
-    await setup_farm(ns, nNode);
-    while (!is_fully_upgraded(ns)) {
-        update(ns, nNode);
-        await ns.sleep(time);
-    }
 }
 
 /**
@@ -207,47 +154,6 @@ async function setup_farm(ns, n) {
 }
 
 /**
- * In this stage, we want to have a small number of nodes in our farm.
- * Fully upgrade all nodes.  Assume we call this function when our
- * funds are limited, say at most $1m.
- *
- * @param ns The Netscript API.
- * @param n How many nodes in our Hacknet.  Must be a positive whole number.
- *     At most 3.
- */
-async function stage_one(ns, n) {
-    const nNode = Math.floor(n);
-    assert(nNode > 0);
-    assert(nNode <= 3);
-    const time = update_interval();
-    // Bootstrap our farm in case we have zero nodes.
-    await setup_farm(ns, nNode);
-    // Fully upgrade each node.
-    while (!is_fully_upgraded(ns)) {
-        update(ns);
-        await ns.sleep(time);
-    }
-}
-
-/**
- * Upgrade the stats of each Hacknet node by one point.  Assume we have
- * at least one node.
- *
- * @param ns The Netscript API.
- */
-function update(ns) {
-    const farm = hacknet_nodes(ns);
-    assert(farm.length > 0);
-    upgrade_level(ns, farm);
-    // Should we also upgrade the Cores and RAM?
-    if (!is_upgrade_core_ram(ns)) {
-        return;
-    }
-    upgrade_core(ns, farm);
-    upgrade_ram(ns, farm);
-}
-
-/**
  * The interval between successive updates.
  */
 function update_interval() {
@@ -256,28 +162,45 @@ function update_interval() {
 }
 
 /**
- * Upgrade the Core of each Hacknet node in our farm.  Our objective is to
- * upgrade the Core of each node by one point.  Call this function multiple
+ * Upgrade the stats of each Hacknet node by one point.  Assume we have at
+ * least one node.
+ *
+ * @param ns The Netscript API.
+ */
+function upgrade(ns) {
+    upgrade_level(ns);
+    // Should we also upgrade the Cores and RAM?
+    const farm = hacknet_nodes(ns);
+    assert(farm.length > 0);
+    for (const node of farm) {
+        if (is_upgrade_core_ram(ns, node)) {
+            upgrade_core(ns, node);
+            upgrade_ram(ns, node);
+        }
+    }
+}
+
+/**
+ * Upgrade the Cores of a Hacknet node in our farm.  Our objective is to
+ * upgrade the Cores of the node by one point.  Call this function multiple
  * times to max out the number of Cores.
  *
  * @param ns The Netscript API.
- * @param farm An array of IDs of all Hacknet nodes in our farm.
+ * @param idx We want to upgrade the Cores of the Hacknet node having this ID.
  */
-function upgrade_core(ns, farm) {
-    assert(farm.length > 0);
+function upgrade_core(ns, idx) {
+    const farm = new Set(hacknet_nodes(ns));
+    assert(farm.has(idx));
+    // Add another Core to the Hacknet node.  The number of Cores of a node is
+    // at maximum if the cost of upgrading to another Core is Infinity.
     const player = new Player(ns);
     const howmany = 1;  // Upgrade this many Cores at a time.
-    // Add another Core to each Hacknet node.
-    for (const node of farm) {
-        // The number of Cores of a node is at maximum if the cost of upgrading
-        // to another Core is Infinity.
-        if (isFinite(ns.hacknet.getCoreUpgradeCost(node, howmany))) {
-            const cost = ns.hacknet.getCoreUpgradeCost(node, howmany);
-            if (player.money() < cost) {
-                continue;
-            }
-            assert(ns.hacknet.upgradeCore(node, howmany));
+    const cost = ns.hacknet.getCoreUpgradeCost(idx, howmany);
+    if (isFinite(cost)) {
+        if (player.money() < cost) {
+            return;
         }
+        assert(ns.hacknet.upgradeCore(idx, howmany));
     }
 }
 
@@ -286,16 +209,16 @@ function upgrade_core(ns, farm) {
  * upgrade the Level of each node by one point.
  *
  * @param ns The Netscript API.
- * @param farm An array of IDs of all Hacknet nodes in our farm.
  */
-function upgrade_level(ns, farm) {
+function upgrade_level(ns) {
+    const farm = hacknet_nodes(ns);
     assert(farm.length > 0);
     const player = new Player(ns);
     const level = 1;  // Upgrade this many Levels at a time.
     // Add another Level to each Hacknet node.
     for (const node of farm) {
-        // The Level of a node is at maximum if the cost of upgrading
-        // to another Level is Infinity.
+        // The Level of a node is at maximum if the cost of upgrading to
+        // another Level is Infinity.
         if (isFinite(ns.hacknet.getLevelUpgradeCost(node, level))) {
             const cost = ns.hacknet.getLevelUpgradeCost(node, level);
             if (player.money() < cost) {
@@ -307,26 +230,24 @@ function upgrade_level(ns, farm) {
 }
 
 /**
- * Upgrade the RAM of each Hacknet node in our farm.
+ * Upgrade the RAM of a Hacknet node in our farm.
  *
  * @param ns The Netscript API.
- * @param farm An array of IDs of all Hacknet nodes in our farm.
+ * @param idx We want to upgrade the RAM of the Hacknet node having this ID.
  */
-function upgrade_ram(ns, farm) {
-    assert(farm.length > 0);
+function upgrade_ram(ns, idx) {
+    const farm = new Set(hacknet_nodes(ns));
+    assert(farm.has(idx));
+    // Double the current RAM of the given Hacknet node.  The amount of RAM of
+    // a node is at maximum if the cost of upgrading the RAM is Infinity.
     const player = new Player(ns);
     const howmany = 1;  // Upgrade the RAM this many times.
-    // Double the current RAM of each Hacknet node.
-    for (const node of farm) {
-        // The amount of RAM of a node is at maximum if the cost of upgrading
-        // the RAM is Infinity.
-        if (isFinite(ns.hacknet.getRamUpgradeCost(node, howmany))) {
-            const cost = ns.hacknet.getRamUpgradeCost(node, howmany);
-            if (player.money() < cost) {
-                continue;
-            }
-            assert(ns.hacknet.upgradeRam(node, howmany));
+    const cost = ns.hacknet.getRamUpgradeCost(idx, howmany);
+    if (isFinite(cost)) {
+        if (player.money() < cost) {
+            return;
         }
+        assert(ns.hacknet.upgradeRam(idx, howmany));
     }
 }
 
@@ -344,19 +265,28 @@ export async function main(ns) {
     // Various money thresholds.
     const m = new Money();
     const threshold = [
-        10 * m.million(), 100 * m.million(), m.billion(), 100 * m.billion(),
+        10 * m.million(),
+        100 * m.million(),
+        m.billion(),
+        100 * m.billion(),
         m.trillion()
     ];
     const node = [6, 12, 24, 30, 33];
-    // Bootstrap our farm of Hacknet nodes.
-    await stage_one(ns, 3);
-    // Add increasingly more nodes to the farm.
-    let i = 0;
-    const t = new Time();
-    const time = 10 * t.minute();
-    for (const mon of threshold) {
-        await next_stage(ns, node[i], mon);
-        i++;
+    // Bootstrap our Hacknet farm with a small number of nodes.
+    const seed_node = 3;
+    await setup_farm(ns, seed_node);
+    // Add increasingly more nodes to the farm.  Also upgrade the nodes.
+    const time = update_interval();
+    const player = new Player(ns);
+    while (true) {
+        if (threshold.length > 0) {
+            if (player.money() > threshold[0]) {
+                await expand_farm(ns, node[0]);
+                threshold.shift();
+                node.shift();
+            }
+        }
+        upgrade(ns);
         await ns.sleep(time);
     }
 }
