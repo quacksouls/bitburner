@@ -18,10 +18,10 @@
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { home } from "/lib/constant.js";
 import {
-    choose_augmentation, has_augmentation, is_valid_faction, nfg, prerequisites
+    choose_augmentation, has_augmentation, nfg, prerequisites
 } from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
  * Augmentations we still need to purchase from a faction.

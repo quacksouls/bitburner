@@ -17,11 +17,11 @@
 
 // Miscellaneous helper functions related to factions.
 
-import { all_factions, home } from "/lib/constant.js";
+import { factions, home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { augmentations_to_buy } from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.
@@ -54,19 +54,6 @@ function is_megacorporation_faction(fac) {
         "KuaiGong International", "MegaCorp", "NWO", "OmniTek Incorporated"
     ];
     return faction.includes(fac);
-}
-
-/**
- * Whether the given name represents a valid faction.
- *
- * @param fac A string representing the name of a faction.
- * @return true if the given name represents a valid faction;
- *     false otherwise.
- */
-function is_valid_faction(fac) {
-    assert(fac.length > 0);
-    const faction = new Set(all_factions());
-    return faction.has(fac);
 }
 
 /**

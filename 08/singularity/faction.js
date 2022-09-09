@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_factions, home } from "/lib/constant.js";
+import { factions, home } from "/lib/constant.js";
 import { owned_augmentations } from "/lib/singularity.augmentation.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
  * Choose a faction to join and join that faction.  Work for the faction to
@@ -33,7 +33,7 @@ import { assert } from "/lib/util.js";
 async function choose_faction(ns) {
     // Determine which faction to join next.
     let faction = "";
-    for (const f of all_factions()) {
+    for (const f of Array.from(factions)) {
         if (join_next(ns, f)) {
             faction = f;
             break;
@@ -145,19 +145,6 @@ async function choose_faction(ns) {
     assert(script != "");
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
-}
-
-/**
- * Whether the given name represents a valid faction.
- *
- * @param fac A string representing the name of a faction.
- * @return true if the given name represents a valid faction;
- *     false otherwise.
- */
-function is_valid_faction(fac) {
-    assert(fac.length > 0);
-    const faction = new Set(all_factions());
-    return faction.has(fac);
 }
 
 /**

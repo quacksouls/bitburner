@@ -17,13 +17,11 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import {
-    all_factions, aug_purchase_limit, home, work_hack_lvl
-} from "/lib/constant.js";
+import { aug_purchase_limit, home, work_hack_lvl } from "/lib/constant.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
  * Augmentations we still need to purchase from a faction.  From all
@@ -106,19 +104,6 @@ export function has_augmentation(ns, aug) {
     const purchased = true;
     const augment = new Set(ns.singularity.getOwnedAugmentations(purchased));
     return augment.has(aug);
-}
-
-/**
- * Whether a string represents a valid faction name.
- *
- * @param fac A string representing a faction name.  Cannot be an empty string.
- * @return true if the given string represents a valid faction name;
- *     false otherwise.
- */
-export function is_valid_faction(fac) {
-    assert(fac.length > 0);
-    const faction = new Set(all_factions());
-    return faction.has(fac);
 }
 
 /**

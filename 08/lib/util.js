@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions.
 
-import { cities, home, program } from "/lib/constant.js";
+import { cities, factions, home, program } from "/lib/constant.js";
 
 /**
  * A function for assertion.
@@ -137,4 +137,17 @@ export function is_valid_city(c) {
     assert(c.length > 0);
     const city = new Set(cities);
     return city.has(c);
+}
+
+/**
+ * Whether the given name represents a valid faction.
+ *
+ * @param fac A string representing the name of a faction.
+ * @return true if the given name represents a valid faction;
+ *     false otherwise.
+ */
+export function is_valid_faction(fac) {
+    assert(fac.length > 0);
+    const faction = new Set(factions);
+    return faction.has(fac);
 }

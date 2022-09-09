@@ -80,48 +80,45 @@ export const crimes = [
  *     Illuminati or The Covenant in any order we want.  However, Daedalus
  *     should be the very last faction that we join.
  */
-export function all_factions() {
-    const faction = [
-        // Early game factions, city factions, and hacking groups.
-        "Sector-12",
-        "Netburners",
-        "CyberSec",
-        "Tian Di Hui",
-        "BitRunners",
-        "Aevum",
-        "Chongqing",
-        "Ishima",
-        "New Tokyo",
-        "Volhaven",
-        "NiteSec",
-        "The Black Hand",
-        // Megacorporations.
-        "Bachman & Associates",
-        "Blade Industries",
-        "Clarke Incorporated",
-        "ECorp",
-        "Four Sigma",
-        "Fulcrum Secret Technologies",
-        "KuaiGong International",
-        "MegaCorp",
-        "NWO",
-        "OmniTek Incorporated",
-        // Criminal organizations.  The Syndicate has the Augmentation
-        // BrachiBlades, which is a pre-requisite of an Augmentation from
-        // Speakers for the Dead.
-        "Silhouette",
-        "Slum Snakes",
-        "The Syndicate",
-        "Speakers for the Dead",
-        "Tetrads",
-        "The Dark Army",
-        // Endgame factions.
-        "Illuminati",
-        "The Covenant",
-        "Daedalus"
-    ];
-    return faction;
-}
+export const factions = [
+    // Early game factions, city factions, and hacking groups.
+    "Sector-12",
+    "Netburners",
+    "CyberSec",
+    "Tian Di Hui",
+    "BitRunners",
+    "Aevum",
+    "Chongqing",
+    "Ishima",
+    "New Tokyo",
+    "Volhaven",
+    "NiteSec",
+    "The Black Hand",
+    // Megacorporations.
+    "Bachman & Associates",
+    "Blade Industries",
+    "Clarke Incorporated",
+    "ECorp",
+    "Four Sigma",
+    "Fulcrum Secret Technologies",
+    "KuaiGong International",
+    "MegaCorp",
+    "NWO",
+    "OmniTek Incorporated",
+    // Criminal organizations.  The Syndicate has the Augmentation
+    // BrachiBlades, which is a pre-requisite of an Augmentation from
+    // Speakers for the Dead.
+    "Silhouette",
+    "Slum Snakes",
+    "The Syndicate",
+    "Speakers for the Dead",
+    "Tetrads",
+    "The Dark Army",
+    // Endgame factions.
+    "Illuminati",
+    "The Covenant",
+    "Daedalus"
+];
 
 /**
  * All programs that can be created.  These programs can also be purchased via

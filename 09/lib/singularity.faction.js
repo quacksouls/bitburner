@@ -17,11 +17,11 @@
 
 // Miscellaneous helper functions related to factions.
 
-import { all_factions, home } from "/lib/constant.js";
+import { factions, home } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { augmentations_to_buy } from "/lib/singularity.augmentation.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.
@@ -57,26 +57,13 @@ function is_megacorporation_faction(fac) {
 }
 
 /**
- * Whether the given name represents a valid faction.
- *
- * @param fac A string representing the name of a faction.
- * @return true if the given name represents a valid faction;
- *     false otherwise.
- */
-function is_valid_faction(fac) {
-    assert(fac.length > 0);
-    const faction = new Set(all_factions());
-    return faction.has(fac);
-}
-
-/**
  * Join as many factions as we can.  We typically do this to raise our
  * Intelligence stat.  Call this function prior to installing one or more
  * Augmentations, or before hacking the w0r1d_d43m0n server.
  */
 export function join_all_factions(ns) {
     const invite = new Set(ns.singularity.checkFactionInvitations());
-    for (const f of all_factions()) {
+    for (const f of Array.from(factions)) {
         if (invite.has(f)) {
             ns.singularity.joinFaction(f);
         }
