@@ -19,6 +19,48 @@
 // constants.
 
 /**
+ * All programs that can be created.  These programs can also be purchased via
+ * the dark web.
+ */
+export function all_programs() {
+    // A map where the key/value pair is as follows:
+    //
+    // key := The name of a program.
+    // value := The minimum Hack stat at which we are able to create the
+    //     program.
+    const program = new Map();
+    program.set("BruteSSH.exe", 50);
+    program.set("FTPCrack.exe", 100);
+    program.set("HTTPWorm.exe", 500);
+    program.set("relaySMTP.exe", 250);
+    program.set("SQLInject.exe", 750);
+    program.set("DeepscanV1.exe", 75);
+    program.set("DeepscanV2.exe", 400);
+    program.set("ServerProfiler.exe", 75);
+    program.set("AutoLink.exe", 25);
+    program.set("Formulas.exe", 1000);
+    return program;
+}
+
+/**
+ * The maximum number of Augmentations to purchase from a faction.  This number
+ * does not include the NeuroFlux Governor.  We limit the number of
+ * Augmentations to purchase to help speed up the process of buying all
+ * Augmentations from a faction.  We purchase this number of Augmentations from
+ * a faction and install them.  If the faction has any more Augmentations
+ * (besides the NeuroFlux Governor), we purchase those after the installation.
+ * Some Augmentations require a huge amount of faction reputation.  It can take
+ * a very long time to accumulate enough reputation points, especially if an
+ * Augmentation requires at least one million reputation points.  By purchasing
+ * a given number of Augmentations and installing them, we gain some favour
+ * with the faction.  In case our favour points are high enough, we would be
+ * able to donate to the faction in exchange for reputation points.  This
+ * should help to shorten the amount of time required to reach a certain amount
+ * of reputation points.
+ */
+export const aug_purchase_limit = 5;
+
+/**
  * All cities in the game world.
  */
 export const cities = [
@@ -29,6 +71,18 @@ export const cities = [
     "Sector-12",
     "Volhaven"
 ];
+
+/**
+ * Use ANSI escape codes to add colour.  Refer to this page for more details:
+ *
+ * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+ */
+export const colour = {
+    "DARK_GREEN": "\u001b[38;5;22m",
+    "GREEN":      "\u001b[32m",
+    "RED":        "\u001b[31m",
+    "RESET":      "\u001b[0m"
+};
 
 /**
  * All available crimes.
@@ -119,60 +173,6 @@ export const factions = [
     "The Covenant",
     "Daedalus"
 ];
-
-/**
- * All programs that can be created.  These programs can also be purchased via
- * the dark web.
- */
-export function all_programs() {
-    // A map where the key/value pair is as follows:
-    //
-    // key := The name of a program.
-    // value := The minimum Hack stat at which we are able to create the
-    //     program.
-    const program = new Map();
-    program.set("BruteSSH.exe", 50);
-    program.set("FTPCrack.exe", 100);
-    program.set("HTTPWorm.exe", 500);
-    program.set("relaySMTP.exe", 250);
-    program.set("SQLInject.exe", 750);
-    program.set("DeepscanV1.exe", 75);
-    program.set("DeepscanV2.exe", 400);
-    program.set("ServerProfiler.exe", 75);
-    program.set("AutoLink.exe", 25);
-    program.set("Formulas.exe", 1000);
-    return program;
-}
-
-/**
- * The maximum number of Augmentations to purchase from a faction.  This number
- * does not include the NeuroFlux Governor.  We limit the number of
- * Augmentations to purchase to help speed up the process of buying all
- * Augmentations from a faction.  We purchase this number of Augmentations from
- * a faction and install them.  If the faction has any more Augmentations
- * (besides the NeuroFlux Governor), we purchase those after the installation.
- * Some Augmentations require a huge amount of faction reputation.  It can take
- * a very long time to accumulate enough reputation points, especially if an
- * Augmentation requires at least one million reputation points.  By purchasing
- * a given number of Augmentations and installing them, we gain some favour
- * with the faction.  In case our favour points are high enough, we would be
- * able to donate to the faction in exchange for reputation points.  This
- * should help to shorten the amount of time required to reach a certain amount
- * of reputation points.
- */
-export const aug_purchase_limit = 5;
-
-/**
- * Use ANSI escape codes to add colour.  Refer to this page for more details:
- *
- * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
- */
-export const colour = {
-    "DARK_GREEN": "\u001b[38;5;22m",
-    "GREEN":      "\u001b[32m",
-    "RED":        "\u001b[31m",
-    "RESET":      "\u001b[0m"
-};
 
 /**
  * The minimum amount of RAM for a high-end server.
