@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions.
 
-import { home, program } from "/lib/constant.js";
+import { cities, home, program } from "/lib/constant.js";
 
 /**
  * A function for assertion.
@@ -124,4 +124,17 @@ export function filter_pserv(ns, server) {
 export function is_bankrupt(ns, s) {
     const server = ns.getServer(s);
     return 0 == server.moneyMax;
+}
+
+/**
+ * Whether a given string represents a valid city in the game world.
+ *
+ * @param c A city name, represented as a string.  Cannot be an empty string.
+ * @return true if the given string represents a city in the game world;
+ *     false otherwise.
+ */
+export function is_valid_city(c) {
+    assert(c.length > 0);
+    const city = new Set(cities);
+    return city.has(c);
 }

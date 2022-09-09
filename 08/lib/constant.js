@@ -21,17 +21,14 @@
 /**
  * All cities in the game world.
  */
-export function all_cities() {
-    const city = [
-        "Aevum",
-        "Chongqing",
-        "Ishima",
-        "New Tokyo",
-        "Sector-12",
-        "Volhaven"
-    ];
-    return city;
-}
+export const cities = [
+    "Aevum",
+    "Chongqing",
+    "Ishima",
+    "New Tokyo",
+    "Sector-12",
+    "Volhaven"
+];
 
 /**
  * All available crimes.

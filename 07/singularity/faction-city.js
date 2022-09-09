@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_cities, home, work_hack_lvl } from "/lib/constant.js";
+import { home, work_hack_lvl } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
@@ -23,7 +23,7 @@ import { commit_crime } from "/lib/singularity.crime.js";
 import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
 import { visit_city } from "/lib/singularity.network.js";
 import { work } from "/lib/singularity.work.js";
-import { assert } from "/lib/util.js";
+import { assert, is_valid_city } from "/lib/util.js";
 
 /**
  * Join a city faction.  The requirements for receiving an invitation usually
@@ -64,19 +64,6 @@ async function city_faction(ns, city, money) {
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
     await purchase_augmentations(ns, faction);
-}
-
-/**
- * Whether a given string represents a valid city in the game world.
- *
- * @param c A city name, represented as a string.  Cannot be an empty string.
- * @return true if the given string represents a city in the game world;
- *     false otherwise.
- */
-function is_valid_city(c) {
-    assert(c.length > 0);
-    const city = new Set(all_cities());
-    return city.has(c);
 }
 
 /**

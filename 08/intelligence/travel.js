@@ -16,21 +16,7 @@
  */
 
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { all_cities } from "/lib/constant.js";
-import { assert } from "/lib/util.js";
-
-/**
- * Whether the given city name is valid.
- *
- * @param c A string representing a city name.
- * @return true if the given string represents a city in the game world;
- *     false othwerise.
- */
-function is_valid_city(c) {
-    assert(c.length > 0);
-    const city = all_cities();
-    return city.includes(c);
-}
+import { assert, is_valid_city } from "/lib/util.js";
 
 /**
  * Determine the amount of Intelligence XP gained from travelling to a
