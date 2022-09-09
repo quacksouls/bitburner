@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_crimes, home } from "/lib/constant.js";
+import { crimes, home } from "/lib/constant.js";
 import { greatest_chance } from "/lib/singularity.crime.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -33,8 +33,8 @@ import { assert } from "/lib/util.js";
  */
 function choose_crime(ns) {
     const exclude = new Set(["mug someone", "shoplift"]);
-    const crimes = all_crimes().filter(c => !exclude.has(c));
-    let crime = greatest_chance(ns, crimes);
+    let crime = crimes.filter(c => !exclude.has(c));
+    crime = greatest_chance(ns, crime);
     crime = lowest_time(ns, crime);
     return highest_reward(ns, crime);
 }

@@ -18,7 +18,7 @@
 import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
-import { all_crimes } from "/lib/constant.js";
+import { crimes } from "/lib/constant.js";
 import { greatest_chance } from "/lib/singularity.crime.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -50,7 +50,7 @@ async function commit_crime(ns, c) {
  * @param ns The Netscript API.
  */
 async function commit_all_crimes(ns) {
-    let crime = all_crimes();
+    let crime = Array.from(crimes);
     while (crime.length > 0) {
         const c = greatest_chance(ns, crime)[0];
         await commit_crime(ns, c);
