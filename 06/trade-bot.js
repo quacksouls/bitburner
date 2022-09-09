@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, money_reserve, pserv_prefix } from "/lib/constant.js";
+import { money_reserve, pserv_prefix } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
