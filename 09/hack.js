@@ -66,7 +66,7 @@ export async function main(ns) {
         } catch {
             const error_msg = "Can't gain root access to " + target;
             ns.tprint(error_msg);
-            ns.exit();
+            return;
         }
     }
     // How much money a server should have before we hack it.  Even if the
