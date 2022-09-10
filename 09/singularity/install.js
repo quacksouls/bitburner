@@ -15,8 +15,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { exclusive_aug, home } from "/lib/constant.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * Purchase Augmentations that are exclusive to the faction within which we
+ * created our gang.
+ *
+ * @param ns The Netscript API.
+ */
+function buy_exclusive_augmentations(ns) {
+    // The faction within which we created our gang.
+    const faction = ns.gang.getGangInformation().faction;
+    // Attempt to purchase the exclusive Augmentations.
+    const installed = new Set(installed_augmentations(ns));
+    for (const aug of exclusive_aug[faction]) {
+        if (installed.has(aug)) {
+            continue;
+        }
+        const fac_rep = ns.singularity.getFactionRep(faction);
+        const aug_rep = ns.singularity.getAugmentationRepReq(aug);
+        if (fac_rep < aug_rep) {
+            continue;
+        }
+        const money = ns.getServerMoneyAvailable(home);
+        const cost = ns.singularity.getAugmentationPrice(aug);
+        if (money < cost) {
+            continue;
+        }
+        assert(ns.singularity.purchaseAugmentation(faction, aug));
+    }
+}
 
 /**
  * Whether we have Augmentations that are purchased and yet to be installed.
@@ -71,7 +101,7 @@ function purchased_augmentations(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Try to raise our Intelligence stat before soft reset.
     join_all_factions(ns);
+    buy_exclusive_augmentations(ns);
     install(ns);
 }

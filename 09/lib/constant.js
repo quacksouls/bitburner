@@ -115,6 +115,63 @@ export const crimes = [
 ];
 
 /**
+ * Augmentations that are exclusive to various factions.  We can purchase some
+ * Augmentations provided that we are a member of the corresponding faction.
+ */
+export const exclusive_aug = {
+    "Bachman & Associates": ["SmartJaw"],
+    "BitRunners": [
+        "BitRunners Neurolink",
+        "Cranial Signal Processors - Gen V",
+        "Neural Accelerator"
+    ],
+    "Blade Industries": ["Neotra"],
+    "Chongqing": ["Neuregen Gene Modification"],
+    "Clarke Incorporated": [
+        "Neuronal Densification",
+        "nextSENS Gene Modification"
+    ],
+    "CyberSec": [
+        "Cranial Signal Processors - Gen I",
+        "Neurotrainer I", "Synaptic Enhancement Implant"
+    ],
+    "Daedalus": ["The Red Pill"],
+    "ECorp": ["ECorp HVMind Implant"],
+    "Fulcrum Secret Technologies": [
+        "PC Direct-Neural Interface NeuroNet Injector"
+    ],
+    "Illuminati": ["QLink"],
+    "Ishima": ["INFRARET Enhancement"],
+    "KuaiGong International": ["Photosynthetic Cells"],
+    "MegaCorp": ["CordiARC Fusion Reactor"],
+    "Netburners": [
+        "Hacknet Node Cache Architecture Neural-Upload",
+        "Hacknet Node Core Direct-Neural Interface",
+        "Hacknet Node CPU Architecture Neural-Upload",
+        "Hacknet Node Kernel Direct-Neural Interface",
+        "Hacknet Node NIC Architecture Neural-Upload"
+    ],
+    "New Tokyo": ["NutriGen Implant"],
+    "NiteSec": [
+        "CRTX42-AA Gene Modification",
+        "Neural-Retention Enhancement"
+    ],
+    "NWO": ["Xanipher"],
+    "OmniTek Incorporated": ["OmniTek InfoLoad"],
+    "Sector-12": ["CashRoot Starter Kit"],
+    "Silhouette": ["TITN-41 Gene-Modification Injection"],
+    "Slum Snakes": ["SmartSonar Implant"],
+    "Speakers for the Dead": ["Graphene BranchiBlades Upgrade"],
+    "Tetrads": ["Bionic Arms"],
+    "Tian Di Hui": ["Social Negotiation Assistant (S.N.A)"],
+    "The Black Hand": ["The Black Hand"],
+    "The Covenant": ["SPTN-97 Gene Modification"],
+    "The Dark Army": ["Graphene Bionic Arms Upgrade"],
+    "The Syndicate": ["BrachiBlades"],
+    "Volhaven": ["DermaForce Particle Barrier"]
+};
+
+/**
  * An array of all faction names.  The faction names are listed in a specific
  * order, usually along the following line of reasoning.
  *
