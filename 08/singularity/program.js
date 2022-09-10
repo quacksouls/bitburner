@@ -15,14 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    all_programs, home, program as popen, work_hack_lvl
-} from "/lib/constant.js";
+import { home, program as popen, work_hack_lvl } from "/lib/constant.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { choose_hardware_company } from "/lib/singularity.util.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, has_program } from "/lib/util.js";
 
 /**
  * Purchase all programs from the dark web.
@@ -126,32 +124,6 @@ function cheapest(ns, program) {
     assert(prog.length > 0);
     assert(program.includes(prog));
     return [prog, mincost];
-}
-
-/**
- * Whether we have the given program on our home server.
- *
- * @param ns The Netscript API.
- * @param program A string representing the name of a program.
- * @return true if we already have the given program;
- *     false otherwise.
- */
-function has_program(ns, program) {
-    assert(is_valid_program(program));
-    return ns.fileExists(program, home);
-}
-
-/**
- * Whether the given name is a valid program.
- *
- * @param name A string representing the name of a program.
- * @return true if the given name is a valid program;
- *     false otherwise.
- */
-function is_valid_program(name) {
-    assert(name.length > 0);
-    const program = all_programs();
-    return program.has(name);
 }
 
 /**
