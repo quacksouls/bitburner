@@ -32,7 +32,7 @@ export async function main(ns) {
     const error_msg = "Must provide the name of the target server.";
     if (ns.args.length < 1) {
         ns.tprint(error_msg);
-        ns.exit();
+        return;
     }
     // Not a server in the game world.  Exclude purchased servers.
     const target = ns.args[0];
@@ -45,7 +45,7 @@ export async function main(ns) {
     const path = shortest_path(ns, home, target);
     if (path.length < 1) {
         ns.tprint("Target server must be reachable from " + home + ".");
-        ns.exit();
+        return;
     }
     ns.tprint(path.join(" -> "));
 }
