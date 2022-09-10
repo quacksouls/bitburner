@@ -15,8 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { all_programs, home } from "/lib/constant.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
-import { assert } from "/lib/util.js";
+import { assert, has_program } from "/lib/util.js";
+
+/**
+ * Purchase any remaining programs via the dark web.  At this stage, we do not
+ * need any more programs to help us with our hacking and faction work.  We buy
+ * the remaining programs to help raise our Intelligence XP.
+ */
+function buy_programs(ns) {
+    for (const p of all_programs().keys()) {
+        if (has_program(ns, p)) {
+            continue;
+        }
+        const money = ns.getServerMoneyAvailable(home);
+        const cost = ns.singularity.getDarkwebProgramCost(p);
+        if (money < cost) {
+            continue;
+        }
+        assert(ns.singularity.purchaseProgram(p));
+    }
+}
 
 /**
  * Whether we have Augmentations that are purchased and yet to be installed.
@@ -71,7 +91,9 @@ function purchased_augmentations(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Try to raise our Intelligence stat before soft reset.
+    // Raise some more Intelligence XP.
     join_all_factions(ns);
+    buy_programs(ns);
+    // Install all Augmentations and soft reset.
     install(ns);
 }
