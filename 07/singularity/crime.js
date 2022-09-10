@@ -156,6 +156,8 @@ async function shoplift(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Sanity checks.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     const threshold = Math.floor(ns.args[0]);
     assert(threshold > 0);
