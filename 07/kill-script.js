@@ -35,24 +35,23 @@ export async function main(ns) {
     // Must provide a command line argument to this script.
     if (ns.args.length < 1) {
         ns.tprint(error_msg);
-        ns.exit();
+        return;
     }
     const stype = ns.args[0];
     const player = new Player(ns);
     if ("pserv" == stype) {
         // Kill all scripts on purchased servers.
-        for (const server of player.pserv()) {
-            ns.killall(server);
-        }
+        player.pserv().map(
+            s => ns.killall(s)
+        );
     } else if ("world" == stype) {
         // Kill all scripts on world servers where we have root access.
         let server = network(ns);
         server = server.filter(s => ns.hasRootAccess(s));
-        for (const s of server) {
-            ns.killall(s);
-        }
+        server.map(
+            s => ns.killall(s)
+        );
     } else {
         ns.tprint(error_msg);
-        ns.exit();
     }
 }
