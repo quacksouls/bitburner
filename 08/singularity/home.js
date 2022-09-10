@@ -123,11 +123,22 @@ async function upgrade(ns) {
     // Relocate to increase Intelligence XP.
     const shop = await choose_hardware_company(ns);
     ns.singularity.goToLocation(shop);
-    // Upgrade home server.
-    const attribute = choose_upgrade(ns);
-    if ("" == attribute) {
+    // Suppose our home server already has the greatest number of Cores and
+    // RAM.  This does not necessarily mean we cannot purchase any more Cores
+    // or RAM for the server.  We place artificial limits on the Cores and RAM
+    // to avoid having to wait too long to accumulate sufficient funds.
+    // Initially, we are willing to wait to upgrade the Cores or RAM up to and
+    // including the given limits.  After the limits on Cores and RAM are
+    // reached, we do not want to wait to accumulate money for upgrading Cores
+    // or RAM.  We simply upgrade if our current funds allow.
+    if (is_at_limits(ns)) {
+        ns.singularity.upgradeHomeCores();
+        ns.singularity.upgradeHomeRam();
         return;
     }
+    // Wait to accumulate funds to purchase upgrades.
+    const attribute = choose_upgrade(ns);
+    assert("" != attribute);
     if ("Cores" == attribute) {
         await upgrade_cores(ns);
         return;
