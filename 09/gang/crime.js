@@ -51,7 +51,7 @@ function ascend(ns) {
  * threshold.
  */
 function combat_threshold() {
-    return 20;
+    return 15;
 }
 
 /**
