@@ -33,14 +33,11 @@ import { assert } from "/lib/util.js";
  */
 function choose_upgrade(ns) {
     // Do not upgrade anything.
-    const server = new Server(ns, home);
-    if (
-        (server.cores() >= core_limit())
-            && (server.ram_max() >= ram_limit())
-    ) {
+    if (is_at_limits(ns)) {
         return "";
     }
     // Upgrade the Cores.
+    const server = new Server(ns, home);
     const core_cost = Math.ceil(ns.singularity.getUpgradeHomeCoresCost());
     const ram_cost = Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     if (core_cost < ram_cost) {
@@ -61,6 +58,25 @@ function choose_upgrade(ns) {
 function core_limit() {
     const limit = 4;
     return limit;
+}
+
+/**
+ * Whether the Cores and RAM on the home server are at the artificial limits.
+ * Even though the Cores or RAM, or both, are at maximum, this does not
+ * necessarily mean we cannot purchase more Cores or RAM for the home server.
+ *
+ * @param ns The Netscript API.
+ * @return true if both Cores and RAM are at maximum; false otherwise.
+ */
+function is_at_limits(ns) {
+    const server = new Server(ns, home);
+    if (
+        (server.cores() >= core_limit())
+            && (server.ram_max() >= ram_limit())
+    ) {
+        return true;
+    }
+    return false;
 }
 
 /**
