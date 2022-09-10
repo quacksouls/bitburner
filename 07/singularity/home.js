@@ -16,7 +16,6 @@
  */
 
 import { home, trade_bot_stop } from "/lib/constant.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { work } from "/lib/singularity.work.js";
 import { assert } from "/lib/util.js";
@@ -33,8 +32,7 @@ import { assert } from "/lib/util.js";
  */
 function choose_upgrade(ns) {
     // Do not upgrade anything.
-    const player = new Player(ns);
-    const server = new Server(ns, player.home());
+    const server = new Server(ns, home);
     if (
         (server.cores() >= core_limit())
             && (server.ram_max() >= ram_limit())
@@ -164,8 +162,7 @@ export async function main(ns) {
     await upgrade(ns);
     trade_bot_resume(ns);
     // The next script in the load chain.
-    const player = new Player(ns);
     const script = "/singularity/install.js";
     const nthread = 1;
-    ns.exec(script, player.home(), nthread);
+    ns.exec(script, home, nthread);
 }
