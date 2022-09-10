@@ -15,6 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Boolean values.
+
+/**
+ * A boolean indicating success or true.
+ */
+export const SUCCESS = true;
+
+/**
+ * A boolean indicating failure or false; the opposite of success.
+ */
+export const FAILURE = !SUCCESS;
+
 // A bunch of constant values.  These can be numeric constants or string
 // constants.
 
