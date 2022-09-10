@@ -55,6 +55,20 @@ export function all_programs() {
 }
 
 /**
+ * Various armour pieces that a gang member can equip.  Going from top to
+ * bottom, the armour pieces are listed in order from least expensive to most
+ * expensive.  These values are taken from the following page:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ */
+export const armour = {
+    "VEST": "Bulletproof Vest",
+    "FULL": "Full Body Armor",
+    "LIQUID": "Liquid Body Armor",
+    "GRAPHENE": "Graphene Plating Armor"
+};
+
+/**
  * The maximum number of Augmentations to purchase from a faction.  This number
  * does not include the NeuroFlux Governor.  We limit the number of
  * Augmentations to purchase to help speed up the process of buying all
@@ -242,6 +256,24 @@ export const factions = [
     "The Covenant",
     "Daedalus"
 ];
+
+/**
+ * All Augmentations that can be equipped on a member of a criminal gang.  The
+ * Augmentations are listed from least expensive to most expensive.  The data
+ * are taken from this file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ */
+export const gang_aug_crime = {
+    "ARMS": "Bionic Arms",
+    "LEGS": "Bionic Legs",
+    "WEAVE": "Nanofiber Weave",
+    "SPINE": "Bionic Spine",
+    "MUSCLE": "Synfibril Muscle",
+    "BLADES": "BrachiBlades",
+    "HEART": "Synthetic Heart",
+    "BONE": "Graphene Bone Lacings"
+};
 
 /**
  * The minimum amount of RAM for a high-end server.
@@ -471,6 +503,38 @@ export const utility_program = [
     "Formulas.exe",
     "ServerProfiler.exe"
 ];
+
+/**
+ * Various vehicles with which a gang member can be equipped.  Going from top
+ * to bottom, the vehicles are listed from least expensive to most expensive.
+ * The values are taken from this file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ */
+export const vehicle = {
+    "FORD": "Ford Flex V20",
+    "ATX": "ATX1070 Superbike",
+    "MB": "Mercedes-Benz S9001",
+    "FERRARI": "White Ferrari"
+};
+
+/**
+ * Various weapons we can purchase for our gang members.  Going from top to
+ * bottom in the given order, the weapons are listed from least expensive to
+ * most expensive.  The weapon names are taken from this file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ */
+export const weapon = {
+    "BAT": "Baseball Bat",
+    "KATANA": "Katana",
+    "GLOCK": "Glock 18C",
+    "PNINE": "P90C",
+    "STEYR": "Steyr AUG",
+    "AK": "AK-47",
+    "MFIFTEEN": "M15A10 Assault Rifle",
+    "AWM": "AWM Sniper Rifle"
+};
 
 /**
  * The minimum required Hack stat to enable a player to work at most companies.

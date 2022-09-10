@@ -15,12 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { join_faction } from "/lib/singularity.faction.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * Run the next script(s) in our load chain for criminal gangs.
+ *
+ * @param ns The Netscript API.
+ * @param faction The name of a criminal organization.  Must be a faction that
+ *     allows us to create a criminal gang.
+ */
+function load_chain(ns, faction) {
+    const script = "/gang/crime.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread, faction);
+}
 
 /**
  * Raise our combat stats to a given threshold.  Mugging someone is one of the
@@ -81,5 +95,7 @@ export async function main(ns) {
     const min_money = m.million();
     await work(ns, min_money);
     // Now join the Slum Snakes faction.
-    await join_faction(ns, "Slum Snakes");
+    const faction = "Slum Snakes";
+    await join_faction(ns, faction);
+    load_chain(ns, faction);
 }
