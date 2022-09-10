@@ -30,9 +30,9 @@ function reboot(ns) {
         "low-end.js", "world-server.js", "hnet-farm.js",
         "buy-server.js", "trade-bot.js", "/cct/solver.js"
     ];
-    for (const s of script) {
-        ns.exec(s, home, nthread);
-    }
+    script.map(
+        s => ns.exec(s, home, nthread)
+    );
 }
 
 /**
