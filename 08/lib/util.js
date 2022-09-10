@@ -17,7 +17,9 @@
 
 // Miscellaneous helper functions.
 
-import { all_programs, cities, factions, home, program } from "/lib/constant.js";
+import {
+    all_programs, cities, factions, home, program
+} from "/lib/constant.js";
 
 /**
  * A function for assertion.
