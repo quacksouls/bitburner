@@ -148,7 +148,7 @@ async function choose_faction(ns) {
 }
 
 /**
- * Whether to join a given faction.
+ * Whether to join a given faction.  We exclude the faction within which we created a gang.
  *
  * @param ns The Netscript API.
  * @param fac The name of the faction to consider.
@@ -158,6 +158,12 @@ function join_next(ns, fac) {
     assert(is_valid_faction(fac));
     const JOIN = true;
     const NO_JOIN = !JOIN;
+    // We have a gang within the given faction.
+    const gang_fac = ns.gang.getGangInformation().faction;
+    if (gang_fac == fac) {
+        return NO_JOIN;
+    }
+    // See whether we have all Augmentations from the given faction.
     const owned_aug = owned_augmentations(ns);
     const fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     for (const aug of fac_aug) {
