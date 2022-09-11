@@ -259,7 +259,9 @@ function reassign_members(ns) {
     reassign_extortion(ns, ext_threshold, rob_threshold);
     reassign_robbery(ns, rob_threshold, tra_threshold);
     // Try to have at least one gang member assigned to commit acts of
-    // terrorism.  This should help to increase our respect.
+    // terrorism.  This should help to increase our respect so we can recruit
+    // more members.  However, if we already have the maximum number of
+    // gangsters, then there is no need to have anyone be terrorists.
     reassign_terrorism(ns, ter_threshold, Infinity);
     // Assign other high-level members to trafficking illegal arms.
     reassign_trafficking(ns, tra_threshold, Infinity);
@@ -291,20 +293,34 @@ function reassign_robbery(ns, min, max) {
  * [min, max).  That is, we include the minimum threshold but exclude the
  * maximum threshold.  Terrorism gains enormous respect, but zero income.  For
  * this reason, we should only assign a limited number of members to terrorism.
+ * In case we already have the maximum number of members in our gang, there is
+ * no need to assign anyone to commit acts of terrorism.
  *
  * @param ns The Netscript API.
  * @param min The minimum value for the Strength stat.
  * @param max The maximum value for the Strength stat.
  */
 function reassign_terrorism(ns, min, max) {
-    if (has_terrorist(ns)) {
+    let name = ns.gang.getMemberNames();
+    if (has_terrorist(ns) && (name.length < max_gangster)) {
         return;
     }
+    if (name.length == max_gangster) {
+        // We already have the maximum number of gang members.  Re-assign the
+        // terrorists to the idle state.
+        const gangster = new Gangster(ns);
+        name = name.filter(s => gangster.is_terrorist(s));
+        if (name.length > 0) {
+            gangster.stop_task(name);
+        }
+        return;
+    }
+    assert(!has_terrorist(ns));
+    assert(ns.gang.getMemberNames().length < max_gangster);
     // Assign at most this many members to terrorism.
     const threshold = 1;
     // Choose the members who would be re-assigned to terrorism.
     const member = new Array();
-    const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
         if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
             member.push(s);
