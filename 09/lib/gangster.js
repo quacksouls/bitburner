@@ -345,6 +345,18 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is in combat training.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is in combat training; false otherwise.
+     */
+    is_training(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(s).task;
+        return task.COMBAT == current_task;
+    }
+
+    /**
      * Assign gang members to mug random people on the street.
      *
      * @param name An array of member names.

@@ -16,6 +16,8 @@
  */
 
 import { all_programs, exclusive_aug, home } from "/lib/constant.js";
+import { Gangster } from "/lib/gangster.js";
+import { reassign_vigilante } from "/lib/gangster.util.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, has_program } from "/lib/util.js";
 
@@ -113,6 +115,39 @@ function purchased_augmentations(ns) {
 }
 
 /**
+ * Prepare our gang for the soft reset.  After the soft reset, there would be a
+ * period of time during which our gang script would not run.  Set our gang to
+ * be in a neutral state during this waiting period.  At minimum, during the
+ * waiting period our gang should be doing the following:
+ *
+ * (1) Have some members engage in vigilante justice to decrease the penalty.
+ * (2) If a member is currently in training, set them to mug random people.
+ *
+ * @param ns The Netscript API.
+ */
+function set_neutral_gang(ns) {
+    if (!ns.gang.inGang()) {
+        return;
+    }
+    // First, kill our gang script.
+    const script = "/gang/crime.js";
+    const faction = ns.gang.getGangInformation().faction;
+    assert(ns.kill(script, home, faction));
+    // Assign vigilantes.
+    const nmember = 2;
+    reassign_vigilante(ns, nmember);
+    // Put anyone in combat training to mug people.
+    const newbie = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if (gangster.is_training(s)) {
+            newbie.push(s);
+        }
+    }
+    gangster.mug(newbie);
+}
+
+/**
  * Install all purchased Augmentations and run our bootstrap script.
  *
  * Usage: run singularity/install.js
@@ -124,6 +159,9 @@ export async function main(ns) {
     join_all_factions(ns);
     buy_exclusive_augmentations(ns);
     buy_programs(ns);
+    // Set our gang to a state where it at least is working to lower the
+    // penalty.
+    set_neutral_gang(ns);
     // Install all Augmentations and soft reset.
     install(ns);
 }
