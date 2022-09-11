@@ -17,7 +17,7 @@
 
 import { home, trade_bot_stop } from "/lib/constant.js";
 import { Server } from "/lib/server.js";
-import { work } from "/lib/singularity.work.js";
+import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -149,11 +149,15 @@ async function upgrade(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_cores(ns) {
-    const core_cost = ns.singularity.getUpgradeHomeCoresCost();
-    let success = ns.singularity.upgradeHomeCores();
-    while (!success) {
-        await work(ns, core_cost);
-        success = ns.singularity.upgradeHomeCores();
+    const success = ns.singularity.upgradeHomeCores();
+    // We are willing to wait some time for our funds to increase.  After the
+    // waiting period is over, try to upgrade the Cores again.  If we are still
+    // unsuccessful at the second attempt, then move on.
+    const t = new Time();
+    const time = t.minute();
+    if (!success) {
+        await ns.sleep(time);
+        ns.singularity.upgradeHomeCores();
     }
 }
 
@@ -163,11 +167,15 @@ async function upgrade_cores(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_ram(ns) {
-    const ram_cost = ns.singularity.getUpgradeHomeRamCost();
-    let success = ns.singularity.upgradeHomeRam();
-    while (!success) {
-        await work(ns, ram_cost);
-        success = ns.singularity.upgradeHomeRam();
+    const success = ns.singularity.upgradeHomeRam();
+    // We are willing to wait some time for our funds to increase.  After the
+    // waiting period is over, try to upgrade the RAM again.  If we are still
+    // unsuccessful at the second attempt, then move on.
+    const t = new Time();
+    const time = t.minute();
+    if (!success) {
+        await ns.sleep(time);
+        ns.singularity.upgradeHomeRam();
     }
 }
 
