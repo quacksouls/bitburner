@@ -473,8 +473,12 @@ export async function main(ns) {
         ns.tprint("Cannot create criminal gang within faction: " + faction);
         return;
     }
-    // Create and manage a criminal gang.
+    // Create and manage a criminal gang.  By default, we disable territory
+    // warfare.  Instead, we concentrate on recruitment and building the
+    // strengths of our gang members.
     create_gang(ns, faction);
+    const disable = false;
+    ns.gang.setTerritoryWarfare(disable);
     const t = new Time();
     const time = t.second();
     while (true) {
