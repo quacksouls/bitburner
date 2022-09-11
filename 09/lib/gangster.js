@@ -509,8 +509,7 @@ export class Gangster {
         );
         // Let gang members engage in terrorism.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.TERROR != current_task) {
+            if (!this.is_terrorist(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TERROR));
             }
         }
