@@ -142,15 +142,13 @@ async function setup_farm(ns, n) {
     }
     // Purchase Hacknet nodes for our farm.
     for (let i = ns.hacknet.numNodes(); i < nNode; i++) {
-        // Wait until we have sufficient funds to purchase another Hacknet node.
-        while (player.money() < ns.hacknet.getPurchaseNodeCost()) {
+        if (player.money() < ns.hacknet.getPurchaseNodeCost()) {
             await ns.sleep(time);
+            continue;
         }
-        // Purchase a new Hacknet node.
         const id = ns.hacknet.purchaseNode();
         assert(-1 != id);
     }
-    assert(ns.hacknet.numNodes() == nNode);
 }
 
 /**
@@ -282,8 +280,12 @@ export async function main(ns) {
         if (threshold.length > 0) {
             if (player.money() > threshold[0]) {
                 await expand_farm(ns, node[0]);
-                threshold.shift();
-                node.shift();
+                // Ensure our Hacknet farm has at least the given number of
+                // nodes before moving on to the next money/node thresholds.
+                if (ns.hacknet.numNodes() >= node[0]) {
+                    threshold.shift();
+                    node.shift();
+                }
             }
         }
         upgrade(ns);
