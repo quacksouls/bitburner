@@ -333,6 +333,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is engaged in trafficking illegal arms.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is trafficking illegal arms;
+     *     false otherwise.
+     */
+    is_arms_trafficker(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.TRAFFICK_ARMS == current_task;
+    }
+
+    /**
      * Whether the given name belongs to a member of our gang.
      *
      * @param name A string representing the name of a gang member.
@@ -518,8 +531,7 @@ export class Gangster {
         );
         // Let gang members engage in trafficking illegal arms.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.TRAFFICK_ARMS != current_task) {
+            if (!this.is_arms_trafficker(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_ARMS));
             }
         }
