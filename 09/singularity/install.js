@@ -134,7 +134,7 @@ function set_neutral_gang(ns) {
     const faction = ns.gang.getGangInformation().faction;
     assert(ns.kill(script, home, faction));
     // Assign vigilantes.
-    const nmember = 2;
+    const nmember = 1;
     reassign_vigilante(ns, nmember);
     // Put anyone in combat training to mug people.
     const newbie = new Array();
