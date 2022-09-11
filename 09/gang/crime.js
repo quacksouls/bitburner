@@ -158,9 +158,9 @@ function equip(ns) {
  *     false otherwise.
  */
 function has_terrorist(ns) {
+    const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        const current_task = ns.gang.getMemberInformation(s).task;
-        if (current_task == task.TERROR) {
+        if (gangster.is_terrorist(s)) {
             return true;
         }
     }

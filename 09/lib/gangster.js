@@ -345,6 +345,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is committing acts of terrorism.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is committing acts of terrorism;
+     *     false otherwise.
+     */
+    is_terrorist(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.TERROR == current_task;
+    }
+
+    /**
      * Whether a gang member is in combat training.
      *
      * @param name A string representing the name of a gang member.
