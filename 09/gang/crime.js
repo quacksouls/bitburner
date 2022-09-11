@@ -19,7 +19,7 @@ import {
     armour, gang_aug_crime, max_gangster, task, vehicle, weapon
 } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
-import { reassign_vigilante } from "/lib/gangster.util.js";
+import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -205,6 +205,31 @@ function is_valid_faction(fac) {
 }
 
 /**
+ * Si vis pacem, para bellum.  Make preparation to increase our power.  We do
+ * not engage in turf warfare yet.  First, build our gang power.
+ *
+ * @param ns The Netscript API.
+ */
+function para_bellum(ns) {
+    // We want at most 3 members to be engaged in territory warfare.  The
+    // remaining members should be in as high-paying jobs as possible.
+    const nwarrior = 3;
+    const threshold = max_gangster - nwarrior;
+    // Not yet time to send gang members to turf warfare.
+    const gangster = new Gangster(ns);
+    const trafficker = ns.gang.getMemberNames().filter(
+        s => gangster.is_arms_trafficker(s)
+    );
+    if (trafficker.length <= threshold) {
+        return;
+    }
+    // Choose the strongest member and re-assign them to turf warfare.
+    assert(trafficker.length > threshold);
+    const best = strongest_member(ns, trafficker);
+    gangster.turf_war([best]);
+}
+
+/**
  * The penalty p is defined as the ratio of the wanted level over our respect.
  * Multiply p by 100 and we see that the penalty expresses the wanted level as
  * a percentage of our respect.  Tasks that our gang members engage in would
@@ -305,10 +330,10 @@ function reassign_terrorism(ns, min, max) {
     if (has_terrorist(ns) && (name.length < max_gangster)) {
         return;
     }
+    const gangster = new Gangster(ns);
     if (name.length == max_gangster) {
         // We already have the maximum number of gang members.  Re-assign the
         // terrorists to the idle state.
-        const gangster = new Gangster(ns);
         name = name.filter(s => gangster.is_terrorist(s));
         if (name.length > 0) {
             gangster.stop_task(name);
@@ -322,6 +347,9 @@ function reassign_terrorism(ns, min, max) {
     // Choose the members who would be re-assigned to terrorism.
     const member = new Array();
     for (const s of ns.gang.getMemberNames()) {
+        if (gangster.is_warrior(s)) {
+            continue;
+        }
         if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
             member.push(s);
         }
@@ -345,7 +373,7 @@ function reassign_trafficking(ns, min, max) {
     const member = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_terrorist(s)) {
+        if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
             continue;
         }
         if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
@@ -433,6 +461,8 @@ async function update(ns) {
     await retrain(ns);
     reassign_members(ns);
     equip(ns);
+    // Prepare for war.
+    para_bellum(ns);
 }
 
 /**

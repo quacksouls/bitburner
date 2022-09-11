@@ -383,6 +383,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is engaged in turf warfare.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is enage in turf warfare;
+     *     false otherwise.
+     */
+    is_warrior(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.TURF_WAR == current_task;
+    }
+
+    /**
      * Assign gang members to mug random people on the street.
      *
      * @param name An array of member names.
@@ -579,6 +592,27 @@ export class Gangster {
         // The combat stats of each member is at least the given threshold.
         // Now quit training.
         this.stop_task(name);
+    }
+
+    /**
+     * Assign gang members to engage in turf warfare.
+     *
+     * @param name An array of member names.
+     */
+    turf_war(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members engage in turf warfare.
+        for (const s of name) {
+            if (!this.is_warrior(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.TURF_WAR));
+            }
+        }
     }
 
     /**
