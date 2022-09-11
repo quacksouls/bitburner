@@ -352,7 +352,7 @@ export class Gangster {
      */
     is_training(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(s).task;
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
         return task.COMBAT == current_task;
     }
 
