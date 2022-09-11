@@ -52,7 +52,7 @@ export class Gangster {
      * @param ns The Netscript API.
      */
     constructor(ns) {
-        this.#cost_mult = 2;
+        this.#cost_mult = 10;
         this.#name = [
             "Al Capone", "Alfhild", "Al Swearengen", "Anna Nzinga",
             "Anne Bonny", "Anne Dieu le Veut", "Artemisia of Caria",
@@ -241,6 +241,28 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to extort civilians on our turf.
+     *
+     * @param name An array of member names.
+     */
+    extort(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members strongarm civilians.
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.EXTORT != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.EXTORT));
+            }
+        }
+    }
+
+    /**
      * Whether a gang member has a particular armour piece.
      *
      * @param name A string representing the name of a gang member.
@@ -336,9 +358,12 @@ export class Gangster {
             s => assert(this.is_member(s))
         );
         // Let gang members mug random people.
-        name.map(
-            s => assert(this.#ns.gang.setMemberTask(s, task.MUG))
-        );
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.MUG != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.MUG));
+            }
+        }
     }
 
     /**
@@ -381,6 +406,28 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to armed robbery.
+     *
+     * @param name An array of member names.
+     */
+    robbery(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members engage in armed robbery.
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.ROBBERY != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.ROBBERY));
+            }
+        }
+    }
+
+    /**
      * Stop whatever task a gang member is involved in.
      *
      * @param name An array each of whose elements is a string that represents
@@ -407,6 +454,50 @@ export class Gangster {
     strength(name) {
         assert(this.is_member(name));
         return this.#ns.gang.getMemberInformation(name).str;
+    }
+
+    /**
+     * Assign gang members to commit acts of terrorism.
+     *
+     * @param name An array of member names.
+     */
+    terrorism(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members engage in terrorism.
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.TERROR != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.TERROR));
+            }
+        }
+    }
+
+    /**
+     * Assign gang members to trafficking illegal arms.
+     *
+     * @param name An array of member names.
+     */
+    traffick_arms(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members engage in trafficking illegal arms.
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.TRAFFICK_ARMS != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_ARMS));
+            }
+        }
     }
 
     /**
@@ -452,5 +543,27 @@ export class Gangster {
         // The combat stats of each member is at least the given threshold.
         // Now quit training.
         this.#stop_task(name);
+    }
+
+    /**
+     * Assign gang members to vigilante justice.
+     *
+     * @param name An array of member names.
+     */
+    vigilante(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members be vigilantes.
+        for (const s of name) {
+            const current_task = this.#ns.gang.getMemberInformation(s).task;
+            if (task.VIGILANTE != current_task) {
+                assert(this.#ns.gang.setMemberTask(s, task.VIGILANTE));
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@
  */
 
 import {
-    armour, gang_aug_crime, max_gangster, vehicle, weapon
+    armour, gang_aug_crime, max_gangster, task, vehicle, weapon
 } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { Time } from "/lib/time.js";
@@ -66,6 +66,28 @@ function create_gang(ns, fac) {
         return;
     }
     assert(ns.gang.createGang(fac));
+}
+
+/**
+ * Re-assign gang members to various tasks that help to lower our penalty.
+ * Choose a number of our best gangsters and set them to vigilante justice.
+ * The remaining members are given jobs that attract less wanted levels than
+ * their current jobs.
+ *
+ * @param ns The Netscript API.
+ */
+function decrease_penalty(ns) {
+    reassign_vigilante(ns);
+    const name = new Array();
+    for (const s of ns.gang.getMemberNames()) {
+        const current_task = ns.gang.getMemberInformation(s).task;
+        if ((task.VIGILANTE == current_task) || (task.MUG == current_task)) {
+            continue;
+        }
+        name.push(s);
+    }
+    const gangster = new Gangster(ns);
+    gangster.extort(name);
 }
 
 /**
@@ -127,6 +149,40 @@ function equip(ns) {
 }
 
 /**
+ * Whether any of our gang members are currently committing acts of terrorism.
+ *
+ * @param ns The Netscript API.
+ * @return true if at least one gang member is committing acts of terrorism;
+ *     false otherwise.
+ */
+function has_terrorist(ns) {
+    for (const s of ns.gang.getMemberNames()) {
+        const current_task = ns.gang.getMemberInformation(s).task;
+        if (current_task == task.TERROR) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Whether any of our gang members are currently on vigilante justice.
+ *
+ * @param ns The Netscript API.
+ * @return true if at least one gang member is currently assigned to vigilante
+ *     justice; false otherwise.
+ */
+function has_vigilante(ns) {
+    for (const s of ns.gang.getMemberNames()) {
+        const current_task = ns.gang.getMemberInformation(s).task;
+        if (current_task == task.VIGILANTE) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Whether the given string represents the name of a criminal organization
  * within which we can create a criminal gang.
  *
@@ -144,6 +200,159 @@ function is_valid_faction(fac) {
         "The Syndicate"
     ];
     return organization.includes(fac);
+}
+
+/**
+ * The penalty p is defined as the ratio of the wanted level over our respect.
+ * Multiply p by 100 and we see that the penalty expresses the wanted level as
+ * a percentage of our respect.  Tasks that our gang members engage in would
+ * take p percent longer as compared to when our wanted level is zero.  Note
+ * that the wanted level can never be lower than 1.  Aim to keep the penalty p
+ * below a certain fraction.
+ *
+ * @param ns The Netscript API.
+ * @return The penalty as a percentage.
+ */
+function penalty(ns) {
+    const wanted = ns.gang.getGangInformation().wantedLevel;
+    const respect = ns.gang.getGangInformation().respect;
+    const p = Math.floor(100 * (wanted / respect));
+    assert(p >= 0);
+    return p;
+}
+
+/**
+ * Re-assign mid-level gang members to strongarm civilians on our turf.
+ * Re-assign gang members if their Strength stat is in the half-open interval
+ * [min, max).  That is, we include the minimum threshold but exclude the
+ * maximum threshold.
+ *
+ * @param ns The Netscript API.
+ * @param min The minimum value for the Strength stat.
+ * @param max The maximum value for the Strength stat.
+ */
+function reassign_extortion(ns, min, max) {
+    const member = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+            member.push(s);
+        }
+    }
+    gangster.extort(member);
+}
+
+/**
+ * Re-assign gang members to some other tasks.
+ *
+ * @param ns The Netscript API.
+ */
+function reassign_members(ns) {
+    // Assign gang members with mid- to advanced-level stats to more
+    // profitable jobs.
+    const ext_threshold = 150;
+    const rob_threshold = 200;
+    const tra_threshold = 300;
+    const ter_threshold = 500;
+    reassign_extortion(ns, ext_threshold, rob_threshold);
+    reassign_robbery(ns, rob_threshold, tra_threshold);
+    reassign_trafficking(ns, tra_threshold, ter_threshold);
+    reassign_terrorism(ns, ter_threshold, Infinity);
+}
+
+/**
+ * Re-assign above mid-level gang members to armed robbery.  Re-assign gang
+ * members if their Strength stat is in the half-open interval [min, max).
+ * That is, we include the minimum threshold but exclude the maximum threshold.
+ *
+ * @param ns The Netscript API.
+ * @param min The minimum value for the Strength stat.
+ * @param max The maximum value for the Strength stat.
+ */
+function reassign_robbery(ns, min, max) {
+    const member = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+            member.push(s);
+        }
+    }
+    gangster.robbery(member);
+}
+
+/**
+ * Re-assign advanced-level gang members to commit acts of terrorism.
+ * Re-assign gang members if their Strength stat is in the half-open interval
+ * [min, max).  That is, we include the minimum threshold but exclude the
+ * maximum threshold.  Terrorism gains enormous respect, but zero income.  For
+ * this reason, we should only assign a limited number of members to terrorism.
+ *
+ * @param ns The Netscript API.
+ * @param min The minimum value for the Strength stat.
+ * @param max The maximum value for the Strength stat.
+ */
+function reassign_terrorism(ns, min, max) {
+    if (has_terrorist(ns)) {
+        return;
+    }
+    // Assign at most this many members to terrorism.
+    const threshold = 1;
+    // Choose the members who would be re-assigned to terrorism.
+    const member = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+            member.push(s);
+        }
+        if (member.length >= threshold) {
+            break;
+        }
+    }
+    gangster.terrorism(member);
+}
+
+/**
+ * Re-assign high-level gang members to trafficking illegal arms.  Re-assign
+ * gang members if their Strength stat is in the half-open interval [min, max).
+ * That is, we include the minimum threshold but exclude the maximum threshold.
+ *
+ * @param ns The Netscript API.
+ * @param min The minimum value for the Strength stat.
+ * @param max The maximum value for the Strength stat.
+ */
+function reassign_trafficking(ns, min, max) {
+    const member = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+            member.push(s);
+        }
+    }
+    gangster.traffick_arms(member);
+}
+
+/**
+ * Re-assign a number of our strongest gang members to vigilante justice.
+ * Our objective is to lower our wanted level.
+ */
+function reassign_vigilante(ns) {
+    // Reassign this many gang members.
+    const threshold = 4;
+    // Start choosing the top gangsters.
+    let member = ns.gang.getMemberNames();
+    assert(member.length > 0);
+    const name = new Array();
+    while (name.length < threshold) {
+        const best = strongest_member(ns, member);
+        member = member.filter(s => s != best);
+        name.push(best);
+        if (0 == member.length) {
+            break;
+        }
+    }
+    assert(name.length > 0);
+    const gangster = new Gangster(ns);
+    gangster.vigilante(name);
 }
 
 /**
@@ -187,18 +396,63 @@ async function retrain(ns) {
 }
 
 /**
+ * The strongest member in our gang.
+ *
+ * @param ns The Netscript API.
+ * @param member Choose from among this array of member names.
+ * @return A string representing the name of the strongest gang member.
+ */
+function strongest_member(ns, member) {
+    assert(member.length > 0);
+    let maxstr = -Infinity;
+    let name = "";
+    for (const s of member) {
+        const str = ns.gang.getMemberInformation(s).str;
+        if (str > maxstr) {
+            maxstr = str;
+            name = s;
+        }
+    }
+    return name;
+}
+
+/**
  * Manage our criminal gang.
  *
  * @param ns The Netscript API.
  */
 async function update(ns) {
+    // Do we have anyone on vigilante justice?  We always want our penalty
+    // percentage to be less than high_tau.  If our penalty percentage is at
+    // least high_tau, then try to lower the penalty to below low_tau.
+    // low_tau := lower threshold for penalty percentage
+    // high_tau := upper threshold for penalty percentage
+    const low_tau = 2;
+    if (has_vigilante(ns)) {
+        if (penalty(ns) < low_tau) {
+            reassign_members(ns);
+            return;
+        }
+    }
+    // Is our penalty too high?  If our penalty percentage exceeds a given
+    // threshold, then re-assign some gang members to vigilante justice in
+    // order to lower our penalty.  Furthermore, re-assign the remaining
+    // members to jobs that attract a lower wanted level.
+    // high_tau := upper threshold for penalty percentage
+    const high_tau = 10;
+    if (penalty(ns) >= high_tau) {
+        decrease_penalty(ns);
+        return;
+    }
     // Ascend a gang member before we spend any more money on them.  After the
     // ascension, the member would lose all equipment and their stats would
     // reset.  We ascend the member now so down the pipeline we can retrain
     // and re-equip them.
     ascend(ns);
+    // Some training and easy jobs for greenhorn gangsters.
     await recruit(ns);
     await retrain(ns);
+    reassign_members(ns);
     equip(ns);
 }
 
