@@ -445,7 +445,7 @@ export class Gangster {
      * @param name An array each of whose elements is a string that represents
      *     a member name.
      */
-    #stop_task(name) {
+    stop_task(name) {
         // Sanity checks.
         assert(name.length > 0);
         name.map(
@@ -554,7 +554,7 @@ export class Gangster {
         }
         // The combat stats of each member is at least the given threshold.
         // Now quit training.
-        this.#stop_task(name);
+        this.stop_task(name);
     }
 
     /**
