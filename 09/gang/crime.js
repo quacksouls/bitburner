@@ -19,6 +19,7 @@ import {
     armour, gang_aug_crime, max_gangster, task, vehicle, weapon
 } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
+import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -77,7 +78,8 @@ function create_gang(ns, fac) {
  * @param ns The Netscript API.
  */
 function decrease_penalty(ns) {
-    reassign_vigilante(ns);
+    const nmember = 4;
+    reassign_vigilante(ns, nmember);
     const name = new Array();
     for (const s of ns.gang.getMemberNames()) {
         const current_task = ns.gang.getMemberInformation(s).task;
@@ -332,30 +334,6 @@ function reassign_trafficking(ns, min, max) {
 }
 
 /**
- * Re-assign a number of our strongest gang members to vigilante justice.
- * Our objective is to lower our wanted level.
- */
-function reassign_vigilante(ns) {
-    // Reassign this many gang members.
-    const threshold = 4;
-    // Start choosing the top gangsters.
-    let member = ns.gang.getMemberNames();
-    assert(member.length > 0);
-    const name = new Array();
-    while (name.length < threshold) {
-        const best = strongest_member(ns, member);
-        member = member.filter(s => s != best);
-        name.push(best);
-        if (0 == member.length) {
-            break;
-        }
-    }
-    assert(name.length > 0);
-    const gangster = new Gangster(ns);
-    gangster.vigilante(name);
-}
-
-/**
  * Recruit as many new members as possible.  Set the newbies to train their
  * combat stats.  After graduating from training, assign the newbies to mug
  * random people on the streets.
@@ -393,27 +371,6 @@ async function retrain(ns) {
     }
     await gangster.train_combat(member, combat_threshold());
     gangster.mug(member);
-}
-
-/**
- * The strongest member in our gang.
- *
- * @param ns The Netscript API.
- * @param member Choose from among this array of member names.
- * @return A string representing the name of the strongest gang member.
- */
-function strongest_member(ns, member) {
-    assert(member.length > 0);
-    let maxstr = -Infinity;
-    let name = "";
-    for (const s of member) {
-        const str = ns.gang.getMemberInformation(s).str;
-        if (str > maxstr) {
-            maxstr = str;
-            name = s;
-        }
-    }
-    return name;
 }
 
 /**
