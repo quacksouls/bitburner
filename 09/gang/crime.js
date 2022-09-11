@@ -258,8 +258,11 @@ function reassign_members(ns) {
     const ter_threshold = 500;
     reassign_extortion(ns, ext_threshold, rob_threshold);
     reassign_robbery(ns, rob_threshold, tra_threshold);
-    reassign_trafficking(ns, tra_threshold, ter_threshold);
+    // Try to have at least one gang member assigned to commit acts of
+    // terrorism.  This should help to increase our respect.
     reassign_terrorism(ns, ter_threshold, Infinity);
+    // Assign other high-level members to trafficking illegal arms.
+    reassign_trafficking(ns, tra_threshold, Infinity);
 }
 
 /**
@@ -326,6 +329,10 @@ function reassign_trafficking(ns, min, max) {
     const member = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
+        const current_task = ns.gang.getMemberInformation(s).task;
+        if (task.TERROR == current_task) {
+            continue;
+        }
         if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
             member.push(s);
         }
