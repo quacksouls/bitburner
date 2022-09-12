@@ -16,7 +16,7 @@
  */
 
 import {
-    home, money_reserve, pserv_prefix, trade_bot_stop
+    home, money_reserve, pserv_prefix, stock_tick, trade_bot_stop
 } from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -312,10 +312,7 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("sleep");
     ns.disableLog("getServerMoneyAvailable");
-    // Wait for 6 seconds because the Stock Market updates approximately
-    // every 6 seconds.
-    const t = new Time();
-    const time = 6 * t.second();
+    // Prepare to trade.
     await await_prerequisites(ns);
     await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
@@ -331,6 +328,6 @@ export async function main(ns) {
             }
             buy_stock(ns, stk);
         }
-        await ns.sleep(time);
+        await ns.sleep(stock_tick);
     }
 }

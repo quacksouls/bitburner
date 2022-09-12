@@ -221,6 +221,11 @@ export const pserv_prefix = "pserv";
 export const script = "hack.js";
 
 /**
+ * The Stock Market updates approximately every 6 seconds.
+ */
+export const stock_tick = 6000;
+
+/**
  * A file name.  If the trade bot detects the existence of this file on the
  * home server, it would stop purchasing shares of stocks.  The behaviour is
  * subject to certain conditions.  See the trade-bot.js script for more details.

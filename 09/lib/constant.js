@@ -329,6 +329,11 @@ export const pserv_prefix = "pserv";
 export const script = "hack.js";
 
 /**
+ * The Stock Market updates approximately every 6 seconds.
+ */
+export const stock_tick = 6000;
+
+/**
  * Various tasks to which a gang member can be assigned.  The task names are
  * taken from this file:
  *

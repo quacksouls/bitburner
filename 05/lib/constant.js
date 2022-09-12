@@ -58,3 +58,8 @@ export const program = [
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
+
+/**
+ * The Stock Market updates approximately every 6 seconds.
+ */
+export const stock_tick = 6000;
