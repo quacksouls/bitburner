@@ -371,6 +371,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is engaged in armed robbery.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is committing armed robbery;
+     *     false otherwise.
+     */
+    is_robber(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.ROBBERY == current_task;
+    }
+
+    /**
      * Whether a gang member is committing acts of terrorism.
      *
      * @param name A string representing the name of a gang member.
@@ -496,8 +509,7 @@ export class Gangster {
         );
         // Let gang members engage in armed robbery.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.ROBBERY != current_task) {
+            if (!this.is_robber(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.ROBBERY));
             }
         }
