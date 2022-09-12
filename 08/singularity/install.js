@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, stock_tick } from "/lib/constant.js";
+import { stock_tick } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
