@@ -16,11 +16,12 @@
  */
 
 import { home, program as popen, work_hack_lvl } from "/lib/constant.js";
+import { Player } from "/lib/player.js";
 import { raise_hack } from "/lib/singularity.study.js";
 import { choose_hardware_company } from "/lib/singularity.util.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
-import { assert, has_program } from "/lib/util.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Purchase all programs from the dark web.
@@ -36,7 +37,8 @@ async function buy_all_programs(ns) {
     // Work out which programs we still need to purchase via the dark web.
     let program = ns.singularity.getDarkwebPrograms();
     assert(program.length > 0);
-    program = program.filter(p => !has_program(ns, p));
+    const player = new Player(ns);
+    program = program.filter(p => !player.has_program(p));
     if (0 == program.length) {
         return;
     }
@@ -53,8 +55,9 @@ async function buy_all_programs(ns) {
 async function buy_programs(ns, program) {
     assert(program.length > 0);
     // First, determine which programs we do not have.
+    const player = new Player(ns);
     let prog = Array.from(program);
-    prog = prog.filter(p => !has_program(ns, p));
+    prog = prog.filter(p => !player.has_program(p));
     if (0 == prog.length) {
         return;
     }
@@ -110,10 +113,11 @@ async function buy_tor_router(ns) {
  */
 function cheapest(ns, program) {
     assert(program.length > 0);
+    const player = new Player(ns);
     let mincost = Infinity;
     let prog = "";
     for (const p of program) {
-        assert(!has_program(ns, p));
+        assert(!player.has_program(p));
         const cost = ns.singularity.getDarkwebProgramCost(p);
         if (mincost > cost) {
             mincost = cost;

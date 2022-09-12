@@ -116,19 +116,6 @@ export function filter_pserv(ns, server) {
 }
 
 /**
- * Whether we have the given program on our home server.
- *
- * @param ns The Netscript API.
- * @param name A string representing the name of a program.
- * @return true if we already have the given program;
- *     false otherwise.
- */
-export function has_program(ns, name) {
-    assert(is_valid_program(name));
-    return ns.fileExists(name, home);
-}
-
-/**
  * Whether a server is bankrupt.  A server is bankrupt if the maximum amount
  * of money it can hold is zero.
  *
