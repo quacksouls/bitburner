@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { exclusive_aug, home, stock_tick } from "/lib/constant.js";
+import { exclusive_aug, stock_tick } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Player } from "/lib/player.js";
@@ -32,6 +32,7 @@ function buy_exclusive_augmentations(ns) {
     // The faction within which we created our gang.
     const faction = ns.gang.getGangInformation().faction;
     // Attempt to purchase the exclusive Augmentations.
+    const player = new Player(ns);
     const installed = new Set(installed_augmentations(ns));
     for (const aug of exclusive_aug[faction]) {
         if (installed.has(aug)) {
@@ -42,9 +43,8 @@ function buy_exclusive_augmentations(ns) {
         if (fac_rep < aug_rep) {
             continue;
         }
-        const money = ns.getServerMoneyAvailable(home);
         const cost = ns.singularity.getAugmentationPrice(aug);
-        if (money < cost) {
+        if (player.money() < cost) {
             continue;
         }
         assert(ns.singularity.purchaseAugmentation(faction, aug));
@@ -136,7 +136,8 @@ function set_neutral_gang(ns) {
     // First, kill our gang script.
     const script = "/gang/crime.js";
     const faction = ns.gang.getGangInformation().faction;
-    assert(ns.kill(script, home, faction));
+    const player = new Player(ns);
+    assert(ns.kill(script, player.home(), faction));
     // Assign vigilantes.
     const nmember = 1;
     reassign_vigilante(ns, nmember);
