@@ -17,11 +17,15 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { aug_purchase_limit, home, work_hack_lvl } from "/lib/constant.js";
+import {
+    aug_purchase_limit, home, trade_bot_stop, work_hack_lvl
+} from "/lib/constant.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+import {
+    assert, is_valid_faction, trade_bot_resume, trade_bot_stop_buy
+} from "/lib/util.js";
 
 /**
  * Augmentations we still need to purchase from a faction.  From all
@@ -196,15 +200,20 @@ export function prerequisites(ns, aug) {
 }
 
 /**
- * Purchase all Augmentations from a faction.
+ * Purchase a bunch of Augmentations from a faction.  Buying Augmentations can
+ * be expensive.  If our trade bot is running, tell it to stop buying and start
+ * selling all shares.
  *
  * @param ns The Netscript API.
- * @param fac We want to buy all Augmentations from this faction.
+ * @param fac We want to buy Augmentations from this faction.
  */
 export async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
     let augment = augmentations_to_buy(ns, fac);
     assert(augment.length > 0);
+    // Tell the trade bot to stop buying shares of stocks.  We want to cash in
+    // on our shares and raise money to buy Augmentations.
+    await trade_bot_stop_buy(ns);
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
@@ -252,6 +261,8 @@ export async function purchase_augmentations(ns, fac) {
         fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
         money = ns.getServerMoneyAvailable(home);
     }
+    // The trade bot can now resume buying and selling shares.
+    trade_bot_resume(ns);
 }
 
 /**
