@@ -22,9 +22,9 @@ import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
- * Purchase programs via the dark web as many times as possible.  At this stage,
- * we do not need any more programs to help us with our hacking and faction
- * work.  We buy the programs over and over again to help raise our
+ * Purchase programs via the dark web as many times as possible.  At this
+ * stage, we do not need any more programs to help us with our hacking and
+ * faction work.  We buy the programs over and over again to help raise our
  * Intelligence XP.
  */
 async function buy_programs(ns) {
