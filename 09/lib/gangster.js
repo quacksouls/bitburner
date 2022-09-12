@@ -52,7 +52,7 @@ export class Gangster {
      * @param ns The Netscript API.
      */
     constructor(ns) {
-        this.#cost_mult = 10;
+        this.#cost_mult = 5;
         this.#name = [
             "Al Capone", "Alfhild", "Al Swearengen", "Anna Nzinga",
             "Anne Bonny", "Anne Dieu le Veut", "Artemisia of Caria",
