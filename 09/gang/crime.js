@@ -211,9 +211,9 @@ function is_valid_faction(fac) {
  * @param ns The Netscript API.
  */
 function para_bellum(ns) {
-    // We want at most 3 members to be engaged in territory warfare.  The
+    // We want at most 4 members to be engaged in territory warfare.  The
     // remaining members should be in as high-paying jobs as possible.
-    const nwarrior = 3;
+    const nwarrior = 4;
     const threshold = max_gangster - nwarrior;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
