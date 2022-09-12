@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_programs, exclusive_aug, home } from "/lib/constant.js";
+import { exclusive_aug, home } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
-import { assert, has_program } from "/lib/util.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to the faction within which we
