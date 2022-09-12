@@ -293,7 +293,7 @@ export class Gangster {
         const gang_augment = new Set(Object.values(gang_aug_crime));
         assert(gang_augment.has(aug));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades
+            this.#ns.gang.getMemberInformation(name).augmentations
         );
         return equipment.has(aug);
     }
