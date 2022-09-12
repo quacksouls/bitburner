@@ -66,8 +66,8 @@ async function buy_programs(ns, program) {
     const time = t.second();
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
-        while (ns.getServerMoneyAvailable(home) < cost) {
-            if (ns.getHackingLevel() < work_hack_lvl) {
+        while (player.money() < cost) {
+            if (player.hacking_skill() < work_hack_lvl) {
                 await raise_hack(ns, target_hack_lvl(ns));
                 await ns.sleep(time);
                 continue;
@@ -89,8 +89,9 @@ async function buy_tor_router(ns) {
     const t = new Time();
     const time = t.second();
     const cost = 200000;
+    const player = new Player(ns);
     while (!ns.singularity.purchaseTor()) {
-        if (ns.getHackingLevel() < work_hack_lvl) {
+        if (player.hacking_skill() < work_hack_lvl) {
             await raise_hack(ns, target_hack_lvl(ns));
             await ns.sleep(time);
             continue;
@@ -136,7 +137,8 @@ function cheapest(ns, program) {
  * @param ns The Netscript API.
  */
 function target_hack_lvl(ns) {
-    return ns.getHackingLevel() + 5;
+    const player = new Player(ns);
+    return player.hacking_skill() + 5;
 }
 
 /**
