@@ -156,6 +156,15 @@ export class Player {
     }
 
     /**
+     * Whether we have purchased the TOR router.
+     *
+     * @return true if we have purchased the TOR router; false otherwise.
+     */
+    has_tor() {
+        return this.#ns.getPlayer().tor;
+    }
+
+    /**
      * The home server of the player.
      */
     home() {

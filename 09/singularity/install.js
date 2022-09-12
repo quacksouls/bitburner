@@ -18,6 +18,7 @@
 import { all_programs, exclusive_aug, home } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
+import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, has_program } from "/lib/util.js";
 
@@ -51,20 +52,23 @@ function buy_exclusive_augmentations(ns) {
 }
 
 /**
- * Purchase any remaining programs via the dark web.  At this stage, we do not
- * need any more programs to help us with our hacking and faction work.  We buy
- * the remaining programs to help raise our Intelligence XP.
+ * Purchase the cheapest program via the dark web as many times as possible.
+ * At this stage, we do not need any more programs to help us with our hacking
+ * and faction work.  We buy the cheapest program over and over again to help
+ * raise our Intelligence XP.
  */
 function buy_programs(ns) {
-    for (const p of all_programs().keys()) {
-        if (has_program(ns, p)) {
-            continue;
-        }
-        const money = ns.getServerMoneyAvailable(home);
-        const cost = ns.singularity.getDarkwebProgramCost(p);
-        if (money < cost) {
-            continue;
-        }
+    // The programs BruteSSH.exe, ServerProfiler.exe, and DeepscanV1.exe are
+    // the cheapest programs on offer from the dark web.  Choose any of these
+    // programs and purchase it over and over again as our funds allows.
+    const p = "BruteSSH.exe";
+    const cost = 500 * 1000;
+    const player = new Player(ns);
+    assert(cost == ns.singularity.getDarkwebProgramCost(p));
+    assert(player.has_tor());
+    assert(player.has_program(p));
+    while (player.money() >= cost) {
+        assert(ns.rm(p, player.home()));
         assert(ns.singularity.purchaseProgram(p));
     }
 }
