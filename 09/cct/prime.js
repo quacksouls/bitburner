@@ -60,10 +60,7 @@ function factor(n) {
 function is_even(n) {
     assert(n > 1);
     const remainder = n % 2;
-    if (0 == remainder) {
-        return true;
-    }
-    return false;
+    return 0 == remainder;
 }
 
 /**
