@@ -18,7 +18,7 @@
 // Miscellaneous helper functions.
 
 import {
-    all_programs, cities, factions, home, program
+    all_programs, cities, factions, home, program, trade_bot_stop
 } from "/lib/constant.js";
 
 /**
@@ -178,4 +178,30 @@ export function is_valid_program(name) {
     assert(name.length > 0);
     const prog = all_programs();
     return prog.has(name);
+}
+
+/**
+ * Tell the trade bot to resume its transactions.  It can now buy and sell
+ * shares of stocks.
+ *
+ * @param ns The Netscript API.
+ */
+export function trade_bot_resume(ns) {
+    if (ns.fileExists(trade_bot_stop, home)) {
+        ns.rm(trade_bot_stop, home);
+    }
+}
+
+/**
+ * Tell the trade bot to stop buying shares of stocks.  We do not want to spend
+ * any more money on buying shares.  However, the trade bot can sell shares.
+ * The idea is to cash in on the shares we have.
+ *
+ * @param ns The Netscript API.
+ */
+export async function trade_bot_stop_buy(ns) {
+    const fname = trade_bot_stop;
+    const data = "Trade bot stop buy.";
+    const write_mode = "w";
+    await ns.write(fname, data, write_mode);
 }

@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, trade_bot_stop } from "/lib/constant.js";
+import { home } from "/lib/constant.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
+import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
  * Determine which to upgrade on the home server: Cores or RAM.
@@ -85,32 +85,6 @@ function is_at_limits(ns) {
 function ram_limit() {
     const limit = 262144;
     return limit;
-}
-
-/**
- * Tell the trade bot to resume its transactions.  It can now buy and sell
- * shares of stocks.
- *
- * @param ns The Netscript API.
- */
-function trade_bot_resume(ns) {
-    if (ns.fileExists(trade_bot_stop, home)) {
-        ns.rm(trade_bot_stop, home);
-    }
-}
-
-/**
- * Tell the trade bot to stop buying shares of stocks.  We do not want to spend
- * any more money on buying shares.  However, the trade bot can sell shares.
- * The idea is to cash in on the shares we have.
- *
- * @param ns The Netscript API.
- */
-async function trade_bot_stop_buy(ns) {
-    const fname = trade_bot_stop;
-    const data = "Trade bot stop buy.";
-    const write_mode = "w";
-    await ns.write(fname, data, write_mode);
 }
 
 /**
