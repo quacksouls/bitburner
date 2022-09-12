@@ -177,7 +177,9 @@ function set_neutral_gang(ns) {
     const script = "/gang/crime.js";
     const faction = ns.gang.getGangInformation().faction;
     const player = new Player(ns);
-    assert(ns.kill(script, player.home(), faction));
+    if (ns.isRunning(script, player.home(), faction)) {
+        assert(ns.kill(script, player.home(), faction));
+    }
     // Assign vigilantes.
     const nmember = 1;
     reassign_vigilante(ns, nmember);
