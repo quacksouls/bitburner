@@ -59,9 +59,10 @@ async function all_expressions(ns, string, target) {
         for (let j = 0; j < newexpr.length; j++) {
             const [idx, expression] = newexpr[j];
             stack.push([idx, expression]);
-            if (!has_leading_zero(expression)
-                && (target == evaluate(expression))
-               ) {
+            if (
+                !has_leading_zero(expression)
+                    && (target == evaluate(expression))
+            ) {
                 solution.push(expression);
             }
         }
