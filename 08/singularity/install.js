@@ -15,31 +15,71 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/lib/array.js";
 import { stock_tick } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
- * Purchase the cheapest program via the dark web as many times as possible.
- * At this stage, we do not need any more programs to help us with our hacking
- * and faction work.  We buy the cheapest program over and over again to help
- * raise our Intelligence XP.
+ * Purchase programs via the dark web as many times as possible.  At this stage,
+ * we do not need any more programs to help us with our hacking and faction
+ * work.  We buy the programs over and over again to help raise our
+ * Intelligence XP.
  */
-function buy_programs(ns) {
-    // The programs BruteSSH.exe, ServerProfiler.exe, and DeepscanV1.exe are
-    // the cheapest programs on offer from the dark web.  Choose any of these
-    // programs and purchase it over and over again as our funds allows.
-    const p = "BruteSSH.exe";
-    const cost = 500 * 1000;
+async function buy_programs(ns) {
     const player = new Player(ns);
-    assert(cost == ns.singularity.getDarkwebProgramCost(p));
     assert(player.has_tor());
-    assert(player.has_program(p));
-    while (player.money() >= cost) {
-        assert(ns.rm(p, player.home()));
-        assert(ns.singularity.purchaseProgram(p));
+    const db = cost_program(ns);
+    const time = 1;  // Millisecond.
+    while (true) {
+        let nbought = 0;
+        for (const [c, p] of db) {
+            if (player.money() < c) {
+                continue;
+            }
+            const success = ns.singularity.purchaseProgram(p);
+            if (success) {
+                nbought++;
+                assert(ns.rm(p, player.home()));
+            }
+        }
+        if (nbought < 1) {
+            break;
+        }
+        await ns.sleep(time);
     }
+}
+
+/**
+ * The cost of each program that can be purchased via the dark web.
+ *
+ * @param ns The Netscript API.
+ * @return An array of arrays.  Each element is a 2-tuple [c, p] as follows:
+ *
+ *     (1) c := The cost of buying the given program.
+ *     (2) p := A string representing the name of a program available via the
+ *         dark web.
+ *
+ *     The returned array is sorted in ascending order, using the first element
+ *     of each 2-tuple.
+ */
+function cost_program(ns) {
+    // The program name and its cost.
+    const db = new Array();
+    const player = new Player(ns);
+    for (const p of ns.singularity.getDarkwebPrograms()) {
+        // Must delete the program on our home server, otherwise its cost would
+        // be zero.
+        if (player.has_program(p)) {
+            ns.rm(p, player.home());
+        }
+        const cost = ns.singularity.getDarkwebProgramCost(p);
+        db.push([cost, p]);
+    }
+    assert(db.length > 0);
+    const array = new MyArray();
+    return array.sort_ascending_tuple(db);
 }
 
 /**
@@ -102,7 +142,7 @@ export async function main(ns) {
     await ns.sleep(time);
     // Raise some more Intelligence XP.
     join_all_factions(ns);
-    buy_programs(ns);
+    await buy_programs(ns);
     trade_bot_resume(ns);
     // Install all Augmentations and soft reset.
     install(ns);
