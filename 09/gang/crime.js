@@ -112,38 +112,42 @@ function equip(ns) {
         // Always try to first purchase an Augmentation because the effects of
         // Augmentations are persistent after an ascension.
         for (const aug of Object.values(gang_aug_crime)) {
-            if (!gangster.has_augment(s, aug)) {
-                const success = gangster.equip_augment(s, aug);
-                if (success) {
-                    break;
-                }
+            if (gangster.has_augment(s, aug)) {
+                continue;
+            }
+            const success = gangster.equip_augment(s, aug);
+            if (success) {
+                break;
             }
         }
         // Try to equip a new weapon.
         for (const wpn of Object.values(weapon)) {
-            if (!gangster.has_weapon(s, wpn)) {
-                const success = gangster.equip_weapon(s, wpn);
-                if (success) {
-                    break;
-                }
+            if (gangster.has_weapon(s, wpn)) {
+                continue;
+            }
+            const success = gangster.equip_weapon(s, wpn);
+            if (success) {
+                break;
             }
         }
         // Try to equip a new armour piece.
         for (const amr of Object.values(armour)) {
-            if (!gangster.has_armour(s, amr)) {
-                const success = gangster.equip_armour(s, amr);
-                if (success) {
-                    break;
-                }
+            if (gangster.has_armour(s, amr)) {
+                continue;
+            }
+            const success = gangster.equip_armour(s, amr);
+            if (success) {
+                break;
             }
         }
         // Try to equip a new vehicle.
         for (const vhc of Object.values(vehicle)) {
-            if (!gangster.has_vehicle(s, vhc)) {
-                const success = gangster.equip_vehicle(s, vhc);
-                if (success) {
-                    break;
-                }
+            if (gangster.has_vehicle(s, vhc)) {
+                continue;
+            }
+            const success = gangster.equip_vehicle(s, vhc);
+            if (success) {
+                break;
             }
         }
     }
