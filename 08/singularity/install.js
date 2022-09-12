@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js";
+import { home, stock_tick } from "/lib/constant.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
-import { assert } from "/lib/util.js";
+import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
  * Purchase the cheapest program via the dark web as many times as possible.
@@ -95,9 +95,15 @@ function purchased_augmentations(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Tell the trade bot to stop buying shares.  Wait a while for it to sell
+    // some shares.
+    trade_bot_stop_buy(ns);
+    const time = 3 * stock_tick;
+    await ns.sleep(time);
     // Raise some more Intelligence XP.
     join_all_factions(ns);
     buy_programs(ns);
+    trade_bot_resume(ns);
     // Install all Augmentations and soft reset.
     install(ns);
 }

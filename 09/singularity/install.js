@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { exclusive_aug, home } from "/lib/constant.js";
+import { exclusive_aug, home, stock_tick } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity.faction.js";
-import { assert } from "/lib/util.js";
+import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to the faction within which we
@@ -159,10 +159,16 @@ function set_neutral_gang(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Tell the trade bot to stop buying shares.  Wait a while for it to sell
+    // some shares.
+    trade_bot_stop_buy(ns);
+    const time = 3 * stock_tick;
+    await ns.sleep(time);
     // Raise some more Intelligence XP.
     join_all_factions(ns);
     buy_exclusive_augmentations(ns);
     buy_programs(ns);
+    trade_bot_resume(ns);
     // Set our gang to a state where it at least is working to lower the
     // penalty.
     set_neutral_gang(ns);
