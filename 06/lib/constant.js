@@ -65,3 +65,10 @@ export const pserv_prefix = "pserv";
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
+
+/**
+ * A file name.  If the trade bot detects the existence of this file on the
+ * home server, it would stop purchasing shares of stocks.  The behaviour is
+ * subject to certain conditions.  See the trade-bot.js script for more details.
+ */
+export const trade_bot_stop = "trade_bot_stop_buy.txt";

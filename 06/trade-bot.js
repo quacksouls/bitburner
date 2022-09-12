@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { money_reserve, pserv_prefix } from "/lib/constant.js";
+import {
+    home, money_reserve, pserv_prefix, trade_bot_stop
+} from "/lib/constant.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -250,6 +252,30 @@ function sell_stock(ns, stk) {
 }
 
 /**
+ * Whether to skip the purchase of shares.  There are various reasons why we
+ * might want to skip the buying of shares, even though we have sufficient
+ * funds.  One reason is that we want to sell our shares to raise a huge amount
+ * of money for various purposes.
+ *
+ * @param ns The Netscript API.
+ * @return true if the trade bot should skip buying shares during this tick;
+ *     false otherwise.
+ */
+function skip_buy(ns) {
+    const SKIP = true;
+    const NO_SKIP = !SKIP;
+    if (ns.fileExists(trade_bot_stop, home)) {
+        const m = new Money();
+        const threshold = m.trillion();
+        const player = new Player(ns);
+        if (player.money() < threshold) {
+            return SKIP;
+        }
+    }
+    return NO_SKIP;
+}
+
+/**
  * Whether to skip buying shares of a stock.
  *
  * @param ns The Netscript API.
@@ -298,6 +324,9 @@ export async function main(ns) {
         for (const stk of ns.stock.getSymbols()) {
             sell_stock(ns, stk);
             if (!has_minimum_pserv(ns)) {
+                continue;
+            }
+            if (skip_buy(ns)) {
                 continue;
             }
             buy_stock(ns, stk);
