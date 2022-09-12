@@ -16,7 +16,7 @@
  */
 
 import {
-    armour, gang_aug_crime, max_gangster, task, vehicle, weapon
+    armour, gang_aug_crime, max_gangster, vehicle, weapon
 } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -81,14 +81,13 @@ function decrease_penalty(ns) {
     const nmember = 4;
     reassign_vigilante(ns, nmember);
     const name = new Array();
+    const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        const current_task = ns.gang.getMemberInformation(s).task;
-        if ((task.VIGILANTE == current_task) || (task.MUG == current_task)) {
+        if (gangster.is_vigilante(s) || gangster.is_mugger(s)) {
             continue;
         }
         name.push(s);
     }
-    const gangster = new Gangster(ns);
     gangster.extort(name);
 }
 
@@ -175,9 +174,9 @@ function has_terrorist(ns) {
  *     justice; false otherwise.
  */
 function has_vigilante(ns) {
+    const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        const current_task = ns.gang.getMemberInformation(s).task;
-        if (current_task == task.VIGILANTE) {
+        if (gangster.is_vigilante(s)) {
             return true;
         }
     }
