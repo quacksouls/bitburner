@@ -100,6 +100,35 @@ export class MyArray {
     }
 
     /**
+     * Sort an array of 2-tuples in ascending order, using the first element of
+     * each tuple.  The usual scenario is when we have an array of arrays like
+     * so:
+     *
+     * [[1, 2], [3, 1], [1, 3], [5, 4]]
+     *
+     * where each element is a 2-tuple, i.e. an array of 2 elements.  The
+     * sorted array would be
+     *
+     * [[1, 2], [1, 3], [3, 1], [5, 4]]
+     *
+     * @param array We want to sort this array of 2-tuples.  Cannot be an empty
+     *     array.
+     * @return A new array of 2-tuples, where each element is sorted in
+     *     ascending order.  The sort is done based on the first element of
+     *     each 2-tuple.
+     */
+    sort_ascending_tuple(array) {
+        assert(array.length > 0);
+        const arr = Array.from(array);
+        arr.sort(
+            function (a, b) {
+                return a[0] - b[0];
+            }
+        );
+        return arr;
+    }
+
+    /**
      * Sort an array in descending order.
      *
      * @param array We want to sort this array.  Cannot be an empty array.

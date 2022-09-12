@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
@@ -33,12 +34,8 @@ function merge(interval) {
     assert(valid_interval(interval));
     // Sort the array in ascending order using the first element of
     // each subarray.
-    const array = Array.from(interval);
-    array.sort(
-        function (a, b) {
-            return a[0] - b[0];
-        }
-    );
+    const arr = new MyArray();
+    const array = arr.sort_ascending_tuple(interval);
     // Compare two intervals and merge them as necessary.
     let i = 0;
     let j = i + 1;
