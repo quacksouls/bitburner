@@ -436,8 +436,7 @@ export class Gangster {
         );
         // Let gang members mug random people.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.MUG != current_task) {
+            if (!this.is_mugger(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.MUG));
             }
         }
@@ -656,8 +655,7 @@ export class Gangster {
         );
         // Let gang members be vigilantes.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.VIGILANTE != current_task) {
+            if (!this.is_vigilante(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.VIGILANTE));
             }
         }
