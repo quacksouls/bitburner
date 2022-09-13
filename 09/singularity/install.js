@@ -63,6 +63,11 @@ async function buy_programs(ns) {
     assert(player.has_tor());
     const db = cost_program(ns);
     const time = 1;  // Millisecond.
+    // Try to buy at most this many times to prevent the script from hanging.
+    // If our income rises faster than our spending on programs, then it is
+    // possible for this function to hang and buys indefinitely.
+    let ntry = 0;
+    const maxtry = 1000;
     while (true) {
         let nbought = 0;
         for (const [c, p] of db) {
@@ -76,6 +81,10 @@ async function buy_programs(ns) {
             }
         }
         if (nbought < 1) {
+            break;
+        }
+        ntry++;
+        if (ntry >= maxtry) {
             break;
         }
         await ns.sleep(time);
