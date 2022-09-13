@@ -526,8 +526,10 @@ function reassign_trafficking(ns, min, max) {
     const member = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
-            continue;
+        if (!has_all_turf(ns)) {
+            if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
+                continue;
+            }
         }
         if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
             member.push(s);
