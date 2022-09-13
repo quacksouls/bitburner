@@ -466,14 +466,12 @@ function reassign_terrorism(ns, min, max) {
     if (has_terrorist(ns) && (name.length < max_gangster)) {
         return;
     }
+    // We already have the maximum number of gang members.  Re-assign the
+    // terrorists to trafficking illegal arms.
     const gangster = new Gangster(ns);
     if (name.length == max_gangster) {
-        // We already have the maximum number of gang members.  Re-assign the
-        // terrorists to the idle state.
         name = name.filter(s => gangster.is_terrorist(s));
-        if (name.length > 0) {
-            gangster.stop_task(name);
-        }
+        gangster.traffick_arms(name);
         return;
     }
     assert(!has_terrorist(ns));
