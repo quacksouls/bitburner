@@ -17,7 +17,7 @@
 
 import {
     armour, gang_aug_crime, gang_tick, max_gangster, vehicle, weapon
-} from "/lib/constant.js";
+} from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
 import { Time } from "/lib/time.js";
