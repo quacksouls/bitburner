@@ -313,6 +313,24 @@ function is_valid_faction(fac) {
 }
 
 /**
+ * The maximum number of gang members to re-assign to acts of terrorism.  We
+ * usually assign members to acts of terrorism because this task greatly
+ * increases respect, which in turn helps to recruit new members.  However, if
+ * we already have the maximum number of members, there is no reason to have
+ * any terrorists around.
+ *
+ * @param ns The Netscript API.
+ * @return An integer between 0 and the maximum number of members we can have
+ *     in our gang.
+ */
+function max_terrorist(ns) {
+    if (ns.gang.getMemberNames().length == max_gangster) {
+        return 0;
+    }
+    return 1;
+}
+
+/**
  * The minimum chance of winning a clash against any rival gang.  The chance is
  * reported as an integer percentage.  For example, if our chance to win a
  * clash is 0.6879, we convert this to the percentage of 68.79 and take only
@@ -477,7 +495,8 @@ function reassign_terrorism(ns, min, max) {
     assert(!has_terrorist(ns));
     assert(ns.gang.getMemberNames().length < max_gangster);
     // Assign at most this many members to terrorism.
-    const threshold = 1;
+    const threshold = max_terrorist(ns);
+    assert(threshold > 0);
     // Choose the members who would be re-assigned to terrorism.
     const member = new Array();
     for (const s of ns.gang.getMemberNames()) {
