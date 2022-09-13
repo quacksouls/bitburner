@@ -65,6 +65,17 @@ function dir_cct() {
 }
 
 /**
+ * Scripts to automate gangs.
+ */
+function dir_gang() {
+    const gang = [
+        "gang/crime.js",
+        "gang/slum-snakes.js"
+    ];
+    return gang;
+}
+
+/**
  * Scripts that are used to determine the gain in Intelligence XP from various
  * actions.
  */
@@ -98,6 +109,9 @@ function dir_lib() {
         "lib/array.js",
         "lib/cct.js",
         "lib/constant.js",
+        "lib/constant.gang.js",
+        "lib/gangster.js",
+        "lib/gangster.util.js",
         "lib/money.js",
         "lib/network.js",
         "lib/player.js",
@@ -203,6 +217,14 @@ function dir_structure(d) {
         case "08":
             filesystem = Array.from(dir_root());
             filesystem = filesystem.concat(dir_cct());
+            filesystem = filesystem.concat(dir_intelligence());
+            filesystem = filesystem.concat(dir_lib());
+            filesystem = filesystem.concat(dir_singularity());
+            break;
+        case "09":
+            filesystem = Array.from(dir_root());
+            filesystem = filesystem.concat(dir_cct());
+            filesystem = filesystem.concat(dir_gang());
             filesystem = filesystem.concat(dir_intelligence());
             filesystem = filesystem.concat(dir_lib());
             filesystem = filesystem.concat(dir_singularity());
