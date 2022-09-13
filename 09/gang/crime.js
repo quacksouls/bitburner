@@ -342,6 +342,11 @@ function min_victory_chance(ns) {
  * @param ns The Netscript API.
  */
 function para_bellum(ns) {
+    // If we already control 100% of the territory, there is no need to send
+    // any gang member to turf warfare.
+    if (has_all_turf(ns)) {
+        return;
+    }
     // We want at most 4 members to be engaged in territory warfare.  The
     // remaining members should be in as high-paying jobs as possible.
     const nwarrior = 4;
