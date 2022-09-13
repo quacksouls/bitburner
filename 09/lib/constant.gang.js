@@ -32,6 +32,14 @@ export const armour = {
 };
 
 /**
+ * The threshold for the combat stats that any new recruit must attain.  Each
+ * new recruit is immediately assigned to train their combat stats.  They
+ * graduate out of training after their combat stats are at least this
+ * threshold.
+ */
+export const combat_threshold = 15;
+
+/**
  * All Augmentations that can be equipped on a member of a criminal gang.  The
  * Augmentations are listed from least expensive to most expensive.  The data
  * are taken from this file:
@@ -61,6 +69,18 @@ export const gang_tick = 20 * 1000;
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
  */
 export const max_gangster = 12;
+
+/**
+ * The maximum number of gang members to assign to Vigilante Justice.
+ */
+export const max_vigilante = 4;
+
+/**
+ * The maximum number of gang members to assign to territory warfare.  This threshold applies only when we are not engaged in territory warfare against a rival
+ * gang.  If we are about to clash against a rival gang, we should devote more members to warfare.  In general, this threshold helps to build our power while we
+ * are not engaged in dispute against any rival gang.
+ */
+export const max_warrior = 4;
 
 /**
  * Various tasks to which a gang member can be assigned.  The task names are
@@ -250,3 +270,11 @@ export const weapon = {
     "MFIFTEEN": "M15A10 Assault Rifle",
     "AWM": "AWM Sniper Rifle"
 };
+
+/**
+ * The minimum chance of winning a clash against a rival gang.  This chance of
+ * victory is expressed as an integer percentage.  In general, we should only
+ * engage in turf warfare against another gang if our chance of victory is at
+ * least this number.
+ */
+export const win_threshold = 75;

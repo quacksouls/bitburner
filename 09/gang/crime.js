@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DISABLE, ENABLE } from "/lib/constant.js";
 import {
-    armour, gang_aug_crime, gang_tick, max_gangster, vehicle, weapon
+    armour, combat_threshold, gang_aug_crime, gang_tick, max_gangster,
+    max_vigilante, max_warrior, vehicle, weapon, win_threshold
 } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -59,16 +61,6 @@ function casus_belli(ns) {
 }
 
 /**
- * The threshold for the combat stats that any new recruit must attain.  Each
- * new recruit is immediately assigned to train their combat stats.  They
- * graduate out of training after their combat stats are at least this
- * threshold.
- */
-function combat_threshold() {
-    return 15;
-}
-
-/**
  * Create a gang within the given criminal organization.
  *
  * @param ns The Netscript API.
@@ -91,8 +83,7 @@ function create_gang(ns, fac) {
  * @param ns The Netscript API.
  */
 function decrease_penalty(ns) {
-    const nmember = 4;
-    reassign_vigilante(ns, nmember);
+    reassign_vigilante(ns, max_vigilante);
     const name = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
@@ -125,8 +116,7 @@ function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
         return NO_WAR;
     }
-    const threshold = 75;
-    if (has_max_members(ns) && (min_victory_chance(ns) >= threshold)) {
+    if (has_max_members(ns) && (min_victory_chance(ns) >= win_threshold)) {
         return WAR;
     }
     return NO_WAR;
@@ -365,10 +355,9 @@ function para_bellum(ns) {
     if (has_all_turf(ns)) {
         return;
     }
-    // We want at most 4 members to be engaged in territory warfare.  The
-    // remaining members should be in as high-paying jobs as possible.
-    const nwarrior = 4;
-    const threshold = max_gangster - nwarrior;
+    // We want at most max_warrior members to be engaged in territory warfare.
+    // The remaining members should be in as high-paying jobs as possible.
+    const threshold = max_gangster - max_warrior;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
     const trafficker = ns.gang.getMemberNames().filter(
@@ -550,7 +539,7 @@ async function recruit(ns) {
     let newbie = [];
     if (ns.gang.getMemberNames().length < max_gangster) {
         newbie = gangster.recruit();
-        await gangster.train_combat(newbie, combat_threshold());
+        await gangster.train_combat(newbie, combat_threshold);
     }
     gangster.mug(newbie);
 }
@@ -566,15 +555,15 @@ async function retrain(ns) {
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
         if (
-            (gangster.strength(s) < combat_threshold())
-                || (gangster.defense(s) < combat_threshold())
-                || (gangster.dexterity(s) < combat_threshold())
-                || (gangster.agility(s) < combat_threshold())
+            (gangster.strength(s) < combat_threshold)
+                || (gangster.defense(s) < combat_threshold)
+                || (gangster.dexterity(s) < combat_threshold)
+                || (gangster.agility(s) < combat_threshold)
         ) {
             member.push(s);
         }
     }
-    await gangster.train_combat(member, combat_threshold());
+    await gangster.train_combat(member, combat_threshold);
     gangster.mug(member);
 }
 
@@ -662,9 +651,7 @@ export async function main(ns) {
     // warfare.  Instead, we concentrate on recruitment and building the
     // strengths of our gang members.
     create_gang(ns, faction);
-    const disable = false;
-    const enable = true;
-    ns.gang.setTerritoryWarfare(disable);
+    ns.gang.setTerritoryWarfare(DISABLE);
     const t = new Time();
     const time = t.millisecond();
     let other_gang = ns.gang.getOtherGangInformation();
@@ -678,11 +665,11 @@ export async function main(ns) {
     while (true) {
         if (enable_turf_war(ns)) {
             if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
-                ns.gang.setTerritoryWarfare(enable);
+                ns.gang.setTerritoryWarfare(ENABLE);
             }
         } else {
             if (ns.gang.getGangInformation().territoryWarfareEngaged) {
-                ns.gang.setTerritoryWarfare(disable);
+                ns.gang.setTerritoryWarfare(DISABLE);
             }
         }
         // Are we in a new tick?  If we are having a turf war, then let our
