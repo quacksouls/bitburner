@@ -658,9 +658,13 @@ export async function main(ns) {
     let tick_threshold = 1;
     while (true) {
         if (enable_turf_war(ns)) {
-            ns.gang.setTerritoryWarfare(enable);
+            if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
+                ns.gang.setTerritoryWarfare(enable);
+            }
         } else {
-            ns.gang.setTerritoryWarfare(disable);
+            if (ns.gang.getGangInformation().territoryWarfareEngaged) {
+                ns.gang.setTerritoryWarfare(disable);
+            }
         }
         // Are we in a new tick?  If we are having a turf war, then let our
         // gang members fight until a new tick occurs.
