@@ -16,7 +16,7 @@
  */
 
 import {
-    armour, gang_aug_crime, max_gangster, vehicle, weapon
+    armour, gang_aug_crime, gang_tick, max_gangster, vehicle, weapon
 } from "/lib/constant.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -43,6 +43,19 @@ function ascend(ns) {
     member.map(
         s => gangster.ascend(s)
     );
+}
+
+/**
+ * Marshall our forces on the border and be ready for war.
+ *
+ * @param ns The Netscript API.
+ */
+function casus_belli(ns) {
+    assert(ns.gang.getGangInformation().territoryWarfareEngaged);
+    const gangster = new Gangster(ns);
+    const member = ns.gang.getMemberNames();
+    assert(member.length == max_gangster);
+    gangster.turf_war(member);
 }
 
 /**
@@ -89,6 +102,34 @@ function decrease_penalty(ns) {
         name.push(s);
     }
     gangster.extort(name);
+}
+
+/**
+ * Whether to engage in territory warfare against a rival gang.  By default,
+ * we do not engage in turf warfare.  However, we enable turf warfare provided
+ * that the following conditions are satisfied:
+ *
+ * (1) We have the maximum number of gang members.
+ * (2) Our chance of winning against a rival gang is at least 75%.
+ *
+ * However, if our gang already has taken over 100% of the territory, then
+ * there is no need to engage in turf warfare.
+ *
+ * @param ns The Netscript API.
+ * @return true if we are to engage in territory warfare against another gang;
+ *     false otherwise.
+ */
+function enable_turf_war(ns) {
+    const WAR = true;
+    const NO_WAR = !WAR;
+    if (has_all_turf(ns)) {
+        return NO_WAR;
+    }
+    const threshold = 75;
+    if (has_max_members(ns) && (min_victory_chance(ns) >= threshold)) {
+        return WAR;
+    }
+    return NO_WAR;
 }
 
 /**
@@ -154,6 +195,27 @@ function equip(ns) {
 }
 
 /**
+ * Whether our gang already controls 100% of the territory.
+ *
+ * @param ns The Netscript API.
+ * @return true if we already have control over 100% of the territory;
+ *     false otherwise.
+ */
+function has_all_turf(ns) {
+    return ns.gang.getGangInformation().territory >= 1;
+}
+
+/**
+ * Whether we have the maximum number of members in our gang.
+ *
+ * @param ns The Netscript API.
+ * @return true if our gang is at capacity; false otherwise.
+ */
+function has_max_members(ns) {
+    return max_gangster == ns.gang.getMemberNames().length;
+}
+
+/**
  * Whether any of our gang members are currently committing acts of terrorism.
  *
  * @param ns The Netscript API.
@@ -188,6 +250,49 @@ function has_vigilante(ns) {
 }
 
 /**
+ * Whether our gang is engaged in turf warfare.
+ *
+ * @param ns The Netscript API.
+ * @return true if our gang is engaged in turf warfare against a rival gang;
+ *     false otherwise.
+ */
+function is_in_war(ns) {
+    if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
+        return false;
+    }
+    const gangster = new Gangster(ns);
+    const warrior = ns.gang.getMemberNames().filter(
+        s => gangster.is_warrior(s)
+    );
+    return warrior.length == max_gangster;
+}
+
+/**
+ * Whether we are currently in a new tick.  Each tick lasts for approximately
+ * the time period as defined by the constant gang_tick.  At the start of each
+ * tick, there is a chance for our gang to clash against a rival gang.
+ *
+ * @param ns The Netscript API.
+ * @param other An object containing information about other gangs.  The data
+ *     in the object should be from the previous tick.
+ * @return true if we are in a new tick; false otherwise.
+ */
+function is_new_tick(ns, other) {
+    const NEW = true;
+    const NOT_NEW = !NEW;
+    const current = ns.gang.getOtherGangInformation();
+    for (const g of Object.keys(current)) {
+        if (
+            (current[g].power != other[g].power)
+                || (current[g].territory != other[g].territory)
+        ) {
+            return NEW;
+        }
+    }
+    return NOT_NEW;
+}
+
+/**
  * Whether the given string represents the name of a criminal organization
  * within which we can create a criminal gang.
  *
@@ -205,6 +310,29 @@ function is_valid_faction(fac) {
         "The Syndicate"
     ];
     return organization.includes(fac);
+}
+
+/**
+ * The minimum chance of winning a clash against any rival gang.  The chance is
+ * reported as an integer percentage.  For example, if our chance to win a
+ * clash is 0.6879, we convert this to the percentage of 68.79 and take only
+ * the integer part, which in this case is 68%.
+ *
+ * @param ns The Netscript API.
+ * @return The minimum chance as an integer percentage of winning a clash
+ *     against any rival gang.
+ */
+function min_victory_chance(ns) {
+    let chance = Infinity;
+    const our_gang = ns.gang.getGangInformation().faction;
+    const other_gang = ns.gang.getOtherGangInformation();
+    for (const g of Object.keys(other_gang)) {
+        if (our_gang == g) {
+            continue;
+        }
+        chance = Math.min(chance, ns.gang.getChanceToWinClash(g));
+    }
+    return Math.floor(chance * 100);
 }
 
 /**
@@ -493,6 +621,7 @@ async function update(ns) {
  */
 export async function main(ns) {
     // Suppress various log messages.
+    ns.disableLog("gang.setTerritoryWarfare");
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Sanity checks.
@@ -510,10 +639,43 @@ export async function main(ns) {
     // strengths of our gang members.
     create_gang(ns, faction);
     const disable = false;
+    const enable = true;
     ns.gang.setTerritoryWarfare(disable);
     const t = new Time();
-    const time = t.second();
+    const time = t.millisecond();
+    let other_gang = ns.gang.getOtherGangInformation();
+    const gangster = new Gangster(ns);
+    // A tick is a period of time as defined by the constant gang_tick.  At the
+    // start of each tick, there is a chance for our gang to clash against any
+    // rival gang.  The tick threshold is the time near the start of a new
+    // tick.  If we are at the tick threshold, then do whatever is necessary to
+    // prepare for a clash against a rival gang.
+    let tick_threshold = 1;
     while (true) {
+        if (enable_turf_war(ns)) {
+            ns.gang.setTerritoryWarfare(enable);
+        } else {
+            ns.gang.setTerritoryWarfare(disable);
+        }
+        // Are we in a new tick?  If we are having a turf war, then let our
+        // gang members fight until a new tick occurs.
+        if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
+            // We want the tick threshold to be a little under the gang_tick.
+            tick_threshold = Date.now() + (gang_tick - t.second());
+            other_gang = ns.gang.getOtherGangInformation();
+            gangster.stop_task(ns.gang.getMemberNames());
+            await update(ns);
+            await ns.sleep(time);
+            continue;
+        }
+        // We are in the same tick.  Is it time to go to war?
+        if (Date.now() > tick_threshold) {
+            if (ns.gang.getGangInformation().territoryWarfareEngaged) {
+                casus_belli(ns);
+                await ns.sleep(time);
+                continue;
+            }
+        }
         await update(ns);
         await ns.sleep(time);
     }

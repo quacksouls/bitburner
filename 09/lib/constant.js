@@ -276,6 +276,12 @@ export const gang_aug_crime = {
 };
 
 /**
+ * The territory and power of each gang is updated approximately every 20
+ * seconds.  We refer to this time period as a tick.
+ */
+export const gang_tick = 20 * 1000;
+
+/**
  * The minimum amount of RAM for a high-end server.
  */
 export const high_ram = 512;
