@@ -262,17 +262,7 @@ function sell_stock(ns, stk) {
  *     false otherwise.
  */
 function skip_buy(ns) {
-    const SKIP = true;
-    const NO_SKIP = !SKIP;
-    if (ns.fileExists(trade_bot_stop, home)) {
-        const m = new Money();
-        const threshold = m.trillion();
-        const player = new Player(ns);
-        if (player.money() < threshold) {
-            return SKIP;
-        }
-    }
-    return NO_SKIP;
+    return ns.fileExists(trade_bot_stop, home);
 }
 
 /**
