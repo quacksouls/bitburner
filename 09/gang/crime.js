@@ -678,7 +678,7 @@ export async function main(ns) {
             // We want the tick threshold to be a little under the gang_tick.
             tick_threshold = Date.now() + (gang_tick - t.second());
             other_gang = ns.gang.getOtherGangInformation();
-            gangster.stop_task(ns.gang.getMemberNames());
+            gangster.traffick_arms(ns.gang.getMemberNames());
             await update(ns);
             await ns.sleep(time);
             continue;
