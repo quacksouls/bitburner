@@ -255,8 +255,7 @@ export class Gangster {
         );
         // Let gang members strongarm civilians.
         for (const s of name) {
-            const current_task = this.#ns.gang.getMemberInformation(s).task;
-            if (task.EXTORT != current_task) {
+            if (!this.is_extortionist(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.EXTORT));
             }
         }
@@ -343,6 +342,19 @@ export class Gangster {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
         return task.TRAFFICK_ARMS == current_task;
+    }
+
+    /**
+     * Whether a gang member is strongarming civilians.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is strongarming civilians;
+     *     false otherwise.
+     */
+    is_extortionist(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.EXTORT == current_task;
     }
 
     /**
