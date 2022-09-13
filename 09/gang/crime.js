@@ -54,10 +54,9 @@ function ascend(ns) {
  */
 function casus_belli(ns) {
     assert(ns.gang.getGangInformation().territoryWarfareEngaged);
+    assert(has_max_members(ns));
     const gangster = new Gangster(ns);
-    const member = ns.gang.getMemberNames();
-    assert(member.length == max_gangster);
-    gangster.turf_war(member);
+    gangster.turf_war(ns.gang.getMemberNames());
 }
 
 /**
@@ -314,7 +313,7 @@ function is_valid_faction(fac) {
  *     in our gang.
  */
 function max_terrorist(ns) {
-    if (ns.gang.getMemberNames().length == max_gangster) {
+    if (has_max_members(ns)) {
         return 0;
     }
     return 1;
@@ -469,20 +468,21 @@ function reassign_robbery(ns, min, max) {
  * @param max The maximum value for the Strength stat.
  */
 function reassign_terrorism(ns, min, max) {
-    let name = ns.gang.getMemberNames();
-    if (has_terrorist(ns) && (name.length < max_gangster)) {
+    if (has_terrorist(ns) && !has_max_members(ns)) {
         return;
     }
     // We already have the maximum number of gang members.  Re-assign the
     // terrorists to trafficking illegal arms.
     const gangster = new Gangster(ns);
-    if (name.length == max_gangster) {
-        name = name.filter(s => gangster.is_terrorist(s));
+    if (has_max_members(ns)) {
+        const name = ns.gang.getMemberNames().filter(
+            s => gangster.is_terrorist(s)
+        );
         gangster.traffick_arms(name);
         return;
     }
     assert(!has_terrorist(ns));
-    assert(ns.gang.getMemberNames().length < max_gangster);
+    assert(!has_max_members(ns));
     // Assign at most this many members to terrorism.
     const threshold = max_terrorist(ns);
     assert(threshold > 0);
