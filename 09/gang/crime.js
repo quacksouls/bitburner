@@ -647,20 +647,22 @@ export async function main(ns) {
         ns.tprint("Cannot create criminal gang within faction: " + faction);
         return;
     }
-    // Create and manage a criminal gang.  By default, we disable territory
-    // warfare.  Instead, we concentrate on recruitment and building the
-    // strengths of our gang members.
-    create_gang(ns, faction);
+    // Create our criminal gang and recruit the first crop of gangsters.  By
+    // default, we disable territory warfare.  Instead, we concentrate on
+    // recruitment and building the strengths of our gang members.
     ns.gang.setTerritoryWarfare(DISABLE);
-    const t = new Time();
-    const time = t.millisecond();
-    let other_gang = ns.gang.getOtherGangInformation();
-    const gangster = new Gangster(ns);
+    create_gang(ns, faction);
+    await recruit(ns);
+    // Manage our gang.
     // A tick is a period of time as defined by the constant gang_tick.  At the
     // start of each tick, there is a chance for our gang to clash against any
     // rival gang.  The tick threshold is the time near the start of a new
     // tick.  If we are at the tick threshold, then do whatever is necessary to
     // prepare for a clash against a rival gang.
+    const t = new Time();
+    const time = t.millisecond();
+    let other_gang = ns.gang.getOtherGangInformation();
+    const gangster = new Gangster(ns);
     let tick_threshold = 1;
     while (true) {
         if (enable_turf_war(ns)) {
