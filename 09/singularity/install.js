@@ -25,31 +25,35 @@ import { join_all_factions } from "/lib/singularity.faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
- * Purchase Augmentations that are exclusive to the faction within which we
- * created our gang.
+ * Purchase Augmentations that are exclusive to various factions.  If we have
+ * a gang within a faction, the faction allows us to purchase Augmentations
+ * that are exclusive to other factions.  Exploit this feature to speed up our
+ * progression through all factions.
  *
  * @param ns The Netscript API.
  */
 function buy_exclusive_augmentations(ns) {
     // The faction within which we created our gang.
-    const faction = ns.gang.getGangInformation().faction;
+    const gang_faction = ns.gang.getGangInformation().faction;
     // Attempt to purchase the exclusive Augmentations.
     const player = new Player(ns);
     const installed = new Set(installed_augmentations(ns));
-    for (const aug of exclusive_aug[faction]) {
-        if (installed.has(aug)) {
-            continue;
+    for (const faction of Object.keys(exclusive_aug)) {
+        for (const aug of exclusive_aug[faction]) {
+            if (installed.has(aug)) {
+                continue;
+            }
+            const fac_rep = ns.singularity.getFactionRep(gang_faction);
+            const aug_rep = ns.singularity.getAugmentationRepReq(aug);
+            if (fac_rep < aug_rep) {
+                continue;
+            }
+            const cost = ns.singularity.getAugmentationPrice(aug);
+            if (player.money() < cost) {
+                continue;
+            }
+            assert(ns.singularity.purchaseAugmentation(gang_faction, aug));
         }
-        const fac_rep = ns.singularity.getFactionRep(faction);
-        const aug_rep = ns.singularity.getAugmentationRepReq(aug);
-        if (fac_rep < aug_rep) {
-            continue;
-        }
-        const cost = ns.singularity.getAugmentationPrice(aug);
-        if (player.money() < cost) {
-            continue;
-        }
-        assert(ns.singularity.purchaseAugmentation(faction, aug));
     }
 }
 
