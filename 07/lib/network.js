@@ -18,6 +18,7 @@
 // A class and various utility functions related to network.
 
 import { home } from "/lib/constant.js";
+import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
 import { assert, filter_pserv } from "/lib/util.js";
 
 /**
@@ -59,8 +60,6 @@ export class Graph {
      *     false otherwise or the edge is already in the graph.
      */
     add_edge(u, v) {
-        const SUCCESS = true;
-        const FAILURE = !SUCCESS;
         // Already have the edge.
         if (this.has_edge(u, v)) {
             return FAILURE;
@@ -95,8 +94,6 @@ export class Graph {
      *     false otherwise or the node already exists in the graph.
      */
     add_node(v) {
-        const SUCCESS = true;
-        const FAILURE = !SUCCESS;
         if (this.has_node(v)) {
             return FAILURE;
         }

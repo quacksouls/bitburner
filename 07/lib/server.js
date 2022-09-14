@@ -16,6 +16,7 @@
  */
 
 import { home, script } from "/lib/constant.js";
+import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -157,8 +158,6 @@ export class Server {
      */
     async deploy(target) {
         assert(target.length > 0);
-        const SUCCESS = true;
-        const FAILURE = !SUCCESS;
         const targ = this.#ns.getServer(target);
         // No root access on either servers.
         if (!this.has_root_access()) {

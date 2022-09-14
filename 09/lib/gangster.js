@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FAILURE, home, money_reserve, SUCCESS } from "/lib/constant.js";
+import { home, money_reserve } from "/lib/constant.js";
+import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
 import {
     armour, gang_aug_crime, task, vehicle, weapon
 } from "/lib/constant.gang.js";

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DISABLE, ENABLE } from "/lib/constant.js";
+import { DISABLE, ENABLE } from "/lib/constant.bool.js";
 import {
     armour, combat_threshold, gang_aug_crime, gang_tick, max_gangster,
     max_vigilante, max_warrior, vehicle, weapon, win_threshold
