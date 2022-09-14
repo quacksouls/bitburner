@@ -18,8 +18,8 @@
 import { DISABLE, ENABLE } from "/lib/constant.bool.js";
 import {
     armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
-    max_vigilante, max_warrior, robbery_tau, terrorism_tau, traffick_tau,
-    vehicle, weapon, win_tau
+    max_vigilante, max_warrior, NO_WAR, robbery_tau, terrorism_tau,
+    traffick_tau, vehicle, WAR, weapon, win_tau
 } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -111,8 +111,6 @@ function decrease_penalty(ns) {
  *     false otherwise.
  */
 function enable_turf_war(ns) {
-    const WAR = true;
-    const NO_WAR = !WAR;
     if (has_all_turf(ns)) {
         return NO_WAR;
     }
