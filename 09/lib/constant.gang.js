@@ -90,9 +90,11 @@ export const max_gangster = 12;
 export const max_vigilante = 4;
 
 /**
- * The maximum number of gang members to assign to territory warfare.  This threshold applies only when we are not engaged in territory warfare against a rival
- * gang.  If we are about to clash against a rival gang, we should devote more members to warfare.  In general, this threshold helps to build our power while we
- * are not engaged in dispute against any rival gang.
+ * The maximum number of gang members to assign to territory warfare.  This
+ * threshold applies only when we are not engaged in territory warfare against
+ * a rival gang.  If we are about to clash against a rival gang, we should
+ * devote more members to warfare.  In general, this threshold helps to build
+ * our power while we are not engaged in dispute against any rival gang.
  */
 export const max_warrior = 4;
 
