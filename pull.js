@@ -108,10 +108,11 @@ function dir_lib() {
     const lib = [
         "lib/array.js",
         "lib/cct.js",
-        "lib/constant.js",
+        "lib/constant.augmentation.js",
         "lib/constant.bool.js",
         "lib/constant.exe.js",
         "lib/constant.gang.js",
+        "lib/constant.js",
         "lib/gangster.js",
         "lib/gangster.util.js",
         "lib/money.js",
