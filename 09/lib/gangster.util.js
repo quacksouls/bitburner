@@ -17,6 +17,7 @@
 
 // Utility functions for managing a gang.
 
+import { initial_gangster } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { assert } from "/lib/util.js";
 
@@ -28,8 +29,11 @@ import { assert } from "/lib/util.js";
  * @param threshold We want to re-assign this many members.
  */
 export function reassign_vigilante(ns, threshold) {
-    const tau = Math.floor(threshold);
+    let tau = Math.floor(threshold);
     assert(tau > 0);
+    if (threshold >= initial_gangster) {
+        tau = 1;
+    }
     // Start choosing the top gangsters.
     let member = ns.gang.getMemberNames();
     assert(member.length > 0);

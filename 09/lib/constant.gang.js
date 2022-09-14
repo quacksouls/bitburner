@@ -64,6 +64,12 @@ export const gang_aug_crime = {
 export const gang_tick = 20 * 1000;
 
 /**
+ * The number of gangsters we can recruit upon creating our gang.  We must earn
+ * more respect to recruit more gang members.
+ */
+export const initial_gangster = 3;
+
+/**
  * The maximum number of members in a gang.  This number is taken from the file:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
