@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { exclusive_aug, stock_tick } from "/lib/constant.js";
+import { TRP } from "/lib/constant.augmentation.js";
 import { all_programs } from "/lib/constant.exe.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
@@ -40,7 +41,7 @@ function buy_exclusive_augmentations(ns) {
     const installed = new Set(installed_augmentations(ns));
     for (const faction of Object.keys(exclusive_aug)) {
         for (const aug of exclusive_aug[faction]) {
-            if (installed.has(aug)) {
+            if (installed.has(aug) || (aug == TRP)) {
                 continue;
             }
             const fac_rep = ns.singularity.getFactionRep(gang_faction);
