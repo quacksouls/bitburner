@@ -17,9 +17,9 @@
 
 import { DISABLE, ENABLE } from "/lib/constant.bool.js";
 import {
-    armour, combat_threshold, extortion_tau, gang_aug_crime, gang_tick,
-    max_gangster, max_vigilante, max_warrior, robbery_tau, terrorism_tau,
-    traffick_tau, vehicle, weapon, win_threshold
+    armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
+    max_vigilante, max_warrior, robbery_tau, terrorism_tau, traffick_tau,
+    vehicle, weapon, win_tau
 } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -116,7 +116,7 @@ function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
         return NO_WAR;
     }
-    if (has_max_members(ns) && (min_victory_chance(ns) >= win_threshold)) {
+    if (has_max_members(ns) && (min_victory_chance(ns) >= win_tau)) {
         return WAR;
     }
     return NO_WAR;
@@ -536,7 +536,7 @@ async function recruit(ns) {
     let newbie = [];
     if (ns.gang.getMemberNames().length < max_gangster) {
         newbie = gangster.recruit();
-        await gangster.train_combat(newbie, combat_threshold);
+        await gangster.train_combat(newbie, combat_tau);
     }
     gangster.mug(newbie);
 }
@@ -552,15 +552,15 @@ async function retrain(ns) {
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
         if (
-            (gangster.strength(s) < combat_threshold)
-                || (gangster.defense(s) < combat_threshold)
-                || (gangster.dexterity(s) < combat_threshold)
-                || (gangster.agility(s) < combat_threshold)
+            (gangster.strength(s) < combat_tau)
+                || (gangster.defense(s) < combat_tau)
+                || (gangster.dexterity(s) < combat_tau)
+                || (gangster.agility(s) < combat_tau)
         ) {
             member.push(s);
         }
     }
-    await gangster.train_combat(member, combat_threshold);
+    await gangster.train_combat(member, combat_tau);
     gangster.mug(member);
 }
 

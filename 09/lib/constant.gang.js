@@ -37,7 +37,7 @@ export const armour = {
  * graduate out of training after their combat stats are at least this
  * threshold.
  */
-export const combat_threshold = 15;
+export const combat_tau = 15;
 
 /**
  * The minimum threshold on a combat stat at which a gang member is to be
@@ -316,4 +316,4 @@ export const weapon = {
  * engage in turf warfare against another gang if our chance of victory is at
  * least this number.
  */
-export const win_threshold = 75;
+export const win_tau = 75;
