@@ -125,7 +125,7 @@ export const exclusive_aug = {
     "Sector-12": ["CashRoot Starter Kit"],
     "Silhouette": ["TITN-41 Gene-Modification Injection"],
     "Slum Snakes": ["SmartSonar Implant"],
-    "Speakers for the Dead": ["Graphene BranchiBlades Upgrade"],
+    "Speakers for the Dead": ["Graphene BrachiBlades Upgrade"],
     "Tetrads": ["Bionic Arms"],
     "Tian Di Hui": ["Social Negotiation Assistant (S.N.A)"],
     "The Black Hand": ["The Black Hand"],
