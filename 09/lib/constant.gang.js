@@ -40,6 +40,14 @@ export const armour = {
 export const combat_threshold = 15;
 
 /**
+ * The minimum threshold on a combat stat at which a gang member is to be
+ * assigned to strongarm civilians.  For example, if a member has Strength at
+ * least this number, then we might want to re-assign the member to strongarm
+ * civilians.
+ */
+export const extortion_tau = 50;
+
+/**
  * All Augmentations that can be equipped on a member of a criminal gang.  The
  * Augmentations are listed from least expensive to most expensive.  The data
  * are taken from this file:
@@ -87,6 +95,13 @@ export const max_vigilante = 4;
  * are not engaged in dispute against any rival gang.
  */
 export const max_warrior = 4;
+
+/**
+ * The minimum threshold on a combat stat at which a gang member is to be
+ * assigned to armed robbery.  For example, if a member has Strength at least
+ * this number, then we might want to re-assign the member to armed robbery.
+ */
+export const robbery_tau = 200;
 
 /**
  * Various tasks to which a gang member can be assigned.  The task names are
@@ -244,6 +259,22 @@ export const task = {
     // Wanted: negative
     "VIGILANTE": "Vigilante Justice"
 };
+
+/**
+ * The minimum threshold on a combat stat at which a gang member is to be
+ * assigned to acts of terrorism.  For example, if a member has Strength at
+ * least this number, then we might want to re-assign the member to commit acts
+ * of terrorism.
+ */
+export const terrorism_tau = 400;
+
+/**
+ * The minimum threshold on a combat stat at which a gang member is to be
+ * assigned to trafficking illegal arms.  For example, if a member has Strength
+ * at least this number, then we might want to re-assign the member to
+ * trafficking illegal arms.
+ */
+export const traffick_tau = 300;
 
 /**
  * Various vehicles with which a gang member can be equipped.  Going from top

@@ -17,8 +17,9 @@
 
 import { DISABLE, ENABLE } from "/lib/constant.bool.js";
 import {
-    armour, combat_threshold, gang_aug_crime, gang_tick, max_gangster,
-    max_vigilante, max_warrior, vehicle, weapon, win_threshold
+    armour, combat_threshold, extortion_tau, gang_aug_crime, gang_tick,
+    max_gangster, max_vigilante, max_warrior, robbery_tau, terrorism_tau,
+    traffick_tau, vehicle, weapon, win_threshold
 } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -419,19 +420,15 @@ function reassign_extortion(ns, min, max) {
 function reassign_members(ns) {
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
-    const ext_threshold = 50;
-    const rob_threshold = 200;
-    const tra_threshold = 300;
-    const ter_threshold = 500;
-    reassign_extortion(ns, ext_threshold, rob_threshold);
-    reassign_robbery(ns, rob_threshold, tra_threshold);
+    reassign_extortion(ns, extortion_tau, robbery_tau);
+    reassign_robbery(ns, robbery_tau, traffick_tau);
     // Try to have at least one gang member assigned to commit acts of
     // terrorism.  This should help to increase our respect so we can recruit
     // more members.  However, if we already have the maximum number of
     // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns, ter_threshold, Infinity);
+    reassign_terrorism(ns, terrorism_tau, Infinity);
     // Assign other high-level members to trafficking illegal arms.
-    reassign_trafficking(ns, tra_threshold, Infinity);
+    reassign_trafficking(ns, traffick_tau, Infinity);
 }
 
 /**
