@@ -43,18 +43,6 @@ export const home = "home";
 export const money_reserve = 50 * (10**6);
 
 /**
- * These programs are port openers.  Each program can be used to open a
- * specific port on a server.
- */
-export const program = [
-    "BruteSSH.exe",
-    "FTPCrack.exe",
-    "HTTPWorm.exe",
-    "relaySMTP.exe",
-    "SQLInject.exe"
-];
-
-/**
  * The prefix for the name of each purchased server.  The very first purchased
  * server is always named "pserv".  Any subsequent purchased server is named as
  * pserv-n, where n is a non-negative integer.

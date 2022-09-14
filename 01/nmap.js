@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour, home, program as popen } from "/lib/constant.js";
+import { colour, home } from "/lib/constant.js";
+import { program as popen } from "/lib/constant.exe.js";
 import { network, shortest_path } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 

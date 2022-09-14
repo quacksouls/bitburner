@@ -19,30 +19,6 @@
 // constants.
 
 /**
- * All programs that can be created.  These programs can also be purchased via
- * the dark web.
- */
-export function all_programs() {
-    // A map where the key/value pair is as follows:
-    //
-    // key := The name of a program.
-    // value := The minimum Hack stat at which we are able to create the
-    //     program.
-    const program = new Map();
-    program.set("BruteSSH.exe", 50);
-    program.set("FTPCrack.exe", 100);
-    program.set("HTTPWorm.exe", 500);
-    program.set("relaySMTP.exe", 250);
-    program.set("SQLInject.exe", 750);
-    program.set("DeepscanV1.exe", 75);
-    program.set("DeepscanV2.exe", 400);
-    program.set("ServerProfiler.exe", 75);
-    program.set("AutoLink.exe", 25);
-    program.set("Formulas.exe", 1000);
-    return program;
-}
-
-/**
  * The maximum number of Augmentations to purchase from a faction.  This number
  * does not include the NeuroFlux Governor.  We limit the number of
  * Augmentations to purchase to help speed up the process of buying all
@@ -197,18 +173,6 @@ export const mid_ram = 128;
 export const money_reserve = 50 * (10**6);
 
 /**
- * These programs are port openers.  Each program can be used to open a
- * specific port on a server.
- */
-export const program = [
-    "BruteSSH.exe",
-    "FTPCrack.exe",
-    "HTTPWorm.exe",
-    "relaySMTP.exe",
-    "SQLInject.exe"
-];
-
-/**
  * The prefix for the name of each purchased server.  The very first purchased
  * server is always named "pserv".  Any subsequent purchased server is named as
  * pserv-n, where n is a non-negative integer.
@@ -231,18 +195,6 @@ export const stock_tick = 6000;
  * subject to certain conditions.  See the trade-bot.js script for more details.
  */
 export const trade_bot_stop = "trade_bot_stop_buy.txt";
-
-/**
- * These are utility programs.  They are useful when we need to manually
- * traverse the network of world servers.
- */
-export const utility_program = [
-    "AutoLink.exe",
-    "DeepscanV1.exe",
-    "DeepscanV2.exe",
-    "Formulas.exe",
-    "ServerProfiler.exe"
-];
 
 /**
  * The minimum required Hack stat to enable a player to work at most companies.

@@ -17,9 +17,8 @@
 
 // Miscellaneous helper functions.
 
-import {
-    all_programs, cities, factions, home, program, trade_bot_stop
-} from "/lib/constant.js";
+import { cities, factions, home, trade_bot_stop } from "/lib/constant.js";
+import { all_programs, program } from "/lib/constant.exe.js";
 
 /**
  * A function for assertion.

@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_programs, home, mid_ram } from "/lib/constant.js";
+import { home, mid_ram } from "/lib/constant.js";
+import { all_programs } from "/lib/constant.exe.js";
 import { study } from "/lib/singularity.study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
