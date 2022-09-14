@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { exclusive_aug, stock_tick } from "/lib/constant.js";
+import { all_programs } from "/lib/constant.exe.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Player } from "/lib/player.js";
@@ -108,7 +109,7 @@ function cost_program(ns) {
     // The program name and its cost.
     const db = new Array();
     const player = new Player(ns);
-    for (const p of ns.singularity.getDarkwebPrograms()) {
+    for (const p of all_programs().keys()) {
         // Must delete the program on our home server, otherwise its cost would
         // be zero.
         if (player.has_program(p)) {
