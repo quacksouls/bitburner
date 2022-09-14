@@ -59,6 +59,43 @@ function buy_exclusive_augmentations(ns) {
 }
 
 /**
+ * Use our gang faction to purchase any other Augmentations we can.
+ *
+ * @param ns The Netscript API.
+ */
+function buy_other_augmentations(ns) {
+    // Sets of Augmentations to exclude.
+    const installed = new Set(installed_augmentations(ns));
+    let exclusive = new Array();
+    for (const fac of Object.keys(exclusive_aug)) {
+        exclusive = exclusive.concat(exclusive_aug[fac]);
+    }
+    exclusive = exclusive.filter(a => a != TRP);
+    exclusive = new Set(exclusive);
+    // Buy other Augmentations available from our gang faction.
+    const faction = ns.gang.getGangInformation().faction;
+    const player = new Player(ns);
+    const augment = ns.singularity.getAugmentationsFromFaction(faction).filter(
+        a => a != TRP
+    );
+    for (const a of augment) {
+        if (installed.has(a) || exclusive.has(a)) {
+            continue;
+        }
+        const fac_rep = ns.singularity.getFactionRep(faction);
+        const aug_rep = ns.singularity.getAugmentationRepReq(a);
+        if (fac_rep < aug_rep) {
+            continue;
+        }
+        const cost = ns.singularity.getAugmentationPrice(a);
+        if (player.money() < cost) {
+            continue;
+        }
+        assert(ns.singularity.purchaseAugmentation(faction, a));
+    }
+}
+
+/**
  * Purchase programs via the dark web as many times as possible.  At this
  * stage, we do not need any more programs to help us with our hacking and
  * faction work.  We buy the programs over and over again to help raise our
@@ -225,6 +262,7 @@ export async function main(ns) {
     // Raise some more Intelligence XP.
     join_all_factions(ns);
     buy_exclusive_augmentations(ns);
+    buy_other_augmentations(ns);
     await buy_programs(ns);
     trade_bot_resume(ns);
     // Set our gang to a state where it at least is working to lower the
