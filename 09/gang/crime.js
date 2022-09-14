@@ -419,7 +419,7 @@ function reassign_extortion(ns, min, max) {
 function reassign_members(ns) {
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
-    const ext_threshold = 150;
+    const ext_threshold = 50;
     const rob_threshold = 200;
     const tra_threshold = 300;
     const ter_threshold = 500;
