@@ -231,10 +231,7 @@ function tolerate_margin(ns, margin, server) {
     assert(m > 0);
     const requirement = serv.hacking_skill();
     assert(h < requirement);
-    if ((h + m) >= requirement) {
-        return true;
-    }
-    return false;
+    return (h + m) >= requirement;
 }
 
 /**

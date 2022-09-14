@@ -112,10 +112,7 @@ function has_target(ns) {
  */
 function is_complete(ns) {
     const lowend = new_low_end(ns);
-    if (0 == lowend.length) {
-        return true;
-    }
-    return false;
+    return 0 == lowend.length;
 }
 
 /**
