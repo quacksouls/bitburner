@@ -109,6 +109,8 @@ function dir_lib() {
         "lib/array.js",
         "lib/cct.js",
         "lib/constant.js",
+        "lib/constant.bool.js",
+        "lib/constant.exe.js",
         "lib/constant.gang.js",
         "lib/gangster.js",
         "lib/gangster.util.js",
