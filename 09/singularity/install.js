@@ -71,6 +71,7 @@ function buy_other_augmentations(ns) {
         exclusive = exclusive.concat(exclusive_aug[fac]);
     }
     exclusive = exclusive.filter(a => a != TRP);
+    exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
     // Buy other Augmentations available from our gang faction.
     const faction = ns.gang.getGangInformation().faction;
