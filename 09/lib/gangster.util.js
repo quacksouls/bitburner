@@ -26,7 +26,9 @@ import { assert } from "/lib/util.js";
  * Our objective is to lower our wanted level.
  *
  * @param ns The Netscript API.
- * @param threshold We want to re-assign this many members.
+ * @param threshold We want to re-assign this many members.  If the given
+ *     threshold is greater than the current number of vigilantes, re-assign
+ *     the others to strongarm civilians.
  */
 export function reassign_vigilante(ns, threshold) {
     let tau = Math.floor(threshold);
@@ -45,6 +47,19 @@ export function reassign_vigilante(ns, threshold) {
         s => gangster.is_vigilante(s)
     );
     if (vigilante.length == tau) {
+        return;
+    }
+    // We have more vigilantes than the given threshold.  Move some members out
+    // of vigilante justice and into strongarm civilians.
+    if (vigilante.length > tau) {
+        let candidate = Array.from(vigilante);
+        const keep = new Array();
+        while (keep.length < tau) {
+            const best = strongest_member(ns, candidate);
+            candidate = candidate.filter(s => s != best);
+            keep.push(best);
+        }
+        gangster.extort(candidate);
         return;
     }
     // If we already have some vigilantes, then add more members to vigilante
