@@ -22,6 +22,8 @@ import { network } from "/lib/network.js";
  * Find coding contracts on world servers.  This script essentially searches
  * the network of world servers to find coding contracts.
  *
+ * Usage: run find-cct.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
