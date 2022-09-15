@@ -17,7 +17,7 @@
 
 // Utility functions for managing a gang.
 
-import { initial_gangster } from "/lib/constant.gang.js";
+import { initial_gangster, max_gangster } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { assert } from "/lib/util.js";
 
@@ -31,10 +31,27 @@ import { assert } from "/lib/util.js";
 export function reassign_vigilante(ns, threshold) {
     let tau = Math.floor(threshold);
     assert(tau > 0);
-    if (threshold >= initial_gangster) {
+    // Lower the threshold, depending on our gang membership.
+    const mid_point = Math.floor(max_gangster / 2);
+    const ngangster = ns.gang.getMemberNames();
+    const gangster = new Gangster(ns);
+    if (ngangster == initial_gangster) {
         tau = 1;
+    } else if ((initial_gangster < ngangster) && (ngangster <= mid_point)) {
+        tau = 2;
     }
-    // Start choosing the top gangsters.
+    // Do we already have the required number of members on vigilante justice?
+    const vigilante = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s)
+    );
+    if (vigilante.length == tau) {
+        return;
+    }
+    // If we already have some vigilantes, then add more members to vigilante
+    // justice to make up the required threshold.
+    assert(vigilante.length < tau);
+    tau = tau - vigilante.length;
+    // Choose the top gangsters and assign them to vigilante justice.
     let member = ns.gang.getMemberNames();
     assert(member.length > 0);
     const name = new Array();
@@ -42,12 +59,9 @@ export function reassign_vigilante(ns, threshold) {
         const best = strongest_member(ns, member);
         member = member.filter(s => s != best);
         name.push(best);
-        if (0 == member.length) {
-            break;
-        }
     }
+    assert(member.length > 0);
     assert(name.length > 0);
-    const gangster = new Gangster(ns);
     gangster.vigilante(name);
 }
 
