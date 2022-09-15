@@ -131,6 +131,10 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
 
     const player = new Player(ns);
-    assert(player.has_tor());
+    const t = new Time();
+    while (!player.has_tor()) {
+        ns.singularity.purchaseTor();
+        await ns.sleep(t.second());
+    }
     await farm_intelligence(ns);
 }
