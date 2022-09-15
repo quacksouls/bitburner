@@ -413,6 +413,25 @@ function penalty(ns) {
 }
 
 /**
+ * Re-assign gang members to some other tasks.
+ *
+ * @param ns The Netscript API.
+ */
+function reassign(ns) {
+    // Assign gang members with mid- to advanced-level stats to more
+    // profitable jobs.
+    reassign_extortion(ns, extortion_tau, robbery_tau);
+    reassign_robbery(ns, robbery_tau, traffick_tau);
+    // Try to have at least one gang member assigned to commit acts of
+    // terrorism.  This should help to increase our respect so we can recruit
+    // more members.  However, if we already have the maximum number of
+    // gangsters, then there is no need to have anyone be terrorists.
+    reassign_terrorism(ns, terrorism_tau, Infinity);
+    // Assign other high-level members to trafficking illegal arms.
+    reassign_trafficking(ns, traffick_tau, Infinity);
+}
+
+/**
  * Re-assign mid-level gang members to strongarm civilians on our turf.
  * Re-assign gang members if their Strength stat is in the half-open interval
  * [min, max).  That is, we include the minimum threshold but exclude the
@@ -431,25 +450,6 @@ function reassign_extortion(ns, min, max) {
         }
     }
     gangster.extort(member);
-}
-
-/**
- * Re-assign gang members to some other tasks.
- *
- * @param ns The Netscript API.
- */
-function reassign_members(ns) {
-    // Assign gang members with mid- to advanced-level stats to more
-    // profitable jobs.
-    reassign_extortion(ns, extortion_tau, robbery_tau);
-    reassign_robbery(ns, robbery_tau, traffick_tau);
-    // Try to have at least one gang member assigned to commit acts of
-    // terrorism.  This should help to increase our respect so we can recruit
-    // more members.  However, if we already have the maximum number of
-    // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns, terrorism_tau, Infinity);
-    // Assign other high-level members to trafficking illegal arms.
-    reassign_trafficking(ns, traffick_tau, Infinity);
 }
 
 /**
@@ -589,7 +589,7 @@ function update(ns) {
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) < penalty_low_tau) {
-            reassign_members(ns);
+            reassign(ns);
             return;
         }
     }
@@ -610,7 +610,7 @@ function update(ns) {
     recruit(ns);
     retrain(ns);
     graduate(ns);
-    reassign_members(ns);
+    reassign(ns);
     equip(ns);
     // Prepare for war.
     para_bellum(ns);
