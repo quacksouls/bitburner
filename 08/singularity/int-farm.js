@@ -88,31 +88,31 @@ async function farm_intelligence(ns) {
  */
 function purchase_interval(ns) {
     const m = new Money();
-    const low = 5 * m.million();
-    const moderate = 10 * m.million();
-    const high = 100 * m.million();
-    const rich = m.billion();
-    const filthy_rich = 100 * m.billion();
+    const low = 100 * m.million();
+    const high = m.billion();
+    const rich = 100 * m.billion();
+    const filthy_rich = 500 * m.billion();
+    const the_mint = m.trillion();
     const t = new Time();
     const player = new Player(ns);
     const money = player.money();
     if (money < low) {
+        return 2 * t.minute();
+    }
+    if ((low <= money) && (money < high)) {
         return t.minute();
     }
-    if ((low <= money) && (money < moderate)) {
-        return 40 * t.second();
-    }
-    if ((moderate <= money) && (money < high)) {
-        return 20 * t.second();
-    }
     if ((high <= money) && (money < rich)) {
-        return 10 * t.second();
+        return 30 * t.second();
     }
     if ((rich <= money) && (money < filthy_rich)) {
-        return 5 * t.second();
+        return 10 * t.second();
     }
-    assert(money >= filthy_rich);
-    return t.second();
+    if ((filthy_rich <= money) && (money < the_mint)) {
+        return t.second();
+    }
+    assert(money >= the_mint);
+    return t.millisecond();
 }
 
 /**
