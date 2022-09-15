@@ -284,7 +284,9 @@ export class Gangster {
         // After training, graduate to mugging random people.
         const graduate = new Array();
         for (const s of name) {
-            assert(this.is_training(s));
+            if (!this.is_training(s)) {
+                continue;
+            }
             if (
                 (this.strength(s) >= min)
                     && (this.defense(s) >= min)
