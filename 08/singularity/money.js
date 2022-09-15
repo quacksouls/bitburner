@@ -84,6 +84,8 @@ function load_chain(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Suppress various log messages.
+    ns.disableLog("sleep");
     // Commit crime to raise some money.
     const player_money = ns.getServerMoneyAvailable(home);
     const home_ram = ns.getServer(home).maxRam;
