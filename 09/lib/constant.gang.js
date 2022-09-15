@@ -113,6 +113,23 @@ export const max_vigilante = 4;
 export const max_warrior = 4;
 
 /**
+ * The penalty percentage threshold at which we should lower our wanted level.
+ * If our penalty percentage is at least this value, then we should re-assign
+ * some gang members to jobs such as vigilante justice or ethical hacking to
+ * help reduce our wanted level.
+ */
+export const penalty_high_tau = 10;
+
+/**
+ * The penalty percentage threshold at which we should move gang members out of
+ * jobs that lower our wanted level.  Such jobs are vigilante justice and
+ * ethical hacking.  In general, we strive to have as low wanted level as
+ * possible.  However, if our wanted level is below this threshold, then we
+ * should re-assign members to jobs that yield income.
+ */
+export const penalty_low_tau = 2;
+
+/**
  * The minimum threshold on a combat stat at which a gang member is to be
  * assigned to armed robbery.  For example, if a member has Strength at least
  * this number, then we might want to re-assign the member to armed robbery.

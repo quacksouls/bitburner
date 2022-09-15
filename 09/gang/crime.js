@@ -18,8 +18,8 @@
 import { DISABLE, ENABLE } from "/lib/constant.bool.js";
 import {
     armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
-    max_vigilante, max_warrior, NO_WAR, robbery_tau, terrorism_tau,
-    traffick_tau, vehicle, WAR, weapon, win_tau
+    max_vigilante, max_warrior, NO_WAR, penalty_high_tau, penalty_low_tau,
+    robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR, weapon, win_tau
 } from "/lib/constant.gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
@@ -568,14 +568,9 @@ async function retrain(ns) {
  * @param ns The Netscript API.
  */
 async function update(ns) {
-    // Do we have anyone on vigilante justice?  We always want our penalty
-    // percentage to be less than high_tau.  If our penalty percentage is at
-    // least high_tau, then try to lower the penalty to below low_tau.
-    // low_tau := lower threshold for penalty percentage
-    // high_tau := upper threshold for penalty percentage
-    const low_tau = 2;
+    // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
-        if (penalty(ns) < low_tau) {
+        if (penalty(ns) < penalty_low_tau) {
             reassign_members(ns);
             return;
         }
@@ -584,9 +579,7 @@ async function update(ns) {
     // threshold, then re-assign some gang members to vigilante justice in
     // order to lower our penalty.  Furthermore, re-assign the remaining
     // members to jobs that attract a lower wanted level.
-    // high_tau := upper threshold for penalty percentage
-    const high_tau = 10;
-    if (penalty(ns) >= high_tau) {
+    if (penalty(ns) >= penalty_high_tau) {
         decrease_penalty(ns);
         return;
     }
