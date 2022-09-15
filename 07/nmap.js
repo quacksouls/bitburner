@@ -435,8 +435,8 @@ function to_string(matrix) {
  * might be more than one shortest path from home to a particular server.  The
  * script chooses to print only one of these shortest paths.
  *
- * When printed to the terminal, various colours are applied to each server
- * name, as explained below.
+ * When printed to the terminal, various colours are used to signify the status
+ * of each server, as explained below.
  *
  * 1. The whole line "serverName (n)[k]" is coloured green.  We have nuked
  *    serverName and now have root access on the server.
@@ -459,7 +459,7 @@ function to_string(matrix) {
  *
  * https://github.com/alainbryden/bitburner-scripts/blob/main/scan.js
  *
- * By default, we do not include purchased servers.
+ * We do not include purchased servers.
  *
  * Usage: run nmap.js
  *
