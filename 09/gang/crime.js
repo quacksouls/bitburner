@@ -183,6 +183,31 @@ function equip(ns) {
 }
 
 /**
+ * Once a new member has completed their training, graduate and assign them
+ * their first job.
+ *
+ @param ns The Netscript API.
+*/
+function graduate(ns) {
+    const member = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if (!gangster.is_training(s)) {
+            continue;
+        }
+        if (
+            (gangster.strength(s) >= combat_tau)
+                && (gangster.defense(s) >= combat_tau)
+                && (gangster.dexterity(s) >= combat_tau)
+                && (gangster.agility(s) >= combat_tau)
+        ) {
+            member.push(s);
+        }
+    }
+    gangster.graduate(member);
+}
+
+/**
  * Whether our gang already controls 100% of the territory.
  *
  * @param ns The Netscript API.
@@ -522,28 +547,24 @@ function reassign_trafficking(ns, min, max) {
 
 /**
  * Recruit as many new members as possible.  Set the newbies to train their
- * combat stats.  After graduating from training, assign the newbies to mug
- * random people on the streets.
+ * combat stats.
  *
  * @param ns The Netscript API.
  */
-async function recruit(ns) {
+function recruit(ns) {
     const gangster = new Gangster(ns);
-    let newbie = [];
     if (ns.gang.getMemberNames().length < max_gangster) {
-        newbie = gangster.recruit();
-        await gangster.train_combat(newbie, combat_tau);
+        const newbie = gangster.recruit();
+        gangster.train_combat(newbie);
     }
-    gangster.mug(newbie);
 }
 
 /**
- * Train the combat stats of other members as necessary.  Once they graduate,
- * get them to start generating some income.
+ * Train the combat stats of other members as necessary.
  *
  * @param ns The Netscript API.
  */
-async function retrain(ns) {
+function retrain(ns) {
     const member = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
@@ -556,8 +577,7 @@ async function retrain(ns) {
             member.push(s);
         }
     }
-    await gangster.train_combat(member, combat_tau);
-    gangster.mug(member);
+    gangster.train_combat(member);
 }
 
 /**
@@ -565,7 +585,7 @@ async function retrain(ns) {
  *
  * @param ns The Netscript API.
  */
-async function update(ns) {
+function update(ns) {
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) < penalty_low_tau) {
@@ -587,8 +607,9 @@ async function update(ns) {
     // and re-equip them.
     ascend(ns);
     // Some training and easy jobs for greenhorn gangsters.
-    await recruit(ns);
-    await retrain(ns);
+    recruit(ns);
+    retrain(ns);
+    graduate(ns);
     reassign_members(ns);
     equip(ns);
     // Prepare for war.
@@ -638,7 +659,7 @@ export async function main(ns) {
     // recruitment and building the strengths of our gang members.
     ns.gang.setTerritoryWarfare(DISABLE);
     create_gang(ns, faction);
-    await recruit(ns);
+    recruit(ns);
     // Manage our gang.
     // A tick is a period of time as defined by the constant gang_tick.  At the
     // start of each tick, there is a chance for our gang to clash against any
@@ -667,7 +688,7 @@ export async function main(ns) {
             tick_threshold = Date.now() + (gang_tick - t.second());
             other_gang = ns.gang.getOtherGangInformation();
             gangster.traffick_arms(ns.gang.getMemberNames());
-            await update(ns);
+            update(ns);
             await ns.sleep(time);
             continue;
         }
@@ -679,7 +700,7 @@ export async function main(ns) {
                 continue;
             }
         }
-        await update(ns);
+        update(ns);
         await ns.sleep(time);
     }
 }

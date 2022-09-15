@@ -263,6 +263,41 @@ export class Gangster {
     }
 
     /**
+     * Graduate each gang member and assign them to mug random people.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.  These members are currently in training and we want
+     *     to graduate them.
+     * @param threshold A gang member transitions to mugging once each of their
+     *     combat stats is at least this amount.
+     */
+    graduate(name, threshold) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        const min = Math.floor(threshold);
+        assert(min > 0);
+        // After training, graduate to mugging random people.
+        const graduate = new Array();
+        for (const s of name) {
+            assert(this.is_training(s));
+            if (
+                (this.strength(s) >= min)
+                    && (this.defense(s) >= min)
+                    && (this.dexterity(s) >= min)
+                    && (this.agility(s) >= min)
+            ) {
+                graduate.push(s);
+            }
+        }
+        this.mug(graduate);
+    }
+
+    /**
      * Whether a gang member has a particular armour piece.
      *
      * @param name A string representing the name of a gang member.
@@ -529,24 +564,6 @@ export class Gangster {
     }
 
     /**
-     * Stop whatever task a gang member is involved in.
-     *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.
-     */
-    stop_task(name) {
-        // Sanity checks.
-        assert(name.length > 0);
-        name.map(
-            s => assert(this.is_member(s))
-        );
-        // Stop the task.
-        name.map(
-            s => assert(this.#ns.gang.setMemberTask(s, task.IDLE))
-        );
-    }
-
-    /**
      * The Strength stat of a gang member.
      *
      * @param name A string representing the name of a gang member.
@@ -605,10 +622,8 @@ export class Gangster {
      * @param name An array each of whose elements is a string that represents
      *     a member name.  We want to raise the combat stats of each of these
      *     members.
-     * @param threshold Train the given members in combat until each of their
-     *     combat stats is at least this amount.  Must be a positive integer.
      */
-    async train_combat(name, threshold) {
+    train_combat(name) {
         // Sanity checks.
         if (0 == name.length) {
             return;
@@ -616,32 +631,13 @@ export class Gangster {
         name.map(
             s => assert(this.is_member(s))
         );
-        const min = Math.floor(threshold);
-        assert(min > 0);
         // Combat training.
-        let member = Array.from(name);
-        member.map(
-            s => assert(this.#ns.gang.setMemberTask(s, task.COMBAT))
-        );
-        const t = new Time();
-        const time = t.millisecond();
-        while (member.length > 0) {
-            for (const s of member) {
-                if (
-                    (this.strength(s) >= min)
-                        && (this.defense(s) >= min)
-                        && (this.dexterity(s) >= min)
-                        && (this.agility(s) >= min)
-                ) {
-                    member = member.filter(m => m != s);
-                    break;
-                }
+        for (const s of name) {
+            if (this.is_training(s)) {
+                continue;
             }
-            await this.#ns.sleep(time);
+            assert(this.#ns.gang.setMemberTask(s, task.COMBAT));
         }
-        // The combat stats of each member is at least the given threshold.
-        // Now quit training.
-        this.stop_task(name);
     }
 
     /**
