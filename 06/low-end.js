@@ -19,7 +19,7 @@ import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
-import { assert, filter_pserv } from "/lib/util.js";
+import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
 
 /**
  * All low-end servers against which our hacking script is targetting.
@@ -152,13 +152,13 @@ function is_low_end(ns, hostname) {
  * A bankrupt server can be low-end if it lacks the required amount of RAM to
  * run our hack script using one thread.  Although we would not obtain any money
  * from hacking a low-end bankrupt server, we would still obtain some hacking
- * XP.
+ * XP.  We exclude all low-end bankrupt servers.
  *
  * @param ns The Netscript API.
- * @return An array of low-end servers.
+ * @return An array of low-end servers, not including low-end bankrupt servers.
  */
 function low_end_servers(ns) {
-    const server = filter_pserv(ns, network(ns));
+    const server = filter_bankrupt_servers(ns, filter_pserv(ns, network(ns)));
     const lowend = new Array();
     for (const s of server) {
         if (is_low_end(ns, s)) {
