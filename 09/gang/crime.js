@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DISABLE, ENABLE } from "/lib/constant.bool.js";
+import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant.bool.js";
 import {
     armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
     max_vigilante, max_warrior, NO_WAR, penalty_high_tau, penalty_low_tau,
@@ -266,8 +266,6 @@ function is_in_war(ns) {
  * @return true if we are in a new tick; false otherwise.
  */
 function is_new_tick(ns, other) {
-    const NEW = true;
-    const NOT_NEW = !NEW;
     const current = ns.gang.getOtherGangInformation();
     for (const g of Object.keys(current)) {
         if (
