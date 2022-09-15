@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { NO_SKIP, SKIP } from "/lib/constant.bool.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -181,8 +182,6 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
  * @return true if we are to skip over the given server; false otherwise.
  */
 function skip_server(ns, server, script, margin) {
-    const SKIP = true;      // Skip this server.
-    const NO_SKIP = !SKIP;  // Don't skip over this server.
     const serv = new Server(ns, server);
     const player = new Player(ns);
     const m = Math.floor(margin);

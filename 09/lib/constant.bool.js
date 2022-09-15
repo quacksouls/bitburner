@@ -38,6 +38,16 @@ export const NEW = true;
 export const NOT_NEW = !NEW;
 
 /**
+ * A boolean signifying that we are to skip an action.
+ */
+export const SKIP = true;
+
+/**
+ * A boolean signifying that we must not skip an action.
+ */
+export const NO_SKIP = !SKIP;
+
+/**
  * A boolean indicating success or true.
  */
 export const SUCCESS = true;

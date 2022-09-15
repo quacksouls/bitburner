@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { NO_SKIP, SKIP } from "/lib/constant.bool.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -204,8 +205,6 @@ function new_low_end(ns) {
  */
 function skip_low_end(ns, host) {
     assert(is_low_end(ns, host));
-    const SKIP = true;
-    const NO_SKIP = !SKIP;
     const player = new Player(ns);
     const server = new Server(ns, host);
     if (player.hacking_skill() < server.hacking_skill()) {

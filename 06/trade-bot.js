@@ -18,6 +18,7 @@
 import {
     home, money_reserve, pserv_prefix, stock_tick, trade_bot_stop
 } from "/lib/constant.js";
+import { NO_SKIP, SKIP } from "/lib/constant.bool.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -273,8 +274,6 @@ function skip_buy(ns) {
  * @return true if we are to skip this stock; false otherwise.
  */
 function skip_stock(ns, stk) {
-    const SKIP = true;
-    const NO_SKIP = !SKIP;
     const forecast_threshold = 0.575;
     const volatility_threshold = 0.05;
     // Skip if there is a low chance of increase in the next tick.
