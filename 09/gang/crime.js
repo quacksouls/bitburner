@@ -86,7 +86,9 @@ function decrease_penalty(ns) {
     reassign_vigilante(ns, max_vigilante);
     const name = new Array();
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
+    const member = ns.gang.getMemberNames();
+    gangster.graduate(member, combat_tau);
+    for (const s of member) {
         if (gangster.is_vigilante(s) || gangster.is_mugger(s)) {
             continue;
         }
@@ -204,7 +206,7 @@ function graduate(ns) {
             member.push(s);
         }
     }
-    gangster.graduate(member);
+    gangster.graduate(member, combat_tau);
 }
 
 /**
