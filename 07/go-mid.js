@@ -32,7 +32,10 @@ async function reboot(ns) {
     const t = new Time();
     const time = t.minute();
     const script = [
-        "hnet-farm.js", target, "buy-server.js", "/cct/solver.js"
+        "hnet-farm.js",
+        target,
+        "buy-server.js",
+        "/cct/solver.js"
     ];
     script.map(
         s => ns.exec(s, home, nthread)
