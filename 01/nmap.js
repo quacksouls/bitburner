@@ -459,13 +459,37 @@ function to_string(matrix) {
  *
  * https://github.com/alainbryden/bitburner-scripts/blob/main/scan.js
  *
- * We do not include purchased servers.
+ * We do not include purchased servers.  The script accepts a command line
+ * argument, i.e. the hostname of the server for which we want a status report.
+ * Without a command line argument, the script prints a map of the whole
+ * network of world servers.
  *
- * Usage: run nmap.js
+ * Usage: run nmap.js [hostname]
+ * Example: run nmap.js
+ * Example: run nmap.js n00dles
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Sanity check.
+    if (ns.args.length > 1) {
+        let msg = "Usage: run nmap.js [hostname]\n\n"
+        msg += "hostname -- (optional) Hostname of target server.";
+        ns.tprint(msg);
+        return;
+    }
+    // Print the status of a server.
+    if (1 == ns.args.length) {
+        const host = ns.args[0];
+        const server = new Set(network(ns));
+        if (!server.has(host)) {
+            ns.tprint("Server not found: " + host);
+            return;
+        }
+        ns.tprint(decorate(ns, host));
+        return;
+    }
+    // A network map with status of each server.
     const path = all_shortest_paths(ns);
     display_tree(ns, path);
 }
