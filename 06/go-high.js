@@ -27,8 +27,12 @@ import { home } from "/lib/constant.js";
 function reboot(ns) {
     const nthread = 1;
     const script = [
-        "low-end.js", "world-server.js", "hnet-farm.js",
-        "buy-server.js", "trade-bot.js", "/cct/solver.js"
+        "low-end.js",
+        "world-server.js",
+        "hnet-farm.js",
+        "buy-server.js",
+        "trade-bot.js",
+        "/cct/solver.js"
     ];
     script.map(
         s => ns.exec(s, home, nthread)
