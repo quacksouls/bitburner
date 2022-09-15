@@ -53,7 +53,7 @@ function buy_exclusive_augmentations(ns) {
             if (player.money() < cost) {
                 continue;
             }
-            assert(ns.singularity.purchaseAugmentation(gang_faction, aug));
+            ns.singularity.purchaseAugmentation(gang_faction, aug);
         }
     }
 }
