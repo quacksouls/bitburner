@@ -64,17 +64,22 @@ async function commit_crimes(ns, threshold) {
  * (1) /singularity/daemon.js := This script determines whether we should be
  *     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
  *     not met for the server to appear in the game world.
- * (2) /singularity/program.js := This script attempts to purchase port opener
+ * (2) /singularity/int-farm.js := This script passively farms Intelligence XP.
+ * (3) /singularity/program.js := This script attempts to purchase port opener
  *     programs.  We need all five port opener programs so we can open all
  *     ports of each server.
- * (3) /gang/slum-snakes.js := Join the Slum Snakes faction as preparation for
+ * (4) /gang/slum-snakes.js := Join the Slum Snakes faction as preparation for
  *     creating a gang within that faction.
  *
  * @param ns The Netscript API.
  */
 async function load_chain(ns) {
     const slum_snakes_script = "/gang/slum-snakes.js";
-    const script = ["/singularity/daemon.js", slum_snakes_script];
+    const script = [
+        "/singularity/daemon.js",
+        "/singularity/int-farm.js",
+        slum_snakes_script
+    ];
     const nthread = 1;
     script.map(
         s => ns.exec(s, home, nthread)

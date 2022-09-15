@@ -176,6 +176,7 @@ function dir_singularity() {
         "singularity/faction.js",
         "singularity/home.js",
         "singularity/install.js",
+        "singularity/int-farm.js",
         "singularity/money.js",
         "singularity/program.js",
         "singularity/study.js"

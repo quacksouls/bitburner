@@ -58,19 +58,29 @@ async function commit_crimes(ns, threshold) {
 }
 
 /**
- * Chain load the next scripts.  The script "/singularity/daemon.js" determines
- * whether we should be hacking the w0r1d_d43m0n server.  It terminates if the
- * conditions are not met for the server to appear in the game world.  The
- * script "/singularity/program.js" attempts to purchase port opener programs.
+ * Chain load the next scripts.  Here is a brief description of the purpose of
+ * each script.
+ *
+ * (1) /singularity/daemon.js := This script determines whether we should be
+ *     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
+ *     not met for the server to appear in the game world.
+ * (2) /singularity/int-farm.js := This script passively farms Intelligence XP.
+ * (3) /singularity/program.js := This script attempts to purchase port opener
+ *     programs.  We need all five port opener programs so we can open all
+ *     ports of each server.
  *
  * @param ns The Netscript API.
  */
 function load_chain(ns) {
-    const script = ["/singularity/daemon.js", "/singularity/program.js"];
+    const script = [
+        "/singularity/daemon.js",
+        "/singularity/int-farm.js",
+        "/singularity/program.js"
+    ];
     const nthread = 1;
-    for (const s of script) {
-        ns.exec(s, home, nthread);
-    }
+    script.map(
+        s => ns.exec(s, home, nthread)
+    );
 }
 
 /**
