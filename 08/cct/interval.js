@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { INVALID, VALID } from "/lib/constant.bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -91,17 +92,15 @@ function merge_interval(intA, intB) {
  * @return true if each interval is valid; false otherwise.
  */
 function valid_interval(array) {
-    const VALID = true;
-    const NOT_VALID = !VALID;
     assert(array.length > 0);
     for (let i = 0; i < array.length; i++) {
         const arr = array[i];
         if (arr.length != 2) {
-            return NOT_VALID;
+            return INVALID;
         }
         const [a, b] = arr;
         if (a >= b) {
-            return NOT_VALID;
+            return INVALID;
         }
     }
     return VALID;

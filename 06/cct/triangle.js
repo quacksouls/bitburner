@@ -18,6 +18,7 @@
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
+import { INVALID, VALID } from "/lib/constant.bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -123,19 +124,17 @@ function descend(triangle) {
  */
 function is_triangle(triangle) {
     assert(triangle.length > 0);
-    const VALID = true;
-    const NOT_VALID = !VALID;
     for (let i = 0; i < triangle.length - 1; i++) {
         const top = triangle[i];
         const bottom = triangle[i + 1];
         if (top.length < 1) {
-            return NOT_VALID;
+            return INVALID;
         }
         if (bottom.length < 1) {
-            return NOT_VALID;
+            return INVALID;
         }
         if (top.length != (bottom.length - 1)) {
-            return NOT_VALID;
+            return INVALID;
         }
     }
     return VALID;

@@ -16,6 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { INVALID, VALID } from "/lib/constant.bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -98,11 +99,9 @@ function extract_octets(string, i, j, k) {
  */
 function is_valid_ip(octet) {
     assert(4 == octet.length);
-    const VALID = true;
-    const NOT_VALID = !VALID;
     for (const seg of octet) {
         if (!is_valid_octet(seg)) {
-            return NOT_VALID;
+            return INVALID;
         }
     }
     return VALID;
@@ -116,13 +115,11 @@ function is_valid_ip(octet) {
  */
 function is_valid_octet(octet) {
     assert(octet.length > 0);
-    const VALID = true;
-    const NOT_VALID = !VALID;
     // An octet cannot begin with '0'.  The exception to this rule
     // is when the octet itself represents the number 0.
     if ("0" == octet[0]) {
         if ("0" != octet) {
-            return NOT_VALID;
+            return INVALID;
         }
     }
     // An octet represents an integer between 0 and 255, inclusive.
@@ -133,7 +130,7 @@ function is_valid_octet(octet) {
     if ((min <= n) && (n <= max)) {
         return VALID;
     }
-    return NOT_VALID;
+    return INVALID;
 }
 
 /**

@@ -46,3 +46,14 @@ export const SUCCESS = true;
  * A boolean indicating failure or false; the opposite of success.
  */
 export const FAILURE = !SUCCESS;
+
+/**
+ * A boolean indicating that something is right or correct.
+ */
+export const VALID = true;
+
+/**
+ * A boolean indicating that something is not right, incorrect, or wrong.
+ * Opposite of valid.
+ */
+export const INVALID = !VALID;
