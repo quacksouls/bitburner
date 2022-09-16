@@ -22,13 +22,13 @@ import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Choose one of the cheapest programs that are available via the dark web.
- * The program cannot be one of the port openers, i.e. BruteSSH.exe,
- * FTPCrack.exe, HTTPWorm.exe, relaySMTP.exe, SQLInject.exe.
+ * Choose one of the cheapest programs available via the dark web.  The program
+ * cannot be any of the port openers, i.e. BruteSSH.exe, FTPCrack.exe,
+ * HTTPWorm.exe, relaySMTP.exe, SQLInject.exe.
  *
  * @param ns The Netscript API.
  * @return A string representing the name of one of the cheapest programs.
- *     Cannot be a port opener program.
+ *     Cannot be a port opener.
  */
 function cheapest_program(ns) {
     const player = new Player(ns);
@@ -62,57 +62,70 @@ async function farm_intelligence(ns) {
     // the cheapest programs.
     const m = new Money();
     const min_money = 10 * m.million();
-    // Must delete the program if we have it.  After purchasing the program,
+    // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
     const player = new Player(ns);
     const p = cheapest_program(ns);
     ns.rm(p, player.home());
     while (true) {
+        const [k, time] = purchase_schedule(ns);
         if (player.money() < min_money) {
-            await ns.sleep(purchase_interval(ns));
+            await ns.sleep(time);
             continue;
         }
-        assert(ns.singularity.purchaseProgram(p));
-        assert(ns.rm(p, player.home()));
-        await ns.sleep(purchase_interval(ns));
+        for (let i = 0; i < k; i++) {
+            assert(ns.singularity.purchaseProgram(p));
+            assert(ns.rm(p, player.home()));
+        }
+        await ns.sleep(time);
     }
 }
 
 /**
- * The amount of time that must pass before we attempt another purchase.  The
- * purchase interval varies, depending on the amount of money we have.  The
- * higher is our money, the lower is the purchase interval.
+ * The purchase schedule, which tells us how many programs to buy and the
+ * amount of time to sleep between successive purchases.  Both the number of
+ * programs to buy and the sleep interval vary, depending on the amount of
+ * money we have.  The higher is our money, the lower is the sleep interval and
+ * the more programs we buy.
  *
  * @param ns The Netscript API.
- * @return The interval in milliseconds between successive purchases.
+ * @return An array [k, t] as follows:
+ *
+ *     (1) k := How many programs to purchase.  We buy this many programs in
+ *         one go, then sleep.
+ *     (2) t := The interval in milliseconds between successive purchases.
+ *         We buy a bunch of programs, then sleep for this interval.
  */
-function purchase_interval(ns) {
+function purchase_schedule(ns) {
+    // The money ranges.
     const m = new Money();
-    const low = 100 * m.million();
-    const high = m.billion();
-    const rich = 100 * m.billion();
-    const filthy_rich = 500 * m.billion();
-    const the_mint = m.trillion();
+    const money = [
+        0,
+        100 * m.million(),
+        m.billion(),
+        100 * m.billion(),
+        500 * m.billion(),
+        m.trillion(),
+        Infinity
+    ];
+    // The sleep intervals.
     const t = new Time();
+    const time = [
+        2 * t.minute(),
+        t.minute(),
+        30 * t.second(),
+        10 * t.second(),
+        t.second(),
+        t.millisecond()
+    ];
     const player = new Player(ns);
-    const money = player.money();
-    if (money < low) {
-        return 2 * t.minute();
+    const funds = player.money();
+    const max = money.length - 2;
+    for (let i = 0; i < max; i++) {
+        if ((money[i] <= funds) && (funds < money[i + 1])) {
+            return [i + 1, time[i]];
+        }
     }
-    if ((low <= money) && (money < high)) {
-        return t.minute();
-    }
-    if ((high <= money) && (money < rich)) {
-        return 30 * t.second();
-    }
-    if ((rich <= money) && (money < filthy_rich)) {
-        return 10 * t.second();
-    }
-    if ((filthy_rich <= money) && (money < the_mint)) {
-        return t.second();
-    }
-    assert(money >= the_mint);
-    return t.millisecond();
 }
 
 /**
