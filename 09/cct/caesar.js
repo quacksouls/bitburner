@@ -64,7 +64,7 @@ function caesar(plaintext, k) {
         // Index of the ciphertext character.
         let j = char_index(ptxt[i]) - ell;
         if (j < 0) {
-            j = n + j;
+            j += n;
         }
         ciphertext += alphabet[j];
     }
