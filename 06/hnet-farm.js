@@ -16,6 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
+import { node_max_level } from "/lib/constant.hacknet.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -90,7 +91,7 @@ function is_upgrade_core_ram(ns, idx) {
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
     const IS_TIME = true;
     const NOT_TIME = !IS_TIME;
-    if (node_level(ns, idx) == max_level()) {
+    if (node_level(ns, idx) == node_max_level) {
         return IS_TIME;
     }
     const interval = 30;
@@ -99,15 +100,6 @@ function is_upgrade_core_ram(ns, idx) {
         return IS_TIME;
     }
     return NOT_TIME;
-}
-
-/**
- * The maximum Level of a Hacknet node.  This number is taken from the file
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
- */
-function max_level() {
-    return 200;
 }
 
 /**
