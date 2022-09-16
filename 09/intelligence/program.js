@@ -58,10 +58,7 @@ function can_create(ns, program) {
     const prog = all_programs();
     const threshold = prog.get(program);
     assert(threshold > 0);
-    if (ns.getHackingLevel() >= threshold) {
-        return true;
-    }
-    return false;
+    return ns.getHackingLevel() >= threshold;
 }
 
 /**
