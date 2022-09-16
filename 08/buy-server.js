@@ -73,10 +73,7 @@ async function buy_servers(ns) {
 function has_max_pserv(ns) {
     const player = new Player(ns);
     const pserv = new PurchasedServer(ns);
-    if (player.pserv().length < pserv.limit()) {
-        return false;
-    }
-    return true;
+    return player.pserv().length == pserv.limit();
 }
 
 /**
