@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { factions, home } from "/lib/constant.js";
+import { home } from "/lib/constant.js";
+import { factions } from "/lib/constant.faction.js";
 import { owned_augmentations } from "/lib/singularity.augmentation.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 

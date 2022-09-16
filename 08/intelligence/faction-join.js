@@ -18,7 +18,7 @@
 import {
     has_invitation, intelligence, intelligence_gain
 } from "/intelligence/util.js";
-import { all_factions } from "/lib/constant.js";
+import { factions } from "/lib/constant.faction.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -30,7 +30,7 @@ import { assert } from "/lib/util.js";
  */
 function is_valid_faction(fac) {
     assert(fac.length > 0);
-    const faction = new Set(all_factions());
+    const faction = new Set(factions);
     return faction.has(fac);
 }
 

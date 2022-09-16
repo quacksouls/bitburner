@@ -17,7 +17,8 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { aug_purchase_limit, home, work_hack_lvl } from "/lib/constant.js";
+import { home, work_hack_lvl } from "/lib/constant.js";
+import { aug_purchase_limit } from "/lib/constant.faction.js";
 import { commit_crime } from "/lib/singularity.crime.js";
 import { work } from "/lib/singularity.work.js";
 import { Time } from "/lib/time.js";

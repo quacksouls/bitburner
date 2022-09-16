@@ -16,8 +16,8 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { exclusive_aug, stock_tick } from "/lib/constant.js";
-import { TRP } from "/lib/constant.augmentation.js";
+import { stock_tick } from "/lib/constant.js";
+import { exclusive_aug, augment } from "/lib/constant.faction.js";
 import { all_programs } from "/lib/constant.exe.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
@@ -41,7 +41,7 @@ function buy_exclusive_augmentations(ns) {
     const installed = new Set(installed_augmentations(ns));
     for (const faction of Object.keys(exclusive_aug)) {
         for (const aug of exclusive_aug[faction]) {
-            if (installed.has(aug) || (aug == TRP)) {
+            if (installed.has(aug) || (aug == augment.TRP)) {
                 continue;
             }
             const fac_rep = ns.singularity.getFactionRep(gang_faction);
@@ -70,16 +70,16 @@ function buy_other_augmentations(ns) {
     for (const fac of Object.keys(exclusive_aug)) {
         exclusive = exclusive.concat(exclusive_aug[fac]);
     }
-    exclusive = exclusive.filter(a => a != TRP);
+    exclusive = exclusive.filter(a => a != augment.TRP);
     exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
     // Buy other Augmentations available from our gang faction.
     const faction = ns.gang.getGangInformation().faction;
     const player = new Player(ns);
-    const augment = ns.singularity.getAugmentationsFromFaction(faction).filter(
-        a => a != TRP
+    const aug = ns.singularity.getAugmentationsFromFaction(faction).filter(
+        a => a != augment.TRP
     );
-    for (const a of augment) {
+    for (const a of aug) {
         if (installed.has(a) || exclusive.has(a)) {
             continue;
         }
