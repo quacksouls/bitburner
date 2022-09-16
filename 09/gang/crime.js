@@ -21,8 +21,8 @@ import {
     max_vigilante, max_warrior, NO_WAR, penalty_high_tau, penalty_low_tau,
     robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR, weapon, win_tau
 } from "/lib/constant/gang.js";
-import { Gangster } from "/lib/gangster.js";
-import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
+import { Gangster } from "/lib/gang/gangster.js";
+import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
