@@ -109,10 +109,7 @@ function has_api_access(ns) {
 function has_funds(ns) {
     const player = new Player(ns);
     const multiplier = 1.1;
-    if (player.money() <= multiplier * money_reserve) {
-        return false;
-    }
-    return true;
+    return player.money() > (multiplier * money_reserve);
 }
 
 /**
@@ -158,10 +155,7 @@ function is_profitable(ns, stk) {
     const nlong = position[0];
     // Assume we have at least 1 share of the stock.
     assert(nlong > 0);
-    if (ns.stock.getSaleGain(stk, nlong, "Long") > 0) {
-        return true;
-    }
-    return false;
+    return ns.stock.getSaleGain(stk, nlong, "Long") > 0;
 }
 
 /**
@@ -173,10 +167,7 @@ function is_profitable(ns, stk) {
  */
 function meet_money_threshold(ns) {
     const player = new Player(ns);
-    if (player.money() < money_reserve) {
-        return false;
-    }
-    return true;
+    return player.money() >= money_reserve;
 }
 
 /**
