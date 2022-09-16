@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { pserv_prefix } from "/lib/constant.js";
+import { min_pserv } from "/lib/constant.pserv.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
@@ -38,13 +39,12 @@ async function buy_servers(ns) {
     // 2 threads.
     const pserv = new PurchasedServer(ns);
     const default_ram = pserv.default_ram();
-    // By default, we want to purchase minserv servers.  As for the remaining
+    // By default, we want to purchase min_pserv servers.  As for the remaining
     // servers that make up the number to reach the maximum number of purchased
     // servers, we wait until we have enough money to purchase each of them.
-    // Set minserv to a small number so we can bootstrap a source of passive
-    // income and Hack points
-    const minserv = 13;
-    let ram = pserv_ram(ns, minserv);
+    // The constant min_pserv should be a small number so we can bootstrap a
+    // source of passive income and Hack XP.
+    let ram = pserv_ram(ns, min_pserv);
     if (ram <= default_ram) {
         // Try to purchase servers, each with the default amount of ram.
         await stage_one(ns);
