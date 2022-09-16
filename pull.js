@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// NOTE: Do not import anything into this script.  The script should be
+// self-contained and independent.
+
 /**
  * A function for assertion.
  *
