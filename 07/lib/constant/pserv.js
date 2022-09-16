@@ -17,8 +17,12 @@
 
 // A bunch of constant values related to purchased servers.
 
-/**
- * By default, we purchase this many servers to kickstart our farm of
- * purchased servers as an early source of income and Hack XP.
- */
-export const min_pserv = 13;
+export const pserv = {
+    // By default, we purchase this many servers to kickstart our farm of
+    // purchased servers as an early source of income and Hack XP.
+    "MIN": 13,
+    // The prefix for the name of each purchased server.  The very first
+    // purchased server is always named "pserv".  Any subsequent purchased
+    // server is named as pserv-n, where n is a non-negative integer.
+    "PREFIX": "pserv"
+};

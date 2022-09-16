@@ -16,7 +16,7 @@
  */
 
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { home } from "/lib/constant.js";
+import { home } from "/lib/constant/misc.js";
 import {
     choose_augmentation, has_augmentation, nfg, prerequisites
 } from "/lib/singularity.augmentation.js";

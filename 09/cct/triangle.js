@@ -18,7 +18,7 @@
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
-import { INVALID, VALID } from "/lib/constant.bool.js";
+import { INVALID, VALID } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
 
 /**

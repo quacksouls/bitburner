@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, work_hack_lvl } from "/lib/constant.js";
+import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { purchase_augmentations } from "/lib/singularity.augmentation.js";
 import { lower_karma } from "/lib/singularity.crime.js";

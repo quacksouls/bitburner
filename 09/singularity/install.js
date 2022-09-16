@@ -16,9 +16,9 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { stock_tick } from "/lib/constant.js";
-import { exclusive_aug, augment } from "/lib/constant.faction.js";
-import { all_programs } from "/lib/constant.exe.js";
+import { stock_tick } from "/lib/constant/misc.js";
+import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import { all_programs } from "/lib/constant/exe.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante } from "/lib/gangster.util.js";
 import { Player } from "/lib/player.js";
@@ -174,8 +174,8 @@ function cost_program(ns) {
  *     false otherwise.
  */
 function has_augmentations(ns) {
-    const augment = purchased_augmentations(ns);
-    return augment.length > 0;
+    const aug = purchased_augmentations(ns);
+    return aug.length > 0;
 }
 
 /**

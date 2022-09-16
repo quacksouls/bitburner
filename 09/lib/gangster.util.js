@@ -17,7 +17,7 @@
 
 // Utility functions for managing a gang.
 
-import { initial_gangster, max_gangster } from "/lib/constant.gang.js";
+import { initial_gangster, max_gangster } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { assert } from "/lib/util.js";
 

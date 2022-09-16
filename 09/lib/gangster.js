@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, money_reserve } from "/lib/constant.js";
-import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
+import { home, money_reserve } from "/lib/constant/misc.js";
+import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
 import {
     armour, gang_aug_crime, task, vehicle, weapon
-} from "/lib/constant.gang.js";
+} from "/lib/constant/gang.js";
 import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 

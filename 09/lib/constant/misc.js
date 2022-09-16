@@ -19,6 +19,18 @@
 // constants.
 
 /**
+ * All cities in the game world.
+ */
+export const cities = [
+    "Aevum",
+    "Chongqing",
+    "Ishima",
+    "New Tokyo",
+    "Sector-12",
+    "Volhaven"
+];
+
+/**
  * Use ANSI escape codes to add colour.  Refer to this page for more details:
  *
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -31,9 +43,37 @@ export const colour = {
 };
 
 /**
+ * All available crimes.
+ */
+export const crimes = [
+    "assassinate",
+    "bond forgery",
+    "deal drugs",
+    "grand theft auto",
+    "heist",
+    "homicide",
+    "kidnap and ransom",
+    "larceny",
+    "mug someone",
+    "rob store",
+    "shoplift",
+    "traffick illegal arms"
+];
+
+/**
+ * The minimum amount of RAM for a high-end server.
+ */
+export const high_ram = 512;
+
+/**
  * The home server of the player.
  */
 export const home = "home";
+
+/**
+ * The amount of RAM for a mid-sized home server.
+ */
+export const mid_ram = 128;
 
 /**
  * Always have this amount of money in reserve.  When engaging in any
@@ -41,13 +81,6 @@ export const home = "home";
  * if doing so would leave us with at least this amount of money left over.
  */
 export const money_reserve = 50 * (10**6);
-
-/**
- * The prefix for the name of each purchased server.  The very first purchased
- * server is always named "pserv".  Any subsequent purchased server is named as
- * pserv-n, where n is a non-negative integer.
- */
-export const pserv_prefix = "pserv";
 
 /**
  * The hack script.  This script is used for hacking a server.
@@ -65,3 +98,8 @@ export const stock_tick = 6000;
  * subject to certain conditions.  See the trade-bot.js script for more details.
  */
 export const trade_bot_stop = "trade_bot_stop_buy.txt";
+
+/**
+ * The minimum required Hack stat to enable a player to work at most companies.
+ */
+export const work_hack_lvl = 250;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NO_SKIP, SKIP } from "/lib/constant.bool.js";
+import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";

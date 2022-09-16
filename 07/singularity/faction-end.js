@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js"
+import { home } from "/lib/constant/misc.js"
 import { Money } from "/lib/money.js";
 import {
     owned_augmentations, purchase_augmentations

@@ -17,8 +17,8 @@
 
 // A class and various utility functions related to network.
 
-import { home } from "/lib/constant.js";
-import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
+import { home } from "/lib/constant/misc.js";
+import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
 import { assert, filter_pserv } from "/lib/util.js";
 
 /**

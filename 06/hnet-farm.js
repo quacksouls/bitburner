@@ -16,7 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { node_max_level } from "/lib/constant.hacknet.js";
+import { node_max_level } from "/lib/constant/hacknet.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";

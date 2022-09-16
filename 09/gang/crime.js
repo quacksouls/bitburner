@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant.bool.js";
+import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant/bool.js";
 import {
     armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
     max_vigilante, max_warrior, NO_WAR, penalty_high_tau, penalty_low_tau,
     robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR, weapon, win_tau
-} from "/lib/constant.gang.js";
+} from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gangster.util.js";
 import { Time } from "/lib/time.js";

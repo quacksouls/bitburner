@@ -16,7 +16,7 @@
  */
 
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { home } from "/lib/constant.js";
+import { home } from "/lib/constant/misc.js";
 
 /**
  * Determine the amount of Intelligence XP gained from installing

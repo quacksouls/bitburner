@@ -16,9 +16,10 @@
  */
 
 import {
-    home, money_reserve, pserv_prefix, stock_tick, trade_bot_stop
-} from "/lib/constant.js";
-import { NO_SKIP, SKIP } from "/lib/constant.bool.js";
+    home, money_reserve, stock_tick, trade_bot_stop
+} from "/lib/constant/misc.js";
+import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { pserv } from "/lib/constant/pserv.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -134,7 +135,7 @@ function has_minimum_pserv(ns) {
     }
     // Does each purchased server have at least 16,384GB RAM?
     const min_ram = 16384;
-    const server = ns.getServer(pserv_prefix);
+    const server = ns.getServer(pserv.PREFIX);
     assert(server.purchasedByPlayer);
     if (server.maxRam < min_ram) {
         return NOT;

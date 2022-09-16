@@ -28,6 +28,16 @@ export const ENABLE = true;
 export const DISABLE = !ENABLE;
 
 /**
+ * A boolean that signifies a new state.
+ */
+export const NEW = true;
+
+/**
+ * A boolean that signifies we do not have anything new; opposite of new.
+ */
+export const NOT_NEW = !NEW;
+
+/**
  * A boolean signifying that we are to skip an action.
  */
 export const SKIP = true;

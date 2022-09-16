@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions for solving coding contracts.
 
-import { colour } from "/lib/constant.js";
+import { colour } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**

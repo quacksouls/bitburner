@@ -16,8 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { pserv_prefix } from "/lib/constant.js";
-import { min_pserv } from "/lib/constant.pserv.js";
+import { pserv } from "/lib/constant/pserv.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
@@ -37,14 +36,14 @@ async function buy_servers(ns) {
     // The amount of RAM for each purchased server.  If 0, we try to purchase
     // servers where the amount of RAM allows us to run our hack script using
     // 2 threads.
-    const pserv = new PurchasedServer(ns);
-    const default_ram = pserv.default_ram();
+    const psv = new PurchasedServer(ns);
+    const default_ram = psv.default_ram();
     // By default, we want to purchase min_pserv servers.  As for the remaining
     // servers that make up the number to reach the maximum number of purchased
     // servers, we wait until we have enough money to purchase each of them.
     // The constant min_pserv should be a small number so we can bootstrap a
     // source of passive income and Hack XP.
-    let ram = pserv_ram(ns, min_pserv);
+    let ram = pserv_ram(ns, pserv.MIN);
     if (ram <= default_ram) {
         // Try to purchase servers, each with the default amount of ram.
         await stage_one(ns);
@@ -54,8 +53,7 @@ async function buy_servers(ns) {
     // amount of RAM.  Now try to purchase servers, each with a higher amount
     // of RAM than the default amount.  We wait to accumulate enough money to
     // purchase the maximum number of servers.
-    const maxserv = pserv.limit();
-    ram = pserv_ram(ns, maxserv);
+    ram = pserv_ram(ns, psv.limit());
     if (ram <= default_ram) {
         return;
     }
@@ -72,8 +70,8 @@ async function buy_servers(ns) {
  */
 function has_max_pserv(ns) {
     const player = new Player(ns);
-    const pserv = new PurchasedServer(ns);
-    return player.pserv().length == pserv.limit();
+    const psv = new PurchasedServer(ns);
+    return player.pserv().length == psv.limit();
 }
 
 /**
@@ -85,8 +83,8 @@ function has_max_pserv(ns) {
  * @param ram The amount of RAM for each purchased server.
  */
 async function next_stage(ns, ram) {
-    const pserv = new PurchasedServer(ns);
-    assert(pserv.is_valid_ram(ram));
+    const psv = new PurchasedServer(ns);
+    assert(psv.is_valid_ram(ram));
     // If we have zero purchased servers, then buy servers with the given
     // amount of RAM.
     const player = new Player(ns);
@@ -104,7 +102,7 @@ async function next_stage(ns, ram) {
         // If each purchased server has less than the given amount of RAM, then
         // delete the servers and purchase servers with the given amount of RAM.
         ns.print(msg);
-        pserv.kill_all();
+        psv.kill_all();
         await update(ns, ram);
     } else if (server.ram_max() == ram) {
         // The current purchased servers have the same amount of RAM as our
@@ -133,10 +131,10 @@ function pserv_ram(ns, minserv) {
     assert(minserv > 0);
     // The possible amount of RAM for a purchased server.  We want the lowest
     // value to be the default amount of RAM.
-    const pserv = new PurchasedServer(ns);
-    const default_ram = pserv.default_ram();
+    const psv = new PurchasedServer(ns);
+    const default_ram = psv.default_ram();
     let ram = [default_ram];
-    for (const r of pserv.valid_ram()) {
+    for (const r of psv.valid_ram()) {
         if (r > default_ram) {
             ram.push(r);
         }
@@ -151,7 +149,7 @@ function pserv_ram(ns, minserv) {
     const player = new Player(ns);
     let psram = 0;
     for (const r of ram) {
-        const cost = minserv * pserv.cost(r);
+        const cost = minserv * psv.cost(r);
         if (cost > player.money()) {
             continue;
         }
@@ -186,8 +184,8 @@ function renew_targets(ns, target) {
  */
 async function stage_one(ns) {
     // Do we already have the maximum number of purchased servers?
-    const pserv = new PurchasedServer(ns);
-    const default_ram = pserv.default_ram();
+    const psv = new PurchasedServer(ns);
+    const default_ram = psv.default_ram();
     if (has_max_pserv(ns)) {
         const msg = "RAM: " + default_ram + ".  Already has max pserv.";
         ns.print(msg);
@@ -205,7 +203,7 @@ async function stage_one(ns) {
     }
     // Assume we have at least 1 purchased server.
     assert(current_pserv.length > 0);
-    assert(current_pserv.length < pserv.limit());
+    assert(current_pserv.length < psv.limit());
     const server = new Server(ns, current_pserv[0]);
     // Skip the stage if a current purchased server has more than the default
     // amount of RAM.
@@ -227,9 +225,9 @@ async function stage_one(ns) {
  */
 async function update(ns, ram) {
     // The amount of RAM must be a power of 2.  RAM is assumed to be in GB.
-    const pserv = new PurchasedServer(ns);
+    const psv = new PurchasedServer(ns);
     const server_ram = Math.floor(ram);
-    assert(pserv.is_valid_ram(server_ram));
+    assert(psv.is_valid_ram(server_ram));
     // Continuously try to purchase a new server until we have reached the
     // maximum number of servers we can buy.
     const player = new Player(ns);
@@ -237,11 +235,11 @@ async function update(ns, ram) {
     let target = new Array();
     const t = new Time();
     const time = 5 * t.second();
-    while (i < pserv.limit()) {
+    while (i < psv.limit()) {
         // Do we have enough money to buy a new server?
-        if (player.money() > pserv.cost(server_ram)) {
+        if (player.money() > psv.cost(server_ram)) {
             // Purchase a new server.
-            const hostname = pserv.purchase(pserv_prefix, server_ram);
+            const hostname = psv.purchase(pserv.PREFIX, server_ram);
             const server = new Server(ns, hostname);
             // Choose the best target server.
             target = renew_targets(ns, target);

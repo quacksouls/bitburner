@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js";
+import { home } from "/lib/constant/misc.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

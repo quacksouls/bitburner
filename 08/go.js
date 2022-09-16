@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { high_ram, home, mid_ram } from "/lib/constant.js";
+import { high_ram, home, mid_ram } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**

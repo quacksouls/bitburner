@@ -83,13 +83,6 @@ export const mid_ram = 128;
 export const money_reserve = 50 * (10**6);
 
 /**
- * The prefix for the name of each purchased server.  The very first purchased
- * server is always named "pserv".  Any subsequent purchased server is named as
- * pserv-n, where n is a non-negative integer.
- */
-export const pserv_prefix = "pserv";
-
-/**
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";

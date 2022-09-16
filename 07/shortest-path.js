@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant.js";
+import { home } from "/lib/constant/misc.js";
 import { network, shortest_path } from "/lib/network.js";
 
 /**
