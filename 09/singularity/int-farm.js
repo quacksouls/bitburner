@@ -67,12 +67,13 @@ async function farm_intelligence(ns) {
     const player = new Player(ns);
     const p = cheapest_program(ns);
     ns.rm(p, player.home());
+    const t = new Time();
     while (true) {
-        const [k, time] = purchase_schedule(ns);
         if (player.money() < min_money) {
-            await ns.sleep(time);
+            await ns.sleep(2 * t.minute());
             continue;
         }
+        const [k, time] = purchase_schedule(ns);
         for (let i = 0; i < k; i++) {
             assert(ns.singularity.purchaseProgram(p));
             assert(ns.rm(p, player.home()));
@@ -97,33 +98,46 @@ async function farm_intelligence(ns) {
  *         We buy a bunch of programs, then sleep for this interval.
  */
 function purchase_schedule(ns) {
-    // The money ranges.
+    // The money threshold.
     const m = new Money();
     const money = [
-        0,
-        100 * m.million(),
-        m.billion(),
-        100 * m.billion(),
-        500 * m.billion(),
+        100 * m.trillion(),
+        10 * m.trillion(),
         m.trillion(),
-        Infinity
+        500 * m.billion(),
+        100 * m.billion(),
+        m.billion(),
+        100 * m.million(),
+        10 * m.million()
+    ];
+    // How many programs to buy.
+    const howmany = [
+        100,
+        50,
+        25,
+        12,
+        6,
+        3,
+        1,
+        1
     ];
     // The sleep intervals.
     const t = new Time();
     const time = [
-        2 * t.minute(),
-        t.minute(),
-        30 * t.second(),
-        10 * t.second(),
+        t.millisecond(),
+        t.millisecond(),
+        t.millisecond(),
         t.second(),
-        t.millisecond()
+        10 * t.second(),
+        30 * t.second(),
+        t.minute(),
+        2 * t.minute()
     ];
     const player = new Player(ns);
     const funds = player.money();
-    const max = money.length - 2;
-    for (let i = 0; i < max; i++) {
-        if ((money[i] <= funds) && (funds < money[i + 1])) {
-            return [i + 1, time[i]];
+    for (let i = 0; i < money.length; i++) {
+        if (funds >= money[i]) {
+            return [howmany[i], time[i]];
         }
     }
 }
