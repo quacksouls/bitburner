@@ -48,6 +48,16 @@ export const MERGE = true;
 export const NO_MERGE = !MERGE;
 
 /**
+ * We can make a move.
+ */
+export const MOVE = true;
+
+/**
+ * We cannot make a move; opposite of can move.
+ */
+export const NOT_MOVE = !MOVE;
+
+/**
  * An action can be attained.
  */
 export const REACHABLE = true;
