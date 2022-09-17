@@ -17,6 +17,7 @@
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { INVALID, VALID } from "/lib/constant/bool.js";
+import { parenthesis } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -32,25 +33,21 @@ function is_balanced(expression) {
     assert(expression.length > 0);
     // The stack data structure is perfect for this problem.
     const stack = new Array();
-    // The starting or opening parenthesis.
-    const open = "(";
-    // The ending or closing parenthesis.
-    const close = ")";
     for (const c of expression) {
         // Is this character the starting parenthesis?
-        if (open == c) {
+        if (parenthesis.OPEN == c) {
             stack.push(c);
             continue;
         }
         // Is this character the ending parenthesis?
-        if (close == c) {
+        if (parenthesis.CLOSE == c) {
             // We have an ending parenthesis, but the stack is empty.
             if (0 == stack.length) {
                 return INVALID;
             }
             // This ending parenthesis must be matched with an opening
             // parenthesis at the top of the stack.
-            if (open == stack[stack.length - 1]) {
+            if (parenthesis.OPEN == stack[stack.length - 1]) {
                 stack.pop();
                 continue;
             }
@@ -75,9 +72,7 @@ function is_balanced(expression) {
  */
 function is_parenthesis(c) {
     assert(1 == c.length);
-    const open = "(";
-    const close = ")";
-    if ((open == c) || (close == c)) {
+    if ((parenthesis.OPEN == c) || (parenthesis.CLOSE == c)) {
         return true;
     }
     return false;

@@ -96,3 +96,11 @@ export const colour = {
     "RED": 1,
     "WHITE": -1
 };
+
+/**
+ * The opening and closing parentheses.
+ */
+export const parenthesis = {
+    "CLOSE": ")",
+    "OPEN": "("
+};
