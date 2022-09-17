@@ -18,6 +18,7 @@
 import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { INVALID, VALID } from "/lib/constant/bool.js";
+import { MERGE, NO_MERGE } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -72,8 +73,6 @@ function merge_interval(intA, intB) {
     const end = 1;
     const a = intA[end];
     const b = intB[start];
-    const MERGE = true;
-    const NO_MERGE = !MERGE;
     // The end of the previous interval is smaller than the start
     // of the current interval.
     if (a < b) {

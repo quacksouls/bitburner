@@ -15,6 +15,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Boolean values.
+
+/**
+ * A graph is bipartite.
+ */
+export const BIPARTITE = true;
+
+/**
+ * A graph is not bipartite.
+ */
+export const NOT_BIPARTITE = !BIPARTITE;
+
+/**
+ * A jump can be made.
+ */
+export const JUMP = true;
+
+/**
+ * A jump cannot be made; opposite of can jump.
+ */
+export const NO_JUMP = !JUMP;
+
+/**
+ * Two things can be merged.
+ */
+export const MERGE = true;
+
+/**
+ * Two things cannot be merged; opposite of can merge.
+ */
+export const NO_MERGE = !MERGE;
+
+/**
+ * An action can be attained.
+ */
+export const REACHABLE = true;
+
+/**
+ * An action cannot be attained; opposite of reachable.
+ */
+export const NOT_REACHABLE = !REACHABLE;
+
 // Various constant values related to Coding Contracts.
 
 /**

@@ -19,6 +19,7 @@ import { MyArray } from "/lib/array.js";
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
+import { BIPARTITE, NOT_BIPARTITE } from "/lib/constant/cct.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -157,8 +158,6 @@ function colouring(graph, root) {
  * @return true if the graph is bipartite; false otherwise.
  */
 function is_bipartite(graph, root, colour) {
-    const BIPARTITE = true;
-    const NOT_BIPARTITE = !BIPARTITE;
     // Mark the root node as visited.
     const stack = new Array();
     const visit = new Set();

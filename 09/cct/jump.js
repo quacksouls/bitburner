@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { NOT_REACHABLE, REACHABLE } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -32,8 +33,6 @@ function end_reachable(array) {
     // Sanity check.
     const myarr = new MyArray();
     assert(myarr.all_nonnegative(array));
-    const REACHABLE = 1;
-    const NOT_REACHABLE = 0;
     // Use a greedy method to try to reach the last array cell.
     let i = 0;                  // Current array index.
     const index = new Array();  // Index of intermediary cells.
