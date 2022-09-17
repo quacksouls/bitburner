@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/lib/constant/misc.js";
 import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
 
@@ -29,8 +29,7 @@ import { Time } from "/lib/time.js";
  *     false otherwise.
  */
 function can_run_script(ns, script) {
-    const player = new Player(ns);
-    const server = new Server(ns, player.home());
+    const server = new Server(ns, home);
     return server.can_run_script(script);
 }
 
@@ -43,7 +42,6 @@ function can_run_script(ns, script) {
  *     located.
  */
 function solve(ns, cct, host) {
-    const player = new Player(ns);
     const nthread = 1;
     const type = ns.codingcontract.getContractType(cct, host);
     // Determine the type of the coding contract and set the appropriate
@@ -143,10 +141,10 @@ function solve(ns, cct, host) {
     }
     // Run the appropriate script to solve the coding contract.
     if (can_run_script(ns, script)) {
-        ns.exec(script, player.home(), nthread, cct, host);
+        ns.exec(script, home, nthread, cct, host);
     } else {
         const err_msg = host + ": " + cct +
-              ": No free RAM to run " + script + " on server " + player.home();
+              ": No free RAM to run " + script + " on server " + home;
         ns.print(err_msg);
     }
 }
@@ -168,7 +166,7 @@ export async function main(ns) {
     const t = new Time();
     const time = 5 * t.minute();
     const server = network(ns);
-    server.push("home");
+    server.push(home);
     // Continuously search for coding contracts.  Solve a coding contract,
     // provided we have a solution script.
     while (true) {
