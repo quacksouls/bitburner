@@ -159,10 +159,13 @@ function join_next(ns, fac) {
     assert(is_valid_faction(fac));
     const JOIN = true;
     const NO_JOIN = !JOIN;
-    // We have a gang within the given faction.
-    const gang_fac = ns.gang.getGangInformation().faction;
-    if (gang_fac == fac) {
-        return NO_JOIN;
+    // We have a gang within the given faction.  Must be in a gang in order to
+    // get information about our gang.
+    if (ns.gang.inGang()) {
+        const gang_fac = ns.gang.getGangInformation().faction;
+        if (gang_fac == fac) {
+            return NO_JOIN;
+        }
     }
     // See whether we have all Augmentations from the given faction.
     const owned_aug = owned_augmentations(ns);

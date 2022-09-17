@@ -80,6 +80,15 @@ export const gang_aug_crime = {
 };
 
 /**
+ * In BitNodes other than BN2.x we must decrease our karma to -54,000 or lower
+ * as a pre-requisite for creating a gang.  This constant is taken from the
+ * file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+ */
+export const gang_karma = -54000;
+
+/**
  * The territory and power of each gang is updated approximately every 20
  * seconds.  We refer to this time period as a tick.
  */

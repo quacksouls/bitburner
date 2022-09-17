@@ -17,12 +17,14 @@
 
 import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant/bool.js";
 import {
-    armour, combat_tau, extortion_tau, gang_aug_crime, gang_tick, max_gangster,
-    max_vigilante, max_warrior, NO_WAR, penalty_high_tau, penalty_low_tau,
-    robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR, weapon, win_tau
+    armour, combat_tau, extortion_tau, gang_aug_crime, gang_karma, gang_tick,
+    max_gangster, max_vigilante, max_warrior, NO_WAR, penalty_high_tau,
+    penalty_low_tau, robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR,
+    weapon, win_tau
 } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
+import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -61,15 +63,22 @@ function casus_belli(ns) {
 }
 
 /**
- * Create a gang within the given criminal organization.
+ * Create a gang within the given criminal organization.  If we are in a
+ * BitNode other than BN2.x, we must have a certain amount of negative karma
+ * as a pre-requisite for creating a gang.
  *
  * @param ns The Netscript API.
  * @param fac A string representing the name of a criminal organization.
  */
-function create_gang(ns, fac) {
+async function create_gang(ns, fac) {
     assert(is_valid_faction(fac));
     if (ns.gang.inGang()) {
         return;
+    }
+    const t = new Time();
+    const player = new Player(ns);
+    while (player.karma() > gang_karma) {
+        await ns.sleep(t.minute());
     }
     assert(ns.gang.createGang(fac));
 }
@@ -659,8 +668,8 @@ export async function main(ns) {
     // Create our criminal gang and recruit the first crop of gangsters.  By
     // default, we disable territory warfare.  Instead, we concentrate on
     // recruitment and building the strengths of our gang members.
+    await create_gang(ns, faction);
     ns.gang.setTerritoryWarfare(DISABLE);
-    create_gang(ns, faction);
     recruit(ns);
     // Manage our gang.
     // A tick is a period of time as defined by the constant gang_tick.  At the
