@@ -19,7 +19,7 @@ import { MyArray } from "/lib/array.js";
 import { stock_tick } from "/lib/constant/misc.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { Player } from "/lib/player.js";
-import { join_all_factions } from "/lib/singularity.faction.js";
+import { join_all_factions } from "/lib/singularity/faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**

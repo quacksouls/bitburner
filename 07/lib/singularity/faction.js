@@ -20,7 +20,7 @@
 import { home } from "/lib/constant/misc.js";
 import { factions } from "/lib/constant/faction.js";
 import { Player } from "/lib/player.js";
-import { augmentations_to_buy } from "/lib/singularity.augmentation.js";
+import { augmentations_to_buy } from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 

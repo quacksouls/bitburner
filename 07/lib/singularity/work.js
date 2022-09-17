@@ -19,7 +19,7 @@
 
 import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { Player } from "/lib/player.js";
-import { study } from "/lib/singularity.study.js";
+import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

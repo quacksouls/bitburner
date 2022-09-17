@@ -19,11 +19,11 @@ import { home } from "/lib/constant/misc.js"
 import { Money } from "/lib/money.js";
 import {
     owned_augmentations, purchase_augmentations
-} from "/lib/singularity.augmentation.js";
+} from "/lib/singularity/augment.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
-} from "/lib/singularity.faction.js";
-import { work } from "/lib/singularity.work.js";
+} from "/lib/singularity/faction.js";
+import { work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**

@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/misc.js";
 import { Server } from "/lib/server.js";
-import { choose_hardware_company } from "/lib/singularity.util.js";
+import { choose_hardware_company } from "/lib/singularity/util.js";
 import { Time } from "/lib/time.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 

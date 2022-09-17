@@ -19,7 +19,7 @@ import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
 import { crimes } from "/lib/constant/misc.js";
-import { greatest_chance } from "/lib/singularity.crime.js";
+import { greatest_chance } from "/lib/singularity/crime.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

@@ -16,7 +16,7 @@
  */
 
 import { crimes, home } from "/lib/constant/misc.js";
-import { greatest_chance } from "/lib/singularity.crime.js";
+import { greatest_chance } from "/lib/singularity/crime.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

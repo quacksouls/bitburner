@@ -17,7 +17,7 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { connect_to } from "/lib/singularity.network.js";
+import { connect_to } from "/lib/singularity/network.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

@@ -22,7 +22,7 @@ import { all_programs } from "/lib/constant/exe.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
-import { join_all_factions } from "/lib/singularity.faction.js";
+import { join_all_factions } from "/lib/singularity/faction.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**

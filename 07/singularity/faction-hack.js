@@ -17,10 +17,10 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { purchase_augmentations } from "/lib/singularity.augmentation.js";
-import { join_faction, work_for_faction } from "/lib/singularity.faction.js";
-import { install_backdoor, visit_city } from "/lib/singularity.network.js";
-import { raise_hack } from "/lib/singularity.study.js";
+import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
+import { install_backdoor, visit_city } from "/lib/singularity/network.js";
+import { raise_hack } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

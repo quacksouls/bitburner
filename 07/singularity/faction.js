@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/misc.js";
 import { factions } from "/lib/constant/faction.js";
-import { owned_augmentations } from "/lib/singularity.augmentation.js";
+import { owned_augmentations } from "/lib/singularity/augment.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**

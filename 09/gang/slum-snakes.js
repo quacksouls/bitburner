@@ -18,8 +18,8 @@
 import { home } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
-import { join_faction } from "/lib/singularity.faction.js";
-import { work } from "/lib/singularity.work.js";
+import { join_faction } from "/lib/singularity/faction.js";
+import { work } from "/lib/singularity/work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

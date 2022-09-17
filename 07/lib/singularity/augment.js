@@ -19,8 +19,8 @@
 
 import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { aug_purchase_limit } from "/lib/constant/faction.js";
-import { commit_crime } from "/lib/singularity.crime.js";
-import { work } from "/lib/singularity.work.js";
+import { commit_crime } from "/lib/singularity/crime.js";
+import { work } from "/lib/singularity/work.js";
 import { Time } from "/lib/time.js";
 import {
     assert, is_valid_faction, trade_bot_resume, trade_bot_stop_buy

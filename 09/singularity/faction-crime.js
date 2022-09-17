@@ -17,13 +17,13 @@
 
 import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
-import { purchase_augmentations } from "/lib/singularity.augmentation.js";
-import { lower_karma } from "/lib/singularity.crime.js";
+import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { lower_karma } from "/lib/singularity/crime.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
-} from "/lib/singularity.faction.js";
-import { visit_city } from "/lib/singularity.network.js";
-import { raise_charisma, rise_to_cfo, work } from "/lib/singularity.work.js";
+} from "/lib/singularity/faction.js";
+import { visit_city } from "/lib/singularity/network.js";
+import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**

@@ -17,7 +17,7 @@
 
 import { home, mid_ram } from "/lib/constant/misc.js";
 import { all_programs } from "/lib/constant/exe.js";
-import { study } from "/lib/singularity.study.js";
+import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

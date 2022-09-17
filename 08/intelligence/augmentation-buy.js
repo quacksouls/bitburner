@@ -19,7 +19,7 @@ import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { home } from "/lib/constant/misc.js";
 import {
     choose_augmentation, has_augmentation, nfg, prerequisites
-} from "/lib/singularity.augmentation.js";
+} from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 

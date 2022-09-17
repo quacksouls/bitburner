@@ -18,8 +18,9 @@
 import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { program as popen } from "/lib/constant/exe.js";
 import { Player } from "/lib/player.js";
-import { raise_hack } from "/lib/singularity.study.js";
-import { work } from "/lib/singularity.work.js";
+import { raise_hack } from "/lib/singularity/study.js";
+import { choose_hardware_company } from "/lib/singularity/util.js";
+import { work } from "/lib/singularity/work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
