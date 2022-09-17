@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -46,7 +47,7 @@ function load_chain(ns, faction) {
  */
 async function raise_combat_stats(ns, threshold) {
     assert(threshold > 0);
-    ns.singularity.goToLocation("The Slums");  // Raise Intelligence XP.
+    ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Intelligence XP.
     // Continue to mug someone until each of our combat stats is at least
     // the given threshold.
     const t = new Time();
