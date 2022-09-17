@@ -90,8 +90,9 @@ export function greatest_chance(ns, crime) {
  * @param crime The crime we must carry out to lower our karma.
  *     Either "shoplift" or "homicide".
  * @param nkill If crime := "homicide", then we must also provide the target
- *     number of people to kill.  Pass in 0 if the crime is not homicide.  Must
- *     be a non-negative integer.
+ *     number of people to kill.  Pass in 0 if the crime is not homicide.  Pass
+ *     in Infinity if we care only about lowering our karma and not about the
+ *     number of people killed.  Must be a non-negative integer.
  */
 export async function lower_karma(ns, threshold, crime, nkill) {
     // Sanity checks.

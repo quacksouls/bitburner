@@ -16,14 +16,34 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { gang_karma } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
+import { lower_karma } from "/lib/singularity/crime.js";
 import { join_faction } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * The karma threshold.  We want to lower our karma to a given amount.  To join
+ * a gang, we must have karma at -54,000 or lower.  It takes a very long time
+ * to achieve this much negative karma.  A more sensible option is to have a
+ * target karma value and try to lower our karam to that value.  Then move on.
+ * Say we want to lower our karma in 4 batches, each batch is followed by
+ * possibly a soft reset.  In each batch, we would need to achieve
+ * -13,500 karma.
+ *
+ * @param ns The Netscript API.
+ * @return Our current negative karma plus -13,500.
+ */
+function karma_threshold(ns) {
+    const player = new Player(ns);
+    const target = -13500;
+    return player.karma() + target;
+}
 
 /**
  * Run the next script(s) in our load chain for criminal gangs.
@@ -83,6 +103,7 @@ async function raise_combat_stats(ns, threshold) {
  */
 export async function main(ns) {
     // Make the log less verbose.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Raise combat stats.
     const min_stat = 30;
@@ -98,5 +119,10 @@ export async function main(ns) {
     // Now join the Slum Snakes faction.
     const faction = "Slum Snakes";
     await join_faction(ns, faction);
+    // Decrease our karma low enough to allow us to create a gang.  We need
+    // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at
+    // most 18,000 times.  We lower our karma in batches.  After each batch
+    // we might not have enough negative karma to create a gang.
+    await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
     load_chain(ns, faction);
 }
