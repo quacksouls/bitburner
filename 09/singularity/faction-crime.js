@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { crimes } from "/lib/constant/crime.js";
 import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { purchase_augmentations } from "/lib/singularity/augment.js";
@@ -54,9 +55,8 @@ async function silhouette(ns) {
     await rise_to_cfo(ns, company);
     // Karma at -22 or lower.
     const karma = -22;
-    const crime = "shoplift";
     const nkill = 0;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.SHOP, nkill);
     // Have at least $15m.
     const m = new Money();
     const threshold = 15 * m.million();
@@ -85,9 +85,8 @@ async function silhouette(ns) {
 async function slum_snakes(ns) {
     // Karma at -9 or lower.
     const karma = -9;
-    const crime = "shoplift";
     const nkill = 0;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.SHOP, nkill);
     // Each combat stat must be at least 30.
     const stat_threshold = 30;
     await raise_combat_stats(ns, stat_threshold);
@@ -118,9 +117,8 @@ async function slum_snakes(ns) {
 async function speakers_for_the_dead(ns) {
     // Karma at -45 or lower.
     const karma = -45;
-    const crime = "homicide";
     const nkill = 30;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.KILL, nkill);
     // Each combat stat must be at least 300.
     const stat_threshold = 300;
     await raise_combat_stats(ns, stat_threshold);
@@ -149,9 +147,8 @@ async function tetrads(ns) {
     await visit_city(ns, "Ishima");
     // Karma at -18 or lower.
     const karma = -18;
-    const crime = "shoplift";
     const nkill = 0;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.SHOP, nkill);
     // Each combat stat must be at least 75.
     const threshold = 75;
     await raise_combat_stats(ns, threshold);
@@ -184,9 +181,8 @@ async function the_dark_army(ns) {
     await raise_combat_stats(ns, threshold);
     // Karma at -45 or lower.
     const karma = -45;
-    const crime = "homicide";
     const nkill = 5;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.KILL, nkill);
     // Join the faction, earn reputation points, and purchase all Augmentations.
     const faction = "The Dark Army";
     const work_type = "Field Work";
@@ -216,9 +212,8 @@ async function the_syndicate(ns) {
     await raise_combat_stats(ns, threshold);
     // Karma at -90 or lower.
     const karma = -90;
-    const crime = "homicide";
     const nkill = 5;
-    await lower_karma(ns, karma, crime, nkill);
+    await lower_karma(ns, karma, crimes.KILL, nkill);
     // Have at least $10m.
     const m = new Money();
     const money_threshold = 10 * m.million();

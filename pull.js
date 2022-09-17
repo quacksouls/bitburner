@@ -113,6 +113,7 @@ function dir_lib() {
         "lib/cct.js",
         "lib/constant/bool.js",
         "lib/constant/cct.js",
+        "lib/constant/crime.js",
         "lib/constant/exe.js",
         "lib/constant/faction.js",
         "lib/constant/gang.js",

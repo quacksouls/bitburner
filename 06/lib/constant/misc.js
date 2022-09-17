@@ -43,24 +43,6 @@ export const colour = {
 };
 
 /**
- * All available crimes.
- */
-export const crimes = [
-    "assassinate",
-    "bond forgery",
-    "deal drugs",
-    "grand theft auto",
-    "heist",
-    "homicide",
-    "kidnap and ransom",
-    "larceny",
-    "mug someone",
-    "rob store",
-    "shoplift",
-    "traffick illegal arms"
-];
-
-/**
  * The base of the decimal number system.
  */
 export const decimal_base = 10;

@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to crime.
 
+import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/misc.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -95,7 +96,7 @@ export function greatest_chance(ns, crime) {
 export async function lower_karma(ns, threshold, crime, nkill) {
     // Sanity checks.
     assert(threshold < 0);
-    assert(("shoplift" == crime) || ("homicide" == crime));
+    assert((crimes.SHOP == crime) || (crimes.KILL == crime));
     assert(nkill >= 0);
     // Shoplift.  Use the ceiling function to convert the karma value to an
     // integer.  It is safer to compare integers than it is to compare floating
@@ -103,7 +104,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     const t = new Time();
     const time = t.second();
     const player = new Player(ns);
-    if ("shoplift" == crime) {
+    if (crimes.SHOP == crime) {
         ns.singularity.commitCrime(crime);
         while (Math.ceil(player.karma()) > threshold) {
             await ns.sleep(time);
@@ -114,7 +115,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
         return;
     }
     // Homicide.
-    assert("homicide" == crime);
+    assert(crimes.KILL == crime);
     assert(nkill > 0);
     ns.singularity.commitCrime(crime);
     while (
