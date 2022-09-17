@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { cct_update_interval } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/misc.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
@@ -163,8 +164,6 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
 
-    const t = new Time();
-    const time = 5 * t.minute();
     const server = network(ns);
     server.push(home);
     // Continuously search for coding contracts.  Solve a coding contract,
@@ -181,6 +180,6 @@ export async function main(ns) {
                 cct => solve(ns, cct, s)
             );
         }
-        await ns.sleep(time);
+        await ns.sleep(cct_update_interval);
     }
 }
