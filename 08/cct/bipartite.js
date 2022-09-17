@@ -19,7 +19,7 @@ import { MyArray } from "/lib/array.js";
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
-import { BIPARTITE, NOT_BIPARTITE } from "/lib/constant/cct.js";
+import { BIPARTITE, colour, NOT_BIPARTITE } from "/lib/constant/cct.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -47,8 +47,8 @@ function bipartite(n, edge) {
     }
     // Use breath-first search to colour each node of the graph.
     const graph = to_graph(n, edge);
-    let colour = new Array(n).fill(white());
-    let v = choose_white_node(colour);
+    let colr = new Array(n).fill(colour.WHITE);
+    let v = choose_white_node(colr);
     // All root nodes of trees.  If the graph is disconnected, then it has
     // a number of subgraphs each of which can be considered a tree by
     // means of breath-first search.
@@ -60,36 +60,29 @@ function bipartite(n, edge) {
         if (0 == col.length) {
             return empty_array;
         }
-        colour = update_colouring(colour, col);
-        v = choose_white_node(colour);
+        colr = update_colouring(colr, col);
+        v = choose_white_node(colr);
     }
     // Determine whether the graph has a 2-colouring.
     for (const r of root) {
-        if (!is_bipartite(graph, r, colour)) {
+        if (!is_bipartite(graph, r, colr)) {
             return empty_array;
         }
     }
-    return colour;
-}
-
-/**
- * An integer value that represents the colour blue.
- */
-function blue() {
-    return 0;
+    return colr;
 }
 
 /**
  * Choose a white node from a graph.
  *
- * @param colour A colouring of the nodes of a graph, where colour[i]
+ * @param colr A colouring of the nodes of a graph, where colour[i]
  *     represents the colour of node i.
  * @return A node that is white.  Return -1 if each node has been coloured.
  */
-function choose_white_node(colour) {
-    assert(colour.length > 0);
-    for (let i = 0; i < colour.length; i++) {
-        if (white() == colour[i]) {
+function choose_white_node(colr) {
+    assert(colr.length > 0);
+    for (let i = 0; i < colr.length; i++) {
+        if (colour.WHITE == colr[i]) {
             return i;
         }
     }
@@ -111,14 +104,14 @@ function choose_white_node(colour) {
 function colouring(graph, root) {
     // colour[i] := the colour of node i in the graph.
     const n = graph.nodes().length;
-    const colour = new Array(n).fill(white());
+    const colr = new Array(n).fill(colour.WHITE);
     // Colour the root node.
     assert(graph.has_node(root));
     const stack = new Array();
     stack.push(root);
     const visit = new Set();
     visit.add(root);
-    colour[root] = blue();
+    colour[root] = colour.BLUE;
     // Use breath-first search to colour each node.  We do not assume the graph
     // to be connected.
     while (stack.length > 0) {
@@ -130,23 +123,23 @@ function colouring(graph, root) {
             // Colour the neighbours of u.
             visit.add(v);
             stack.push(v);
-            if (blue() == colour[u]) {
-                colour[v] = red();
+            if (colour.BLUE == colr[u]) {
+                colr[v] = colour.RED;
                 continue;
             }
-            assert(red() == colour[u]);
-            colour[v] = blue();
+            assert(colour.RED == colr[u]);
+            colr[v] = colour.BLUE;
             // Determine whether v is connected to any node of the same colour.
             for (const w of graph.neighbour(v)) {
                 // The graph is not bipartite because v is neighbour with a
                 // node that has the same colour.
-                if (colour[v] == colour[w]) {
+                if (colr[v] == colr[w]) {
                     return [];
                 }
             }
         }
     }
-    return colour;
+    return colr;
 }
 
 /**
@@ -154,10 +147,10 @@ function colouring(graph, root) {
  *
  * @param graph Check this graph to see whether it is bipartite.
  * @param root Start our breath-first search from this node.
- * @param colour A colouring of the nodes of the graph.
+ * @param colr A colouring of the nodes of the graph.
  * @return true if the graph is bipartite; false otherwise.
  */
-function is_bipartite(graph, root, colour) {
+function is_bipartite(graph, root, colr) {
     // Mark the root node as visited.
     const stack = new Array();
     const visit = new Set();
@@ -167,9 +160,9 @@ function is_bipartite(graph, root, colour) {
     // graph has a 2-colouring.
     while (stack.length > 0) {
         const u = stack.pop();
-        assert(colour[u] >= 0);
+        assert((colr[u] == colour.BLUE) || (colr[u] == colour.RED));
         for (const v of graph.neighbour(u)) {
-            if (colour[u] == colour[v]) {
+            if (colr[u] == colr[v]) {
                 return NOT_BIPARTITE;
             }
             if (visit.has(v)) {
@@ -180,13 +173,6 @@ function is_bipartite(graph, root, colour) {
         }
     }
     return BIPARTITE;
-}
-
-/**
- * An integer value that represents the colour red.
- */
-function red() {
-    return 1;
 }
 
 /**
@@ -229,28 +215,21 @@ function to_graph(n, edge) {
 function update_colouring(prev_colour, new_colour) {
     assert(prev_colour.length > 0);
     assert(prev_colour.length == new_colour.length);
-    const colour = Array.from(prev_colour);
+    const colr = Array.from(prev_colour);
     for (let i = 0; i < prev_colour.length; i++) {
         // Find a white node.
-        if (white() != prev_colour[i]) {
+        if (colour.WHITE != prev_colour[i]) {
             continue;
         }
-        if (white() == new_colour[i]) {
+        if (colour.WHITE == new_colour[i]) {
             continue;
         }
         // Previously node i was white, but now has been coloured.
-        assert(white() == prev_colour[i]);
-        assert(white() != new_colour[i]);
-        colour[i] = new_colour[i];
+        assert(colour.WHITE == prev_colour[i]);
+        assert(colour.WHITE != new_colour[i]);
+        colr[i] = new_colour[i];
     }
-    return colour;
-}
-
-/**
- * An integer value that represents the colour white.
- */
-function white() {
-    return -1;
+    return colr;
 }
 
 /**

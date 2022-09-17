@@ -86,3 +86,13 @@ export const cct_suffix = ".cct";
  * https://github.com/danielyxie/bitburner/blob/dev/src/engine.tsx
  */
 export const cct_update_interval = 600000;
+
+/**
+ * Various colours for graph colouring, i.e. testing whether a graph is
+ * bipartite.
+ */
+export const colour = {
+    "BLUE": 0,
+    "RED": 1,
+    "WHITE": -1
+};
