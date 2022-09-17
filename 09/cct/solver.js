@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cct_update_interval } from "/lib/constant/cct.js";
+import { cct_suffix, cct_update_interval } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/misc.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
@@ -169,7 +169,7 @@ export async function main(ns) {
     // provided we have a solution script.
     while (true) {
         for (const s of server) {
-            const file = ns.ls(s, ".cct");
+            const file = ns.ls(s, cct_suffix);
             // No coding contracts on this server.
             if (file.length < 1) {
                 continue;

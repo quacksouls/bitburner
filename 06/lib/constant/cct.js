@@ -60,6 +60,11 @@ export const NOT_REACHABLE = !REACHABLE;
 // Various constant values related to Coding Contracts.
 
 /**
+ * The suffix for files that contain Coding Contracts.
+ */
+export const cct_suffix = ".cct";
+
+/**
  * The time in milliseconds required for the game to randomly generate a random
  * Coding Contract on a random server, while in game.  While the game is
  * running, the probability for a Coding Contract to be spawned is 0.25.  Each
