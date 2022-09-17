@@ -98,6 +98,16 @@ export const colour = {
 };
 
 /**
+ * The types of chunk data in Lempel-Ziv compression and decompression.
+ */
+export const lzchunk = {
+    // The chunk format L<string>.
+    "LS": 1,
+    // The chunk format LX.
+    "LX": 2
+};
+
+/**
  * The opening and closing parentheses.
  */
 export const parenthesis = {

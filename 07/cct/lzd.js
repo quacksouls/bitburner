@@ -16,6 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { lzchunk } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -99,7 +100,7 @@ import { assert } from "/lib/util.js";
 function decompress(data) {
     assert(data.length > 0);
     // Always start with the chunk format L<string>.
-    let chunk_type = lstr_chunk();
+    let chunk_type = lzchunk.LS;
     // Where are we in the compressed string?
     let i = 0;
     // The uncompressed string.
@@ -108,11 +109,11 @@ function decompress(data) {
     while (i < data.length) {
         const ell = parseInt(data[i], base);
         // Is this chunk of type L<string>?
-        if (lstr_chunk() == chunk_type) {
+        if (lzchunk.LS == chunk_type) {
             // Do we end the chunk now?
             if (end_now(ell)) {
                 i++;
-                chunk_type = lx_chunk();
+                chunk_type = lzchunk.LX;
                 continue;
             }
             // Copy the following L characters and append them to the
@@ -120,16 +121,16 @@ function decompress(data) {
             const start = i + 1;
             const end = start + ell;
             result = result.concat(data.slice(start, end));
-            chunk_type = lx_chunk();
+            chunk_type = lzchunk.LX;
             i = end;
             continue;
         }
         // This chunk is of type LX, which has 2 characters.
-        assert(lx_chunk() == chunk_type);
+        assert(lzchunk.LX == chunk_type);
         // Do we end the chunk now?
         if (end_now(ell)) {
             i++;
-            chunk_type = lstr_chunk();
+            chunk_type = lzchunk.LS;
             continue;
         }
         // Backtrack X characters in the uncompressed string.  Copy and append
@@ -139,7 +140,7 @@ function decompress(data) {
             const k = result.length - x;
             result = result.concat(result[k]);
         }
-        chunk_type = lstr_chunk();
+        chunk_type = lzchunk.LS;
         i += 2;
     }
     return result;
@@ -155,20 +156,6 @@ function decompress(data) {
  */
 function end_now(ell) {
     return 0 == ell;
-}
-
-/**
- * The integer value that represents the chunk format L<string>.
- */
-function lstr_chunk() {
-    return 1;
-}
-
-/**
- * The integer value that represents the chunk format LX.
- */
-function lx_chunk() {
-    return 2;
 }
 
 /**
