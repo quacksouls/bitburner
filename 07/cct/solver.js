@@ -143,11 +143,11 @@ function solve(ns, cct, host) {
     // Run the appropriate script to solve the coding contract.
     if (can_run_script(ns, script)) {
         ns.exec(script, home, nthread, cct, host);
-    } else {
-        const err_msg = host + ": " + cct +
-              ": No free RAM to run " + script + " on server " + home;
-        ns.print(err_msg);
+        return;
     }
+    const err_msg = host + ": " + cct +
+          ": No free RAM to run " + script + " on server " + home;
+    ns.print(err_msg);
 }
 
 /**
