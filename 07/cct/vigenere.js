@@ -18,6 +18,7 @@
 import {
     char_index, is_alphabetic, log_cct_failure, print_error, print_success
 } from "/lib/cct.js";
+import { vigenere_square } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -63,7 +64,7 @@ function vigenere(plaintext, key) {
     const ptxt = plaintext.toUpperCase();
     const pk = pad_key(plaintext, key);
     let ciphertext = "";
-    const matrix = vigenere_square();
+    const matrix = Array.from(vigenere_square);
     for (let i = 0; i < ptxt.length; i++) {
         if (!is_alphabetic(ptxt[i])) {
             ciphertext += ptxt[i];
@@ -75,41 +76,6 @@ function vigenere(plaintext, key) {
     }
     assert(ciphertext.length == plaintext.length);
     return ciphertext;
-}
-
-/**
- * The Vigenère square.
- */
-function vigenere_square() {
-    const square = [
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        "BCDEFGHIJKLMNOPQRSTUVWXYZA",
-        "CDEFGHIJKLMNOPQRSTUVWXYZAB",
-        "DEFGHIJKLMNOPQRSTUVWXYZABC",
-        "EFGHIJKLMNOPQRSTUVWXYZABCD",
-        "FGHIJKLMNOPQRSTUVWXYZABCDE",
-        "GHIJKLMNOPQRSTUVWXYZABCDEF",
-        "HIJKLMNOPQRSTUVWXYZABCDEFG",
-        "IJKLMNOPQRSTUVWXYZABCDEFGH",
-        "JKLMNOPQRSTUVWXYZABCDEFGHI",
-        "KLMNOPQRSTUVWXYZABCDEFGHIJ",
-        "LMNOPQRSTUVWXYZABCDEFGHIJK",
-        "MNOPQRSTUVWXYZABCDEFGHIJKL",
-        "NOPQRSTUVWXYZABCDEFGHIJKLM",
-        "OPQRSTUVWXYZABCDEFGHIJKLMN",
-        "PQRSTUVWXYZABCDEFGHIJKLMNO",
-        "QRSTUVWXYZABCDEFGHIJKLMNOP",
-        "RSTUVWXYZABCDEFGHIJKLMNOPQ",
-        "STUVWXYZABCDEFGHIJKLMNOPQR",
-        "TUVWXYZABCDEFGHIJKLMNOPQRS",
-        "UVWXYZABCDEFGHIJKLMNOPQRST",
-        "VWXYZABCDEFGHIJKLMNOPQRSTU",
-        "WXYZABCDEFGHIJKLMNOPQRSTUV",
-        "XYZABCDEFGHIJKLMNOPQRSTUVW",
-        "YZABCDEFGHIJKLMNOPQRSTUVWX",
-        "ZABCDEFGHIJKLMNOPQRSTUVWXY"
-    ];
-    return square;
 }
 
 /**
