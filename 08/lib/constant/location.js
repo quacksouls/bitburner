@@ -140,5 +140,12 @@ export const cities = {
         "other": undefined,
         "shop": "OmniTek Incorporated",
         "uni": "ZB Institute of Technology"
+    },
+    // These are generic locations that are found in every city.
+    "generic": {
+        "hospital": "Hospital",
+        "slum": "The Slums",
+        "TA": "Travel Agency",
+        "WSE": "World Stock Exchange"
     }
 };
