@@ -61,6 +61,11 @@ export const crimes = [
 ];
 
 /**
+ * The base of the decimal number system.
+ */
+export const decimal_base = 10;
+
+/**
  * The minimum amount of RAM for a high-end server.
  */
 export const high_ram = 512;
