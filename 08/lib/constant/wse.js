@@ -18,6 +18,15 @@
 // A bunch of constant values related to the World Stock Exchange.
 
 /**
+ * The minimum amount of RAM each purchased server should have before we start
+ * trading on the Stock Market.  We do not want the trade bot to dump all our
+ * money into buying shares.  Before the trade bot starts buying and selling
+ * shares, we want to have setup a Hacknet farm where each node has at least
+ * this amount of RAM in GB.
+ */
+export const min_pserv_ram = 16384;
+
+/**
  * A multiplier for the amount of money we should have in reserve.  When
  * trading on the Stock Market, we should not spend all our money on shares.
  * Instead we should have a fixed amount of money in reserve.  The multiplier
