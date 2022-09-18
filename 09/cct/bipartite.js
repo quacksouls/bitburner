@@ -111,7 +111,7 @@ function colouring(graph, root) {
     stack.push(root);
     const visit = new Set();
     visit.add(root);
-    colour[root] = colour.BLUE;
+    colr[root] = colour.BLUE;
     // Use breath-first search to colour each node.  We do not assume the graph
     // to be connected.
     while (stack.length > 0) {
