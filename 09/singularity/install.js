@@ -16,9 +16,9 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { stock_tick } from "/lib/constant/misc.js";
-import { exclusive_aug, augment } from "/lib/constant/faction.js";
 import { all_programs } from "/lib/constant/exe.js";
+import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import { stock_tick } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";

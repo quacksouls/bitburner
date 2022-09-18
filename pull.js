@@ -120,6 +120,7 @@ function dir_lib() {
         "lib/constant/hacknet.js",
         "lib/constant/misc.js",
         "lib/constant/pserv.js",
+        "lib/constant/wse.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
         "lib/money.js",

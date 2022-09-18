@@ -15,11 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    home, money_reserve, stock_tick, trade_bot_stop
-} from "/lib/constant/misc.js";
 import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { home, money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
+import { stock_tick, trade_bot_stop } from "/lib/constant/wse.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
