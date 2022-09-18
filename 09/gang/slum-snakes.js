@@ -30,19 +30,29 @@ import { assert } from "/lib/util.js";
 /**
  * The karma threshold.  We want to lower our karma to a given amount.  To join
  * a gang, we must have karma at -54,000 or lower.  It takes a very long time
- * to achieve this much negative karma.  A more sensible option is to have a
- * target karma value and try to lower our karam to that value.  Then move on.
+ * to achieve this many negative karma.  A more sensible option is to have a
+ * target karma value and try to lower our karma to that value.  Then move on.
  * Say we want to lower our karma in 4 batches, each batch is followed by
  * possibly a soft reset.  In each batch, we would need to achieve
  * -13,500 karma.
  *
  * @param ns The Netscript API.
- * @return Our current negative karma plus -13,500.
+ * @return Our current negative karma plus some more negative karma value as
+ *     low as -13,500.  Return 0 if we have enough negative karma to create a
+ *     gang.
  */
 function karma_threshold(ns) {
     const player = new Player(ns);
-    const target = -13500;
-    return player.karma() + target;
+    const current_karma = Math.floor(player.karma());
+    if (current_karma <= gang_karma) {
+        return 0;
+    }
+    let target = -13500;
+    const delta = gang_karma - current_karma;
+    if (Math.abs(delta) < Math.abs(target)) {
+        target = delta;
+    }
+    return current_karma + target;
 }
 
 /**
@@ -123,6 +133,8 @@ export async function main(ns) {
     // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at
     // most 18,000 times.  We lower our karma in batches.  After each batch
     // we might not have enough negative karma to create a gang.
-    await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
+    if (Math.floor(player.karma()) > gang_karma) {
+        await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
+    }
     load_chain(ns, faction);
 }
