@@ -108,28 +108,41 @@ export const exclusive_aug = {
  *     grants us $1m and the BruteSSH.exe program after a soft reset.
  * (2) Netburners, CyberSec, and Tian Di Hui should be the next group of
  *     factions to join.  These factions have Augmentations that raise various
- *     hack-related stats.
+ *     hack-related stats.  In particular, Tian Di Hui has 4 Augmentations that
+ *     boost the amount of reputation we gain from factions and companies.
  * (3) BitRunners has an Augmentation that allows us to start with the
  *     FTPCrack.exe and relaySMTP.exe programs after a soft reset.
- * (4) Aevum has the PCMatrix Augmentation that allows us to start with
- *     DeepscanV1.exe and AutoLink.exe after a soft reset.
- * (5) Chongqing, Ishima, and New Tokyo are not enemies with each other.  We
+ * (4) The Syndicate has the Augmentation BrachiBlades, which is a
+ *     pre-requisite of an Augmentation from Speakers for the Dead.
+ *     Furthermore, The Syndicate has 2 Augmentations that boost the reputation
+ *     we gain from factions and companies.
+ * (5) Bachman & Associates has 5 Augmentations that boost the amount of
+ *     reputation we gain from factions and companies.
+ * (6) Aevum has the PCMatrix Augmentation that allows us to start with
+ *     DeepscanV1.exe and AutoLink.exe after a soft reset.  These are strictly
+ *     not necessary in an automated game play.
+ * (7) Chongqing, Ishima, and New Tokyo are not enemies with each other.  We
  *     can join all three factions at the same time, work toward purchasing all
  *     of their Augmentations, and install all Augmentations from all three
  *     factions at the same time.  Doing so can save us a lot of time as we do
  *     not need to go through a soft reset after purchasing all Augmentations
- *     from one faction.
- * (6) Volhaven should be the last city faction to join.
- * (7) NiteSec and The Black Hand are the remaining two hacking groups to join.
+ *     from one faction.  However, we some way to generate a massive amount of
+ *     income within a short amount of time.
+ * (8) Volhaven should be the last city faction to join.
+ * (9) NiteSec and The Black Hand are the remaining two hacking groups to join.
  *     They have Augmentations to boost various hack-related stats.
- * (8) We can join the megacorporation factions in any order we want.  These
- *     factions have various Augmentations that boost a number of
- *     social-related stats, i.e. reputation from factions and companies.
- * (9) Criminal organizations have Augmentations to boost various combat stats
- *     as well as social-related stats.
- * (10) The endgame factions should be the last to join.  We can join
- *     Illuminati or The Covenant in any order we want.  However, Daedalus
- *     should be the very last faction that we join.
+ * (10) We can join the remaining megacorporation factions in any order we
+ *      want.  These factions have various Augmentations that boost a number of
+ *      social-related stats, i.e. reputation from factions and companies.
+ *      However, we should have purchased most or all of these from
+ *      Bachman & Associates.
+ * (11) Criminal organizations have Augmentations to boost various combat stats
+ *      as well as social-related stats.  We should have bought from
+ *      The Syndicate all or most of the Augmentations that boost our
+ *      reputation gain from factions and companies.
+ * (12) The endgame factions should be the last to join.  We can join
+ *      Illuminati or The Covenant in any order we want.  However, Daedalus
+ *      should be the very last faction that we join.
  */
 export const factions = [
     // Early game factions, city factions, and hacking groups.
@@ -138,15 +151,20 @@ export const factions = [
     "CyberSec",
     "Tian Di Hui",
     "BitRunners",
+    // Criminal organization.
+    "The Syndicate",
+    // Megacorporation.
+    "Bachman & Associates",
+    // City factions.
     "Aevum",
     "Chongqing",
     "Ishima",
     "New Tokyo",
     "Volhaven",
+    // Hacking factions.
     "NiteSec",
     "The Black Hand",
     // Megacorporations.
-    "Bachman & Associates",
     "Blade Industries",
     "Clarke Incorporated",
     "ECorp",
@@ -156,12 +174,9 @@ export const factions = [
     "MegaCorp",
     "NWO",
     "OmniTek Incorporated",
-    // Criminal organizations.  The Syndicate has the Augmentation
-    // BrachiBlades, which is a pre-requisite of an Augmentation from
-    // Speakers for the Dead.
+    // Criminal organizations.
     "Silhouette",
     "Slum Snakes",
-    "The Syndicate",
     "Speakers for the Dead",
     "Tetrads",
     "The Dark Army",
