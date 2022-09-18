@@ -16,7 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { IS_TIME, NOT_TIME } from "/lib/constant/bool.js";
+import { IS_TIME } from "/lib/constant/bool.js";
 import { node_max_level, seed_node } from "/lib/constant/hacknet.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -95,10 +95,7 @@ function is_upgrade_core_ram(ns, idx) {
     }
     const interval = 30;
     const remainder = node_level(ns, idx) % interval;
-    if (0 == remainder) {
-        return IS_TIME;
-    }
-    return NOT_TIME;
+    return 0 == remainder;
 }
 
 /**
