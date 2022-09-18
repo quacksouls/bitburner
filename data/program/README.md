@@ -3,7 +3,7 @@ when you create programs both manually and via the Singularity API.  A save
 file whose name contains the name of a program should only be used to create
 the particular program.  For example, you should use the save file
 
-`bitburnerSave_1661522461_BN1x4_AutoLink.json`
+`BN1x4_AutoLink.json`
 
 to create the `AutoLink.exe` program and only that program, both manually and
 via the Singularity API.  Below are processes for creating a program.
