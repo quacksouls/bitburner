@@ -70,12 +70,11 @@ export function reassign_vigilante(ns, threshold) {
     let member = ns.gang.getMemberNames();
     assert(member.length > 0);
     const name = new Array();
-    while (name.length < tau) {
+    while ((name.length < tau) && (member.length > 0)) {
         const best = strongest_member(ns, member);
         member = member.filter(s => s != best);
         name.push(best);
     }
-    assert(member.length > 0);
     assert(name.length > 0);
     gangster.vigilante(name);
 }
