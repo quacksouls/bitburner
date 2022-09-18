@@ -18,7 +18,7 @@
 import {
     home, money_reserve, stock_tick, trade_bot_stop
 } from "/lib/constant/misc.js";
-import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
 import { pserv } from "/lib/constant/pserv.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -78,25 +78,23 @@ function buy_stock(ns, stk) {
  *     false otherwise.
  */
 function has_api_access(ns) {
-    const HAS_ACCESS = true;
-    const NO_ACCESS = !HAS_ACCESS;
     let success = ns.stock.purchaseWseAccount();
     if (!success) {
-        return NO_ACCESS;
+        return NOT;
     }
     success = ns.stock.purchaseTixApi();
     if (!success) {
-        return NO_ACCESS;
+        return NOT;
     }
     success = ns.stock.purchase4SMarketData();
     if (!success) {
-        return NO_ACCESS;
+        return NOT;
     }
     success = ns.stock.purchase4SMarketDataTixApi();
     if (!success) {
-        return NO_ACCESS;
+        return NOT;
     }
-    return HAS_ACCESS;
+    return HAS;
 }
 
 /**
@@ -125,8 +123,6 @@ function has_funds(ns) {
  *     false otherwise.
  */
 function has_minimum_pserv(ns) {
-    const HAS = true;
-    const NOT = !HAS;
     // Do we have the maximum number of purchased servers?
     const player = new Player(ns);
     const pserv_limit = ns.getPurchasedServerLimit();

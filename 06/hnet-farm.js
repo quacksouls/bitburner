@@ -16,6 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
+import { IS_TIME, NOT_TIME } from "/lib/constant/bool.js";
 import { node_max_level } from "/lib/constant/hacknet.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -89,8 +90,6 @@ function is_upgrade_core_ram(ns, idx) {
     // we must skip the upgrade.  It is very likely that the Level of a Hacknet
     // node is at maximum whereas its Cores and RAM are yet to be maxed out.
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
-    const IS_TIME = true;
-    const NOT_TIME = !IS_TIME;
     if (node_level(ns, idx) == node_max_level) {
         return IS_TIME;
     }

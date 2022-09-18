@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { HAS, NO_SKIP, NOT, SKIP } from "/lib/constant/bool.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -86,8 +86,6 @@ async function hack_low_end(ns, target) {
  *     false otherwise.
  */
 function has_target(ns) {
-    const HAS_TARGET = true;
-    const NO_TARGET = !HAS_TARGET;
     const lowend = new_low_end(ns);
     assert(lowend.length > 0);
     const target = new Array();
@@ -98,9 +96,9 @@ function has_target(ns) {
         target.push(host);
     }
     if (0 == target.length) {
-        return NO_TARGET;
+        return NOT;
     }
-    return HAS_TARGET;
+    return HAS;
 }
 
 /**

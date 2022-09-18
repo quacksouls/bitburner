@@ -28,6 +28,26 @@ export const ENABLE = true;
 export const DISABLE = !ENABLE;
 
 /**
+ * We have access to something.
+ */
+export const HAS = true;
+
+/**
+ * We do not have access to something; opposite of has.
+ */
+export const NOT = !HAS;
+
+/**
+ * It is time to do something.
+ */
+export const IS_TIME = true;
+
+/**
+ * Now is not the right time; opposite of is time.
+ */
+export const NOT_TIME = !IS_TIME;
+
+/**
  * A boolean that signifies a new state.
  */
 export const NEW = true;
