@@ -18,6 +18,18 @@
 // A bunch of constant values related to the World Stock Exchange.
 
 /**
+ * A multiplier for the amount of money we should have in reserve.  When
+ * trading on the Stock Market, we should not spend all our money on shares.
+ * Instead we should have a fixed amount of money in reserve.  The multiplier
+ * is used to calculate how much money we should have before we buy any shares.
+ * Let our funds threshold be the reserve multiplier times the amount of money
+ * to be held in reserve.  If our current amount of money is greater than the
+ * resulting product, then we have sufficient funds.  Increase the value of
+ * this constant to hold more money in reserve.
+ */
+export const reserve_mult = 1.1;
+
+/**
  * The Stock Market updates approximately every 6 seconds.
  */
 export const stock_tick = 6000;

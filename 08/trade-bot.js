@@ -18,7 +18,7 @@
 import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
 import { home, money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
-import { stock_tick, trade_bot_stop } from "/lib/constant/wse.js";
+import { reserve_mult, stock_tick, trade_bot_stop } from "/lib/constant/wse.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -106,8 +106,7 @@ function has_api_access(ns) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    const multiplier = 1.1;
-    return player.money() > (multiplier * money_reserve);
+    return player.money() > (reserve_mult * money_reserve);
 }
 
 /**
