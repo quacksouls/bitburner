@@ -18,6 +18,21 @@
 // A bunch of constant values related to the World Stock Exchange.
 
 /**
+ * Various thresholds related to the market forecast.
+ */
+export const forecast = {
+    // The buying threshold for the market forecast.  We skip buying shares if
+    // the forecast is below this threshold.
+    "BUY": 0.575,
+    // A selling threshold for the market forecast.  We sell all shares of a
+    // stock if the forecast is below this threshold.
+    "SELL": 0.5,
+    // The threshold for the market volatility.  We do not buy shares if the
+    // volatility is above this threshold.
+    "VOLATILITY": 0.05
+};
+
+/**
  * The minimum amount of RAM each purchased server should have before we start
  * trading on the Stock Market.  We do not want the trade bot to dump all our
  * money into buying shares.  Before the trade bot starts buying and selling

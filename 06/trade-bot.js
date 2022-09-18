@@ -19,7 +19,8 @@ import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
 import { home, money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
 import {
-    min_pserv_ram, reserve_mult, spend_tau, stock_tick, trade_bot_stop
+    forecast, min_pserv_ram, reserve_mult, spend_tau, stock_tick,
+    trade_bot_stop
 } from "/lib/constant/wse.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -225,9 +226,7 @@ function sell_stock(ns, stk) {
         return;
     }
     // Sell all shares of the stock if the forecast is below the threshold.
-    const threshold = 0.5;
-    const forecast = ns.stock.getForecast(stk);
-    if (forecast < threshold) {
+    if (ns.stock.getForecast(stk) < forecast.SELL) {
         if (is_profitable(ns, stk)) {
             ns.stock.sellStock(stk, nlong);
         }
@@ -256,14 +255,12 @@ function skip_buy(ns) {
  * @return true if we are to skip this stock; false otherwise.
  */
 function skip_stock(ns, stk) {
-    const forecast_threshold = 0.575;
-    const volatility_threshold = 0.05;
     // Skip if there is a low chance of increase in the next tick.
-    if (ns.stock.getForecast(stk) < forecast_threshold) {
+    if (ns.stock.getForecast(stk) < forecast.BUY) {
         return SKIP;
     }
     // Skip if the stock is too volatile.
-    if (ns.stock.getVolatility(stk) > volatility_threshold) {
+    if (ns.stock.getVolatility(stk) > forecast.VOLATILITY) {
         return SKIP;
     }
     // Skip if we cannot afford to purchase any shares of the stock.
