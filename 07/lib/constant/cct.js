@@ -94,7 +94,7 @@ export const cct_update_interval = 600000;
 export const colour = {
     "BLUE": 0,
     "RED": 1,
-    "WHITE": -1
+    "WHITE": 2
 };
 
 /**
