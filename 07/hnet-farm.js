@@ -17,7 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { IS_TIME, NOT_TIME } from "/lib/constant/bool.js";
-import { node_max_level } from "/lib/constant/hacknet.js";
+import { node_max_level, seed_node } from "/lib/constant/hacknet.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -262,7 +262,6 @@ export async function main(ns) {
     ];
     const node = [6, 12, 24, 30, 33];
     // Bootstrap our Hacknet farm with a small number of nodes.
-    const seed_node = 3;
     await setup_farm(ns, seed_node);
     // Add increasingly more nodes to the farm.  Also upgrade the nodes.
     const time = update_interval();

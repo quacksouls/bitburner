@@ -23,3 +23,9 @@
  * https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
  */
 export const node_max_level = 200;
+
+/**
+ * The initial number of Hacknet nodes to buy.  Start our Hacknet farm with
+ * this many seed nodes.
+ */
+export const seed_node = 3;
