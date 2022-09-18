@@ -6,7 +6,9 @@ the particular program.  For example, you should use the save file
 `BN1x4_AutoLink.json`
 
 to create the `AutoLink.exe` program and only that program, both manually and
-via the Singularity API.  Below are processes for creating a program.
+via the Singularity API.  Below are processes for creating a program.  Ensure
+you always have your browser in focus, otherwise the Intelligence XP you
+gain would vary from one run to the next.
 
 
 # Scripted
