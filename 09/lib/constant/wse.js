@@ -39,6 +39,13 @@ export const min_pserv_ram = 16384;
 export const reserve_mult = 1.1;
 
 /**
+ * The minimum amount of money we are willing to spend to purchase shares of a
+ * stock.  This is our spending threshold.  If our money is less than the
+ * spending threshold, then do not purchase any shares.
+ */
+export const spend_tau = 5 * 1e6;
+
+/**
  * The Stock Market updates approximately every 6 seconds.
  */
 export const stock_tick = 6000;

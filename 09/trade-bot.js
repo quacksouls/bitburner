@@ -18,8 +18,9 @@
 import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
 import { home, money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
-import { min_pserv_ram, reserve_mult, stock_tick, trade_bot_stop } from "/lib/constant/wse.js";
-import { Money } from "/lib/money.js";
+import {
+    min_pserv_ram, reserve_mult, spend_tau, stock_tick, trade_bot_stop
+} from "/lib/constant/wse.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -177,14 +178,10 @@ function num_shares(ns, stk) {
     if (!has_funds(ns)) {
         return 0;
     }
-    // The minimum amount of money we are willing to spend to purchase shares
-    // of a stock.  If the amount is less than the spending threshold, then do
-    // not purchase any shares.
+    //
     const player = new Player(ns);
-    const m = new Money();
-    const spend_threshold = 5 * m.million();
     const funds = player.money() - money_reserve;
-    if (funds < spend_threshold) {
+    if (funds < spend_tau) {
         return 0;
     }
     // The maximum number of shares of the stock we can buy.  This takes into
