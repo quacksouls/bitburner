@@ -16,6 +16,7 @@
  */
 
 import { HAS, NO_SKIP, NOT, SKIP } from "/lib/constant/bool.js";
+import { LOWEND, NOT_LOWEND } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -130,16 +131,14 @@ function is_complete(ns) {
  */
 function is_low_end(ns, hostname) {
     assert(hostname.length > 0);
-    const LOWEND = true;
-    const NO_LOWEND = !LOWEND;
     const player = new Player(ns);
     const server = new Server(ns, hostname);
     if (server.is_running_script(player.script())) {
-        return NO_LOWEND;
+        return NOT_LOWEND;
     }
     const nthread = server.num_threads(player.script());
     if (nthread > 0) {
-        return NO_LOWEND;
+        return NOT_LOWEND;
     }
     return LOWEND;
 }
