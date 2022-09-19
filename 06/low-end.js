@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { HAS, NO_SKIP, NOT, SKIP } from "/lib/constant/bool.js";
-import { LOWEND, NOT_LOWEND } from "/lib/constant/server.js";
+import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { NOT_LOWEND } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -96,10 +96,7 @@ function has_target(ns) {
         }
         target.push(host);
     }
-    if (0 == target.length) {
-        return NOT;
-    }
-    return HAS;
+    return target.length > 0;
 }
 
 /**
@@ -137,10 +134,7 @@ function is_low_end(ns, hostname) {
         return NOT_LOWEND;
     }
     const nthread = server.num_threads(player.script());
-    if (nthread > 0) {
-        return NOT_LOWEND;
-    }
-    return LOWEND;
+    return 0 == nthread;
 }
 
 /**
