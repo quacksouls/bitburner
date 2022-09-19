@@ -46,22 +46,6 @@ export const armour = {
 };
 
 /**
- * The threshold for the combat stats that any new recruit must attain.  Each
- * new recruit is immediately assigned to train their combat stats.  They
- * graduate out of training after their combat stats are at least this
- * threshold.
- */
-export const combat_tau = 15;
-
-/**
- * The minimum threshold on a combat stat at which a gang member is to be
- * assigned to strongarm civilians.  For example, if a member has Strength at
- * least this number, then we might want to re-assign the member to strongarm
- * civilians.
- */
-export const extortion_tau = 50;
-
-/**
  * All Augmentations that can be equipped on a member of a criminal gang.  The
  * Augmentations are listed from least expensive to most expensive.  The data
  * are taken from this file:
@@ -142,55 +126,44 @@ export const gangster_name = [
 ];
 
 /**
- * The number of gangsters we can recruit upon creating our gang.  We must earn
- * more respect to recruit more gang members.
+ * Constants related to various aspects of our gang members.
  */
-export const initial_gangster = 3;
+export const members = {
+    // The number of gangsters we can recruit upon creating our gang.  We must
+    // earn more respect to recruit more gang members.
+    "INITIAL": 3,
+    // The maximum number of members in a gang.  This number is taken from the
+    // file:
+    //
+    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+    "MAX": 12,
+    // The maximum number of gang members to assign to Vigilante Justice.
+    "VIGILANTE": 4,
+    // The maximum number of gang members to assign to territory warfare.  This
+    // threshold applies only when we are not engaged in territory warfare
+    // against a rival gang.  If we are about to clash against a rival gang, we
+    // should devote more members to warfare.  In general, this threshold helps
+    // to build our power while we are not engaged in dispute against any rival
+    // gang.
+    "WARRIOR": 4
+};
 
 /**
- * The maximum number of members in a gang.  This number is taken from the file:
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+ * Various thresholds related to the penalty.
  */
-export const max_gangster = 12;
-
-/**
- * The maximum number of gang members to assign to Vigilante Justice.
- */
-export const max_vigilante = 4;
-
-/**
- * The maximum number of gang members to assign to territory warfare.  This
- * threshold applies only when we are not engaged in territory warfare against
- * a rival gang.  If we are about to clash against a rival gang, we should
- * devote more members to warfare.  In general, this threshold helps to build
- * our power while we are not engaged in dispute against any rival gang.
- */
-export const max_warrior = 4;
-
-/**
- * The penalty percentage threshold at which we should lower our wanted level.
- * If our penalty percentage is at least this value, then we should re-assign
- * some gang members to jobs such as vigilante justice or ethical hacking to
- * help reduce our wanted level.
- */
-export const penalty_high_tau = 10;
-
-/**
- * The penalty percentage threshold at which we should move gang members out of
- * jobs that lower our wanted level.  Such jobs are vigilante justice and
- * ethical hacking.  In general, we strive to have as low wanted level as
- * possible.  However, if our wanted level is below this threshold, then we
- * should re-assign members to jobs that yield income.
- */
-export const penalty_low_tau = 2;
-
-/**
- * The minimum threshold on a combat stat at which a gang member is to be
- * assigned to armed robbery.  For example, if a member has Strength at least
- * this number, then we might want to re-assign the member to armed robbery.
- */
-export const robbery_tau = 200;
+export const penalty_tau = {
+    // The penalty percentage threshold at which we should lower our wanted
+    // level.  If our penalty percentage is at least this value, then we should
+    // re-assign some gang members to jobs such as vigilante justice or ethical
+    // hacking to help reduce our wanted level.
+    "HIGH": 10,
+    // The penalty percentage threshold at which we should move gang members
+    // out of jobs that lower our wanted level.  Such jobs are vigilante
+    // justice and ethical hacking.  In general, we strive to have as low
+    // wanted level as possible.  However, if our wanted level is below this
+    // threshold, then we should re-assign members to jobs that yield income.
+    "LOW": 2
+};
 
 /**
  * Various tasks to which a gang member can be assigned.  The task names are
@@ -350,20 +323,35 @@ export const task = {
 };
 
 /**
- * The minimum threshold on a combat stat at which a gang member is to be
- * assigned to acts of terrorism.  For example, if a member has Strength at
- * least this number, then we might want to re-assign the member to commit acts
- * of terrorism.
+ * Stat thresholds related to various tasks.
  */
-export const terrorism_tau = 400;
-
-/**
- * The minimum threshold on a combat stat at which a gang member is to be
- * assigned to trafficking illegal arms.  For example, if a member has Strength
- * at least this number, then we might want to re-assign the member to
- * trafficking illegal arms.
- */
-export const traffick_tau = 300;
+export const task_tau = {
+    // The minimum threshold for the combat stats that any new recruit must
+    // attain.  Each new recruit is immediately assigned to train their combat
+    // stats.  They graduate out of training after their combat stats are at
+    // least this threshold.
+    "COMBAT": 15,
+    // The minimum threshold on a combat stat at which a gang member is to be
+    // assigned to strongarm civilians.  For example, if a member has Strength
+    // at least this number, then we might want to re-assign the member to
+    // strongarm civilians.
+    "EXTORT": 50,
+    // The minimum threshold on a combat stat at which a gang member is to be
+    // assigned to armed robbery.  For example, if a member has Strength at
+    // least this number, then we might want to re-assign the member to armed
+    // robbery.
+    "ROBBERY": 200,
+    // The minimum threshold on a combat stat at which a gang member is to be
+    // assigned to acts of terrorism.  For example, if a member has Strength at
+    // least this number, then we might want to re-assign the member to commit
+    // acts of terrorism.
+    "TERROR": 400,
+    // The minimum threshold on a combat stat at which a gang member is to be
+    // assigned to trafficking illegal arms.  For example, if a member has
+    // Strength at least this number, then we might want to re-assign the
+    // member to trafficking illegal arms.
+    "TRAFFICK": 300
+};
 
 /**
  * Various vehicles with which a gang member can be equipped.  Going from top

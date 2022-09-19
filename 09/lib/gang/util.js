@@ -17,7 +17,7 @@
 
 // Utility functions for managing a gang.
 
-import { initial_gangster, max_gangster } from "/lib/constant/gang.js";
+import { members } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { assert } from "/lib/util.js";
 
@@ -34,12 +34,12 @@ export function reassign_vigilante(ns, threshold) {
     let tau = Math.floor(threshold);
     assert(tau > 0);
     // Lower the threshold, depending on our gang membership.
-    const mid_point = Math.floor(max_gangster / 2);
+    const mid_point = Math.floor(members.MAX / 2);
     const ngangster = ns.gang.getMemberNames();
     const gangster = new Gangster(ns);
-    if (ngangster == initial_gangster) {
+    if (ngangster == members.INITIAL) {
         tau = 1;
-    } else if ((initial_gangster < ngangster) && (ngangster <= mid_point)) {
+    } else if ((members.INITIAL < ngangster) && (ngangster <= mid_point)) {
         tau = 2;
     }
     // Do we already have the required number of members on vigilante justice?

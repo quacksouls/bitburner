@@ -17,10 +17,8 @@
 
 import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant/bool.js";
 import {
-    armour, combat_tau, extortion_tau, gang_aug_crime, gang_karma, gang_tick,
-    max_gangster, max_vigilante, max_warrior, NO_WAR, penalty_high_tau,
-    penalty_low_tau, robbery_tau, terrorism_tau, traffick_tau, vehicle, WAR,
-    weapon, win_tau
+    armour, gang_aug_crime, gang_karma, gang_tick, members, NO_WAR,
+    penalty_tau, task_tau, vehicle, WAR, weapon, win_tau
 } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
@@ -92,11 +90,11 @@ async function create_gang(ns, fac) {
  * @param ns The Netscript API.
  */
 function decrease_penalty(ns) {
-    reassign_vigilante(ns, max_vigilante);
+    reassign_vigilante(ns, members.VIGILANTE);
     const name = new Array();
     const gangster = new Gangster(ns);
     const member = ns.gang.getMemberNames();
-    gangster.graduate(member, combat_tau);
+    gangster.graduate(member, task_tau.COMBAT);
     for (const s of member) {
         if (gangster.is_vigilante(s) || gangster.is_mugger(s)) {
             continue;
@@ -207,15 +205,15 @@ function graduate(ns) {
             continue;
         }
         if (
-            (gangster.strength(s) >= combat_tau)
-                && (gangster.defense(s) >= combat_tau)
-                && (gangster.dexterity(s) >= combat_tau)
-                && (gangster.agility(s) >= combat_tau)
+            (gangster.strength(s) >= task_tau.COMBAT)
+                && (gangster.defense(s) >= task_tau.COMBAT)
+                && (gangster.dexterity(s) >= task_tau.COMBAT)
+                && (gangster.agility(s) >= task_tau.COMBAT)
         ) {
             member.push(s);
         }
     }
-    gangster.graduate(member, combat_tau);
+    gangster.graduate(member, task_tau.COMBAT);
 }
 
 /**
@@ -236,7 +234,7 @@ function has_all_turf(ns) {
  * @return true if our gang is at capacity; false otherwise.
  */
 function has_max_members(ns) {
-    return max_gangster == ns.gang.getMemberNames().length;
+    return members.MAX == ns.gang.getMemberNames().length;
 }
 
 /**
@@ -288,7 +286,7 @@ function is_in_war(ns) {
     const warrior = ns.gang.getMemberNames().filter(
         s => gangster.is_warrior(s)
     );
-    return warrior.length == max_gangster;
+    return warrior.length == members.MAX;
 }
 
 /**
@@ -387,9 +385,9 @@ function para_bellum(ns) {
     if (has_all_turf(ns)) {
         return;
     }
-    // We want at most max_warrior members to be engaged in territory warfare.
+    // We want at most members.WARRIOR members to be engaged in territory warfare.
     // The remaining members should be in as high-paying jobs as possible.
-    const threshold = max_gangster - max_warrior;
+    const threshold = members.MAX - members.WARRIOR;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
     const trafficker = ns.gang.getMemberNames().filter(
@@ -431,15 +429,15 @@ function penalty(ns) {
 function reassign(ns) {
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
-    reassign_extortion(ns, extortion_tau, robbery_tau);
-    reassign_robbery(ns, robbery_tau, traffick_tau);
+    reassign_extortion(ns, task_tau.EXTORT, task_tau.ROBBERY);
+    reassign_robbery(ns, task_tau.ROBBERY, task_tau.TRAFFICK);
     // Try to have at least one gang member assigned to commit acts of
     // terrorism.  This should help to increase our respect so we can recruit
     // more members.  However, if we already have the maximum number of
     // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns, terrorism_tau, Infinity);
+    reassign_terrorism(ns, task_tau.TERROR, Infinity);
     // Assign other high-level members to trafficking illegal arms.
-    reassign_trafficking(ns, traffick_tau, Infinity);
+    reassign_trafficking(ns, task_tau.TRAFFICK, Infinity);
 }
 
 /**
@@ -564,7 +562,7 @@ function reassign_trafficking(ns, min, max) {
  */
 function recruit(ns) {
     const gangster = new Gangster(ns);
-    if (ns.gang.getMemberNames().length < max_gangster) {
+    if (ns.gang.getMemberNames().length < members.MAX) {
         const newbie = gangster.recruit();
         gangster.train_combat(newbie);
     }
@@ -580,10 +578,10 @@ function retrain(ns) {
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
         if (
-            (gangster.strength(s) < combat_tau)
-                || (gangster.defense(s) < combat_tau)
-                || (gangster.dexterity(s) < combat_tau)
-                || (gangster.agility(s) < combat_tau)
+            (gangster.strength(s) < task_tau.COMBAT)
+                || (gangster.defense(s) < task_tau.COMBAT)
+                || (gangster.dexterity(s) < task_tau.COMBAT)
+                || (gangster.agility(s) < task_tau.COMBAT)
         ) {
             member.push(s);
         }
@@ -599,7 +597,7 @@ function retrain(ns) {
 function update(ns) {
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
-        if (penalty(ns) < penalty_low_tau) {
+        if (penalty(ns) < penalty_tau.LOW) {
             reassign(ns);
             return;
         }
@@ -608,7 +606,7 @@ function update(ns) {
     // threshold, then re-assign some gang members to vigilante justice in
     // order to lower our penalty.  Furthermore, re-assign the remaining
     // members to jobs that attract a lower wanted level.
-    if (penalty(ns) >= penalty_high_tau) {
+    if (penalty(ns) >= penalty_tau.HIGH) {
         decrease_penalty(ns);
         return;
     }
