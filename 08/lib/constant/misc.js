@@ -19,6 +19,16 @@
 // constants.
 
 /**
+ * The bases for various number systems.
+ */
+export const base = {
+    // The base of the binary number system.
+    "BINARY": 2,
+    // The base of the decimal number system.
+    "DECIMAL": 10
+};
+
+/**
  * All cities in the game world.
  */
 export const cities = [
@@ -41,11 +51,6 @@ export const colour = {
     "RED":        "\u001b[31m",
     "RESET":      "\u001b[0m"
 };
-
-/**
- * The base of the decimal number system.
- */
-export const decimal_base = 10;
 
 /**
  * Always have this amount of money in reserve.  When engaging in any

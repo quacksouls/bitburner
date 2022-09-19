@@ -19,6 +19,7 @@ import { MyArray } from "/lib/array.js";
 import {
     count_one, log_cct_failure, parity_position, print_error, print_success
 } from "/lib/cct.js";
+import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -70,8 +71,7 @@ function check_parity(msg, nparity) {
  */
 function decode(msg) {
     assert(msg.length > 0);
-    const base = 10;
-    const _msg = Array.from(msg).map(s => parseInt(s, base));
+    const _msg = Array.from(msg).map(s => parseInt(s, base.DECIMAL));
     const nparity = num_parity(_msg);
     const _msgc = secded(_msg, nparity);
     return to_integer(_msgc, nparity);
@@ -162,8 +162,7 @@ function to_integer(msg, nparity) {
     }
     // The number is a binary representation of an integer.  Convert the binary
     // representation to a decimal representation.
-    const base = 2;
-    return parseInt(data.join(""), base);
+    return parseInt(data.join(""), base.BINARY);
 }
 
 /**

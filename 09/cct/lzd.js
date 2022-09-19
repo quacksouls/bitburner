@@ -17,7 +17,7 @@
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { lzchunk } from "/lib/constant/cct.js";
-import { decimal_base } from "/lib/constant/misc.js";
+import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -107,7 +107,7 @@ function decompress(data) {
     // The uncompressed string.
     let result = "";
     while (i < data.length) {
-        const ell = parseInt(data[i], decimal_base);
+        const ell = parseInt(data[i], base.DECIMAL);
         // Is this chunk of type L<string>?
         if (lzchunk.LS == chunk_type) {
             // Do we end the chunk now?
@@ -135,7 +135,7 @@ function decompress(data) {
         }
         // Backtrack X characters in the uncompressed string.  Copy and append
         // the X-th character to the uncompressed string.  Repeat L times.
-        const x = parseInt(data[i + 1], decimal_base);
+        const x = parseInt(data[i + 1], base.DECIMAL);
         for (let j = 0; j < ell; j++) {
             const k = result.length - x;
             result = result.concat(result[k]);
