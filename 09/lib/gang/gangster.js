@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, money_reserve } from "/lib/constant/misc.js";
 import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, task, vehicle, weapon
+    armour, gang_aug_crime, gangster_name, task, vehicle, weapon
 } from "/lib/constant/gang.js";
+import { home, money_reserve } from "/lib/constant/misc.js";
 import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 
@@ -53,31 +53,7 @@ export class Gangster {
      */
     constructor(ns) {
         this.#cost_mult = 5;
-        this.#name = [
-            "Al Capone", "Alfhild", "Al Swearengen", "Anna Nzinga",
-            "Anne Bonny", "Anne Dieu le Veut", "Artemisia of Caria",
-            "Black Bart", "Blackbeard", "Bonnie Parker", "Boudicca",
-            "Captain Haddock", "Captain Hook", "Charlotte Badger",
-            "Clyde Barrow",
-            "Donbot", "Don Corleone", "Don Logan",
-            "Elise Eskilsdotter", "Elvira Hancock",
-            "Fat Tony", "Francois l'Olonnais", "Fu Hao",
-            "Gemma Teller Morrow", "Grace O'Malley",
-            "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson",
-            "Joan of Arc",
-            "Lady Trieu", "Long Ben", "Long John Silver",
-            "Ma Barker", "Ma Beagle", "Mark Gor", "Mary Read", "Mia Wallace",
-            "Nucky Thompson",
-            "O-Ren Ishii",
-            "Rani Velu Nachiyar", "Red Rackham", "Rusla",
-            "Sadie Farrell", "Sayyida al Hurra", "Sir Francis Drake",
-            "Sir Henry Morgan", "Snaps Provolone", "Stephanie St. Clair",
-            "Stringer Bell",
-            "Tomoe Gozen", "Tom Stall", "Tony Montana", "Tony Soprano",
-            "Virginia Hill",
-            "William Kidd",
-            "Zheng Yi Sao"
-        ];
+        this.#name = Array.from(gangster_name);
         this.#ns = ns;
     }
 

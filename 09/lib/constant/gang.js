@@ -95,6 +95,53 @@ export const gang_karma = -54000;
 export const gang_tick = 20 * 1000;
 
 /**
+ * A list of names.  We can randomly choose a name to assign to a new recruit.
+ */
+export const gangster_name = [
+    // A
+    "Al Capone", "Alfhild", "Al Swearengen", "Anna Nzinga",
+    "Anne Bonny", "Anne Dieu le Veut", "Artemisia of Caria",
+    // B
+    "Black Bart", "Blackbeard", "Bonnie Parker", "Boudicca",
+    // C
+    "Captain Haddock", "Captain Hook", "Charlotte Badger", "Chen Jinnan",
+    "Clyde Barrow",
+    // D
+    "Donbot", "Don Corleone", "Don Logan",
+    // E
+    "Elise Eskilsdotter", "Elvira Hancock",
+    // F
+    "Fat Tony", "Francois l'Olonnais", "Fu Hao",
+    // G
+    "Gemma Teller Morrow", "Grace O'Malley",
+    // J
+    "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson",
+    "Joan of Arc",
+    // L
+    "Lady Trieu", "Long Ben", "Long John Silver",
+    // M
+    "Ma Barker", "Ma Beagle", "Mark Gor", "Mary Read", "Mia Wallace",
+    // N
+    "Nucky Thompson",
+    // O
+    "O-Ren Ishii",
+    // R
+    "Rani Velu Nachiyar", "Red Rackham", "Rusla",
+    // S
+    "Sadie Farrell", "Sayyida al Hurra", "Sir Francis Drake",
+    "Sir Henry Morgan", "Snaps Provolone", "Stephanie St. Clair",
+    "Stringer Bell",
+    // T
+    "Tomoe Gozen", "Tom Stall", "Tony Montana", "Tony Soprano",
+    // V
+    "Virginia Hill",
+    // W
+    "William Kidd",
+    // Z
+    "Zheng Yi Sao"
+];
+
+/**
  * The number of gangsters we can recruit upon creating our gang.  We must earn
  * more respect to recruit more gang members.
  */
