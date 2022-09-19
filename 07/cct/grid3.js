@@ -130,7 +130,7 @@ function can_move_up(grid, r, c) {
  *     false otherwise.
  */
 function is_obstacle(grid, r, c) {
-    return (1 == grid[r][c]);
+    return 1 == grid[r][c];
 }
 
 /**
