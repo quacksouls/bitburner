@@ -17,8 +17,8 @@
 
 // Miscellaneous helper functions related to factions.
 
-import { home } from "/lib/constant/misc.js";
 import { factions } from "/lib/constant/faction.js";
+import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { augmentations_to_buy } from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";

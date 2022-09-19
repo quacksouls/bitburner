@@ -19,7 +19,8 @@ import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
 import {
     armour, gang_aug_crime, gangster_name, task, vehicle, weapon
 } from "/lib/constant/gang.js";
-import { home, money_reserve } from "/lib/constant/misc.js";
+import { money_reserve } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 

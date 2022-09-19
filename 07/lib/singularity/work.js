@@ -17,7 +17,8 @@
 
 // Miscellaneous helper functions related to work.
 
-import { home, work_hack_lvl } from "/lib/constant/misc.js";
+import { work_hack_lvl } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";

@@ -16,8 +16,9 @@
  */
 
 import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
-import { home, money_reserve } from "/lib/constant/misc.js";
+import { money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
+import { home } from "/lib/constant/server.js";
 import {
     forecast, min_pserv_ram, reserve_mult, spend_tau, stock_tick,
     trade_bot_stop

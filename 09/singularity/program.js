@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, work_hack_lvl } from "/lib/constant/misc.js";
 import { program as popen } from "/lib/constant/exe.js";
+import { work_hack_lvl } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { choose_hardware_company } from "/lib/singularity/util.js";

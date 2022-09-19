@@ -48,21 +48,6 @@ export const colour = {
 export const decimal_base = 10;
 
 /**
- * The minimum amount of RAM for a high-end server.
- */
-export const high_ram = 512;
-
-/**
- * The home server of the player.
- */
-export const home = "home";
-
-/**
- * The amount of RAM for a mid-sized home server.
- */
-export const mid_ram = 128;
-
-/**
  * Always have this amount of money in reserve.  When engaging in any
  * purchasing activities, we do not want to spend all our money.  We spend only
  * if doing so would leave us with at least this amount of money left over.

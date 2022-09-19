@@ -16,7 +16,8 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
-import { home, work_hack_lvl } from "/lib/constant/misc.js";
+import { work_hack_lvl } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
 import { purchase_augmentations } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";

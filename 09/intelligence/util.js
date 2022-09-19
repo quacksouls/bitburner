@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/misc.js";
 import { all_programs } from "/lib/constant/exe.js";
+import { home } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
 
 // Miscellaneous utility functions.

@@ -18,7 +18,7 @@
 // Miscellaneous helper functions.
 
 import { program } from "/lib/constant/exe.js";
-import { home } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 
 /**
  * A function for assertion.

@@ -16,7 +16,8 @@
  */
 
 import { program as popen } from "/lib/constant/exe.js";
-import { colour, home } from "/lib/constant/misc.js";
+import { colour } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a

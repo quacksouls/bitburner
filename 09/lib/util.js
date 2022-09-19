@@ -19,7 +19,8 @@
 
 import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
-import { cities, home } from "/lib/constant/misc.js";
+import { cities } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { trade_bot_stop } from "/lib/constant/wse.js";
 
 /**

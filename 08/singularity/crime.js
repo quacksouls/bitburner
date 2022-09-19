@@ -16,7 +16,7 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
-import { home } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 

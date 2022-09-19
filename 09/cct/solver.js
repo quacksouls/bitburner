@@ -16,7 +16,7 @@
  */
 
 import { cct_suffix, cct_update_interval } from "/lib/constant/cct.js";
-import { home } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
 

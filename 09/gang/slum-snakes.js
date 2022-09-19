@@ -18,7 +18,7 @@
 import { crimes } from "/lib/constant/crime.js";
 import { gang_karma } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { lower_karma } from "/lib/singularity/crime.js";

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { high_ram, home } from "/lib/constant/misc.js";
+import { high_ram, home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";

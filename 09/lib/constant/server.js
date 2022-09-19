@@ -29,3 +29,18 @@ export const NOT_LOWEND = !LOWEND;
 
 // A bunch of constant values related to servers in the game world.  We exclude
 // purchased servers.
+
+/**
+ * The minimum amount of RAM for a high-end server.
+ */
+export const high_ram = 512;
+
+/**
+ * The home server of the player.
+ */
+export const home = "home";
+
+/**
+ * The amount of RAM for a mid-sized home server.
+ */
+export const mid_ram = 128;
