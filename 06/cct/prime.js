@@ -16,7 +16,9 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import {
+    log_cct_failure, print_error, print_success, small_primes
+} from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -89,8 +91,8 @@ function max_prime_factor(n) {
 function prime_factorization(n) {
     assert(n > 1);
     // First, take care of the small primes.
-    const prime = [2, 3, 5, 7, 11];
-    if (prime.includes(n)) {
+    const prime = new Set(small_primes);
+    if (prime.has(n)) {
         return [n];
     }
     // A list of factors of n.  We want to break these factors into prime
