@@ -239,13 +239,10 @@ function set_neutral_gang(ns) {
     const nmember = 1;
     reassign_vigilante(ns, nmember);
     // Put anyone in combat training to mug people.
-    const newbie = new Array();
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_training(s)) {
-            newbie.push(s);
-        }
-    }
+    const newbie = ns.gang.getMemberNames().filter(
+        s => gangster.is_training(s)
+    );
     gangster.mug(newbie);
     // Finally, disengage from turf warfare so members would not be killed
     // while we cannot run the script that manages our gang.
