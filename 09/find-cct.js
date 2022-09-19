@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { cct_suffix } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 
@@ -30,7 +31,7 @@ export async function main(ns) {
     const server = network(ns);
     server.push(home);
     for (const host of server) {
-        const file = ns.ls(host, ".cct");
+        const file = ns.ls(host, cct_suffix);
         if (file.length < 1) {
             continue;
         }
