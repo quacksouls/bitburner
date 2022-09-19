@@ -58,10 +58,7 @@ function is_balanced(expression) {
     }
     // Every opening parenthesis should be matched with a closing parenthesis.
     // If the stack has zero elements, then the expression is balanced.
-    if (0 == stack.length) {
-        return VALID;
-    }
-    return INVALID;
+    return 0 == stack.length;
 }
 
 /**
