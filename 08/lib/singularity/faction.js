@@ -116,21 +116,42 @@ export async function join_faction(ns, fac) {
  * homicide.  However, there are two reasons why we should choose homicide.
  * First, it yields more negative karma than mugging.  We need lots of negative
  * karma in order to create a gang.  Second, homicide yields more money than
- * mugging.
+ * mugging.  Commit homicide until we meet the requirements for receiving an
+ * invitation from Slum Snakes.  Join Slum Snakes and perform Field Work for
+ * the faction to rapidly raise all our combat stats.
  *
  * @param ns The Netscript API.
  * @param threshold Each of our combat stats should be raised to at least this
  *     value.  Must be a positive integer.
  */
 export async function raise_combat_stats(ns, threshold) {
+    // Sanity checks.
     const tau = Math.ceil(threshold);
     assert(tau > 0);
+    const player = new Player(ns);
+    if (
+        (player.strength() >= tau)
+            && (player.defense() >= tau)
+            && (player.dexterity() >= tau)
+            && (player.agility() >= tau)
+    ) {
+        return;
+    }
     // Commit homicide to raise all our combat stats.
     const focus = true;
     const t = new Time();
     const time = 5 * t.second();
     ns.singularity.commitCrime(crimes.KILL, focus);
-    const player = new Player(ns);
+    // Wait to receive an invitation from Slum Snakes and perform Field Work
+    // for the faction.
+    const target = "Slum Snakes";
+    const joined_faction = player.faction();
+    if (!joined_faction.includes(target)) {
+        await await_invitation(ns, target);
+        ns.singularity.joinFaction(target);
+    }
+    const work_type = "Field Work";
+    ns.singularity.workForFaction(target, work_type, focus);
     while (
         (player.strength() < tau)
             || (player.defense() < tau)
