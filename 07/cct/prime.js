@@ -16,9 +16,8 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import {
-    log_cct_failure, print_error, print_success, small_primes
-} from "/lib/cct.js";
+import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { small_primes } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
