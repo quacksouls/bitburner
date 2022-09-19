@@ -58,14 +58,15 @@ export const MOVE = true;
 export const NOT_MOVE = !MOVE;
 
 /**
- * An action can be attained.
+ * An action can be attained.  This is specific to Array Jumping Game.
  */
-export const REACHABLE = true;
+export const REACHABLE = 1;
 
 /**
- * An action cannot be attained; opposite of reachable.
+ * An action cannot be attained; opposite of reachable.  This is specific to
+ * Array Jumping Game.
  */
-export const NOT_REACHABLE = !REACHABLE;
+export const NOT_REACHABLE = 0;
 
 // Various constant values related to Coding Contracts.
 
