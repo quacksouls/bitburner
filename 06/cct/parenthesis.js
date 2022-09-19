@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { INVALID, VALID } from "/lib/constant/bool.js";
+import { INVALID } from "/lib/constant/bool.js";
 import { parenthesis } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
