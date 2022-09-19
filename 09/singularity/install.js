@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DISABLE } from "/lib/constant/bool.js";
 import { MyArray } from "/lib/array.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
@@ -219,6 +220,7 @@ function purchased_augmentations(ns) {
  *
  * (1) Have some members engage in vigilante justice to decrease the penalty.
  * (2) If a member is currently in training, set them to mug random people.
+ * (3) Disengage from territory warfare.
  *
  * @param ns The Netscript API.
  */
@@ -245,6 +247,9 @@ function set_neutral_gang(ns) {
         }
     }
     gangster.mug(newbie);
+    // Finally, disengage from turf warfare so members would not be killed
+    // while we cannot run the script that manages our gang.
+    ns.gang.setTerritoryWarfare(DISABLE);
 }
 
 /**
