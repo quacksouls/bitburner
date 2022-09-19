@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to factions.
 
+import { crimes } from "/lib/constant/crime.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
@@ -110,35 +111,31 @@ export async function join_faction(ns, fac) {
 
 /**
  * Raise each of our combat stats to a given level.  An easy way to raise our
- * combat stats is to join a faction and carry out field work for the faction.
+ * combat stats is to go to the slum of any city and either mug someone or
+ * commit homicide.  Mugging yields more XP for all our combat stats than
+ * homicide.  However, there are two reasons why we should choose homicide.
+ * First, it yields more negative karma than mugging.  We need lots of negative
+ * karma in order to create a gang.  Second, homicide yields more money than
+ * mugging.
  *
  * @param ns The Netscript API.
  * @param threshold Each of our combat stats should be raised to at least this
  *     value.  Must be a positive integer.
  */
 export async function raise_combat_stats(ns, threshold) {
-    assert(threshold > 0);
-    // Join a faction.
-    const player = new Player(ns);
-    const joined_faction = player.faction();
-    // You can join a particular company by being anywhere in the game world.
-    // You do not have to be in the city where the company is located.
-    const target = "MegaCorp";
-    if (!joined_faction.includes(target)) {
-        await await_invitation(ns, target);
-        ns.singularity.joinFaction(target);
-    }
-    // Perform field work for the faction.
-    const work_type = "Field Work";
+    const tau = Math.ceil(threshold);
+    assert(tau > 0);
+    // Commit homicide to raise all our combat stats.
     const focus = true;
     const t = new Time();
-    const time = t.minute();
-    ns.singularity.workForFaction(target, work_type, focus);
+    const time = 5 * t.second();
+    ns.singularity.commitCrime(crimes.KILL, focus);
+    const player = new Player(ns);
     while (
-        (player.strength() < threshold)
-            || (player.defense() < threshold)
-            || (player.dexterity() < threshold)
-            || (player.agility() < threshold)
+        (player.strength() < tau)
+            || (player.defense() < tau)
+            || (player.dexterity() < tau)
+            || (player.agility() < tau)
     ) {
         await ns.sleep(time);
     }
