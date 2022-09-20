@@ -191,9 +191,8 @@ async function the_syndicate(ns) {
     // Raise our Hack and combat stats, lower our karma, and raise our income.
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
-    await lower_karma(
-        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
-    );
+    const nkill = 0;
+    await lower_karma(ns, faction_req[fac].karma, crimes.KILL, nkill);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
     const work_type = "Field Work";
