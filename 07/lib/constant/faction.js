@@ -64,7 +64,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": undefined,
         "kill": undefined,
-        "money": 40 * 1e6
+        "money": 40e6
     },
     "Bachman & Associates": {
         "backdoor": "b-and-a",
@@ -100,7 +100,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": undefined,
         "kill": undefined,
-        "money": 20 * 1e6
+        "money": 20e6
     },
     "Clarke Incorporated": {
         "backdoor": "clarkinc",
@@ -130,7 +130,7 @@ export const faction_req = {
         "hack": 2500,
         "karma": undefined,
         "kill": undefined,
-        "money": 100 * 1e9
+        "money": 100e9
     },
     "ECorp": {
         "backdoor": "ecorp",
@@ -168,7 +168,7 @@ export const faction_req = {
         "hack": 1500,
         "karma": undefined,
         "kill": undefined,
-        "money": 150 * 1e9
+        "money": 150e9
     },
     "Ishima": {
         "backdoor": undefined,
@@ -177,7 +177,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": undefined,
         "kill": undefined,
-        "money": 30 * 1e6
+        "money": 30e6
     },
     "KuaiGong International": {
         "backdoor": "kuai-gong",
@@ -219,7 +219,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": undefined,
         "kill": undefined,
-        "money": 20 * 1e6
+        "money": 20e6
     },
     "NiteSec": {
         "backdoor": "avmnite-02h",
@@ -266,7 +266,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": -22,
         "kill": undefined,
-        "money": 15 * 1e6
+        "money": 15e6
     },
     "Slum Snakes": {
         "backdoor": undefined,
@@ -313,7 +313,7 @@ export const faction_req = {
         "hack": 850,
         "karma": undefined,
         "kill": undefined,
-        "money": 75 * 1e9
+        "money": 75e9
     },
     "The Dark Army": {
         "backdoor": undefined,
@@ -331,7 +331,7 @@ export const faction_req = {
         "hack": 200,
         "karma": -90,
         "kill": undefined,
-        "money": 10 * 1e6
+        "money": 10e6
     },
     "Tian Di Hui": {
         "backdoor": undefined,
@@ -349,7 +349,7 @@ export const faction_req = {
         "hack": undefined,
         "karma": undefined,
         "kill": undefined,
-        "money": 50 * 1e6
+        "money": 50e6
     }
 };
 
