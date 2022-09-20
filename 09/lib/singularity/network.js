@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to network.
 
+import { cities } from "/lib/constant/location.js";
 import { shortest_path } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -72,7 +73,7 @@ export async function visit_city(ns, city) {
     if (player.city() == city) {
         return;
     }
-    ns.singularity.goToLocation("Travel Agency");  // Raise Intelligence XP.
+    ns.singularity.goToLocation(cities.generic["TA"]);  // Raise Int XP.
     const t = new Time();
     const time = 5 * t.second();
     let success = ns.singularity.travelToCity(city);
