@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DISABLE, ENABLE, NEW, NOT_NEW } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_karma, gang_tick, members, NO_WAR,
-    penalty_tau, task_tau, vehicle, WAR, weapon, win_tau
+    armour, gang_aug_crime, gang_karma, gang_tick, members, penalty_tau,
+    task_tau, vehicle, weapon, win_tau
 } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
@@ -121,12 +121,12 @@ function decrease_penalty(ns) {
  */
 function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
-        return NO_WAR;
+        return bool.NO_WAR;
     }
     if (has_max_members(ns) && (min_victory_chance(ns) >= win_tau)) {
-        return WAR;
+        return bool.WAR;
     }
-    return NO_WAR;
+    return bool.NO_WAR;
 }
 
 /**
@@ -306,10 +306,10 @@ function is_new_tick(ns, other) {
             (current[g].power != other[g].power)
                 || (current[g].territory != other[g].territory)
         ) {
-            return NEW;
+            return bool.NEW;
         }
     }
-    return NOT_NEW;
+    return bool.NOT_NEW;
 }
 
 /**
@@ -667,7 +667,7 @@ export async function main(ns) {
     // default, we disable territory warfare.  Instead, we concentrate on
     // recruitment and building the strengths of our gang members.
     await create_gang(ns, faction);
-    ns.gang.setTerritoryWarfare(DISABLE);
+    ns.gang.setTerritoryWarfare(bool.DISABLE);
     recruit(ns);
     // Manage our gang.
     // A tick is a period of time as defined by the constant gang_tick.  At the
@@ -683,11 +683,11 @@ export async function main(ns) {
     while (true) {
         if (enable_turf_war(ns)) {
             if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
-                ns.gang.setTerritoryWarfare(ENABLE);
+                ns.gang.setTerritoryWarfare(bool.ENABLE);
             }
         } else {
             if (ns.gang.getGangInformation().territoryWarfareEngaged) {
-                ns.gang.setTerritoryWarfare(DISABLE);
+                ns.gang.setTerritoryWarfare(bool.DISABLE);
             }
         }
         // Are we in a new tick?  If we are having a turf war, then let our

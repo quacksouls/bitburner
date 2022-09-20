@@ -18,7 +18,7 @@
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
-import { INVALID, VALID } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -128,16 +128,16 @@ function is_triangle(triangle) {
         const top = triangle[i];
         const bottom = triangle[i + 1];
         if (top.length < 1) {
-            return INVALID;
+            return bool.INVALID;
         }
         if (bottom.length < 1) {
-            return INVALID;
+            return bool.INVALID;
         }
         if (top.length != (bottom.length - 1)) {
-            return INVALID;
+            return bool.INVALID;
         }
     }
-    return VALID;
+    return bool.VALID;
 }
 
 /**

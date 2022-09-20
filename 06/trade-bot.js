@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { HAS, NOT, NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
@@ -82,21 +82,21 @@ function buy_stock(ns, stk) {
 function has_api_access(ns) {
     let success = ns.stock.purchaseWseAccount();
     if (!success) {
-        return NOT;
+        return bool.NOT;
     }
     success = ns.stock.purchaseTixApi();
     if (!success) {
-        return NOT;
+        return bool.NOT;
     }
     success = ns.stock.purchase4SMarketData();
     if (!success) {
-        return NOT;
+        return bool.NOT;
     }
     success = ns.stock.purchase4SMarketDataTixApi();
     if (!success) {
-        return NOT;
+        return bool.NOT;
     }
-    return HAS;
+    return bool.HAS;
 }
 
 /**
@@ -128,15 +128,15 @@ function has_minimum_pserv(ns) {
     const player = new Player(ns);
     const pserv_limit = ns.getPurchasedServerLimit();
     if (player.pserv().length < pserv_limit) {
-        return NOT;
+        return bool.NOT;
     }
     // Does each purchased server have at least the given amount of RAM?
     const server = ns.getServer(pserv.PREFIX);
     assert(server.purchasedByPlayer);
     if (server.maxRam < min_pserv_ram) {
-        return NOT;
+        return bool.NOT;
     }
-    return HAS;
+    return bool.HAS;
 }
 
 /**
@@ -258,18 +258,18 @@ function skip_buy(ns) {
 function skip_stock(ns, stk) {
     // Skip if there is a low chance of increase in the next tick.
     if (ns.stock.getForecast(stk) < forecast.BUY) {
-        return SKIP;
+        return bool.SKIP;
     }
     // Skip if the stock is too volatile.
     if (ns.stock.getVolatility(stk) > forecast.VOLATILITY) {
-        return SKIP;
+        return bool.SKIP;
     }
     // Skip if we cannot afford to purchase any shares of the stock.
     const nshare = num_shares(ns, stk);
     if (nshare < 1) {
-        return SKIP;
+        return bool.SKIP;
     }
-    return NO_SKIP;
+    return bool.NO_SKIP;
 }
 
 /**

@@ -15,20 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Boolean constants specific to gangs.
-
-/**
- * A boolean constant that means we are (or should be) engaged in territory
- * warfare.
- */
-export const WAR = true;
-
-/**
- * A boolean constant that means we are not (or should not be) engaged in
- * territory warfare.
- */
-export const NO_WAR = !WAR;
-
 // A bunch of constant values relating to gangs.
 
 /**

@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { INVALID, VALID } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -101,10 +101,10 @@ function is_valid_ip(octet) {
     assert(4 == octet.length);
     for (const seg of octet) {
         if (!is_valid_octet(seg)) {
-            return INVALID;
+            return bool.INVALID;
         }
     }
-    return VALID;
+    return bool.VALID;
 }
 
 /**
@@ -119,7 +119,7 @@ function is_valid_octet(octet) {
     // is when the octet itself represents the number 0.
     if ("0" == octet[0]) {
         if ("0" != octet) {
-            return INVALID;
+            return bool.INVALID;
         }
     }
     // An octet represents an integer between 0 and 255, inclusive.
@@ -128,9 +128,9 @@ function is_valid_octet(octet) {
     const min = 0;
     const max = 255;
     if ((min <= n) && (n <= max)) {
-        return VALID;
+        return bool.VALID;
     }
-    return INVALID;
+    return bool.INVALID;
 }
 
 /**

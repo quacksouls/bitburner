@@ -18,7 +18,7 @@
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
-import { MOVE, NOT_MOVE } from "/lib/constant/cct.js";
+import { bool } from "/lib/constant/bool.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -34,16 +34,16 @@ function can_move_down(grid, r, c) {
     // Are we at the bottom-most edge of the grid?
     const lastidx = grid.length - 1;
     if (lastidx == r) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // Below us is an obstacle.
     assert(r >= 0);
     assert(r < lastidx);
     if (is_obstacle(grid, r + 1, c)) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // We can move one step down.
-    return MOVE;
+    return bool.MOVE;
 }
 
 /**
@@ -59,16 +59,16 @@ function can_move_down(grid, r, c) {
 function can_move_left(grid, r, c) {
     // Are we at the left-most edge of the grid?
     if (0 == c) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // To our left is an obstacle.
     assert(c > 0);
     assert(c < grid[r].length);
     if (is_obstacle(grid, r, c - 1)) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // We can move to the left.
-    return MOVE;
+    return bool.MOVE;
 }
 
 /**
@@ -85,16 +85,16 @@ function can_move_right(grid, r, c) {
     const lastidx = grid[r].length - 1;
     // Are we at the right-most edge of the grid?
     if (lastidx == c) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // To our right is an obstacle.
     assert(c >= 0);
     assert(c < lastidx);
     if (is_obstacle(grid, r, c + 1)) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // We can move to the right.
-    return MOVE;
+    return bool.MOVE;
 }
 
 /**
@@ -108,16 +108,16 @@ function can_move_right(grid, r, c) {
 function can_move_up(grid, r, c) {
     // Are we at the top-most edge of the grid?
     if (0 == r) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // Above us is an obstacle.
     assert(r > 0);
     assert(r < grid.length);
     if (is_obstacle(grid, r - 1, c)) {
-        return NOT_MOVE;
+        return bool.NOT_MOVE;
     }
     // We can move one step up.
-    return MOVE;
+    return bool.MOVE;
 }
 
 /**

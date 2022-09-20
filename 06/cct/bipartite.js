@@ -19,7 +19,8 @@ import { MyArray } from "/lib/array.js";
 import {
     log_cct_failure, matrix_to_string, print_error, print_success
 } from "/lib/cct.js";
-import { BIPARTITE, colour, NOT_BIPARTITE } from "/lib/constant/cct.js";
+import { bool } from "/lib/constant/bool.js";
+import { colour } from "/lib/constant/cct.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -163,7 +164,7 @@ function is_bipartite(graph, root, colr) {
         assert((colr[u] == colour.BLUE) || (colr[u] == colour.RED));
         for (const v of graph.neighbour(u)) {
             if (colr[u] == colr[v]) {
-                return NOT_BIPARTITE;
+                return bool.NOT_BIPARTITE;
             }
             if (visit.has(v)) {
                 continue;
@@ -172,7 +173,7 @@ function is_bipartite(graph, root, colr) {
             visit.add(v);
         }
     }
-    return BIPARTITE;
+    return bool.BIPARTITE;
 }
 
 /**

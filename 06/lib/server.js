@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { script } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
@@ -126,18 +126,16 @@ export class Server {
      *     false otherwise.
      */
     can_run_script(script) {
-        const CAN_RUN = true;
-        const CANNOT_RUN = !CAN_RUN;
         const script_ram = this.#ns.getScriptRam(script, this.#home);
         const server_ram = this.available_ram();
         if (server_ram < 1) {
-            return CANNOT_RUN;
+            return bool.NOT_RUN;
         }
         const nthread = Math.floor(server_ram / script_ram);
         if (nthread < 1) {
-            return CANNOT_RUN;
+            return bool.NOT_RUN;
         }
-        return CAN_RUN;
+        return bool.CAN_RUN;
     }
 
     /**
@@ -155,22 +153,22 @@ export class Server {
         // No root access on either servers.
         if (!this.has_root_access()) {
             this.#ns.tprint("No root access on " + this.hostname());
-            return FAILURE;
+            return bool.FAILURE;
         }
         if (!targ.hasAdminRights) {
             this.#ns.tprint("No root access on " + targ.hostname);
-            return FAILURE;
+            return bool.FAILURE;
         }
         // Hack script not found on our home server.
         if (!this.#ns.fileExists(this.#script, this.#home)) {
             this.#ns.tprint("Hack script not found on server " + this.#home);
-            return FAILURE;
+            return bool.FAILURE;
         }
         // No free RAM on server to run our hack script.
         const nthread = this.num_threads(this.#script);
         if (nthread < 1) {
             this.#ns.tprint("No free RAM on server " + this.hostname());
-            return FAILURE;
+            return bool.FAILURE;
         }
         // Copy our script over to this server.  Use the server to hack the
         // target.
@@ -178,7 +176,7 @@ export class Server {
         this.#ns.exec(
             this.#script, this.hostname(), nthread, targ.hostname
         );
-        return SUCCESS;
+        return bool.SUCCESS;
     }
 
     /**

@@ -16,7 +16,7 @@
  */
 
 import { MyArray } from "/lib/array.js";
-import { IS_TIME } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { hnet_tau } from "/lib/constant/hacknet.js";
 import { Player } from "/lib/player.js";
 import { Time } from "/lib/time.js";
@@ -90,7 +90,7 @@ function is_upgrade_core_ram(ns, idx) {
     // node is at maximum whereas its Cores and RAM are yet to be maxed out.
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
     if (node_level(ns, idx) == hnet_tau.MAX_LEVEL) {
-        return IS_TIME;
+        return bool.IS_TIME;
     }
     const interval = 30;
     const remainder = node_level(ns, idx) % interval;

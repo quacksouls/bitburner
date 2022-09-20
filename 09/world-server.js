@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NO_SKIP, SKIP } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -191,24 +191,24 @@ function skip_server(ns, server, script, margin) {
     assert(nport >= 0);
     // Skip over a server that requires more ports than we can open.
     if (serv.num_ports_required() > nport) {
-        return SKIP;
+        return bool.SKIP;
     }
     // If our hack script is already running on the server, then skip the
     // server.
     if (serv.is_running_script(script)) {
-        return SKIP;
+        return bool.SKIP;
     }
     // Determine how many threads we can run our script on a server.  If we
     // can't run our script on the server, then we skip the server.
     const nthread = serv.num_threads(script);
     if (nthread < 1) {
-        return SKIP;
+        return bool.SKIP;
     }
     // Skip over a server if its hacking skill requirement is too high.
     if ((player.hacking_skill() + m) < serv.hacking_skill()) {
-        return SKIP;
+        return bool.SKIP;
     }
-    return NO_SKIP;
+    return bool.NO_SKIP;
 }
 
 /**

@@ -15,59 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Boolean values.
-
-/**
- * A graph is bipartite.
- */
-export const BIPARTITE = true;
-
-/**
- * A graph is not bipartite.
- */
-export const NOT_BIPARTITE = !BIPARTITE;
-
-/**
- * A jump can be made.
- */
-export const JUMP = true;
-
-/**
- * A jump cannot be made; opposite of can jump.
- */
-export const NO_JUMP = !JUMP;
-
-/**
- * Two things can be merged.
- */
-export const MERGE = true;
-
-/**
- * Two things cannot be merged; opposite of can merge.
- */
-export const NO_MERGE = !MERGE;
-
-/**
- * We can make a move.
- */
-export const MOVE = true;
-
-/**
- * We cannot make a move; opposite of can move.
- */
-export const NOT_MOVE = !MOVE;
-
-/**
- * An action can be attained.  This is specific to Array Jumping Game.
- */
-export const REACHABLE = 1;
-
-/**
- * An action cannot be attained; opposite of reachable.  This is specific to
- * Array Jumping Game.
- */
-export const NOT_REACHABLE = 0;
-
 // Various constant values related to Coding Contracts.
 
 /**

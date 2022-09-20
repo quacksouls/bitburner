@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import {
     armour, gang_aug_crime, gangster_name, task, vehicle, weapon
 } from "/lib/constant/gang.js";
@@ -89,7 +89,7 @@ export class Gangster {
         // This is the y value for each stat, as explained above.
         const asc = this.#ns.gang.getAscensionResult(name);
         if (undefined == asc) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         // Convert a number in the form 1.xyz to 1xy.  We multiply the number
         // by 100 and take the integer part.  So 1.25 would be 125.  We do this
@@ -109,10 +109,10 @@ export class Gangster {
         ) {
             const result = this.#ns.gang.ascendMember(name);
             if (undefined != result) {
-                return SUCCESS;
+                return bool.SUCCESS;
             }
         }
-        return FAILURE;
+        return bool.FAILURE;
     }
 
     /**
@@ -152,7 +152,7 @@ export class Gangster {
         const cost = this.#ns.gang.getEquipmentCost(amr);
         const funds = this.#player_money() - money_reserve;
         if (funds < (this.#cost_mult * cost)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, amr);
     }
@@ -172,7 +172,7 @@ export class Gangster {
         const cost = this.#ns.gang.getEquipmentCost(aug);
         const funds = this.#player_money() - money_reserve;
         if (funds < (this.#cost_mult * cost)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
     }
@@ -192,7 +192,7 @@ export class Gangster {
         const cost = this.#ns.gang.getEquipmentCost(vhc);
         const funds = this.#player_money() - money_reserve;
         if (funds < (this.#cost_mult * cost)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, vhc);
     }
@@ -212,7 +212,7 @@ export class Gangster {
         const cost = this.#ns.gang.getEquipmentCost(wpn);
         const funds = this.#player_money() - money_reserve;
         if (funds < (this.#cost_mult * cost)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, wpn);
     }

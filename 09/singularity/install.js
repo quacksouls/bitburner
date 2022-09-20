@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DISABLE } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { MyArray } from "/lib/array.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
@@ -246,7 +246,7 @@ function set_neutral_gang(ns) {
     gangster.mug(newbie);
     // Finally, disengage from turf warfare so members would not be killed
     // while we cannot run the script that manages our gang.
-    ns.gang.setTerritoryWarfare(DISABLE);
+    ns.gang.setTerritoryWarfare(bool.DISABLE);
 }
 
 /**

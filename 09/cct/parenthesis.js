@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { INVALID } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { parenthesis } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
@@ -43,7 +43,7 @@ function is_balanced(expression) {
         if (parenthesis.CLOSE == c) {
             // We have an ending parenthesis, but the stack is empty.
             if (0 == stack.length) {
-                return INVALID;
+                return bool.INVALID;
             }
             // This ending parenthesis must be matched with an opening
             // parenthesis at the top of the stack.
@@ -53,7 +53,7 @@ function is_balanced(expression) {
             }
             // We encounter a closing parenthesis, but the top of the stack
             // does not contain an opening parenthesis.
-            return INVALID;
+            return bool.INVALID;
         }
     }
     // Every opening parenthesis should be matched with a closing parenthesis.

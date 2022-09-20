@@ -15,18 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Boolean values.
-
-/**
- * This is a low-end server.
- */
-export const LOWEND = true;
-
-/**
- * This is not a low-end server; opposite of low-end.
- */
-export const NOT_LOWEND = !LOWEND;
-
 // A bunch of constant values related to servers in the game world.  We exclude
 // purchased servers.
 

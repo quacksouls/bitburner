@@ -17,7 +17,7 @@
 
 // A class and various utility functions related to network.
 
-import { FAILURE, SUCCESS } from "/lib/constant/bool.js";
+import { bool } from "/lib/constant/bool.js";
 import { home } from "/lib/constant/server.js";
 import { assert, filter_pserv } from "/lib/util.js";
 
@@ -62,7 +62,7 @@ export class Graph {
     add_edge(u, v) {
         // Already have the edge.
         if (this.has_edge(u, v)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         // First, add the nodes if we don't have them already.
         if (!this.has_node(u)) {
@@ -83,7 +83,7 @@ export class Graph {
             v_neighbour.push(u);
             this.#adj.set(v, v_neighbour);
         }
-        return SUCCESS;
+        return bool.SUCCESS;
     }
 
     /**
@@ -95,10 +95,10 @@ export class Graph {
      */
     add_node(v) {
         if (this.has_node(v)) {
-            return FAILURE;
+            return bool.FAILURE;
         }
         this.#adj.set(v, new Array());
-        return SUCCESS;
+        return bool.SUCCESS;
     }
 
     /**
@@ -200,13 +200,11 @@ export class Graph {
      * @return true if the graph has the edge (u, v); false otherwise.
      */
     has_edge(u, v) {
-        const HAS_EDGE = true;
-        const DONT_HAVE_EDGE = !HAS_EDGE;
         if (!this.has_node(u)) {
-            return DONT_HAVE_EDGE;
+            return bool.NOT;
         }
         if (!this.has_node(v)) {
-            return DONT_HAVE_EDGE;
+            return bool.NOT;
         }
         // Directed graph.
         if (this.#directed) {
@@ -219,9 +217,9 @@ export class Graph {
         const v_neighbour = this.neighbour(v);
         if (u_neighbour.includes(v)) {
             assert(v_neighbour.includes(u));
-            return HAS_EDGE;
+            return bool.HAS;
         }
-        return DONT_HAVE_EDGE;
+        return bool.NOT;
     }
 
     /**

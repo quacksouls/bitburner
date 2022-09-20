@@ -17,7 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { NOT_REACHABLE, REACHABLE } from "/lib/constant/cct.js";
+import { bool } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -55,7 +55,7 @@ function end_reachable(array) {
         assert(index.length == jump.length);
         // Are we at the last array cell?
         if (is_last_cell(i, array)) {
-            return REACHABLE;
+            return bool.REACHABLE;
         }
         // Zero jump distance.
         d = jump[jump.length - 1];
@@ -63,7 +63,7 @@ function end_reachable(array) {
         if (0 == d) {
             // Does the first array cell have zero as the jump distace?
             if (0 == i) {
-                return NOT_REACHABLE;
+                return bool.NOT_REACHABLE;
             }
             // Backtrack and reduce jump distance.
             index.pop();

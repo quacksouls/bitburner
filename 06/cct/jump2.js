@@ -17,7 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { JUMP, NO_JUMP } from "/lib/constant/cct.js";
+import { bool } from "/lib/constant/bool.js";
 import { Graph } from "/lib/network.js";
 import { assert } from "/lib/util.js";
 
@@ -35,14 +35,14 @@ function can_jump(i, array) {
     assert(i < array.length);
     // Cannot jump if the maximum number of jumps is zero.
     if (0 == array[i]) {
-        return NO_JUMP;
+        return bool.NO_JUMP;
     }
     // Cannot jump if we are at the last array cell.
     const last_index = array.length - 1;
     if (last_index == i) {
-        return NO_JUMP;
+        return bool.NO_JUMP;
     }
-    return JUMP;
+    return bool.JUMP;
 }
 
 /**
