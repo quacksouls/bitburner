@@ -18,7 +18,7 @@
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { home } from "/lib/constant/server.js";
 import {
-    choose_augmentation, has_augmentation, nfg, prerequisites
+    choose_augment, has_augment, nfg, prerequisites
 } from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
@@ -63,8 +63,8 @@ async function purchase_augmentations(ns, fac) {
     // (3) Leave the NeuroFlux Governor Augmentation to last.
     while (augment.length > 0) {
         // Choose the most expensive Augmentation.
-        const aug = choose_augmentation(ns, augment);
-        if (has_augmentation(ns, aug)) {
+        const aug = choose_augment(ns, augment);
+        if (has_augment(ns, aug)) {
             augment = augment.filter(a => a != aug);
             continue;
         }
@@ -80,7 +80,7 @@ async function purchase_augmentations(ns, fac) {
         // If the Augmentation has one or more pre-requisites we have not yet
         // purchased, then first purchase the pre-requisites.
         while (prereq.length > 0) {
-            const pre = choose_augmentation(ns, prereq);
+            const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac);
             prereq = prereq.filter(a => a != pre);
         }
@@ -116,7 +116,7 @@ async function purchase_aug(ns, aug, fac) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
-        const pre = choose_augmentation(ns, prereq);
+        const pre = choose_augment(ns, prereq);
         await purchase_aug(ns, pre, fac);
         prereq = prereq.filter(a => a != pre);
     }
@@ -127,11 +127,11 @@ async function purchase_aug(ns, aug, fac) {
     const time = 5 * t.second();
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     const before = intelligence(ns);
-    if (has_augmentation(ns, aug)) {
+    if (has_augment(ns, aug)) {
         return;
     }
     while (!success) {
-        assert(!has_augmentation(ns, aug));
+        assert(!has_augment(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
             await ns.sleep(time);
         }
@@ -140,7 +140,7 @@ async function purchase_aug(ns, aug, fac) {
     const after = intelligence(ns);
     const action = "Purchase Augmentation " + aug + " from " + fac;
     intelligence_gain(ns, before, after, action);
-    assert(has_augmentation(ns, aug));
+    assert(has_augment(ns, aug));
 }
 
 /**

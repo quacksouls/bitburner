@@ -42,7 +42,7 @@ import {
  *     Augmentations.  This array never includes the NeuroFlux Governor
  *     Augmentation.  Cannot be an empty array.
  */
-export function augmentations_to_buy(ns, fac) {
+export function augment_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
@@ -81,7 +81,7 @@ export function augmentations_to_buy(ns, fac) {
  * @param candidate An array of Augmentation names.  Cannot be an empty array.
  * @return The name of the most expensive Augmentation from the given array.
  */
-export function choose_augmentation(ns, candidate) {
+export function choose_augment(ns, candidate) {
     assert(candidate.length > 0);
     let max = -Infinity;
     let aug = "";
@@ -104,7 +104,7 @@ export function choose_augmentation(ns, candidate) {
  * @return true if we have already purchased the given Augmentation;
  *     false otherwise.
  */
-export function has_augmentation(ns, aug) {
+export function has_augment(ns, aug) {
     const purchased = true;
     const candidate = new Set(ns.singularity.getOwnedAugmentations(purchased));
     return candidate.has(aug);
@@ -149,7 +149,7 @@ export function nfg() {
  * @param ns The Netscript API.
  * @return How many Augmentations we have bought and yet to install.
  */
-function num_augmentations(ns) {
+function num_augment(ns) {
     const purchased = true;
     const no_purchased = !purchased;
     const owned_aug = ns.singularity.getOwnedAugmentations(no_purchased);
@@ -166,7 +166,7 @@ function num_augmentations(ns) {
  * @return A set of all Augmentations we own.  These Augmentations are already
  *     installed.
  */
-export function owned_augmentations(ns) {
+export function owned_augment(ns) {
     const purchased = false;
     return new Set(ns.singularity.getOwnedAugmentations(purchased));
 }
@@ -191,7 +191,7 @@ export function prerequisites(ns, aug) {
     }
     // An array of Augmentation names.
     for (const a of prereq) {
-        if (has_augmentation(ns, a)) {
+        if (has_augment(ns, a)) {
             continue;
         }
         candidate.push(a);
@@ -207,9 +207,9 @@ export function prerequisites(ns, aug) {
  * @param ns The Netscript API.
  * @param fac We want to buy Augmentations from this faction.
  */
-export async function purchase_augmentations(ns, fac) {
+export async function purchase_augment(ns, fac) {
     assert(is_valid_faction(fac));
-    let candidate = augmentations_to_buy(ns, fac);
+    let candidate = augment_to_buy(ns, fac);
     assert(candidate.length > 0);
     // Tell the trade bot to stop buying shares of stocks.  We want to cash in
     // on our shares and raise money to buy Augmentations.
@@ -221,12 +221,12 @@ export async function purchase_augmentations(ns, fac) {
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
     while (candidate.length > 0) {
-        if (num_augmentations(ns) >= augment.BUY_TAU) {
+        if (num_augment(ns) >= augment.BUY_TAU) {
             break;
         }
         // Choose the most expensive Augmentation.
-        const aug = choose_augmentation(ns, candidate);
-        if (has_augmentation(ns, aug)) {
+        const aug = choose_augment(ns, candidate);
+        if (has_augment(ns, aug)) {
             candidate = candidate.filter(a => a != aug);
             continue;
         }
@@ -242,7 +242,7 @@ export async function purchase_augmentations(ns, fac) {
         // If the Augmentation has one or more pre-requisites we have not yet
         // purchased, then first purchase the pre-requisites.
         while (prereq.length > 0) {
-            const pre = choose_augmentation(ns, prereq);
+            const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac);
             prereq = prereq.filter(a => a != pre);
         }
@@ -276,7 +276,7 @@ async function purchase_aug(ns, aug, fac) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
-        const pre = choose_augmentation(prereq);
+        const pre = choose_augment(prereq);
         await purchase_aug(ns, pre, fac);
         prereq = prereq.filter(a => a != pre);
     }
@@ -287,7 +287,7 @@ async function purchase_aug(ns, aug, fac) {
     const time = t.second();
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     while (!success) {
-        assert(!has_augmentation(ns, aug));
+        assert(!has_augment(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
             if (ns.getHackingLevel() < work_hack_lvl) {
                 await commit_crime(ns, cost);
@@ -298,5 +298,5 @@ async function purchase_aug(ns, aug, fac) {
         await ns.sleep(time);
         success = ns.singularity.purchaseAugmentation(fac, aug);
     }
-    assert(has_augmentation(ns, aug));
+    assert(has_augment(ns, aug));
 }

@@ -17,7 +17,7 @@
 
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
-import { owned_augmentations } from "/lib/singularity/augment.js";
+import { owned_augment } from "/lib/singularity/augment.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
@@ -168,7 +168,7 @@ function join_next(ns, fac) {
         }
     }
     // See whether we have all Augmentations from the given faction.
-    const owned_aug = owned_augmentations(ns);
+    const owned_aug = owned_augment(ns);
     const fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     for (const aug of fac_aug) {
         if (!owned_aug.has(aug)) {

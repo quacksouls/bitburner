@@ -19,7 +19,7 @@ import { work_hack_lvl } from "/lib/constant/misc.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { purchase_augment } from "/lib/singularity/augment.js";
 import { commit_crime } from "/lib/singularity/crime.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
@@ -67,7 +67,7 @@ async function cyberSec(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -122,7 +122,7 @@ async function netburners(ns) {
     }
     const work_type = "Hacking Contracts";
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -159,7 +159,7 @@ async function tian_di_hui(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**

@@ -17,7 +17,7 @@
 
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { purchase_augment } from "/lib/singularity/augment.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
@@ -119,7 +119,7 @@ async function megacorporation(ns, city, company, fac, rep) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, work_type);
-    await purchase_augmentations(ns, fac);
+    await purchase_augment(ns, fac);
 }
 
 /**

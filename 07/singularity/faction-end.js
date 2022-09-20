@@ -17,9 +17,7 @@
 
 import { home } from "/lib/constant/server.js"
 import { Money } from "/lib/money.js";
-import {
-    owned_augmentations, purchase_augmentations
-} from "/lib/singularity/augment.js";
+import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
 } from "/lib/singularity/faction.js";
@@ -49,7 +47,7 @@ import { assert } from "/lib/util.js";
  */
 async function daedalus(ns) {
     // Ensure we have already installed at least 30 Augmentations.
-    const augment = owned_augmentations(ns);
+    const augment = owned_augment(ns);
     assert(augment.size >= 30);
     // Have at least $100b.
     const m = new Money();
@@ -63,7 +61,7 @@ async function daedalus(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -79,7 +77,7 @@ async function daedalus(ns) {
  */
 async function illuminati(ns) {
     // Ensure we have already installed at least 30 Augmentations.
-    const augment = owned_augmentations(ns);
+    const augment = owned_augment(ns);
     assert(augment.size >= 30);
     // Have at least $150b.
     const m = new Money();
@@ -95,7 +93,7 @@ async function illuminati(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -111,7 +109,7 @@ async function illuminati(ns) {
  */
 async function the_covenant(ns) {
     // Ensure we have already installed at least 20 Augmentations.
-    const augment = owned_augmentations(ns);
+    const augment = owned_augment(ns);
     assert(augment.size >= 20);
     // Have at least $75b.
     const m = new Money();
@@ -126,7 +124,7 @@ async function the_covenant(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**

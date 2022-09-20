@@ -19,7 +19,7 @@ import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
-import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { purchase_augment } from "/lib/singularity/augment.js";
 import { commit_crime } from "/lib/singularity/crime.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { visit_city } from "/lib/singularity/network.js";
@@ -64,7 +64,7 @@ async function city_faction(ns, city, money) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**

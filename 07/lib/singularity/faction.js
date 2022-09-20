@@ -21,7 +21,7 @@ import { crimes } from "/lib/constant/crime.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
-import { augmentations_to_buy } from "/lib/singularity/augment.js";
+import { augment_to_buy } from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
@@ -49,7 +49,7 @@ async function await_invitation(ns, fac) {
  * @return true if the given faction is a megacorporation faction;
  *     false otherwise.
  */
-function is_megacorporation_faction(fac) {
+function is_megacorp_faction(fac) {
     const faction = [
         "Bachman & Associates", "Blade Industries", "Clarke Incorporated",
         "ECorp", "Four Sigma", "Fulcrum Secret Technologies",
@@ -70,7 +70,7 @@ export async function join_faction(ns, fac) {
     // while waiting for an invitation from the corresponding faction.  We can
     // quit working once we have joined the faction.
     let company = fac;
-    if (is_megacorporation_faction(fac)) {
+    if (is_megacorp_faction(fac)) {
         if ("Fulcrum Secret Technologies" == fac) {
             company = "Fulcrum Technologies";
         }
@@ -89,7 +89,7 @@ export async function join_faction(ns, fac) {
     }
     // We are a member of the target faction.  Quit working for the
     // corresponding megacorporation.
-    if (is_megacorporation_faction(fac)) {
+    if (is_megacorp_faction(fac)) {
         ns.singularity.stopAction();
         ns.singularity.quitJob(company);
     }
@@ -191,7 +191,7 @@ export async function raise_hack(ns, threshold) {
  * @return The maximum amount of reputation points we must earn from a faction.
  */
 function total_reputation(ns, fac) {
-    const augment = augmentations_to_buy(ns, fac);
+    const augment = augment_to_buy(ns, fac);
     assert(augment.length > 0);
     // The total reputation points we need to earn.
     let max = -Infinity;

@@ -19,7 +19,7 @@ import { crimes } from "/lib/constant/crime.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
-import { purchase_augmentations } from "/lib/singularity/augment.js";
+import { purchase_augment } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
@@ -67,7 +67,7 @@ async function silhouette(ns) {
     const work_type = "Hacking Contracts";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -100,7 +100,7 @@ async function slum_snakes(ns) {
     const work_type = "Field Work";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -131,7 +131,7 @@ async function speakers_for_the_dead(ns) {
     const work_type = "Field Work";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -158,7 +158,7 @@ async function tetrads(ns) {
     const work_type = "Field Work";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -189,7 +189,7 @@ async function the_dark_army(ns) {
     const work_type = "Field Work";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
@@ -224,7 +224,7 @@ async function the_syndicate(ns) {
     const work_type = "Field Work";
     await join_faction(ns, faction);
     await work_for_faction(ns, faction, work_type);
-    await purchase_augmentations(ns, faction);
+    await purchase_augment(ns, faction);
 }
 
 /**
