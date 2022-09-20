@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
-import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
@@ -46,9 +46,9 @@ import { assert } from "/lib/util.js";
 async function cyberSec(ns) {
     await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
+    const fac = "CyberSec";
     const player = new Player(ns);
-    const target = "CSEC";
-    const server = new Server(ns, target);
+    const server = new Server(ns, faction_req[fac].backdoor);
     if (player.hacking_skill() < server.hacking_skill()) {
         await raise_hack(ns, server.hacking_skill());
     }
@@ -63,11 +63,10 @@ async function cyberSec(ns) {
     assert(server.has_root_access());
     // Install backdoor, then join the faction.
     await install_backdoor(ns, server.hostname());
-    const faction = "CyberSec";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -89,18 +88,17 @@ async function cyberSec(ns) {
 async function netburners(ns) {
     await visit_city(ns, "Sector-12");
     // Ensure we have at least the required Hack stat.
+    const fac = "Netburners";
     const player = new Player(ns);
-    const hack_lvl = 80;
-    if (player.hacking_skill() < hack_lvl) {
-        await raise_hack(ns, hack_lvl);
+    if (player.hacking_skill() < faction_req[fac].hack) {
+        await raise_hack(ns, faction_req[fac].hack);
     }
-    assert(player.hacking_skill() >= hack_lvl);
+    assert(player.hacking_skill() >= faction_req[fac].hack);
     // Join the faction, provided we are currently not a member.
-    const faction = "Netburners";
     const joined_faction = player.faction();
     const t = new Time();
     const time = t.second();
-    if (!joined_faction.includes(faction)) {
+    if (!joined_faction.includes(fac)) {
         // Upgrading our Hacknet farm requires a huge amount of money.  Commit
         // crimes, or work at a company, to boost our income.  Continue to
         // commit crimes (or working) as long as we have not yet received an
@@ -108,7 +106,7 @@ async function netburners(ns) {
         const factor = 1.01;
         let threshold = factor * player.money();
         let invite = ns.singularity.checkFactionInvitations();
-        while (!invite.includes(faction)) {
+        while (!invite.includes(fac)) {
             if (player.hacking_skill() < work_hack_lvl) {
                 await commit_crime(ns, threshold);
             } else {
@@ -121,8 +119,8 @@ async function netburners(ns) {
         ns.singularity.joinFaction(faction);
     }
     const work_type = "Hacking Contracts";
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -137,29 +135,26 @@ async function netburners(ns) {
  */
 async function tian_di_hui(ns) {
     // Ensure we have at least the required Hack stat.
-    const hack_lvl = 50;
+    const fac = "Tian Di Hui";
     const player = new Player(ns);
-    if (player.hacking_skill() < hack_lvl) {
-        await raise_hack(ns, hack_lvl);
+    if (player.hacking_skill() < faction_req[fac].hack) {
+        await raise_hack(ns, faction_req[fac].hack);
     }
-    assert(player.hacking_skill() >= hack_lvl);
+    assert(player.hacking_skill() >= faction_req[fac].hack);
     // Travel to Ishima and wait for our income to be at least $1m.
-    await visit_city(ns, "Ishima");
-    const m = new Money();
-    const threshold = m.million();
-    if (player.money() < threshold) {
+    await visit_city(ns, faction_req[fac].city);
+    if (player.money() < faction_req[fac].money) {
         if (player.hacking_skill() < work_hack_lvl) {
-            await commit_crime(ns, threshold);
+            await commit_crime(ns, faction_req[fac].money);
         } else {
-            await work(ns, threshold);
+            await work(ns, faction_req[fac].money);
         }
     }
     // Join the faction and purchase all of its Augmentations.
-    const faction = "Tian Di Hui";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**

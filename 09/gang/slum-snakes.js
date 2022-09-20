@@ -16,6 +16,7 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { faction_req } from "/lib/constant/faction.js";
 import { gang_tau } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
@@ -115,19 +116,13 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
-    // Raise combat stats.
-    const min_stat = 30;
-    await raise_combat_stats(ns, min_stat);
-    // Ensure we have the required minimum karma.
+    // Raise combat stats, ensure we have the required minimum karma, raise our
+    // income.  Then join the Slum Snakes faction.
+    const fac = "Slum Snakes";
+    await raise_combat_stats(ns, faction_req[fac].combat);
     const player = new Player(ns);
-    const min_karma = -9;
-    assert(player.karma() <= min_karma);
-    // Raise income.
-    const m = new Money();
-    const min_money = m.million();
-    await work(ns, min_money);
-    // Now join the Slum Snakes faction.
-    const faction = "Slum Snakes";
+    assert(player.karma() <= faction_req[fac].karma);
+    await work(ns, faction_req[fac].money);
     await join_faction(ns, faction);
     // Decrease our karma low enough to allow us to create a gang.  We need
     // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at

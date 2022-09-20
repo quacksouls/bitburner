@@ -16,6 +16,7 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
@@ -52,20 +53,16 @@ async function silhouette(ns) {
     await raise_charisma(ns, work_hack_lvl, charisma_lvl);
     const company = "MegaCorp";
     await rise_to_cfo(ns, company);
-    // Karma at -22 or lower.
-    const karma = -22;
+    // Lower karma and raise our money.
+    const fac = "Silhouette";
     const nkill = 0;
-    await lower_karma(ns, karma, crimes.SHOP, nkill);
-    // Have at least $15m.
-    const m = new Money();
-    const threshold = 15 * m.million();
-    await work(ns, threshold);
+    await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
+    await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Silhouette";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -82,23 +79,17 @@ async function silhouette(ns) {
  * @param ns The Netscript API.
  */
 async function slum_snakes(ns) {
-    // Karma at -9 or lower.
-    const karma = -9;
+    // Lower karma, raise combat stats, and raise money.
+    const fac = "Slum Snakes";
     const nkill = 0;
-    await lower_karma(ns, karma, crimes.SHOP, nkill);
-    // Each combat stat must be at least 30.
-    const stat_threshold = 30;
-    await raise_combat_stats(ns, stat_threshold);
-    // Have at least $1m.
-    const m = new Money();
-    const money_threshold = m.million();
-    await work(ns, money_threshold);
+    await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
+    await raise_combat_stats(ns, faction_req[fac].combat);
+    await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Slum Snakes";
     const work_type = "Field Work";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -114,22 +105,18 @@ async function slum_snakes(ns) {
  * @param ns The Netscript API.
  */
 async function speakers_for_the_dead(ns) {
-    // Karma at -45 or lower.
-    const karma = -45;
-    const nkill = 30;
-    await lower_karma(ns, karma, crimes.KILL, nkill);
-    // Each combat stat must be at least 300.
-    const stat_threshold = 300;
-    await raise_combat_stats(ns, stat_threshold);
-    // Raise our Hack stat.
-    const hack_threshold = 100;
-    await raise_hack(ns, hack_threshold);
+    // Lower karma, raise combat stats, and raise Hack stat.
+    const fac = "Speakers for the Dead";
+    await lower_karma(
+        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
+    );
+    await raise_combat_stats(ns, faction_req[fac].combat);
+    await raise_hack(ns, faction_req[fac].hack);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Speakers for the Dead";
     const work_type = "Field Work";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -143,19 +130,17 @@ async function speakers_for_the_dead(ns) {
  * @param ns The Netscript API.
  */
 async function tetrads(ns) {
-    // Karma at -18 or lower.
-    const karma = -18;
+    const fac = "Tetrads";
+    await visit_city(ns, faction_req[fac].city);
+    // Lower karma and raise combat stats.
     const nkill = 0;
-    await lower_karma(ns, karma, crimes.SHOP, nkill);
-    // Each combat stat must be at least 75.
-    const threshold = 75;
-    await raise_combat_stats(ns, threshold);
+    await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
+    await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Tetrads";
     const work_type = "Field Work";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -172,20 +157,19 @@ async function tetrads(ns) {
  * @param ns The Netscript API.
  */
 async function the_dark_army(ns) {
-    // Raise our Hack and combat stats.
-    const threshold = 300;
-    await raise_hack(ns, threshold);
-    await raise_combat_stats(ns, threshold);
-    // Karma at -45 or lower.
-    const karma = -45;
-    const nkill = 5;
-    await lower_karma(ns, karma, crimes.KILL, nkill);
+    const fac = "The Dark Army";
+    await visit_city(ns, faction_req[fac].city);
+    // Raise our Hack and combat stats, and lower our karma.
+    await raise_hack(ns, faction_req[fac].hack);
+    await raise_combat_stats(ns, faction_req[fac].combat);
+    await lower_karma(
+        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
+    );
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "The Dark Army";
     const work_type = "Field Work";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -202,25 +186,20 @@ async function the_dark_army(ns) {
  * @param ns The Netscript API.
  */
 async function the_syndicate(ns) {
-    // Raise our Hack and combat stats.
-    const threshold = 200;
-    await raise_hack(ns, threshold);
-    await raise_combat_stats(ns, threshold);
-    // Karma at -90 or lower.
-    const karma = -90;
-    const nkill = 5;
-    await lower_karma(ns, karma, crimes.KILL, nkill);
-    // Have at least $10m.
-    const m = new Money();
-    const money_threshold = 10 * m.million();
-    await work(ns, money_threshold);
+    const fac = "The Syndicate";
+    await visit_city(ns, faction_req[fac].city);
+    // Raise our Hack and combat stats, lower our karma, and raise our income.
+    await raise_hack(ns, faction_req[fac].hack);
+    await raise_combat_stats(ns, faction_req[fac].combat);
+    await lower_karma(
+        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
+    );
+    await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    assert("Sector-12" == ns.getPlayer().city);
-    const faction = "The Syndicate";
     const work_type = "Field Work";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**

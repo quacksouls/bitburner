@@ -42,6 +42,318 @@ export const augment = {
 };
 
 /**
+ * Stat requirements for receiving an invitation from a faction.  Here is an
+ * explanation of each requirement.  The value of "undefined" means this
+ * particular attribute is not part of the requirements for the given faction.
+ *
+ * (1) backdoor := Must install a backdoor on this server.
+ * (2) city := Must be located in this city.
+ * (3) combat := Lower threshold for each combat stat.  Each of our Strength,
+ *     Defense, Dexterity, and Agility must be at least this value.
+ * (4) hack := Lower threshold for our Hack stat.  Our Hack stat must be at
+ *     least this value.
+ * (5) karma := Our negative karma must be this value or lower.
+ * (6) kill := Must have killed at least this many people.
+ * (7) money := Must have at least this amount of money.
+ */
+export const faction_req = {
+    "Aevum": {
+        "backdoor": undefined,
+        "city": "Aevum",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 40 * 1e6
+    },
+    "Bachman & Associates": {
+        "backdoor": "b-and-a",
+        "city": "Aevum",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "BitRunners": {
+        "backdoor": "run4theh111z",
+        "city": undefined,
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "Blade Industries": {
+        "backdoor": "blade",
+        "city": "Sector-12",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "Chongqing": {
+        "backdoor": undefined,
+        "city": "Chongqing",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 20 * 1e6
+    },
+    "Clarke Incorporated": {
+        "backdoor": "clarkinc",
+        "city": "Aevum",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "CyberSec": {
+        "backdoor": "CSEC",
+        "city": undefined,
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    // This faction has a requirement not listed below.  We must install a
+    // certain number of Augmentations.  This number can vary from one BitNode
+    // to the next.
+    "Daedalus": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": 1500,
+        "hack": 2500,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 100 * 1e9
+    },
+    "ECorp": {
+        "backdoor": "ecorp",
+        "city": "Aevum",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "Four Sigma": {
+        "backdoor": "4sigma",
+        "city": "Sector-12",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "Fulcrum Secret Technologies": {
+        "backdoor": "fulcrumassets",
+        "city": "Aevum",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    // This faction has a requirement not listed below.  We must install at
+    // least 30 Augmentations.
+    "Illuminati": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": 1200,
+        "hack": 1500,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 150 * 1e9
+    },
+    "Ishima": {
+        "backdoor": undefined,
+        "city": "Ishima",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 30 * 1e6
+    },
+    "KuaiGong International": {
+        "backdoor": "kuai-gong",
+        "city": "Chongqing",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "MegaCorp": {
+        "backdoor": "megacorp",
+        "city": "Sector-12",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    // This faction has another requirement not listed below.  Nodes in our
+    // Hacknet farm must have a collective level of at least 100, a collective
+    // RAM of at least 8, and a collective Cores of at least 4. For example, if
+    // we have 3 Hacknet nodes then the Level of all 3 nodes should add up to
+    // at least 100. One node can be at Level 50, another node can be at
+    // Level 30, and the third node can be at Level 21.
+    "Netburners": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": undefined,
+        "hack": 80,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "New Tokyo": {
+        "backdoor": undefined,
+        "city": "New Tokyo",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 20 * 1e6
+    },
+    "NiteSec": {
+        "backdoor": "avmnite-02h",
+        "city": undefined,
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "NWO": {
+        "backdoor": "nwo",
+        "city": "Volhaven",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "OmniTek Incorporated": {
+        "backdoor": "omnitek",
+        "city": "Volhaven",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    "Sector-12": {
+        "backdoor": undefined,
+        "city": "Sector-12",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    // This faction has another requirement not listed below.  We must be a
+    // CTO, CFO, or CEO of a company.
+    "Silhouette": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": undefined,
+        "hack": undefined,
+        "karma": -22,
+        "kill": undefined,
+        "money": 15 * 1e6
+    },
+    "Slum Snakes": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": 30,
+        "hack": undefined,
+        "karma": -9,
+        "kill": undefined,
+        "money": 1e6
+    },
+    "Speakers for the Dead": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": 300,
+        "hack": 100,
+        "karma": -45,
+        "kill": 30,
+        "money": undefined
+    },
+    "Tetrads": {
+        "backdoor": undefined,
+        "city": "Ishima",
+        "combat": 75,
+        "hack": undefined,
+        "karma": -18,
+        "kill": undefined,
+        "money": undefined
+    },
+    "The Black Hand": {
+        "backdoor": "I.I.I.I",
+        "city": undefined,
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": undefined
+    },
+    // This faction has a requirement not listed below.  We must have installed
+    // at least 20 Augmentations.
+    "The Covenant": {
+        "backdoor": undefined,
+        "city": undefined,
+        "combat": 850,
+        "hack": 850,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 75 * 1e9
+    },
+    "The Dark Army": {
+        "backdoor": undefined,
+        "city": "Chongqing",
+        "combat": 300,
+        "hack": 300,
+        "karma": -45,
+        "kill": 5,
+        "money": undefined
+    },
+    "The Syndicate": {
+        "backdoor": undefined,
+        "city": "Sector-12",
+        "combat": 200,
+        "hack": 200,
+        "karma": -90,
+        "kill": undefined,
+        "money": 10 * 1e6
+    },
+    "Tian Di Hui": {
+        "backdoor": undefined,
+        "city": "Ishima",
+        "combat": undefined,
+        "hack": 50,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 1e6
+    },
+    "Volhaven": {
+        "backdoor": undefined,
+        "city": "Volhaven",
+        "combat": undefined,
+        "hack": undefined,
+        "karma": undefined,
+        "kill": undefined,
+        "money": 50 * 1e6
+    }
+};
+
+/**
  * Augmentations that are exclusive to various factions.  We can purchase some
  * Augmentations provided that we are a member of the corresponding faction.
  */

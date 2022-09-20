@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
-import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { commit_crime } from "/lib/singularity/crime.js";
@@ -43,28 +43,26 @@ import { assert, is_valid_city } from "/lib/util.js";
  * (6) Volhaven: must be in Volhaven; have at least $50m.
  *
  * @param ns The Netscript API.
- * @param city We must be located in this city.
- * @param money We must have at least this amount of money.
+ * @param city We must be located in this city.  This is also the faction name.
  */
-async function city_faction(ns, city, money) {
+async function city_faction(ns, city) {
     assert(is_valid_city(city));
-    assert(money > 0);
     await visit_city(ns, city);
     // Boost our income.
+    const fac = city;
     const player = new Player(ns);
-    if (player.money() < money) {
+    if (player.money() < faction_req[fac].money) {
         if (player.hacking_skill() < work_hack_lvl) {
-            await commit_crime(ns, money);
+            await commit_crime(ns, faction_req[fac].money);
         } else {
-            await work(ns, money);
+            await work(ns, faction_req[fac].money);
         }
     }
     // Join the faction and purchase all of its Augmentations.
-    const faction = city;
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -95,32 +93,7 @@ export async function main(ns) {
             || ("Sector-12" == faction)
             || ("Volhaven" == faction)
     );
-    const m = new Money();
-    let money = 0;
-    switch (faction) {
-        case "Aevum":
-            money = 40 * m.million();
-            break;
-        case "Chongqing":
-            money = 20 * m.million();
-            break;
-        case "Ishima":
-            money = 30 * m.million();
-            break;
-        case "New Tokyo":
-            money = 20 * m.million();
-            break;
-        case "Sector-12":
-            money = 15 * m.million();
-            break;
-        case "Volhaven":
-            money = 50 * m.million();
-            break;
-        default:
-            break;
-    }
-    assert(money > 0);
-    await city_faction(ns, faction, money);
+    await city_faction(ns, faction);
     // The next script in the load chain.
     const script = "/singularity/home.js";
     const nthread = 1;

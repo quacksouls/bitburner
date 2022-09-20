@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { faction_req } from "/lib/constant/faction.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
@@ -39,14 +40,12 @@ import { assert } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  * @param fac We want to join this hacking group.
- * @param target We must install a backdoor on this server as a pre-requisite
- *     for receiving an invitation from the given faction.
  */
-async function hacking_group(ns, fac, target) {
+async function hacking_group(ns, fac) {
     await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
     const player = new Player(ns);
-    const server = new Server(ns, target);
+    const server = new Server(ns, faction_req[fac].backdoor);
     if (player.hacking_skill() < server.hacking_skill()) {
         await raise_hack(ns, server.hacking_skill());
     }
@@ -92,22 +91,7 @@ export async function main(ns) {
             || ("NiteSec" == faction)
             || ("The Black Hand" == faction)
     );
-    let server = "";
-    switch (faction) {
-        case "BitRunners":
-            server = "run4theh111z";
-            break;
-        case "NiteSec":
-            server = "avmnite-02h";
-            break;
-        case "The Black Hand":
-            server = "I.I.I.I";
-            break;
-        default:
-            break;
-    }
-    assert(server.length > 0);
-    await hacking_group(ns, faction, server);
+    await hacking_group(ns, faction);
     // The next script in the load chain.
     const player = new Player(ns);
     const script = "/singularity/home.js";

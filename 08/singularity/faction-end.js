@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { faction_req } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js"
-import { Money } from "/lib/money.js";
 import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
@@ -44,19 +44,15 @@ async function daedalus(ns) {
     const augment = owned_augment(ns);
     const min_augment = ns.getBitNodeMultipliers().DaedalusAugsRequirement;
     assert(augment.size >= min_augment);
-    // Have at least $100b.
-    const m = new Money();
-    const threshold = 100 * m.billion();
-    await work(ns, threshold);
-    // At least 2,500 Hack.
-    const hack_lvl = 2500;
-    await raise_hack(ns, hack_lvl);
+    // Raise our money and Hack stat.
+    const fac = "Daedalus";
+    await work(ns, faction_req[fac].money);
+    await raise_hack(ns, faction_req[fac].hack);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Daedalus";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -74,21 +70,16 @@ async function illuminati(ns) {
     // Ensure we have already installed at least 30 Augmentations.
     const augment = owned_augment(ns);
     assert(augment.size >= 30);
-    // Have at least $150b.
-    const m = new Money();
-    const threshold = 150 * m.billion();
-    await work(ns, threshold);
-    // Raise Hack and combat stats.
-    const hack_lvl = 1500;
-    await raise_hack(ns, hack_lvl);
-    const combat_lvl = 1200;
-    await raise_combat_stats(ns, combat_lvl);
+    // Raise our money, Hack stat, and combat stats.
+    const fac = "Illuminati";
+    await work(ns, faction_req[fac].money);
+    await raise_hack(ns, faction_req[fac].hack);
+    await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "Illuminati";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
@@ -106,20 +97,16 @@ async function the_covenant(ns) {
     // Ensure we have already installed at least 20 Augmentations.
     const augment = owned_augment(ns);
     assert(augment.size >= 20);
-    // Have at least $75b.
-    const m = new Money();
-    const threshold = 75 * m.billion();
-    await work(ns, threshold);
-    // Raise our Hack and combat stats.
-    const stat_lvl = 850;
-    await raise_hack(ns, stat_lvl);
-    await raise_combat_stats(ns, stat_lvl);
+    // Raise our money, Hack stat, and combat stats.
+    const fac = "The Covenant";
+    await work(ns, faction_req[fac].money);
+    await raise_hack(ns, faction_req[fac].hack);
+    await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const faction = "The Covenant";
     const work_type = "Hacking Contracts";
-    await join_faction(ns, faction);
-    await work_for_faction(ns, faction, work_type);
-    await purchase_augment(ns, faction);
+    await join_faction(ns, fac);
+    await work_for_faction(ns, fac, work_type);
+    await purchase_augment(ns, fac);
 }
 
 /**
