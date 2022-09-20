@@ -20,7 +20,6 @@ import { faction_req } from "/lib/constant/faction.js";
 import { gang_tau } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
-import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { lower_karma } from "/lib/singularity/crime.js";
 import { join_faction } from "/lib/singularity/faction.js";
