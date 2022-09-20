@@ -65,6 +65,13 @@ export const money_reserve = 50 * 1e6;
 export const script = "hack.js";
 
 /**
+ * The cost of the TOR router.  Data from the file
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Constants.ts
+ */
+export const tor_cost = 200e3;
+
+/**
  * The minimum required Hack stat to enable a player to work at most companies.
  */
 export const work_hack_lvl = 250;

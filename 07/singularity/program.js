@@ -16,7 +16,7 @@
  */
 
 import { program as popen } from "/lib/constant/exe.js";
-import { work_hack_lvl } from "/lib/constant/misc.js";
+import { tor_cost, work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { raise_hack } from "/lib/singularity/study.js";
@@ -86,7 +86,6 @@ async function buy_programs(ns, program) {
 async function buy_tor_router(ns) {
     const t = new Time();
     const time = t.second();
-    const cost = 200000;
     const player = new Player(ns);
     while (!ns.singularity.purchaseTor()) {
         if (player.hacking_skill() < work_hack_lvl) {
@@ -94,7 +93,7 @@ async function buy_tor_router(ns) {
             await ns.sleep(time);
             continue;
         }
-        await work(ns, cost);
+        await work(ns, tor_cost);
         await ns.sleep(time);
     }
 }
