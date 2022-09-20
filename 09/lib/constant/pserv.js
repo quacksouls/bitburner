@@ -18,6 +18,9 @@
 // A bunch of constant values related to purchased servers.
 
 export const pserv = {
+    // The minimum amount of RAM each purchased server should have to be
+    // considered high-end.
+    "HIGH_RAM": 16384,
     // By default, we purchase this many servers to kickstart our farm of
     // purchased servers as an early source of income and Hack XP.
     "MIN": 13,
