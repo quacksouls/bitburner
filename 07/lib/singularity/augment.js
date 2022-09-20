@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { aug_purchase_limit } from "/lib/constant/faction.js";
+import { augment } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { commit_crime } from "/lib/singularity/crime.js";
@@ -57,7 +57,7 @@ export function augmentations_to_buy(ns, fac) {
     // Choose n Augmentations that have the least reputation requirements.
     const tobuy = new Array();
     let i = 0;
-    while (i < aug_purchase_limit) {
+    while (i < augment.BUY_TAU) {
         const aug = lowest_reputation(ns, fac_aug);
         tobuy.push(aug);
         fac_aug = fac_aug.filter(a => a != aug);
@@ -78,14 +78,14 @@ export function augmentations_to_buy(ns, fac) {
  * expensive Augmentation, its cost would now be much higher than previously.
  *
  * @param ns The Netscript API.
- * @param augment An array of Augmentation names.  Cannot be an empty array.
+ * @param candidate An array of Augmentation names.  Cannot be an empty array.
  * @return The name of the most expensive Augmentation from the given array.
  */
-export function choose_augmentation(ns, augment) {
-    assert(augment.length > 0);
+export function choose_augmentation(ns, candidate) {
+    assert(candidate.length > 0);
     let max = -Infinity;
     let aug = "";
-    for (const a of augment) {
+    for (const a of candidate) {
         const cost = Math.ceil(ns.singularity.getAugmentationPrice(a));
         if (max < cost) {
             max = cost;
@@ -106,25 +106,25 @@ export function choose_augmentation(ns, augment) {
  */
 export function has_augmentation(ns, aug) {
     const purchased = true;
-    const augment = new Set(ns.singularity.getOwnedAugmentations(purchased));
-    return augment.has(aug);
+    const candidate = new Set(ns.singularity.getOwnedAugmentations(purchased));
+    return candidate.has(aug);
 }
 
 /**
  * Determine an Augmentation that requires the least reputation points.
  *
  * @param ns The Netscript API.
- * @param augment An array of Augmentation names.  This array does not include
+ * @param candidate An array of Augmentation names.  This array does not include
  *     the NeuroFlux Governor.
  * @return A string representing the name of an Augmentation that requires the
  *     lowest amount of reputation points.
  */
-function lowest_reputation(ns, augment) {
-    assert(augment.length > 0);
-    assert(!augment.includes(nfg()));
+function lowest_reputation(ns, candidate) {
+    assert(candidate.length > 0);
+    assert(!candidate.includes(nfg()));
     let min = Infinity;
     let min_aug = "";
-    for (const aug of augment) {
+    for (const aug of candidate) {
         const rep = Math.ceil(ns.singularity.getAugmentationRepReq(aug));
         if (min > rep) {
             min = rep;
@@ -184,19 +184,19 @@ export function owned_augmentations(ns) {
  */
 export function prerequisites(ns, aug) {
     assert("" != aug);
-    const augment = new Array();
+    const candidate = new Array();
     const prereq = ns.singularity.getAugmentationPrereq(aug);
     if (0 == prereq.length) {
-        return augment;
+        return candidate;
     }
     // An array of Augmentation names.
     for (const a of prereq) {
         if (has_augmentation(ns, a)) {
             continue;
         }
-        augment.push(a);
+        candidate.push(a);
     }
-    return augment;
+    return candidate;
 }
 
 /**
@@ -209,8 +209,8 @@ export function prerequisites(ns, aug) {
  */
 export async function purchase_augmentations(ns, fac) {
     assert(is_valid_faction(fac));
-    let augment = augmentations_to_buy(ns, fac);
-    assert(augment.length > 0);
+    let candidate = augmentations_to_buy(ns, fac);
+    assert(candidate.length > 0);
     // Tell the trade bot to stop buying shares of stocks.  We want to cash in
     // on our shares and raise money to buy Augmentations.
     await trade_bot_stop_buy(ns);
@@ -220,14 +220,14 @@ export async function purchase_augmentations(ns, fac) {
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
-    while (augment.length > 0) {
-        if (num_augmentations(ns) >= aug_purchase_limit) {
+    while (candidate.length > 0) {
+        if (num_augmentations(ns) >= augment.BUY_TAU) {
             break;
         }
         // Choose the most expensive Augmentation.
-        const aug = choose_augmentation(ns, augment);
+        const aug = choose_augmentation(ns, candidate);
         if (has_augmentation(ns, aug)) {
-            augment = augment.filter(a => a != aug);
+            candidate = candidate.filter(a => a != aug);
             continue;
         }
         // If the most expensive Augmentation has no pre-requisites or we have
@@ -236,7 +236,7 @@ export async function purchase_augmentations(ns, fac) {
         let prereq = prerequisites(ns, aug);
         if (0 == prereq.length) {
             await purchase_aug(ns, aug, fac);
-            augment = augment.filter(a => a != aug);
+            candidate = candidate.filter(a => a != aug);
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
@@ -247,7 +247,7 @@ export async function purchase_augmentations(ns, fac) {
             prereq = prereq.filter(a => a != pre);
         }
         await purchase_aug(ns, aug, fac);
-        augment = augment.filter(a => a != aug);
+        candidate = candidate.filter(a => a != aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
