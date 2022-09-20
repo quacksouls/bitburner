@@ -67,7 +67,7 @@ export const gang_tau = {
     // only engage in turf warfare against another gang if our chance of
     // victory is at least this number.
     "WIN": 75
-},
+};
 
 /**
  * A list of names.  We can randomly choose a name to assign to a new recruit.
