@@ -123,7 +123,7 @@ export async function main(ns) {
     const player = new Player(ns);
     assert(player.karma() <= faction_req[fac].karma);
     await work(ns, faction_req[fac].money);
-    await join_faction(ns, faction);
+    await join_faction(ns, fac);
     // Decrease our karma low enough to allow us to create a gang.  We need
     // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at
     // most 18,000 times.  We lower our karma in batches.  After each batch
@@ -131,5 +131,5 @@ export async function main(ns) {
     if (Math.floor(player.karma()) > gang_tau.KARMA) {
         await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
     }
-    load_chain(ns, faction);
+    load_chain(ns, fac);
 }
