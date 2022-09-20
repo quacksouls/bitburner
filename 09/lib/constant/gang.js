@@ -53,6 +53,22 @@ export const gang_aug_crime = {
  * Miscellaneous constants related to various thresholds.
  */
 export const gang_tau = {
+    // The minimum percentage boost to a stat of a member.  Let x be the
+    // ascension multiplier of a member, gained by having ascended one or
+    // more times.  Let y be the next ascension multiplier, a boost to x after
+    // ascending the member another time.  The value of y is represented as
+    // 1.p, where 100 * p is the percentage boost to x.  After the next
+    // ascension, the new ascension multiplier of the member would be x * y.
+    // We want the value of y to be at least the given threshold.
+    "ASCEND": 1.25,
+    // The cost or expenditure multiplier.  Equipment and Augmentations for a
+    // gang member are expensive.  Whenever we make a decision to purchase a
+    // new equipment or Augmentation for a gang member, we multiply the cost of
+    // the equipment or Augmentation by this multiplier.  In case we do buy the
+    // new equipment, at least we would not have spent all our funds.  Do not
+    // want to go bankrupt because we decided to purchase an expensive
+    // equipment.
+    "COST_MULT": 5,
     // In BitNodes other than BN2.x we must decrease our karma to -54,000 or
     // lower as a pre-requisite for creating a gang.  This constant is taken
     // from the file:

@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gangster_name, task, vehicle, weapon
+    armour, gang_aug_crime, gang_tau, gangster_name, task, vehicle, weapon
 } from "/lib/constant/gang.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
@@ -28,16 +28,6 @@ import { assert } from "/lib/util.js";
  * A class that holds various information about a gangster.
  */
 export class Gangster {
-    /**
-     * The cost or expenditure multiplier.  Equipment and Augmentations for a
-     * gang member are expensive.  Whenever we make a decision to purchase a
-     * new equipment or Augmentation for a gang member, we multiply the cost of
-     * the equipment or Augmentation by this multiplier.  In case we do buy the
-     * new equipment, at least we would not have spent all our funds.  Do not
-     * want to go bankrupt because we decided to purchase an expensive
-     * equipment.
-     */
-    #cost_mult;
     /**
      * An array of names.  Assign one of these names to a new gang member.
      */
@@ -53,7 +43,6 @@ export class Gangster {
      * @param ns The Netscript API.
      */
     constructor(ns) {
-        this.#cost_mult = 5;
         this.#name = Array.from(gangster_name);
         this.#ns = ns;
     }
@@ -77,16 +66,6 @@ export class Gangster {
      */
     ascend(name) {
         assert(this.is_member(name));
-        // The minimum percentage boost to a stat of a member.  Let x be the
-        // ascension multiplier of a member, gained by having ascended one or
-        // more times.  Let y be the next ascension multiplier, a boost to x
-        // after ascending the member another time.  The value of y is
-        // represented as 1.p, where 100 * p is the percentage boost to x.
-        // After the next ascension, the new ascension multiplier of the member
-        // would be x * y.  We want the value of y to be at least the given
-        // threshold.
-        const threshold = 1.25;
-        // This is the y value for each stat, as explained above.
         const asc = this.#ns.gang.getAscensionResult(name);
         if (undefined == asc) {
             return bool.FAILURE;
@@ -99,7 +78,7 @@ export class Gangster {
             return Math.floor(100 * x);
         }
         // Ascend this gang member.
-        const tau = to_int(threshold);
+        const tau = to_int(gang_tau.ASCEND);
         if (
             (to_int(asc.agi) > tau)
                 || (to_int(asc.cha) > tau)
@@ -151,7 +130,7 @@ export class Gangster {
         assert(gang_armour.has(amr));
         const cost = this.#ns.gang.getEquipmentCost(amr);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (this.#cost_mult * cost)) {
+        if (funds < (gang_tau.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, amr);
@@ -171,7 +150,7 @@ export class Gangster {
         assert(gang_augment.has(aug));
         const cost = this.#ns.gang.getEquipmentCost(aug);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (this.#cost_mult * cost)) {
+        if (funds < (gang_tau.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
@@ -191,7 +170,7 @@ export class Gangster {
         assert(gang_vehicle.has(vhc));
         const cost = this.#ns.gang.getEquipmentCost(vhc);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (this.#cost_mult * cost)) {
+        if (funds < (gang_tau.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, vhc);
@@ -211,7 +190,7 @@ export class Gangster {
         assert(gang_weapon.has(wpn));
         const cost = this.#ns.gang.getEquipmentCost(wpn);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (this.#cost_mult * cost)) {
+        if (funds < (gang_tau.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, wpn);
