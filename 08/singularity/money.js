@@ -51,7 +51,7 @@ async function commit_crimes(ns, threshold) {
     ns.exec(script, home, nthread, threshold);
     // Wait for the crime script to end.
     const t = new Time();
-    const time = 10 * t.second();
+    const time = 5 * t.second();
     while (ns.scriptRunning(script, home)) {
         await ns.sleep(time);
     }
