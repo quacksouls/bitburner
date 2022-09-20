@@ -50,19 +50,24 @@ export const gang_aug_crime = {
 };
 
 /**
- * In BitNodes other than BN2.x we must decrease our karma to -54,000 or lower
- * as a pre-requisite for creating a gang.  This constant is taken from the
- * file:
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+ * Miscellaneous constants related to various thresholds.
  */
-export const gang_karma = -54000;
-
-/**
- * The territory and power of each gang is updated approximately every 20
- * seconds.  We refer to this time period as a tick.
- */
-export const gang_tick = 20 * 1000;
+export const gang_tau = {
+    // In BitNodes other than BN2.x we must decrease our karma to -54,000 or
+    // lower as a pre-requisite for creating a gang.  This constant is taken
+    // from the file:
+    //
+    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+    "KARMA": -54 * 1e3,
+    // The territory and power of each gang is updated approximately every 20
+    // seconds.  We refer to this time period as a tick.
+    "TICK": 20 * 1e3,
+    // The minimum chance of winning a clash against a rival gang.  This chance
+    // of victory is expressed as an integer percentage.  In general, we should
+    // only engage in turf warfare against another gang if our chance of
+    // victory is at least this number.
+    "WIN": 75
+},
 
 /**
  * A list of names.  We can randomly choose a name to assign to a new recruit.
@@ -370,11 +375,3 @@ export const weapon = {
     "MFIFTEEN": "M15A10 Assault Rifle",
     "AWM": "AWM Sniper Rifle"
 };
-
-/**
- * The minimum chance of winning a clash against a rival gang.  This chance of
- * victory is expressed as an integer percentage.  In general, we should only
- * engage in turf warfare against another gang if our chance of victory is at
- * least this number.
- */
-export const win_tau = 75;

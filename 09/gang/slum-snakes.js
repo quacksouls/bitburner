@@ -16,7 +16,7 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
-import { gang_karma } from "/lib/constant/gang.js";
+import { gang_tau } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
@@ -44,11 +44,11 @@ import { assert } from "/lib/util.js";
 function karma_threshold(ns) {
     const player = new Player(ns);
     const current_karma = Math.floor(player.karma());
-    if (current_karma <= gang_karma) {
+    if (current_karma <= gang_tau.KARMA) {
         return 0;
     }
     let target = -13500;
-    const delta = gang_karma - current_karma;
+    const delta = gang_tau.KARMA - current_karma;
     if (Math.abs(delta) < Math.abs(target)) {
         target = delta;
     }
@@ -133,7 +133,7 @@ export async function main(ns) {
     // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at
     // most 18,000 times.  We lower our karma in batches.  After each batch
     // we might not have enough negative karma to create a gang.
-    if (Math.floor(player.karma()) > gang_karma) {
+    if (Math.floor(player.karma()) > gang_tau.KARMA) {
         await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
     }
     load_chain(ns, faction);

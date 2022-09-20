@@ -17,8 +17,8 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_karma, gang_tick, members, penalty_tau,
-    task_tau, vehicle, weapon, win_tau
+    armour, gang_aug_crime, gang_tau, members, penalty_tau, task_tau, vehicle,
+    weapon
 } from "/lib/constant/gang.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
@@ -75,7 +75,7 @@ async function create_gang(ns, fac) {
     }
     const t = new Time();
     const player = new Player(ns);
-    while (player.karma() > gang_karma) {
+    while (player.karma() > gang_tau.KARMA) {
         await ns.sleep(t.minute());
     }
     assert(ns.gang.createGang(fac));
@@ -123,7 +123,7 @@ function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
         return bool.NO_WAR;
     }
-    if (has_max_members(ns) && (min_victory_chance(ns) >= win_tau)) {
+    if (has_max_members(ns) && (min_victory_chance(ns) >= gang_tau.WIN)) {
         return bool.WAR;
     }
     return bool.NO_WAR;
@@ -291,8 +291,8 @@ function is_in_war(ns) {
 
 /**
  * Whether we are currently in a new tick.  Each tick lasts for approximately
- * the time period as defined by the constant gang_tick.  At the start of each
- * tick, there is a chance for our gang to clash against a rival gang.
+ * the time period as defined by the constant gang_tau.TICK.  At the start of
+ * each tick, there is a chance for our gang to clash against a rival gang.
  *
  * @param ns The Netscript API.
  * @param other An object containing information about other gangs.  The data
@@ -385,8 +385,9 @@ function para_bellum(ns) {
     if (has_all_turf(ns)) {
         return;
     }
-    // We want at most members.WARRIOR members to be engaged in territory warfare.
-    // The remaining members should be in as high-paying jobs as possible.
+    // We want at most members.WARRIOR members to be engaged in territory
+    // warfare.  The remaining members should be in as high-paying jobs as
+    // possible.
     const threshold = members.MAX - members.WARRIOR;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
@@ -670,9 +671,9 @@ export async function main(ns) {
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     recruit(ns);
     // Manage our gang.
-    // A tick is a period of time as defined by the constant gang_tick.  At the
-    // start of each tick, there is a chance for our gang to clash against any
-    // rival gang.  The tick threshold is the time near the start of a new
+    // A tick is a period of time as defined by the constant gang_tau.TICK.  At
+    // the start of each tick, there is a chance for our gang to clash against
+    // any rival gang.  The tick threshold is the time near the start of a new
     // tick.  If we are at the tick threshold, then do whatever is necessary to
     // prepare for a clash against a rival gang.
     const t = new Time();
@@ -693,8 +694,8 @@ export async function main(ns) {
         // Are we in a new tick?  If we are having a turf war, then let our
         // gang members fight until a new tick occurs.
         if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
-            // We want the tick threshold to be a little under the gang_tick.
-            tick_threshold = Date.now() + (gang_tick - t.second());
+            // The tick threshold should be a little under gang_tau.TICK.
+            tick_threshold = Date.now() + (gang_tau.TICK - t.second());
             other_gang = ns.gang.getOtherGangInformation();
             gangster.traffick_arms(ns.gang.getMemberNames());
             update(ns);
