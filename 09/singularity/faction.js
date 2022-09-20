@@ -51,19 +51,19 @@ async function choose_faction(ns) {
             script = "/singularity/faction-city.js";
             break;
         case "Bachman & Associates":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "BitRunners":
             script = "/singularity/faction-hack.js";
             break;
         case "Blade Industries":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Chongqing":
             script = "/singularity/faction-city.js";
             break;
         case "Clarke Incorporated":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "CyberSec":
             script = "/singularity/faction-early.js";
@@ -72,13 +72,13 @@ async function choose_faction(ns) {
             script = "/singularity/faction-end.js";
             break;
         case "ECorp":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Four Sigma":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Fulcrum Secret Technologies":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Illuminati":
             script = "/singularity/faction-end.js";
@@ -87,10 +87,10 @@ async function choose_faction(ns) {
             script = "/singularity/faction-city.js";
             break;
         case "KuaiGong International":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "MegaCorp":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Netburners":
             script = "/singularity/faction-early.js";
@@ -102,10 +102,10 @@ async function choose_faction(ns) {
             script = "/singularity/faction-hack.js";
             break;
         case "NWO":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "OmniTek Incorporated":
-            script = "/singularity/faction-megacorporation.js";
+            script = "/singularity/faction-megacorp.js";
             break;
         case "Sector-12":
             script = "/singularity/faction-city.js";

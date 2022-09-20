@@ -181,7 +181,7 @@ function dir_singularity() {
         "singularity/faction-early.js",
         "singularity/faction-end.js",
         "singularity/faction-hack.js",
-        "singularity/faction-megacorporation.js",
+        "singularity/faction-megacorp.js",
         "singularity/faction.js",
         "singularity/home.js",
         "singularity/install.js",
