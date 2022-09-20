@@ -57,7 +57,7 @@ export const colour = {
  * purchasing activities, we do not want to spend all our money.  We spend only
  * if doing so would leave us with at least this amount of money left over.
  */
-export const money_reserve = 50 * (10**6);
+export const money_reserve = 50 * 1e6;
 
 /**
  * The hack script.  This script is used for hacking a server.
