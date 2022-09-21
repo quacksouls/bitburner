@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to factions.
 
+import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
@@ -75,10 +76,8 @@ export async function join_faction(ns, fac) {
             company = "Fulcrum Technologies";
         }
         const field = "Software";
-        const focus = true;
         ns.singularity.applyToCompany(company, field);
-        ns.singularity.workForCompany(company, focus);
-        ns.singularity.setFocus(focus);
+        ns.singularity.workForCompany(company, bool.FOCUS);
     }
     // Join the faction.
     const player = new Player(ns);
@@ -124,10 +123,9 @@ export async function raise_combat_stats(ns, threshold) {
         return;
     }
     // Commit homicide to raise all our combat stats.
-    const focus = true;
     const t = new Time();
     const time = 5 * t.second();
-    ns.singularity.commitCrime(crimes.KILL, focus);
+    ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     // Wait to receive an invitation from Slum Snakes and perform Field Work
     // for the faction.
     const target = "Slum Snakes";
@@ -137,7 +135,7 @@ export async function raise_combat_stats(ns, threshold) {
         ns.singularity.joinFaction(target);
     }
     const work_type = "Field Work";
-    ns.singularity.workForFaction(target, work_type, focus);
+    ns.singularity.workForFaction(target, work_type, bool.FOCUS);
     while (
         (player.strength() < tau)
             || (player.defense() < tau)
@@ -171,10 +169,9 @@ export async function raise_hack(ns, threshold) {
     }
     // Carry out field work for the faction.
     const work_type = "Field Work";
-    const focus = true;
     const t = new Time();
     const time = t.minute();
-    ns.singularity.workForFaction(target, work_type, focus);
+    ns.singularity.workForFaction(target, work_type, bool.FOCUS);
     while (player.hacking_skill() < threshold) {
         await ns.sleep(time);
     }
@@ -217,10 +214,9 @@ export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
     assert(("Hacking Contracts" == work_type) || ("Field Work" == work_type));
     const threshold = total_reputation(ns, fac);
-    const focus = true;
     const t = new Time();
     const time = t.minute();
-    ns.singularity.workForFaction(fac, work_type, focus);
+    ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
         const amount = Math.floor(0.2 * ns.getServerMoneyAvailable(home));

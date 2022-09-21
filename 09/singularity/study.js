@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { home, home_tau } from "/lib/constant/server.js";
 import { study } from "/lib/singularity/study.js";
@@ -43,10 +44,9 @@ async function create_program(ns, program) {
     assert(threshold > 0);
     assert(ns.getHackingLevel() >= threshold);
     // Work on creating the program.
-    const focus = true;
     const t = new Time();
     const time = t.minute();
-    assert(ns.singularity.createProgram(program, focus));
+    assert(ns.singularity.createProgram(program, bool.FOCUS));
     while (ns.singularity.isBusy()) {
         assert(!has_program(ns, program));
         await ns.sleep(time);

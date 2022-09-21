@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { gang_tau } from "/lib/constant/gang.js";
@@ -84,8 +85,7 @@ async function raise_combat_stats(ns, threshold) {
     const t = new Time();
     const time = 10 * t.second();
     const player = new Player(ns);
-    const focus = true;
-    ns.singularity.commitCrime(crimes.MUG, focus);
+    ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
     while (
         (player.strength() < threshold)
             || (player.defense() < threshold)

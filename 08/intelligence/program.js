@@ -18,6 +18,7 @@
 import {
     has_program, intelligence, intelligence_gain
 } from "/intelligence/util.js";
+import { bool } from "/lib/constant/bool.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -70,11 +71,10 @@ function can_create(ns, program) {
  */
 async function create_program(ns, program) {
     // Work on creating the program.
-    const focus = true;
     const t = new Time();
     const time = 30 * t.second();
     const before = intelligence(ns);
-    assert(ns.singularity.createProgram(program, focus));
+    assert(ns.singularity.createProgram(program, bool.FOCUS));
     while (ns.singularity.isBusy()) {
         await ns.sleep(time);
     }

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/server.js";
 import { Time } from "/lib/time.js";
@@ -32,8 +33,7 @@ async function commit_other_crime(ns, threshold) {
     assert(threshold > 0);
     const t = new Time();
     const time = t.second();
-    const focus = true;
-    ns.singularity.commitCrime(crimes.KILL, focus);
+    ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(time);
     }
@@ -50,8 +50,7 @@ async function mug_somone(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.MUG);
     const max = 20;  // Mug this many times.
     const time = max * stat.time;
-    const focus = true;
-    ns.singularity.commitCrime(crimes.MUG, focus);
+    ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
     await ns.sleep(time);
     ns.singularity.stopAction();
 }
@@ -65,8 +64,7 @@ async function shoplift(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.SHOP);
     const max = 20;  // Shoplift this many times.
     const time = max * stat.time;
-    const focus = true;
-    ns.singularity.commitCrime(crimes.SHOP, focus);
+    ns.singularity.commitCrime(crimes.SHOP, bool.FOCUS);
     await ns.sleep(time);
     ns.singularity.stopAction();
 }

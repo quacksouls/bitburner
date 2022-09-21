@@ -18,6 +18,7 @@
 import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
+import { bool } from "/lib/constant/bool.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -41,11 +42,10 @@ async function study(ns) {
         "Leadership"
     ];
     ns.tprint("Study at " + uni);
-    const focus = true;
     for (const c of course) {
         const action = "Course: " + c;
         const before = intelligence(ns);
-        assert(ns.singularity.universityCourse(uni, c, focus));
+        assert(ns.singularity.universityCourse(uni, c, bool.FOCUS));
         await ns.sleep(time);
         ns.singularity.stopAction();
         const after = intelligence(ns);

@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to work.
 
+import { bool } from "/lib/constant/bool.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
@@ -64,10 +65,8 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     // given amount of Charisma level.
     const company = "MegaCorp";
     const field = "Software";
-    const focus = true;
     ns.singularity.applyToCompany(company, field);
-    ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
+    ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (player.charisma() < threshold) {
@@ -75,8 +74,7 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Work in the new job.
         if (success) {
-            ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
+            ns.singularity.workForCompany(company, bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
@@ -99,11 +97,9 @@ export async function rise_to_cfo(ns, company) {
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
     const field = "Business";
-    const focus = true;
     const target_job = "Chief Financial Officer";
     ns.singularity.applyToCompany(company, field);
-    ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
+    ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (player.job(company) != target_job) {
@@ -111,8 +107,7 @@ export async function rise_to_cfo(ns, company) {
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Work in the new job.
         if (success) {
-            ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
+            ns.singularity.workForCompany(company, bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
@@ -141,8 +136,7 @@ export async function work(ns, threshold) {
     const company = "MegaCorp";
     const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
-    ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
+    ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (ns.getServerMoneyAvailable(home) < threshold) {
@@ -151,8 +145,7 @@ export async function work(ns, threshold) {
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Start working in the new job.
         if (success) {
-            ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
+            ns.singularity.workForCompany(company, bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
@@ -178,10 +171,8 @@ export async function work_for_company(ns, company, rep) {
     // Work for the company until we have accumulated the given amount of
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
-    const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
-    ns.singularity.workForCompany(company, focus);
-    ns.singularity.setFocus(focus);
+    ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (ns.singularity.getCompanyRep(company) < rep) {
@@ -190,8 +181,7 @@ export async function work_for_company(ns, company, rep) {
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Work in the new job.
         if (success) {
-            ns.singularity.workForCompany(company, focus);
-            ns.singularity.setFocus(focus);
+            ns.singularity.workForCompany(company, bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
