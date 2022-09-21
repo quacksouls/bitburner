@@ -150,7 +150,8 @@ async function choose_faction(ns) {
 }
 
 /**
- * Whether to join a given faction.  We exclude the faction within which we created a gang.
+ * Whether to join a given faction.  We exclude the faction within which we
+ * created a gang.
  *
  * @param ns The Netscript API.
  * @param fac The name of the faction to consider.

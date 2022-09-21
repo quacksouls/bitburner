@@ -97,7 +97,10 @@ function is_valid_program(name) {
  * @param ns The Netscript API.
  */
 async function study_and_create(ns) {
-    const program = ["BruteSSH.exe", "FTPCrack.exe"];
+    const program = [
+        "BruteSSH.exe",
+        "FTPCrack.exe"
+    ];
     const home_ram = ns.getServer(home).maxRam;
     for (const p of program) {
         await study(ns, hack_requirement(p));
@@ -109,7 +112,10 @@ async function study_and_create(ns) {
         // on our home server to allow multiple scripts to run in the
         // background.
         if (home_ram < home_tau.RAM_MID) {
-            const script = ["hnet-farm.js", "world-server.js"];
+            const script = [
+                "hnet-farm.js",
+                "world-server.js"
+            ];
             const t = new Time();
             const time = 5 * t.second();
             const nthread = 1;

@@ -52,9 +52,16 @@ async function await_invitation(ns, fac) {
  */
 function is_megacorp_faction(fac) {
     const faction = [
-        "Bachman & Associates", "Blade Industries", "Clarke Incorporated",
-        "ECorp", "Four Sigma", "Fulcrum Secret Technologies",
-        "KuaiGong International", "MegaCorp", "NWO", "OmniTek Incorporated"
+        "Bachman & Associates",
+        "Blade Industries",
+        "Clarke Incorporated",
+        "ECorp",
+        "Four Sigma",
+        "Fulcrum Secret Technologies",
+        "KuaiGong International",
+        "MegaCorp",
+        "NWO",
+        "OmniTek Incorporated"
     ];
     return faction.includes(fac);
 }
