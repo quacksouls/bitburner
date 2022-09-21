@@ -94,9 +94,12 @@ function decrease_penalty(ns) {
     const name = new Array();
     const gangster = new Gangster(ns);
     const member = ns.gang.getMemberNames();
-    gangster.graduate(member, task_tau.COMBAT);
     for (const s of member) {
-        if (gangster.is_vigilante(s) || gangster.is_mugger(s)) {
+        if (
+            gangster.is_vigilante(s)
+                || gangster.is_mugger(s)
+                || gangster.is_training(s)
+        ) {
             continue;
         }
         name.push(s);
