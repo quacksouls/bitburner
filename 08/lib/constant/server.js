@@ -35,15 +35,9 @@ export const home_tau = {
     // The maximum amount of RAM on the home server.  This is not necessarily
     // the largest amount of RAM the home server can have.  Use this constant
     // to help us decide whether to upgrade our home server any further.
-    "RAM": 262144
-};
-
-/**
- * Various RAM (in GB) thresholds for our home server.
- */
-export const ram_tau = {
+    "RAM": 262144,
     // The minimum amount of RAM for a high-end home server.
-    "HIGH": 512,
+    "RAM_HIGH": 512,
     // The minimum amount of RAM for a mid-sized home server.
-    "MID": 128,
+    "RAM_MID": 128
 };

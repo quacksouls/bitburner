@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, ram_tau } from "/lib/constant/server.js";
+import { home, home_tau } from "/lib/constant/server.js";
 import { Money } from "/lib/money.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -29,7 +29,7 @@ import { assert } from "/lib/util.js";
 function choose_threshold(ns) {
     // If our server is not high-end, then the threshold is the cost of
     // upgrading the RAM.
-    if (ns.getServer(home).maxRam < ram_tau.HIGH) {
+    if (ns.getServer(home).maxRam < home_tau.RAM_HIGH) {
         return Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     }
     // The default threshold.
@@ -100,13 +100,13 @@ export async function main(ns) {
     const player_money = ns.getServerMoneyAvailable(home);
     const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
-    if ((player_money > threshold) && (home_ram >= ram_tau.HIGH)) {
+    if ((player_money > threshold) && (home_ram >= home_tau.RAM_HIGH)) {
         load_chain(ns);
         return;
     }
     await commit_crimes(ns, threshold);
     // If our home server is not high-end, upgrade the RAM on the home server.
-    if (home_ram < ram_tau.HIGH) {
+    if (home_ram < home_tau.RAM_HIGH) {
         // Upgrade the RAM on the home server.
         const cost = ns.singularity.getUpgradeHomeRamCost();
         let success = ns.singularity.upgradeHomeRam();

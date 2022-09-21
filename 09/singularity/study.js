@@ -16,7 +16,7 @@
  */
 
 import { all_programs } from "/lib/constant/exe.js";
-import { home, ram_tau } from "/lib/constant/server.js";
+import { home, home_tau } from "/lib/constant/server.js";
 import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -108,7 +108,7 @@ async function study_and_create(ns) {
         // kill it.  The reason is that it is likely we do not have enough RAM
         // on our home server to allow multiple scripts to run in the
         // background.
-        if (home_ram < ram_tau.MID) {
+        if (home_ram < home_tau.RAM_MID) {
             const script = ["hnet-farm.js", "world-server.js"];
             const t = new Time();
             const time = 5 * t.second();

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, ram_tau } from "/lib/constant/server.js";
+import { home, home_tau } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -39,12 +39,12 @@ export async function main(ns) {
     const server = ns.getServer(home);
     const nthread = 1;
     let script = "";
-    if (server.maxRam >= ram_tau.HIGH) {
+    if (server.maxRam >= home_tau.RAM_HIGH) {
         script = "go-high.js";
-    } else if (server.maxRam >= ram_tau.MID) {
+    } else if (server.maxRam >= home_tau.RAM_MID) {
         script = "go-mid.js";
     } else {
-        assert(server.maxRam < ram_tau.MID);
+        assert(server.maxRam < home_tau.RAM_MID);
         script = "go-low.js";
     }
     assert("" != script);
