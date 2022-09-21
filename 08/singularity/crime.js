@@ -48,8 +48,7 @@ async function commit_other_crime(ns, threshold) {
  */
 async function mug_somone(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.MUG);
-    const max = 20;  // Mug this many times.
-    const time = max * stat.time;
+    const time = crimes.n * stat.time;
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
     await ns.sleep(time);
     ns.singularity.stopAction();
@@ -62,8 +61,7 @@ async function mug_somone(ns) {
  */
 async function shoplift(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.SHOP);
-    const max = 20;  // Shoplift this many times.
-    const time = max * stat.time;
+    const time = crimes.n * stat.time;
     ns.singularity.commitCrime(crimes.SHOP, bool.FOCUS);
     await ns.sleep(time);
     ns.singularity.stopAction();

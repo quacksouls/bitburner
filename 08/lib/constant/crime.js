@@ -18,9 +18,12 @@
 // Various constant values related to crimes.
 
 /**
- * All available crimes.
+ * Various constants and thresholds related to crimes.
  */
 export const crimes = {
+    /**
+     * All available crimes.
+     */
     "ASSASS": "assassinate",
     "DRUG": "deal drugs",
     "FORGE": "bond forgery",
@@ -32,5 +35,10 @@ export const crimes = {
     "MUG": "mug someone",
     "ROB": "rob store",
     "SHOP": "shoplift",
-    "TRAFFICK": "traffick illegal arms"
+    "TRAFFICK": "traffick illegal arms",
+    /**
+     * Various numeric constants.
+     */
+    // The default number of times we want to commit a particular crime.
+    "n": 10
 };
