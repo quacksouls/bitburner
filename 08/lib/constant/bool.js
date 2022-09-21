@@ -34,6 +34,9 @@ export const bool = {
     // Whether or not it is time for something to occur.
     "IS_TIME": true,
     "NOT_TIME": false,
+    // Whether or not to join an organization.
+    "JOIN": true,
+    "NO_JOIN": false,
     // Whether or not we can jump.
     "JUMP": true,
     "NO_JUMP": false,

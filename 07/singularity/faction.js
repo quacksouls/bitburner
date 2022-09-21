@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { owned_augment } from "/lib/singularity/augment.js";
@@ -157,14 +158,12 @@ async function choose_faction(ns) {
  */
 function join_next(ns, fac) {
     assert(is_valid_faction(fac));
-    const JOIN = true;
-    const NO_JOIN = !JOIN;
     // We have a gang within the given faction.  Must be in a gang in order to
     // get information about our gang.
     if (ns.gang.inGang()) {
         const gang_fac = ns.gang.getGangInformation().faction;
         if (gang_fac == fac) {
-            return NO_JOIN;
+            return bool.NO_JOIN;
         }
     }
     // See whether we have all Augmentations from the given faction.
@@ -172,10 +171,10 @@ function join_next(ns, fac) {
     const fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     for (const aug of fac_aug) {
         if (!owned_aug.has(aug)) {
-            return JOIN;
+            return bool.JOIN;
         }
     }
-    return NO_JOIN;
+    return bool.NO_JOIN;
 }
 
 /**
