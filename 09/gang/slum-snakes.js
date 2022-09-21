@@ -22,7 +22,6 @@ import { gang_tau } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
-import { lower_karma } from "/lib/singularity/crime.js";
 import { join_faction } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
 import { Time } from "/lib/time.js";
@@ -53,7 +52,7 @@ function karma_threshold(ns) {
     if (Math.abs(delta) < Math.abs(target)) {
         target = delta;
     }
-    return current_karma + target;
+    return Math.floor(current_karma + target);
 }
 
 /**
@@ -67,6 +66,30 @@ function load_chain(ns, faction) {
     const script = "/gang/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
+}
+
+/**
+ * Decrease our karma low enough to allow us to create a gang.  We need -54,000
+ * karma.  Homicide yields -3 karma so we must commit homicide at most 18,000
+ * times.  We lower our karma in batches.  After each batch we might not have
+ * enough negative karma to create a gang.
+ *
+ * @param ns The Netscript API.
+ */
+async function lower_karma(ns) {
+    const threshold = karma_threshold(ns);
+    ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Int XP.
+    ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
+    const t = new Time();
+    const time = 5 * t.second();
+    const player = new Player(ns);
+    while (Math.floor(player.karma()) > threshold) {
+        if (Math.floor(player.karma()) < gang_tau.KARMA) {
+            break;
+        }
+        await ns.sleep(time);
+    }
+    ns.singularity.stopAction();
 }
 
 /**
@@ -116,19 +139,14 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Raise combat stats, ensure we have the required minimum karma, raise our
-    // income.  Then join the Slum Snakes faction.
+    // income.  Then join the Slum Snakes faction.  Attempt to lower our karma
+    // so we can create a gang.
     const fac = "Slum Snakes";
     await raise_combat_stats(ns, faction_req[fac].combat);
     const player = new Player(ns);
     assert(player.karma() <= faction_req[fac].karma);
     await work(ns, faction_req[fac].money);
     await join_faction(ns, fac);
-    // Decrease our karma low enough to allow us to create a gang.  We need
-    // -54,000 karma.  Homicide yields -3 karma so we must commit homicide at
-    // most 18,000 times.  We lower our karma in batches.  After each batch
-    // we might not have enough negative karma to create a gang.
-    if (Math.floor(player.karma()) > gang_tau.KARMA) {
-        await lower_karma(ns, karma_threshold(ns), crimes.KILL, Infinity);
-    }
+    await lower_karma(ns);
     load_chain(ns, fac);
 }
