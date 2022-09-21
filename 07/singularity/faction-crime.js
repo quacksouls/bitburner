@@ -19,7 +19,6 @@ import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
-import { Money } from "/lib/money.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";
 import {
