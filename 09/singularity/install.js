@@ -35,6 +35,9 @@ import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 function buy_exclusive_augmentations(ns) {
+    if (!ns.gang.inGang()) {
+        return;
+    }
     // The faction within which we created our gang.
     const gang_faction = ns.gang.getGangInformation().faction;
     // Attempt to purchase the exclusive Augmentations.
@@ -65,6 +68,9 @@ function buy_exclusive_augmentations(ns) {
  * @param ns The Netscript API.
  */
 function buy_other_augmentations(ns) {
+    if (!ns.gang.inGang()) {
+        return;
+    }
     // Sets of Augmentations to exclude.
     const installed = new Set(installed_augmentations(ns));
     let exclusive = new Array();
