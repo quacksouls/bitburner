@@ -24,6 +24,21 @@
 export const home = "home";
 
 /**
+ * Various thresholds related to our home server.
+ */
+export const home_tau = {
+    // The maximum number of Cores on the home server.  This is not necessarily
+    // the greatest number of Cores the home server can have.  Use this
+    // constant to help us decide whether to upgrade our home server any
+    // further.
+    "CORE": 4,
+    // The maximum amount of RAM on the home server.  This is not necessarily
+    // the largest amount of RAM the home server can have.  Use this constant
+    // to help us decide whether to upgrade our home server any further.
+    "RAM": 262144
+};
+
+/**
  * Various RAM (in GB) thresholds for our home server.
  */
 export const ram_tau = {

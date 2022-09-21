@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
+import { home, home_tau } from "/lib/constant/server.js";
 import { Server } from "/lib/server.js";
 import { Time } from "/lib/time.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
@@ -40,23 +40,14 @@ function choose_upgrade(ns) {
     const core_cost = Math.ceil(ns.singularity.getUpgradeHomeCoresCost());
     const ram_cost = Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     if (core_cost < ram_cost) {
-        if (server.cores() < core_limit()) {
+        if (server.cores() < home_tau.CORE) {
             return "Cores";
         }
     }
     // Upgrade the RAM.
-    assert((ram_cost <= core_cost) || (server.cores() == core_limit()));
-    assert(server.ram_max() < ram_limit());
+    assert((ram_cost <= core_cost) || (server.cores() == home_tau.CORE));
+    assert(server.ram_max() < home_tau.RAM);
     return "RAM";
-}
-
-/**
- * The maximum number of Cores on the home server.  This is not necessarily the
- * greatest number of Cores the home server can have.
- */
-function core_limit() {
-    const limit = 4;
-    return limit;
 }
 
 /**
@@ -70,21 +61,12 @@ function core_limit() {
 function is_at_limits(ns) {
     const server = new Server(ns, home);
     if (
-        (server.cores() >= core_limit())
-            && (server.ram_max() >= ram_limit())
+        (server.cores() >= home_tau.CORE)
+            && (server.ram_max() >= home_tau.RAM)
     ) {
         return true;
     }
     return false;
-}
-
-/**
- * The maximum amount of RAM on the home server.  This is not necessarily the
- * largest amount of RAM the home server can have.
- */
-function ram_limit() {
-    const limit = 262144;
-    return limit;
 }
 
 /**
