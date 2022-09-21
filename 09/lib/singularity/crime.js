@@ -59,7 +59,7 @@ export function greatest_chance(ns, crime) {
     assert(crime.length > 0);
     let max = 0;
     const chance = new Map();
-    const million = 10 ** 6;
+    const million = 1e6;
     for (const c of crime) {
         // We want to avoid floating point numbers when we compare the chance
         // of success of various crimes.  Convert the probability of success to

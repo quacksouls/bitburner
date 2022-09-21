@@ -74,10 +74,10 @@ export const gang_tau = {
     // from the file:
     //
     // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
-    "KARMA": -54 * 1e3,
+    "KARMA": -54e3,
     // The territory and power of each gang is updated approximately every 20
     // seconds.  We refer to this time period as a tick.
-    "TICK": 20 * 1e3,
+    "TICK": 20e3,
     // The minimum chance of winning a clash against a rival gang.  This chance
     // of victory is expressed as an integer percentage.  In general, we should
     // only engage in turf warfare against another gang if our chance of

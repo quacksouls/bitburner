@@ -29,10 +29,10 @@ export const hnet_tau = {
     // we should purchase.  The values 1e6 and 1e9 mean million and billion,
     // respectively.
     "MONEY": [
-        10 * 1e6,
-        100 * 1e6,
+        10e6,
+        100e6,
         1e9,
-        100 * 1e9
+        100e9
     ],
     // The node thresholds.  At certain money thresholds, we should have the
     // corresponding number of nodes.

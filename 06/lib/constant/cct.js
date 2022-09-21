@@ -33,7 +33,7 @@ export const cct_suffix = ".cct";
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/engine.tsx
  */
-export const cct_update_interval = 6 * 1e5;
+export const cct_update_interval = 6e5;
 
 /**
  * Various colours for graph colouring, i.e. testing whether a graph is

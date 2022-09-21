@@ -49,12 +49,12 @@ export const reserve_mult = 1.1;
  * stock.  This is our spending threshold.  If our money is less than the
  * spending threshold, then do not purchase any shares.
  */
-export const spend_tau = 5 * 1e6;
+export const spend_tau = 5e6;
 
 /**
  * The Stock Market updates approximately every 6 seconds.
  */
-export const stock_tick = 6000;
+export const stock_tick = 6e3;
 
 /**
  * A file name.  If the trade bot detects the existence of this file on the

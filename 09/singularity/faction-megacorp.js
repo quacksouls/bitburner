@@ -129,7 +129,7 @@ export async function main(ns) {
     // However, the reputation requirement is reduced to 300k if we have
     // installed a backdoor on the corresponding company server.
     await install_backdoor_on_server(ns, faction);
-    const rep = 3 * 1e5;
+    const rep = 3e5;
     let company = faction;
     if ("Fulcrum Secret Technologies" == faction) {
         company = "Fulcrum Technologies";
