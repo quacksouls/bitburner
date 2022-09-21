@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to crime.
 
+import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
@@ -106,7 +107,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     const time = t.second();
     const player = new Player(ns);
     if (crimes.SHOP == crime) {
-        ns.singularity.commitCrime(crime);
+        ns.singularity.commitCrime(crime, bool.FOCUS);
         while (Math.ceil(player.karma()) > threshold) {
             await ns.sleep(time);
         }
@@ -118,7 +119,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // Homicide.
     assert(crimes.KILL == crime);
     assert(nkill > 0);
-    ns.singularity.commitCrime(crime);
+    ns.singularity.commitCrime(crime, bool.FOCUS);
     while (
         (Math.ceil(player.karma()) > threshold)
             || (player.nkill() < nkill)
