@@ -16,6 +16,7 @@
  */
 
 import { script } from "/lib/constant/misc.js";
+import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
 
@@ -49,24 +50,7 @@ export class PurchasedServer {
         this.#home = home;
         this.#ns = ns;
         this.#script = script;
-        this.#valid_ram = [
-            32,
-            64,
-            128,
-            256,
-            512,
-            1024,
-            2048,
-            4096,
-            8192,
-            16384,
-            32768,
-            65536,
-            131072,
-            262144,
-            524288,
-            1048576
-        ];
+        this.#valid_ram = Array.from(pserv.RAM);
     }
 
     /**

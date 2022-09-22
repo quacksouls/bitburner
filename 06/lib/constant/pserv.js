@@ -27,5 +27,25 @@ export const pserv = {
     // The prefix for the name of each purchased server.  The very first
     // purchased server is always named "pserv".  Any subsequent purchased
     // server is named as pserv-n, where n is a non-negative integer.
-    "PREFIX": "pserv"
+    "PREFIX": "pserv",
+    // An array of valid RAM for a purchased server.  Each RAM amount is a
+    // power of 2.
+    "RAM": [
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024,
+        2048,
+        4096,
+        8192,
+        16384,
+        32768,
+        65536,
+        131072,
+        262144,
+        524288,
+        1048576
+    ]
 };
