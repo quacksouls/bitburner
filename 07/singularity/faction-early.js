@@ -116,7 +116,7 @@ async function netburners(ns) {
             threshold = factor * player.money();
             invite = ns.singularity.checkFactionInvitations();
         }
-        ns.singularity.joinFaction(faction);
+        ns.singularity.joinFaction(fac);
     }
     const work_type = "Hacking Contracts";
     await work_for_faction(ns, fac, work_type);
