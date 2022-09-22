@@ -20,6 +20,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
@@ -35,9 +36,9 @@ function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
     const stat = ns.getPlayer().skills;
     if (stat.charisma < charisma_lvl) {
-        return "Software";
+        return job_area.SOFTWARE;
     }
-    return "Business";
+    return job_area.BUSINESS;
 }
 
 /**
@@ -64,14 +65,15 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     // Work for a company as a software engineer until we have accumulated the
     // given amount of Charisma level.
     const company = "MegaCorp";
-    const field = "Software";
-    ns.singularity.applyToCompany(company, field);
+    ns.singularity.applyToCompany(company, job_area.SOFTWARE);
     ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (player.charisma() < threshold) {
         await ns.sleep(time);
-        const success = ns.singularity.applyToCompany(company, field);
+        const success = ns.singularity.applyToCompany(
+            company, job_area.SOFTWARE
+        );
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
@@ -96,15 +98,16 @@ export async function rise_to_cfo(ns, company) {
     assert(player.charisma() >= charisma_lvl);
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
-    const field = "Business";
     const target_job = "Chief Financial Officer";
-    ns.singularity.applyToCompany(company, field);
+    ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
     while (player.job(company) != target_job) {
         await ns.sleep(time);
-        const success = ns.singularity.applyToCompany(company, field);
+        const success = ns.singularity.applyToCompany(
+            company, job_area.BUSINESS
+        );
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);

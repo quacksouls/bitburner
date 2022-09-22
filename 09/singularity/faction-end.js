@@ -17,6 +17,7 @@
 
 import { faction_req } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js"
+import { job_area } from "/lib/constant/work.js";
 import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
 import {
     join_faction, raise_combat_stats, raise_hack, work_for_faction
@@ -49,9 +50,8 @@ async function daedalus(ns) {
     await work(ns, faction_req[fac].money);
     await raise_hack(ns, faction_req[fac].hack);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -76,9 +76,8 @@ async function illuminati(ns) {
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -103,9 +102,8 @@ async function the_covenant(ns) {
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 

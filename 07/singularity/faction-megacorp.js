@@ -16,6 +16,7 @@
  */
 
 import { faction_req } from "/lib/constant/faction.js";
+import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
@@ -79,9 +80,8 @@ async function megacorporation(ns, company, fac, rep) {
     // Work for the company to earn the required reputation points.
     await work_for_company(ns, company, rep);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 

@@ -17,6 +17,7 @@
 
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
+import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
@@ -63,9 +64,8 @@ async function cyberSec(ns) {
     assert(server.has_root_access());
     // Install backdoor, then join the faction.
     await install_backdoor(ns, server.hostname());
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -118,8 +118,7 @@ async function netburners(ns) {
         }
         ns.singularity.joinFaction(fac);
     }
-    const work_type = "Hacking Contracts";
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -151,9 +150,8 @@ async function tian_di_hui(ns) {
         }
     }
     // Join the faction and purchase all of its Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 

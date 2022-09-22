@@ -21,6 +21,7 @@ import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { factions, factions_megacorp } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
+import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
 import { Time } from "/lib/time.js";
@@ -70,8 +71,7 @@ export async function join_faction(ns, fac) {
         if ("Fulcrum Secret Technologies" == fac) {
             company = "Fulcrum Technologies";
         }
-        const field = "Software";
-        ns.singularity.applyToCompany(company, field);
+        ns.singularity.applyToCompany(company, job_area.SOFTWARE);
         ns.singularity.workForCompany(company, bool.FOCUS);
     }
     // Join the faction.
@@ -129,8 +129,7 @@ export async function raise_combat_stats(ns, threshold) {
         await await_invitation(ns, target);
         ns.singularity.joinFaction(target);
     }
-    const work_type = "Field Work";
-    ns.singularity.workForFaction(target, work_type, bool.FOCUS);
+    ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
     while (
         (player.strength() < tau)
             || (player.defense() < tau)
@@ -163,10 +162,9 @@ export async function raise_hack(ns, threshold) {
         ns.singularity.joinFaction(target);
     }
     // Carry out field work for the faction.
-    const work_type = "Field Work";
     const t = new Time();
     const time = t.minute();
-    ns.singularity.workForFaction(target, work_type, bool.FOCUS);
+    ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
     while (player.hacking_skill() < threshold) {
         await ns.sleep(time);
     }
@@ -207,7 +205,7 @@ function total_reputation(ns, fac) {
  */
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
-    assert(("Hacking Contracts" == work_type) || ("Field Work" == work_type));
+    assert((job_area.HACK == work_type) || (job_area.FIELD == work_type));
     const threshold = total_reputation(ns, fac);
     const t = new Time();
     const time = t.minute();

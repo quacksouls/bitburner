@@ -18,6 +18,7 @@
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { commit_crime } from "/lib/singularity/crime.js";
@@ -59,9 +60,8 @@ async function city_faction(ns, city) {
         }
     }
     // Join the faction and purchase all of its Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 

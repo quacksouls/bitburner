@@ -19,6 +19,7 @@ import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { job_area } from "/lib/constant/work.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";
 import {
@@ -60,9 +61,8 @@ async function silhouette(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Hacking Contracts";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -87,9 +87,8 @@ async function slum_snakes(ns) {
     await raise_combat_stats(ns, faction_req[fac].combat);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Field Work";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
 }
 
@@ -114,9 +113,8 @@ async function speakers_for_the_dead(ns) {
     await raise_combat_stats(ns, faction_req[fac].combat);
     await raise_hack(ns, faction_req[fac].hack);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Field Work";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
 }
 
@@ -138,9 +136,8 @@ async function tetrads(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Field Work";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
 }
 
@@ -167,9 +164,8 @@ async function the_dark_army(ns) {
         ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
     );
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Field Work";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
 }
 
@@ -196,9 +192,8 @@ async function the_syndicate(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.KILL, nkill);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
-    const work_type = "Field Work";
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, work_type);
+    await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
 }
 
