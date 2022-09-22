@@ -20,6 +20,7 @@ import {
     count_one, log_cct_failure, parity_position, print_error,
     print_success
 } from "/lib/cct.js";
+import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -32,8 +33,7 @@ function encode(n) {
     assert(n > 0);
     // Convert from decimal to binary.  A decimal number is expressed in
     // base 10, whereas a binary number is expressed in base 2.
-    const base = 2;
-    const data = n.toString(base).split("").map(s => parseInt(s));
+    const data = n.toString(base.BINARY).split("").map(s => parseInt(s));
     // Determine the number of parity bits.
     const nparity = num_parity(data);
     assert(nparity > 0);
