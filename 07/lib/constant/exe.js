@@ -15,11 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// A bunch of constant values related to programs that can be created or bought via the dark web.
+// A bunch of constant values related to programs that can be created or bought
+// via the dark web.
 
 /**
  * All programs that can be created.  These programs can also be purchased via
- * the dark web.
+ * the dark web.  Data taken from this file:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Programs/data/ProgramsMetadata.ts
  */
 export function all_programs() {
     // A map where the key/value pair is as follows:
