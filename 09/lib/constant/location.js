@@ -21,6 +21,20 @@
  * All cities and their locations.  Data taken from:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Locations/data/LocationNames.ts
+ *
+ * Below are explanation of each field in a city object.  If a city object does
+ * not have a particular field, this means the city does not have the
+ * corresponding location.
+ *
+ * (1) company := An array of company names.  We can work for these companies.
+ * (2) gov := An array of names of governmental sites, e.g. police station or
+ *     government agency.
+ * (3) gym := An array of gym names.
+ * (4) leisure := A leisure centre, e.g. casino or arcade.
+ * (5) other := A miscellaneous location in the city.
+ * (6) shop := A hardware shop, where we can purchase servers or upgrade our
+ *     home server.
+ * (7) uni := The name of the city's university.
  */
 export const cities = {
     // Aevum locations.
@@ -43,8 +57,6 @@ export const cities = {
             "Snap Fitness Gym"
         ],
         "leisure": "Iker Molina Casino",
-        "name": "Aevum",
-        "other": undefined,
         "shop": "NetLink Technologies",
         "uni": "Summit University"
     },
@@ -54,13 +66,7 @@ export const cities = {
             "KuaiGong International",
             "Solaris Space Systems"
         ],
-        "gov": undefined,
-        "gym": undefined,
-        "leisure": undefined,
-        "name": "Chongqing",
-        "other": "Church of the Machine God",
-        "shop": undefined,
-        "uni": undefined
+        "other": "Church of the Machine God"
     },
     // Ishima locations.
     "Ishima": {
@@ -69,32 +75,20 @@ export const cities = {
             "Omega Software",
             "Storm Technologies"
         ],
-        "gov": undefined,
-        "gym": undefined,
-        "leisure": undefined,
-        "name": "Ishima",
-        "other": "0x6C1",
-        "shop": undefined,
-        "uni": undefined
+        "other": "0x6C1"
     },
     // New Tokyo locations.
-    "NewTokyo": {
+    "New Tokyo": {
         "company": [
             "DefComm",
             "Global Pharmaceuticals",
             "Noodle Bar",
             "VitaLife"
         ],
-        "gov": undefined,
-        "gym": undefined,
-        "leisure": "Arcade",
-        "name": "New Tokyo",
-        "other": undefined,
-        "shop": undefined,
-        "uni": undefined
+        "leisure": "Arcade"
     },
-    // Sector 12 locations.
-    "Sector12": {
+    // Sector-12 locations.
+    "Sector-12": {
         "company": [
             "Blade Industries",
             "Carmichael Security",
@@ -115,9 +109,6 @@ export const cities = {
             "Iron Gym",
             "Powerhouse Gym"
         ],
-        "leisure": undefined,
-        "name": "Sector 12",
-        "other": undefined,
         "shop": "Alpha Enterprises",
         "uni": "Rothman University"
     },
@@ -131,13 +122,9 @@ export const cities = {
             "Omnia Cybersystems",
             "SysCore Securities"
         ],
-        "gov": undefined,
         "gym": [
             "Millenium Fitness Gym"
         ],
-        "leisure": undefined,
-        "name": "Volhaven",
-        "other": undefined,
         "shop": "OmniTek Incorporated",
         "uni": "ZB Institute of Technology"
     },
