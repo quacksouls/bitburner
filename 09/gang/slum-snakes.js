@@ -142,11 +142,13 @@ export async function main(ns) {
     // income.  Then join the Slum Snakes faction.  Attempt to lower our karma
     // so we can create a gang.
     const fac = "Slum Snakes";
-    await raise_combat_stats(ns, faction_req[fac].combat);
     const player = new Player(ns);
-    assert(player.karma() <= faction_req[fac].karma);
-    await work(ns, faction_req[fac].money);
-    await join_faction(ns, fac);
+    if (!player.faction().includes(fac)) {
+        await raise_combat_stats(ns, faction_req[fac].combat);
+        assert(player.karma() <= faction_req[fac].karma);
+        await work(ns, faction_req[fac].money);
+        await join_faction(ns, fac);
+    }
     await lower_karma(ns);
     load_chain(ns, fac);
 }
