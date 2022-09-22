@@ -20,7 +20,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
-import { job_area } from "/lib/constant/work.js";
+import { job_area, job_title } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity/study.js";
 import { Time } from "/lib/time.js";
@@ -134,12 +134,11 @@ export async function rise_to_cfo(ns, company) {
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
     ns.singularity.goToLocation(company);  // Raise Intelligence XP.
-    const target_job = "Chief Financial Officer";
     ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
     const time = t.minute();
-    while (player.job(company) != target_job) {
+    while (player.job(company) != job_title.CFO) {
         await ns.sleep(time);
         const success = ns.singularity.applyToCompany(
             company, job_area.BUSINESS

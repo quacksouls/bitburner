@@ -26,3 +26,14 @@ export const job_area = {
     "HACK": "Hacking Contracts",
     "SOFTWARE": "Software"
 };
+
+/**
+ * Job titles at various companies.  Data taken from
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Company/data/companypositionnames.ts
+ */
+export const job_title = {
+    "CEO": "Chief Executive Officer",
+    "CFO": "Chief Financial Officer",
+    "CTO": "Chief Technology Officer"
+};
