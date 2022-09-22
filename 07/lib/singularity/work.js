@@ -137,7 +137,6 @@ export async function work(ns, threshold) {
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
     const company = "MegaCorp";
-    const focus = true;
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
     const t = new Time();
