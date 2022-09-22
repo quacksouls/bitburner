@@ -17,7 +17,8 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_tau, gangster_name, task, vehicle, weapon
+    armour, gang_aug_crime, gang_tau, gangster_name, task, task_tau, vehicle,
+    weapon
 } from "/lib/constant/gang.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
@@ -458,6 +459,26 @@ export class Gangster {
                 assert(this.#ns.gang.setMemberTask(s, task.MUG));
             }
         }
+    }
+
+    /**
+     * Whether a gang member needs combat training.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member needs combat training;
+     *     false otherwise.
+     */
+    needs_training(name) {
+        assert(this.is_member(name));
+        if (
+            (this.strength(name) < task_tau.COMBAT)
+                || (this.defense(name) < task_tau.COMBAT)
+                || (this.dexterity(name) < task_tau.COMBAT)
+                || (this.agility(name) < task_tau.COMBAT)
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**

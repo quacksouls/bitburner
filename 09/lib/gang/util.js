@@ -22,20 +22,44 @@ import { Gangster } from "/lib/gang/gangster.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Reassign some members to other jobs.
+ *
+ * @param ns The Netscript API.
+ * @param name An array of member names.
+ */
+function reassign_other(ns, name) {
+    if (0 == name.length) {
+        return;
+    }
+    const trainee = new Array();
+    const other = new Array();
+    const gangster = new Gangster(ns);
+    for (const s of name) {
+        if (gangster.needs_training(s) && !gangster.is_training(s)) {
+            trainee.push(s);
+            continue;
+        }
+        other.push(s);
+    }
+    gangster.train_combat(trainee);
+    gangster.extort(other);
+}
+
+/**
  * Re-assign a number of our strongest gang members to vigilante justice.
  * Our objective is to lower our wanted level.
  *
  * @param ns The Netscript API.
  * @param threshold We want to re-assign this many members.  If the given
  *     threshold is greater than the current number of vigilantes, re-assign
- *     the others to strongarm civilians.
+ *     the others to strongarm civilians or other jobs.
  */
 export function reassign_vigilante(ns, threshold) {
     let tau = Math.floor(threshold);
     assert(tau > 0);
     // Lower the threshold, depending on our gang membership.
     const mid_point = Math.floor(members.MAX / 2);
-    const ngangster = ns.gang.getMemberNames();
+    const ngangster = ns.gang.getMemberNames().length;
     const gangster = new Gangster(ns);
     if (ngangster == members.INITIAL) {
         tau = 1;
@@ -50,8 +74,9 @@ export function reassign_vigilante(ns, threshold) {
         return;
     }
     // We have more vigilantes than the given threshold.  Move some members out
-    // of vigilante justice and into strongarm civilians.
+    // of vigilante justice and into some other jobs.
     if (vigilante.length > tau) {
+        // Keep the required members in vigilante justice.
         let candidate = Array.from(vigilante);
         const keep = new Array();
         while (keep.length < tau) {
@@ -59,7 +84,8 @@ export function reassign_vigilante(ns, threshold) {
             candidate = candidate.filter(s => s != best);
             keep.push(best);
         }
-        gangster.extort(candidate);
+        // Move the rest into combat training or another job.
+        reassign_other(ns, candidate);
         return;
     }
     // If we already have some vigilantes, then add more members to vigilante
@@ -67,16 +93,17 @@ export function reassign_vigilante(ns, threshold) {
     assert(vigilante.length < tau);
     tau = tau - vigilante.length;
     // Choose the top gangsters and assign them to vigilante justice.
-    let member = ns.gang.getMemberNames();
-    assert(member.length > 0);
+    let candidate = ns.gang.getMemberNames();
+    assert(candidate.length > 0);
     const name = new Array();
-    while ((name.length < tau) && (member.length > 0)) {
-        const best = strongest_member(ns, member);
-        member = member.filter(s => s != best);
+    while ((name.length < tau) && (candidate.length > 0)) {
+        const best = strongest_member(ns, candidate);
+        candidate = candidate.filter(s => s != best);
         name.push(best);
     }
     assert(name.length > 0);
     gangster.vigilante(name);
+    reassign_other(ns, candidate);
 }
 
 /**

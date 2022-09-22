@@ -91,9 +91,9 @@ async function create_gang(ns, fac) {
  */
 function decrease_penalty(ns) {
     reassign_vigilante(ns, members.VIGILANTE);
+    const member = ns.gang.getMemberNames();
     const name = new Array();
     const gangster = new Gangster(ns);
-    const member = ns.gang.getMemberNames();
     for (const s of member) {
         if (
             gangster.is_vigilante(s)
@@ -581,12 +581,7 @@ function retrain(ns) {
     const member = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        if (
-            (gangster.strength(s) < task_tau.COMBAT)
-                || (gangster.defense(s) < task_tau.COMBAT)
-                || (gangster.dexterity(s) < task_tau.COMBAT)
-                || (gangster.agility(s) < task_tau.COMBAT)
-        ) {
+        if (gangster.needs_training(s)) {
             member.push(s);
         }
     }
@@ -599,6 +594,7 @@ function retrain(ns) {
  * @param ns The Netscript API.
  */
 function update(ns) {
+    recruit(ns);
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) < penalty_tau.LOW) {
@@ -620,7 +616,6 @@ function update(ns) {
     // and re-equip them.
     ascend(ns);
     // Some training and easy jobs for greenhorn gangsters.
-    recruit(ns);
     retrain(ns);
     graduate(ns);
     reassign(ns);
