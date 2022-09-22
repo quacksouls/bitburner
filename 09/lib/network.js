@@ -361,8 +361,7 @@ export function shortest_path(ns, source, target) {
     const stack = new Array();
     const visit = new Set();
     stack.push(source);
-    const directed = false;
-    const graph = new Graph(directed);
+    const graph = new Graph(bool.UNDIRECTED);
     // Use breath-first search to navigate the network.
     while (stack.length > 0) {
         const s = stack.pop();
