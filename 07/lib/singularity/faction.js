@@ -19,7 +19,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
-import { factions } from "/lib/constant/faction.js";
+import { factions, factions_megacorp } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
@@ -51,19 +51,7 @@ async function await_invitation(ns, fac) {
  *     false otherwise.
  */
 function is_megacorp_faction(fac) {
-    const faction = [
-        "Bachman & Associates",
-        "Blade Industries",
-        "Clarke Incorporated",
-        "ECorp",
-        "Four Sigma",
-        "Fulcrum Secret Technologies",
-        "KuaiGong International",
-        "MegaCorp",
-        "NWO",
-        "OmniTek Incorporated"
-    ];
-    return faction.includes(fac);
+    return factions_megacorp.includes(fac);
 }
 
 /**

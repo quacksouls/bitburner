@@ -349,3 +349,19 @@ export const factions = [
     "The Covenant",
     "Daedalus"
 ];
+
+/**
+ * All megacorporation factions.
+ */
+export const factions_megacorp = [
+    "Bachman & Associates",
+    "Blade Industries",
+    "Clarke Incorporated",
+    "ECorp",
+    "Four Sigma",
+    "Fulcrum Secret Technologies",
+    "KuaiGong International",
+    "MegaCorp",
+    "NWO",
+    "OmniTek Incorporated"
+];
