@@ -18,6 +18,7 @@
 // Miscellaneous helper functions related to study at a university.
 
 import { bool } from "/lib/constant/bool.js";
+import { course } from "/lib/constant/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -90,8 +91,7 @@ export async function study(ns, threshold) {
     if ("" == uni) {
         return;
     }
-    const course = "Study Computer Science";
-    assert(ns.singularity.universityCourse(uni, course, bool.FOCUS));
+    assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
     // Stop our study when our Hack stat is at least the given threshold.
     const t = new Time();
     const time = 10 * t.second();
