@@ -72,10 +72,10 @@ export const cities = {
     "Ishima": {
         "company": [
             "Nova Medical",
-            "Omega Software",
-            "Storm Technologies"
+            "Omega Software"
         ],
-        "other": "0x6C1"
+        "other": "0x6C1",
+        "shop": "Storm Technologies"
     },
     // New Tokyo locations.
     "New Tokyo": {
