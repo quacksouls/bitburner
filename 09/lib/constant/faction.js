@@ -207,6 +207,14 @@ export const faction_req = {
 };
 
 /**
+ * Various thresholds related to factions.
+ */
+export const faction_tau = {
+    // Donate this percentage of our money to a faction.
+    "DONATE_MULT": 0.2
+};
+
+/**
  * Augmentations that are exclusive to various factions.  We can purchase some
  * Augmentations provided that we are a member of the corresponding faction.
  */
