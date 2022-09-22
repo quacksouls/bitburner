@@ -90,44 +90,63 @@ export const gang_tau = {
  */
 export const gangster_name = [
     // A
-    "Al Capone", "Alfhild", "Al Swearengen", "Anna Nzinga",
-    "Anne Bonny", "Anne Dieu le Veut", "Artemisia of Caria",
+    "Al Capone", "Alfhild", "Al Swearengen", "Andre of Astora", "Anna Nzinga",
+    "Anne Bonny", "Anne Dieu le Veut", "Anri of Astora", "Artemisia of Caria",
+    "Knight Artorias",
     // B
-    "Black Bart", "Blackbeard", "Bonnie Parker", "Boudicca",
+    "Big Hat Logan", "Black Bart", "Blackbeard", "Bonnie Parker", "Boudicca",
     // C
-    "Captain Haddock", "Captain Hook", "Charlotte Badger", "Chen Jinnan",
-    "Clyde Barrow",
+    "Captain Haddock", "Captain Hook", "Captain Yorshka",
+    "Chaos Witch Quelaag", "Charlotte Badger", "Chen Jinnan", "Clyde Barrow",
+    "Cornyx", "Crestfallen Merchant", "Crossbreed Priscilla",
     // D
-    "Donbot", "Don Corleone", "Don Logan",
+    "Darkstalker Kaathe", "Domhnall of Zena", "Donbot", "Don Corleone",
+    "Don Logan", "Dusk of Oolacile",
     // E
-    "Elise Eskilsdotter", "Elvira Hancock",
+    "Eingyi", "Elise Eskilsdotter", "Elizabeth Mushroom", "Elvira Hancock",
     // F
-    "Fat Tony", "Francois l'Olonnais", "Fu Hao",
+    "Fat Tony", "Filianore", "Francois l'Olonnais", "Fu Hao",
     // G
-    "Gemma Teller Morrow", "Grace O'Malley",
+    "Gemma Teller Morrow", "Giant Blacksmith", "Grace O'Malley",
+    "Great Grey Wolf Sif", "Greirat", "Griggs of Vinheim",
+    // H
+    "Hawkeye Gough",
+    // I
+    "Ingward", "Irina of Carim", "Isshin",
     // J
-    "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson",
-    "Joan of Arc",
+    "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson", "Joan of Arc",
+    // K
+    "Karla", "Kingseeker Frampt",
     // L
-    "Lady Trieu", "Long Ben", "Long John Silver",
+    "Lady Trieu", "Laurentius", "Long Ben", "Long John Silver",
     // M
-    "Ma Barker", "Ma Beagle", "Mark Gor", "Mary Read", "Mia Wallace",
+    "Ma Barker", "Ma Beagle", "Mark Gor", "Marvelous Chester", "Mary Read",
+    "Mia Wallace",
     // N
     "Nucky Thompson",
     // O
-    "O-Ren Ishii",
+    "O-Ren Ishii", "Oswald of Carim",
+    // P
+    "Petrus of Thorolund",
+    // Q
+    "Quelana of Izalith",
     // R
-    "Rani Velu Nachiyar", "Red Rackham", "Rusla",
+    "Rani Velu Nachiyar", "Reah of Thorolund", "Red Rackham",
+    "Rickert of Vinheim", "Rusla",
     // S
-    "Sadie Farrell", "Sayyida al Hurra", "Sir Francis Drake",
-    "Sir Henry Morgan", "Snaps Provolone", "Stephanie St. Clair",
-    "Stringer Bell",
+    "Sadie Farrell", "Sayyida al Hurra", "Shiva of the East",
+    "Siegward of Catarina", "Sir Francis Drake", "Sir Henry Morgan", "Sirris",
+    "Slave Knight Gael", "Snaps Provolone", "Solaire of Astora",
+    "Stephanie St. Clair", "Stringer Bell",
     // T
     "Tomoe Gozen", "Tom Stall", "Tony Montana", "Tony Soprano",
+    "Trusty Patches",
     // V
-    "Virginia Hill",
+    "Vamos", "Virginia Hill",
     // W
     "William Kidd",
+    // Y
+    "Yuria of Londor",
     // Z
     "Zheng Yi Sao"
 ];
