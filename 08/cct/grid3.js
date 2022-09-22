@@ -209,9 +209,8 @@ function shortest_path(grid) {
  */
 function to_graph(grid) {
     assert(grid.length > 0);
-    const directed = false;
     const ncol = grid[0].length;
-    const graph = new Graph(directed);
+    const graph = new Graph(bool.UNDIRECTED);
     for (let r = 0; r < grid.length; r++) {
         assert(ncol == grid[r].length);
         for (let c = 0; c < ncol; c++) {

@@ -89,8 +89,7 @@ function to_graph(array) {
     // disconnected.  Each node ID is an index of the given array.
     const myarr = new MyArray();
     const node = myarr.sequence(array.length);
-    const directed = true;
-    const graph = new Graph(directed);
+    const graph = new Graph(bool.DIRECTED);
     for (const v of node) {
         graph.add_node(v);
     }

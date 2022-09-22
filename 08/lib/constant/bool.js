@@ -25,6 +25,9 @@ export const bool = {
     // Whether or not we can run something.
     "CAN_RUN": true,
     "NOT_RUN": false,
+    // Whether or not a graph is directed.
+    "DIRECTED": true,
+    "UNDIRECTED": false,
     // Enable or disable a feature.
     "ENABLE": true,
     "DISABLE": false,

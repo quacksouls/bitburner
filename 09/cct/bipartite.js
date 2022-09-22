@@ -189,8 +189,7 @@ function to_graph(n, edge) {
     assert(edge.length > 0);
     const array = new MyArray();
     const node = new Set(array.sequence(n));
-    const directed = false;
-    const graph = new Graph(directed);
+    const graph = new Graph(bool.UNDIRECTED);
     // First, add the edges.
     for (let i = 0; i < edge.length; i++) {
         const [u, v] = edge[i];
