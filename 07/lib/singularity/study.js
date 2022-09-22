@@ -18,6 +18,7 @@
 // Miscellaneous helper functions related to study at a university.
 
 import { bool } from "/lib/constant/bool.js";
+import { cities } from "/lib/constant/location.js";
 import { course } from "/lib/constant/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
@@ -32,20 +33,9 @@ import { assert } from "/lib/util.js";
  */
 function choose_university(ns) {
     const city = ns.getPlayer().city;
-    let uni = "";
-    switch (city) {
-        case "Aevum":
-            uni = "Summit University";
-            break;
-        case "Sector-12":
-            uni = "Rothman University";
-            break;
-        case "Volhaven":
-            uni = "ZB Institute of Technology";
-            break;
-        default:
-            uni = "";
-            break;
+    const uni = cities[city].uni;
+    if (undefined == uni) {
+        return "";
     }
     return uni;
 }
@@ -88,7 +78,8 @@ export async function study(ns, threshold) {
     assert(threshold > 0);
     // Study the free computer science course at a university.
     const uni = choose_university(ns);
-    if ("" == uni) {
+    const empty_str = "";
+    if (empty_str == uni) {
         return;
     }
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
