@@ -17,8 +17,8 @@
 
 // Miscellaneous helper functions related to the Singularity API.
 
+import { cities } from "/lib/constant/location.js";
 import { Time } from "/lib/time.js";
-import { assert } from "/lib/util.js";
 
 /**
  * Determine the hardware company we should visit.  The company can sell us
@@ -28,50 +28,20 @@ import { assert } from "/lib/util.js";
  * @return A string representing the name of a hardware store.
  */
 export async function choose_hardware_company(ns) {
-    const city = ns.getPlayer().city;
-    let shop = "";
-    switch (city) {
-        case "Aevum":
-            shop = "NetLink Technologies";
-            break;
-        case "Chongqing":
-            // No hardware company in Chongqing.
-            shop = "";
-            break;
-        case "Ishima":
-            shop = "Storm Technologies";
-            break;
-        case "New Tokyo":
-            // No hardware company in New Tokyo.
-            shop = "";
-            break;
-        case "Sector-12":
-            shop = "Alpha Enterprises";
-            break;
-        case "Volhaven":
-            shop = "OmniTek Incorporated";
-            break;
-        default:
-            shop = "";
-            break;
-    }
+    let city = ns.getPlayer().city;
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.
     if (("Chongqing" == city) || ("New Tokyo" == city)) {
         const t = new Time();
         const time = t.second();
-        const new_city = "Sector-12";
-        ns.singularity.goToLocation("Travel Agency");
-        let success = ns.singularity.travelToCity(new_city);
+        city = "Sector-12";
+        ns.singularity.goToLocation(cities.generic["TA"]);
+        let success = ns.singularity.travelToCity(city);
         while (!success) {
             await ns.sleep(time);
-            success = ns.singularity.travelToCity(new_city);
+            success = ns.singularity.travelToCity(city);
         }
-        shop = "Alpha Enterprises";
     }
-    assert("Chongqing" != ns.getPlayer().city);
-    assert("New Tokyo" != ns.getPlayer().city);
-    assert("" != shop);
-    return shop;
+    return cities[city].shop;
 }
