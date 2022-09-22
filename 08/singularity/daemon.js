@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
@@ -57,8 +58,7 @@ async function destroy(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const purchase = false;
-    const augment = ns.singularity.getOwnedAugmentations(purchase);
+    const augment = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
     if (!augment.includes("The Red Pill")) {
         return;
     }

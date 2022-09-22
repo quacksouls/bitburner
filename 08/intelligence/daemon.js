@@ -16,6 +16,7 @@
  */
 
 import { intelligence } from "/intelligence/util.js";
+import { bool } from "/lib/constant/bool.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { connect_to } from "/lib/singularity/network.js";
@@ -58,8 +59,7 @@ async function destroy(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const purchase = false;
-    const augment = ns.singularity.getOwnedAugmentations(purchase);
+    const augment = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
     assert(augment.includes("The Red Pill"));
     await destroy(ns);
 }

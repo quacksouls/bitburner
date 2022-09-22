@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
+import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
@@ -46,8 +47,7 @@ export function augment_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
-    const purchased = true;
-    const owned_aug = new Set(ns.singularity.getOwnedAugmentations(purchased));
+    const owned_aug = new Set(ns.singularity.getOwnedAugmentations(bool.PURCHASED));
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter(a => !owned_aug.has(a));
     if (fac_aug.includes(nfg())) {
@@ -105,8 +105,7 @@ export function choose_augment(ns, candidate) {
  *     false otherwise.
  */
 export function has_augment(ns, aug) {
-    const purchased = true;
-    const candidate = new Set(ns.singularity.getOwnedAugmentations(purchased));
+    const candidate = new Set(ns.singularity.getOwnedAugmentations(bool.PURCHASED));
     return candidate.has(aug);
 }
 
@@ -150,10 +149,8 @@ export function nfg() {
  * @return How many Augmentations we have bought and yet to install.
  */
 function num_augment(ns) {
-    const purchased = true;
-    const no_purchased = !purchased;
-    const owned_aug = ns.singularity.getOwnedAugmentations(no_purchased);
-    const owned_bought_aug = ns.singularity.getOwnedAugmentations(purchased);
+    const owned_aug = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
+    const owned_bought_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     assert(owned_bought_aug.length >= owned_aug.length);
     const npurchase = owned_bought_aug.length - owned_aug.length;
     return npurchase;
@@ -167,8 +164,7 @@ function num_augment(ns) {
  *     installed.
  */
 export function owned_augment(ns) {
-    const purchased = false;
-    return new Set(ns.singularity.getOwnedAugmentations(purchased));
+    return new Set(ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED));
 }
 
 /**

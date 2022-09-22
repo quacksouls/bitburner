@@ -202,8 +202,7 @@ function install(ns) {
  * @param ns The Netscript API.
  */
 function installed_augmentations(ns) {
-    const purchase = false;
-    return ns.singularity.getOwnedAugmentations(purchase);
+    return ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
 }
 
 /**
@@ -212,8 +211,7 @@ function installed_augmentations(ns) {
  * @param ns The Netscript API.
  */
 function purchased_augmentations(ns) {
-    const purchase = true;
-    const purchased_aug = ns.singularity.getOwnedAugmentations(purchase);
+    const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     const installed_aug = installed_augmentations(ns);
     return purchased_aug.filter(a => !installed_aug.includes(a));
 }

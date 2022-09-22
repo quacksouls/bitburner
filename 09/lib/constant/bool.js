@@ -55,6 +55,9 @@ export const bool = {
     // Whether or not a new state has occurred.
     "NEW": true,
     "NOT_NEW": false,
+    // Whether or not to consider something that is purchased.
+    "PURCHASED": true,
+    "NOT_PURCHASED": false,
     // Whether or not a state is reachable.  These values are specific to
     // Array Jumping Game.
     "REACHABLE": 1,

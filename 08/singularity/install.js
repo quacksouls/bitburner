@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { MyArray } from "/lib/array.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { stock_tick } from "/lib/constant/wse.js";
@@ -121,8 +122,7 @@ function install(ns) {
  * @param ns The Netscript API.
  */
 function installed_augmentations(ns) {
-    const purchase = false;
-    return ns.singularity.getOwnedAugmentations(purchase);
+    return ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
 }
 
 /**
@@ -131,8 +131,7 @@ function installed_augmentations(ns) {
  * @param ns The Netscript API.
  */
 function purchased_augmentations(ns) {
-    const purchase = true;
-    const purchased_aug = ns.singularity.getOwnedAugmentations(purchase);
+    const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     const installed_aug = installed_augmentations(ns);
     return purchased_aug.filter(a => !installed_aug.includes(a));
 }

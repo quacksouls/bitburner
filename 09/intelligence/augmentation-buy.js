@@ -16,6 +16,7 @@
  */
 
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
+import { bool } from "/lib/constant/bool.js";
 import { home } from "/lib/constant/server.js";
 import {
     choose_augment, has_augment, nfg, prerequisites
@@ -35,8 +36,9 @@ import { assert, is_valid_faction } from "/lib/util.js";
 function augmentations_to_buy(ns, fac) {
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
-    const purchased = true;
-    const owned_aug = new Set(ns.singularity.getOwnedAugmentations(purchased));
+    const owned_aug = new Set(
+        ns.singularity.getOwnedAugmentations(bool.PURCHASED)
+    );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter(a => !owned_aug.has(a));
     if (fac_aug.includes(nfg())) {
