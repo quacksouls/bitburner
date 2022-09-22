@@ -27,17 +27,18 @@ export function all_programs() {
     // key := The name of a program.
     // value := The minimum Hack stat at which we are able to create the
     //     program.
-    const program = new Map();
-    program.set("BruteSSH.exe", 50);
-    program.set("FTPCrack.exe", 100);
-    program.set("HTTPWorm.exe", 500);
-    program.set("relaySMTP.exe", 250);
-    program.set("SQLInject.exe", 750);
-    program.set("DeepscanV1.exe", 75);
-    program.set("DeepscanV2.exe", 400);
-    program.set("ServerProfiler.exe", 75);
-    program.set("AutoLink.exe", 25);
-    program.set("Formulas.exe", 1000);
+    const program = new Map([
+        ["BruteSSH.exe", 50],
+        ["FTPCrack.exe", 100],
+        ["HTTPWorm.exe", 500],
+        ["relaySMTP.exe", 250],
+        ["SQLInject.exe", 750],
+        ["DeepscanV1.exe", 75],
+        ["DeepscanV2.exe", 400],
+        ["ServerProfiler.exe", 75],
+        ["AutoLink.exe", 25],
+        ["Formulas.exe", 1000]
+    ]);
     return program;
 }
 
