@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { faction_req } from "/lib/constant/faction.js";
+import { faction_req, faction_tau } from "/lib/constant/faction.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -127,14 +127,13 @@ export async function main(ns) {
     // However, the reputation requirement is reduced to 300k if we have
     // installed a backdoor on the corresponding company server.
     await install_backdoor_on_server(ns, faction);
-    const rep = 3e5;
     let company = faction;
     if ("Fulcrum Secret Technologies" == faction) {
         company = "Fulcrum Technologies";
     }
     assert(company.length > 0);
     assert(faction.length > 0);
-    await megacorporation(ns, company, faction, rep);
+    await megacorporation(ns, company, faction, faction_tau.CORP_REP);
     // The next script in the load chain.
     const player = new Player(ns);
     const script = "/singularity/home.js";

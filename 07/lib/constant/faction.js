@@ -211,7 +211,11 @@ export const faction_req = {
  */
 export const faction_tau = {
     // Donate this percentage of our money to a faction.
-    "DONATE_MULT": 0.2
+    "DONATE_MULT": 0.2,
+    // The minimum amount of reputation we must attain at a company.  This
+    // reputation point is part of the pre-requisites for receiving an
+    // invitation from a megacorporation faction.
+    "CORP_REP": 3e5
 };
 
 /**
