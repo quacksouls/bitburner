@@ -18,7 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/server.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -31,11 +31,9 @@ import { assert } from "/lib/util.js";
  */
 async function commit_other_crime(ns, threshold) {
     assert(threshold > 0);
-    const t = new Time();
-    const time = t.second();
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     ns.singularity.stopAction();
 }

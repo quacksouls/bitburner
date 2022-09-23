@@ -16,10 +16,10 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
+import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
 import {
     assert, choose_best_server, filter_bankrupt_servers, filter_pserv
 } from "/lib/util.js";
@@ -241,8 +241,6 @@ function tolerate_margin(ns, margin, server) {
  */
 async function update(ns) {
     let server = network(ns);
-    const t = new Time();
-    const time = 10 * t.second();
     // A list of servers that have been successfully hacked.
     const player = new Player(ns);
     let hacked_server = compromised_servers(ns, player.script(), server);
@@ -257,7 +255,7 @@ async function update(ns) {
             reject = await redirect_bankrupt_server(ns, reject, hacked_server);
         }
         server = reject;
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 
@@ -277,10 +275,8 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously look for world servers to hack.
-    const t = new Time();
-    const time = 10 * t.minute();
     while (true) {
         await update(ns);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MINUTE);
     }
 }

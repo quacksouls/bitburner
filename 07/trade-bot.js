@@ -19,11 +19,11 @@ import { bool } from "/lib/constant/bool.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import {
     forecast, reserve_mult, spend_tau, stock_tick, trade_bot_stop
 } from "/lib/constant/wse.js";
 import { Player } from "/lib/player.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -37,20 +37,18 @@ import { assert } from "/lib/util.js";
  */
 async function await_prerequisites(ns) {
     // Must acquire all port opener programs.
-    const t = new Time();
-    const time = 10 * t.second();
     const player = new Player(ns);
     while (!player.has_all_port_openers()) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     // Our farm of purchased servers must meet certain minimum requirements.
     while (!has_minimum_pserv(ns)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     // Wait until we have a large amount of money before trading on the Stock
     // Market.  Gambling on the Stock Market requires huge wealth.
     while (!meet_money_threshold(ns)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 
@@ -205,10 +203,8 @@ function num_shares(ns, stk) {
  * @param ns The Netscript API.
  */
 async function purchase_api_access(ns) {
-    const t = new Time();
-    const time = 5 * t.second();
     while (!has_api_access(ns)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 

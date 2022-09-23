@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -43,8 +43,6 @@ async function all_expressions(ns, string, target) {
     const stack = new Array();
     const solution = new Array();
     stack.push([-1, string]);
-    const t = new Time();
-    const time = t.millisecond();
     while (stack.length > 0) {
         // Create new expressions by inserting different operators at all
         // possible positions.
@@ -66,7 +64,7 @@ async function all_expressions(ns, string, target) {
                 solution.push(expression);
             }
         }
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MILLISECOND);
     }
     return [...new Set(solution)];
 }

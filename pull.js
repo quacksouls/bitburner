@@ -123,6 +123,7 @@ function dir_lib() {
         "lib/constant/pserv.js",
         "lib/constant/server.js",
         "lib/constant/study.js",
+        "lib/constant/time.js",
         "lib/constant/work.js",
         "lib/constant/wse.js",
         "lib/gang/gangster.js",
@@ -140,7 +141,6 @@ function dir_lib() {
         "lib/singularity/study.js",
         "lib/singularity/util.js",
         "lib/singularity/work.js",
-        "lib/time.js",
         "lib/util.js"
     ];
     return lib;

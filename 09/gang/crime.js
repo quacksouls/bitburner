@@ -20,10 +20,10 @@ import {
     armour, gang_aug_crime, gang_tau, members, penalty_tau, task_tau, vehicle,
     weapon
 } from "/lib/constant/gang.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -73,10 +73,9 @@ async function create_gang(ns, fac) {
     if (ns.gang.inGang()) {
         return;
     }
-    const t = new Time();
     const player = new Player(ns);
     while (player.karma() > gang_tau.KARMA) {
-        await ns.sleep(t.minute());
+        await ns.sleep(wait_t.MINUTE);
     }
     assert(ns.gang.createGang(fac));
 }
@@ -674,8 +673,6 @@ export async function main(ns) {
     // any rival gang.  The tick threshold is the time near the start of a new
     // tick.  If we are at the tick threshold, then do whatever is necessary to
     // prepare for a clash against a rival gang.
-    const t = new Time();
-    const time = t.millisecond();
     let other_gang = ns.gang.getOtherGangInformation();
     const gangster = new Gangster(ns);
     let tick_threshold = 1;
@@ -693,22 +690,22 @@ export async function main(ns) {
         // gang members fight until a new tick occurs.
         if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
             // The tick threshold should be a little under gang_tau.TICK.
-            tick_threshold = Date.now() + (gang_tau.TICK - t.second());
+            tick_threshold = Date.now() + (gang_tau.TICK - wait_t.SECOND);
             other_gang = ns.gang.getOtherGangInformation();
             gangster.traffick_arms(ns.gang.getMemberNames());
             update(ns);
-            await ns.sleep(time);
+            await ns.sleep(wait_t.MILLISECOND);
             continue;
         }
         // We are in the same tick.  Is it time to go to war?
         if (Date.now() > tick_threshold) {
             if (ns.gang.getGangInformation().territoryWarfareEngaged) {
                 casus_belli(ns);
-                await ns.sleep(time);
+                await ns.sleep(wait_t.MILLISECOND);
                 continue;
             }
         }
         update(ns);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MILLISECOND);
     }
 }

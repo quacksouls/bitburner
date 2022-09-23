@@ -16,8 +16,8 @@
  */
 
 import { home, home_tau } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
@@ -109,10 +109,8 @@ async function upgrade_cores(ns) {
     // We are willing to wait some time for our funds to increase.  After the
     // waiting period is over, try to upgrade the Cores again.  If we are still
     // unsuccessful at the second attempt, then move on.
-    const t = new Time();
-    const time = t.minute();
     if (!success) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MINUTE);
         ns.singularity.upgradeHomeCores();
     }
 }
@@ -127,10 +125,8 @@ async function upgrade_ram(ns) {
     // We are willing to wait some time for our funds to increase.  After the
     // waiting period is over, try to upgrade the RAM again.  If we are still
     // unsuccessful at the second attempt, then move on.
-    const t = new Time();
-    const time = t.minute();
     if (!success) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MINUTE);
         ns.singularity.upgradeHomeRam();
     }
 }

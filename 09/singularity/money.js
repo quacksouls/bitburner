@@ -16,8 +16,8 @@
  */
 
 import { home, home_tau } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -50,10 +50,8 @@ async function commit_crimes(ns, threshold) {
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
     // Wait for the crime script to end.
-    const t = new Time();
-    const time = 5 * t.second();
     while (ns.scriptRunning(script, home)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 
@@ -86,10 +84,8 @@ async function load_chain(ns) {
     );
     // Wait until we have joined the Slum Snakes faction.  Then launch another
     // script.
-    const t = new Time();
-    const time = t.second();
     while (ns.scriptRunning(slum_snakes_script, home)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     ns.exec("/singularity/program.js", home, nthread);
 }

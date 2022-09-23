@@ -16,7 +16,7 @@
  */
 
 import { home } from "/lib/constant/server.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -37,11 +37,9 @@ async function reboot(ns) {
         "hnet-farm.js",
         "world-server.js"
     ];
-    const t = new Time();
-    const time = 10 * t.second();
     for (const s of script) {
         ns.exec(s, home, nthread);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         assert(ns.kill(s, home));
     }
 }

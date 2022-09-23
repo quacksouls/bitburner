@@ -18,11 +18,11 @@
 import { program as popen } from "/lib/constant/exe.js";
 import { tor_cost, work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { choose_hardware_company } from "/lib/singularity/util.js";
 import { work } from "/lib/singularity/work.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -64,18 +64,16 @@ async function buy_programs(ns, program) {
         return;
     }
     // Purchase the remaining programs.
-    const t = new Time();
-    const time = t.second();
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
         while (player.money() < cost) {
             if (player.hacking_skill() < work_hack_lvl) {
                 await raise_hack(ns, target_hack_lvl(ns));
-                await ns.sleep(time);
+                await ns.sleep(wait_t.SECOND);
                 continue;
             }
             await work(ns, cost);
-            await ns.sleep(time);
+            await ns.sleep(wait_t.SECOND);
         }
         assert(ns.singularity.purchaseProgram(p));
         prog = prog.filter(e => e != p);
@@ -88,17 +86,15 @@ async function buy_programs(ns, program) {
  * @param ns The Netscript API.
  */
 async function buy_tor_router(ns) {
-    const t = new Time();
-    const time = t.second();
     const player = new Player(ns);
     while (!ns.singularity.purchaseTor()) {
         if (player.hacking_skill() < work_hack_lvl) {
             await raise_hack(ns, target_hack_lvl(ns));
-            await ns.sleep(time);
+            await ns.sleep(wait_t.SECOND);
             continue;
         }
         await work(ns, tor_cost);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
 }
 

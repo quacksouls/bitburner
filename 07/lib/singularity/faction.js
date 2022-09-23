@@ -23,10 +23,10 @@ import {
     factions, factions_megacorp, faction_tau
 } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
-import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
@@ -38,10 +38,8 @@ import { assert, is_valid_faction } from "/lib/util.js";
 async function await_invitation(ns, fac) {
     assert(is_valid_faction(fac));
     let invite = new Set(ns.singularity.checkFactionInvitations());
-    const t = new Time();
-    const time = 5 * t.second();
     while (!invite.has(fac)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         invite = new Set(ns.singularity.checkFactionInvitations());
     }
 }
@@ -120,8 +118,6 @@ export async function raise_combat_stats(ns, threshold) {
         return;
     }
     // Commit homicide to raise all our combat stats.
-    const t = new Time();
-    const time = 5 * t.second();
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     // Wait to receive an invitation from Slum Snakes and perform Field Work
     // for the faction.
@@ -138,7 +134,7 @@ export async function raise_combat_stats(ns, threshold) {
             || (player.dexterity() < tau)
             || (player.agility() < tau)
     ) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
 }
@@ -164,11 +160,9 @@ export async function raise_hack(ns, threshold) {
         ns.singularity.joinFaction(target);
     }
     // Carry out field work for the faction.
-    const t = new Time();
-    const time = t.minute();
     ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
     while (player.hacking_skill() < threshold) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
 }
@@ -209,8 +203,6 @@ export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
     assert((job_area.HACK == work_type) || (job_area.FIELD == work_type));
     const threshold = total_reputation(ns, fac);
-    const t = new Time();
-    const time = t.minute();
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
@@ -218,7 +210,7 @@ export async function work_for_faction(ns, fac, work_type) {
             faction_tau.DONATE_MULT * ns.getServerMoneyAvailable(home)
         );
         ns.singularity.donateToFaction(fac, amount);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
 }

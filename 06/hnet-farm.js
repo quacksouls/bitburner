@@ -18,8 +18,8 @@
 import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
 import { hnet_tau } from "/lib/constant/hacknet.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -142,8 +142,7 @@ async function setup_farm(ns, n) {
  * The interval between successive updates.
  */
 function update_interval() {
-    const t = new Time();
-    return t.minute();
+    return wait_t.MINUTE;
 }
 
 /**

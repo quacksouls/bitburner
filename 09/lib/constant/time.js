@@ -15,35 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Various constants related to time.
+
 /**
- * A class for handling time.
+ * Various pre-defined periods.  Use these as our waiting times.  If we want
+ * a custom period of time, we should define it using the given amount of
+ * time in millisecond, second, or minute.
  */
-export class Time {
-    /**
-     * Initialize a time object.
-     */
-    constructor() {
-        // There isn't anything we need to do here.
-    }
-
-    /**
-     * One millisecond.
-     */
-    millisecond() {
-        return 1;
-    }
-
-    /**
-     * The number of milliseconds in one minute.
-     */
-    minute() {
-        return 60 * this.second();
-    }
-
-    /**
-     * The number of milliseconds in one second.
-     */
-    second() {
-        return 1000 * this.millisecond();
-    }
-}
+export const wait_t = {
+    // The default waiting period in seconds.  Use this for most purposes, when
+    // we wait for an action to complete.
+    "DEFAULT": 5e3,
+    // One hour expressed in milliseconds.
+    "HOUR": 36e5,
+    // One millisecond.
+    "MILLISECOND": 1,
+    // One minute expressed in milliseconds.
+    "MINUTE": 6e4,
+    // One second expressed in milliseconds.
+    "SECOND": 1e3
+};

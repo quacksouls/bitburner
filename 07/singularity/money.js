@@ -16,8 +16,8 @@
  */
 
 import { home, home_tau } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -50,10 +50,8 @@ async function commit_crimes(ns, threshold) {
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
     // Wait for the crime script to end.
-    const t = new Time();
-    const time = 5 * t.second();
     while (ns.scriptRunning(script, home)) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 

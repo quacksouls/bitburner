@@ -21,10 +21,10 @@ import { faction_req } from "/lib/constant/faction.js";
 import { gang_tau } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { join_faction } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -80,14 +80,12 @@ async function lower_karma(ns) {
     const threshold = karma_threshold(ns);
     ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Int XP.
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
-    const t = new Time();
-    const time = 5 * t.second();
     const player = new Player(ns);
     while (Math.floor(player.karma()) > threshold) {
         if (Math.floor(player.karma()) < gang_tau.KARMA) {
             break;
         }
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
 }
@@ -105,8 +103,6 @@ async function raise_combat_stats(ns, threshold) {
     ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Int XP.
     // Continue to mug someone until each of our combat stats is at least
     // the given threshold.
-    const t = new Time();
-    const time = 10 * t.second();
     const player = new Player(ns);
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
     while (
@@ -115,7 +111,7 @@ async function raise_combat_stats(ns, threshold) {
             || (player.dexterity() < threshold)
             || (player.agility() < threshold)
     ) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
 }

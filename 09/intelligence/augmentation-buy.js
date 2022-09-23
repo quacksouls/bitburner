@@ -18,10 +18,10 @@
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import {
     choose_augment, has_augment, nfg, prerequisites
 } from "/lib/singularity/augment.js";
-import { Time } from "/lib/time.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
@@ -125,8 +125,6 @@ async function purchase_aug(ns, aug, fac) {
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.
     let success = false;
-    const t = new Time();
-    const time = 5 * t.second();
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     const before = intelligence(ns);
     if (has_augment(ns, aug)) {
@@ -135,7 +133,7 @@ async function purchase_aug(ns, aug, fac) {
     while (!success) {
         assert(!has_augment(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
-            await ns.sleep(time);
+            await ns.sleep(wait_t.DEFAULT);
         }
         success = ns.singularity.purchaseAugmentation(fac, aug);
     }

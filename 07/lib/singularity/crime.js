@@ -20,8 +20,8 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -36,11 +36,9 @@ export async function commit_crime(ns, threshold) {
     const script = "/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
-    const t = new Time();
-    const time = 5 * t.second();
     let money = ns.getServerMoneyAvailable(home);
     while ((money < threshold) || ns.singularity.isBusy()) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         money = ns.getServerMoneyAvailable(home);
     }
     ns.singularity.stopAction();
@@ -103,13 +101,11 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // Shoplift.  Use the ceiling function to convert the karma value to an
     // integer.  It is safer to compare integers than it is to compare floating
     // point numbers.
-    const t = new Time();
-    const time = t.second();
     const player = new Player(ns);
     if (crimes.SHOP == crime) {
         ns.singularity.commitCrime(crime, bool.FOCUS);
         while (Math.ceil(player.karma()) > threshold) {
-            await ns.sleep(time);
+            await ns.sleep(wait_t.SECOND);
         }
         ns.singularity.stopAction();
         assert(Math.ceil(player.karma()) < 0);
@@ -124,7 +120,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
         (Math.ceil(player.karma()) > threshold)
             || (player.nkill() < nkill)
     ) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     assert(Math.ceil(player.karma()) < 0);
     assert(Math.ceil(player.karma()) <= threshold);

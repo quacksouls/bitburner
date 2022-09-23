@@ -18,8 +18,8 @@
 import { bool } from "/lib/constant/bool.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { home, home_tau } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { study } from "/lib/singularity/study.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -44,12 +44,10 @@ async function create_program(ns, program) {
     assert(threshold > 0);
     assert(ns.getHackingLevel() >= threshold);
     // Work on creating the program.
-    const t = new Time();
-    const time = t.minute();
     assert(ns.singularity.createProgram(program, bool.FOCUS));
     while (ns.singularity.isBusy()) {
         assert(!has_program(ns, program));
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     assert(has_program(ns, program));
 }
@@ -116,13 +114,11 @@ async function study_and_create(ns) {
                 "hnet-farm.js",
                 "world-server.js"
             ];
-            const t = new Time();
-            const time = 5 * t.second();
             const nthread = 1;
             for (const s of script) {
                 assert(!ns.isRunning(s, home));
                 ns.exec(s, home, nthread);
-                await ns.sleep(time);
+                await ns.sleep(wait_t.DEFAULT);
                 assert(ns.kill(s, home));
             }
         }

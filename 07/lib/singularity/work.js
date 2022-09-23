@@ -20,10 +20,10 @@
 import { bool } from "/lib/constant/bool.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { job_area, job_title } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity/study.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -67,10 +67,8 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     const company = "MegaCorp";
     ns.singularity.applyToCompany(company, job_area.SOFTWARE);
     ns.singularity.workForCompany(company, bool.FOCUS);
-    const t = new Time();
-    const time = t.minute();
     while (player.charisma() < threshold) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
             company, job_area.SOFTWARE
         );
@@ -100,10 +98,8 @@ export async function rise_to_cfo(ns, company) {
     // a promotion until we reach the position of Chief Financial Officer.
     ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
-    const t = new Time();
-    const time = t.minute();
     while (player.job(company) != job_title.CFO) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
             company, job_area.BUSINESS
         );
@@ -138,10 +134,8 @@ export async function work(ns, threshold) {
     const company = "MegaCorp";
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
-    const t = new Time();
-    const time = t.minute();
     while (ns.getServerMoneyAvailable(home) < threshold) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         const field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Start working in the new job.
@@ -174,10 +168,8 @@ export async function work_for_company(ns, company, rep) {
     // more reputation points per second.
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
-    const t = new Time();
-    const time = t.minute();
     while (ns.singularity.getCompanyRep(company) < rep) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         const field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Work in the new job.

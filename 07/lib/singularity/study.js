@@ -20,7 +20,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { cities } from "/lib/constant/location.js";
 import { course } from "/lib/constant/study.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -50,11 +50,9 @@ function choose_university(ns) {
  */
 export async function raise_hack(ns, threshold) {
     assert(threshold > 0);
-    const t = new Time();
-    const time = t.second();
     while (ns.getHackingLevel() < threshold) {
         await study(ns, threshold);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
 }
 
@@ -84,10 +82,8 @@ export async function study(ns, threshold) {
     }
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
     // Stop our study when our Hack stat is at least the given threshold.
-    const t = new Time();
-    const time = 10 * t.second();
     while (ns.getHackingLevel() < threshold) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     assert(ns.singularity.stopAction());
 }

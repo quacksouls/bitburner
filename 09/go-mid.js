@@ -16,7 +16,7 @@
  */
 
 import { home } from "/lib/constant/server.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -29,8 +29,6 @@ import { assert } from "/lib/util.js";
 async function reboot(ns) {
     const target = "world-server.js";
     const nthread = 1;
-    const t = new Time();
-    const time = t.minute();
     const script = [
         "hnet-farm.js",
         target,
@@ -42,7 +40,7 @@ async function reboot(ns) {
     );
     // Wait a while and then kill a script to free up some RAM on the home
     // server.
-    await ns.sleep(time);
+    await ns.sleep(wait_t.MINUTE);
     for (const s of script) {
         if (s != target) {
             assert(ns.kill(s, home));

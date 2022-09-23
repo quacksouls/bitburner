@@ -21,9 +21,9 @@ import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { commit_crime } from "/lib/singularity/crime.js";
 import { work } from "/lib/singularity/work.js";
-import { Time } from "/lib/time.js";
 import {
     assert, is_valid_faction, trade_bot_resume, trade_bot_stop_buy
 } from "/lib/util.js";
@@ -279,8 +279,6 @@ async function purchase_aug(ns, aug, fac) {
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.
     let success = false;
-    const t = new Time();
-    const time = t.second();
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     while (!success) {
         assert(!has_augment(ns, aug));
@@ -291,7 +289,7 @@ async function purchase_aug(ns, aug, fac) {
                 await work(ns, cost);
             }
         }
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
         success = ns.singularity.purchaseAugmentation(fac, aug);
     }
     assert(has_augment(ns, aug));

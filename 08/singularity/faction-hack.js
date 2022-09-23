@@ -16,6 +16,7 @@
  */
 
 import { faction_req } from "/lib/constant/faction.js";
+import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -23,7 +24,6 @@ import { purchase_augment } from "/lib/singularity/augment.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -52,11 +52,9 @@ async function hacking_group(ns, fac) {
     }
     assert(player.hacking_skill() >= server.hacking_skill());
     // Ensure we have root access on the target server.
-    const t = new Time();
-    const time = t.second();
     while (!server.has_root_access()) {
         await server.gain_root_access();
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     assert(server.has_root_access());
     // Install backdoor, then join the faction.

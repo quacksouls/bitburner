@@ -17,10 +17,10 @@
 
 import { intelligence } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { connect_to } from "/lib/singularity/network.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -31,13 +31,11 @@ import { assert } from "/lib/util.js";
 async function destroy(ns) {
     const server = new Server(ns, "w0r1d_d43m0n");
     const player = new Player(ns);
-    const t = new Time();
-    const time = 10 * t.second();
     while (player.hacking_skill() < server.hacking_skill()) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
     }
     while (!server.has_root_access()) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         await server.gain_root_access();
     }
     assert(player.hacking_skill() >= server.hacking_skill());

@@ -18,7 +18,7 @@
 // Miscellaneous helper functions related to the Singularity API.
 
 import { cities } from "/lib/constant/location.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 
 /**
  * Determine the hardware company we should visit.  The company can sell us
@@ -33,13 +33,11 @@ export async function choose_hardware_company(ns) {
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.
     if (("Chongqing" == city) || ("New Tokyo" == city)) {
-        const t = new Time();
-        const time = t.second();
         city = "Sector-12";
         ns.singularity.goToLocation(cities.generic["TA"]);
         let success = ns.singularity.travelToCity(city);
         while (!success) {
-            await ns.sleep(time);
+            await ns.sleep(wait_t.SECOND);
             success = ns.singularity.travelToCity(city);
         }
     }

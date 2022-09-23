@@ -17,11 +17,11 @@
 
 import { MyArray } from "/lib/array.js";
 import { pserv } from "/lib/constant/pserv.js";
+import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
 import {
     assert, choose_best_server, choose_targets, filter_bankrupt_servers,
     is_bankrupt
@@ -233,8 +233,6 @@ async function update(ns, ram) {
     const player = new Player(ns);
     let i = player.pserv().length;
     let target = new Array();
-    const t = new Time();
-    const time = 5 * t.second();
     while (i < psv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > psv.cost(server_ram)) {
@@ -252,8 +250,7 @@ async function update(ns, ram) {
             assert(await server.deploy(target_server.hostname()));
             i++;
         }
-        // Sleep for a while.
-        await ns.sleep(time);
+        await ns.sleep(wait_tau.DEFAULT);
     }
 }
 
@@ -274,10 +271,8 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously try to purchase servers.
-    const t = new Time();
-    const time = t.minute();
     while (true) {
         await buy_servers(ns);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MINUTE);
     }
 }

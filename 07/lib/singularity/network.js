@@ -17,10 +17,10 @@
 
 // Miscellaneous helper functions related to network.
 
+import { wait_t } from "/lib/constant/time.js";
 import { shortest_path } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -72,11 +72,9 @@ export async function visit_city(ns, city) {
     if (player.city() == city) {
         return;
     }
-    const t = new Time();
-    const time = 5 * t.second();
     let success = ns.singularity.travelToCity(city);
     while (!success) {
-        await ns.sleep(time);
+        await ns.sleep(wait_t.DEFAULT);
         success = ns.singularity.travelToCity(city);
     }
 }

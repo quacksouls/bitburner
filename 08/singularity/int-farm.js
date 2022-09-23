@@ -16,9 +16,9 @@
  */
 
 import { utility_program } from "/lib/constant/exe.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -67,10 +67,9 @@ async function farm_intelligence(ns) {
     const player = new Player(ns);
     const p = cheapest_program(ns);
     ns.rm(p, player.home());
-    const t = new Time();
     while (true) {
         if (player.money() < min_money) {
-            await ns.sleep(2 * t.minute());
+            await ns.sleep(2 * wait_t.MINUTE);
             continue;
         }
         const [k, time] = purchase_schedule(ns);
@@ -124,17 +123,16 @@ function purchase_schedule(ns) {
         1
     ];
     // The sleep intervals.
-    const t = new Time();
     const time = [
-        t.millisecond(),
-        t.millisecond(),
-        t.millisecond(),
-        t.millisecond(),
-        t.second(),
-        10 * t.second(),
-        30 * t.second(),
-        t.minute(),
-        2 * t.minute()
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.SECOND,
+        10 * wait_t.SECOND,
+        30 * wait_t.SECOND,
+        wait_t.MINUTE,
+        2 * wait_t.MINUTE
     ];
     const player = new Player(ns);
     const funds = player.money();
@@ -161,10 +159,9 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
 
     const player = new Player(ns);
-    const t = new Time();
     while (!player.has_tor()) {
         ns.singularity.purchaseTor();
-        await ns.sleep(t.second());
+        await ns.sleep(wait_t.SECOND);
     }
     await farm_intelligence(ns);
 }

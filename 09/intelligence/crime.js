@@ -20,8 +20,8 @@ import {
 } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
+import { wait_t } from "/lib/constant/time.js";
 import { greatest_chance } from "/lib/singularity/crime.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -34,10 +34,8 @@ async function commit_crime(ns, c) {
     assert(c.length > 0);
     const before = intelligence(ns);
     const n = 60;
-    const t = new Time();
-    const time = n * t.minute();
     ns.singularity.commitCrime(c, bool.FOCUS);
-    await ns.sleep(time);
+    await ns.sleep(wait_t.HOUR);
     ns.singularity.stopAction();
     const after = intelligence(ns);
     const action = "Commit crime: " + c;

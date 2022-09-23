@@ -21,7 +21,7 @@ import {
 import { bool } from "/lib/constant/bool.js";
 import { cities } from "/lib/constant/location.js";
 import { course } from "/lib/constant/study.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -31,16 +31,14 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function study(ns) {
-    const t = new Time();
     const n = 60;
-    const time = n * t.minute();
     const uni = cities[ns.getPlayer().city].uni;
     ns.tprint("Study at " + uni);
     for (const c of Object.values(course)) {
         const action = "Course: " + c;
         const before = intelligence(ns);
         assert(ns.singularity.universityCourse(uni, c, bool.FOCUS));
-        await ns.sleep(time);
+        await ns.sleep(wait_t.HOUR);
         ns.singularity.stopAction();
         const after = intelligence(ns);
         intelligence_gain_per_minute(ns, before, after, action, n);

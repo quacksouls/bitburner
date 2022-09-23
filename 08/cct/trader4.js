@@ -19,7 +19,7 @@ import {
     log_cct_failure, max_profit_kadane, print_error, print_success,
     stock_traderIII
 } from "/lib/cct.js";
-import { Time } from "/lib/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -137,8 +137,6 @@ async function maximize_profit(ns, t, price) {
     }
     // The case of at least t >= 3 transactions.  Here, 1 <= tau <= t.  Build
     // up our table from tau = 1 up to and including tau = t.
-    const time = new Time();
-    const interval = time.millisecond();
     for (let tau = 1; tau <= t; tau++) {
         // Let the number of transactions be at most tau.  Consider each
         // day > 0 in the price array.  As we move to the next day, we do not
@@ -167,7 +165,7 @@ async function maximize_profit(ns, t, price) {
             // The maximum profit using at most t transactions up to and
             // including this day.
             p[tau][day] = Math.max(a, price[day] + mp);
-            await ns.sleep(interval);
+            await ns.sleep(wait_t.MILLISECOND);
         }
     }
     return p[t][price.length - 1];

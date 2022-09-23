@@ -18,8 +18,8 @@
 import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
+import { wait_t } from "/lib/constant/time.js";
 import { random_integer } from "/lib/random.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -66,24 +66,18 @@ function choose_location(loc) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const t = new Time();
-    const time = t.second();
     // Relocate to a different place.  Constantly do so within one hour.  The
     // execution time is one hour, given in terms of milliseconds.
-    const hour = 1;
-    const minute = 60;
-    const second = 60;
-    const millisecond = 1000;
-    const delay = hour * minute * second * millisecond;
-    const end = Date.now() + delay;
+    const end = Date.now() + wait_t.HOUR;
     const before = intelligence(ns);
     let loc = "FoodNStuff";
     while (Date.now() < end) {
         assert(ns.singularity.goToLocation(loc));
         loc = choose_location(loc);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     const after = intelligence(ns);
     const action = "Relocate within Sector-12";
-    intelligence_gain_per_minute(ns, before, after, action, minute);
+    const n = 60;  // Minutes in one hour.
+    intelligence_gain_per_minute(ns, before, after, action, n);
 }

@@ -16,10 +16,10 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
+import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { Time } from "/lib/time.js";
 import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
 
 /**
@@ -254,10 +254,8 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously search for low-end servers to hack.
-    const t = new Time();
-    const time = t.minute();
     while (true) {
         await update(ns);
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MINUTE);
     }
 }

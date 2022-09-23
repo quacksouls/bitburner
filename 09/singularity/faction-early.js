@@ -17,6 +17,7 @@
 
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
+import { Time, wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -26,7 +27,6 @@ import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { work } from "/lib/singularity/work.js";
-import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -55,11 +55,9 @@ async function cyberSec(ns) {
     }
     assert(player.hacking_skill() >= server.hacking_skill());
     // Ensure we have root access on the target server.
-    const t = new Time();
-    const time = t.second();
     while (!server.has_root_access()) {
         await server.gain_root_access();
-        await ns.sleep(time);
+        await ns.sleep(wait_t.SECOND);
     }
     assert(server.has_root_access());
     // Install backdoor, then join the faction.
@@ -96,8 +94,6 @@ async function netburners(ns) {
     assert(player.hacking_skill() >= faction_req[fac].hack);
     // Join the faction, provided we are currently not a member.
     const joined_faction = player.faction();
-    const t = new Time();
-    const time = t.second();
     if (!joined_faction.includes(fac)) {
         // Upgrading our Hacknet farm requires a huge amount of money.  Commit
         // crimes, or work at a company, to boost our income.  Continue to
@@ -112,7 +108,7 @@ async function netburners(ns) {
             } else {
                 await work(ns, threshold);
             }
-            await ns.sleep(time);
+            await ns.sleep(wait_t.SECOND);
             threshold = factor * player.money();
             invite = ns.singularity.checkFactionInvitations();
         }
