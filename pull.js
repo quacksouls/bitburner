@@ -84,9 +84,9 @@ function dir_gang() {
  */
 function dir_intelligence() {
     const dir = [
-        "intelligence/augmentation-buy.js",
-        "intelligence/augmentation-install.js",
-        "intelligence/augmentation-post-install.js",
+        "intelligence/augment-buy.js",
+        "intelligence/augment-install.js",
+        "intelligence/augment-post-install.js",
         "intelligence/crime.js",
         "intelligence/daemon.js",
         "intelligence/faction-join-all.js",
