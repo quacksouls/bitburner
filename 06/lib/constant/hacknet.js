@@ -20,7 +20,7 @@
 /**
  * Various thresholds on our Hacknet farm.
  */
-export const hnet_tau = {
+export const hnet_t = {
     // The maximum Level of a Hacknet node.  This number is taken from the file
     //
     // https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts

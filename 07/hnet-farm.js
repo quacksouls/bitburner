@@ -17,7 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
-import { hnet_tau } from "/lib/constant/hacknet.js";
+import { hnet_t } from "/lib/constant/hacknet.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
@@ -89,7 +89,7 @@ function is_upgrade_core_ram(ns, idx) {
     // we must skip the upgrade.  It is very likely that the Level of a Hacknet
     // node is at maximum whereas its Cores and RAM are yet to be maxed out.
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
-    if (node_level(ns, idx) == hnet_tau.MAX_LEVEL) {
+    if (node_level(ns, idx) == hnet_t.MAX_LEVEL) {
         return bool.IS_TIME;
     }
     const interval = 30;
@@ -247,10 +247,10 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Various money thresholds.
-    const threshold = Array.from(hnet_tau.MONEY);
-    const node = Array.from(hnet_tau.NODE);
+    const threshold = Array.from(hnet_t.MONEY);
+    const node = Array.from(hnet_t.NODE);
     // Bootstrap our Hacknet farm with a small number of nodes.
-    await setup_farm(ns, hnet_tau.SEED_NODE);
+    await setup_farm(ns, hnet_t.SEED_NODE);
     // Add increasingly more nodes to the farm.  Also upgrade the nodes.
     const time = update_interval();
     const player = new Player(ns);
