@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_t, members, penalty_tau, task_tau, vehicle,
+    armour, gang_aug_crime, gang_t, members, penalty_t, task_tau, vehicle,
     weapon
 } from "/lib/constant/gang.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -596,7 +596,7 @@ function update(ns) {
     recruit(ns);
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
-        if (penalty(ns) < penalty_tau.LOW) {
+        if (penalty(ns) < penalty_t.LOW) {
             reassign(ns);
             return;
         }
@@ -605,7 +605,7 @@ function update(ns) {
     // threshold, then re-assign some gang members to vigilante justice in
     // order to lower our penalty.  Furthermore, re-assign the remaining
     // members to jobs that attract a lower wanted level.
-    if (penalty(ns) >= penalty_tau.HIGH) {
+    if (penalty(ns) >= penalty_t.HIGH) {
         decrease_penalty(ns);
         return;
     }

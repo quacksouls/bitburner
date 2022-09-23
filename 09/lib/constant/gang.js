@@ -177,7 +177,7 @@ export const members = {
 /**
  * Various thresholds related to the penalty.
  */
-export const penalty_tau = {
+export const penalty_t = {
     // The penalty percentage threshold at which we should lower our wanted
     // level.  If our penalty percentage is at least this value, then we should
     // re-assign some gang members to jobs such as vigilante justice or ethical
