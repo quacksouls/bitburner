@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_t, members, penalty_t, task_tau, vehicle,
+    armour, gang_aug_crime, gang_t, members, penalty_t, task_t, vehicle,
     weapon
 } from "/lib/constant/gang.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -207,15 +207,15 @@ function graduate(ns) {
             continue;
         }
         if (
-            (gangster.strength(s) >= task_tau.COMBAT)
-                && (gangster.defense(s) >= task_tau.COMBAT)
-                && (gangster.dexterity(s) >= task_tau.COMBAT)
-                && (gangster.agility(s) >= task_tau.COMBAT)
+            (gangster.strength(s) >= task_t.COMBAT)
+                && (gangster.defense(s) >= task_t.COMBAT)
+                && (gangster.dexterity(s) >= task_t.COMBAT)
+                && (gangster.agility(s) >= task_t.COMBAT)
         ) {
             member.push(s);
         }
     }
-    gangster.graduate(member, task_tau.COMBAT);
+    gangster.graduate(member, task_t.COMBAT);
 }
 
 /**
@@ -432,15 +432,15 @@ function penalty(ns) {
 function reassign(ns) {
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
-    reassign_extortion(ns, task_tau.EXTORT, task_tau.ROBBERY);
-    reassign_robbery(ns, task_tau.ROBBERY, task_tau.TRAFFICK);
+    reassign_extortion(ns, task_t.EXTORT, task_t.ROBBERY);
+    reassign_robbery(ns, task_t.ROBBERY, task_t.TRAFFICK);
     // Try to have at least one gang member assigned to commit acts of
     // terrorism.  This should help to increase our respect so we can recruit
     // more members.  However, if we already have the maximum number of
     // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns, task_tau.TERROR, Infinity);
+    reassign_terrorism(ns, task_t.TERROR, Infinity);
     // Assign other high-level members to trafficking illegal arms.
-    reassign_trafficking(ns, task_tau.TRAFFICK, Infinity);
+    reassign_trafficking(ns, task_t.TRAFFICK, Infinity);
 }
 
 /**

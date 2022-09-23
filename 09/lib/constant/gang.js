@@ -351,7 +351,7 @@ export const task = {
 /**
  * Stat thresholds related to various tasks.
  */
-export const task_tau = {
+export const task_t = {
     // The minimum threshold for the combat stats that any new recruit must
     // attain.  Each new recruit is immediately assigned to train their combat
     // stats.  They graduate out of training after their combat stats are at

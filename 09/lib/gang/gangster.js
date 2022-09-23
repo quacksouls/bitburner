@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_t, gangster_name, task, task_tau, vehicle,
+    armour, gang_aug_crime, gang_t, gangster_name, task, task_t, vehicle,
     weapon
 } from "/lib/constant/gang.js";
 import { money_reserve } from "/lib/constant/misc.js";
@@ -471,10 +471,10 @@ export class Gangster {
     needs_training(name) {
         assert(this.is_member(name));
         if (
-            (this.strength(name) < task_tau.COMBAT)
-                || (this.defense(name) < task_tau.COMBAT)
-                || (this.dexterity(name) < task_tau.COMBAT)
-                || (this.agility(name) < task_tau.COMBAT)
+            (this.strength(name) < task_t.COMBAT)
+                || (this.defense(name) < task_t.COMBAT)
+                || (this.dexterity(name) < task_t.COMBAT)
+                || (this.agility(name) < task_t.COMBAT)
         ) {
             return true;
         }
