@@ -19,8 +19,9 @@ import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
 
 /**
- * Determine a shortest path from our home server to a target server.
- * Must provide the target server from the command line.
+ * Determine a shortest path from our home server to a target server.  Must
+ * provide the target server from the command line.  The script will print a
+ * chain of commands that allows us to connect to the target server.
  *
  * Usage: run shortest-path.js [targetServer]
  * Example: run shortest-path.js run4theh111z
@@ -42,10 +43,14 @@ export async function main(ns) {
         return;
     }
     // Find shortest path.
-    const path = shortest_path(ns, home, target);
+    let path = shortest_path(ns, home, target);
     if (path.length < 1) {
         ns.tprint("Target server must be reachable from " + home + ".");
         return;
     }
-    ns.tprint(path.join(" -> "));
+    // Print commands to connect to target server.
+    path = path.filter(
+        s => s != home
+    );
+    ns.tprint("connect " + path.join("; connect "));
 }
