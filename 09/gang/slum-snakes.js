@@ -18,7 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
-import { gang_tau } from "/lib/constant/gang.js";
+import { gang_t } from "/lib/constant/gang.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -44,11 +44,11 @@ import { assert } from "/lib/util.js";
 function karma_threshold(ns) {
     const player = new Player(ns);
     const current_karma = Math.floor(player.karma());
-    if (current_karma <= gang_tau.KARMA) {
+    if (current_karma <= gang_t.KARMA) {
         return 0;
     }
     let target = -13500;
-    const delta = gang_tau.KARMA - current_karma;
+    const delta = gang_t.KARMA - current_karma;
     if (Math.abs(delta) < Math.abs(target)) {
         target = delta;
     }
@@ -82,7 +82,7 @@ async function lower_karma(ns) {
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     const player = new Player(ns);
     while (Math.floor(player.karma()) > threshold) {
-        if (Math.floor(player.karma()) < gang_tau.KARMA) {
+        if (Math.floor(player.karma()) < gang_t.KARMA) {
             break;
         }
         await ns.sleep(wait_t.DEFAULT);

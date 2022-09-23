@@ -52,7 +52,7 @@ export const gang_aug_crime = {
 /**
  * Miscellaneous constants related to various thresholds.
  */
-export const gang_tau = {
+export const gang_t = {
     // The minimum percentage boost to a stat of a member.  Let x be the
     // ascension multiplier of a member, gained by having ascended one or
     // more times.  Let y be the next ascension multiplier, a boost to x after

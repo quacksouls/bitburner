@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_tau, members, penalty_tau, task_tau, vehicle,
+    armour, gang_aug_crime, gang_t, members, penalty_tau, task_tau, vehicle,
     weapon
 } from "/lib/constant/gang.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -74,7 +74,7 @@ async function create_gang(ns, fac) {
         return;
     }
     const player = new Player(ns);
-    while (player.karma() > gang_tau.KARMA) {
+    while (player.karma() > gang_t.KARMA) {
         await ns.sleep(wait_t.MINUTE);
     }
     assert(ns.gang.createGang(fac));
@@ -125,7 +125,7 @@ function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
         return bool.NO_WAR;
     }
-    if (has_max_members(ns) && (min_victory_chance(ns) >= gang_tau.WIN)) {
+    if (has_max_members(ns) && (min_victory_chance(ns) >= gang_t.WIN)) {
         return bool.WAR;
     }
     return bool.NO_WAR;
@@ -293,7 +293,7 @@ function is_in_war(ns) {
 
 /**
  * Whether we are currently in a new tick.  Each tick lasts for approximately
- * the time period as defined by the constant gang_tau.TICK.  At the start of
+ * the time period as defined by the constant gang_t.TICK.  At the start of
  * each tick, there is a chance for our gang to clash against a rival gang.
  *
  * @param ns The Netscript API.
@@ -668,7 +668,7 @@ export async function main(ns) {
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     recruit(ns);
     // Manage our gang.
-    // A tick is a period of time as defined by the constant gang_tau.TICK.  At
+    // A tick is a period of time as defined by the constant gang_t.TICK.  At
     // the start of each tick, there is a chance for our gang to clash against
     // any rival gang.  The tick threshold is the time near the start of a new
     // tick.  If we are at the tick threshold, then do whatever is necessary to
@@ -689,8 +689,8 @@ export async function main(ns) {
         // Are we in a new tick?  If we are having a turf war, then let our
         // gang members fight until a new tick occurs.
         if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
-            // The tick threshold should be a little under gang_tau.TICK.
-            tick_threshold = Date.now() + (gang_tau.TICK - wait_t.SECOND);
+            // The tick threshold should be a little under gang_t.TICK.
+            tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
             other_gang = ns.gang.getOtherGangInformation();
             gangster.traffick_arms(ns.gang.getMemberNames());
             update(ns);

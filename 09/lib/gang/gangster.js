@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_tau, gangster_name, task, task_tau, vehicle,
+    armour, gang_aug_crime, gang_t, gangster_name, task, task_tau, vehicle,
     weapon
 } from "/lib/constant/gang.js";
 import { money_reserve } from "/lib/constant/misc.js";
@@ -79,7 +79,7 @@ export class Gangster {
             return Math.floor(100 * x);
         }
         // Ascend this gang member.
-        const tau = to_int(gang_tau.ASCEND);
+        const tau = to_int(gang_t.ASCEND);
         if (
             (to_int(asc.agi) > tau)
                 || (to_int(asc.cha) > tau)
@@ -131,7 +131,7 @@ export class Gangster {
         assert(gang_armour.has(amr));
         const cost = this.#ns.gang.getEquipmentCost(amr);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_tau.COST_MULT * cost)) {
+        if (funds < (gang_t.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, amr);
@@ -151,7 +151,7 @@ export class Gangster {
         assert(gang_augment.has(aug));
         const cost = this.#ns.gang.getEquipmentCost(aug);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_tau.COST_MULT * cost)) {
+        if (funds < (gang_t.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
@@ -171,7 +171,7 @@ export class Gangster {
         assert(gang_vehicle.has(vhc));
         const cost = this.#ns.gang.getEquipmentCost(vhc);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_tau.COST_MULT * cost)) {
+        if (funds < (gang_t.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, vhc);
@@ -191,7 +191,7 @@ export class Gangster {
         assert(gang_weapon.has(wpn));
         const cost = this.#ns.gang.getEquipmentCost(wpn);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_tau.COST_MULT * cost)) {
+        if (funds < (gang_t.COST_MULT * cost)) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, wpn);
