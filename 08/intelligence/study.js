@@ -19,6 +19,8 @@ import {
     intelligence, intelligence_gain_per_minute
 } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
+import { cities } from "/lib/constant/location.js";
+import { course } from "/lib/constant/study.js";
 import { Time } from "/lib/time.js";
 import { assert } from "/lib/util.js";
 
@@ -32,17 +34,9 @@ async function study(ns) {
     const t = new Time();
     const n = 60;
     const time = n * t.minute();
-    const uni = "Rothman University";
-    const course = [
-        "Study Computer Science",
-        "Data Structures",
-        "Networks",
-        "Algorithms",
-        "Management",
-        "Leadership"
-    ];
+    const uni = cities[ns.getPlayer().city].uni;
     ns.tprint("Study at " + uni);
-    for (const c of course) {
+    for (const c of Object.values(course)) {
         const action = "Course: " + c;
         const before = intelligence(ns);
         assert(ns.singularity.universityCourse(uni, c, bool.FOCUS));
