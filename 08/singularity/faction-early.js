@@ -17,7 +17,7 @@
 
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
-import { Time, wait_t } from "/lib/constant/time.js";
+import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
