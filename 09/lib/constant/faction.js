@@ -209,7 +209,7 @@ export const faction_req = {
 /**
  * Various thresholds related to factions.
  */
-export const faction_tau = {
+export const faction_t = {
     // Donate this percentage of our money to a faction.
     "DONATE_MULT": 0.2,
     // The minimum amount of reputation we must attain at a company.  This

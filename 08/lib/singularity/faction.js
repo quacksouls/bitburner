@@ -20,7 +20,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import {
-    factions, factions_megacorp, faction_tau
+    factions, factions_megacorp, faction_t
 } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -221,7 +221,7 @@ export async function work_for_faction(ns, fac, work_type) {
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
         const amount = Math.floor(
-            faction_tau.DONATE_MULT * ns.getServerMoneyAvailable(home)
+            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home)
         );
         ns.singularity.donateToFaction(fac, amount);
         await ns.sleep(wait_t.DEFAULT);
