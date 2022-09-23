@@ -6,3 +6,5 @@ A bunch of scripts for a walkthrough of the game Bitburner.  See
 
 Unless otherwise stated, all scripts are covered by the GNU GPLv3.  See the
 file `LICENSE.txt` for the full text of the license.
+
+WARNING: Don't commit this.
