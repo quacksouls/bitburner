@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, home_tau } from "/lib/constant/server.js";
+import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Server } from "/lib/server.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
@@ -40,13 +40,13 @@ function choose_upgrade(ns) {
     const core_cost = Math.ceil(ns.singularity.getUpgradeHomeCoresCost());
     const ram_cost = Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     if (core_cost < ram_cost) {
-        if (server.cores() < home_tau.CORE) {
+        if (server.cores() < home_t.CORE) {
             return "Cores";
         }
     }
     // Upgrade the RAM.
-    assert((ram_cost <= core_cost) || (server.cores() == home_tau.CORE));
-    assert(server.ram_max() < home_tau.RAM);
+    assert((ram_cost <= core_cost) || (server.cores() == home_t.CORE));
+    assert(server.ram_max() < home_t.RAM);
     return "RAM";
 }
 
@@ -61,8 +61,8 @@ function choose_upgrade(ns) {
 function is_at_limits(ns) {
     const server = new Server(ns, home);
     if (
-        (server.cores() >= home_tau.CORE)
-            && (server.ram_max() >= home_tau.RAM)
+        (server.cores() >= home_t.CORE)
+            && (server.ram_max() >= home_t.RAM)
     ) {
         return true;
     }

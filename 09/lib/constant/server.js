@@ -26,7 +26,7 @@ export const home = "home";
 /**
  * Various thresholds related to our home server.
  */
-export const home_tau = {
+export const home_t = {
     // The maximum number of Cores on the home server.  This is not necessarily
     // the greatest number of Cores the home server can have.  Use this
     // constant to help us decide whether to upgrade our home server any

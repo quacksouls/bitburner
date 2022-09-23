@@ -26,7 +26,7 @@ export const home = "home";
 /**
  * Various thresholds related to our home server.
  */
-export const home_tau = {
+export const home_t = {
     // The minimum amount of RAM for a high-end home server.
     "RAM_HIGH": 512,
     // The minimum amount of RAM for a mid-sized home server.
