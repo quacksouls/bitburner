@@ -19,7 +19,7 @@
 
 import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
-import { cities } from "/lib/constant/misc.js";
+import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { trade_bot_stop } from "/lib/constant/wse.js";
 
@@ -139,7 +139,7 @@ export function is_bankrupt(ns, s) {
  */
 export function is_valid_city(c) {
     assert(c.length > 0);
-    const city = new Set(cities);
+    const city = new Set(Object.keys(cities));
     return city.has(c);
 }
 

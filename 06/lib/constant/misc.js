@@ -29,18 +29,6 @@ export const base = {
 };
 
 /**
- * All cities in the game world.
- */
-export const cities = [
-    "Aevum",
-    "Chongqing",
-    "Ishima",
-    "New Tokyo",
-    "Sector-12",
-    "Volhaven"
-];
-
-/**
  * Use ANSI escape codes to add colour.  Refer to this page for more details:
  *
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
