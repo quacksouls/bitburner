@@ -128,12 +128,12 @@ async function speakers_for_the_dead(ns) {
  */
 async function tetrads(ns) {
     const fac = "Tetrads";
-    await visit_city(ns, faction_req[fac].city);
     // Lower karma and raise combat stats.
     const nkill = 0;
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await raise_combat_stats(ns, faction_req[fac].combat);
     // Join the faction, earn reputation points, and purchase all Augmentations.
+    await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
@@ -154,7 +154,6 @@ async function tetrads(ns) {
  */
 async function the_dark_army(ns) {
     const fac = "The Dark Army";
-    await visit_city(ns, faction_req[fac].city);
     // Raise our Hack and combat stats, and lower our karma.
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
@@ -162,6 +161,7 @@ async function the_dark_army(ns) {
         ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
     );
     // Join the faction, earn reputation points, and purchase all Augmentations.
+    await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
@@ -182,7 +182,6 @@ async function the_dark_army(ns) {
  */
 async function the_syndicate(ns) {
     const fac = "The Syndicate";
-    await visit_city(ns, faction_req[fac].city);
     // Raise our Hack and combat stats, lower our karma, and raise our income.
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
@@ -190,6 +189,7 @@ async function the_syndicate(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.KILL, nkill);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
+    await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
     await purchase_augment(ns, fac);
