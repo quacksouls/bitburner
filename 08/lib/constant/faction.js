@@ -363,6 +363,17 @@ export const factions = [
 ];
 
 /**
+ * Various early-game factions.
+ */
+export const factions_early = [
+    "Sector-12",
+    "Netburners",
+    "CyberSec",
+    "Tian Di Hui",
+    "BitRunners"
+];
+
+/**
  * All megacorporation factions.
  */
 export const factions_megacorp = [

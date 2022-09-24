@@ -20,7 +20,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import {
-    factions, factions_megacorp, faction_t
+    factions, factions_early, factions_megacorp, faction_t
 } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -166,15 +166,21 @@ export async function raise_hack(ns, threshold) {
     if (player.hacking_skill() >= threshold) {
         return;
     }
-    // Join a faction.
-    const joined_faction = player.faction();
-    const target = "MegaCorp";
-    if (!joined_faction.includes(target)) {
-        await await_invitation(ns, target);
-        ns.singularity.joinFaction(target);
+    // Join a faction.  Choose from one of the early factions we should have
+    // already joined.  See whether we can join one of them and perform
+    // Hacking Contracts.
+    const invite = new Set(ns.singularity.checkFactionInvitations());
+    let target = "";
+    for (const f of factions_early) {
+        if (invite.has(f)) {
+            target = f;
+            ns.singularity.joinFaction(f);
+            break;
+        }
     }
-    // Carry out field work for the faction.
-    ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
+    assert("" != target);
+    // Carry out Hacking Contracts for the faction.
+    ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
     while (player.hacking_skill() < threshold) {
         await ns.sleep(wait_t.DEFAULT);
     }
