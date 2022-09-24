@@ -250,7 +250,7 @@ async function update(ns, ram) {
             assert(await server.deploy(target_server.hostname()));
             i++;
         }
-        await ns.sleep(wait_tau.DEFAULT);
+        await ns.sleep(wait_t.DEFAULT);
     }
 }
 
