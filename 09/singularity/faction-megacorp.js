@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { faction_req, faction_tau } from "/lib/constant/faction.js";
+import { faction_req, faction_t } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
@@ -133,7 +133,7 @@ export async function main(ns) {
     }
     assert(company.length > 0);
     assert(faction.length > 0);
-    await megacorporation(ns, company, faction, faction_tau.CORP_REP);
+    await megacorporation(ns, company, faction, faction_t.CORP_REP);
     // The next script in the load chain.
     const player = new Player(ns);
     const script = "/singularity/home.js";
