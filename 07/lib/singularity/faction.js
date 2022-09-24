@@ -20,13 +20,14 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import {
-    factions, factions_early, factions_megacorp, faction_t
+    factions, factions_early, factions_megacorp, faction_req, faction_t
 } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
+import { visit_city } from "/lib/singularity/network.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
@@ -98,7 +99,11 @@ export async function join_faction(ns, fac) {
  * karma in order to create a gang.  Second, homicide yields more money than
  * mugging.  Commit homicide until we meet the requirements for receiving an
  * invitation from Slum Snakes.  Join Slum Snakes and perform Field Work for
- * the faction to rapidly raise all our combat stats.
+ * the faction to rapidly raise all our combat stats.  Another option is to
+ * join Tetrads and carry out Field Work for this other faction.  Choose Slum
+ * Snakes or Tetrads, depending on whether we have a gang within the other
+ * faction.  For example, if we have a gang within Slum Snakes, we are not
+ * allowed to perform Field Work for Slum Snakes.  In that case, join Tetrads.
  *
  * @param ns The Netscript API.
  * @param threshold Each of our combat stats should be raised to at least this
@@ -118,10 +123,20 @@ export async function raise_combat_stats(ns, threshold) {
         return;
     }
     // Commit homicide to raise all our combat stats.
+    let target = "Slum Snakes";
+    let city = "Sectory-12";
+    if (ns.gang.inGang()) {
+        if (ns.gang.getGangInformation().faction == target) {
+            target = "Tetrads";
+            city = faction_req[target].city;
+        }
+    }
+    await visit_city(ns, city);
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
-    // Wait to receive an invitation from Slum Snakes and perform Field Work
-    // for the faction.
-    const target = "Slum Snakes";
+    // Wait to receive an invitation from Slum Snakes (or Tetrads) and perform
+    // Field Work for the faction.  Among the criminal organizations, Slum
+    // Snakes has the lowest requirements.  Tetrads has slightly higher
+    // requirements.
     const joined_faction = player.faction();
     if (!joined_faction.includes(target)) {
         await await_invitation(ns, target);
