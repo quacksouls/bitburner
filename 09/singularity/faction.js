@@ -35,7 +35,7 @@ import { assert, is_valid_faction } from "/lib/util.js";
 async function choose_faction(ns) {
     // Determine which faction to join next.
     let faction = "";
-    for (const f of Array.from(factions)) {
+    for (const f of Array.from(factions.all)) {
         if (join_next(ns, f)) {
             faction = f;
             break;

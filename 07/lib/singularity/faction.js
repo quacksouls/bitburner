@@ -19,9 +19,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
-import {
-    factions, factions_early, factions_megacorp, faction_req, faction_t
-} from "/lib/constant/faction.js";
+import { factions, faction_req, faction_t } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
@@ -53,7 +51,7 @@ async function await_invitation(ns, fac) {
  *     false otherwise.
  */
 function is_megacorp_faction(fac) {
-    return factions_megacorp.includes(fac);
+    return factions.megacorp.includes(fac);
 }
 
 /**
@@ -172,7 +170,7 @@ export async function raise_hack(ns, threshold) {
     // Hacking Contracts.
     const invite = new Set(ns.singularity.checkFactionInvitations());
     let target = "";
-    for (const f of factions_early) {
+    for (const f of factions.early) {
         if (invite.has(f)) {
             target = f;
             ns.singularity.joinFaction(f);

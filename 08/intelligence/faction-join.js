@@ -30,7 +30,7 @@ import { assert } from "/lib/util.js";
  */
 function is_valid_faction(fac) {
     assert(fac.length > 0);
-    const faction = new Set(factions);
+    const faction = new Set(factions.all);
     return faction.has(fac);
 }
 

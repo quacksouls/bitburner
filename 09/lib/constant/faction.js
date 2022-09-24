@@ -276,115 +276,113 @@ export const exclusive_aug = {
 };
 
 /**
- * An array of all faction names.  The faction names are listed in a specific
- * order, usually along the following line of reasoning.
- *
- * (1) Sector-12 should be the first faction we must join.  The reason is
- *     simple.  This faction has the CashRoot Starter Kit Augmentation that
- *     grants us $1m and the BruteSSH.exe program after a soft reset.
- * (2) Netburners, CyberSec, and Tian Di Hui should be the next group of
- *     factions to join.  These factions have Augmentations that raise various
- *     hack-related stats.  In particular, Tian Di Hui has 4 Augmentations that
- *     boost the amount of reputation we gain from factions and companies.
- * (3) BitRunners has an Augmentation that allows us to start with the
- *     FTPCrack.exe and relaySMTP.exe programs after a soft reset.
- * (4) The Syndicate has the Augmentation BrachiBlades, which is a
- *     pre-requisite of an Augmentation from Speakers for the Dead.
- *     Furthermore, The Syndicate has 2 Augmentations that boost the reputation
- *     we gain from factions and companies.
- * (5) Bachman & Associates has 5 Augmentations that boost the amount of
- *     reputation we gain from factions and companies.
- * (6) Aevum has the PCMatrix Augmentation that allows us to start with
- *     DeepscanV1.exe and AutoLink.exe after a soft reset.  These are strictly
- *     not necessary in an automated game play.
- * (7) Chongqing, Ishima, and New Tokyo are not enemies with each other.  We
- *     can join all three factions at the same time, work toward purchasing all
- *     of their Augmentations, and install all Augmentations from all three
- *     factions at the same time.  Doing so can save us a lot of time as we do
- *     not need to go through a soft reset after purchasing all Augmentations
- *     from one faction.  However, we some way to generate a massive amount of
- *     income within a short amount of time.
- * (8) Volhaven should be the last city faction to join.
- * (9) NiteSec and The Black Hand are the remaining two hacking groups to join.
- *     They have Augmentations to boost various hack-related stats.
- * (10) We can join the remaining megacorporation factions in any order we
- *      want.  These factions have various Augmentations that boost a number of
- *      social-related stats, i.e. reputation from factions and companies.
- *      However, we should have purchased most or all of these from
- *      Bachman & Associates.
- * (11) Criminal organizations have Augmentations to boost various combat stats
- *      as well as social-related stats.  We should have bought from
- *      The Syndicate all or most of the Augmentations that boost our
- *      reputation gain from factions and companies.
- * (12) The endgame factions should be the last to join.  We can join
- *      Illuminati or The Covenant in any order we want.  However, Daedalus
- *      should be the very last faction that we join.
+ * Various divisions of factions in the game.
  */
-export const factions = [
-    // Early game factions, city factions, and hacking groups.
-    "Sector-12",
-    "Netburners",
-    "CyberSec",
-    "Tian Di Hui",
-    "BitRunners",
-    // Criminal organization.
-    "The Syndicate",
-    // Megacorporation.
-    "Bachman & Associates",
-    // City factions.
-    "Aevum",
-    "Chongqing",
-    "Ishima",
-    "New Tokyo",
-    "Volhaven",
-    // Hacking factions.
-    "NiteSec",
-    "The Black Hand",
-    // Megacorporations.
-    "Blade Industries",
-    "Clarke Incorporated",
-    "ECorp",
-    "Four Sigma",
-    "Fulcrum Secret Technologies",
-    "KuaiGong International",
-    "MegaCorp",
-    "NWO",
-    "OmniTek Incorporated",
-    // Criminal organizations.
-    "Silhouette",
-    "Slum Snakes",
-    "Speakers for the Dead",
-    "Tetrads",
-    "The Dark Army",
-    // Endgame factions.
-    "Illuminati",
-    "The Covenant",
-    "Daedalus"
-];
-
-/**
- * Various early-game factions.
- */
-export const factions_early = [
-    "Sector-12",
-    "Netburners",
-    "CyberSec",
-    "Tian Di Hui",
-    "BitRunners"
-];
-
-/**
- * All megacorporation factions.
- */
-export const factions_megacorp = [
-    "Bachman & Associates",
-    "Blade Industries",
-    "Clarke Incorporated",
-    "ECorp",
-    "Four Sigma",
-    "Fulcrum Secret Technologies",
-    "KuaiGong International",
-    "MegaCorp",
-    "NWO",
-    "OmniTek Incorporated"
-];
+export const factions = {
+    // An array of all faction names.  The faction names are listed in a
+    // specific order, usually along the following line of reasoning.
+    //
+    // (1) Sector-12 should be the first faction we must join.  The reason is
+    //     simple.  This faction has the CashRoot Starter Kit Augmentation that
+    //     grants us $1m and the BruteSSH.exe program after a soft reset.
+    // (2) Netburners, CyberSec, and Tian Di Hui should be the next group of
+    //     factions to join.  These factions have Augmentations that raise
+    //     various hack-related stats.  In particular, Tian Di Hui has 4
+    //     Augmentations that boost the amount of reputation we gain from
+    //     factions and companies.
+    // (3) BitRunners has an Augmentation that allows us to start with the
+    //     FTPCrack.exe and relaySMTP.exe programs after a soft reset.
+    // (4) The Syndicate has the Augmentation BrachiBlades, which is a
+    //     pre-requisite of an Augmentation from Speakers for the Dead.
+    //     Furthermore, The Syndicate has 2 Augmentations that boost the
+    //     reputation we gain from factions and companies.
+    // (5) Bachman & Associates has 5 Augmentations that boost the amount of
+    //     reputation we gain from factions and companies.
+    // (6) Aevum has the PCMatrix Augmentation that allows us to start with
+    //     DeepscanV1.exe and AutoLink.exe after a soft reset.  These are
+    //     strictly not necessary in an automated game play.
+    // (7) Chongqing, Ishima, and New Tokyo are not enemies with each other.
+    //     We can join all three factions at the same time, work toward
+    //     purchasing all of their Augmentations, and install all Augmentations
+    //     from all three factions at the same time.  Doing so can save us a
+    //     lot of time as we do not need to go through a soft reset after
+    //     purchasing all Augmentations from one faction.  However, we some way
+    //     to generate a massive amount of income within a short amount of time.
+    // (8) Volhaven should be the last city faction to join.
+    // (9) NiteSec and The Black Hand are the remaining two hacking groups to
+    //     join.  They have Augmentations to boost various hack-related stats.
+    // (10) We can join the remaining megacorporation factions in any order we
+    //      want.  These factions have various Augmentations that boost a
+    //      number of social-related stats, i.e. reputation from factions and
+    //      companies.  However, we should have purchased most or all of these
+    //      from Bachman & Associates.
+    // (11) Criminal organizations have Augmentations to boost various combat
+    //      stats as well as social-related stats.  We should have bought from
+    //      The Syndicate all or most of the Augmentations that boost our
+    //      reputation gain from factions and companies.
+    // (12) The endgame factions should be the last to join.  We can join
+    //      Illuminati or The Covenant in any order we want.  However, Daedalus
+    //      should be the very last faction that we join.
+    "all": [
+        // Early game factions, city factions, and hacking groups.
+        "Sector-12",
+        "Netburners",
+        "CyberSec",
+        "Tian Di Hui",
+        "BitRunners",
+        // Criminal organization.
+        "The Syndicate",
+        // Megacorporation.
+        "Bachman & Associates",
+        // City factions.
+        "Aevum",
+        "Chongqing",
+        "Ishima",
+        "New Tokyo",
+        "Volhaven",
+        // Hacking factions.
+        "NiteSec",
+        "The Black Hand",
+        // Megacorporations.
+        "Blade Industries",
+        "Clarke Incorporated",
+        "ECorp",
+        "Four Sigma",
+        "Fulcrum Secret Technologies",
+        "KuaiGong International",
+        "MegaCorp",
+        "NWO",
+        "OmniTek Incorporated",
+        // Criminal organizations.
+        "Silhouette",
+        "Slum Snakes",
+        "Speakers for the Dead",
+        "Tetrads",
+        "The Dark Army",
+        // Endgame factions.
+        "Illuminati",
+        "The Covenant",
+        "Daedalus"
+    ],
+    // Various early-game factions.
+    "early": [
+        "Sector-12",
+        "Netburners",
+        "CyberSec",
+        "Tian Di Hui",
+        "BitRunners"
+    ],
+    // All megacorporation factions.
+    "megacorp": [
+        "Bachman & Associates",
+        "Blade Industries",
+        "Clarke Incorporated",
+        "ECorp",
+        "Four Sigma",
+        "Fulcrum Secret Technologies",
+        "KuaiGong International",
+        "MegaCorp",
+        "NWO",
+        "OmniTek Incorporated"
+    ]
+};

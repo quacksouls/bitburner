@@ -28,7 +28,7 @@ import { assert } from "/lib/util.js";
  * @param fac The name of the faction we want to join.
  */
 function join_factions(ns) {
-    for (const fac of factions) {
+    for (const fac of factions.all) {
         if (has_invitation(ns, fac)) {
             const before = intelligence(ns);
             assert(ns.singularity.joinFaction(fac));
