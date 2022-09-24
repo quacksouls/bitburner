@@ -114,7 +114,6 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     }
     // Homicide.
     assert(crimes.KILL == crime);
-    assert(nkill > 0);
     ns.singularity.commitCrime(crime, bool.FOCUS);
     while (
         (Math.ceil(player.karma()) > threshold)
