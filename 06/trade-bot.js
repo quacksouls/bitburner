@@ -20,9 +20,7 @@ import { money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
-import {
-    forecast, reserve_mult, spend_tau, stock_tick, trade_bot_stop
-} from "/lib/constant/wse.js";
+import { forecast, wse } from "/lib/constant/wse.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
@@ -106,7 +104,7 @@ function has_api_access(ns) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    return player.money() > (reserve_mult * money_reserve);
+    return player.money() > (wse.RESERVE_MULT * money_reserve);
 }
 
 /**
@@ -180,7 +178,7 @@ function num_shares(ns, stk) {
     //
     const player = new Player(ns);
     const funds = player.money() - money_reserve;
-    if (funds < spend_tau) {
+    if (funds < wse.SPEND_T) {
         return 0;
     }
     // The maximum number of shares of the stock we can buy.  This takes into
@@ -240,7 +238,7 @@ function sell_stock(ns, stk) {
  *     false otherwise.
  */
 function skip_buy(ns) {
-    return ns.fileExists(trade_bot_stop, home);
+    return ns.fileExists(wse.STOP_BUY, home);
 }
 
 /**
@@ -292,6 +290,6 @@ export async function main(ns) {
             }
             buy_stock(ns, stk);
         }
-        await ns.sleep(stock_tick);
+        await ns.sleep(wse.TICK);
     }
 }
