@@ -21,7 +21,7 @@ import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
-import { trade_bot_stop } from "/lib/constant/wse.js";
+import { wse } from "/lib/constant/wse.js";
 
 /**
  * A function for assertion.
@@ -176,8 +176,8 @@ export function is_valid_program(name) {
  * @param ns The Netscript API.
  */
 export function trade_bot_resume(ns) {
-    if (ns.fileExists(trade_bot_stop, home)) {
-        ns.rm(trade_bot_stop, home);
+    if (ns.fileExists(wse.STOP_BUY, home)) {
+        ns.rm(wse.STOP_BUY, home);
     }
 }
 
@@ -189,7 +189,7 @@ export function trade_bot_resume(ns) {
  * @param ns The Netscript API.
  */
 export async function trade_bot_stop_buy(ns) {
-    const fname = trade_bot_stop;
+    const fname = wse.STOP_BUY;
     const data = "Trade bot stop buy.";
     const write_mode = "w";
     await ns.write(fname, data, write_mode);
