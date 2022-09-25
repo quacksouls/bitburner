@@ -272,7 +272,7 @@ async function purchase_aug(ns, aug, fac) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
-        const pre = choose_augment(prereq);
+        const pre = choose_augment(ns, prereq);
         await purchase_aug(ns, pre, fac);
         prereq = prereq.filter(a => a != pre);
     }
