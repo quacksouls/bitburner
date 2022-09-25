@@ -387,6 +387,11 @@ export const factions = {
             "Combat Rib I",
             "Neuralstimulator",
         ],
+        "CyberSec": [
+            // This Augmentation is a pre-requisite of various Augmentations
+            // from BitRunners.
+            "Cranial Signal Processors - Gen I",
+        ],
         "BitRunners": [
             // This Augmentation allows us to start with FTPCrack.exe and
             // relaySMTP.exe.
