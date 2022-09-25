@@ -90,10 +90,9 @@ async function create_gang(ns, fac) {
  */
 function decrease_penalty(ns) {
     reassign_vigilante(ns, members.VIGILANTE);
-    const member = ns.gang.getMemberNames();
     const name = new Array();
     const gangster = new Gangster(ns);
-    for (const s of member) {
+    for (const s of ns.gang.getMemberNames()) {
         if (
             gangster.is_vigilante(s)
                 || gangster.is_mugger(s)
