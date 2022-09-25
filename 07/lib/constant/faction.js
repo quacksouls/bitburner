@@ -372,6 +372,42 @@ export const factions = {
         "Tian Di Hui",
         "BitRunners"
     ],
+    // A bunch of factions that have these Augmentations:
+    //
+    // (1) Boost our faction reputation multiplier.
+    // (2) Port opener programs.
+    //
+    // Join each of these factions, earn the required reputation points, and
+    // purchase only the necessary Augmentations.
+    "fast_track": {
+        "Sector-12": [
+            // This Augmentation allows us to start with $1m and BruteSSH.exe.
+            "CashRoot Starter Kit",
+            "Augmented Targeting I",
+            "Combat Rib I",
+            "Neuralstimulator",
+        ],
+        "BitRunners": [
+            // This Augmentation allows us to start with FTPCrack.exe and
+            // relaySMTP.exe.
+            "BitRunners Neurolink",
+            "DataJack",
+        ],
+        "Tian Di Hui": [
+            "ADR-V1 Pheromone Gene",
+            "Social Negotiation Assistant (S.N.A)",
+        ],
+        "The Syndicate": [
+            "The Shadow's Simulacrum",
+        ],
+        "Aevum": [
+            "PCMatrix"
+        ],
+        "Bachman & Associates": [
+            "ADR-V2 Pheromone Gene",
+            "SmartJaw",
+        ],
+    },
     // All megacorporation factions.
     "megacorp": [
         "Bachman & Associates",

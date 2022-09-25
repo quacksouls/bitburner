@@ -33,12 +33,25 @@ import { assert, is_valid_faction } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function choose_faction(ns) {
-    // Determine which faction to join next.
+    // Determine which faction to join next.  First, consider factions on our
+    // fast track.  These factions have Augmentations to boost our reputation
+    // multiplier as well as allowing us to start with various port opener
+    // programs.
     let faction = "";
-    for (const f of Array.from(factions.all)) {
+    for (const f of Object.keys(factions.fast_track)) {
         if (join_next(ns, f)) {
             faction = f;
             break;
+        }
+    }
+    // In case we have already joined each faction on the fast track list,
+    // consider the remaining factions.
+    if ("" == faction) {
+        for (const f of factions.all) {
+            if (join_next(ns, f)) {
+                faction = f;
+                break;
+            }
         }
     }
     if ("" == faction) {
@@ -169,8 +182,7 @@ function join_next(ns, fac) {
     }
     // See whether we have all Augmentations from the given faction.
     const owned_aug = owned_augment(ns);
-    const fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
-    for (const aug of fac_aug) {
+    for (const aug of ns.singularity.getAugmentationsFromFaction(fac)) {
         if (!owned_aug.has(aug)) {
             return bool.JOIN;
         }
