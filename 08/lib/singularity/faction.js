@@ -136,7 +136,7 @@ export async function raise_combat_stats(ns, threshold) {
     }
     // Commit homicide to raise all our combat stats.
     let target = "Slum Snakes";
-    let city = "Sectory-12";
+    let city = "Sector-12";
     if (ns.gang.inGang()) {
         if (ns.gang.getGangInformation().faction == target) {
             target = "Tetrads";
