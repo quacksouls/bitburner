@@ -174,6 +174,19 @@ export class Player {
     }
 
     /**
+     * Whether the player is working for a company.
+     *
+     * @param company A string representing the name of a company.
+     * @return true if the player is working for the given company;
+     *     false otherwise.
+     */
+    is_employer(company) {
+        assert(company.length > 0);
+        const employer = new Set(Object.keys(this.#ns.getPlayer().jobs));
+        return employer.has(company);
+    }
+
+    /**
      * The position the player holds at a given company.
      *
      * @param company The name of a company.

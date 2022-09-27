@@ -73,6 +73,8 @@ function dir_cct() {
 function dir_gang() {
     const gang = [
         "gang/crime.js",
+        "gang/dead-speakers.js",
+        "gang/go.js",
         "gang/slum-snakes.js"
     ];
     return gang;
@@ -111,6 +113,7 @@ function dir_lib() {
     const lib = [
         "lib/array.js",
         "lib/cct.js",
+        "lib/constant/bn.js",
         "lib/constant/bool.js",
         "lib/constant/cct.js",
         "lib/constant/crime.js",

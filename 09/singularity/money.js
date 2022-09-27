@@ -66,25 +66,40 @@ async function commit_crimes(ns, threshold) {
  * (3) /singularity/program.js := This script attempts to purchase port opener
  *     programs.  We need all five port opener programs so we can open all
  *     ports of each server.
- * (4) /gang/slum-snakes.js := Join the Slum Snakes faction as preparation for
- *     creating a gang within that faction.
+ * (4) /gang/go.js := This utility script helps us to decide which criminal
+ *     faction to join so we can create a gang within that faction.
  *
  * @param ns The Netscript API.
  */
 async function load_chain(ns) {
-    const slum_snakes_script = "/gang/slum-snakes.js";
+    const gang_script = [
+        "/gang/go.js",
+        "/gang/slum-snakes.js",
+        "/gang/dead-speakers.js",
+    ];
     const script = [
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
-        slum_snakes_script
+        gang_script[0],
     ];
     const nthread = 1;
     script.map(
         s => ns.exec(s, home, nthread)
     );
-    // Wait until we have joined the Slum Snakes faction.  Then launch another
-    // script.
-    while (ns.scriptRunning(slum_snakes_script, home)) {
+    // Wait until we have joined a criminal faction.  Then launch another
+    // script.  We must wait because the script launched by "/gang/go.sh" needs
+    // to perform tasks that require focus.  The script
+    // "/singularity/program.js" also requires focus.  We can only focus on one
+    // task at a time.
+    let is_running = true;
+    while (is_running) {
+        is_running = false;
+        for (const s of gang_script) {
+            if (ns.scriptRunning(s, home)) {
+                is_running = true;
+                break;
+            }
+        }
         await ns.sleep(wait_t.SECOND);
     }
     ns.exec("/singularity/program.js", home, nthread);

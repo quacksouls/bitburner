@@ -47,14 +47,15 @@ export const augment = {
  * particular attribute is not part of the requirements for the given faction.
  *
  * (1) backdoor := Must install a backdoor on this server.
- * (2) city := Must be located in this city.
- * (3) combat := Lower threshold for each combat stat.  Each of our Strength,
+ * (2) ban := An array of companies at which we should not be working.
+ * (3) city := Must be located in this city.
+ * (4) combat := Lower threshold for each combat stat.  Each of our Strength,
  *     Defense, Dexterity, and Agility must be at least this value.
- * (4) hack := Lower threshold for our Hack stat.  Our Hack stat must be at
+ * (5) hack := Lower threshold for our Hack stat.  Our Hack stat must be at
  *     least this value.
- * (5) karma := Our negative karma must be this value or lower.
- * (6) kill := Must have killed at least this many people.
- * (7) money := Must have at least this amount of money.
+ * (6) karma := Our negative karma must be this value or lower.
+ * (7) kill := Must have killed at least this many people.
+ * (8) money := Must have at least this amount of money.
  */
 export const faction_req = {
     "Aevum": {
@@ -161,6 +162,10 @@ export const faction_req = {
         "money": 1e6
     },
     "Speakers for the Dead": {
+        "ban": [
+            "Central Intelligence Agency",
+            "National Security Agency",
+        ],
         "combat": 300,
         "hack": 100,
         "karma": -45,
