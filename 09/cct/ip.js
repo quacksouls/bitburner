@@ -58,7 +58,8 @@ function all_ip(string) {
             }
         }
     }
-    return ip;
+    // Since v2.1.0, the game wants the array as a string.
+    return ip.toString();
 }
 
 /**
