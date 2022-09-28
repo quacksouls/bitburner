@@ -21,7 +21,8 @@ import { parenthesis } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Whether the parentheses in the given expression are balanced.
+ * Whether the parentheses in the given expression are balanced.  An empty
+ * string does not have parentheses, hence its parentheses are unbalanced.
  *
  * @param expression A string consisting of parentheses and other characters.
  *     The parentheses in this string are possibly unbalanced.  Cannot be an
@@ -30,7 +31,9 @@ import { assert } from "/lib/util.js";
  *     false otherwise.
  */
 function is_balanced(expression) {
-    assert(expression.length > 0);
+    if (0 == expression.length) {
+        return bool.INVALID;
+    }
     // The stack data structure is perfect for this problem.
     const stack = new Array();
     for (const c of expression) {
