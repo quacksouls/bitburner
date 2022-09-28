@@ -32,7 +32,7 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  * @return The field of work.  Either "Business" or "Software".
  */
-function choose_field(ns) {
+export function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
     const stat = ns.getPlayer().skills;
     if (stat.charisma < charisma_lvl) {

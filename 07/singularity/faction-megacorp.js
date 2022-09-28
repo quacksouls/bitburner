@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { faction_req, faction_t } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
@@ -24,7 +25,7 @@ import { purchase_augment } from "/lib/singularity/augment.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
-import { work_for_company } from "/lib/singularity/work.js";
+import { choose_field, work_for_company } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -60,6 +61,9 @@ async function install_backdoor_on_server(ns, fac) {
  *
  * (1) Travel to a particular city where a megacorporation is located.
  * (2) Work for the megacorporation to earn a given amount of reputation points.
+ * (3) Continue working for the company until we have received an invitation.
+ *     Even if we satisfy the above 2 requirements, we would not receive an
+ *     invitation if we are not currently an employee of the company.
  *
  * The exception is Fulcrum Technologies.  In addition to the above two
  * requirements, this megacorporation also requires us to install a backdoor on
@@ -75,10 +79,18 @@ async function install_backdoor_on_server(ns, fac) {
  */
 async function megacorporation(ns, company, fac, rep) {
     await visit_city(ns, faction_req[fac].city);
-    // Work for the company to earn the required reputation points.
+    ns.singularity.goToLocation(company);
+    // Work for the company to earn the required reputation points.  Must
+    // continue working for the company until we receive an invitation from
+    // the company faction.
     await work_for_company(ns, company, rep);
-    // Join the faction, earn reputation points, and purchase all Augmentations.
+    ns.singularity.applyToCompany(company, choose_field(ns));
+    ns.singularity.workForCompany(company, bool.FOCUS);
+    // Join the faction, earn reputation points, and purchase all
+    // Augmentations.  Ensure we remain an employee of the company.  Wait until
+    // we have joined the company faction, then quit our job at the company.
     await join_faction(ns, fac);
+    ns.singularity.quitJob(company);
     await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
