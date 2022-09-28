@@ -24,7 +24,9 @@ import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
-import { join_faction, raise_hack } from "/lib/singularity/faction.js";
+import {
+    join_faction, raise_combat_stats, raise_hack
+} from "/lib/singularity/faction.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -85,32 +87,6 @@ async function lower_karma(ns) {
         if (Math.floor(player.karma()) < gang_t.KARMA) {
             break;
         }
-        await ns.sleep(wait_t.DEFAULT);
-    }
-    ns.singularity.stopAction();
-}
-
-/**
- * Raise our combat stats to a given threshold.  Mugging someone is one of the
- * best ways to raise all of our combat stats.  Upon success, we gain XP for
- * each of the following stats: Strength, Defense, Dexterity, Agility.
- *
- * @param ns The Netscript API.
- * @param threshold Each of our combat stats should be at least this level.
- */
-async function raise_combat_stats(ns, threshold) {
-    assert(threshold > 0);
-    ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Int XP.
-    // Continue to mug someone until each of our combat stats is at least
-    // the given threshold.
-    const player = new Player(ns);
-    ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
-    while (
-        (player.strength() < threshold)
-            || (player.defense() < threshold)
-            || (player.dexterity() < threshold)
-            || (player.agility() < threshold)
-    ) {
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
