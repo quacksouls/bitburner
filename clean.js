@@ -19,9 +19,7 @@
  * WARNING: This script will delete all our scripts.  Make sure the scripts are
  * backed up somewhere.
  *
- * Remove all our scripts from the home server.
- *
- * ???Except for this script???
+ * Remove all our scripts from the home server, except for this script.
  *
  * @param ns The Netscript API.
  */
