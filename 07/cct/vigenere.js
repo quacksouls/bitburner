@@ -49,12 +49,12 @@ function pad_key(plaintext, key) {
 }
 
 /**
- * Vigenère enryption.  We encrypt only uppercase letters of the English
+ * VigenÃ¨re enryption.  We encrypt only uppercase letters of the English
  * alphabet.  All other characters are ignored.
  *
  * @param plaintext We want to encrypt this string.  Cannot be empty string.
  * @param key Encryption is done using this key.  Cannot be empty string.
- * @return A ciphertext encrypted using the Vigenère cipher.
+ * @return A ciphertext encrypted using the VigenÃ¨re cipher.
  */
 function vigenere(plaintext, key) {
     // Sanity checks.
@@ -79,9 +79,9 @@ function vigenere(plaintext, key) {
 }
 
 /**
- * Encryption II: Vigenère Cipher: Vigenère cipher is a type of polyalphabetic
- * substitution.  It uses the Vigenère square to encrypt and decrypt plaintext
- * with a keyword.  Vignenère square:
+ * Encryption II: VigenÃ¨re Cipher: VigenÃ¨re cipher is a type of polyalphabetic
+ * substitution.  It uses the VigenÃ¨re square to encrypt and decrypt plaintext
+ * with a keyword.  VignenÃ¨re square:
  *
  *     A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
  *   +====================================================
@@ -102,13 +102,13 @@ function vigenere(plaintext, key) {
  *   Keyword: LINUXLINU
  *
  * So, the first letter D is paired with the first letter of the key L.
- * Therefore, row D and column L of the Vigenère square are used to get the
+ * Therefore, row D and column L of the VigenÃ¨re square are used to get the
  * first cipher letter O.  This must be repeated for the whole ciphertext.  You
  * are given an array with two elements.  The first element is the plaintext,
  * the second element is the keyword.  Return the ciphertext as uppercase
  * string.
  *
- * This is Vigenère encryption, where the plaintext alphabet is the uppercase
+ * This is VigenÃ¨re encryption, where the plaintext alphabet is the uppercase
  * characters of the English alphabet.
  *
  * Usage: run cct/vigenere.js [cct] [hostname]

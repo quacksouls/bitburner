@@ -79,7 +79,7 @@ function solve(ns, cct, host) {
         case "Encryption I: Caesar Cipher":
             script = prefix + "caesar.js";
             break;
-        case "Encryption II: Vigenère Cipher":
+        case "Encryption II: VigenÃ¨re Cipher":
             script = prefix + "vigenere.js";
             break;
         case "Find All Valid Math Expressions":
