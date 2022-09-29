@@ -26,6 +26,7 @@ import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
 import { visit_city } from "/lib/singularity/network.js";
+import { study } from "/lib/singularity/study.js";
 import { assert, is_valid_faction } from "/lib/util.js";
 
 /**
@@ -177,13 +178,22 @@ export async function raise_hack(ns, threshold) {
             break;
         }
     }
-    assert("" != target);
     // Carry out Hacking Contracts for the faction.
-    ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
-    while (player.hacking_skill() < threshold) {
-        await ns.sleep(wait_t.DEFAULT);
+    if ("" != target) {
+        ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
+        while (player.hacking_skill() < threshold) {
+            await ns.sleep(wait_t.DEFAULT);
+        }
+        ns.singularity.stopAction();
+        return;
     }
-    ns.singularity.stopAction();
+    // Cannot join one of the early factions.  Default to studying at
+    // university.
+    const current_city = player.city();
+    const new_city = "Sector-12";
+    await visit_city(ns, new_city);
+    await study(ns, threshold);
+    await visit_city(ns, current_city);
 }
 
 /**
