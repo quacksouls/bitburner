@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
 import { home } from "/lib/constant/server.js";
 
 /**
@@ -43,9 +42,10 @@ import { home } from "/lib/constant/server.js";
  * Thus, in BitNodes other than BN2, we should lower our karma as quickly as
  * possible.  By the time our negative karma is at -54,000 or lower, it is
  * likely that we would have also satisfied the requirements to join one of the
- * other factions listed above.  We might as well join Speakers for the Dead
- * and create our criminal gang in that faction.  One reason is that Speakers
- * for the Dead has the highest power multiplier of all criminal factions:
+ * other factions listed above.  We might be tempted to join Speakers for the
+ * Dead and create our criminal gang within that faction.  One reason is that
+ * Speakers for the Dead has the highest power multiplier of all criminal
+ * factions:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/power.ts
  *
@@ -56,23 +56,29 @@ import { home } from "/lib/constant/server.js";
  * the power multiplier of an NPC gang, the quicker would its power rise.
  * Creating a gang within either of the above 2 factions means we would only
  * need to worry about catching up with the power of the other powerful NPC
- * gang.
+ * gang.  However, this can be a problem because the most powerful NPC gang
+ * would devour the other less powerful NPC gangs and easily take over their
+ * territories.  If we have 2 powerful NPC gangs, i.e. Speakers for the Dead
+ * and The Black Hand, they can duke it out amongst themselves.  They might
+ * swallow up the territories of other weaker NPC gangs, but when these 2
+ * powerful gangs fight amongst themselves it can take a long time for one of
+ * them to be vanguished.
+ *
+ * Anyway, join Slum Snakes regardless of the BitNode we are in.
  *
  * Usage: run gang/go.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Regardless of the BitNode we are in, join Slum Snakes and set up our
+    // gang within that faction.
+    const script = "/gang/slum-snakes.js";
     const nthread = 1;
-    // If we are in BN2, then it is faster and easier to create a gang within
-    // Slum Snakes.
-    if (bitnode["Rise of the Underworld"] == ns.getPlayer().bitNodeN) {
-        const script = "/gang/slum-snakes.js";
-        ns.exec(script, home, nthread);
-        return;
-    }
-    // In any other BitNode, create a criminal gang within Speakers for the
-    // Dead.
-    const script = "/gang/dead-speakers.js";
     ns.exec(script, home, nthread);
+    // If we want, we can create a criminal gang within Speakers for the Dead.
+    // Note that it can take a very long time to satisfy all requirements for
+    // joining this faction and setting up a gang within that faction.
+    // const script = "/gang/dead-speakers.js";
+    // ns.exec(script, home, nthread);
 }
