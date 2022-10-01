@@ -15,8 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { wait_t } from "/lib/constant/time.js";
+import {
+    log_cct_failure,
+    print_error,
+    print_success,
+} from "/lib/cct.js";
+import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -25,171 +29,69 @@ import { assert } from "/lib/util.js";
  * following operators between decimal digits: addition (+), subtraction (-),
  * multiplication (*).
  *
- * @param ns The Netscript API.
- * @param string A string of decimal digits.  Cannot be empty.
+ * @param digit A string of decimal digits.  Cannot be empty.
  * @param target An expression must evaluate to this number.
- * @return An array of strings, each of which is an expression that evaluates
+ * @returns An array of strings, each of which is an expression that evaluates
  *     to the target number.
  */
-async function all_expressions(ns, string, target) {
-    assert(string.length > 0);
-    // We try all possibilities.  Each partial solution is an array [i, expr]
-    // as follows:
-    //
-    // (1) i := The highest index in the partial expression expr where an
-    //     operator can be found.  If i < 0, then we have not inserted any
-    //     operators into expr.
-    // (2) expr := A partial expression, represented as a string.
-    const stack = new Array();
-    const solution = new Array();
-    stack.push([-1, string]);
-    while (stack.length > 0) {
-        // Create new expressions by inserting different operators at all
-        // possible positions.
-        const [i, expr] = stack.pop();
-        const newexpr = insert_operators(expr, i);
-        // No new expressions can be created from the given expression.
-        if (0 == newexpr.length) {
-            continue;
-        }
-        // Test each new expression to see whether it evaluates to the target
-        // number.
-        for (let j = 0; j < newexpr.length; j++) {
-            const [idx, expression] = newexpr[j];
-            stack.push([idx, expression]);
-            if (
-                !has_leading_zero(expression)
-                    && (target == evaluate(expression))
-            ) {
-                solution.push(expression);
-            }
-        }
-        await ns.sleep(wait_t.MILLISECOND);
-    }
-    return [...new Set(solution)];
+function all_expressions(digit, target) {
+    assert(digit.length > 0);
+    return Array.from(expressions(digit, target));
 }
 
 /**
- * Evaluate a mathematical expression.
+ * Generate all mathematical expressions that evaluate to a target value.  An
+ * expression can use each of these symbols zero, one, or more times:
  *
- * @param str A string representation of a mathematical expression.
- * @return The value of the given mathematical expression.
- */
-function evaluate(str) {
-    return Function(`"use strict"; return (${str})`)();
-}
-
-/**
- * Whether an operand in an expression has a leading zero.  An operand can be
- * zero itself.  However, if an operand is made up of multiple digits, then the
- * very first digit cannot be zero.  For example, the expression "1+0-2" is
- * accepted because we have an operand that is zero.  However, the expression
- * "1+02" is invalid because the operand "02" has a leading zero.
+ * (1) addition (+)
+ * (2) subtraction (-)
+ * (3) multiplication (*)
  *
- * @param expr An expression represented as a string.  Cannot be an empty
- *     string.
- * @return true if an operand in the given expression has a leading zero;
- *     false otherwise.
+ * The algorithm is due to Janne Karila, who provided a Python implementation at
+ *
+ * https://codereview.stackexchange.com/a/163303
+ *
+ * This generator function is a JavaScript translation of Karila's Python code.
+ *
+ * @param digit A string containing a bunch of decimal digits.
+ * @param target Any mathematical expression created from the given digits must
+ *     evaluate to this number.
+ * @param k The multiplication factor.
  */
-function has_leading_zero(expr) {
-    assert(expr.length > 0);
-    assert("0" != expr[0]);
-    const whitespace = " ";
-    let newexpr = new String(expr);
-    for (const op of operators()) {
-        newexpr = newexpr.replaceAll(op, whitespace);
-    }
-    const digit = newexpr.split(whitespace);
-    for (const d of digit) {
-        if (("0" == d[0]) && (d.length > 1)) {
-            return true;
+function* expressions(digit, target, k = 1) {
+    for (let i = 1; i < digit.length; i++) {
+        // For any given index i in the digit string, we split the string into
+        // 2 parts:
+        //
+        // (1) left := The left part of the digit string consists of all digits
+        //     from index 0 up to and including index i - 1.  We can think of
+        //     the left part as already been evaluated, searched, or
+        //     considered.  The left part is therefore the prefix upon which
+        //     new expressions can be built.
+        // (2) right := The right part of the digit string consists of all
+        //     digits from index i onward.  Think of the right part as digits
+        //     we have yet to consider.  We use digits in the right part to
+        //     construct longer expressions based upon the left part.
+        const left = digit.slice(0, i);
+        const right = digit.slice(i);
+        const n = k * parseInt(left, base.DECIMAL);
+        for (const e of expressions(right, target, n)) {
+            yield left + "*" + e;
+        }
+        for (const e of expressions(right, target - n)) {
+            yield left + "+" + e;
+        }
+        for (const e of expressions(right, target - n, -1)) {
+            yield left + "-" + e;
+        }
+        // Do we have a leading zero?
+        if ("0" == left) {
+            return;
         }
     }
-    return false;
-}
-
-/**
- * Insert all possible operators at each possible index.
- *
- * @param expr An expression, represented as a string.  Cannot be an empty
- *     string.
- * @param i The highest index in expr where an operator can be found.  The
- *     value of -1 means expr does not have any operators.
- * @return An array of new expressions, each expression is a string.  Each
- *     element of the array is an array [idx, newexpr] as follows.
- *
- *     (1) idx := The highest index in newexpr at which an operator is located.
- *     (2) newexpr := A string representing an expression created from the
- *         given expression.
- *
- *     Return an empty array if no new expressions can be created from the
- *     given expression.
- */
-function insert_operators(expr, i) {
-    // Sanity checks.
-    assert(expr.length > 0);
-    assert(i >= -1);
-    const n = expr.length;
-    const k = n - 1;
-    assert(i < k);
-    // No further expressions can be created from the given expression.
-    if (i == (k - 1)) {
-        return [];
+    if (k * parseInt(digit, base.DECIMAL) == target) {
+        yield digit;
     }
-    // Let k be the index of the last character in the string expr.  Let i be
-    // the highest index in expr where an operator can be found.  Let op be an
-    // operator we want to insert into expr.  The operator is to be inserted
-    // at an index j such that i < j < k.  To insert op at index j, first we
-    // shift by one position rightward all characters having indices at least
-    // j.  The character that previously had index j now has index j+1, the
-    // character whose former index is j+1 now has index j+2, etc.  Then we
-    // insert op at index j in the string.
-    //
-    // The lowest value for j is i+2.  Index i in expr has an operator so index
-    // i+1 should have a decimal digit.  If op is inserted at index i+1, then
-    // two adjacent indices would have operators, resulting in an invalid
-    // mathematical expression.  For example, how are we to evaluate the
-    // expression "1+*2"?  The highest value for j is k.  All possible values
-    // for j are contained in the set Ind := {i+2, i+3, i+4, ..., k}.  We
-    // insert op at each of the indices in Ind, each insertion creates a new
-    // expression that can later be processed via backtracking.
-    //
-    // Now consider two decimal digits
-    //
-    // expr[j-1] expr[j]
-    //
-    // in expr and we want to insert op at index j.  Normally we can insert op
-    // and obtain the new substring
-    //
-    // (i) expr[j-1] op expr[j+1]
-    //
-    // We can also perform the insertion as follows:
-    //
-    // (ii) expr[j-1] op neg expr[j+2]
-    //
-    // where "neg" means the negative sign.  The decimal digit expr[j+2] is now
-    // a negative integer.  As implied by the problem statement, we are not
-    // allowed to flip the sign of any digit.  Thus case (i) above is allowed,
-    // but case (ii) is prohibited.
-    const candidate = new Array();
-    for (let j = i + 2; j < n; j++) {
-        for (const op of operators()) {
-            const newexpr = expr.slice(0, j) + op + expr.slice(j, n);
-            candidate.push([j, newexpr]);
-        }
-    }
-    return candidate;
-}
-
-/**
- * All valid operators that can be inserted into a digit string.  We do not
- * include the operator "--" because it is equivalent to the addition operator.
- * The operator "+-" is equivalent to the subtraction operator.  The operator
- * "*-" is excluded because it would flip the sign of a digit from positive to
- * negative.  We are prohibited from flipping the sign of each decimal digit.
- */
-function operators() {
-    return ["+", "-", "*"];
 }
 
 /**
@@ -237,7 +139,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
-    const solution = await all_expressions(ns, string, target);
+    const solution = all_expressions(string, target);
     const result = ns.codingcontract.attempt(
         solution, cct, host, { returnReward: true }
     );
