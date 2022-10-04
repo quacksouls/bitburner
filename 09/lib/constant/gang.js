@@ -50,6 +50,29 @@ export const gang_aug_crime = {
 };
 
 /**
+ * Constants related to various aspects of our gang members.
+ */
+export const members = {
+    // The number of gangsters we can recruit upon creating our gang.  We must
+    // earn more respect to recruit more gang members.
+    "INITIAL": 3,
+    // The maximum number of members in a gang.  This number is taken from the
+    // file:
+    //
+    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+    "MAX": 12,
+    // The maximum number of gang members to assign to Vigilante Justice.
+    "VIGILANTE": 4,
+    // The maximum number of gang members to assign to territory warfare.  This
+    // threshold applies only when we are not engaged in territory warfare
+    // against a rival gang.  If we are about to clash against a rival gang, we
+    // should devote more members to warfare.  In general, this threshold helps
+    // to build our power while we are not engaged in dispute against any rival
+    // gang.
+    "WARRIOR": 4
+};
+
+/**
  * Miscellaneous constants related to various thresholds.
  */
 export const gang_t = {
@@ -75,6 +98,21 @@ export const gang_t = {
     //
     // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
     "KARMA": -54e3,
+    // The roster of our gang.  This lists the number of members we want for
+    // each role.  Except for punk, we want at most 1 member in each of the
+    // other roles.  The number 8 below is the number of members in a non-punk
+    // role.
+    "ROSTER": {
+        "artillery": 1,
+        "hacker": 1,
+        "medic": 1,
+        "pilot": 1,
+        "punk": members.MAX - 8,
+        "spy": 1,
+        "thief": 1,
+        "traitor": 1,
+        "vanguard": 1,
+    },
     // The territory and power of each gang is updated approximately every 20
     // seconds.  We refer to this time period as a tick.
     "TICK": 20e3,
@@ -86,92 +124,506 @@ export const gang_t = {
 };
 
 /**
- * A list of names.  We can randomly choose a name to assign to a new recruit.
+ * Various types of gangster roles.  A list of names for each role.  We
+ * randomly choose a name to assign to a new recruit.  We want our gang to have
+ * the following types of members:
+ *
+ * (1) Artillery.  A gun expert and ranged fighter.  Good with bow and arrows,
+ *     or missiles.
+ * (2) Hacker.  The computer wizard.
+ * (3) Medic.  This is our doctor.
+ * (4) Pilot.  Air support from a helicopter, drone, or aeroplane.
+ * (5) Punk.  Low level soldiers who rake in money for the gang by committing
+ *     various crimes.
+ * (6) Spy.  An expert in espionage and reconnaisance.
+ * (7) Thief.  Someone who steals treasure.  A sneak.
+ * (8) Traitor.  Someone who would likely betray the gang.
+ * (9) Vanguard.  Our frontliner and tank.
  */
-export const gangster_name = [
-    // A
-    "Al Capone", "Alfhild", "Al Swearengen", "Andre of Astora", "Anna Nzinga",
-    "Anne Bonny", "Anne Dieu le Veut", "Anri of Astora", "Artemisia of Caria",
-    "Knight Artorias",
-    // B
-    "Big Hat Logan", "Black Bart", "Blackbeard", "Bonnie Parker", "Boudicca",
-    // C
-    "Captain Haddock", "Captain Hook", "Captain Yorshka",
-    "Chaos Witch Quelaag", "Charlotte Badger", "Chen Jinnan", "Clyde Barrow",
-    "Cornyx", "Crestfallen Merchant", "Crossbreed Priscilla",
-    // D
-    "Darkstalker Kaathe", "Domhnall of Zena", "Donbot", "Don Corleone",
-    "Don Logan", "Dusk of Oolacile",
-    // E
-    "Eingyi", "Elise Eskilsdotter", "Elizabeth Mushroom", "Elvira Hancock",
-    // F
-    "Fat Tony", "Filianore", "Francois l'Olonnais", "Fu Hao",
-    // G
-    "Gemma Teller Morrow", "Giant Blacksmith", "Grace O'Malley",
-    "Great Grey Wolf Sif", "Greirat", "Griggs of Vinheim",
-    // H
-    "Hawkeye Gough",
-    // I
-    "Ingward", "Irina of Carim", "Isshin",
-    // J
-    "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson", "Joan of Arc",
-    // K
-    "Karla", "Kingseeker Frampt",
-    // L
-    "Lady Trieu", "Laurentius", "Long Ben", "Long John Silver",
-    // M
-    "Ma Barker", "Ma Beagle", "Mark Gor", "Marvelous Chester", "Mary Read",
-    "Mia Wallace",
-    // N
-    "Nucky Thompson",
-    // O
-    "O-Ren Ishii", "Oswald of Carim",
-    // P
-    "Petrus of Thorolund",
-    // Q
-    "Quelana of Izalith",
-    // R
-    "Rani Velu Nachiyar", "Reah of Thorolund", "Red Rackham",
-    "Rickert of Vinheim", "Rusla",
-    // S
-    "Sadie Farrell", "Sayyida al Hurra", "Shiva of the East",
-    "Siegward of Catarina", "Sir Francis Drake", "Sir Henry Morgan", "Sirris",
-    "Slave Knight Gael", "Snaps Provolone", "Solaire of Astora",
-    "Stephanie St. Clair", "Stringer Bell",
-    // T
-    "Tomoe Gozen", "Tom Stall", "Tony Montana", "Tony Soprano",
-    "Trusty Patches",
-    // V
-    "Vamos", "Virginia Hill",
-    // W
-    "William Kidd",
-    // Y
-    "Yuria of Londor",
-    // Z
-    "Zheng Yi Sao"
-];
-
-/**
- * Constants related to various aspects of our gang members.
- */
-export const members = {
-    // The number of gangsters we can recruit upon creating our gang.  We must
-    // earn more respect to recruit more gang members.
-    "INITIAL": 3,
-    // The maximum number of members in a gang.  This number is taken from the
-    // file:
-    //
-    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
-    "MAX": 12,
-    // The maximum number of gang members to assign to Vigilante Justice.
-    "VIGILANTE": 4,
-    // The maximum number of gang members to assign to territory warfare.  This
-    // threshold applies only when we are not engaged in territory warfare
-    // against a rival gang.  If we are about to clash against a rival gang, we
-    // should devote more members to warfare.  In general, this threshold helps
-    // to build our power while we are not engaged in dispute against any rival
-    // gang.
-    "WARRIOR": 4
+export const gangster_t = {
+    "artillery": [
+        // A
+        "Alfred Nobel", "Angus MacGyver", "Artemus Gordon",
+        // B
+        "Bill Dolworth", "Billy Calloway", "Billy Rosewood", "Bobby Jay",
+        "Bomb Man", "Bomberman", "Bomb Voyage", "Boris Turgoff", "Burt Gummer",
+        // C
+        "Carlton Lassiter", "Chaplain Reynolds", "Clay Allison",
+        "Colleen Anderson", "Colonel John Casey",
+        // D
+        "David Thurston", "Demoman", "Dutch",
+        // E
+        "Edgar K. B. Montrose", "Eugene Tackleberry",
+        // F
+        "Fatman", "Forte Stollen",
+        // G
+        "Guy Fawkes",
+        // H
+        "Hange Zoe", "Harry the Horse", "Hawkeye", "Hawkeye Gough",
+        "Hazel D'Ark", "Hero Shackleby", "Holly Summers",
+        // I
+        "Isao Ota",
+        // J
+        "Jayne Cobb", "Jean Havoc", "Jessica Clearkin", "John Rambo",
+        "John Wick", "Jun the Swan",
+        // K
+        "Kell Tainer", "Kota Hirano",
+        // L
+        "Laurie Strode",
+        // M
+        "Malcolm Reed", "Mark Briscoe", "Marty McChicken", "Maya Jingu",
+        "Mike Teevee", "Minene Uryuu",
+        // O
+        "Ossie Brunt",
+        // P
+        "Poppy Bros.", "Professor Shikishima", "Private Wilson",
+        // R
+        "Rally Vincent", "Revy", "Ritsuko Inoue", "Riza Hawkeye",
+        "Robin Scherbatsky", "Rocket Raccoon", "Ryo Saeba",
+        // S
+        "Seras Victoria", "Shino Asada", "Shuri", "Sidney Alford", "Simo Häyhä",
+        // T
+        "Teddy Bomber", "Tiny Tina",
+        // V
+        "Vash the Stampede",
+        // Y
+        "Yoko Littner",
+    ],
+    "hacker": [
+        // A
+        "Acid Burn", "Adrian Lamo", "Aelita Schaeffer", "Akira Shirase",
+        "Albert Gonzalez", "Anna Grimsdóttír", "Anonymouse", "Apoc", "ASTRA",
+        // B
+        "Benji Dunn", "Beto O'Rourke", "Boris Grishenko",
+        // C
+        "Carl Arbogast", "Chihiro Fujisaki", "Chloe O'Brian", "Chuck Bartowski",
+        "Crash Override", "Cypher",
+        // D
+        "Dade Murphy", "Darren Roskow", "David Levinson", "David Lightman",
+        "Dennis Nedry", "Dozer",
+        // E
+        "Edward Snowden", "Edward Wong Hau Pepelu Tivrusky IV",
+        "Eugene Belford",
+        // F
+        "Felicity Smoak",
+        // H
+        "Henry Dorsett Case", "Hiro Protagonist",
+        // I
+        "Irwin Emery",
+        // J
+        "Jeanson James Ancheta", "Jeremy Belpois", "Jobe Smith",
+        "Jonathan James",
+        // K
+        "Kate Libby", "Kevin Flynn", "Kevin Mitnick", "Kevin Poulsen",
+        "Kimberley Vanvaeck",
+        // L
+        "Laughing Man", "Lee Sampson", "Lex Murphy", "Lisbeth Salander",
+        "Lord Nikon", "Luther Stickell",
+        // M
+        "Marshall Flinkman", "Martin Bishop", "Matthew Bevan", "Michael Calce",
+        "Milo Hoffman", "Morpheus", "Mouse",
+        // N
+        "Neo",
+        // P
+        "Paul Cook", "Penny Brown", "Phantom Phreak",
+        // R
+        "Rachel Gibson", "Ramόn Sánchez (Phantom Phreak)", "Randy Waterhouse",
+        "Richard Pryce", "Riley Poole",
+        // S
+        "Susan Headley", "Switch",
+        // T
+        "The Plague", "Trinity",
+        // Z
+        "Zero Cool",
+    ],
+    "medic": [
+        // A
+        "Abascantus", "Adamantius Judaeus", "Aegimus", "Aelius Promotus",
+        "Aemilia Hilaria", "Aeschrion of Pergamon", "Aëtius of Amida",
+        "Agathinus", "Albucius", "Alexander Fleming",
+        "Alexander of Tralles", "al-Zahrawi", "Ambroise Paré", "Amenhotep",
+        "Andries van Wesel", "Androcydes", "Andromachus",
+        "Anonymus Londinensis", "Antipater", "Antiphanes of Delos",
+        "Antonius Castor", "Antyllus", "Apollonius Claudius",
+        "Apollonius Cyprius", "Apollonius Organicus", "Apollonius Pergamenus",
+        "Apollonius Pitaneus", "Apollonius Senior", "Apollonius Tarensis",
+        "Apollonius Ther", "Apollonius Glaucus", "Apollonios of Kition",
+        "Archigenes", "Arcyon", "Aretaeus", "Asclepiades of Bithynia",
+        "Asclepiades Pharmacion", "Asclepius", "Aspasia the Physician",
+        "Athenaeus of Attalia", "Atreya", "Aulus Cornelius Celsus",
+        // B
+        "Bharadwaja", "Bian Que", "Bogar", "Bolus of Mendes",
+        // C
+        "Caelius Aurelianus", "Carl Clauberg", "Cassius Felix", "Charaka",
+        "Charles R. Drew", "Charmis of Marseilles", "Claudius Philoxenus ",
+        "Cosmas and Damian", "Crinas of Marseilles", "Cristina Yang",
+        "Criton of Heraclea", "Ctesias of Cnidus",
+        // D
+        "Daniel Hale Williams", "Demetrius of Apamea",
+        "Demosthenes Philalethes", "Derek Shepherd", "Dexippus of Cos",
+        "Dieuches", "Diocles of Carystus", "Diomedes of Tarsus", "Dong Feng",
+        "Doogie Howser", "Doug Ross", "Dr. Nick",
+        // E
+        "Edward Jenner", "Elizabeth Blackwell", "Erasistratus", "Eudemus",
+        // F
+        "Frasier Crane",
+        // G
+        "Gaius Stertinius Xenophon", "Galen of Pergamon", "George O'Malley",
+        "Georges Mathé", "Getafix", "Gregory House",
+        // H
+        "Hannibal Lecter", "Harold Shipman", "Hawkeye Pierce",
+        "Helen B. Taussig", "Heliodorus", "Henry Jekyll",
+        "Heraclides of Tarentum", "Herophilos", "H. H. Holmes", "Hicesius",
+        "Hippocrates", "Hua Tuo",
+        // I
+        "Ibn Sina", "Ignaz Semmelweis", "Irynachet",
+        // J
+        "Jack Kevorkian", "Jack Shephard", "Jackson Avery", "Jane Cooke Wright",
+        "Jayant Patel", "Jivaka Komarabhacca", "John Bodkin Adams",
+        "John Carter", "John Dolittle", "John Dorian", "John H. Watson",
+        "John Snow", "Jonas Salk", "Josef Mengele", "Joseph Lister",
+        // K
+        "Kashyapa", "Korakkar",
+        // L
+        "Leonard H. McCoy", "Leoparda", "Lexie Grey", "Linda Burfield Hazzard",
+        // M
+        "Madhava-kara", "Marcellus Empiricus", "Marcellus of Side",
+        "Marcel Petiot", "Mark Sloan", "Meges of Sidon", "Menemachus",
+        "Menodotus of Nicomedia", "Meredith Grey", "Metrodora",
+        "Michael DeBakey", "Michael Swango", "Michaela Quinn", "Mindy Lahiri",
+        "Miranda Bailey", "Mnesitheus", "Morris Bolber",
+        // O
+        "Oribasius",
+        // P
+        "Patanjali", "Paracelsus", "Paul of Aegina", "Pedanius Dioscorides",
+        "Penthu", "Peseshet", "Philagrius of Epirus", "Philinus of Cos",
+        "Philistion of Locri", "Philumenus", "Plistonicus", "Praxagoras of Cos",
+        // Q
+        "Qar", "Quintus Gargilius Martialis",
+        // R
+        "Rabâ-ša-Marduk", "Remy Hadley", "Robert Koch", "Rufus of Ephesus",
+        // S
+        "Saint Fabiola", "Scribonius Largus", "Serapion of Alexandria",
+        "Servilius Damocrates", "Sextius Niger", "Sextus Empiricus",
+        "Sextus Placitus", "Shennong", "Shepseskaf-ankh", "Soranus of Ephesus",
+        // T
+        "Themison of Laodicea", "Theodorus Priscianus",
+        "Theophilus Protospatharius", "Thessalus of Tralles",
+        "Thomas Neill Cream", "Tirumular",
+        // V
+        "Virginia Apgar",
+        // W
+        "Walter Freeman", "William Osler",
+        // X
+        "Xenocrates of Aphrodisias",
+        // Z
+        "Zhang Zhongjing", "Zopyrus",
+    ],
+    "pilot": [
+        // A
+        "Alan Shepard", "Alex Rogan", "Amelia Earhart", "Amuro Ray",
+        "Amy Johnson", "Anne Morrow Lindbergh", "Asami Sato",
+        // B
+        "Baloo", "Beryl Markham", "Bessie Coleman", "Betty Skelton",
+        "Bill Owens", "Buzz Aldrin",
+        // C
+        "Charles Kingsford Smith", "Charles Lindbergh", "Chesley Sullenberger",
+        // D
+        "Diana Barnato Walker", "Dieter F. Uchtdorf", "Douglas Bader",
+        // E
+        "Edward O'Hare", "Elliott Roosevelt", "Eugene Bullard",
+        // F
+        "Fox McCloud", "Francis Gary Powers",
+        // G
+        "Geraldyn M. Cobb", "Ghost of Kyiv",
+        // H
+        "Han Solo", "Hanna Reitsch", "Hans Boehm", "Hans von Hammer",
+        "Harriet Quimby", "Hera Syndulla", "Hikaru Sulu", "Hoban Washburne",
+        "Howard Hughes",
+        // I
+        "Iceman Kazansky", "Ilan Ramon",
+        // J
+        "Jacqueline Cochran", "James McCloud", "Jean Batten", "Joe Sullivan",
+        "Joker Moreau", "Joseph Cooper",
+        // K
+        "Kara Thrace",
+        // L
+        "Lord Flashheart", "Lothar von Richthofen", "Louis Blériot",
+        "Lydia Litvyak",
+        // M
+        "Mamma Aiuto", "Manfred von Richthofen", "Mathias Rust",
+        "Maverick Mitchell", "Mitchell Gant",
+        // N
+        "Nadiya Savchenko", "Night Witches", "Niobe",
+        // O
+        "Orville Wright",
+        // P
+        "Pancho Barnes", "Pappy Boyington", "Paul Tibbets", "Piotr Skut",
+        "Poe Dameron", "Porco Rosso",
+        // R
+        "Raymonde de Laroche", "Richard Bong", "Rick Husband",
+        // S
+        "Sabiha Gökçen", "Slip Stream", "Star Lord", "Steve Fossett",
+        "Steven Hiller",
+        // T
+        "Topper Harley", "Turanga Leela",
+        // V
+        "Valentina Tereshkova", "Valentina Vostok",
+        // W
+        "Wolf O'Donnell",
+        // Y
+        "Yuri Gagarin",
+        // Z
+        "Xenia Onatopp",
+    ],
+    "punk": [
+        // A
+        "Aella", "Ainippe", "Al Capone", "Alfhild", "Al Swearengen", "Alkippe",
+        "Andromache", "Anna Nzinga", "Anne Bonny", "Anne Dieu le Veut",
+        "Antianeira",
+        // B
+        "Beatrix Kiddo", "Black Bart", "Blackbeard", "Bonnie Parker",
+        "Bryan Mills",
+        // C
+        "Captain Haddock", "Captain Hook", "Charlotte Badger", "Clyde Barrow",
+        // D
+        "Deborah Sampson", "Deianira", "Diana Prince", "Donbot", "Don Corleone",
+        "Don Logan",
+        // E
+        "Elise Eskilsdotter", "Ellen Ripley", "Elvira Hancock", "Eowyn",
+        "Erza Scarlet", "Evie",
+        // F
+        "Fat Tony", "Francois l'Olonnais",
+        // G
+        "Gemma Teller Morrow", "Grace O'Malley",
+        // H
+        "Harriet Tubman", "Hippolyta", "Hippomache",
+        // J
+        "Jack Sparrow", "Jacquotte Delahaye", "Jeanne de Clisson", "Jen Yu",
+        "Joe Chill", "Jules Winnfield",
+        // K
+        "Katniss Everdeen", "Kiyuchiyo",
+        // L
+        "Leon", "Long Ben", "Long John Silver",
+        // M
+        "Ma Barker", "Ma Beagle", "Mark Gor", "Mary Read", "Melanippe",
+        "Mia Wallace", "Mikasa Ackerman",
+        // N
+        "Nucky Thompson",
+        // O
+        "O-Ren Ishii",
+        // R
+        "Rani Velu Nachiyar", "Red Rackham", "Rusla",
+        // S
+        "Sadie Farrell", "Sayyida al Hurra", "Shiva of the East",
+        "Sir Francis Drake", "Sir Henry Morgan", "Snaps Provolone",
+        "Stephanie St. Clair", "Stringer Bell",
+        // T
+        "Tom Stall", "Tony Montana", "Tony Soprano", "Tyler Durden",
+        // V
+        "Vincent Vega", "Virginia Hill",
+        // W
+        "William Kidd",
+        // Z
+        "Zoro Roronoa",
+    ],
+    "spy": [
+        // A
+        "Agent 99", "Agent Kay", "Aldrich Ames", "Andree Borrel",
+        "Ashraf Marwan", "Austin Millbarge", "Austin Powers",
+        // B
+        "Belle Boyd", "Bob Ho", "Boris Badenov",
+        // C
+        "Cody Banks",
+        // D
+        "Derek Flint", "Donald Maclean",
+        // E
+        "Eileen Nearne", "Emily Pollifax", "Emma Peel", "Emmett Fitz-Hume",
+        "Ethan Hunt", "Ethel Rosenberg",
+        // F
+        "Felix Leiter", "Francis Walsingham", "Frederick Joubert Duquesne",
+        // G
+        "George Koval", "George Reginald Starr", "George Smiley",
+        "Giacomo Casanova",
+        // H
+        "Harry Hart", "Harry Tasker", "Herbert Philbrick",
+        // I
+        "Ian Fleming", "Illya Kuryakin",
+        // J
+        "Jack Bauer", "Jack Ryan", "James Armistead Lafayette", "James Bond",
+        "Jane Blonde", "Jane Smith", "Jason Bourne", "John André", "John Drake",
+        "John Steed", "John Vassall", "Johnny English", "Joseph Turner",
+        "Julius Rosenberg",
+        // K
+        "Kim Philby", "Klaus Fuchs", "Krystyna Skarbek",
+        // L
+        "Lafayette C. Baker",
+        // M
+        "Markus Wolf", "Mata Hari", "Maxwell Smart", "Michael Westen",
+        // N
+        "Napoleon Solo", "Natasha Fatale", "Nathan D. Muir", "Noor Inayat Khan",
+        // O
+        "Odette Hallowes", "Oleg Gordievsky",
+        // P
+        "Peggy Shippen", "Perry the Platypus",
+        // R
+        "Ralph McGehee", "Richard Sorge",
+        // S
+        "Sarah Walker", "Savitri Devi", "Secret Squirrel", "Severus Snape",
+        "Shi Pei Pu", "Simon Templar", "Sterling Archer", "Sydney Bristow",
+        // T
+        "Tara King", "Tom Bishop",
+        // V
+        "Violette Szabo", "Virginia Hall",
+        // W
+        "William Brandt", "William Stephenson",
+        // X
+        "Xander Cage",
+        // Y
+        "Yelena Belova", "Yisrael Bar",
+    ],
+    "thief": [
+        // A
+        "Adam Worth", "Alan Golder", "Albert Spaggiari",
+        // B
+        "Belle Starr", "Bender Bending Rodríguez", "Bill Mason",
+        "Butch Cassidy",
+        // C
+        "Carl Gugasian", "Carmen Sandiego", "Catwoman", "Charles Peace",
+        "Colton Harris-Moore",
+        // D
+        "Danny Ocean", "David Brankle", "Derek Creighton Smalls",
+        "Dinner Set Gang", "Doris Marie Payne",
+        // F
+        "Fagin", "Forty Elephants Gang", "Francois Villon",
+        "Frank Abagnale, Jr.",
+        // H
+        "Hans Gruber",
+        // I
+        "Irene Adler", "Ishikawa Goemon",
+        // J
+        "Jackie Brown", "Jeanne de Valois-Saint-Remy", "Jesse James",
+        "Jesse Woodson James", "John Herbert Dillinger", "Jonathan Wild",
+        // K
+        "Kenny Kimes", "Keyser Söze", "Koose Munisamy Veerappan",
+        // L
+        "Lara Croft", "Lester Joseph Gillis",
+        // M
+        "Mary Frith", "Mithilesh Kumar Srivastava",
+        // N
+        "Neal Caffrey", "Neil McCauley",
+        // P
+        "Prometheus",
+        // R
+        "Richard Turpin", "Robert LeRoy Parker", "Robin Hood",
+        // S
+        "Sante Singhrs", "Scott Lang", "Snake Jailbird",
+        "Sofia Ivanovna Blyuvshtein", "Starlet Bandit", "Stephen Blumberg",
+        // V
+        "Vincenzo Peruggia", "Vincenzo Pipino",
+    ],
+    "traitor": [
+        // A
+        "Alfred Redl", "Alan Nunn May", "Andrey Vlasov",
+        // B
+        "Benedict Arnold", "Briony Tallis",
+        // C
+        "Charles Trask", "Charlie Kahn",
+        // D
+        "Doña Marina",
+        // E
+        "Edmund Pevensie", "Emilio Aguinaldo", "Ephialtes of Trachis",
+        // F
+        "Fernand Mondego", "Fredo Corleone",
+        // G
+        "Gaius Cassius Longinus", "Gollum",
+        // I
+        "Iago",
+        // J
+        "Jaime Lannister", "Ji Ben", "Judas Iscariot",
+        // L
+        "Lu Bu",
+        // M
+        "Marcus Junius Brutus", "Marvelous Chester", "Maven Calore",
+        "Mir Jafar", "Mordechai Vanunu",
+        // P
+        "Petrus of Thorolund", "Pierre Laval", "Philippe Petain",
+        // Q
+        "Qin Hui",
+        // S
+        "Sidney Reilly", "Stella Kubler",
+        // T
+        "Trusty Patches",
+        // V
+        "Vidkun Quisling",
+        // W
+        "Wang Jingwei", "Winston Smith",
+    ],
+    "vanguard": [
+        // A
+        "Achilles", "Akbar", "Alaric the Visigoth", "Alexander the Great",
+        "Amina Sukhera", "Anita Garibaldi", "Aqualtune", "Aragorn", "Arawelo",
+        "Arjuna", "Arminius", "Artemisia of Caria", "Asterix", "Asuna Yuuki",
+        "Attila the Hun",
+        // B
+        "Babur", "Basil the Bulgar-Slayer", "Bhima", "Bjorn Ironside",
+        "Boudicca",
+        // C
+        "Chen Jinnan", "Cnut the Great", "Colestah", "Constantine the Great",
+        "Count Roland", "Cynane", "Cyrus the Great",
+        // D
+        "Douglas Haig", "Duke of Wellington",
+        // E
+        "Egil Skallagrimsson", "Eric Bloodaxe", "Erik the Red",
+        // F
+        "Fu Hao",
+        // G
+        "Galvarino", "Genghis Khan", "George Washington", "Gunnar Hamundarson",
+        "Guts",
+        // H
+        "Hannibal Barca", "Harald Hardrada", "Hatshepsut", "Hattori Hanzo",
+        "Hector", "Horatius Cocles",
+        // I
+        "Isshin",
+        // J
+        "Joan of Arc", "Julius Caesar",
+        // K
+        "Kahina", "Khutulun", "King Alfred", "King Arthur", "Knight Artorias",
+        // L
+        "Lady Trieu", "Leif Erikson", "Leonidas of Sparta", "Lord Nelson",
+        "Lozen",
+        // M
+        "Maria Quiteria", "Maximus Decimus Meridius", "Miltiades",
+        "Miyamoto Musashi",
+        // N
+        "Nakano Takeko", "Napoleon Bonaparte", "Nat Turner",
+        // O
+        "Obelix", "Oda Nobunaga", "Olympias",
+        // P
+        "Peter the Great", "Pyrrhus of Epirus",
+        // R
+        "Ragnor Lodbrok", "Richard the Lionheart", "Rollo of Normandy",
+        // S
+        "Saladin", "Sam Sharpe", "Sambhaji Bhosale", "Scathach",
+        "Scipio Africanus", "Siegward of Catarina", "Simon Bolivar", "Sirris",
+        "Sitting Bull", "Slave Knight Gael", "Solaire of Astora", "Sparethra",
+        "Spartacus", "Sun Tzu",
+        // T
+        "T. E. Lawrence", "Teuta", "Tokugawa Ieyasu", "Tomoe Gozen", "Tomyris",
+        "Toyotomi Hideyoshi",
+        // U
+        "Uesugi Kenshin",
+        // V
+        "Vlad the Impaler", "Vercingetorix",
+        // W
+        "William the Conqueror", "William Wallace",
+        // X
+        "Xiahou Dun",
+        // Y
+        "Yue Fei", "Yuria of Londor",
+        // Z
+        "Zenobia", "Zheng Yi Sao",
+    ],
 };
 
 /**

@@ -17,8 +17,14 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_t, gangster_name, task, task_t, vehicle,
-    weapon
+    armour,
+    gang_aug_crime,
+    gang_t,
+    gangster_t,
+    task,
+    task_t,
+    vehicle,
+    weapon,
 } from "/lib/constant/gang.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
@@ -30,10 +36,6 @@ import { assert } from "/lib/util.js";
  */
 export class Gangster {
     /**
-     * An array of names.  Assign one of these names to a new gang member.
-     */
-    #name;
-    /**
      * The Netscript API.
      */
     #ns;
@@ -44,7 +46,6 @@ export class Gangster {
      * @param ns The Netscript API.
      */
     constructor(ns) {
-        this.#name = Array.from(gangster_name);
         this.#ns = ns;
     }
 
@@ -354,7 +355,9 @@ export class Gangster {
     /**
      * Whether the given name belongs to a member of our gang.
      *
-     * @param name A string representing the name of a gang member.
+     * @param name A string representing the name of a gang member.  A member's
+     *     name should be prefixed with their role, according to the format:
+     *     "[Role] Full Name".
      * @return true if our gang has the specified member; false otherwise.
      */
     is_member(name) {
@@ -490,34 +493,92 @@ export class Gangster {
 
     /**
      * A random name with which to assign a new gang member.
+     *
+     * @param name An array of potential names for our new recruit.  Use this
+     *     array to randomly choose a name for our new member.
+     * @return A string representing the name of our newest member.
      */
-    #random_name() {
+    #random_name(name) {
+        assert(name.length > 0);
         const min = 0;
-        const max = this.#name.length - 1;
+        const max = name.length - 1;
         const i = random_integer(min, max);
-        return this.#name[i];
+        return name[i];
     }
 
     /**
      * Recruit as many new gang members as possible.  There is a maximum to how
-     * many members can be in our gang.
+     * many members can be in our gang.  We want our gang to have the following
+     * structure:
+     *
+     * (1) Artillery x 1.  A gun expert and ranged fighter.  Good with bow and
+     *     arrows, or missiles.
+     * (2) Hacker x 1.  The computer wizard.
+     * (3) Medic x 1.  This is our doctor.
+     * (4) Pilot x 1.  Air support from a helicopter, drone, or aeroplane.
+     * (5) Punk x n.  Low level soldiers who rake in money for the gang by
+     *     committing various crimes.  As many as we can recruit.
+     * (6) Spy x 1.  An expert in espionage and reconnaisance.
+     * (7) Thief x 1.  Someone who steals treasure.  A sneak.
+     * (8) Traitor x 1.  Someone who would likely betray the gang.
+     * (9) Vanguard x 1.  Our frontliner and tank.
      *
      * @return An array of the names of the new recruits.  Return an empty
      *     array if we cannot recruit any new members.
      */
     recruit() {
-        const member = new Set(this.#ns.gang.getMemberNames());
         const newbie = new Array();
+        const roster = this.#roster();
         while (this.#ns.gang.canRecruitMember()) {
-            let name = this.#random_name();
-            while (member.has(name)) {
-                name = this.#random_name();
+            let role = "";
+            if (roster.vanguard < gang_t.ROSTER.vanguard) {
+                role = "vanguard";
+            } else if (roster.hacker < gang_t.ROSTER.hacker) {
+                role = "hacker";
+            } else if (roster.punk < gang_t.ROSTER.punk) {
+                role = "punk";
+            } else if (roster.artillery < gang_t.ROSTER.artillery) {
+                role = "artillery";
+            } else if (roster.medic < gang_t.ROSTER.medic) {
+                role = "medic";
+            } else if (roster.pilot < gang_t.ROSTER.pilot) {
+                role = "pilot";
+            } else if (roster.spy < gang_t.ROSTER.spy) {
+                role = "spy";
+            } else if (roster.thief < gang_t.ROSTER.thief) {
+                role = "thief";
+            } else if (roster.traitor < gang_t.ROSTER.traitor) {
+                role = "traitor";
             }
-            assert(this.#ns.gang.recruitMember(name));
-            member.add(name);
+            assert("" != role);
+            // Capitalize the role.
+            const role_name = role[0].toUpperCase() + role.slice(1);
+            const name = this.#recruit_member(gangster_t[role], role_name);
+            roster[role]++;
             newbie.push(name);
         }
         return newbie;
+    }
+
+    /**
+     * Recruit a member to our gang.  Assume that we can recruit.
+     *
+     * @param name An array of potential names for our new recruit.  Choose a
+     *     random name from this array.
+     * @param role A string representing the role of our new recruit.
+     * @return A string representing the role and name of our new member.
+     *     Follow the format "[Role] Full Name".
+     */
+    #recruit_member(name, role) {
+        assert(this.#ns.gang.canRecruitMember());
+        assert(name.length > 0);
+        assert(role.length > 0);
+        let s = "[" + role + "] " + this.#random_name(name);
+        while (this.is_member(s)) {
+            s = "[" + role + "] " + this.#random_name(name);
+        }
+        assert(this.#ns.gang.recruitMember(s));
+        return s;
     }
 
     /**
@@ -539,6 +600,81 @@ export class Gangster {
                 assert(this.#ns.gang.setMemberTask(s, task.ROBBERY));
             }
         }
+    }
+
+    /**
+     * Our current gang members and their roles.
+     *
+     * @return An object as follows:
+     *
+     *     {
+     *         "artillery": number,
+     *         "hacker": number,
+     *         "medic": number,
+     *         "pilot": number,
+     *         "punk": number,
+     *         "spy": number,
+     *         "thief": number,
+     *         "traitor": number,
+     *         "vanguard": number,
+     *     }
+     *
+     *     Each number represents the number of members who hold the
+     *     corresponding role.
+     */
+    #roster() {
+        const member = {
+            "artillery": 0,
+            "hacker": 0,
+            "medic": 0,
+            "pilot": 0,
+            "punk": 0,
+            "spy": 0,
+            "thief": 0,
+            "traitor": 0,
+            "vanguard": 0,
+        };
+        // Assume the name of each member follows this format:
+        //
+        // [Role] Full Name
+        for (const name of this.#ns.gang.getMemberNames()) {
+            const prefix = name.split(" ")[0];
+            switch (prefix) {
+                case "[Artillery]":
+                    member.artillery++;
+                    break;
+                case "[Hacker]":
+                    member.hacker++;
+                    break;
+                case "[Medic]":
+                    member.medic++;
+                    break;
+                case "[Pilot]":
+                    member.pilot++;
+                    break;
+                case "[Punk]":
+                    member.punk++;
+                    break;
+                case "[Spy]":
+                    member.spy++;
+                    break;
+                case "[Thief]":
+                    member.thief++;
+                    break;
+                case "[Traitor]":
+                    member.traitor++;
+                    break;
+                case "[Vanguard]":
+                    member.vanguard++;
+                    break;
+                default:
+                    // Something is wrong.  We should have one of the above
+                    // roles.
+                    assert(false);
+                    break;
+            }
+        }
+        return member;
     }
 
     /**
