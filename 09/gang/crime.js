@@ -17,12 +17,21 @@
 
 import { bool } from "/lib/constant/bool.js";
 import {
-    armour, gang_aug_crime, gang_t, members, penalty_t, task_t, vehicle,
-    weapon
+    armour,
+    gang_aug_crime,
+    gang_t,
+    members,
+    penalty_t,
+    task_t,
+    vehicle,
+    weapon,
 } from "/lib/constant/gang.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Gangster } from "/lib/gang/gangster.js";
-import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
+import {
+    reassign_vigilante,
+    strongest_member,
+} from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
