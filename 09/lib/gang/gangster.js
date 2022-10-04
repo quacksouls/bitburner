@@ -434,7 +434,7 @@ export class Gangster {
      * Whether a gang member is engaged in turf warfare.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member is enage in turf warfare;
+     * @return true if the given member is engaged in turf warfare;
      *     false otherwise.
      */
     is_warrior(name) {
@@ -518,7 +518,7 @@ export class Gangster {
      * (4) Pilot x 1.  Air support from a helicopter, drone, or aeroplane.
      * (5) Punk x n.  Low level soldiers who rake in money for the gang by
      *     committing various crimes.  As many as we can recruit.
-     * (6) Spy x 1.  An expert in espionage and reconnaisance.
+     * (6) Spy x 1.  An expert in espionage and reconnaissance.
      * (7) Thief x 1.  Someone who steals treasure.  A sneak.
      * (8) Traitor x 1.  Someone who would likely betray the gang.
      * (9) Vanguard x 1.  Our frontliner and tank.
