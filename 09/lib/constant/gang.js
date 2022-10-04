@@ -135,7 +135,7 @@ export const gang_t = {
  * (4) Pilot.  Air support from a helicopter, drone, or aeroplane.
  * (5) Punk.  Low level soldiers who rake in money for the gang by committing
  *     various crimes.
- * (6) Spy.  An expert in espionage and reconnaisance.
+ * (6) Spy.  An expert in espionage and reconnaissance.
  * (7) Thief.  Someone who steals treasure.  A sneak.
  * (8) Traitor.  Someone who would likely betray the gang.
  * (9) Vanguard.  Our frontliner and tank.
