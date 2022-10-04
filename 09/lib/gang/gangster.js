@@ -421,7 +421,7 @@ export class Gangster {
      * Whether a gang member is engaged in vigilante justice.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member is enage in vigilante justice;
+     * @return true if the given member is engaged in vigilante justice;
      *     false otherwise.
      */
     is_vigilante(name) {
