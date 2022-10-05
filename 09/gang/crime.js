@@ -209,22 +209,11 @@ function equip(ns) {
  * @param ns The Netscript API.
  */
 function graduate(ns) {
-    const member = new Array();
+    const member = ns.gang.getMemberNames();
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (!gangster.is_training(s)) {
-            continue;
-        }
-        if (
-            (gangster.strength(s) >= task_t.COMBAT)
-                && (gangster.defense(s) >= task_t.COMBAT)
-                && (gangster.dexterity(s) >= task_t.COMBAT)
-                && (gangster.agility(s) >= task_t.COMBAT)
-        ) {
-            member.push(s);
-        }
-    }
-    gangster.graduate(member, task_t.COMBAT);
+    gangster.graduate_combatant(member, task_t.COMBAT);
+    gangster.graduate_hacker(member, task_t.HACK);
+    gangster.graduate_other(member, task_t.CHARISMA);
 }
 
 /**

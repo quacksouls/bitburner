@@ -98,6 +98,38 @@ export class Gangster {
     }
 
     /**
+     * The Charisma stat of a gang member.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return The Charisma stat of the given member.
+     */
+    charisma(name) {
+        assert(this.is_member(name));
+        return this.#ns.gang.getMemberInformation(name).cha;
+    }
+
+    /**
+     * Assign gang members to deal drugs.
+     *
+     * @param name An array of member names.
+     */
+    deal_drugs(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members be involved in dealing drugs.
+        for (const s of name) {
+            if (!this.is_dealing_drugs(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.DRUGS));
+            }
+        }
+    }
+
+    /**
      * The Defense stat of a gang member.
      *
      * @param name A string representing the name of a gang member.
@@ -221,15 +253,15 @@ export class Gangster {
     }
 
     /**
-     * Graduate each gang member and assign them to mug random people.
+     * Graduate gang members who have been training their combat stats.  Assign
+     * them to mug random people.
      *
      * @param name An array each of whose elements is a string that represents
-     *     a member name.  These members are currently in training and we want
-     *     to graduate them.
-     * @param threshold A gang member transitions to mugging once each of their
+     *     a member name.
+     * @param threshold A combatant transitions to mugging once each of their
      *     combat stats is at least this amount.
      */
-    graduate(name, threshold) {
+    graduate_combatant(name, threshold) {
         // Sanity checks.
         if (0 == name.length) {
             return;
@@ -239,22 +271,114 @@ export class Gangster {
         );
         const min = Math.floor(threshold);
         assert(min > 0);
-        // After training, graduate to mugging random people.
-        const graduate = new Array();
-        for (const s of name) {
-            if (!this.is_training(s)) {
-                continue;
-            }
-            if (
-                (this.strength(s) >= min)
-                    && (this.defense(s) >= min)
-                    && (this.dexterity(s) >= min)
-                    && (this.agility(s) >= min)
-            ) {
-                graduate.push(s);
-            }
-        }
+        // After training their combat stats, members graduate to mugging
+        // random people.
+        const combatant = name.filter(s => this.is_combatant(s));
+        const graduate = combatant.filter(
+            s => this.is_training_combat(s)
+                && (this.strength(s) >= min)
+                && (this.defense(s) >= min)
+                && (this.dexterity(s) >= min)
+                && (this.agility(s) >= min)
+        );
         this.mug(graduate);
+    }
+
+    /**
+     * Graduate gang members who have been training their Hack stat.  Although
+     * hackers primarily train their Hack stat, they could also benefit from
+     * some training in their Charisma stat.  After a hacker has trained their
+     * Hack and Charisma stats, assign them their first job of creating and
+     * distributing ransomware.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.
+     * @param threshold A hacker transitions to ransomware once their Hack stat
+     *     is at least this amount.  The transition is also affected by their
+     *     Charisma stat.  If they do not have sufficient Charisma, they must
+     *     train their Charisma stat before being assigned their first job.
+     */
+    graduate_hacker(name, threshold) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        const min = Math.floor(threshold);
+        assert(min > 0);
+        // After training their Hack stat, a hacker also trains their Charisma
+        // stat.
+        const hacker = name.filter(s => this.is_hacker(s));
+        const hack_graduate = hacker.filter(
+            s => this.is_training_hack(s)
+                && (this.hack(s) >= min)
+        );
+        this.train_charisma(hack_graduate);
+        // Once a hacker's Hack and Charisma stats are of minimum amounts,
+        // assign them their first job.
+        const charisma_graduate = hacker.filter(
+            s => this.is_training_charisma(s)
+                && (this.charisma(s) >= task_t.CHARISMA)
+        );
+        this.ransomware(charisma_graduate);
+    }
+
+    /**
+     * Graduate miscellaneous members who have been training their Charisma
+     * stat.  Although miscellaneous members primarily train their Charisma
+     * stat, they could also benefit from some training in their combat stats.
+     * After a miscellaneous member has trained their Charisma and combat stats,
+     * assign them their first job of dealing drugs.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.
+     * @param threshold A miscellaneous member transitions to dealing drugs
+     *     once their Charisma stat is at least this amount.  The transition is
+     *     also affected by their combat stats.  If they do not have sufficient
+     *     combat stats, they must train their combat stats before being
+     *     assigned their first job.
+     */
+    graduate_other(name, threshold) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        const min = Math.floor(threshold);
+        assert(min > 0);
+        // After training their Charisma stat, a miscellaneous member also
+        // trains their combat stats.
+        const graduate = name.filter(s => this.is_miscellaneous(s));
+        const charisma_graduate = graduate.filter(
+            s => this.is_training_charisma(s)
+                && (this.charisma(s) >= min)
+        );
+        this.train_combat(charisma_graduate);
+        // Once the Charisma and combat stats of a miscellaneous member are of
+        // minimum amounts, assign them their first job.
+        const combat_graduate = graduate.filter(
+            s => this.is_training_combat(s)
+                && (this.strength(s) >= task_t.COMBAT)
+                && (this.defense(s) >= task_t.COMBAT)
+                && (this.dexterity(s) >= task_t.COMBAT)
+                && (this.agility(s) >= task_t.COMBAT)
+        );
+        this.deal_drugs(combat_graduate);
+    }
+
+    /**
+     * The Hack stat of a gang member.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return The Hack stat of the given member.
+     */
+    hack(name) {
+        assert(this.is_member(name));
+        return this.#ns.gang.getMemberInformation(name).hack;
     }
 
     /**
@@ -359,6 +483,31 @@ export class Gangster {
             || (role == members.ROLE.pilot)
             || (role == members.ROLE.punk)
             || (role == members.ROLE.vanguard);
+    }
+
+    /**
+     * Whether a gang member is creating and distributing ransomware.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is involved in the creation and
+     *     distribution of ransomware; false otherwise.
+     */
+    is_creating_ransomware(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.RANSOMWARE == current_task;
+    }
+
+    /**
+     * Whether a gang member is involved in dealing drugs.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is dealing drugs; false otherwise.
+     */
+    is_dealing_drugs(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.DRUGS == current_task;
     }
 
     /**
@@ -597,6 +746,27 @@ export class Gangster {
         const max = name.length - 1;
         const i = random_integer(min, max);
         return name[i];
+    }
+
+    /**
+     * Assign gang members to create and distribute ransomware.
+     *
+     * @param name An array of member names.
+     */
+    ransomware(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members create and distribute ransomware.
+        for (const s of name) {
+            if (!this.is_creating_ransomware(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.RANSOMWARE));
+            }
+        }
     }
 
     /**
@@ -862,7 +1032,7 @@ export class Gangster {
         );
         // Charisma training.
         for (const s of name) {
-            if (this.is_training(s)) {
+            if (this.is_training_charisma(s)) {
                 continue;
             }
             assert(this.#ns.gang.setMemberTask(s, task.CHARISMA));
@@ -886,7 +1056,7 @@ export class Gangster {
         );
         // Combat training.
         for (const s of name) {
-            if (this.is_training(s)) {
+            if (this.is_training_combat(s)) {
                 continue;
             }
             assert(this.#ns.gang.setMemberTask(s, task.COMBAT));
@@ -910,7 +1080,7 @@ export class Gangster {
         );
         // Hack training.
         for (const s of name) {
-            if (this.is_training(s)) {
+            if (this.is_training_hack(s)) {
                 continue;
             }
             assert(this.#ns.gang.setMemberTask(s, task.HACK));

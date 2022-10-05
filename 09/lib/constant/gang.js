@@ -816,31 +816,28 @@ export const task = {
  * Stat thresholds related to various tasks.
  */
 export const task_t = {
-    // The minimum threshold for the combat stats that any new recruit must
-    // attain.  Each new recruit is immediately assigned to train their combat
-    // stats.  They graduate out of training after their combat stats are at
-    // least this threshold.
+    // The minimum threshold for the Charisma stat that a new recruit must attain.  A new recruit might be assigned to
+    // train their Charisma.  They graduate out of Charisma training after their Charisma stat is at least this number.
+    "CHARISMA": 15,
+    // The minimum threshold for the combat stats that a new recruit must attain.  A new recruit might be assigned to train
+    // their combat stats.  They graduate out of combat training after their combat stats are at least this threshold.
     "COMBAT": 15,
-    // The minimum threshold on a combat stat at which a gang member is to be
-    // assigned to strongarm civilians.  For example, if a member has Strength
-    // at least this number, then we might want to re-assign the member to
-    // strongarm civilians.
+    // The minimum threshold on a combat stat at which a gang member might be assigned to strongarm civilians.  For example,
+    // if a member has Strength at least this number, then we might want to re-assign the member to strongarm civilians.
     "EXTORT": 50,
-    // The minimum threshold on a combat stat at which a gang member is to be
-    // assigned to armed robbery.  For example, if a member has Strength at
-    // least this number, then we might want to re-assign the member to armed
-    // robbery.
+    // The minimum threshold for the Hack stat that a new recruit must attain.  A new recruit might be assigned to train
+    // their Hack stat.  They graduate out of Hack training once their Hack stat is at least this number.
+    "HACK": 15,
+    // The minimum threshold on a combat stat at which a gang member might be assigned to armed robbery.  For example, if a
+    // member has Strength at least this number, then we might want to re-assign the member to armed robbery.
     "ROBBERY": 200,
-    // The minimum threshold on a combat stat at which a gang member is to be
-    // assigned to acts of terrorism.  For example, if a member has Strength at
-    // least this number, then we might want to re-assign the member to commit
-    // acts of terrorism.
+    // The minimum threshold on a combat stat at which a gang member might be assigned to acts of terrorism.  For example,
+    // if a member has Strength at least this number, then we might want to re-assign the member to commit acts of terrorism.
     "TERROR": 400,
-    // The minimum threshold on a combat stat at which a gang member is to be
-    // assigned to trafficking illegal arms.  For example, if a member has
-    // Strength at least this number, then we might want to re-assign the
-    // member to trafficking illegal arms.
-    "TRAFFICK": 300
+    // The minimum threshold on a combat stat at which a gang member might be assigned to trafficking illegal arms.  For
+    // example, if a member has Strength at least this number, then we might want to re-assign the member to trafficking
+    // illegal arms.
+    "TRAFFICK": 300,
 };
 
 /**
