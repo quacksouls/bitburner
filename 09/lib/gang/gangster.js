@@ -720,13 +720,23 @@ export class Gangster {
     }
 
     /**
-     * Whether a gang member needs combat training.
-     *
+     * Whether a gang member needs to train their Charisma stat.
+     * 
      * @param name A string representing the name of a gang member.
-     * @return true if the given member needs combat training;
-     *     false otherwise.
+     * @return true if the given member needs Charisma training; false otherwise.
      */
-    needs_training(name) {
+    needs_charisma_training(name) {
+        assert(this.is_member(name));
+        return this.charisma(name) < task_t.CHARISMA;
+    }
+
+    /**
+     * Whether a gang member needs to train their combat stats.
+     * 
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member needs combat training; false otherwise.
+     */
+    needs_combat_training(name) {
         assert(this.is_member(name));
         if (
             (this.strength(name) < task_t.COMBAT)
@@ -737,6 +747,35 @@ export class Gangster {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Whether a gang member needs to train their Hack stat.
+     * 
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member needs Hack training; false otherwise.
+     */
+    needs_hack_training(name) {
+        assert(this.is_member(name));
+        return this.hack(name) < task_t.HACK;
+    }
+
+    /**
+     * Whether a gang member needs training in various stats.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member needs training in one or more stats; false otherwise.
+     */
+    needs_training(name) {
+        assert(this.is_member(name));
+        if (this.is_combatant(name)) {
+            return this.needs_combat_training(name);
+        }
+        if (this.is_hacker(name)) {
+            return this.needs_hack_training(name) || this.needs_charisma_training(name);
+        }
+        assert(this.is_miscellaneous(name));
+        return this.needs_charisma_training(name) || this.needs_combat_training(name);
     }
 
     /**

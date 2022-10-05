@@ -586,19 +586,16 @@ function recruit(ns) {
 }
 
 /**
- * Train the combat stats of other members as necessary.
+ * Retrain the stats of gang members as necessary.
  *
  * @param ns The Netscript API.
  */
 function retrain(ns) {
-    const member = new Array();
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.needs_training(s)) {
-            member.push(s);
-        }
-    }
-    gangster.train_combat(member);
+    const member = ns.gang.getMemberNames().filter(
+        s => gangster.needs_training(s)
+    );
+    gangster.train(member);
 }
 
 /**
