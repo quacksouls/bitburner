@@ -34,11 +34,11 @@ import { assert } from "/lib/util.js";
  * an invitation:
  *
  * (1) Must be a CTO, CFO, or CEO of a company.  An easy way to meet this
- *     requirement is to work our way up within a company.  Choose Megacorp in
+ *     requirement is to work our way up within a company.  Choose MegaCorp in
  *     Sector-12.  Have at least 250 Hack.  Work a software job to raise our
  *     Charisma to at least 250.  Then apply for a business job.  Work the job
  *     and after a while apply for a promotion.  Rinse and repeat until we
- *     reach the level of CFO.  The promotion chain at Megacorp is: Business
+ *     reach the level of CFO.  The promotion chain at MegaCorp is: Business
  *     Intern, Business Manager, Operations Manager, Chief Financial Officer,
  *     Chief Executive Officer.  We stop at CFO of MegaCorp because we do not
  *     want to spend any more time on becoming CEO of the company.
