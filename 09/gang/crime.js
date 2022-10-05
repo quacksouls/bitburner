@@ -228,6 +228,22 @@ function has_all_turf(ns) {
 }
 
 /**
+ * Whether any of our gang members are currently engaged in ethical hacking.
+ *
+ * @param ns The Netscript API.
+ * @return true if at least one gang member is currently assigned to ethical hacking; false otherwise.
+ */
+function has_ethical_hacker(ns) {
+    const gangster = new Gangster(ns);
+    for (const s of ns.gang.getMemberNames()) {
+        if (gangster.is_ethical_hacker(s)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Whether we have the maximum number of members in our gang.
  *
  * @param ns The Netscript API.
@@ -592,8 +608,8 @@ function retrain(ns) {
  */
 function update(ns) {
     recruit(ns);
-    // Do we have anyone on vigilante justice?
-    if (has_vigilante(ns)) {
+    // Do we have anyone on vigilante justice or ethical hacking?
+    if (has_vigilante(ns) || has_ethical_hacker(ns)) {
         if (penalty(ns) < penalty_t.LOW) {
             reassign(ns);
             return;

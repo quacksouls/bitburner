@@ -511,6 +511,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is engaged in ethical hacking.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is engaged in ethical hacking;
+     *     false otherwise.
+     */
+    is_ethical_hacker(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.EHACK == current_task;
+    }
+
+    /**
      * Whether a gang member is strongarming civilians.
      *
      * @param name A string representing the name of a gang member.
