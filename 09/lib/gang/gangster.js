@@ -407,15 +407,18 @@ export class Gangster {
     }
 
     /**
-     * Whether a gang member is in combat training.
+     * Whether a gang member is in combat, charisma, or hack training.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member is in combat training; false otherwise.
+     * @return true if the given member is in combat, charisma, or hack
+     *     training; false otherwise.
      */
     is_training(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.COMBAT == current_task;
+        return (task.COMBAT == current_task)
+            || (task.CHARISMA == current_task)
+            || (task.HACK == current_task);
     }
 
     /**
@@ -715,6 +718,75 @@ export class Gangster {
     }
 
     /**
+     * Train one or more stats of a gang member.  The type of stats to train
+     * depends on the role of a member.
+     *
+     * (1) Artillery, Pilot, Punk, Vanguard.  These roles specialize
+     *     exclusively in combat stats.  Any gains in Hack or Charisma are
+     *     incidental.
+     * (2) Hacker.  This role focuses mostly on Hack stat, but also benefits
+     *     from some investment in Charisma.
+     * (3) Medic, Spy, Thief, Traitor.  These roles are primarily
+     *     Charisma-based, but could benefit from some training in combat stats.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.  Each name follows the format "[Role] Full Name".  We
+     *     want to raise various stats of each of these members.
+     */
+    train(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Train various stats.  All roles, except for Hacker, first require
+        // training in combat stats.  The amount of time a member spends to
+        // train their combat stats depends on their role.
+        const hacker = name.filter(s => this.#role(s) == members.ROLE.hacker);
+        const combatant = name.filter(
+            s => (this.#role(s) == members.ROLE.artillery)
+                || (this.#role(s) == members.ROLE.pilot)
+                || (this.#role(s) == members.ROLE.punk)
+                || (this.#role(s) == members.ROLE.vanguard)
+        );
+        const other = name.filter(
+            s => (this.#role(s) == members.ROLE.medic)
+                || (this.#role(s) == members.ROLE.spy)
+                || (this.#role(s) == members.ROLE.thief)
+                || (this.#role(s) == members.ROLE.traitor)
+        );
+        this.train_combat(combatant);
+        this.train_hack(hacker);
+        this.train_charisma(other);
+    }
+
+    /**
+     * Raise the Charisma stat of gang members.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.  We want to raise the Charisma stat of each of these
+     *     members.
+     */
+    train_charisma(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Charisma training.
+        for (const s of name) {
+            if (this.is_training(s)) {
+                continue;
+            }
+            assert(this.#ns.gang.setMemberTask(s, task.CHARISMA));
+        }
+    }
+
+    /**
      * Raise the combat stats of gang members.
      *
      * @param name An array each of whose elements is a string that represents
@@ -735,6 +807,30 @@ export class Gangster {
                 continue;
             }
             assert(this.#ns.gang.setMemberTask(s, task.COMBAT));
+        }
+    }
+
+    /**
+     * Raise the Hack stat of gang members.
+     *
+     * @param name An array each of whose elements is a string that represents
+     *     a member name.  We want to raise the Hack stat of each of these
+     *     members.
+     */
+    train_hack(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Hack training.
+        for (const s of name) {
+            if (this.is_training(s)) {
+                continue;
+            }
+            assert(this.#ns.gang.setMemberTask(s, task.HACK));
         }
     }
 

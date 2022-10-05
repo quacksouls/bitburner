@@ -568,7 +568,7 @@ function reassign_trafficking(ns, min, max) {
 
 /**
  * Recruit as many new members as possible.  Set the newbies to train their
- * combat stats.
+ * various stats.
  *
  * @param ns The Netscript API.
  */
@@ -576,7 +576,7 @@ function recruit(ns) {
     const gangster = new Gangster(ns);
     if (ns.gang.getMemberNames().length < members.MAX) {
         const newbie = gangster.recruit();
-        gangster.train_combat(newbie);
+        gangster.train(newbie);
     }
 }
 
