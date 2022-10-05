@@ -206,8 +206,8 @@ function equip(ns) {
  * Once a new member has completed their training, graduate and assign them
  * their first job.
  *
- @param ns The Netscript API.
-*/
+ * @param ns The Netscript API.
+ */
 function graduate(ns) {
     const member = new Array();
     const gangster = new Gangster(ns);
