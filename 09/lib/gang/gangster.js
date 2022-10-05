@@ -468,11 +468,46 @@ export class Gangster {
      *     training; false otherwise.
      */
     is_training(name) {
+        return this.is_training_charisma(name)
+            || this.is_training_combat(name)
+            || this.is_training_hack(name);
+    }
+
+    /**
+     * Whether a gang member is in charisma training.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is in charisma training;
+     *     false otherwise.
+     */
+    is_training_charisma(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return (task.COMBAT == current_task)
-            || (task.CHARISMA == current_task)
-            || (task.HACK == current_task);
+        return task.CHARISMA == current_task;
+    }
+
+    /**
+     * Whether a gang member is in combat training.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is in combat training; false otherwise.
+     */
+    is_training_combat(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.COMBAT == current_task;
+    }
+
+    /**
+     * Whether a gang member is in hack training.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is in hack training; false otherwise.
+     */
+    is_training_hack(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.HACK == current_task;
     }
 
     /**
