@@ -23,10 +23,17 @@ import { job_area } from "/lib/constant/work.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";
 import {
-    join_faction, raise_combat_stats, raise_hack, work_for_faction
+    join_faction,
+    raise_combat_stats,
+    raise_hack,
+    work_for_faction,
 } from "/lib/singularity/faction.js";
 import { visit_city } from "/lib/singularity/network.js";
-import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
+import {
+    raise_charisma,
+    rise_to_cfo,
+    work,
+} from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**
