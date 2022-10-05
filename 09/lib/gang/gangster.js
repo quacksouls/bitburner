@@ -603,6 +603,22 @@ export class Gangster {
     }
 
     /**
+     * The role of a gang member.  The name of a member follows the format:
+     *
+     * [Role] Full Name
+     *
+     * We can easily extract the role from this format.
+     *
+     * @param name A string representing the name of a gangster.
+     * @return The role of the given gang member.
+     */
+    #role(name) {
+        assert(this.is_member(name));
+        const prefix = name.split(" ")[0];
+        return prefix.replace(/[^a-zA-Z]/g, "");
+    }
+
+    /**
      * Our current gang members and their roles.
      *
      * @return An object as follows:
@@ -638,41 +654,8 @@ export class Gangster {
         //
         // [Role] Full Name
         for (const name of this.#ns.gang.getMemberNames()) {
-            const prefix = name.split(" ")[0];
-            switch (prefix) {
-                case "[Artillery]":
-                    member.artillery++;
-                    break;
-                case "[Hacker]":
-                    member.hacker++;
-                    break;
-                case "[Medic]":
-                    member.medic++;
-                    break;
-                case "[Pilot]":
-                    member.pilot++;
-                    break;
-                case "[Punk]":
-                    member.punk++;
-                    break;
-                case "[Spy]":
-                    member.spy++;
-                    break;
-                case "[Thief]":
-                    member.thief++;
-                    break;
-                case "[Traitor]":
-                    member.traitor++;
-                    break;
-                case "[Vanguard]":
-                    member.vanguard++;
-                    break;
-                default:
-                    // Something is wrong.  We should have one of the above
-                    // roles.
-                    assert(false);
-                    break;
-            }
+            const role = this.#role(name).toLowerCase();
+            member[role]++;
         }
         return member;
     }
