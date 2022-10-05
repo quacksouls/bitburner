@@ -61,6 +61,18 @@ export const members = {
     //
     // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
     "MAX": 12,
+    // Various roles for members of our gang.
+    "ROLE": {
+        "artillery": "Artillery",
+        "hacker": "Hacker",
+        "medic": "Medic",
+        "pilot": "Pilot",
+        "punk": "Punk",
+        "spy": "Spy",
+        "thief": "Thief",
+        "traitor": "Traitor",
+        "vanguard": "Vanguard",
+    },
     // The maximum number of gang members to assign to Vigilante Justice.
     "VIGILANTE": 4,
     // The maximum number of gang members to assign to territory warfare.  This

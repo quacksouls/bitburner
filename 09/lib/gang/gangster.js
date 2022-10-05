@@ -21,6 +21,7 @@ import {
     gang_aug_crime,
     gang_t,
     gangster_t,
+    members,
     task,
     task_t,
     vehicle,
@@ -532,29 +533,28 @@ export class Gangster {
         while (this.#ns.gang.canRecruitMember()) {
             let role = "";
             if (roster.vanguard < gang_t.ROSTER.vanguard) {
-                role = "vanguard";
+                role = members.ROLE.vanguard;
             } else if (roster.hacker < gang_t.ROSTER.hacker) {
-                role = "hacker";
+                role = members.ROLE.hacker;
             } else if (roster.punk < gang_t.ROSTER.punk) {
-                role = "punk";
+                role = members.ROLE.punk;
             } else if (roster.artillery < gang_t.ROSTER.artillery) {
-                role = "artillery";
+                role = members.ROLE.artillery;
             } else if (roster.medic < gang_t.ROSTER.medic) {
-                role = "medic";
+                role = members.ROLE.medic;
             } else if (roster.pilot < gang_t.ROSTER.pilot) {
-                role = "pilot";
+                role = members.ROLE.pilot;
             } else if (roster.spy < gang_t.ROSTER.spy) {
-                role = "spy";
+                role = members.ROLE.spy;
             } else if (roster.thief < gang_t.ROSTER.thief) {
-                role = "thief";
+                role = members.ROLE.thief;
             } else if (roster.traitor < gang_t.ROSTER.traitor) {
-                role = "traitor";
+                role = members.ROLE.traitor;
             }
             assert("" != role);
-            // Capitalize the role.
-            const role_name = role[0].toUpperCase() + role.slice(1);
-            const name = this.#recruit_member(gangster_t[role], role_name);
-            roster[role]++;
+            const role_lowercase = role.toLowerCase();
+            const name = this.#recruit_member(gangster_t[role_lowercase], role);
+            roster[role_lowercase]++;
             newbie.push(name);
         }
         return newbie;
