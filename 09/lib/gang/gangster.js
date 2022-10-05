@@ -524,8 +524,9 @@ export class Gangster {
      * (8) Traitor x 1.  Someone who would likely betray the gang.
      * (9) Vanguard x 1.  Our frontliner and tank.
      *
-     * @return An array of the names of the new recruits.  Return an empty
-     *     array if we cannot recruit any new members.
+     * @return An array of the names of the new recruits.  Each name follows
+     *     the format "[Role] Full Name".  Return an empty array if we cannot
+     *     recruit any new members.
      */
     recruit() {
         const newbie = new Array();
