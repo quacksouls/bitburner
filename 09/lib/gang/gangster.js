@@ -341,6 +341,27 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is a combatant.  A gangster is a combatant if they
+     * have been assigned one of these roles:
+     *
+     * (1) Artillery
+     * (2) Pilot
+     * (3) Punk
+     * (4) Vanguard
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is a combatant; false otherwise.
+     */
+    is_combatant(name) {
+        assert(this.is_member(name));
+        const role = this.#role(name);
+        return (role == members.ROLE.artillery)
+            || (role == members.ROLE.pilot)
+            || (role == members.ROLE.punk)
+            || (role == members.ROLE.vanguard);
+    }
+
+    /**
      * Whether a gang member is strongarming civilians.
      *
      * @param name A string representing the name of a gang member.
@@ -351,6 +372,18 @@ export class Gangster {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
         return task.EXTORT == current_task;
+    }
+
+    /**
+     * Whether a gang member is a hacker.  A gangster is a hacker if they have
+     * been assigned the role of Hacker.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is a hacker; false otherwise.
+     */
+    is_hacker(name) {
+        assert(this.is_member(name));
+        return this.#role(name) == members.ROLE.hacker;
     }
 
     /**
@@ -365,6 +398,27 @@ export class Gangster {
         assert(name.length > 0);
         const member = new Set(this.#ns.gang.getMemberNames());
         return member.has(name);
+    }
+
+    /**
+     * Whether a gang member holds one of the following miscellaneous roles:
+     *
+     * (1) Medic
+     * (2) Spy
+     * (3) Thief
+     * (4) Traitor
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member holds a miscellaneous role;
+     *     false otherwise.
+     */
+    is_miscellaneous(name) {
+        assert(this.is_member(name));
+        const role = this.#role(name);
+        return (role == members.ROLE.medic)
+            || (role == members.ROLE.spy)
+            || (role == members.ROLE.thief)
+            || (role == members.ROLE.traitor);
     }
 
     /**
@@ -741,21 +795,15 @@ export class Gangster {
         name.map(
             s => assert(this.is_member(s))
         );
-        // Train various stats.  All roles, except for Hacker, first require
-        // training in combat stats.  The amount of time a member spends to
-        // train their combat stats depends on their role.
-        const hacker = name.filter(s => this.#role(s) == members.ROLE.hacker);
-        const combatant = name.filter(
-            s => (this.#role(s) == members.ROLE.artillery)
-                || (this.#role(s) == members.ROLE.pilot)
-                || (this.#role(s) == members.ROLE.punk)
-                || (this.#role(s) == members.ROLE.vanguard)
-        );
-        const other = name.filter(
-            s => (this.#role(s) == members.ROLE.medic)
-                || (this.#role(s) == members.ROLE.spy)
-                || (this.#role(s) == members.ROLE.thief)
-                || (this.#role(s) == members.ROLE.traitor)
+        // Train various stats.  The stat(s) to train, and the amount of time
+        // spent in training, depend on a member's role.
+        const hacker = name.filter(s => this.is_hacker(s));
+        const combatant = name.filter(s => this.is_combatant(s));
+        const other = name.filter(s => this.is_miscellaneous(s));
+        assert(
+            (hacker.length > 0)
+                || (combatant.length > 0)
+                || (other.length > 0)
         );
         this.train_combat(combatant);
         this.train_hack(hacker);
