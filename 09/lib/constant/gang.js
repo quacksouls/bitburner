@@ -711,7 +711,7 @@ export const task = {
     // Money: yes
     // Respect: slight
     // Wanted: slight
-    "PHISHING": "Phishing",
+    "PHISH": "Phishing",
     // Set a gang member to create and distribute ransomware.
     // Gang: hacking
     // Money: yes
@@ -822,12 +822,22 @@ export const task_t = {
     // The minimum threshold for the combat stats that a new recruit must attain.  A new recruit might be assigned to train
     // their combat stats.  They graduate out of combat training after their combat stats are at least this threshold.
     "COMBAT": 15,
+    // The minimum Hack stat at which a gang member might be assigned to commit acts of cyberterrorism.
+    "CYBER_TERROR": 400,
     // The minimum threshold on a combat stat at which a gang member might be assigned to strongarm civilians.  For example,
     // if a member has Strength at least this number, then we might want to re-assign the member to strongarm civilians.
     "EXTORT": 50,
+    // The minimum Hack stat at which a gang member might be assigned to commit financial fraud and digital counterfeiting.
+    "FRAUD": 200,
     // The minimum threshold for the Hack stat that a new recruit must attain.  A new recruit might be assigned to train
     // their Hack stat.  They graduate out of Hack training once their Hack stat is at least this number.
     "HACK": 15,
+    // The minimum Hack stat at which a gang member might be assigned to identity theft.
+    "ID": 100,
+    // The minimum Hack stat at which a gang member might be assigned to launder money.
+    "LAUNDER": 300,
+    // The minimum Hack stat at which a gang member might be assigned to phishing scams.
+    "PHISH": 50,
     // The minimum threshold on a combat stat at which a gang member might be assigned to armed robbery.  For example, if a
     // member has Strength at least this number, then we might want to re-assign the member to armed robbery.
     "ROBBERY": 200,

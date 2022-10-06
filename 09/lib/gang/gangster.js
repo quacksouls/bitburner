@@ -253,6 +253,27 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to commit financial fraud and digital counterfeiting.
+     *
+     * @param name An array of member names.
+     */
+    fraud(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members commit financial fraud and digital counterfeiting.
+        for (const s of name) {
+            if (!this.is_fraudster(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.FRAUD));
+            }
+        }
+    }
+
+    /**
      * Graduate gang members who have been training their combat stats.  Assign
      * them to mug random people.
      *
@@ -452,6 +473,27 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to commit identity theft.
+     *
+     * @param name An array of member names.
+     */
+    id_theft(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members commit identity theft.
+        for (const s of name) {
+            if (!this.is_id_thief(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.ID_THEFT));
+            }
+        }
+    }
+
+    /**
      * Whether a gang member is engaged in trafficking illegal arms.
      *
      * @param name A string representing the name of a gang member.
@@ -537,6 +579,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is committing financial fraud and digital counterfeiting.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is committing financial fraud and digital counterfeiting;
+     *     false otherwise.
+     */
+    is_fraudster(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.FRAUD == current_task;
+    }
+
+    /**
      * Whether a gang member is a hacker.  A gangster is a hacker if they have
      * been assigned the role of Hacker.
      *
@@ -546,6 +601,30 @@ export class Gangster {
     is_hacker(name) {
         assert(this.is_member(name));
         return this.role(name) == members.ROLE.hacker;
+    }
+
+    /**
+     * Whether a gang member is committing identity theft.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is committing identity theft; false otherwise.
+     */
+    is_id_thief(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.ID_THEFT == current_task;
+    }
+
+    /**
+     * Whether a gang member is laundering money.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is laundering money; false otherwise.
+     */
+    is_launderer(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.LAUNDER == current_task;
     }
 
     /**
@@ -594,6 +673,19 @@ export class Gangster {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
         return task.MUG == current_task;
+    }
+
+    /**
+     * Whether a gang member is committing phishing scams.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is involved in a phishing scam;
+     *     false otherwise.
+     */
+    is_phisher(name) {
+        assert(this.is_member(name));
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.PHISH == current_task;
     }
 
     /**
@@ -699,6 +791,27 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to launder money.
+     *
+     * @param name An array of member names.
+     */
+    launder(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members launder money.
+        for (const s of name) {
+            if (!this.is_launderer(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.LAUNDER));
+            }
+        }
+    }
+
+    /**
      * Assign gang members to mug random people on the street.
      *
      * @param name An array of member names.
@@ -776,6 +889,27 @@ export class Gangster {
         }
         assert(this.is_miscellaneous(name));
         return this.needs_charisma_training(name) || this.needs_combat_training(name);
+    }
+
+    /**
+     * Assign gang members to commit phishing scams.
+     *
+     * @param name An array of member names.
+     */
+    phish(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members commit phishing scams.
+        for (const s of name) {
+            if (!this.is_phisher(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.PHISH));
+            }
+        }
     }
 
     /**
