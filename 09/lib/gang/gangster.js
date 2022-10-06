@@ -911,7 +911,7 @@ export class Gangster {
 
     /**
      * Whether a gang member needs to train their Charisma stat.
-     * 
+     *
      * @param name A string representing the name of a gang member.
      * @return true if the given member needs Charisma training; false otherwise.
      */
@@ -922,7 +922,7 @@ export class Gangster {
 
     /**
      * Whether a gang member needs to train their combat stats.
-     * 
+     *
      * @param name A string representing the name of a gang member.
      * @return true if the given member needs combat training; false otherwise.
      */
@@ -941,7 +941,7 @@ export class Gangster {
 
     /**
      * Whether a gang member needs to train their Hack stat.
-     * 
+     *
      * @param name A string representing the name of a gang member.
      * @return true if the given member needs Hack training; false otherwise.
      */

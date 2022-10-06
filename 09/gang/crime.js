@@ -457,10 +457,10 @@ function reassign_arms_trafficking(ns, member, min, max) {
     gangster.traffick_arms(candidate);
 }
 
-/** 
+/**
  * Reassign our miscellaneous gang members to threaten and blackmail high-profile targets.  Reassign our members if their
  * Charisma stat is in the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to threaten and blackmail people.
  * @param min The minimum value for the Charisma stat.
@@ -476,7 +476,7 @@ function reassign_blackmail(ns, member, min, max) {
 
 /**
  * Reassign combatants to other jobs.
- * 
+ *
  * @param ns The Netscript API.
  */
 function reassign_combatant(ns) {
@@ -497,10 +497,10 @@ function reassign_combatant(ns) {
     reassign_arms_trafficking(ns, combatant, task_t.TRAFFICK_ARMS, Infinity);
 }
 
-/** 
+/**
  * Reassign our miscellaneous gang members to run a con.  Reassign our members if their Charisma stat is in the half-open
  * interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to run a con.
  * @param min The minimum value for the Charisma stat.
@@ -533,10 +533,10 @@ function reassign_extortion(ns, member, min, max) {
     gangster.extort(candidate);
 }
 
-/** 
+/**
  * Reassign our Hacker to commit financial fraud and digital counterfeiting.  Reassign our member if their Hack stat is in
  * the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to commit financial fraud and digital
  *     counterfeiting.
@@ -553,7 +553,7 @@ function reassign_fraud(ns, member, min, max) {
 
 /**
  * Reassign our Hacker to some other job.
- * 
+ *
  * @param ns The Netscript API.
  */
 function reassign_hacker(ns) {
@@ -568,16 +568,16 @@ function reassign_hacker(ns) {
     reassign_launder(ns, hacker, task_t.LAUNDER, Infinity);
 }
 
-/** 
+/**
  * Reassign our miscellaneous gang members to engage in human trafficking.  Reassign our members if their Charisma stat is in
  * the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to operate a human trafficking ring.
  * @param min The minimum value for the Charisma stat.
  * @param max The maximum value for the Charisma stat.
  */
- function reassign_human_trafficking(ns, member, min, max) {
+function reassign_human_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
         s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
@@ -585,10 +585,10 @@ function reassign_hacker(ns) {
     gangster.traffick_human(candidate);
 }
 
-/** 
+/**
  * Reassign our Hacker to commit identity theft.  Reassign our member if their Hack stat is in the half-open interval
  * [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to commit identity theft.
  * @param min The minimum value for the Hack stat.
@@ -602,10 +602,10 @@ function reassign_id_theft(ns, member, min, max) {
     gangster.id_theft(candidate);
 }
 
-/** 
+/**
  * Reassign our Hacker to commit money laundering.  Reassign our member if their Hack stat is in the half-open interval
  * [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to launder money.
  * @param min The minimum value for the Hack stat.
@@ -632,10 +632,10 @@ function reassign_miscellaneous(ns) {
     reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
 }
 
-/** 
+/**
  * Reassign our Hacker to commit phishing scams.  Reassign our member if their Hack stat is in the half-open interval
  * [min, max).  We include the minimum threshold but exclude the maximum threshold.
- * 
+ *
  * @param ns The Netscript API.
  * @param member An array of member names.  We want to reassign these members to commit phishing scams.
  * @param min The minimum value for the Hack stat.
