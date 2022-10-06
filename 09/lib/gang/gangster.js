@@ -478,7 +478,7 @@ export class Gangster {
      */
     is_combatant(name) {
         assert(this.is_member(name));
-        const role = this.#role(name);
+        const role = this.role(name);
         return (role == members.ROLE.artillery)
             || (role == members.ROLE.pilot)
             || (role == members.ROLE.punk)
@@ -545,7 +545,7 @@ export class Gangster {
      */
     is_hacker(name) {
         assert(this.is_member(name));
-        return this.#role(name) == members.ROLE.hacker;
+        return this.role(name) == members.ROLE.hacker;
     }
 
     /**
@@ -576,7 +576,7 @@ export class Gangster {
      */
     is_miscellaneous(name) {
         assert(this.is_member(name));
-        const role = this.#role(name);
+        const role = this.role(name);
         return (role == members.ROLE.medic)
             || (role == members.ROLE.spy)
             || (role == members.ROLE.thief)
@@ -927,7 +927,7 @@ export class Gangster {
      * @param name A string representing the name of a gangster.
      * @return The role of the given gang member.
      */
-    #role(name) {
+    role(name) {
         assert(this.is_member(name));
         const prefix = name.split(" ")[0];
         return prefix.replace(/[^a-zA-Z]/g, "");
@@ -969,7 +969,7 @@ export class Gangster {
         //
         // [Role] Full Name
         for (const name of this.#ns.gang.getMemberNames()) {
-            const role = this.#role(name).toLowerCase();
+            const role = this.role(name).toLowerCase();
             member[role]++;
         }
         return member;

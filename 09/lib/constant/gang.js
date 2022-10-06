@@ -837,7 +837,7 @@ export const task_t = {
     // The minimum threshold on a combat stat at which a gang member might be assigned to trafficking illegal arms.  For
     // example, if a member has Strength at least this number, then we might want to re-assign the member to trafficking
     // illegal arms.
-    "TRAFFICK": 300,
+    "TRAFFICK_ARMS": 300,
 };
 
 /**
