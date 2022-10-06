@@ -80,15 +80,31 @@ export class Gangster {
         function to_int(x) {
             return Math.floor(100 * x);
         }
-        // Ascend this gang member.
+        // See whether we can ascend this gang member.  The cases of combatant,
+        // hacker, and miscellaneous are each handled separately.
         const tau = to_int(gang_t.ASCEND);
-        if (
-            (to_int(asc.agi) > tau)
-                || (to_int(asc.cha) > tau)
-                || (to_int(asc.def) > tau)
-                || (to_int(asc.dex) > tau)
-                || (to_int(asc.str) > tau)
-        ) {
+        let ascend_this_member = false;
+        if (this.is_combatant(name)) {
+            if (
+                (to_int(asc.agi) > tau)
+                    || (to_int(asc.def) > tau)
+                    || (to_int(asc.dex) > tau)
+                    || (to_int(asc.str) > tau)
+            ) {
+                ascend_this_member = true;
+            }
+        } else if (this.is_hacker(name)) {
+            if (to_int(asc.hack) > tau) {
+                ascend_this_member = true;
+            }
+        } else {
+            assert(this.is_miscellaneous(name));
+            if (to_int(asc.cha) > tau) {
+                ascend_this_member = true;
+            }
+        }
+        // Now ascend the gangster.
+        if (ascend_this_member) {
             const result = this.#ns.gang.ascendMember(name);
             if (undefined != result) {
                 return bool.SUCCESS;
