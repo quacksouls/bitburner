@@ -428,6 +428,7 @@ function penalty(ns) {
 function reassign(ns) {
     reassign_combatant(ns);
     reassign_hacker(ns);
+    reassign_miscellaneous(ns);
 }
 
 /**
@@ -456,6 +457,23 @@ function reassign_arms_trafficking(ns, member, min, max) {
     gangster.traffick_arms(candidate);
 }
 
+/** 
+ * Reassign our miscellaneous gang members to threaten and blackmail high-profile targets.  Reassign our members if their
+ * Charisma stat is in the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * 
+ * @param ns The Netscript API.
+ * @param member An array of member names.  We want to reassign these members to threaten and blackmail people.
+ * @param min The minimum value for the Charisma stat.
+ * @param max The maximum value for the Charisma stat.
+ */
+function reassign_blackmail(ns, member, min, max) {
+    const gangster = new Gangster(ns);
+    const candidate = member.filter(
+        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+    );
+    gangster.blackmail(candidate);
+}
+
 /**
  * Reassign combatants to other jobs.
  * 
@@ -477,6 +495,23 @@ function reassign_combatant(ns) {
     reassign_terrorism(ns, combatant, task_t.TERROR, Infinity);
     // Assign other high-level members to trafficking illegal arms.
     reassign_arms_trafficking(ns, combatant, task_t.TRAFFICK_ARMS, Infinity);
+}
+
+/** 
+ * Reassign our miscellaneous gang members to run a con.  Reassign our members if their Charisma stat is in the half-open
+ * interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * 
+ * @param ns The Netscript API.
+ * @param member An array of member names.  We want to reassign these members to run a con.
+ * @param min The minimum value for the Charisma stat.
+ * @param max The maximum value for the Charisma stat.
+ */
+function reassign_con(ns, member, min, max) {
+    const gangster = new Gangster(ns);
+    const candidate = member.filter(
+        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+    );
+    gangster.con(candidate);
 }
 
 /**
@@ -534,6 +569,23 @@ function reassign_hacker(ns) {
 }
 
 /** 
+ * Reassign our miscellaneous gang members to engage in human trafficking.  Reassign our members if their Charisma stat is in
+ * the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * 
+ * @param ns The Netscript API.
+ * @param member An array of member names.  We want to reassign these members to operate a human trafficking ring.
+ * @param min The minimum value for the Charisma stat.
+ * @param max The maximum value for the Charisma stat.
+ */
+ function reassign_human_trafficking(ns, member, min, max) {
+    const gangster = new Gangster(ns);
+    const candidate = member.filter(
+        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+    );
+    gangster.traffick_human(candidate);
+}
+
+/** 
  * Reassign our Hacker to commit identity theft.  Reassign our member if their Hack stat is in the half-open interval
  * [min, max).  We include the minimum threshold but exclude the maximum threshold.
  * 
@@ -565,6 +617,19 @@ function reassign_launder(ns, member, min, max) {
         s => (min <= gangster.hack(s)) && (gangster.hack(s) < max)
     );
     gangster.launder(candidate);
+}
+
+/**
+ * Reassign miscellaneous gang members to various jobs.
+ */
+function reassign_miscellaneous(ns) {
+    const gangster = new Gangster(ns);
+    const other = ns.gang.getMemberNames().filter(
+        s => gangster.is_miscellaneous(s)
+    );
+    reassign_con(ns, other, task_t.CON, task_t.BLACKMAIL);
+    reassign_blackmail(ns, other, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+    reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
 }
 
 /** 

@@ -98,6 +98,27 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to threaten and blackmail high-profile targets.
+     *
+     * @param name An array of member names.
+     */
+    blackmail(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members threaten and blackmail people.
+        for (const s of name) {
+            if (!this.is_blackmailer(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.BLACKMAIL));
+            }
+        }
+    }
+
+    /**
      * The Charisma stat of a gang member.
      *
      * @param name A string representing the name of a gang member.
@@ -106,6 +127,27 @@ export class Gangster {
     charisma(name) {
         assert(this.is_member(name));
         return this.#ns.gang.getMemberInformation(name).cha;
+    }
+
+    /**
+     * Assign gang members to run a con.
+     *
+     * @param name An array of member names.
+     */
+    con(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members run a con.
+        for (const s of name) {
+            if (!this.is_con_artist(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.CON));
+            }
+        }
     }
 
     /**
@@ -507,6 +549,19 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is threatening and blackmailing high-profile
+     * targets.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is threatening and blackmailing people;
+     *     false otherwise.
+     */
+    is_blackmailer(name) {
+        assert(this.is_member(name));
+        return task.BLACKMAIL == this.#ns.gang.getMemberInformation(name).task;
+    }
+
+    /**
      * Whether a gang member is a combatant.  A gangster is a combatant if they
      * have been assigned one of these roles:
      *
@@ -525,6 +580,17 @@ export class Gangster {
             || (role == members.ROLE.pilot)
             || (role == members.ROLE.punk)
             || (role == members.ROLE.vanguard);
+    }
+
+    /**
+     * Whether a gang member is running a con.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is running a con; false otherwise.
+     */
+    is_con_artist(name) {
+        assert(this.is_member(name));
+        return task.CON == this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -601,6 +667,17 @@ export class Gangster {
     is_hacker(name) {
         assert(this.is_member(name));
         return this.role(name) == members.ROLE.hacker;
+    }
+
+    /**
+     * Whether a gang member is operating a human trafficking ring.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is trafficking humans; false otherwise.
+     */
+    is_human_trafficker(name) {
+        assert(this.is_member(name));
+        return task.TRAFFICK_HUMAN == this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -1158,6 +1235,27 @@ export class Gangster {
         for (const s of name) {
             if (!this.is_arms_trafficker(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_ARMS));
+            }
+        }
+    }
+
+    /**
+     * Assign gang members to engage in human trafficking.
+     *
+     * @param name An array of member names.
+     */
+    traffick_human(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members operate a human trafficking ring.
+        for (const s of name) {
+            if (!this.is_human_trafficker(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_HUMAN));
             }
         }
     }

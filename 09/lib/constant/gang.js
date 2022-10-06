@@ -816,12 +816,16 @@ export const task = {
  * Stat thresholds related to various tasks.
  */
 export const task_t = {
+    // The minimum Charisma stat at which a gang member might be assigned to threaten and blackmail high-profile targets.
+    "BLACKMAIL": 200,
     // The minimum threshold for the Charisma stat that a new recruit must attain.  A new recruit might be assigned to
     // train their Charisma.  They graduate out of Charisma training after their Charisma stat is at least this number.
     "CHARISMA": 15,
     // The minimum threshold for the combat stats that a new recruit must attain.  A new recruit might be assigned to train
     // their combat stats.  They graduate out of combat training after their combat stats are at least this threshold.
     "COMBAT": 15,
+    // The minimum Charisma stat at which a gang member might be assigned to running a con.
+    "CON": 100,
     // The minimum Hack stat at which a gang member might be assigned to commit acts of cyberterrorism.
     "CYBER_TERROR": 400,
     // The minimum threshold on a combat stat at which a gang member might be assigned to strongarm civilians.  For example,
@@ -848,6 +852,8 @@ export const task_t = {
     // example, if a member has Strength at least this number, then we might want to re-assign the member to trafficking
     // illegal arms.
     "TRAFFICK_ARMS": 300,
+    // The minimum Charisma stat at which a gang member might be assigned to trafficking humans.
+    "TRAFFICK_HUMAN": 300,
 };
 
 /**
