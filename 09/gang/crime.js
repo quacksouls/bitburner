@@ -90,7 +90,7 @@ async function create_gang(ns, fac) {
 }
 
 /**
- * Re-assign gang members to various tasks that help to lower our penalty.
+ * Reassign gang members to various tasks that help to lower our penalty.
  * Choose a number of our best gangsters and set them to vigilante justice.
  * The remaining members are given jobs that attract less wanted levels than
  * their current jobs.
@@ -349,7 +349,7 @@ function is_valid_faction(fac) {
 }
 
 /**
- * The maximum number of gang members to re-assign to acts of terrorism.  We
+ * The maximum number of gang members to reassign to acts of terrorism.  We
  * usually assign members to acts of terrorism because this task greatly
  * increases respect, which in turn helps to recruit new members.  However, if
  * we already have the maximum number of members, there is no reason to have
@@ -413,7 +413,7 @@ function para_bellum(ns) {
     if (trafficker.length <= threshold) {
         return;
     }
-    // Choose the strongest member and re-assign them to turf warfare.
+    // Choose the strongest member and reassign them to turf warfare.
     assert(trafficker.length > threshold);
     const best = strongest_member(ns, trafficker);
     gangster.turf_war([best]);
@@ -439,7 +439,7 @@ function penalty(ns) {
 }
 
 /**
- * Re-assign gang members to some other tasks.
+ * Reassign gang members to some other tasks.
  *
  * @param ns The Netscript API.
  */
@@ -458,8 +458,8 @@ function reassign(ns) {
 }
 
 /**
- * Re-assign mid-level gang members to strongarm civilians on our turf.
- * Re-assign gang members if their Strength stat is in the half-open interval
+ * Reassign mid-level gang members to strongarm civilians on our turf.
+ * Reassign gang members if their Strength stat is in the half-open interval
  * [min, max).  That is, we include the minimum threshold but exclude the
  * maximum threshold.
  *
@@ -479,7 +479,7 @@ function reassign_extortion(ns, min, max) {
 }
 
 /**
- * Re-assign above mid-level gang members to armed robbery.  Re-assign gang
+ * Reassign above mid-level gang members to armed robbery.  Reassign gang
  * members if their Strength stat is in the half-open interval [min, max).
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
@@ -499,8 +499,8 @@ function reassign_robbery(ns, min, max) {
 }
 
 /**
- * Re-assign advanced-level gang members to commit acts of terrorism.
- * Re-assign gang members if their Strength stat is in the half-open interval
+ * Reassign advanced-level gang members to commit acts of terrorism.
+ * Reassign gang members if their Strength stat is in the half-open interval
  * [min, max).  That is, we include the minimum threshold but exclude the
  * maximum threshold.  Terrorism gains enormous respect, but zero income.  For
  * this reason, we should only assign a limited number of members to terrorism.
@@ -515,7 +515,7 @@ function reassign_terrorism(ns, min, max) {
     if (has_terrorist(ns) && !has_max_members(ns)) {
         return;
     }
-    // We already have the maximum number of gang members.  Re-assign the
+    // We already have the maximum number of gang members.  Reassign the
     // terrorists to trafficking illegal arms.
     const gangster = new Gangster(ns);
     if (has_max_members(ns)) {
@@ -530,7 +530,7 @@ function reassign_terrorism(ns, min, max) {
     // Assign at most this many members to terrorism.
     const threshold = max_terrorist(ns);
     assert(threshold > 0);
-    // Choose the members who would be re-assigned to terrorism.
+    // Choose the members who would be reassigned to terrorism.
     const member = new Array();
     for (const s of ns.gang.getMemberNames()) {
         if (gangster.is_warrior(s)) {
@@ -547,7 +547,7 @@ function reassign_terrorism(ns, min, max) {
 }
 
 /**
- * Re-assign high-level gang members to trafficking illegal arms.  Re-assign
+ * Reassign high-level gang members to trafficking illegal arms.  Reassign
  * gang members if their Strength stat is in the half-open interval [min, max).
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
@@ -613,8 +613,8 @@ function update(ns) {
         }
     }
     // Is our penalty too high?  If our penalty percentage exceeds a given
-    // threshold, then re-assign some gang members to vigilante justice in
-    // order to lower our penalty.  Furthermore, re-assign the remaining
+    // threshold, then reassign some gang members to vigilante justice in
+    // order to lower our penalty.  Furthermore, reassign the remaining
     // members to jobs that attract a lower wanted level.
     if (penalty(ns) >= penalty_t.HIGH) {
         decrease_penalty(ns);
