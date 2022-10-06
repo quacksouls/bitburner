@@ -431,6 +431,32 @@ function reassign(ns) {
 }
 
 /**
+ * Reassign high-level gang members to trafficking illegal arms.  Reassign
+ * gang members if their Strength stat is in the half-open interval [min, max).
+ * That is, we include the minimum threshold but exclude the maximum threshold.
+ *
+ * @param ns The Netscript API.
+ * @param member An array of member names.  We want to reassign these members to traffick illegal arms.
+ * @param min The minimum value for the Strength stat.
+ * @param max The maximum value for the Strength stat.
+ */
+function reassign_arms_trafficking(ns, member, min, max) {
+    const gangster = new Gangster(ns);
+    const candidate = new Array();
+    for (const s of member) {
+        if (!has_all_turf(ns)) {
+            if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
+                continue;
+            }
+        }
+        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+            candidate.push(s);
+        }
+    }
+    gangster.traffick_arms(candidate);
+}
+
+/**
  * Reassign combatants to other jobs.
  * 
  * @param ns The Netscript API.
@@ -616,32 +642,6 @@ function reassign_terrorism(ns, member, min, max) {
     }
     assert(1 == vanguard.length);
     gangster.terrorism(vanguard);
-}
-
-/**
- * Reassign high-level gang members to trafficking illegal arms.  Reassign
- * gang members if their Strength stat is in the half-open interval [min, max).
- * That is, we include the minimum threshold but exclude the maximum threshold.
- *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to traffick illegal arms.
- * @param min The minimum value for the Strength stat.
- * @param max The maximum value for the Strength stat.
- */
-function reassign_arms_trafficking(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = new Array();
-    for (const s of member) {
-        if (!has_all_turf(ns)) {
-            if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
-                continue;
-            }
-        }
-        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
-            candidate.push(s);
-        }
-    }
-    gangster.traffick_arms(candidate);
 }
 
 /**
