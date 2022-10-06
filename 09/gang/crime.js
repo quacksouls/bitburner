@@ -42,7 +42,7 @@ import { assert } from "/lib/util.js";
  * (1) Reset the member's progress and stats.
  * (2) Lose all non-Augmentation equipment.
  * (3) Lose all respect points gained by the member.  The respect points gained
- *     by this member will be deducted from your total respect.
+ *     by this member will be deducted from our total respect.
  *
  * @param ns The Netscript API.
  */
