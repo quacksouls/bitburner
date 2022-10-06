@@ -231,7 +231,8 @@ function has_all_turf(ns) {
  * Whether any of our gang members are currently engaged in ethical hacking.
  *
  * @param ns The Netscript API.
- * @return true if at least one gang member is currently assigned to ethical hacking; false otherwise.
+ * @return true if at least one gang member is currently assigned to ethical
+ *     hacking; false otherwise.
  */
 function has_ethical_hacker(ns) {
     const gangster = new Gangster(ns);
@@ -437,7 +438,8 @@ function reassign(ns) {
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to traffick illegal arms.
+ * @param member An array of member names.  We want to reassign these members
+ *     to traffick illegal arms.
  * @param min The minimum value for the Strength stat.
  * @param max The maximum value for the Strength stat.
  */
@@ -458,11 +460,14 @@ function reassign_arms_trafficking(ns, member, min, max) {
 }
 
 /**
- * Reassign our miscellaneous gang members to threaten and blackmail high-profile targets.  Reassign our members if their
- * Charisma stat is in the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our miscellaneous gang members to threaten and blackmail
+ * high-profile targets.  Reassign our members if their Charisma stat is in the
+ * half-open interval [min, max).  We include the minimum threshold but exclude
+ * the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to threaten and blackmail people.
+ * @param member An array of member names.  We want to reassign these members
+ *     to threaten and blackmail people.
  * @param min The minimum value for the Charisma stat.
  * @param max The maximum value for the Charisma stat.
  */
@@ -498,11 +503,13 @@ function reassign_combatant(ns) {
 }
 
 /**
- * Reassign our miscellaneous gang members to run a con.  Reassign our members if their Charisma stat is in the half-open
- * interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our miscellaneous gang members to run a con.  Reassign our members
+ * if their Charisma stat is in the half-open interval [min, max).  We include
+ * the minimum threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to run a con.
+ * @param member An array of member names.  We want to reassign these members
+ *     to run a con.
  * @param min The minimum value for the Charisma stat.
  * @param max The maximum value for the Charisma stat.
  */
@@ -521,7 +528,8 @@ function reassign_con(ns, member, min, max) {
  * maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to strongarm civilians.
+ * @param member An array of member names.  We want to reassign these members
+ *     to strongarm civilians.
  * @param min The minimum value for the Strength stat.
  * @param max The maximum value for the Strength stat.
  */
@@ -534,12 +542,14 @@ function reassign_extortion(ns, member, min, max) {
 }
 
 /**
- * Reassign our Hacker to commit financial fraud and digital counterfeiting.  Reassign our member if their Hack stat is in
- * the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our Hacker to commit financial fraud and digital counterfeiting.
+ * Reassign our member if their Hack stat is in the half-open interval
+ * [min, max).  We include the minimum threshold but exclude the maximum
+ * threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to commit financial fraud and digital
- *     counterfeiting.
+ * @param member An array of member names.  We want to reassign these members
+ *     to commit financial fraud and digital counterfeiting.
  * @param min The minimum value for the Hack stat.
  * @param max The maximum value for the Hack stat.
  */
@@ -569,11 +579,14 @@ function reassign_hacker(ns) {
 }
 
 /**
- * Reassign our miscellaneous gang members to engage in human trafficking.  Reassign our members if their Charisma stat is in
- * the half-open interval [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our miscellaneous gang members to engage in human trafficking.
+ * Reassign our members if their Charisma stat is in the half-open interval
+ * [min, max).  We include the minimum threshold but exclude the maximum
+ * threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to operate a human trafficking ring.
+ * @param member An array of member names.  We want to reassign these members
+ *     to operate a human trafficking ring.
  * @param min The minimum value for the Charisma stat.
  * @param max The maximum value for the Charisma stat.
  */
@@ -586,11 +599,13 @@ function reassign_human_trafficking(ns, member, min, max) {
 }
 
 /**
- * Reassign our Hacker to commit identity theft.  Reassign our member if their Hack stat is in the half-open interval
- * [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our Hacker to commit identity theft.  Reassign our member if their
+ * Hack stat is in the half-open interval [min, max).  We include the minimum
+ * threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to commit identity theft.
+ * @param member An array of member names.  We want to reassign these members
+ *     to commit identity theft.
  * @param min The minimum value for the Hack stat.
  * @param max The maximum value for the Hack stat.
  */
@@ -603,11 +618,13 @@ function reassign_id_theft(ns, member, min, max) {
 }
 
 /**
- * Reassign our Hacker to commit money laundering.  Reassign our member if their Hack stat is in the half-open interval
- * [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our Hacker to commit money laundering.  Reassign our member if
+ * their Hack stat is in the half-open interval [min, max).  We include the
+ * minimum threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to launder money.
+ * @param member An array of member names.  We want to reassign these members
+ *     to launder money.
  * @param min The minimum value for the Hack stat.
  * @param max The maximum value for the Hack stat.
  */
@@ -633,11 +650,13 @@ function reassign_miscellaneous(ns) {
 }
 
 /**
- * Reassign our Hacker to commit phishing scams.  Reassign our member if their Hack stat is in the half-open interval
- * [min, max).  We include the minimum threshold but exclude the maximum threshold.
+ * Reassign our Hacker to commit phishing scams.  Reassign our member if their
+ * Hack stat is in the half-open interval [min, max).  We include the minimum
+ * threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to commit phishing scams.
+ * @param member An array of member names.  We want to reassign these members
+ *     to commit phishing scams.
  * @param min The minimum value for the Hack stat.
  * @param max The maximum value for the Hack stat.
  */
@@ -655,7 +674,8 @@ function reassign_phish(ns, member, min, max) {
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to armed robbery.
+ * @param member An array of member names.  We want to reassign these members
+ *     to armed robbery.
  * @param min The minimum value for the Strength stat.
  * @param max The maximum value for the Strength stat.
  */
@@ -668,15 +688,18 @@ function reassign_robbery(ns, member, min, max) {
 }
 
 /**
- * Reassign advanced-level gang members to commit acts of terrorism.
- * Reassign gang members if their Strength stat is in the half-open interval
- * [min, max).  That is, we include the minimum threshold but exclude the
- * maximum threshold.  We usually assign members to acts of terrorism because this task greatly increases respect, which
- * in turn helps to recruit new members, but does not generate income.  However, if we already have the maximum number of
- * members, there is no reason to have any terrorists around.  Only assign a limited number of members to terrorism.
+ * Reassign advanced-level gang members to commit acts of terrorism.  Reassign
+ * gang members if their Strength stat is in the half-open interval [min, max).
+ * That is, we include the minimum threshold but exclude the maximum threshold.
+ * We usually assign members to acts of terrorism because this task greatly
+ * increases respect, which in turn helps to recruit new members, but does not
+ * generate income.  However, if we already have the maximum number of members,
+ * there is no reason to have any terrorists around.  Only assign a limited
+ * number of members to terrorism.
  *
  * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members to acts of terrorism.
+ * @param member An array of member names.  We want to reassign these members
+ *     to acts of terrorism.
  * @param min The minimum value for the Strength stat.
  * @param max The maximum value for the Strength stat.
  */
@@ -699,8 +722,8 @@ function reassign_terrorism(ns, member, min, max) {
     // We want our Vanguard to commit acts of terrorism.
     const vanguard = member.filter(
         s => (gangster.role(s) == members.ROLE.vanguard)
-        && (min <= gangster.strength(s)) 
-        && (gangster.strength(s) < max)
+            && (min <= gangster.strength(s))
+            && (gangster.strength(s) < max)
     );
     if (0 == vanguard.length) {
         return;

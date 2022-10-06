@@ -645,11 +645,12 @@ export class Gangster {
     }
 
     /**
-     * Whether a gang member is committing financial fraud and digital counterfeiting.
+     * Whether a gang member is committing financial fraud and digital
+     * counterfeiting.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing financial fraud and digital counterfeiting;
-     *     false otherwise.
+     * @return true if the given member is committing financial fraud and
+     *     digital counterfeiting; false otherwise.
      */
     is_fraudster(name) {
         assert(this.is_member(name));
@@ -677,14 +678,16 @@ export class Gangster {
      */
     is_human_trafficker(name) {
         assert(this.is_member(name));
-        return task.TRAFFICK_HUMAN == this.#ns.gang.getMemberInformation(name).task;
+        const current_task = this.#ns.gang.getMemberInformation(name).task;
+        return task.TRAFFICK_HUMAN == current_task;
     }
 
     /**
      * Whether a gang member is committing identity theft.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing identity theft; false otherwise.
+     * @return true if the given member is committing identity theft;
+     *     false otherwise.
      */
     is_id_thief(name) {
         assert(this.is_member(name));
@@ -913,7 +916,8 @@ export class Gangster {
      * Whether a gang member needs to train their Charisma stat.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member needs Charisma training; false otherwise.
+     * @return true if the given member needs Charisma training;
+     *     false otherwise.
      */
     needs_charisma_training(name) {
         assert(this.is_member(name));
@@ -954,7 +958,8 @@ export class Gangster {
      * Whether a gang member needs training in various stats.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the given member needs training in one or more stats; false otherwise.
+     * @return true if the given member needs training in one or more stats;
+     *     false otherwise.
      */
     needs_training(name) {
         assert(this.is_member(name));
@@ -962,10 +967,12 @@ export class Gangster {
             return this.needs_combat_training(name);
         }
         if (this.is_hacker(name)) {
-            return this.needs_hack_training(name) || this.needs_charisma_training(name);
+            return this.needs_hack_training(name)
+                || this.needs_charisma_training(name);
         }
         assert(this.is_miscellaneous(name));
-        return this.needs_charisma_training(name) || this.needs_combat_training(name);
+        return this.needs_charisma_training(name)
+            || this.needs_combat_training(name);
     }
 
     /**
