@@ -101,16 +101,18 @@ function decrease_penalty(ns) {
     reassign_vigilante_ehacker(ns);
     const name = new Array();
     const gangster = new Gangster(ns);
+    const trainee = new Array();
     for (const s of ns.gang.getMemberNames()) {
         if (gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)) {
             continue;
         }
         if (gangster.needs_training(s)) {
-            gangster.train_combat([s]);
+            trainee.push(s);
             continue;
         }
         name.push(s);
     }
+    gangster.train(trainee);
     graduate(ns);
     gangster.extort(name);
 }
