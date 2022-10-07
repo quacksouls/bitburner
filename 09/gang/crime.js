@@ -18,7 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import {
     armour,
-    gang_aug_crime,
+    gang_augment,
     gang_t,
     members,
     penalty_t,
@@ -165,7 +165,7 @@ function equip(ns) {
     for (const s of ns.gang.getMemberNames()) {
         // Always try to first purchase an Augmentation because the effects of
         // Augmentations are persistent after an ascension.
-        for (const aug of Object.values(gang_aug_crime)) {
+        for (const aug of Object.values(gang_augment)) {
             if (gangster.has_augment(s, aug)) {
                 continue;
             }

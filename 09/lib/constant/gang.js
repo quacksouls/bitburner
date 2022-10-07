@@ -38,7 +38,7 @@ export const armour = {
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
  */
-export const gang_aug_crime = {
+export const gang_augment = {
     "ARMS": "Bionic Arms",
     "LEGS": "Bionic Legs",
     "WEAVE": "Nanofiber Weave",
