@@ -150,10 +150,13 @@ function enable_turf_war(ns) {
  * (3) armour
  * (4) vehicle
  *
- * If a gang member already has an Augmentation, weapon, armour, or vehicle
- * then we attempt to give them another piece of equipment.  Our attempt can
- * succeed or fail, depending on whether we have sufficient funds to purchase
- * equipment.
+ * The Hacker also needs the above equipment, but we should first prioritize
+ * equipping them with various rootkits.  The Hacker is the only gang member
+ * for whom we purchase rootkits.  No other members should need to use their
+ * hacking skills.  If a member already has an Augmentation, weapon, armour,
+ * vehicle, or rootkit then we attempt to give them another piece of equipment.
+ * Our attempt can succeed or fail, depending on whether we have sufficient
+ * funds to purchase equipment.
  *
  * @param ns The Netscript API.
  */
