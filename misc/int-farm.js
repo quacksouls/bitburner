@@ -46,7 +46,7 @@ const wait_t = {
 /**
  * A class to hold information about money.
  */
-export class Money {
+class Money {
     /**
      * The value for one million.
      */
