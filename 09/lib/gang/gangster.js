@@ -18,7 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import {
     armour,
-    gang_aug_crime,
+    gang_augment,
     gang_t,
     gangster_t,
     members,
@@ -239,8 +239,8 @@ export class Gangster {
      */
     equip_augment(name, aug) {
         assert(this.is_member(name));
-        const gang_augment = new Set(Object.values(gang_aug_crime));
-        assert(gang_augment.has(aug));
+        const gang_aug = new Set(Object.values(gang_augment));
+        assert(gang_aug.has(aug));
         const cost = this.#ns.gang.getEquipmentCost(aug);
         const funds = this.#player_money() - money_reserve;
         if (funds < (gang_t.COST_MULT * cost)) {
@@ -509,8 +509,8 @@ export class Gangster {
      */
     has_augment(name, aug) {
         assert(this.is_member(name));
-        const gang_augment = new Set(Object.values(gang_aug_crime));
-        assert(gang_augment.has(aug));
+        const gang_aug = new Set(Object.values(gang_augment));
+        assert(gang_aug.has(aug));
         const equipment = new Set(
             this.#ns.gang.getMemberInformation(name).augmentations
         );
