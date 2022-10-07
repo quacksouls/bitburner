@@ -102,7 +102,7 @@ function decrease_penalty(ns) {
     const name = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_vigilante(s)) {
+        if (gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)) {
             continue;
         }
         if (gangster.needs_training(s)) {
