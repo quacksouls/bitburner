@@ -22,6 +22,7 @@ import {
     gang_t,
     members,
     penalty_t,
+    rootkit,
     task_t,
     vehicle,
     weapon,
@@ -172,6 +173,20 @@ function equip(ns) {
             const success = gangster.equip_augment(s, aug);
             if (success) {
                 break;
+            }
+        }
+        // The Hacker is special in the sense that they primarily depend on
+        // their Hack stat.  Ensure the Hacker is first equipped with a rootkit
+        // prior to equipping them with a weapon, armour piece, or vehicle.
+        if (gangster.is_hacker(s)) {
+            for (const kit of Object.values(rootkit)) {
+                if (gangster.has_rootkit(s, kit)) {
+                    continue;
+                }
+                const success = gangster.equip_rootkit(s, kit);
+                if (success) {
+                    break;
+                }
             }
         }
         // Try to equip a new weapon.

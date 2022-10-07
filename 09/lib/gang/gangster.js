@@ -22,6 +22,7 @@ import {
     gang_t,
     gangster_t,
     members,
+    rootkit,
     task,
     task_t,
     vehicle,
@@ -247,6 +248,26 @@ export class Gangster {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
+    }
+
+    /**
+     * Purchase the given rootkit and equip it on a gang member.
+     *
+     * @param name A string representing the name of a gang member.
+     * @param kit A string representing the name of a rootkit.
+     * @return true if the rootkit is successfully purchased for the given
+     *     member; false otherwise.
+     */
+    equip_rootkit(name, kit) {
+        assert(this.is_member(name));
+        const gang_rootkit = new Set(Object.values(rootkit));
+        assert(gang_rootkit.has(kit));
+        const cost = this.#ns.gang.getEquipmentCost(kit);
+        const funds = this.#player_money() - money_reserve;
+        if (funds < (gang_t.COST_MULT * cost)) {
+            return bool.FAILURE;
+        }
+        return this.#ns.gang.purchaseEquipment(name, kit);
     }
 
     /**
@@ -515,6 +536,23 @@ export class Gangster {
             this.#ns.gang.getMemberInformation(name).augmentations
         );
         return equipment.has(aug);
+    }
+
+    /**
+     * Whether a gang member has a particular rootkit.
+     *
+     * @param name A string representing the name of a gang member.
+     * @param kit A string representing the name of a rootkit.
+     * @return true if the gang member has the given rootkit; false otherwise.
+     */
+    has_rootkit(name, kit) {
+        assert(this.is_member(name));
+        const gang_rootkit = new Set(Object.values(rootkit));
+        assert(gang_rootkit.has(kit));
+        const equipment = new Set(
+            this.#ns.gang.getMemberInformation(name).upgrades
+        );
+        return equipment.has(kit);
     }
 
     /**
