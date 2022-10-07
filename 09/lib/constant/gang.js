@@ -53,6 +53,8 @@ export const gang_aug_crime = {
  * Constants related to various aspects of our gang members.
  */
 export const members = {
+    // The maximum number of gang members to assign to Ethical Hacking.
+    "EHACK": 1,
     // The number of gangsters we can recruit upon creating our gang.  We must
     // earn more respect to recruit more gang members.
     "INITIAL": 3,
@@ -74,7 +76,7 @@ export const members = {
         "vanguard": "Vanguard",
     },
     // The maximum number of gang members to assign to Vigilante Justice.
-    "VIGILANTE": 4,
+    "VIGILANTE": 3,
     // The maximum number of gang members to assign to territory warfare.  This
     // threshold applies only when we are not engaged in territory warfare
     // against a rival gang.  If we are about to clash against a rival gang, we
