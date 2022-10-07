@@ -75,6 +75,10 @@ export const members = {
         "traitor": "Traitor",
         "vanguard": "Vanguard",
     },
+    // The maximum number of gang members to assign to acts of terrorism.
+    // Terrorism greatly increases our respect and wanted level, but generate
+    // no income.  We should only have one terrorist.
+    "TERRORIST": 1,
     // The maximum number of gang members to assign to Vigilante Justice.
     "VIGILANTE": 3,
     // The maximum number of gang members to assign to territory warfare.  This
