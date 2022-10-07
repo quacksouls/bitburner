@@ -290,6 +290,27 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to ethical hacking.
+     *
+     * @param name An array of member names.
+     */
+    ethical_hacking(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members be involved in ethical hacking.
+        for (const s of name) {
+            if (!this.is_ethical_hacker(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.EHACK));
+            }
+        }
+    }
+
+    /**
      * Assign gang members to extort civilians on our turf.
      *
      * @param name An array of member names.
@@ -565,6 +586,18 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member has been assigned the role of Artillery.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member takes on the role of Artillery;
+     *     false otherwise.
+     */
+    is_artillery(name) {
+        assert(this.is_member(name));
+        return this.role(name) == members.ROLE.artillery;
+    }
+
+    /**
      * Whether a gang member is threatening and blackmailing high-profile
      * targets.
      *
@@ -591,11 +624,10 @@ export class Gangster {
      */
     is_combatant(name) {
         assert(this.is_member(name));
-        const role = this.role(name);
-        return (role == members.ROLE.artillery)
-            || (role == members.ROLE.pilot)
-            || (role == members.ROLE.punk)
-            || (role == members.ROLE.vanguard);
+        return this.is_artillery(name)
+            || this.is_pilot(name)
+            || (this.role(name) == members.ROLE.punk)
+            || this.is_vanguard(name);
     }
 
     /**
@@ -785,6 +817,18 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member has been assigned the role of Pilot.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member takes on the role of Pilot;
+     *     false otherwise.
+     */
+    is_pilot(name) {
+        assert(this.is_member(name));
+        return this.role(name) == members.ROLE.pilot;
+    }
+
+    /**
      * Whether a gang member is engaged in armed robbery.
      *
      * @param name A string representing the name of a gang member.
@@ -858,6 +902,18 @@ export class Gangster {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
         return task.HACK == current_task;
+    }
+
+    /**
+     * Whether a gang member has been assigned the role of Vanguard.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is taking on the role of Vanguard;
+     *     false otherwise.
+     */
+    is_vanguard(name) {
+        assert(this.is_member(name));
+        return this.role(name) == members.ROLE.vanguard;
     }
 
     /**

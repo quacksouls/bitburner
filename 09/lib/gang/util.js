@@ -22,6 +22,98 @@ import { Gangster } from "/lib/gang/gangster.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Choose the number of gang members to assign to vigilante justice or ethical
+ * hacking.  The number of gangsters who will be assigned to these jobs depends
+ * on our current membership.
+ *
+ * @param ns The Netscript API.
+ * @return The number of members to assign to vigilante justice or ethical
+ *     hacking.
+ */
+function choose_vigilante_ehacker_threshold(ns) {
+    assert(members.EHACK > 0);
+    assert(members.VIGILANTE > 0);
+    // Lower the threshold, depending on our gang membership.
+    const mid_point = Math.floor(members.MAX / 2);
+    const quarter_point = mid_point + Math.floor(mid_point / 2);
+    const ngangster = ns.gang.getMemberNames().length;
+    if (ngangster == members.INITIAL) {
+        return 1;
+    } else if ((members.INITIAL < ngangster) && (ngangster <= mid_point)) {
+        return 2;
+    } else if ((mid_point < ngangster) && (ngangster <= quarter_point)) {
+        return 3;
+    }
+    assert((quarter_point < ngangster) && (ngangster <= members.MAX));
+    return Math.floor(members.EHACK + members.VIGILANTE);
+}
+
+/**
+ * Whether we already have enough gang members assigned to vigilante justice or
+ * ethical hacking.
+ *
+ * @param ns The Netscript API.
+ * @return true if enough gangsters are assigned to vigilante justice or
+ *     ethical hacking; false otherwise.
+ */
+function has_enough_vigilante_ehacker(ns) {
+    const tau = choose_vigilante_ehacker_threshold(ns);
+    const gangster = new Gangster(ns);
+    const vigilante = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s)
+    );
+    const ehacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_ethical_hacker(s)
+    );
+    return tau == vigilante.length + ehacker.length;
+}
+
+/**
+ * We have too many gang members in vigilante justice or ethical hacking.
+ * Reassign the excess members to some other jobs.
+ *
+ * @param ns The Netscript API.
+ * @param threshold We want this many members to be in vigilante justice or
+ *     ethical hacking.
+ */
+function reassign_excess_vigilante_ehacker(ns, threshold) {
+    const tau = Math.floor(threshold);
+    assert(tau > 0);
+    const gangster = new Gangster(ns);
+    const vigilante = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s)
+    );
+    const hacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_hacker(s)
+    );
+    const vanguard = vigilante.filter(
+        s => gangster.is_vanguard(s)
+    );
+    // The Vanguard is always the first to be assigned to vigilante justice.
+    // The Hacker is always the next member to be assigned to ethical hacking.
+    let vigilante_ehacker = vanguard.concat(hacker);
+    vigilante_ehacker = vigilante_ehacker.concat(
+        vigilante.filter(
+            s => !gangster.is_vanguard(s)
+        )
+    );
+    assert(vigilante_ehacker.length > tau);
+    const candidate = new Array();
+    while (vigilante_ehacker.length > tau) {
+        candidate.push(vigilante_ehacker.pop());
+    }
+    assert(candidate.length > 0);
+    gangster.vigilante(
+        vigilante_ehacker.filter(
+            s => !gangster.is_hacker(s)
+        )
+    );
+    gangster.ethical_hacking(hacker);
+    // Reassign the rest to other jobs.
+    reassign_other(ns, candidate);
+}
+
+/**
  * Reassign some members to other jobs.
  *
  * @param ns The Netscript API.
@@ -46,61 +138,88 @@ function reassign_other(ns, name) {
 }
 
 /**
+ * We do not have enough gang members in vigilante justice or ethical hacking.
+ * Reassign some members to these jobs.
+ *
+ * @param ns The Netscript API.
+ * @param threshold We want this many members to be in vigilante justice or
+ *     ethical hacking.
+ */
+function reassign_to_vigilante_ehack(ns, threshold) {
+    const tau = Math.floor(threshold);
+    assert(tau > 0);
+    // All gang members who should be in vigilante justice or ethical hacking.
+    const gangster = new Gangster(ns);
+    const vanguard = ns.gang.getMemberNames().filter(
+        s => gangster.is_vanguard(s)
+    );
+    const hacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_hacker(s)
+    );
+    const artillery = ns.gang.getMemberNames().filter(
+        s => gangster.is_artillery(s)
+    );
+    const pilot = ns.gang.getMemberNames().filter(
+        s => gangster.is_pilot(s)
+    );
+    // Determine which members to assign to vigilante justice or ethical
+    // hacking.  The Vanguard is always the first to be assigned to vigilante
+    // justice.  This is followed by the Hacker, who is assigned to ethical
+    // hacking.  Next comes the Artillery and the Pilot, who are assigned to
+    // vigilante justice in that order.
+    const candidate = [vanguard, hacker, artillery, pilot].flat();
+    const vigilante_ehacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
+    );
+    assert(vigilante_ehacker.length < candidate.length);
+    assert(vigilante_ehacker.length < tau);
+    while (vigilante_ehacker.includes(candidate[0])) {
+        candidate.shift();
+    }
+    const nmore = tau - vigilante_ehacker.length;
+    assert(nmore > 0);
+    while (candidate.length > nmore) {
+        candidate.pop();
+    }
+    // Assign the candidates to vigilante justice or ethical hacking.
+    for (const s of candidate) {
+        if (gangster.is_hacker(s)) {
+            gangster.ethical_hacking([s]);
+            continue;
+        }
+        gangster.vigilante([s]);
+    }
+}
+
+/**
  * Reassign a number of our gang members to vigilante justice or ethical
  * hacking.  Our objective is to lower our wanted level.
  *
  * @param ns The Netscript API.
  */
 export function reassign_vigilante_or_ehacker(ns) {
-    let tau = Math.floor(members.VIGILANTE);
-    assert(tau > 0);
-    // Lower the threshold, depending on our gang membership.
-    const mid_point = Math.floor(members.MAX / 2);
-    const ngangster = ns.gang.getMemberNames().length;
+    // Do we already have the required number of members on vigilante justice
+    // or ethical hacking?
+    if (has_enough_vigilante_ehacker(ns)) {
+        return;
+    }
+    // We have more vigilantes or ethical hackers than the given threshold.
+    // Move some members out of vigilante justice or ethical hacking, and into
+    // some other jobs.
     const gangster = new Gangster(ns);
-    if (ngangster == members.INITIAL) {
-        tau = 1;
-    } else if ((members.INITIAL < ngangster) && (ngangster <= mid_point)) {
-        tau = 2;
-    }
-    // Do we already have the required number of members on vigilante justice?
-    const vigilante = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s)
+    const tau = choose_vigilante_ehacker_threshold(ns);
+    const vigilante_ehacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
     );
-    if (vigilante.length == tau) {
+    if (vigilante_ehacker.length > tau) {
+        reassign_excess_vigilante_ehacker(ns, tau);
         return;
     }
-    // We have more vigilantes than the given threshold.  Move some members out
-    // of vigilante justice and into some other jobs.
-    if (vigilante.length > tau) {
-        // Keep the required members in vigilante justice.
-        let candidate = Array.from(vigilante);
-        const keep = new Array();
-        while (keep.length < tau) {
-            const best = strongest_member(ns, candidate);
-            candidate = candidate.filter(s => s != best);
-            keep.push(best);
-        }
-        // Move the rest into combat training or another job.
-        reassign_other(ns, candidate);
-        return;
-    }
-    // If we already have some vigilantes, then add more members to vigilante
-    // justice to make up the required threshold.
-    assert(vigilante.length < tau);
-    tau = tau - vigilante.length;
-    // Choose the top gangsters and assign them to vigilante justice.
-    let candidate = ns.gang.getMemberNames();
-    assert(candidate.length > 0);
-    const name = new Array();
-    while ((name.length < tau) && (candidate.length > 0)) {
-        const best = strongest_member(ns, candidate);
-        candidate = candidate.filter(s => s != best);
-        name.push(best);
-    }
-    assert(name.length > 0);
-    gangster.vigilante(name);
-    reassign_other(ns, candidate);
+    // If we already have some vigilantes or ethical hackers, then add more
+    // members to vigilante justice or ethical hacking to make up the required
+    // threshold.
+    assert(vigilante_ehacker.length < tau);
+    reassign_to_vigilante_ehack(ns, tau);
 }
 
 /**
