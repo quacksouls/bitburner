@@ -91,9 +91,9 @@ async function create_gang(ns, fac) {
 
 /**
  * Reassign gang members to various tasks that help to lower our penalty.
- * Choose a number of our best gangsters and set them to vigilante justice.
- * The remaining members are given jobs that attract less wanted levels than
- * their current jobs.
+ * Choose a number of our gangsters and set them to vigilante justice or
+ * ethical hacking.  The remaining members are given jobs that attract less
+ * wanted levels than their current jobs.
  *
  * @param ns The Netscript API.
  */
