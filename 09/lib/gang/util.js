@@ -46,13 +46,13 @@ function reassign_other(ns, name) {
 }
 
 /**
- * Re-assign a number of our gang members to vigilante justice or ethical
+ * Reassign a number of our gang members to vigilante justice or ethical
  * hacking.  Our objective is to lower our wanted level.
  *
  * @param ns The Netscript API.
- * @param threshold We want to re-assign this many members.  If the given
- *     threshold is greater than the current number of vigilantes, re-assign
- *     the others to strongarm civilians or other jobs.
+ * @param threshold We want to reassign this many members.  If the given
+ *     threshold is greater than the current number of vigilantes, reassign the
+ *     others to strongarm civilians or other jobs.
  */
 export function reassign_vigilante_or_ehacker(ns, threshold) {
     let tau = Math.floor(threshold);
