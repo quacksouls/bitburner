@@ -102,45 +102,6 @@ function assert(cond) {
 }
 
 /**
- * Choose one of the cheapest programs available via the dark web.  The program
- * cannot be any of the port openers, i.e. BruteSSH.exe, FTPCrack.exe,
- * HTTPWorm.exe, relaySMTP.exe, SQLInject.exe.
- *
- * @param ns The Netscript API.
- * @return A string representing the name of one of the cheapest programs.
- *     Cannot be a port opener.
- */
-function cheapest_program(ns) {
-    let min_cost = Infinity;
-    let prog = "";
-    // Consider the utility programs, not the port opener programs.
-    // These are utility programs.  They are useful when we need to manually
-    // traverse the network of world servers.
-    const utility_program = [
-        "AutoLink.exe",
-        "DeepscanV1.exe",
-        "DeepscanV2.exe",
-        "Formulas.exe",
-        "ServerProfiler.exe",
-    ];
-    for (const p of utility_program) {
-        // Must delete program first if we have it, otherwise the reported
-        // cost would be zero.
-        if (has_program(ns, p)) {
-            assert(ns.rm(p, home));
-        }
-        const cost = ns.singularity.getDarkwebProgramCost(p);
-        if (min_cost > cost) {
-            min_cost = cost;
-            prog = p;
-        }
-    }
-    assert("" != prog);
-    assert(min_cost > 0);
-    return prog;
-}
-
-/**
  * Passively farm Intelligence XP.
  *
  * @param ns The Netscript API.
@@ -150,9 +111,9 @@ async function farm_intelligence(ns) {
     // the cheapest programs.
     const m = new Money();
     const min_money = 10 * m.million();
-    // Must delete the program if we have it.  After purchasing a program,
-    // delete it again.
-    const p = cheapest_program(ns);
+    // One of the known cheapest programs.  Must delete the program if we have
+    // it.  After purchasing the program, delete it again.
+    const p = "DeepscanV1.exe";
     ns.rm(p, home);
     while (true) {
         if (player_money(ns) < min_money) {
@@ -166,16 +127,6 @@ async function farm_intelligence(ns) {
         }
         await ns.sleep(time);
     }
-}
-
-/**
- * Whether we have a given program.
- *
- * @param ns The Netscript API.
- * @param p A program we want to check.
- */
-function has_program(ns, p) {
-    return ns.fileExists(p, home);
 }
 
 /**
