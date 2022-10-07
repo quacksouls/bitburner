@@ -98,7 +98,7 @@ async function create_gang(ns, fac) {
  * @param ns The Netscript API.
  */
 function decrease_penalty(ns) {
-    reassign_vigilante_or_ehacker(ns, members.VIGILANTE);
+    reassign_vigilante_or_ehacker(ns);
     const name = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
