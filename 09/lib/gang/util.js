@@ -197,7 +197,7 @@ function reassign_to_vigilante_ehack(ns, threshold) {
  *
  * @param ns The Netscript API.
  */
-export function reassign_vigilante_or_ehacker(ns) {
+export function reassign_vigilante_ehacker(ns) {
     // Do we already have the required number of members on vigilante justice
     // or ethical hacking?
     if (has_enough_vigilante_ehacker(ns)) {

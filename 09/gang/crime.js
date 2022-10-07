@@ -29,7 +29,7 @@ import {
 import { wait_t } from "/lib/constant/time.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import {
-    reassign_vigilante_or_ehacker,
+    reassign_vigilante_ehacker,
     strongest_member,
 } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
@@ -98,7 +98,7 @@ async function create_gang(ns, fac) {
  * @param ns The Netscript API.
  */
 function decrease_penalty(ns) {
-    reassign_vigilante_or_ehacker(ns);
+    reassign_vigilante_ehacker(ns);
     const name = new Array();
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
