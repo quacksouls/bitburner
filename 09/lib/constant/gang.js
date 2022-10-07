@@ -87,7 +87,7 @@ export const members = {
     // should devote more members to warfare.  In general, this threshold helps
     // to build our power while we are not engaged in dispute against any rival
     // gang.
-    "WARRIOR": 4
+    "WARRIOR": 4,
 };
 
 /**
