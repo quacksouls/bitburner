@@ -105,7 +105,13 @@ function reassign_excess_vigilante_ehacker(ns, threshold) {
             s => !gangster.is_hacker(s)
         )
     );
-    gangster.ethical_hacking(hacker);
+    // If we are in a criminal gang, then there is no option to perform ethical
+    // hacking.  In that case, assign the Hacker to vigilante justice as well.
+    if (ns.gang.getGangInformation().isHacking) {
+        gangster.ethical_hacking(hacker);
+    } else {
+        gangster.vigilante(hacker);
+    }
     // Reassign the rest to other jobs.
     reassign_other(ns, candidate);
 }
@@ -194,8 +200,9 @@ function reassign_to_vigilante_ehack(ns, threshold) {
     // Determine which members to assign to vigilante justice or ethical
     // hacking.  The Vanguard is always the first to be assigned to vigilante
     // justice.  This is followed by the Hacker, who is assigned to ethical
-    // hacking.  Next comes the Artillery and the Pilot, who are assigned to
-    // vigilante justice in that order.
+    // hacking.  However, if this is a criminal gang, then assign the Hacker to
+    // vigilante justice as well.  Next comes the Artillery and the Pilot, who
+    // are assigned to vigilante justice in that order.
     const candidate = [vanguard, hacker, artillery, pilot].flat();
     const vigilante_ehacker = ns.gang.getMemberNames().filter(
         s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
@@ -213,7 +220,11 @@ function reassign_to_vigilante_ehack(ns, threshold) {
     // Assign the candidates to vigilante justice or ethical hacking.
     for (const s of candidate) {
         if (gangster.is_hacker(s)) {
-            gangster.ethical_hacking([s]);
+            if (ns.gang.getGangInformation().isHacking) {
+                gangster.ethical_hacking([s]);
+            } else {
+                gangster.vigilante([s]);
+            }
             continue;
         }
         gangster.vigilante([s]);
