@@ -18,6 +18,23 @@
 // Global variables.  Bad, I know, but it's to make the script self-contained.
 
 /**
+ * The cheapest programs available via the dark web are:
+ *
+ * (1) BruteSSH.exe
+ * (2) ServerProfiler.exe
+ * (3) DeepscanV1.exe
+ *
+ * Each costs the same amount of $500k.  Data taken from this page:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/DarkWeb/DarkWebItems.ts
+ *
+ * If we are to delete any of these cheapest programs, then we should definitely keep BruteSSH.exe.  The remaining
+ * candidates for deletion are ServerProfiler.exe and DeepscanV1.exe.  Decide which of these two programs we do not
+ * need and delete that one.
+ */
+ const cheapest_program = "DeepscanV1.exe";
+
+/**
  * The player's home server.
  */
 const home = "home";
@@ -113,7 +130,7 @@ async function farm_intelligence(ns) {
     const min_money = 10 * m.million();
     // One of the known cheapest programs.  Must delete the program if we have
     // it.  After purchasing the program, delete it again.
-    const p = "DeepscanV1.exe";
+    const p = cheapest_program;
     ns.rm(p, home);
     while (true) {
         if (player_money(ns) < min_money) {

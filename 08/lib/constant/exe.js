@@ -46,9 +46,19 @@ export function all_programs() {
 }
 
 /**
- * This is among the cheapest programs we can purchase via the dark web.  Data taken from this page:
+ * The cheapest programs available via the dark web are:
+ *
+ * (1) BruteSSH.exe
+ * (2) ServerProfiler.exe
+ * (3) DeepscanV1.exe
+ *
+ * Each costs the same amount of $500k.  Data taken from this page:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/DarkWeb/DarkWebItems.ts
+ *
+ * If we are to delete any of these cheapest programs, then we should definitely keep BruteSSH.exe.  The remaining
+ * candidates for deletion are ServerProfiler.exe and DeepscanV1.exe.  Decide which of these two programs we do not
+ * need and delete that one.
  */
 export const cheapest_program = "DeepscanV1.exe";
 
