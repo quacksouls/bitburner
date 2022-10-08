@@ -46,6 +46,13 @@ export function all_programs() {
 }
 
 /**
+ * This is among the cheapest programs we can purchase via the dark web.  Data taken from this page:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/DarkWeb/DarkWebItems.ts
+ */
+export const cheapest_program = "DeepscanV1.exe";
+
+/**
  * These programs are port openers.  Each program can be used to open a
  * specific port on a server.
  */

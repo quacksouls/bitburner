@@ -15,42 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { utility_program } from "/lib/constant/exe.js";
+import { cheapest_program } from "/lib/constant/exe.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Choose one of the cheapest programs available via the dark web.  The program
- * cannot be any of the port openers, i.e. BruteSSH.exe, FTPCrack.exe,
- * HTTPWorm.exe, relaySMTP.exe, SQLInject.exe.
- *
- * @param ns The Netscript API.
- * @return A string representing the name of one of the cheapest programs.
- *     Cannot be a port opener.
- */
-function cheapest_program(ns) {
-    const player = new Player(ns);
-    let min_cost = Infinity;
-    let prog = "";
-    // Consider the utility programs, not the port opener programs.
-    for (const p of utility_program) {
-        // Must delete program first if we have it, otherwise the reported
-        // cost would be zero.
-        if (player.has_program(p)) {
-            assert(ns.rm(p, player.home()));
-        }
-        const cost = ns.singularity.getDarkwebProgramCost(p);
-        if (min_cost > cost) {
-            min_cost = cost;
-            prog = p;
-        }
-    }
-    assert("" != prog);
-    assert(min_cost > 0);
-    return prog;
-}
 
 /**
  * Passively farm Intelligence XP.
@@ -65,7 +34,7 @@ async function farm_intelligence(ns) {
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
     const player = new Player(ns);
-    const p = cheapest_program(ns);
+    const p = cheapest_program;
     ns.rm(p, player.home());
     while (true) {
         if (player.money() < min_money) {
