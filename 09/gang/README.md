@@ -1,3 +1,5 @@
+# Gangs
+
 Scripts to create and manage a gang.  The script `/gang/slum-snakes.js` joins
 the criminal organization Slum Snakes, setting the groundwork for you to
 create a criminal gang within that faction.  Once a member of a criminal
