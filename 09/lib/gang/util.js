@@ -59,13 +59,10 @@ function choose_vigilante_ehacker_threshold(ns) {
 function has_enough_vigilante_ehacker(ns) {
     const tau = choose_vigilante_ehacker_threshold(ns);
     const gangster = new Gangster(ns);
-    const vigilante = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s)
+    const vigilante_ehacker = ns.gang.getMemberNames().filter(
+        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
     );
-    const ehacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_ethical_hacker(s)
-    );
-    return tau == vigilante.length + ehacker.length;
+    return tau == vigilante_ehacker.length;
 }
 
 /**
