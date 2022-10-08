@@ -164,7 +164,7 @@ export function reassign_soft_reset(ns) {
             continue;
         }
         if (gangster.is_hacker(s)) {
-            gangster.blackmail(s);
+            gangster.blackmail([s]);
         }
     }
 }
