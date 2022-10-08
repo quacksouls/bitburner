@@ -1098,6 +1098,25 @@ export class Gangster {
     }
 
     /**
+     * Assign gang members to the idle state.
+     *
+     * @param name An array of member names.
+     */
+    neutral(name) {
+        // Sanity checks.
+        if (0 == name.length) {
+            return;
+        }
+        name.map(
+            s => assert(this.is_member(s))
+        );
+        // Let gang members be in the idle state.
+        name.map(
+            s => this.#ns.gang.setMemberTask(s, task.IDLE)
+        );
+    }
+
+    /**
      * Assign gang members to commit phishing scams.
      *
      * @param name An array of member names.

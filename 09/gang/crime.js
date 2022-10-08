@@ -492,6 +492,17 @@ function reassign(ns) {
 }
 
 /**
+ * Following territory warfare against a rival gang, reassign our gang members to other jobs.
+ *
+ * @param ns The Netscript API.
+ */
+function reassign_after_warfare(ns) {
+    const gangster = new Gangster(ns);
+    gangster.neutral(ns.gang.getMemberNames());
+    update(ns);
+}
+
+/**
  * Reassign high-level gang members to trafficking illegal arms.  Reassign
  * gang members if their Strength stat is in the half-open interval [min, max).
  * That is, we include the minimum threshold but exclude the maximum threshold.
@@ -933,8 +944,7 @@ export async function main(ns) {
             // The tick threshold should be a little under gang_t.TICK.
             tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
             other_gang = ns.gang.getOtherGangInformation();
-            reassign(ns);
-            update(ns);
+            reassign_after_warfare(ns);
             await ns.sleep(wait_t.MILLISECOND);
             continue;
         }
