@@ -18,13 +18,20 @@
 import { bool } from "/lib/constant/bool.js";
 import { MyArray } from "/lib/array.js";
 import { all_programs } from "/lib/constant/exe.js";
-import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import {
+    exclusive_aug,
+    augment,
+} from "/lib/constant/faction.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
-import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
+import {
+    assert,
+    trade_bot_resume,
+    trade_bot_stop_buy,
+} from "/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have
