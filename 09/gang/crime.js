@@ -631,10 +631,20 @@ function reassign_hacker(ns) {
         s => gangster.role(s) == members.ROLE.hacker
     );
     assert(1 == hacker.length);
-    reassign_phish(ns, hacker, task_t.PHISH, task_t.ID);
-    reassign_id_theft(ns, hacker, task_t.ID, task_t.FRAUD);
-    reassign_fraud(ns, hacker, task_t.FRAUD, task_t.LAUNDER);
-    reassign_launder(ns, hacker, task_t.LAUNDER, Infinity);
+    // If this is a hacking gang, then reassign the Hacker to one of the
+    // hacking-related jobs.
+    if (ns.gang.getGangInformation().isHacking) {
+        reassign_phish(ns, hacker, task_t.PHISH, task_t.ID);
+        reassign_id_theft(ns, hacker, task_t.ID, task_t.FRAUD);
+        reassign_fraud(ns, hacker, task_t.FRAUD, task_t.LAUNDER);
+        reassign_launder(ns, hacker, task_t.LAUNDER, Infinity);
+        return;
+    }
+    // Otherwise, reassign the Hacker to one of the jobs normally done by a
+    // miscellaneous gang member.
+    reassign_con(ns, hacker, task_t.CON, task_t.BLACKMAIL);
+    reassign_blackmail(ns, hacker, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+    reassign_human_trafficking(ns, hacker, task_t.TRAFFICK_HUMAN, Infinity);
 }
 
 /**
