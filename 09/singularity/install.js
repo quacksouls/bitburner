@@ -24,7 +24,7 @@ import {
 } from "/lib/constant/faction.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
-import { reassign_vigilante } from "/lib/gang/util.js";
+import { reassign_soft_reset } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
 import {
@@ -247,8 +247,7 @@ function set_neutral_gang(ns) {
         assert(ns.kill(script, player.home(), faction));
     }
     // Assign vigilantes.
-    const nmember = 1;
-    reassign_vigilante(ns, nmember);
+    reassign_soft_reset(ns);
     // Put anyone in combat training to mug people.
     const gangster = new Gangster(ns);
     const newbie = ns.gang.getMemberNames().filter(
