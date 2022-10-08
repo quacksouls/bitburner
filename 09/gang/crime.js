@@ -71,6 +71,40 @@ function casus_belli(ns) {
 }
 
 /**
+ * Choose gang members to be assigned to territory warfare.  This is territory
+ * warfare to help increase our gang power, not a clash against a rival gang.
+ * We want the following members to engage in turf war:
+ *
+ * (1) Vanguard x 1
+ * (2) Artillery x 1
+ * (3) Pilot x 1
+ * (4) Punk x 1
+ *
+ * As we have multiple gang members who hold the role of Punk, choose the
+ * strongest of those members.
+ *
+ * @param ns The Netscript API.
+ * @return An array of member names.  This is never an empty array.
+ */
+function choose_warriors(ns) {
+    const gangster = new Gangster(ns);
+    const combatant = ns.gang.getMemberNames().filter(
+        s => gangster.is_vanguard(s)
+            || gangster.is_artillery(s)
+            || gangster.is_pilot(s)
+    );
+    assert(combatant.length > 0);
+    const punk = ns.gang.getMemberNames().filter(
+        s => gangster.is_punk(s)
+    );
+    assert(punk.length > 0);
+    const warrior = combatant.concat([strongest_member(ns, punk)]);
+    assert(warrior.length > 0);
+    assert(warrior.length <= members.WARRIOR);
+    return warrior;
+}
+
+/**
  * Create a gang within the given criminal organization.  If we are in a
  * BitNode other than BN2.x, we must have a certain amount of negative karma
  * as a pre-requisite for creating a gang.
@@ -406,20 +440,25 @@ function para_bellum(ns) {
     }
     // We want at most members.WARRIOR members to be engaged in territory
     // warfare.  The remaining members should be in as high-paying jobs as
-    // possible.
-    const threshold = members.MAX - members.WARRIOR;
+    // possible.  The 4 combatants can be assigned to arms trafficking and the
+    // 4 miscellaneous members can be assigned to trafficking humans.  We can
+    // have 8 members be involved in some form of trafficking.  However, we
+    // also need 1 member to be committing acts of terrorism to help raise our
+    // respect so we can recruit more members.  The number of members engaged
+    // in some form of trafficking is effectively 7.  The subtraction of 1
+    // accounts for the lone member who commits acts of terrorism.
+    const threshold = members.MAX - members.WARRIOR - 1;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
     const trafficker = ns.gang.getMemberNames().filter(
-        s => gangster.is_arms_trafficker(s)
+        s => gangster.is_arms_trafficker(s) || gangster.is_human_trafficker(s)
     );
     if (trafficker.length <= threshold) {
         return;
     }
-    // Choose the strongest member and reassign them to turf warfare.
+    // Choose various combatants and reassign them to turf warfare.
     assert(trafficker.length > threshold);
-    const best = strongest_member(ns, trafficker);
-    gangster.turf_war([best]);
+    gangster.turf_war(choose_warriors(ns));
 }
 
 /**

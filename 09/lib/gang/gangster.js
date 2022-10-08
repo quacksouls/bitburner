@@ -867,6 +867,18 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member has been assigned the role of Punk.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member takes on the role of Punk;
+     *     false otherwise.
+     */
+    is_punk(name) {
+        assert(this.is_member(name));
+        return this.role(name) == members.ROLE.punk;
+    }
+
+    /**
      * Whether a gang member is engaged in armed robbery.
      *
      * @param name A string representing the name of a gang member.
