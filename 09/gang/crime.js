@@ -933,7 +933,7 @@ export async function main(ns) {
             // The tick threshold should be a little under gang_t.TICK.
             tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
             other_gang = ns.gang.getOtherGangInformation();
-            gangster.traffick_arms(ns.gang.getMemberNames());
+            reassign(ns);
             update(ns);
             await ns.sleep(wait_t.MILLISECOND);
             continue;
