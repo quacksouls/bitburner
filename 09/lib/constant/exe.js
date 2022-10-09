@@ -56,9 +56,10 @@ export function all_programs() {
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/DarkWeb/DarkWebItems.ts
  *
- * If we are to delete any of these cheapest programs, then we should definitely keep BruteSSH.exe.  The remaining
- * candidates for deletion are ServerProfiler.exe and DeepscanV1.exe.  Decide which of these two programs we do not
- * need and delete that one.
+ * If we are to delete any of these cheapest programs, then we should
+ * definitely keep BruteSSH.exe.  The remaining candidates for deletion are
+ * ServerProfiler.exe and DeepscanV1.exe.  Decide which of these two programs
+ * we do not need and delete that one.
  */
 export const cheapest_program = "DeepscanV1.exe";
 
