@@ -69,7 +69,15 @@ function purchase_schedule(ns) {
     // The money threshold.
     const m = new Money();
     const money = [
+        m.quadrillion(),
+        900 * m.trillion(),
+        800 * m.trillion(),
+        700 * m.trillion(),
+        600 * m.trillion(),
         500 * m.trillion(),
+        400 * m.trillion(),
+        300 * m.trillion(),
+        200 * m.trillion(),
         100 * m.trillion(),
         10 * m.trillion(),
         m.trillion(),
@@ -81,6 +89,14 @@ function purchase_schedule(ns) {
     ];
     // How many programs to buy.
     const howmany = [
+        1000,
+        900,
+        800,
+        700,
+        600,
+        500,
+        400,
+        300,
         200,
         100,
         50,
@@ -93,6 +109,14 @@ function purchase_schedule(ns) {
     ];
     // The sleep intervals.
     const time = [
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
+        wait_t.MILLISECOND,
         wait_t.MILLISECOND,
         wait_t.MILLISECOND,
         wait_t.MILLISECOND,
