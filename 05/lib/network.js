@@ -19,7 +19,10 @@
 
 import { home } from "/lib/constant.js";
 import { FAILURE, SUCCESS } from "/lib/constant.bool.js";
-import { assert, filter_pserv } from "/lib/util.js";
+import {
+    assert,
+    filter_pserv,
+} from "/lib/util.js";
 
 /**
  * A combinatorial graph, commonly referrred to as a graph.
