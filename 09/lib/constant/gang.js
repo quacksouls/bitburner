@@ -138,7 +138,7 @@ export const gang_t = {
     // of victory is expressed as an integer percentage.  In general, we should
     // only engage in turf warfare against another gang if our chance of
     // victory is at least this number.
-    "WIN": 70,
+    "WIN": 60,
 };
 
 /**
