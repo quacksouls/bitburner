@@ -1,0 +1,32 @@
+{
+    "name": "Bitburner",
+    "version": "0.9.0",
+    "description": "A bunch of scripts for a walkthrough of the game Bitburner.",
+    "main": "",
+    "scripts": {
+        "format": "prettier --write .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/quacksouls/bitburner.git"
+    },
+    "keywords": [],
+    "author": "Duck McSouls",
+    "license": "GPLv3",
+    "bugs": {
+        "url": "https://github.com/quacksouls/bitburner/issues"
+    },
+    "homepage": "https://github.com/quacksouls/bitburner",
+    "dependencies": {
+        "restify": "^8.6.1"
+    },
+    "devDependencies": {
+        "eslint": "^8.25.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "prettier": "^2.7.1"
+    }
+}
