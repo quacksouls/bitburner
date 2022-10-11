@@ -15,6 +15,11 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        // Use 4 space indentation.
+        "indent": [
+            "error",
+            4
+        ],
         "prettier/prettier": "error"
     }
 }
