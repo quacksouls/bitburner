@@ -200,83 +200,21 @@ function dir_singularity() {
 }
 
 /**
- * The directory structure on github.com.
+ * The directory structure under "src/" on github.com.
  *
- * @param d A string representing a directory name under quacksouls/bitburner/
- *     on github.com.
- * @return All files under the given directory.
+ * @return All files under "src/" on github.com.
  */
-function dir_structure(d) {
-    let filesystem = "";
-    switch (d) {
-        case "01":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_lib());
-            break;
-        case "02":
-        case "03":
-        case "04":
-            filesystem = dir_root();
-            break;
-        case "05":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_lib());
-            break;
-        case "06":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_cct());
-            filesystem = filesystem.concat(dir_lib());
-            break;
-        case "07":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_cct());
-            filesystem = filesystem.concat(dir_lib());
-            filesystem = filesystem.concat(dir_singularity());
-            break;
-        case "08":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_cct());
-            filesystem = filesystem.concat(dir_intelligence());
-            filesystem = filesystem.concat(dir_lib());
-            filesystem = filesystem.concat(dir_singularity());
-            break;
-        case "09":
-            filesystem = Array.from(dir_root());
-            filesystem = filesystem.concat(dir_cct());
-            filesystem = filesystem.concat(dir_gang());
-            filesystem = filesystem.concat(dir_intelligence());
-            filesystem = filesystem.concat(dir_lib());
-            filesystem = filesystem.concat(dir_singularity());
-            break;
-        default:
-            filesystem = "";
-            break;
-    }
+function dir_structure() {
+    const filesystem = [
+        dir_root(),
+        dir_cct(),
+        dir_gang(),
+        dir_intelligence(),
+        dir_lib(),
+        dir_singularity(),
+    ].flat();
     assert(filesystem.length > 0);
     return filesystem;
-}
-
-/**
- * Whether the given string represents a valid directory on github.com.  A
- * valid directory name follows the format xx where each x is a decimal digit.
- * Something like "01" is a valid directory name, whereas "o1" is not.
- *
- * @param d A string representing a directory name under quacksouls/bitburner/
- *     on github.com.
- * @return true if the given string represents a valid directory name;
- *     false otherwise.
- */
-function is_valid_dir(d) {
-    const VALID = true;
-    const NO_VALID = !VALID;
-    const digit = "0123456789";
-    if (2 != d.length) {
-        return NO_VALID;
-    }
-    if (!digit.includes(d[0]) || !digit.includes(d[1])) {
-        return NO_VALID;
-    }
-    return VALID;
 }
 
 /**
@@ -334,40 +272,22 @@ function target_name(f) {
  * @param ns The Netscript API.
  */
 function usage(ns) {
-    const msg = "Usage: run pull.js nn\n\n" + "n -- A decimal digit.";
+    const msg = "Usage: run pull.js";
     ns.tprint(msg);
 }
 
 /**
- * Pull all files (on github.com) under the directory
- * quacksouls/bitburner/xx into the game.  This script accepts a command line
- * argument, i.e. the name of the directory xx.
+ * Pull all files (on github.com) under the directory quacksouls/bitburner/src into
+ * the game.
  *
- * Usage: run pull.js [xx]
- * Example: run pull.js 03
+ * Usage: run pull.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Sanity checks.
-    // We want only one command line argument.
-    if (ns.args.length != 1) {
-        usage(ns);
-        return;
-    }
-    // The first directory is named "01".
-    let dir = parseInt(ns.args[0]);
-    if (dir < 1) {
-        usage(ns);
-        return;
-    }
-    // The game parses the command line argument as an integer and removes the
-    // leading zero.  Put "0" back in.
-    if (1 <= dir && dir <= 9) {
-        dir = "0" + dir;
-    }
-    dir += "";
-    if (!is_valid_dir(dir)) {
+    // Sanity check.
+    // The script does not accept any command line arguments.
+    if (ns.args.length > 0) {
         usage(ns);
         return;
     }
@@ -375,16 +295,16 @@ export async function main(ns) {
     const home = "home";
     // The base URL where files are found.
     const github = "https://raw.githubusercontent.com/";
-    const quack = "quacksouls/bitburner/main/";
-    const prefix = github + quack + dir + "/";
+    const quack = "quacksouls/bitburner/main/src/";
+    const prefix = github + quack;
     // Pull files into home server.
-    for (const f of dir_structure(dir)) {
+    dir_structure().forEach(async (f) => {
         const file = prefix + f;
         const target = target_name(f);
         const success = await ns.wget(file, target, home);
         if (success) {
             ns.tprint(file);
         }
-    }
+    });
     ns.tprint("Download complete.");
 }
