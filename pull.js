@@ -298,13 +298,13 @@ export async function main(ns) {
     const quack = "quacksouls/bitburner/main/src/";
     const prefix = github + quack;
     // Pull files into home server.
-    dir_structure().forEach(async (f) => {
+    for (const f of dir_structure()) {
         const file = prefix + f;
         const target = target_name(f);
         const success = await ns.wget(file, target, home);
         if (success) {
             ns.tprint(file);
         }
-    });
+    }
     ns.tprint("Download complete.");
 }
