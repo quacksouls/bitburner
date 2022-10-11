@@ -5,6 +5,7 @@
     "main": "",
     "scripts": {
         "format": "prettier --write .",
+        "lint": "eslint --fix --ext js,jsx,ts,tsx --max-warnings 0 src",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
