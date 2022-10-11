@@ -70,14 +70,12 @@ export class PurchasedServer {
      * hacking script using at least 2 threads.
      */
     default_ram() {
-        const script_ram = this.#ns.getScriptRam(
-            this.#script, this.#home
-        );
+        const script_ram = this.#ns.getScriptRam(this.#script, this.#home);
         let i = 0;
         while (script_ram > this.#valid_ram[i]) {
             i++;
         }
-        assert((i + 1) <= this.#valid_ram.length);
+        assert(i + 1 <= this.#valid_ram.length);
         return this.#valid_ram[i + 1];
     }
 

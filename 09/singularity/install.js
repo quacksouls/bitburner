@@ -18,20 +18,13 @@
 import { bool } from "/lib/constant/bool.js";
 import { MyArray } from "/lib/array.js";
 import { all_programs } from "/lib/constant/exe.js";
-import {
-    exclusive_aug,
-    augment,
-} from "/lib/constant/faction.js";
+import { exclusive_aug, augment } from "/lib/constant/faction.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
-import {
-    assert,
-    trade_bot_resume,
-    trade_bot_stop_buy,
-} from "/lib/util.js";
+import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have
@@ -52,7 +45,7 @@ function buy_exclusive_augmentations(ns) {
     const installed = new Set(installed_augmentations(ns));
     for (const faction of Object.keys(exclusive_aug)) {
         for (const aug of exclusive_aug[faction]) {
-            if (installed.has(aug) || (aug == augment.TRP)) {
+            if (installed.has(aug) || aug == augment.TRP) {
                 continue;
             }
             const fac_rep = ns.singularity.getFactionRep(gang_faction);
@@ -84,15 +77,15 @@ function buy_other_augmentations(ns) {
     for (const fac of Object.keys(exclusive_aug)) {
         exclusive = exclusive.concat(exclusive_aug[fac]);
     }
-    exclusive = exclusive.filter(a => a != augment.TRP);
+    exclusive = exclusive.filter((a) => a != augment.TRP);
     exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
     // Buy other Augmentations available from our gang faction.
     const faction = ns.gang.getGangInformation().faction;
     const player = new Player(ns);
-    const aug = ns.singularity.getAugmentationsFromFaction(faction).filter(
-        a => a != augment.TRP
-    );
+    const aug = ns.singularity
+        .getAugmentationsFromFaction(faction)
+        .filter((a) => a != augment.TRP);
     for (const a of aug) {
         if (installed.has(a) || exclusive.has(a)) {
             continue;
@@ -120,7 +113,7 @@ async function buy_programs(ns) {
     const player = new Player(ns);
     assert(player.has_tor());
     const db = cost_program(ns);
-    const time = 1;  // Millisecond.
+    const time = 1; // Millisecond.
     // Try to buy at most this many times to prevent the script from hanging.
     // If our income rises faster than our spending on programs, then it is
     // possible for this function to hang and buys indefinitely.
@@ -220,7 +213,7 @@ function installed_augmentations(ns) {
 function purchased_augmentations(ns) {
     const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     const installed_aug = installed_augmentations(ns);
-    return purchased_aug.filter(a => !installed_aug.includes(a));
+    return purchased_aug.filter((a) => !installed_aug.includes(a));
 }
 
 /**
@@ -250,9 +243,9 @@ function set_neutral_gang(ns) {
     reassign_soft_reset(ns);
     // Put anyone in combat training to mug people.
     const gangster = new Gangster(ns);
-    const newbie = ns.gang.getMemberNames().filter(
-        s => gangster.is_training(s)
-    );
+    const newbie = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_training(s));
     gangster.mug(newbie);
     // Finally, disengage from turf warfare so members would not be killed
     // while we cannot run the script that manages our gang.

@@ -90,7 +90,11 @@ export function intelligence_gain(ns, before, after, action) {
  * @param minute Divide the Intelligence XP gain by this many minutes.
  */
 export function intelligence_gain_per_minute(
-    ns, before, after, action, minute
+    ns,
+    before,
+    after,
+    action,
+    minute,
 ) {
     assert(before >= 0);
     assert(after >= 0);

@@ -48,7 +48,7 @@ export async function main(ns) {
     } else if ("world" == stype) {
         // Kill all scripts on world servers where we have root access.
         let server = network(ns);
-        server = server.filter(s => ns.hasRootAccess(s));
+        server = server.filter((s) => ns.hasRootAccess(s));
         // Visit each server where we have root access and kill all running
         // scripts.
         for (const s of server) {

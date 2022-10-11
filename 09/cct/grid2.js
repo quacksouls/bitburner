@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, matrix_to_string, print_error, print_success
+    log_cct_failure,
+    matrix_to_string,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
@@ -122,17 +125,17 @@ function unique_paths(grid) {
                 continue;
             }
             // r = 0, c = 0
-            if ((0 == r) && (0 == c)) {
+            if (0 == r && 0 == c) {
                 path[r][c] = 1;
                 continue;
             }
             // r = 0, c >= 1
-            if ((0 == r) && (c >= 1)) {
+            if (0 == r && c >= 1) {
                 path[r][c] = path[r][c - 1];
                 continue;
             }
             // r >= 1, c = 0
-            if ((r >= 1) && (0 == c)) {
+            if (r >= 1 && 0 == c) {
                 path[r][c] = path[r - 1][c];
                 continue;
             }
@@ -170,9 +173,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const grid = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        unique_paths(grid), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(unique_paths(grid), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/grid2.txt";

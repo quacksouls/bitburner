@@ -49,22 +49,8 @@ export class PurchasedServer {
         this.#ns = ns;
         this.#script = script;
         this.#valid_ram = [
-            32,
-            64,
-            128,
-            256,
-            512,
-            1024,
-            2048,
-            4096,
-            8192,
-            16384,
-            32768,
-            65536,
-            131072,
-            262144,
-            524288,
-            1048576
+            32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
+            131072, 262144, 524288, 1048576,
         ];
     }
 
@@ -85,14 +71,12 @@ export class PurchasedServer {
      * hacking script using at least 2 threads.
      */
     default_ram() {
-        const script_ram = this.#ns.getScriptRam(
-            this.#script, this.#home
-        );
+        const script_ram = this.#ns.getScriptRam(this.#script, this.#home);
         let i = 0;
         while (script_ram > this.#valid_ram[i]) {
             i++;
         }
-        assert((i + 1) <= this.#valid_ram.length);
+        assert(i + 1 <= this.#valid_ram.length);
         return this.#valid_ram[i + 1];
     }
 

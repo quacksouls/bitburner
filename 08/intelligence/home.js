@@ -18,7 +18,7 @@
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
-import { Server} from "/lib/server.js";
+import { Server } from "/lib/server.js";
 import { assert } from "/lib/util.js";
 
 /**

@@ -40,7 +40,7 @@ export function all_programs() {
         ["DeepscanV2.exe", 400],
         ["ServerProfiler.exe", 75],
         ["AutoLink.exe", 25],
-        ["Formulas.exe", 1000]
+        ["Formulas.exe", 1000],
     ]);
     return program;
 }
@@ -54,7 +54,7 @@ export const program = [
     "FTPCrack.exe",
     "HTTPWorm.exe",
     "relaySMTP.exe",
-    "SQLInject.exe"
+    "SQLInject.exe",
 ];
 
 /**
@@ -66,5 +66,5 @@ export const utility_program = [
     "DeepscanV1.exe",
     "DeepscanV2.exe",
     "Formulas.exe",
-    "ServerProfiler.exe"
+    "ServerProfiler.exe",
 ];

@@ -62,7 +62,7 @@ function dir_cct() {
         "cct/trader3.js",
         "cct/trader4.js",
         "cct/triangle.js",
-        "cct/vigenere.js"
+        "cct/vigenere.js",
     ];
     return cct;
 }
@@ -75,7 +75,7 @@ function dir_gang() {
         "gang/crime.js",
         "gang/dead-speakers.js",
         "gang/go.js",
-        "gang/slum-snakes.js"
+        "gang/slum-snakes.js",
     ];
     return gang;
 }
@@ -101,7 +101,7 @@ function dir_intelligence() {
         "intelligence/tor-program.js",
         "intelligence/tor.js",
         "intelligence/travel.js",
-        "intelligence/util.js"
+        "intelligence/util.js",
     ];
     return dir;
 }
@@ -144,7 +144,7 @@ function dir_lib() {
         "lib/singularity/study.js",
         "lib/singularity/util.js",
         "lib/singularity/work.js",
-        "lib/util.js"
+        "lib/util.js",
     ];
     return lib;
 }
@@ -170,7 +170,7 @@ function dir_root() {
         "restart-server.js",
         "shortest-path.js",
         "trade-bot.js",
-        "world-server.js"
+        "world-server.js",
     ];
     return root;
 }
@@ -194,7 +194,7 @@ function dir_singularity() {
         "singularity/int-farm.js",
         "singularity/money.js",
         "singularity/program.js",
-        "singularity/study.js"
+        "singularity/study.js",
     ];
     return dir;
 }
@@ -334,8 +334,7 @@ function target_name(f) {
  * @param ns The Netscript API.
  */
 function usage(ns) {
-    const msg = "Usage: run pull.js nn\n\n"
-          + "n -- A decimal digit.";
+    const msg = "Usage: run pull.js nn\n\n" + "n -- A decimal digit.";
     ns.tprint(msg);
 }
 
@@ -364,7 +363,7 @@ export async function main(ns) {
     }
     // The game parses the command line argument as an integer and removes the
     // leading zero.  Put "0" back in.
-    if ((1 <= dir) && (dir <= 9)) {
+    if (1 <= dir && dir <= 9) {
         dir = "0" + dir;
     }
     dir += "";

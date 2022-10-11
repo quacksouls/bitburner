@@ -36,9 +36,9 @@ export const augment = {
     // the faction in exchange for reputation points.  This should help to
     // shorten the amount of time required to reach a certain amount of
     // reputation points.
-    "BUY_TAU": 5,
+    BUY_TAU: 5,
     // Named Augmentations.
-    "TRP": "The Red Pill"
+    TRP: "The Red Pill",
 };
 
 /**
@@ -58,70 +58,70 @@ export const augment = {
  * (8) money := Must have at least this amount of money.
  */
 export const faction_req = {
-    "Aevum": {
-        "city": "Aevum",
-        "money": 40e6
+    Aevum: {
+        city: "Aevum",
+        money: 40e6,
     },
     "Bachman & Associates": {
-        "backdoor": "b-and-a",
-        "city": "Aevum"
+        backdoor: "b-and-a",
+        city: "Aevum",
     },
-    "BitRunners": {
-        "backdoor": "run4theh111z"
+    BitRunners: {
+        backdoor: "run4theh111z",
     },
     "Blade Industries": {
-        "backdoor": "blade",
-        "city": "Sector-12"
+        backdoor: "blade",
+        city: "Sector-12",
     },
-    "Chongqing": {
-        "city": "Chongqing",
-        "money": 20e6
+    Chongqing: {
+        city: "Chongqing",
+        money: 20e6,
     },
     "Clarke Incorporated": {
-        "backdoor": "clarkinc",
-        "city": "Aevum"
+        backdoor: "clarkinc",
+        city: "Aevum",
     },
-    "CyberSec": {
-        "backdoor": "CSEC"
+    CyberSec: {
+        backdoor: "CSEC",
     },
     // This faction has a requirement not listed below.  We must install a
     // certain number of Augmentations.  This number can vary from one BitNode
     // to the next.
-    "Daedalus": {
-        "combat": 1500,
-        "hack": 2500,
-        "money": 100e9
+    Daedalus: {
+        combat: 1500,
+        hack: 2500,
+        money: 100e9,
     },
-    "ECorp": {
-        "backdoor": "ecorp",
-        "city": "Aevum"
+    ECorp: {
+        backdoor: "ecorp",
+        city: "Aevum",
     },
     "Four Sigma": {
-        "backdoor": "4sigma",
-        "city": "Sector-12"
+        backdoor: "4sigma",
+        city: "Sector-12",
     },
     "Fulcrum Secret Technologies": {
-        "backdoor": "fulcrumassets",
-        "city": "Aevum"
+        backdoor: "fulcrumassets",
+        city: "Aevum",
     },
     // This faction has a requirement not listed below.  We must install at
     // least 30 Augmentations.
-    "Illuminati": {
-        "combat": 1200,
-        "hack": 1500,
-        "money": 150e9
+    Illuminati: {
+        combat: 1200,
+        hack: 1500,
+        money: 150e9,
     },
-    "Ishima": {
-        "city": "Ishima",
-        "money": 30e6
+    Ishima: {
+        city: "Ishima",
+        money: 30e6,
     },
     "KuaiGong International": {
-        "backdoor": "kuai-gong",
-        "city": "Chongqing"
+        backdoor: "kuai-gong",
+        city: "Chongqing",
     },
-    "MegaCorp": {
-        "backdoor": "megacorp",
-        "city": "Sector-12"
+    MegaCorp: {
+        backdoor: "megacorp",
+        city: "Sector-12",
     },
     // This faction has another requirement not listed below.  Nodes in our
     // Hacknet farm must have a collective level of at least 100, a collective
@@ -129,86 +129,83 @@ export const faction_req = {
     // we have 3 Hacknet nodes then the Level of all 3 nodes should add up to
     // at least 100. One node can be at Level 50, another node can be at
     // Level 30, and the third node can be at Level 21.
-    "Netburners": {
-        "hack": 80
+    Netburners: {
+        hack: 80,
     },
     "New Tokyo": {
-        "city": "New Tokyo",
-        "money": 20e6
+        city: "New Tokyo",
+        money: 20e6,
     },
-    "NiteSec": {
-        "backdoor": "avmnite-02h"
+    NiteSec: {
+        backdoor: "avmnite-02h",
     },
-    "NWO": {
-        "backdoor": "nwo",
-        "city": "Volhaven"
+    NWO: {
+        backdoor: "nwo",
+        city: "Volhaven",
     },
     "OmniTek Incorporated": {
-        "backdoor": "omnitek",
-        "city": "Volhaven"
+        backdoor: "omnitek",
+        city: "Volhaven",
     },
     "Sector-12": {
-        "city": "Sector-12"
+        city: "Sector-12",
     },
     // This faction has another requirement not listed below.  We must be a
     // CTO, CFO, or CEO of a company.
-    "Silhouette": {
-        "karma": -22,
-        "money": 15e6
+    Silhouette: {
+        karma: -22,
+        money: 15e6,
     },
     "Slum Snakes": {
-        "combat": 30,
-        "karma": -9,
-        "money": 1e6
+        combat: 30,
+        karma: -9,
+        money: 1e6,
     },
     "Speakers for the Dead": {
-        "ban": [
-            "Central Intelligence Agency",
-            "National Security Agency",
-        ],
-        "combat": 300,
-        "hack": 100,
-        "karma": -45,
-        "kill": 30
+        ban: ["Central Intelligence Agency", "National Security Agency"],
+        combat: 300,
+        hack: 100,
+        karma: -45,
+        kill: 30,
     },
-    "Tetrads": {
-        "city": "Ishima",
-        "combat": 75,
-        "karma": -18
+    Tetrads: {
+        city: "Ishima",
+        combat: 75,
+        karma: -18,
     },
     "The Black Hand": {
-        "backdoor": "I.I.I.I"
+        backdoor: "I.I.I.I",
     },
     // This faction has a requirement not listed below.  We must have installed
     // at least 20 Augmentations.
     "The Covenant": {
-        "combat": 850,
-        "hack": 850,
-        "money": 75e9
+        combat: 850,
+        hack: 850,
+        money: 75e9,
     },
     "The Dark Army": {
-        "city": "Chongqing",
-        "combat": 300,
-        "hack": 300,
-        "karma": -45,
-        "kill": 5
+        city: "Chongqing",
+        combat: 300,
+        hack: 300,
+        karma: -45,
+        kill: 5,
     },
     "The Syndicate": {
-        "city": "Sector-12",
-        "combat": 200,
-        "hack": 200,
-        "karma": -90,
-        "money": 10e6
+        city: "Sector-12",
+        combat: 200,
+        hack: 200,
+        karma: -90,
+        money: 10e6,
     },
     "Tian Di Hui": {
-        "city": "Ishima",
-        "hack": 50,
-        "money": 1e6
+        city: "Ishima",
+        hack: 50,
+        money: 1e6,
     },
-    "Volhaven": {
-        "city": "Volhaven",
-        "money": 50e6
-    }
+    Volhaven: {
+        city: "Volhaven",
+        money: 50e6,
+    },
 };
 
 /**
@@ -216,11 +213,11 @@ export const faction_req = {
  */
 export const faction_t = {
     // Donate this percentage of our money to a faction.
-    "DONATE_MULT": 0.2,
+    DONATE_MULT: 0.2,
     // The minimum amount of reputation we must attain at a company.  This
     // reputation point is part of the pre-requisites for receiving an
     // invitation from a megacorporation faction.
-    "CORP_REP": 3e5
+    CORP_REP: 3e5,
 };
 
 /**
@@ -229,55 +226,53 @@ export const faction_t = {
  */
 export const exclusive_aug = {
     "Bachman & Associates": ["SmartJaw"],
-    "BitRunners": [
+    BitRunners: [
         "BitRunners Neurolink",
         "Cranial Signal Processors - Gen V",
-        "Neural Accelerator"
+        "Neural Accelerator",
     ],
     "Blade Industries": ["Neotra"],
-    "Chongqing": ["Neuregen Gene Modification"],
+    Chongqing: ["Neuregen Gene Modification"],
     "Clarke Incorporated": [
         "Neuronal Densification",
-        "nextSENS Gene Modification"
+        "nextSENS Gene Modification",
     ],
-    "CyberSec": [
+    CyberSec: [
         "Cranial Signal Processors - Gen I",
-        "Neurotrainer I", "Synaptic Enhancement Implant"
+        "Neurotrainer I",
+        "Synaptic Enhancement Implant",
     ],
-    "Daedalus": ["The Red Pill"],
-    "ECorp": ["ECorp HVMind Implant"],
+    Daedalus: ["The Red Pill"],
+    ECorp: ["ECorp HVMind Implant"],
     "Fulcrum Secret Technologies": [
-        "PC Direct-Neural Interface NeuroNet Injector"
+        "PC Direct-Neural Interface NeuroNet Injector",
     ],
-    "Illuminati": ["QLink"],
-    "Ishima": ["INFRARET Enhancement"],
+    Illuminati: ["QLink"],
+    Ishima: ["INFRARET Enhancement"],
     "KuaiGong International": ["Photosynthetic Cells"],
-    "MegaCorp": ["CordiARC Fusion Reactor"],
-    "Netburners": [
+    MegaCorp: ["CordiARC Fusion Reactor"],
+    Netburners: [
         "Hacknet Node Cache Architecture Neural-Upload",
         "Hacknet Node Core Direct-Neural Interface",
         "Hacknet Node CPU Architecture Neural-Upload",
         "Hacknet Node Kernel Direct-Neural Interface",
-        "Hacknet Node NIC Architecture Neural-Upload"
+        "Hacknet Node NIC Architecture Neural-Upload",
     ],
     "New Tokyo": ["NutriGen Implant"],
-    "NiteSec": [
-        "CRTX42-AA Gene Modification",
-        "Neural-Retention Enhancement"
-    ],
-    "NWO": ["Xanipher"],
+    NiteSec: ["CRTX42-AA Gene Modification", "Neural-Retention Enhancement"],
+    NWO: ["Xanipher"],
     "OmniTek Incorporated": ["OmniTek InfoLoad"],
     "Sector-12": ["CashRoot Starter Kit"],
-    "Silhouette": ["TITN-41 Gene-Modification Injection"],
+    Silhouette: ["TITN-41 Gene-Modification Injection"],
     "Slum Snakes": ["SmartSonar Implant"],
     "Speakers for the Dead": ["Graphene BrachiBlades Upgrade"],
-    "Tetrads": ["Bionic Arms"],
+    Tetrads: ["Bionic Arms"],
     "Tian Di Hui": ["Social Negotiation Assistant (S.N.A)"],
     "The Black Hand": ["The Black Hand"],
     "The Covenant": ["SPTN-97 Gene Modification"],
     "The Dark Army": ["Graphene Bionic Arms Upgrade"],
     "The Syndicate": ["BrachiBlades"],
-    "Volhaven": ["DermaForce Particle Barrier"]
+    Volhaven: ["DermaForce Particle Barrier"],
 };
 
 /**
@@ -328,7 +323,7 @@ export const factions = {
     // (12) The endgame factions should be the last to join.  We can join
     //      Illuminati or The Covenant in any order we want.  However, Daedalus
     //      should be the very last faction that we join.
-    "all": [
+    all: [
         // Early game factions, city factions, and hacking groups.
         "Sector-12",
         "Netburners",
@@ -367,16 +362,10 @@ export const factions = {
         // Endgame factions.
         "Illuminati",
         "The Covenant",
-        "Daedalus"
+        "Daedalus",
     ],
     // Various early-game factions.
-    "early": [
-        "Sector-12",
-        "Netburners",
-        "CyberSec",
-        "Tian Di Hui",
-        "BitRunners"
-    ],
+    early: ["Sector-12", "Netburners", "CyberSec", "Tian Di Hui", "BitRunners"],
     // A bunch of factions that have these Augmentations:
     //
     // (1) Boost our faction reputation multiplier.
@@ -384,7 +373,7 @@ export const factions = {
     //
     // Join each of these factions, earn the required reputation points, and
     // purchase only the necessary Augmentations.
-    "fast_track": {
+    fast_track: {
         "Sector-12": [
             // This Augmentation allows us to start with $1m and BruteSSH.exe.
             "CashRoot Starter Kit",
@@ -392,12 +381,12 @@ export const factions = {
             "Combat Rib I",
             "Neuralstimulator",
         ],
-        "CyberSec": [
+        CyberSec: [
             // This Augmentation is a pre-requisite of various Augmentations
             // from BitRunners.
             "Cranial Signal Processors - Gen I",
         ],
-        "BitRunners": [
+        BitRunners: [
             // This Augmentation allows us to start with FTPCrack.exe and
             // relaySMTP.exe.
             "BitRunners Neurolink",
@@ -407,19 +396,12 @@ export const factions = {
             "ADR-V1 Pheromone Gene",
             "Social Negotiation Assistant (S.N.A)",
         ],
-        "The Syndicate": [
-            "The Shadow's Simulacrum",
-        ],
-        "Aevum": [
-            "PCMatrix"
-        ],
-        "Bachman & Associates": [
-            "ADR-V2 Pheromone Gene",
-            "SmartJaw",
-        ],
+        "The Syndicate": ["The Shadow's Simulacrum"],
+        Aevum: ["PCMatrix"],
+        "Bachman & Associates": ["ADR-V2 Pheromone Gene", "SmartJaw"],
     },
     // All megacorporation factions.
-    "megacorp": [
+    megacorp: [
         "Bachman & Associates",
         "Blade Industries",
         "Clarke Incorporated",
@@ -429,6 +411,6 @@ export const factions = {
         "KuaiGong International",
         "MegaCorp",
         "NWO",
-        "OmniTek Incorporated"
-    ]
+        "OmniTek Incorporated",
+    ],
 };

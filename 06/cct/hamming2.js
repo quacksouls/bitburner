@@ -17,7 +17,11 @@
 
 import { MyArray } from "/lib/array.js";
 import {
-    count_one, log_cct_failure, parity_position, print_error, print_success
+    count_one,
+    log_cct_failure,
+    parity_position,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
@@ -71,7 +75,7 @@ function check_parity(msg, nparity) {
  */
 function decode(msg) {
     assert(msg.length > 0);
-    const _msg = Array.from(msg).map(s => parseInt(s, base.DECIMAL));
+    const _msg = Array.from(msg).map((s) => parseInt(s, base.DECIMAL));
     const nparity = num_parity(_msg);
     const _msgc = secded(_msg, nparity);
     return to_integer(_msgc, nparity);
@@ -95,8 +99,8 @@ function decode(msg) {
 function num_parity(msg) {
     const lower_bound = 4;
     assert(msg.length >= lower_bound);
-    let i = 0;         // How many parity bits.
-    let pos = 2 ** i;  // Position of a parity bit.
+    let i = 0; // How many parity bits.
+    let pos = 2 ** i; // Position of a parity bit.
     while (pos < msg.length) {
         i++;
         pos = 2 ** i;
@@ -132,7 +136,7 @@ function secded(msg, nparity) {
     // Check the overall parity bit.  This allows us to check for the presence
     // of a second error, but we would not be able to correct the second error.
     const n1 = array.sum(_msg.slice(1, _msg.length));
-    assert(_msg[0] == (n1 % 2));
+    assert(_msg[0] == n1 % 2);
     return _msg;
 }
 
@@ -187,9 +191,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const msg = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        decode(msg), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(decode(msg), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/hamming2.txt";

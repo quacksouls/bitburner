@@ -99,13 +99,14 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     // Work for a company as a software engineer until we have accumulated the
     // given amount of Charisma level.
     const company = choose_company(ns);
-    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
+    ns.singularity.goToLocation(company); // Raise Intelligence XP.
     ns.singularity.applyToCompany(company, job_area.SOFTWARE);
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (player.charisma() < threshold) {
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
-            company, job_area.SOFTWARE
+            company,
+            job_area.SOFTWARE,
         );
         // We have a promotion.  Work in the new job.
         if (success) {
@@ -131,19 +132,20 @@ export async function rise_to_cfo(ns, company) {
     assert(player.charisma() >= charisma_lvl);
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
-    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
+    ns.singularity.goToLocation(company); // Raise Intelligence XP.
     ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (true) {
         if (
-            (player.job(company) == job_title.CFO)
-                || (player.job(company) == job_title.CEO)
+            player.job(company) == job_title.CFO ||
+            player.job(company) == job_title.CEO
         ) {
             break;
         }
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
-            company, job_area.BUSINESS
+            company,
+            job_area.BUSINESS,
         );
         // We have a promotion.  Work in the new job.
         if (success) {
@@ -174,7 +176,7 @@ export async function work(ns, threshold) {
     // second.  By default, we work a business job.  However, if our Charisma
     // level is low, work a software job instead to raise our Charisma.
     const company = choose_company(ns);
-    ns.singularity.goToLocation(company);  // Increase Intelligence XP.
+    ns.singularity.goToLocation(company); // Increase Intelligence XP.
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
@@ -201,7 +203,7 @@ export async function work(ns, threshold) {
  */
 export async function work_for_company(ns, company, rep) {
     assert(rep > 0);
-    ns.singularity.goToLocation(company);  // Raise Intelligence XP.
+    ns.singularity.goToLocation(company); // Raise Intelligence XP.
     // Ensure we have the minimum Hack stat.
     if (ns.getHackingLevel() < work_hack_lvl) {
         await study(ns, work_hack_lvl);

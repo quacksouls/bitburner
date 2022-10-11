@@ -16,8 +16,15 @@
  */
 
 import {
-    assert, choose_best_server, copy_and_run, filter_pserv,
-    minutes_to_milliseconds, network, Player, seconds_to_milliseconds, Server
+    assert,
+    choose_best_server,
+    copy_and_run,
+    filter_pserv,
+    minutes_to_milliseconds,
+    network,
+    Player,
+    seconds_to_milliseconds,
+    Server,
 } from "./libbnr.js";
 
 /**
@@ -90,9 +97,9 @@ async function hack_servers(ns, target) {
 
     // Gain root access to as many servers as possible on the network.  Copy
     // our hack script to each server and use the server to hack itself.
-    let reject = new Array();  // Servers we can't hack at the moment.
+    let reject = new Array(); // Servers we can't hack at the moment.
     // A Hack stat margin: 1% of our Hack stat, plus another 5 points.
-    const margin = Math.floor((0.01 * player.hacking_skill()) + 5);
+    const margin = Math.floor(0.01 * player.hacking_skill() + 5);
     for (const s of target) {
         // Should we skip this server?
         if (skip_server(ns, s, player.script(), margin)) {
@@ -150,7 +157,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
                 // been hacked.
                 const target = new Server(ns, choose_best_server(ns, hserver));
                 assert(!target.is_bankrupt());
-                hserver = hserver.filter(s => s != target.hostname());
+                hserver = hserver.filter((s) => s != target.hostname());
                 // Redirect the bankrupt server to hack the target server.
                 await hack_a_server(ns, s, target.hostname());
                 continue;
@@ -179,8 +186,8 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
  * @return true if we are to skip over the given server; false otherwise.
  */
 function skip_server(ns, server, script, margin) {
-    const SKIP = true;      // Skip this server.
-    const NO_SKIP = !SKIP;  // Don't skip over this server.
+    const SKIP = true; // Skip this server.
+    const NO_SKIP = !SKIP; // Don't skip over this server.
     const serv = new Server(ns, server);
     const player = new Player(ns);
     const m = Math.floor(margin);
@@ -205,7 +212,7 @@ function skip_server(ns, server, script, margin) {
         return SKIP;
     }
     // Skip over a server if its hacking skill requirement is too high.
-    if ((player.hacking_skill() + m) < serv.hacking_skill()) {
+    if (player.hacking_skill() + m < serv.hacking_skill()) {
         return SKIP;
     }
     return NO_SKIP;
@@ -231,7 +238,7 @@ function tolerate_margin(ns, margin, server) {
     assert(m > 0);
     const requirement = serv.hacking_skill();
     assert(h < requirement);
-    return (h + m) >= requirement;
+    return h + m >= requirement;
 }
 
 /**

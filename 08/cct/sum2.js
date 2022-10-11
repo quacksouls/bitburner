@@ -112,9 +112,9 @@ export async function main(ns) {
     // Solve the coding contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
     const npart = coin_change(n, denomination);
-    const result = ns.codingcontract.attempt(
-        npart, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(npart, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/sum2.txt";

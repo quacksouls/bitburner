@@ -72,7 +72,7 @@ function is_balanced(expression) {
  */
 function is_parenthesis(c) {
     assert(1 == c.length);
-    if ((parenthesis.OPEN == c) || (parenthesis.CLOSE == c)) {
+    if (parenthesis.OPEN == c || parenthesis.CLOSE == c) {
         return true;
     }
     return false;
@@ -212,9 +212,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const expression = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        sanitize(expression), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(sanitize(expression), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/parenthesis.txt";

@@ -44,10 +44,10 @@ export async function main(ns) {
     // security level is higher than the threshold, weaken the target
     // before doing anything else.
     const security_threshold = Math.ceil(
-        ns.getServerMinSecurityLevel(target) + 5
+        ns.getServerMinSecurityLevel(target) + 5,
     );
     // Continously hack/grow/weaken the target server.
-    const time = 1;  // One millisecond.
+    const time = 1; // One millisecond.
     while (true) {
         if (ns.getServerSecurityLevel(target) > security_threshold) {
             await ns.weaken(target);

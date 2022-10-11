@@ -85,9 +85,9 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        ("BitRunners" == faction)
-            || ("NiteSec" == faction)
-            || ("The Black Hand" == faction)
+        "BitRunners" == faction ||
+            "NiteSec" == faction ||
+            "The Black Hand" == faction,
     );
     await hacking_group(ns, faction);
     // The next script in the load chain.

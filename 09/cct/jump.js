@@ -34,11 +34,11 @@ function end_reachable(array) {
     const myarr = new MyArray();
     assert(myarr.all_nonnegative(array));
     // Use a greedy method to try to reach the last array cell.
-    let i = 0;                  // Current array index.
-    const index = new Array();  // Index of intermediary cells.
-    const jump = new Array();   // Jump length of array cell index[i].
+    let i = 0; // Current array index.
+    const index = new Array(); // Index of intermediary cells.
+    const jump = new Array(); // Jump length of array cell index[i].
     let reduce_distance = false;
-    let d;                      // The jump distance.
+    let d; // The jump distance.
     while (i < array.length) {
         // Do we need to reduce the jump distance?
         if (reduce_distance) {
@@ -96,7 +96,7 @@ function is_last_cell(i, array) {
     assert(array.length > 0);
     assert(i >= 0);
     assert(i < array.length);
-    return i == (array.length - 1);
+    return i == array.length - 1;
 }
 
 /**
@@ -130,9 +130,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        end_reachable(array), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(end_reachable(array), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/jump.txt";

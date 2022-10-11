@@ -83,9 +83,7 @@ async function load_chain(ns) {
         gang_script[0],
     ];
     const nthread = 1;
-    script.map(
-        s => ns.exec(s, home, nthread)
-    );
+    script.map((s) => ns.exec(s, home, nthread));
     // Wait until we have joined a criminal faction.  Then launch another
     // script.  We must wait because the script launched by "/gang/go.sh" needs
     // to perform tasks that require focus.  The script
@@ -122,7 +120,7 @@ export async function main(ns) {
     const player_money = ns.getServerMoneyAvailable(home);
     const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
-    if ((player_money > threshold) && (home_ram >= home_t.RAM_HIGH)) {
+    if (player_money > threshold && home_ram >= home_t.RAM_HIGH) {
         await load_chain(ns);
         return;
     }

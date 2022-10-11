@@ -31,11 +31,9 @@ function reboot(ns) {
         "hnet-farm.js",
         "world-server.js",
         "buy-server.js",
-        "/cct/solver.js"
+        "/cct/solver.js",
     ];
-    script.map(
-        s => ns.exec(s, home, nthread)
-    );
+    script.map((s) => ns.exec(s, home, nthread));
 }
 
 /**

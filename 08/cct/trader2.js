@@ -91,7 +91,12 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(
-        maximize_profit(array), cct, host, { returnReward: true }
+        maximize_profit(array),
+        cct,
+        host,
+        {
+            returnReward: true,
+        },
     );
     // Log the result in case of failure.
     if (0 == result.length) {

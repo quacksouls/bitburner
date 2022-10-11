@@ -173,9 +173,7 @@ export class Server {
         // Copy our script over to this server.  Use the server to hack the
         // target.
         await this.#ns.scp(this.#script, this.hostname(), this.#home);
-        this.#ns.exec(
-            this.#script, this.hostname(), nthread, targ.hostname
-        );
+        this.#ns.exec(this.#script, this.hostname(), nthread, targ.hostname);
         return bool.SUCCESS;
     }
 
@@ -191,11 +189,21 @@ export class Server {
             return true;
         }
         // Try to open all required ports and nuke the server.
-        try { await this.#ns.brutessh(this.hostname()); } catch { }
-        try { await this.#ns.ftpcrack(this.hostname()); } catch { }
-        try { await this.#ns.httpworm(this.hostname()); } catch { }
-        try { await this.#ns.relaysmtp(this.hostname()); } catch { }
-        try { await this.#ns.sqlinject(this.hostname()); } catch { }
+        try {
+            await this.#ns.brutessh(this.hostname());
+        } catch {}
+        try {
+            await this.#ns.ftpcrack(this.hostname());
+        } catch {}
+        try {
+            await this.#ns.httpworm(this.hostname());
+        } catch {}
+        try {
+            await this.#ns.relaysmtp(this.hostname());
+        } catch {}
+        try {
+            await this.#ns.sqlinject(this.hostname());
+        } catch {}
         try {
             await this.#ns.nuke(this.hostname());
             return true;

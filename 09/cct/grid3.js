@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, matrix_to_string, print_error, print_success
+    log_cct_failure,
+    matrix_to_string,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { bool } from "/lib/constant/bool.js";
 import { Graph } from "/lib/network.js";
@@ -301,7 +304,7 @@ function unpairing(z) {
     assert(z >= 0);
     const numer = Math.sqrt(8 * z + 1) - 1;
     const w = Math.floor(numer / 2);
-    const t = ((w ** 2) + w) / 2;
+    const t = (w ** 2 + w) / 2;
     const y = z - t;
     const x = w - y;
     return [x, y];
@@ -332,9 +335,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const grid = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        shortest_path(grid), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(shortest_path(grid), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/grid3.txt";

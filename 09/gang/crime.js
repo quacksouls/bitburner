@@ -53,9 +53,7 @@ function ascend(ns) {
         return;
     }
     const gangster = new Gangster(ns);
-    member.map(
-        s => gangster.ascend(s)
-    );
+    member.map((s) => gangster.ascend(s));
 }
 
 /**
@@ -88,15 +86,16 @@ function casus_belli(ns) {
  */
 function choose_warriors(ns) {
     const gangster = new Gangster(ns);
-    const combatant = ns.gang.getMemberNames().filter(
-        s => gangster.is_vanguard(s)
-            || gangster.is_artillery(s)
-            || gangster.is_pilot(s)
-    );
+    const combatant = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) =>
+                gangster.is_vanguard(s) ||
+                gangster.is_artillery(s) ||
+                gangster.is_pilot(s),
+        );
     assert(combatant.length > 0);
-    const punk = ns.gang.getMemberNames().filter(
-        s => gangster.is_punk(s)
-    );
+    const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
     assert(punk.length > 0);
     const warrior = combatant.concat([strongest_member(ns, punk)]);
     assert(warrior.length > 0);
@@ -171,7 +170,7 @@ function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
         return bool.NO_WAR;
     }
-    if (has_max_members(ns) && (min_victory_chance(ns) >= gang_t.WIN)) {
+    if (has_max_members(ns) && min_victory_chance(ns) >= gang_t.WIN) {
         return bool.WAR;
     }
     return bool.NO_WAR;
@@ -354,9 +353,9 @@ function is_in_war(ns) {
         return false;
     }
     const gangster = new Gangster(ns);
-    const warrior = ns.gang.getMemberNames().filter(
-        s => gangster.is_warrior(s)
-    );
+    const warrior = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_warrior(s));
     return warrior.length == members.MAX;
 }
 
@@ -374,8 +373,8 @@ function is_new_tick(ns, other) {
     const current = ns.gang.getOtherGangInformation();
     for (const g of Object.keys(current)) {
         if (
-            (current[g].power != other[g].power)
-                || (current[g].territory != other[g].territory)
+            current[g].power != other[g].power ||
+            current[g].territory != other[g].territory
         ) {
             return bool.NEW;
         }
@@ -398,7 +397,7 @@ function is_valid_faction(fac) {
         "Speakers for the Dead",
         "Tetrads",
         "The Dark Army",
-        "The Syndicate"
+        "The Syndicate",
     ];
     return organization.includes(fac);
 }
@@ -450,9 +449,13 @@ function para_bellum(ns) {
     const threshold = members.MAX - members.WARRIOR - 1;
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
-    const trafficker = ns.gang.getMemberNames().filter(
-        s => gangster.is_arms_trafficker(s) || gangster.is_human_trafficker(s)
-    );
+    const trafficker = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) =>
+                gangster.is_arms_trafficker(s) ||
+                gangster.is_human_trafficker(s),
+        );
     if (trafficker.length <= threshold) {
         return;
     }
@@ -522,7 +525,7 @@ function reassign_arms_trafficking(ns, member, min, max) {
                 continue;
             }
         }
-        if ((min <= gangster.strength(s)) && (gangster.strength(s) < max)) {
+        if (min <= gangster.strength(s) && gangster.strength(s) < max) {
             candidate.push(s);
         }
     }
@@ -544,7 +547,7 @@ function reassign_arms_trafficking(ns, member, min, max) {
 function reassign_blackmail(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
     );
     gangster.blackmail(candidate);
 }
@@ -556,9 +559,9 @@ function reassign_blackmail(ns, member, min, max) {
  */
 function reassign_combatant(ns) {
     const gangster = new Gangster(ns);
-    const combatant = ns.gang.getMemberNames().filter(
-        s => gangster.is_combatant(s)
-    );
+    const combatant = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_combatant(s));
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
     reassign_extortion(ns, combatant, task_t.EXTORT, task_t.ROBBERY);
@@ -586,7 +589,7 @@ function reassign_combatant(ns) {
 function reassign_con(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
     );
     gangster.con(candidate);
 }
@@ -606,7 +609,7 @@ function reassign_con(ns, member, min, max) {
 function reassign_extortion(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.strength(s)) && (gangster.strength(s) < max)
+        (s) => min <= gangster.strength(s) && gangster.strength(s) < max,
     );
     gangster.extort(candidate);
 }
@@ -626,7 +629,7 @@ function reassign_extortion(ns, member, min, max) {
 function reassign_fraud(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.hack(s)) && (gangster.hack(s) < max)
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
     );
     gangster.fraud(candidate);
 }
@@ -638,9 +641,9 @@ function reassign_fraud(ns, member, min, max) {
  */
 function reassign_hacker(ns) {
     const gangster = new Gangster(ns);
-    const hacker = ns.gang.getMemberNames().filter(
-        s => gangster.role(s) == members.ROLE.hacker
-    );
+    const hacker = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.role(s) == members.ROLE.hacker);
     assert(1 == hacker.length);
     // If this is a hacking gang, then reassign the Hacker to one of the
     // hacking-related jobs.
@@ -673,7 +676,7 @@ function reassign_hacker(ns) {
 function reassign_human_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.charisma(s)) && (gangster.charisma(s) < max)
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
     );
     gangster.traffick_human(candidate);
 }
@@ -692,7 +695,7 @@ function reassign_human_trafficking(ns, member, min, max) {
 function reassign_id_theft(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.hack(s)) && (gangster.hack(s) < max)
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
     );
     gangster.id_theft(candidate);
 }
@@ -711,7 +714,7 @@ function reassign_id_theft(ns, member, min, max) {
 function reassign_launder(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.hack(s)) && (gangster.hack(s) < max)
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
     );
     gangster.launder(candidate);
 }
@@ -721,9 +724,9 @@ function reassign_launder(ns, member, min, max) {
  */
 function reassign_miscellaneous(ns) {
     const gangster = new Gangster(ns);
-    const other = ns.gang.getMemberNames().filter(
-        s => gangster.is_miscellaneous(s)
-    );
+    const other = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_miscellaneous(s));
     reassign_con(ns, other, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, other, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
     reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
@@ -743,7 +746,7 @@ function reassign_miscellaneous(ns) {
 function reassign_phish(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.hack(s)) && (gangster.hack(s) < max)
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
     );
     gangster.phish(candidate);
 }
@@ -762,7 +765,7 @@ function reassign_phish(ns, member, min, max) {
 function reassign_robbery(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        s => (min <= gangster.strength(s)) && (gangster.strength(s) < max)
+        (s) => min <= gangster.strength(s) && gangster.strength(s) < max,
     );
     gangster.robbery(candidate);
 }
@@ -791,9 +794,9 @@ function reassign_terrorism(ns, member, min, max) {
     // terrorists to trafficking illegal arms.
     const gangster = new Gangster(ns);
     if (has_max_members(ns)) {
-        const name = ns.gang.getMemberNames().filter(
-            s => gangster.is_terrorist(s)
-        );
+        const name = ns.gang
+            .getMemberNames()
+            .filter((s) => gangster.is_terrorist(s));
         gangster.traffick_arms(name);
         return;
     }
@@ -801,9 +804,10 @@ function reassign_terrorism(ns, member, min, max) {
     assert(!has_max_members(ns));
     // We want our Vanguard to commit acts of terrorism.
     const vanguard = member.filter(
-        s => (gangster.role(s) == members.ROLE.vanguard)
-            && (min <= gangster.strength(s))
-            && (gangster.strength(s) < max)
+        (s) =>
+            gangster.role(s) == members.ROLE.vanguard &&
+            min <= gangster.strength(s) &&
+            gangster.strength(s) < max,
     );
     if (0 == vanguard.length) {
         return;
@@ -833,9 +837,9 @@ function recruit(ns) {
  */
 function retrain(ns) {
     const gangster = new Gangster(ns);
-    const member = ns.gang.getMemberNames().filter(
-        s => gangster.needs_training(s)
-    );
+    const member = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.needs_training(s));
     gangster.train(member);
 }
 

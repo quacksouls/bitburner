@@ -70,7 +70,8 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
     while (player.charisma() < threshold) {
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
-            company, job_area.SOFTWARE
+            company,
+            job_area.SOFTWARE,
         );
         // We have a promotion.  Work in the new job.
         if (success) {
@@ -100,14 +101,15 @@ export async function rise_to_cfo(ns, company) {
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (true) {
         if (
-            (player.job(company) == job_title.CFO)
-                || (player.job(company) == job_title.CEO)
+            player.job(company) == job_title.CFO ||
+            player.job(company) == job_title.CEO
         ) {
             break;
         }
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
-            company, job_area.BUSINESS
+            company,
+            job_area.BUSINESS,
         );
         // We have a promotion.  Work in the new job.
         if (success) {

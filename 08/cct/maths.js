@@ -15,11 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-    log_cct_failure,
-    print_error,
-    print_success,
-} from "/lib/cct.js";
+import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
@@ -140,9 +136,9 @@ export async function main(ns) {
     // Solve the coding contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
     const solution = all_expressions(string, target);
-    const result = ns.codingcontract.attempt(
-        solution, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(solution, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/maths.txt";

@@ -45,7 +45,7 @@ function choose_upgrade(ns) {
         }
     }
     // Upgrade the RAM.
-    assert((ram_cost <= core_cost) || (server.cores() == home_t.CORE));
+    assert(ram_cost <= core_cost || server.cores() == home_t.CORE);
     assert(server.ram_max() < home_t.RAM);
     return "RAM";
 }
@@ -60,10 +60,7 @@ function choose_upgrade(ns) {
  */
 function is_at_limits(ns) {
     const server = new Server(ns, home);
-    if (
-        (server.cores() >= home_t.CORE)
-            && (server.ram_max() >= home_t.RAM)
-    ) {
+    if (server.cores() >= home_t.CORE && server.ram_max() >= home_t.RAM) {
         return true;
     }
     return false;

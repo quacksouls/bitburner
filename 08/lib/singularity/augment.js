@@ -25,7 +25,10 @@ import { wait_t } from "/lib/constant/time.js";
 import { commit_crime } from "/lib/singularity/crime.js";
 import { work } from "/lib/singularity/work.js";
 import {
-    assert, is_valid_faction, trade_bot_resume, trade_bot_stop_buy
+    assert,
+    is_valid_faction,
+    trade_bot_resume,
+    trade_bot_stop_buy,
 } from "/lib/util.js";
 
 /**
@@ -47,11 +50,13 @@ export function augment_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
-    const owned_aug = new Set(ns.singularity.getOwnedAugmentations(bool.PURCHASED));
+    const owned_aug = new Set(
+        ns.singularity.getOwnedAugmentations(bool.PURCHASED),
+    );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
-    fac_aug = fac_aug.filter(a => !owned_aug.has(a));
+    fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
     if (fac_aug.includes(nfg())) {
-        fac_aug = fac_aug.filter(a => a != nfg());
+        fac_aug = fac_aug.filter((a) => a != nfg());
     }
     assert(fac_aug.length > 0);
     // Choose n Augmentations that have the least reputation requirements.
@@ -60,7 +65,7 @@ export function augment_to_buy(ns, fac) {
     while (i < augment.BUY_TAU) {
         const aug = lowest_reputation(ns, fac_aug);
         tobuy.push(aug);
-        fac_aug = fac_aug.filter(a => a != aug);
+        fac_aug = fac_aug.filter((a) => a != aug);
         if (0 == fac_aug.length) {
             break;
         }
@@ -105,7 +110,9 @@ export function choose_augment(ns, candidate) {
  *     false otherwise.
  */
 export function has_augment(ns, aug) {
-    const candidate = new Set(ns.singularity.getOwnedAugmentations(bool.PURCHASED));
+    const candidate = new Set(
+        ns.singularity.getOwnedAugmentations(bool.PURCHASED),
+    );
     return candidate.has(aug);
 }
 
@@ -150,7 +157,9 @@ export function nfg() {
  */
 function num_augment(ns) {
     const owned_aug = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
-    const owned_bought_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
+    const owned_bought_aug = ns.singularity.getOwnedAugmentations(
+        bool.PURCHASED,
+    );
     assert(owned_bought_aug.length >= owned_aug.length);
     const npurchase = owned_bought_aug.length - owned_aug.length;
     return npurchase;
@@ -223,7 +232,7 @@ export async function purchase_augment(ns, fac) {
         // Choose the most expensive Augmentation.
         const aug = choose_augment(ns, candidate);
         if (has_augment(ns, aug)) {
-            candidate = candidate.filter(a => a != aug);
+            candidate = candidate.filter((a) => a != aug);
             continue;
         }
         // If the most expensive Augmentation has no pre-requisites or we have
@@ -232,7 +241,7 @@ export async function purchase_augment(ns, fac) {
         let prereq = prerequisites(ns, aug);
         if (0 == prereq.length) {
             await purchase_aug(ns, aug, fac);
-            candidate = candidate.filter(a => a != aug);
+            candidate = candidate.filter((a) => a != aug);
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
@@ -240,17 +249,17 @@ export async function purchase_augment(ns, fac) {
         while (prereq.length > 0) {
             const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac);
-            prereq = prereq.filter(a => a != pre);
+            prereq = prereq.filter((a) => a != pre);
         }
         await purchase_aug(ns, aug, fac);
-        candidate = candidate.filter(a => a != aug);
+        candidate = candidate.filter((a) => a != aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
     let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
     let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
     let money = ns.getServerMoneyAvailable(home);
-    while ((cost <= money) && (nfg_rep <= fac_rep)) {
+    while (cost <= money && nfg_rep <= fac_rep) {
         assert(ns.singularity.purchaseAugmentation(fac, nfg()));
         cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
         nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
@@ -274,7 +283,7 @@ async function purchase_aug(ns, aug, fac) {
     while (prereq.length > 0) {
         const pre = choose_augment(ns, prereq);
         await purchase_aug(ns, pre, fac);
-        prereq = prereq.filter(a => a != pre);
+        prereq = prereq.filter((a) => a != pre);
     }
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.

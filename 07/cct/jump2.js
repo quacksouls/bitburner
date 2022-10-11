@@ -148,9 +148,9 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const [min_jump, _] = minimum_jump(array);
-    const result = ns.codingcontract.attempt(
-        min_jump, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(min_jump, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/jump2.txt";

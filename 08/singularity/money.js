@@ -73,12 +73,10 @@ function load_chain(ns) {
     const script = [
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
-        "/singularity/program.js"
+        "/singularity/program.js",
     ];
     const nthread = 1;
-    script.map(
-        s => ns.exec(s, home, nthread)
-    );
+    script.map((s) => ns.exec(s, home, nthread));
 }
 
 /**
@@ -98,7 +96,7 @@ export async function main(ns) {
     const player_money = ns.getServerMoneyAvailable(home);
     const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
-    if ((player_money > threshold) && (home_ram >= home_t.RAM_HIGH)) {
+    if (player_money > threshold && home_ram >= home_t.RAM_HIGH) {
         load_chain(ns);
         return;
     }

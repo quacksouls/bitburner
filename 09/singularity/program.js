@@ -40,7 +40,7 @@ async function buy_all_programs(ns) {
     let program = ns.singularity.getDarkwebPrograms();
     assert(program.length > 0);
     const player = new Player(ns);
-    program = program.filter(p => !player.has_program(p));
+    program = program.filter((p) => !player.has_program(p));
     if (0 == program.length) {
         return;
     }
@@ -59,7 +59,7 @@ async function buy_programs(ns, program) {
     // First, determine which programs we do not have.
     const player = new Player(ns);
     let prog = Array.from(program);
-    prog = prog.filter(p => !player.has_program(p));
+    prog = prog.filter((p) => !player.has_program(p));
     if (0 == prog.length) {
         return;
     }
@@ -76,7 +76,7 @@ async function buy_programs(ns, program) {
             await ns.sleep(wait_t.SECOND);
         }
         assert(ns.singularity.purchaseProgram(p));
-        prog = prog.filter(e => e != p);
+        prog = prog.filter((e) => e != p);
     }
 }
 

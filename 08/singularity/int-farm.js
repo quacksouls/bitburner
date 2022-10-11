@@ -85,27 +85,12 @@ function purchase_schedule(ns) {
         100 * m.billion(),
         m.billion(),
         100 * m.million(),
-        10 * m.million()
+        10 * m.million(),
     ];
     // How many programs to buy.
     const howmany = [
-        1000,
-        900,
-        800,
-        700,
-        600,
-        500,
-        400,
-        300,
-        200,
-        100,
-        50,
-        25,
-        12,
-        6,
-        3,
+        1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25, 12, 6, 3, 1,
         1,
-        1
     ];
     // The sleep intervals.
     const time = [
@@ -125,7 +110,7 @@ function purchase_schedule(ns) {
         10 * wait_t.SECOND,
         30 * wait_t.SECOND,
         wait_t.MINUTE,
-        2 * wait_t.MINUTE
+        2 * wait_t.MINUTE,
     ];
     const player = new Player(ns);
     const funds = player.money();

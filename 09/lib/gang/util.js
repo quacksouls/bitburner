@@ -39,12 +39,12 @@ function choose_vigilante_ehacker_threshold(ns) {
     const ngangster = ns.gang.getMemberNames().length;
     if (ngangster == members.INITIAL) {
         return 1;
-    } else if ((members.INITIAL < ngangster) && (ngangster <= mid_point)) {
+    } else if (members.INITIAL < ngangster && ngangster <= mid_point) {
         return 2;
-    } else if ((mid_point < ngangster) && (ngangster <= quarter_point)) {
+    } else if (mid_point < ngangster && ngangster <= quarter_point) {
         return 3;
     }
-    assert((quarter_point < ngangster) && (ngangster <= members.MAX));
+    assert(quarter_point < ngangster && ngangster <= members.MAX);
     return Math.floor(members.EHACK + members.VIGILANTE);
 }
 
@@ -59,9 +59,11 @@ function choose_vigilante_ehacker_threshold(ns) {
 function has_enough_vigilante_ehacker(ns) {
     const tau = choose_vigilante_ehacker_threshold(ns);
     const gangster = new Gangster(ns);
-    const vigilante_ehacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-    );
+    const vigilante_ehacker = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s),
+        );
     return tau == vigilante_ehacker.length;
 }
 
@@ -77,22 +79,18 @@ function reassign_excess_vigilante_ehacker(ns, threshold) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     const gangster = new Gangster(ns);
-    const vigilante = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s)
-    );
-    const hacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_hacker(s)
-    );
-    const vanguard = vigilante.filter(
-        s => gangster.is_vanguard(s)
-    );
+    const vigilante = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_vigilante(s));
+    const hacker = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_hacker(s));
+    const vanguard = vigilante.filter((s) => gangster.is_vanguard(s));
     // The Vanguard is always the first to be assigned to vigilante justice.
     // The Hacker is always the next member to be assigned to ethical hacking.
     let vigilante_ehacker = vanguard.concat(hacker);
     vigilante_ehacker = vigilante_ehacker.concat(
-        vigilante.filter(
-            s => !gangster.is_vanguard(s)
-        )
+        vigilante.filter((s) => !gangster.is_vanguard(s)),
     );
     assert(vigilante_ehacker.length > tau);
     const candidate = new Array();
@@ -100,11 +98,7 @@ function reassign_excess_vigilante_ehacker(ns, threshold) {
         candidate.push(vigilante_ehacker.pop());
     }
     assert(candidate.length > 0);
-    gangster.vigilante(
-        vigilante_ehacker.filter(
-            s => !gangster.is_hacker(s)
-        )
-    );
+    gangster.vigilante(vigilante_ehacker.filter((s) => !gangster.is_hacker(s)));
     // If we are in a criminal gang, then there is no option to perform ethical
     // hacking.  In that case, assign the Hacker to vigilante justice as well.
     if (ns.gang.getGangInformation().isHacking) {
@@ -151,9 +145,9 @@ export function reassign_soft_reset(ns) {
     // We want only one gang member on vigilante justice.  That member is the
     // Vanguard.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang.getMemberNames().filter(
-        s => gangster.is_vanguard(s)
-    );
+    const vanguard = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_vanguard(s));
     assert(1 == vanguard.length);
     gangster.vigilante(vanguard);
     // Other members currently on vigilante justice or ethical hacking are
@@ -185,18 +179,16 @@ function reassign_to_vigilante_ehack(ns, threshold) {
     assert(tau > 0);
     // All gang members who should be in vigilante justice or ethical hacking.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang.getMemberNames().filter(
-        s => gangster.is_vanguard(s)
-    );
-    const hacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_hacker(s)
-    );
-    const artillery = ns.gang.getMemberNames().filter(
-        s => gangster.is_artillery(s)
-    );
-    const pilot = ns.gang.getMemberNames().filter(
-        s => gangster.is_pilot(s)
-    );
+    const vanguard = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_vanguard(s));
+    const hacker = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_hacker(s));
+    const artillery = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_artillery(s));
+    const pilot = ns.gang.getMemberNames().filter((s) => gangster.is_pilot(s));
     // Determine which members to assign to vigilante justice or ethical
     // hacking.  The Vanguard is always the first to be assigned to vigilante
     // justice.  This is followed by the Hacker, who is assigned to ethical
@@ -204,9 +196,11 @@ function reassign_to_vigilante_ehack(ns, threshold) {
     // vigilante justice as well.  Next comes the Artillery and the Pilot, who
     // are assigned to vigilante justice in that order.
     const candidate = [vanguard, hacker, artillery, pilot].flat();
-    const vigilante_ehacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-    );
+    const vigilante_ehacker = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s),
+        );
     assert(vigilante_ehacker.length < candidate.length);
     assert(vigilante_ehacker.length < tau);
     while (vigilante_ehacker.includes(candidate[0])) {
@@ -248,9 +242,11 @@ export function reassign_vigilante_ehacker(ns) {
     // some other jobs.
     const gangster = new Gangster(ns);
     const tau = choose_vigilante_ehacker_threshold(ns);
-    const vigilante_ehacker = ns.gang.getMemberNames().filter(
-        s => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-    );
+    const vigilante_ehacker = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s),
+        );
     if (vigilante_ehacker.length > tau) {
         reassign_excess_vigilante_ehacker(ns, tau);
         return;

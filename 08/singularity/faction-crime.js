@@ -29,11 +29,7 @@ import {
     work_for_faction,
 } from "/lib/singularity/faction.js";
 import { visit_city } from "/lib/singularity/network.js";
-import {
-    raise_charisma,
-    rise_to_cfo,
-    work,
-} from "/lib/singularity/work.js";
+import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -115,7 +111,10 @@ async function speakers_for_the_dead(ns) {
     // Lower karma, raise combat stats, and raise Hack stat.
     const fac = "Speakers for the Dead";
     await lower_karma(
-        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
+        ns,
+        faction_req[fac].karma,
+        crimes.KILL,
+        faction_req[fac].kill,
     );
     await raise_combat_stats(ns, faction_req[fac].combat);
     await raise_hack(ns, faction_req[fac].hack);
@@ -167,7 +166,10 @@ async function the_dark_army(ns) {
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
     await lower_karma(
-        ns, faction_req[fac].karma, crimes.KILL, faction_req[fac].kill
+        ns,
+        faction_req[fac].karma,
+        crimes.KILL,
+        faction_req[fac].kill,
     );
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await visit_city(ns, faction_req[fac].city);
@@ -225,14 +227,14 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        ("Silhouette" == faction)
-            || ("Slum Snakes" == faction)
-            || ("The Syndicate" == faction)
-            || ("Speakers for the Dead" == faction)
-            || ("Tetrads" == faction)
-            || ("The Dark Army" == faction)
+        "Silhouette" == faction ||
+            "Slum Snakes" == faction ||
+            "The Syndicate" == faction ||
+            "Speakers for the Dead" == faction ||
+            "Tetrads" == faction ||
+            "The Dark Army" == faction,
     );
-    ns.singularity.goToLocation("The Slums");  // Increase Intelligence XP.
+    ns.singularity.goToLocation("The Slums"); // Increase Intelligence XP.
     switch (faction) {
         case "Silhouette":
             await silhouette(ns);

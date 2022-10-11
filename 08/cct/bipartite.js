@@ -17,7 +17,10 @@
 
 import { MyArray } from "/lib/array.js";
 import {
-    log_cct_failure, matrix_to_string, print_error, print_success
+    log_cct_failure,
+    matrix_to_string,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { bool } from "/lib/constant/bool.js";
 import { colour } from "/lib/constant/cct.js";
@@ -161,7 +164,7 @@ function is_bipartite(graph, root, colr) {
     // graph has a 2-colouring.
     while (stack.length > 0) {
         const u = stack.pop();
-        assert((colr[u] == colour.BLUE) || (colr[u] == colour.RED));
+        assert(colr[u] == colour.BLUE || colr[u] == colour.RED);
         for (const v of graph.neighbour(u)) {
             if (colr[u] == colr[v]) {
                 return bool.NOT_BIPARTITE;
@@ -262,9 +265,9 @@ export async function main(ns) {
     // Solve the coding contract.
     const [n, edge] = ns.codingcontract.getData(cct, host);
     const colour = bipartite(n, edge);
-    const result = ns.codingcontract.attempt(
-        colour, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(colour, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/bipartite.txt";

@@ -24,7 +24,5 @@
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    ns.ls("home", ".js").map(
-        f => ns.rm(f)
-    );
+    ns.ls("home", ".js").map((f) => ns.rm(f));
 }

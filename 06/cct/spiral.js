@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, matrix_to_string, print_error, print_success
+    log_cct_failure,
+    matrix_to_string,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
@@ -86,12 +89,12 @@ function spiral(m) {
         assert(ncol == a.length);
     }
     // The spiral order of a matrix.
-    let tlr = 0;         // top-left row
-    let tlc = tlr;       // top-left column
-    let brr = nrow - 1;  // bottom-right row
-    let brc = ncol - 1;  // bottom-right column
+    let tlr = 0; // top-left row
+    let tlc = tlr; // top-left column
+    let brr = nrow - 1; // bottom-right row
+    let brc = ncol - 1; // bottom-right column
     let elem = new Array();
-    while ((tlr <= brr) && (tlc <= brc)) {
+    while (tlr <= brr && tlc <= brc) {
         elem = elem.concat(ring(m, tlr, tlc, brr, brc));
         tlr++;
         tlc++;
@@ -119,9 +122,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const matrix = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        spiral(matrix), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(spiral(matrix), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/spiral.txt";

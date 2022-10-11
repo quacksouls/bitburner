@@ -52,9 +52,7 @@ function add_server_name(ns, matrix, map) {
     assert(map.size > 0);
     // Add the server names.
     for (const [coord, server] of map) {
-        const [i, j] = coord.split(delimiter()).map(
-            k => parseInt(k)
-        );
+        const [i, j] = coord.split(delimiter()).map((k) => parseInt(k));
         matrix[i][j] = decorate(ns, server);
     }
 }
@@ -98,8 +96,8 @@ function add_tee_junction(matrix) {
  */
 function all_shortest_paths(ns) {
     const delim = delimiter();
-    const path = network(ns).map(
-        destination => shortest_path(ns, home, destination).join(delim)
+    const path = network(ns).map((destination) =>
+        shortest_path(ns, home, destination).join(delim),
     );
     return path.sort();
 }
@@ -208,11 +206,7 @@ function display_tree(ns, path) {
     // representation as a matrix or grid.  Each row represents a shortest path.
     const delim = delimiter();
     const root = [[home]];
-    const tree = root.concat(
-        path.map(
-            p => p.split(delim)
-        )
-    );
+    const tree = root.concat(path.map((p) => p.split(delim)));
     // Convert internal representation to ASCII art.
     const [grid, map] = to_ascii_art(tree);
     const art = beautify(ns, grid, map);
@@ -250,7 +244,7 @@ function newline() {
  */
 function num_ports(ns) {
     let program = Array.from(popen);
-    program = program.filter(p => ns.fileExists(p, home));
+    program = program.filter((p) => ns.fileExists(p, home));
     return program.length;
 }
 
@@ -275,7 +269,7 @@ function prune_branch(matrix, r) {
     let col = matrix[r].length - 3;
     const maxidx = matrix.length - 1;
     while (col >= 0) {
-        if ((maxidx != r) && (leaf() == matrix[r + 1][col])) {
+        if (maxidx != r && leaf() == matrix[r + 1][col]) {
             return;
         }
         let row = Math.floor(r);
@@ -347,8 +341,8 @@ function to_ascii_art(tree) {
     assert(tree.length > 0);
     assert(tree[0].length > 0);
     // Start from the second row.  The first row has only the home server.
-    const grid = new Array();  // ASCII art.
-    const map = new Map();     // Coordinates to server name.
+    const grid = new Array(); // ASCII art.
+    const map = new Map(); // Coordinates to server name.
     assert(1 == tree[0].length);
     assert(home == tree[0][0]);
     grid.push([leaf()]);
@@ -362,7 +356,7 @@ function to_ascii_art(tree) {
         assert(home == current[0]);
         for (let j = 0; j < current.length; j++) {
             // A leaf, i.e. the destination server in a shortest path.
-            if ((j >= previous.length) || (previous[j] != current[j])) {
+            if (j >= previous.length || previous[j] != current[j]) {
                 row.push(leaf());
                 const coord = i + delim + j;
                 map.set(coord, current[j]);
@@ -473,7 +467,7 @@ function to_string(matrix) {
 export async function main(ns) {
     // Sanity check.
     if (ns.args.length > 1) {
-        let msg = "Usage: run nmap.js [hostname]\n\n"
+        let msg = "Usage: run nmap.js [hostname]\n\n";
         msg += "hostname -- (optional) Hostname of target server.";
         ns.tprint(msg);
         return;

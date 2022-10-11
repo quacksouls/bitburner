@@ -17,8 +17,11 @@
 
 import { MyArray } from "/lib/array.js";
 import {
-    count_one, log_cct_failure, parity_position, print_error,
-    print_success
+    count_one,
+    log_cct_failure,
+    parity_position,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
@@ -33,7 +36,10 @@ function encode(n) {
     assert(n > 0);
     // Convert from decimal to binary.  A decimal number is expressed in
     // base 10, whereas a binary number is expressed in base 2.
-    const data = n.toString(base.BINARY).split("").map(s => parseInt(s));
+    const data = n
+        .toString(base.BINARY)
+        .split("")
+        .map((s) => parseInt(s));
     // Determine the number of parity bits.
     const nparity = num_parity(data);
     assert(nparity > 0);
@@ -99,7 +105,7 @@ function num_parity(data) {
     do {
         p++;
         max = 2 ** p;
-    } while (max < (k + p + 1));
+    } while (max < k + p + 1);
     // The encoded message has m := k + p + 1 bits, as explained below.
     //
     // k := The number of bits in the data, represented as a bit string.
@@ -195,9 +201,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const n = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        encode(n), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(encode(n), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/hamming.txt";

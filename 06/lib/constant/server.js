@@ -28,7 +28,7 @@ export const home = "home";
  */
 export const home_t = {
     // The minimum amount of RAM for a high-end home server.
-    "RAM_HIGH": 512,
+    RAM_HIGH: 512,
     // The minimum amount of RAM for a mid-sized home server.
-    "RAM_MID": 128
+    RAM_MID: 128,
 };

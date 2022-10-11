@@ -19,7 +19,10 @@ import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import {
-    assert, choose_best_server, choose_targets, filter_bankrupt_servers
+    assert,
+    choose_best_server,
+    choose_targets,
+    filter_bankrupt_servers,
 } from "/lib/util.js";
 
 /**
@@ -43,7 +46,8 @@ export async function main(ns) {
         // Assume that each target is not bankrupt.
         if (target.length < 1) {
             target = filter_bankrupt_servers(
-                ns, choose_targets(ns, network(ns))
+                ns,
+                choose_targets(ns, network(ns)),
             );
             assert(target.length > 0);
         }
@@ -52,7 +56,7 @@ export async function main(ns) {
             // Choose the best target server that is not bankrupt.  Run our
             // hack script against this target server.
             const t = choose_best_server(ns, target);
-            target = target.filter(s => s != t);
+            target = target.filter((s) => s != t);
             const target_server = new Server(ns, t);
             assert(await target_server.gain_root_access());
             assert(await server.deploy(target_server.hostname()));

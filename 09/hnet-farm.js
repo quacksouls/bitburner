@@ -178,7 +178,7 @@ function upgrade_core(ns, idx) {
     // Add another Core to the Hacknet node.  The number of Cores of a node is
     // at maximum if the cost of upgrading to another Core is Infinity.
     const player = new Player(ns);
-    const howmany = 1;  // Upgrade this many Cores at a time.
+    const howmany = 1; // Upgrade this many Cores at a time.
     const cost = ns.hacknet.getCoreUpgradeCost(idx, howmany);
     if (isFinite(cost)) {
         if (player.money() < cost) {
@@ -198,7 +198,7 @@ function upgrade_level(ns) {
     const farm = hacknet_nodes(ns);
     assert(farm.length > 0);
     const player = new Player(ns);
-    const level = 1;  // Upgrade this many Levels at a time.
+    const level = 1; // Upgrade this many Levels at a time.
     // Add another Level to each Hacknet node.
     for (const node of farm) {
         // The Level of a node is at maximum if the cost of upgrading to
@@ -225,7 +225,7 @@ function upgrade_ram(ns, idx) {
     // Double the current RAM of the given Hacknet node.  The amount of RAM of
     // a node is at maximum if the cost of upgrading the RAM is Infinity.
     const player = new Player(ns);
-    const howmany = 1;  // Upgrade the RAM this many times.
+    const howmany = 1; // Upgrade the RAM this many times.
     const cost = ns.hacknet.getRamUpgradeCost(idx, howmany);
     if (isFinite(cost)) {
         if (player.money() < cost) {

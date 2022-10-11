@@ -54,7 +54,7 @@ export function char_index(c) {
         ["W", 22],
         ["X", 23],
         ["Y", 24],
-        ["Z", 25]
+        ["Z", 25],
     ]);
     assert(alphabet.has(c));
     return alphabet.get(c);

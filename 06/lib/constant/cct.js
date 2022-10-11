@@ -40,9 +40,9 @@ export const cct_update_interval = 6e5;
  * bipartite.
  */
 export const colour = {
-    "BLUE": 0,
-    "RED": 1,
-    "WHITE": 2
+    BLUE: 0,
+    RED: 1,
+    WHITE: 2,
 };
 
 /**
@@ -50,74 +50,30 @@ export const colour = {
  */
 export const lzchunk = {
     // The chunk format L<string>.
-    "LS": 1,
+    LS: 1,
     // The chunk format LX.
-    "LX": 2
+    LX: 2,
 };
 
 /**
  * The opening and closing parentheses.
  */
 export const parenthesis = {
-    "CLOSE": ")",
-    "OPEN": "("
+    CLOSE: ")",
+    OPEN: "(",
 };
 
 /**
  * A list of small prime numbers.
  */
 export const small_primes = [
-    2,
-    3,
-    5,
-    7,
-    11,
-    13,
-    17,
-    19,
-    23,
-    29,
-    31,
-    37,
-    41,
-    43,
-    47,
-    53,
-    59,
-    61,
-    67,
-    71,
-    73,
-    79,
-    83,
-    89,
-    97,
-    101,
-    103,
-    107,
-    109,
-    113,
-    127,
-    131,
-    137,
-    139,
-    149,
-    151,
-    157,
-    163,
-    167,
-    173,
-    179,
-    181,
-    191,
-    193,
-    197,
-    199,
-    211
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+    73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
+    157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211,
 ];
 
 /**
- * The Vigenère square.
+ * The Vigenï¿½re square.
  */
 export const vigenere_square = [
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -145,5 +101,5 @@ export const vigenere_square = [
     "WXYZABCDEFGHIJKLMNOPQRSTUV",
     "XYZABCDEFGHIJKLMNOPQRSTUVW",
     "YZABCDEFGHIJKLMNOPQRSTUVWX",
-    "ZABCDEFGHIJKLMNOPQRSTUVWXY"
+    "ZABCDEFGHIJKLMNOPQRSTUVWXY",
 ];

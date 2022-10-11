@@ -104,7 +104,7 @@ function has_api_access(ns) {
  */
 function has_funds(ns) {
     const player = new Player(ns);
-    return player.money() > (wse.RESERVE_MULT * money_reserve);
+    return player.money() > wse.RESERVE_MULT * money_reserve;
 }
 
 /**

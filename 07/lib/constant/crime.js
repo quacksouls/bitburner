@@ -24,21 +24,21 @@ export const crimes = {
     /**
      * All available crimes.
      */
-    "ASSASS": "assassinate",
-    "DRUG": "deal drugs",
-    "FORGE": "bond forgery",
-    "GTA": "grand theft auto",
-    "HEIST": "heist",
-    "KILL": "homicide",
-    "KIDNAP": "kidnap and ransom",
-    "LARCENY": "larceny",
-    "MUG": "mug someone",
-    "ROB": "rob store",
-    "SHOP": "shoplift",
-    "TRAFFICK": "traffick illegal arms",
+    ASSASS: "assassinate",
+    DRUG: "deal drugs",
+    FORGE: "bond forgery",
+    GTA: "grand theft auto",
+    HEIST: "heist",
+    KILL: "homicide",
+    KIDNAP: "kidnap and ransom",
+    LARCENY: "larceny",
+    MUG: "mug someone",
+    ROB: "rob store",
+    SHOP: "shoplift",
+    TRAFFICK: "traffick illegal arms",
     /**
      * Various numeric constants.
      */
     // The default number of times we want to commit a particular crime.
-    "n": 10
+    n: 10,
 };

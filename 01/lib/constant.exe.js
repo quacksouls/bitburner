@@ -50,7 +50,7 @@ export const program = [
     "FTPCrack.exe",
     "HTTPWorm.exe",
     "relaySMTP.exe",
-    "SQLInject.exe"
+    "SQLInject.exe",
 ];
 
 /**
@@ -62,5 +62,5 @@ export const utility_program = [
     "DeepscanV1.exe",
     "DeepscanV2.exe",
     "Formulas.exe",
-    "ServerProfiler.exe"
+    "ServerProfiler.exe",
 ];

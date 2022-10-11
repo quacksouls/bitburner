@@ -128,10 +128,10 @@ export async function raise_combat_stats(ns, threshold) {
     assert(tau > 0);
     const player = new Player(ns);
     if (
-        (player.strength() >= tau)
-            && (player.defense() >= tau)
-            && (player.dexterity() >= tau)
-            && (player.agility() >= tau)
+        player.strength() >= tau &&
+        player.defense() >= tau &&
+        player.dexterity() >= tau &&
+        player.agility() >= tau
     ) {
         return;
     }
@@ -157,10 +157,10 @@ export async function raise_combat_stats(ns, threshold) {
     }
     ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
     while (
-        (player.strength() < tau)
-            || (player.defense() < tau)
-            || (player.dexterity() < tau)
-            || (player.agility() < tau)
+        player.strength() < tau ||
+        player.defense() < tau ||
+        player.dexterity() < tau ||
+        player.agility() < tau
     ) {
         await ns.sleep(wait_t.DEFAULT);
     }
@@ -244,13 +244,13 @@ function total_reputation(ns, fac) {
  */
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
-    assert((job_area.HACK == work_type) || (job_area.FIELD == work_type));
+    assert(job_area.HACK == work_type || job_area.FIELD == work_type);
     const threshold = total_reputation(ns, fac);
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
         const amount = Math.floor(
-            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home)
+            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home),
         );
         ns.singularity.donateToFaction(fac, amount);
         await ns.sleep(wait_t.DEFAULT);

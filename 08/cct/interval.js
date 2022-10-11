@@ -42,7 +42,7 @@ function merge(interval) {
     let j = i + 1;
     const start = 0;
     const end = 1;
-    const howmany = 1;  // How many elements to delete.
+    const howmany = 1; // How many elements to delete.
     while (j < array.length) {
         if (merge_interval(array[i], array[j])) {
             // Merge intervals i and j.
@@ -121,9 +121,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        merge(array), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(merge(array), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/interval.txt";

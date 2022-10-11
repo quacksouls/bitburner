@@ -31,10 +31,7 @@ async function reboot(ns) {
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
     const nthread = 1;
-    const script = [
-        "hnet-farm.js",
-        "world-server.js"
-    ];
+    const script = ["hnet-farm.js", "world-server.js"];
     for (const s of script) {
         ns.exec(s, home, nthread);
         await ns.sleep(wait_t.DEFAULT);

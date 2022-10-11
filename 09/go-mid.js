@@ -29,15 +29,8 @@ import { assert } from "/lib/util.js";
 async function reboot(ns) {
     const target = "world-server.js";
     const nthread = 1;
-    const script = [
-        "hnet-farm.js",
-        target,
-        "buy-server.js",
-        "/cct/solver.js"
-    ];
-    script.map(
-        s => ns.exec(s, home, nthread)
-    );
+    const script = ["hnet-farm.js", target, "buy-server.js", "/cct/solver.js"];
+    script.map((s) => ns.exec(s, home, nthread));
     // Wait a while and then kill a script to free up some RAM on the home
     // server.
     await ns.sleep(wait_t.MINUTE);

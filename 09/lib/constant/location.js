@@ -38,8 +38,8 @@
  */
 export const cities = {
     // Aevum locations.
-    "Aevum": {
-        "company": [
+    Aevum: {
+        company: [
             "AeroCorp",
             "Bachman & Associates",
             "Clarke Incorporated",
@@ -47,49 +47,38 @@ export const cities = {
             "Fulcrum Technologies",
             "Galactic Cybersystems",
             "Rho Construction",
-            "Watchdog Security"
+            "Watchdog Security",
         ],
-        "gov": [
-            "Aevum Police Headquarters"
-        ],
-        "gym": [
-            "Crush Fitness Gym",
-            "Snap Fitness Gym"
-        ],
-        "leisure": "Iker Molina Casino",
-        "shop": "NetLink Technologies",
-        "uni": "Summit University"
+        gov: ["Aevum Police Headquarters"],
+        gym: ["Crush Fitness Gym", "Snap Fitness Gym"],
+        leisure: "Iker Molina Casino",
+        shop: "NetLink Technologies",
+        uni: "Summit University",
     },
     // Chongqing locations.
-    "Chongqing": {
-        "company": [
-            "KuaiGong International",
-            "Solaris Space Systems"
-        ],
-        "other": "Church of the Machine God"
+    Chongqing: {
+        company: ["KuaiGong International", "Solaris Space Systems"],
+        other: "Church of the Machine God",
     },
     // Ishima locations.
-    "Ishima": {
-        "company": [
-            "Nova Medical",
-            "Omega Software"
-        ],
-        "other": "0x6C1",
-        "shop": "Storm Technologies"
+    Ishima: {
+        company: ["Nova Medical", "Omega Software"],
+        other: "0x6C1",
+        shop: "Storm Technologies",
     },
     // New Tokyo locations.
     "New Tokyo": {
-        "company": [
+        company: [
             "DefComm",
             "Global Pharmaceuticals",
             "Noodle Bar",
-            "VitaLife"
+            "VitaLife",
         ],
-        "leisure": "Arcade"
+        leisure: "Arcade",
     },
     // Sector-12 locations.
     "Sector-12": {
-        "company": [
+        company: [
             "Blade Industries",
             "Carmichael Security",
             "DeltaOne",
@@ -98,41 +87,36 @@ export const cities = {
             "Icarus Microsystems",
             "Joe's Guns",
             "MegaCorp",
-            "Universal Energy"
+            "Universal Energy",
         ],
-        "gov": [
+        gov: [
             "Central Intelligence Agency",
             "National Security Agency",
-            "Sector-12 City Hall"
+            "Sector-12 City Hall",
         ],
-        "gym": [
-            "Iron Gym",
-            "Powerhouse Gym"
-        ],
-        "shop": "Alpha Enterprises",
-        "uni": "Rothman University"
+        gym: ["Iron Gym", "Powerhouse Gym"],
+        shop: "Alpha Enterprises",
+        uni: "Rothman University",
     },
     // Volhaven locations.
-    "Volhaven": {
-        "company": [
+    Volhaven: {
+        company: [
             "CompuTek",
             "Helios Labs",
             "LexoCorp",
             "NWO",
             "Omnia Cybersystems",
-            "SysCore Securities"
+            "SysCore Securities",
         ],
-        "gym": [
-            "Millenium Fitness Gym"
-        ],
-        "shop": "OmniTek Incorporated",
-        "uni": "ZB Institute of Technology"
+        gym: ["Millenium Fitness Gym"],
+        shop: "OmniTek Incorporated",
+        uni: "ZB Institute of Technology",
     },
     // These are generic locations that are found in every city.
-    "generic": {
-        "hospital": "Hospital",
-        "slum": "The Slums",
-        "TA": "Travel Agency",
-        "WSE": "World Stock Exchange"
-    }
+    generic: {
+        hospital: "Hospital",
+        slum: "The Slums",
+        TA: "Travel Agency",
+        WSE: "World Stock Exchange",
+    },
 };

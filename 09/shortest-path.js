@@ -49,8 +49,6 @@ export async function main(ns) {
         return;
     }
     // Print commands to connect to target server.
-    path = path.filter(
-        s => s != home
-    );
+    path = path.filter((s) => s != home);
     ns.tprint("connect " + path.join("; connect "));
 }

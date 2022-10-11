@@ -24,25 +24,15 @@ export const hnet_t = {
     // The maximum Level of a Hacknet node.  This number is taken from the file
     //
     // https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
-    "MAX_LEVEL": 200,
+    MAX_LEVEL: 200,
     // The money thresholds.  Use these to help us gauge how many Hacknet nodes
     // we should purchase.  The values 1e6 and 1e9 mean million and billion,
     // respectively.
-    "MONEY": [
-        10e6,
-        100e6,
-        1e9,
-        100e9
-    ],
+    MONEY: [10e6, 100e6, 1e9, 100e9],
     // The node thresholds.  At certain money thresholds, we should have the
     // corresponding number of nodes.
-    "NODE": [
-        6,
-        12,
-        24,
-        30
-    ],
+    NODE: [6, 12, 24, 30],
     // The initial number of Hacknet nodes to buy.  Start our Hacknet farm
     // with this many seed nodes.
-    "SEED_NODE": 3
+    SEED_NODE: 3,
 };

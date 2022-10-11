@@ -58,7 +58,7 @@ function installed_augmentations(ns) {
 function purchased_augmentations(ns) {
     const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     const installed_aug = installed_augmentations(ns);
-    return purchased_aug.filter(a => !installed_aug.includes(a));
+    return purchased_aug.filter((a) => !installed_aug.includes(a));
 }
 
 /**

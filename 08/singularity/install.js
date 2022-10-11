@@ -33,7 +33,7 @@ async function buy_programs(ns) {
     const player = new Player(ns);
     assert(player.has_tor());
     const db = cost_program(ns);
-    const time = 1;  // Millisecond.
+    const time = 1; // Millisecond.
     // Try to buy at most this many times to prevent the script from hanging.
     // If our income rises faster than our spending on programs, then it is
     // possible for this function to hang and buys indefinitely.
@@ -133,7 +133,7 @@ function installed_augmentations(ns) {
 function purchased_augmentations(ns) {
     const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
     const installed_aug = installed_augmentations(ns);
-    return purchased_aug.filter(a => !installed_aug.includes(a));
+    return purchased_aug.filter((a) => !installed_aug.includes(a));
 }
 
 /**

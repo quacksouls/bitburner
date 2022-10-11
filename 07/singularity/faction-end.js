@@ -16,11 +16,14 @@
  */
 
 import { faction_req } from "/lib/constant/faction.js";
-import { home } from "/lib/constant/server.js"
+import { home } from "/lib/constant/server.js";
 import { job_area } from "/lib/constant/work.js";
 import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
 import {
-    join_faction, raise_combat_stats, raise_hack, work_for_faction
+    join_faction,
+    raise_combat_stats,
+    raise_hack,
+    work_for_faction,
 } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
@@ -133,9 +136,9 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        ("Daedalus" == faction)
-            || ("Illuminati" == faction)
-            || ("The Covenant" == faction)
+        "Daedalus" == faction ||
+            "Illuminati" == faction ||
+            "The Covenant" == faction,
     );
     switch (faction) {
         case "Daedalus":

@@ -16,7 +16,9 @@
  */
 
 import {
-    has_program, intelligence, intelligence_gain
+    has_program,
+    intelligence,
+    intelligence_gain,
 } from "/intelligence/util.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { Player } from "/lib/player.js";

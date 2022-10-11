@@ -32,11 +32,21 @@ async function gain_root_access(ns, server) {
         return true;
     }
     // Try to open all required ports and nuke the server.
-    try { await ns.brutessh(server); } catch { }
-    try { await ns.ftpcrack(server); } catch { }
-    try { await ns.httpworm(server); } catch { }
-    try { await ns.relaysmtp(server); } catch { }
-    try { await ns.sqlinject(server); } catch { }
+    try {
+        await ns.brutessh(server);
+    } catch {}
+    try {
+        await ns.ftpcrack(server);
+    } catch {}
+    try {
+        await ns.httpworm(server);
+    } catch {}
+    try {
+        await ns.relaysmtp(server);
+    } catch {}
+    try {
+        await ns.sqlinject(server);
+    } catch {}
     try {
         await ns.nuke(server);
         return true;
@@ -79,7 +89,7 @@ export async function main(ns) {
     // before doing anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
     // Continuously hack/grow/weaken the target server.
-    const time = 1;  // One millisecond.
+    const time = 1; // One millisecond.
     while (true) {
         const money_available = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {

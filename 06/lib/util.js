@@ -68,7 +68,7 @@ export function choose_targets(ns, candidate) {
     // Sanity check.
     assert(candidate.length > 0);
     // How many ports can we open?
-    const port_opener = program.filter(p => ns.fileExists(p, home));
+    const port_opener = program.filter((p) => ns.fileExists(p, home));
     const nport = port_opener.length;
     // Find a bunch of target servers to hack.
     const target = new Array();
@@ -98,7 +98,7 @@ export function choose_targets(ns, candidate) {
  */
 export function filter_bankrupt_servers(ns, candidate) {
     assert(candidate.length > 0);
-    return candidate.filter(s => !is_bankrupt(ns, s));
+    return candidate.filter((s) => !is_bankrupt(ns, s));
 }
 
 /**
@@ -111,7 +111,7 @@ export function filter_bankrupt_servers(ns, candidate) {
 export function filter_pserv(ns, server) {
     const pserv = ns.getPurchasedServers();
     const serv = Array.from(server);
-    return serv.filter(s => !pserv.includes(s));
+    return serv.filter((s) => !pserv.includes(s));
 }
 
 /**

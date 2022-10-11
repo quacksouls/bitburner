@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, max_profit_kadane, print_error, print_success
+    log_cct_failure,
+    max_profit_kadane,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 
 /**
@@ -42,7 +45,12 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(
-        max_profit_kadane(array), cct, host, { returnReward: true }
+        max_profit_kadane(array),
+        cct,
+        host,
+        {
+            returnReward: true,
+        },
     );
     // Log the result in case of failure.
     if (0 == result.length) {

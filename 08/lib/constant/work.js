@@ -21,10 +21,10 @@
  * Areas of employment within a company or faction.
  */
 export const job_area = {
-    "BUSINESS": "Business",
-    "FIELD": "Field Work",
-    "HACK": "Hacking Contracts",
-    "SOFTWARE": "Software"
+    BUSINESS: "Business",
+    FIELD: "Field Work",
+    HACK: "Hacking Contracts",
+    SOFTWARE: "Software",
 };
 
 /**
@@ -33,7 +33,7 @@ export const job_area = {
  * https://github.com/danielyxie/bitburner/blob/dev/src/Company/data/companypositionnames.ts
  */
 export const job_title = {
-    "CEO": "Chief Executive Officer",
-    "CFO": "Chief Financial Officer",
-    "CTO": "Chief Technology Officer"
+    CEO: "Chief Executive Officer",
+    CFO: "Chief Financial Officer",
+    CTO: "Chief Technology Officer",
 };

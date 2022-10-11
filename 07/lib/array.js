@@ -57,12 +57,9 @@ export class MyArray {
     max(array) {
         assert(array.length > 0);
         const init_value = -Infinity;
-        const mx = array.reduce(
-            function (x, y) {
-                return Math.max(x, y);
-            },
-            init_value
-        );
+        const mx = array.reduce(function (x, y) {
+            return Math.max(x, y);
+        }, init_value);
         return mx;
     }
 
@@ -77,7 +74,9 @@ export class MyArray {
     sequence(num) {
         const n = Math.floor(num);
         assert(n > 0);
-        return Array(n).fill().map((_, index) => index);
+        return Array(n)
+            .fill()
+            .map((_, index) => index);
     }
 
     /**
@@ -91,11 +90,9 @@ export class MyArray {
     sort_ascending(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
-        arr.sort(
-            function (a, b) {
-                return a - b;
-            }
-        );
+        arr.sort(function (a, b) {
+            return a - b;
+        });
         return arr;
     }
 
@@ -120,11 +117,9 @@ export class MyArray {
     sort_ascending_tuple(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
-        arr.sort(
-            function (a, b) {
-                return a[0] - b[0];
-            }
-        );
+        arr.sort(function (a, b) {
+            return a[0] - b[0];
+        });
         return arr;
     }
 
@@ -139,11 +134,9 @@ export class MyArray {
     sort_descending(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
-        arr.sort(
-            function (a, b) {
-                return b - a;
-            }
-        );
+        arr.sort(function (a, b) {
+            return b - a;
+        });
         return arr;
     }
 
@@ -157,12 +150,9 @@ export class MyArray {
     sum(array) {
         assert(array.length > 0);
         const init_value = 0;
-        const total = array.reduce(
-            function (sum, current) {
-                return sum + current;
-            },
-            init_value
-        );
+        const total = array.reduce(function (sum, current) {
+            return sum + current;
+        }, init_value);
         return total;
     }
 }

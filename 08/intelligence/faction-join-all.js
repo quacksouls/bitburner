@@ -16,7 +16,9 @@
  */
 
 import {
-    has_invitation, intelligence, intelligence_gain
+    has_invitation,
+    intelligence,
+    intelligence_gain,
 } from "/intelligence/util.js";
 import { factions } from "/lib/constant/faction.js";
 import { assert } from "/lib/util.js";

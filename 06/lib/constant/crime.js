@@ -21,16 +21,16 @@
  * All available crimes.
  */
 export const crimes = {
-    "ASSASS": "assassinate",
-    "DRUG": "deal drugs",
-    "FORGE": "bond forgery",
-    "GTA": "grand theft auto",
-    "HEIST": "heist",
-    "KILL": "homicide",
-    "KIDNAP": "kidnap and ransom",
-    "LARCENY": "larceny",
-    "MUG": "mug someone",
-    "ROB": "rob store",
-    "SHOP": "shoplift",
-    "TRAFFICK": "traffick illegal arms"
+    ASSASS: "assassinate",
+    DRUG: "deal drugs",
+    FORGE: "bond forgery",
+    GTA: "grand theft auto",
+    HEIST: "heist",
+    KILL: "homicide",
+    KIDNAP: "kidnap and ransom",
+    LARCENY: "larceny",
+    MUG: "mug someone",
+    ROB: "rob store",
+    SHOP: "shoplift",
+    TRAFFICK: "traffick illegal arms",
 };

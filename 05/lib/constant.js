@@ -24,10 +24,10 @@
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
  */
 export const colour = {
-    "DARK_GREEN": "\u001b[38;5;22m",
-    "GREEN":      "\u001b[32m",
-    "RED":        "\u001b[31m",
-    "RESET":      "\u001b[0m"
+    DARK_GREEN: "\u001b[38;5;22m",
+    GREEN: "\u001b[32m",
+    RED: "\u001b[31m",
+    RESET: "\u001b[0m",
 };
 
 /**
@@ -40,7 +40,7 @@ export const home = "home";
  * purchasing activities, we do not want to spend all our money.  We spend only
  * if doing so would leave us with at least this amount of money left over.
  */
-export const money_reserve = 50 * (10**6);
+export const money_reserve = 50 * 10 ** 6;
 
 /**
  * The hack script.  This script is used for hacking a server.

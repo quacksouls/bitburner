@@ -16,7 +16,8 @@
  */
 
 import {
-    intelligence, intelligence_gain_per_minute
+    intelligence,
+    intelligence_gain_per_minute,
 } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
@@ -52,7 +53,7 @@ async function commit_all_crimes(ns) {
     while (crime.length > 0) {
         const c = greatest_chance(ns, crime)[0];
         await commit_crime(ns, c);
-        crime = crime.filter(a => a != c);
+        crime = crime.filter((a) => a != c);
     }
 }
 

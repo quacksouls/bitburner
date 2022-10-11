@@ -16,7 +16,9 @@
  */
 
 import {
-    has_program, intelligence, intelligence_gain
+    has_program,
+    intelligence,
+    intelligence_gain,
 } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -42,7 +44,7 @@ function all_programs() {
         ["DeepscanV1.exe", 1],
         ["DeepscanV2.exe", 324],
         ["ServerProfiler.exe", 1],
-        ["AutoLink.exe", 1]
+        ["AutoLink.exe", 1],
     ]);
     return program;
 }

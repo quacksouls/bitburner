@@ -39,5 +39,5 @@ export function assert(cond) {
 export function filter_pserv(ns, server) {
     const pserv = ns.getPurchasedServers();
     const serv = Array.from(server);
-    return serv.filter(s => !pserv.includes(s));
+    return serv.filter((s) => !pserv.includes(s));
 }

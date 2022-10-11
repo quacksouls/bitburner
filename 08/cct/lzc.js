@@ -66,12 +66,24 @@ function compress(plain) {
                 set(new_state, 0, length + 1, string);
             } else {
                 // start new literal
-                set(new_state, 0, 1, string + "9" + plain.substring(i - 9, i) + "0");
+                set(
+                    new_state,
+                    0,
+                    1,
+                    string + "9" + plain.substring(i - 9, i) + "0",
+                );
             }
             for (let offset = 1; offset <= Math.min(9, i); ++offset) {
                 if (plain[i - offset] === c) {
                     // start new backreference
-                    set(new_state, offset, 1, string + String(length) + plain.substring(i - length, i));
+                    set(
+                        new_state,
+                        offset,
+                        1,
+                        string +
+                            String(length) +
+                            plain.substring(i - length, i),
+                    );
                 }
             }
         }
@@ -89,15 +101,29 @@ function compress(plain) {
                         set(new_state, offset, length + 1, string);
                     } else {
                         // start new backreference
-                        set(new_state, offset, 1, string + "9" + String(offset) + "0");
+                        set(
+                            new_state,
+                            offset,
+                            1,
+                            string + "9" + String(offset) + "0",
+                        );
                     }
                 }
                 // start new literal
                 set(new_state, 0, 1, string + String(length) + String(offset));
                 // end current backreference and start new backreference
-                for (let new_offset = 1; new_offset <= Math.min(9, i); ++new_offset) {
+                for (
+                    let new_offset = 1;
+                    new_offset <= Math.min(9, i);
+                    ++new_offset
+                ) {
                     if (plain[i - new_offset] === c) {
-                        set(new_state, new_offset, 1, string + String(length) + String(offset) + "0");
+                        set(
+                            new_state,
+                            new_offset,
+                            1,
+                            string + String(length) + String(offset) + "0",
+                        );
                     }
                 }
             }
@@ -115,7 +141,8 @@ function compress(plain) {
         if (string == null) {
             continue;
         }
-        string += String(len) + plain.substring(plain.length - len, plain.length);
+        string +=
+            String(len) + plain.substring(plain.length - len, plain.length);
         if (result == null || string.length < result.length) {
             result = string;
         } else if (string.length == result.length && Math.random() < 0.5) {
@@ -172,9 +199,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const data = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        compress(data), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(compress(data), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/lzc.txt";

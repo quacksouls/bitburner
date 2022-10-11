@@ -36,9 +36,9 @@ export const augment = {
     // the faction in exchange for reputation points.  This should help to
     // shorten the amount of time required to reach a certain amount of
     // reputation points.
-    "BUY_TAU": 5,
+    BUY_TAU: 5,
     // Named Augmentations.
-    "TRP": "The Red Pill"
+    TRP: "The Red Pill",
 };
 
 /**
@@ -47,55 +47,53 @@ export const augment = {
  */
 export const exclusive_aug = {
     "Bachman & Associates": ["SmartJaw"],
-    "BitRunners": [
+    BitRunners: [
         "BitRunners Neurolink",
         "Cranial Signal Processors - Gen V",
-        "Neural Accelerator"
+        "Neural Accelerator",
     ],
     "Blade Industries": ["Neotra"],
-    "Chongqing": ["Neuregen Gene Modification"],
+    Chongqing: ["Neuregen Gene Modification"],
     "Clarke Incorporated": [
         "Neuronal Densification",
-        "nextSENS Gene Modification"
+        "nextSENS Gene Modification",
     ],
-    "CyberSec": [
+    CyberSec: [
         "Cranial Signal Processors - Gen I",
-        "Neurotrainer I", "Synaptic Enhancement Implant"
+        "Neurotrainer I",
+        "Synaptic Enhancement Implant",
     ],
-    "Daedalus": ["The Red Pill"],
-    "ECorp": ["ECorp HVMind Implant"],
+    Daedalus: ["The Red Pill"],
+    ECorp: ["ECorp HVMind Implant"],
     "Fulcrum Secret Technologies": [
-        "PC Direct-Neural Interface NeuroNet Injector"
+        "PC Direct-Neural Interface NeuroNet Injector",
     ],
-    "Illuminati": ["QLink"],
-    "Ishima": ["INFRARET Enhancement"],
+    Illuminati: ["QLink"],
+    Ishima: ["INFRARET Enhancement"],
     "KuaiGong International": ["Photosynthetic Cells"],
-    "MegaCorp": ["CordiARC Fusion Reactor"],
-    "Netburners": [
+    MegaCorp: ["CordiARC Fusion Reactor"],
+    Netburners: [
         "Hacknet Node Cache Architecture Neural-Upload",
         "Hacknet Node Core Direct-Neural Interface",
         "Hacknet Node CPU Architecture Neural-Upload",
         "Hacknet Node Kernel Direct-Neural Interface",
-        "Hacknet Node NIC Architecture Neural-Upload"
+        "Hacknet Node NIC Architecture Neural-Upload",
     ],
     "New Tokyo": ["NutriGen Implant"],
-    "NiteSec": [
-        "CRTX42-AA Gene Modification",
-        "Neural-Retention Enhancement"
-    ],
-    "NWO": ["Xanipher"],
+    NiteSec: ["CRTX42-AA Gene Modification", "Neural-Retention Enhancement"],
+    NWO: ["Xanipher"],
     "OmniTek Incorporated": ["OmniTek InfoLoad"],
     "Sector-12": ["CashRoot Starter Kit"],
-    "Silhouette": ["TITN-41 Gene-Modification Injection"],
+    Silhouette: ["TITN-41 Gene-Modification Injection"],
     "Slum Snakes": ["SmartSonar Implant"],
     "Speakers for the Dead": ["Graphene BrachiBlades Upgrade"],
-    "Tetrads": ["Bionic Arms"],
+    Tetrads: ["Bionic Arms"],
     "Tian Di Hui": ["Social Negotiation Assistant (S.N.A)"],
     "The Black Hand": ["The Black Hand"],
     "The Covenant": ["SPTN-97 Gene Modification"],
     "The Dark Army": ["Graphene Bionic Arms Upgrade"],
     "The Syndicate": ["BrachiBlades"],
-    "Volhaven": ["DermaForce Particle Barrier"]
+    Volhaven: ["DermaForce Particle Barrier"],
 };
 
 /**
@@ -146,7 +144,7 @@ export const factions = {
     // (12) The endgame factions should be the last to join.  We can join
     //      Illuminati or The Covenant in any order we want.  However, Daedalus
     //      should be the very last faction that we join.
-    "all": [
+    all: [
         // Early game factions, city factions, and hacking groups.
         "Sector-12",
         "Netburners",
@@ -185,18 +183,12 @@ export const factions = {
         // Endgame factions.
         "Illuminati",
         "The Covenant",
-        "Daedalus"
+        "Daedalus",
     ],
     // Various early-game factions.
-    "early": [
-        "Sector-12",
-        "Netburners",
-        "CyberSec",
-        "Tian Di Hui",
-        "BitRunners"
-    ],
+    early: ["Sector-12", "Netburners", "CyberSec", "Tian Di Hui", "BitRunners"],
     // All megacorporation factions.
-    "megacorp": [
+    megacorp: [
         "Bachman & Associates",
         "Blade Industries",
         "Clarke Incorporated",
@@ -206,6 +198,6 @@ export const factions = {
         "KuaiGong International",
         "MegaCorp",
         "NWO",
-        "OmniTek Incorporated"
-    ]
+        "OmniTek Incorporated",
+    ],
 };

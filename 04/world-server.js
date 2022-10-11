@@ -27,7 +27,7 @@ function filter_pserv(ns, server) {
     const pserv = new Set(ns.getPurchasedServers());
     // Filter out the purchased servers.
     const serv = Array.from(server);
-    return serv.filter(s => !pserv.has(s));
+    return serv.filter((s) => !pserv.has(s));
 }
 
 /**
@@ -77,7 +77,7 @@ function network(ns) {
     server = [...server];
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
-    return server.filter(s => root != s);
+    return server.filter((s) => root != s);
 }
 
 /**
@@ -94,7 +94,7 @@ export async function main(ns) {
     }
     // Ensure our Hack stat is high enough to hack the target server.
     const target = "neo-net";
-    const time = 10000;  // 10 seconds
+    const time = 10000; // 10 seconds
     while (ns.getHackingLevel() < ns.getServerRequiredHackingLevel(target)) {
         await ns.sleep(time);
     }
@@ -105,7 +105,7 @@ export async function main(ns) {
     const script = "hack.js";
     const source = "home";
     const script_ram = ns.getScriptRam(script, source);
-    const nport = 2;  // Can open this many ports.
+    const nport = 2; // Can open this many ports.
     for (const s of server) {
         // Skip over a server that requires 3 or more open ports.  Currently,
         // we can only open 2 ports.

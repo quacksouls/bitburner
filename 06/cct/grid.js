@@ -61,7 +61,7 @@ function unique_paths(n, k) {
     assert(n >= 0);
     assert(k >= 0);
     // Edge cases.
-    if ((0 == k) || (n == k)) {
+    if (0 == k || n == k) {
         return 1;
     }
     if (k > n) {
@@ -117,10 +117,10 @@ export async function main(ns) {
     // Solve the coding contract.
     const [row, column] = ns.codingcontract.getData(cct, host);
     const k = column - 1;
-    const n = (row - 1) + k;
-    const result = ns.codingcontract.attempt(
-        unique_paths(n, k), cct, host, { returnReward: true }
-    );
+    const n = row - 1 + k;
+    const result = ns.codingcontract.attempt(unique_paths(n, k), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/grid.txt";

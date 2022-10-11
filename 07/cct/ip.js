@@ -128,7 +128,7 @@ function is_valid_octet(octet) {
     const n = parseInt(octet, base);
     const min = 0;
     const max = 255;
-    if ((min <= n) && (n <= max)) {
+    if (min <= n && n <= max) {
         return bool.VALID;
     }
     return bool.INVALID;
@@ -155,9 +155,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const string = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        all_ip(string), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(all_ip(string), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/ip.txt";

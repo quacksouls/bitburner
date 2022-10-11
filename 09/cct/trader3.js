@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, print_error, print_success, stock_traderIII
+    log_cct_failure,
+    print_error,
+    print_success,
+    stock_traderIII,
 } from "/lib/cct.js";
 
 /**
@@ -44,7 +47,12 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(
-        stock_traderIII(array), cct, host, { returnReward: true }
+        stock_traderIII(array),
+        cct,
+        host,
+        {
+            returnReward: true,
+        },
     );
     // Log the result in case of failure.
     if (0 == result.length) {

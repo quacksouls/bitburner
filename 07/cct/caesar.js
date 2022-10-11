@@ -16,8 +16,12 @@
  */
 
 import {
-    english_alphabet, char_index, is_alphabetic, log_cct_failure, print_error,
-    print_success
+    english_alphabet,
+    char_index,
+    is_alphabetic,
+    log_cct_failure,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
@@ -95,9 +99,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [plaintext, k] = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        caesar(plaintext, k), cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(caesar(plaintext, k), cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/caesar.txt";

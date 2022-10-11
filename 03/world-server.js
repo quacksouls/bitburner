@@ -24,16 +24,36 @@
 function filter_pserv(server) {
     // All purchased servers.
     const pserv = [
-        "pserv", "pserv-0", "pserv-1", "pserv-2", "pserv-3", "pserv-4",
-        "pserv-5", "pserv-6", "pserv-7", "pserv-8", "pserv-9", "pserv-10",
-        "pserv-11", "pserv-12", "pserv-13", "pserv-14", "pserv-15", "pserv-16",
-        "pserv-17", "pserv-18", "pserv-19", "pserv-20", "pserv-21",
-        "pserv-22", "pserv-23"
+        "pserv",
+        "pserv-0",
+        "pserv-1",
+        "pserv-2",
+        "pserv-3",
+        "pserv-4",
+        "pserv-5",
+        "pserv-6",
+        "pserv-7",
+        "pserv-8",
+        "pserv-9",
+        "pserv-10",
+        "pserv-11",
+        "pserv-12",
+        "pserv-13",
+        "pserv-14",
+        "pserv-15",
+        "pserv-16",
+        "pserv-17",
+        "pserv-18",
+        "pserv-19",
+        "pserv-20",
+        "pserv-21",
+        "pserv-22",
+        "pserv-23",
     ];
     // Filter out the purchased servers.
     let serv = Array.from(server);
     for (const p of pserv) {
-        serv = serv.filter(s => s != p);
+        serv = serv.filter((s) => s != p);
     }
     return serv;
 }
@@ -108,7 +128,7 @@ function network(ns) {
     server = [...new Set(server)];
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
-    return server.filter(s => root != s);
+    return server.filter((s) => root != s);
 }
 
 /**

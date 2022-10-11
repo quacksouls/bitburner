@@ -16,7 +16,8 @@
  */
 
 import {
-    intelligence, intelligence_gain_per_minute
+    intelligence,
+    intelligence_gain_per_minute,
 } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
 import { cities } from "/lib/constant/location.js";

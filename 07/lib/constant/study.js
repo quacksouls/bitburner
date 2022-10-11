@@ -23,10 +23,10 @@
  * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Singularity.ts
  */
 export const course = {
-    "ALGO": "Algorithms",
-    "CS": "Study Computer Science",
-    "DATA": "Data Structures",
-    "LEAD": "Leadership",
-    "MANAGE": "Management",
-    "NET": "Networks"
+    ALGO: "Algorithms",
+    CS: "Study Computer Science",
+    DATA: "Data Structures",
+    LEAD: "Leadership",
+    MANAGE: "Management",
+    NET: "Networks",
 };

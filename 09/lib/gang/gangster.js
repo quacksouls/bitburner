@@ -87,10 +87,10 @@ export class Gangster {
         let ascend_this_member = false;
         if (this.is_combatant(name)) {
             if (
-                (to_int(asc.agi) > tau)
-                    || (to_int(asc.def) > tau)
-                    || (to_int(asc.dex) > tau)
-                    || (to_int(asc.str) > tau)
+                to_int(asc.agi) > tau ||
+                to_int(asc.def) > tau ||
+                to_int(asc.dex) > tau ||
+                to_int(asc.str) > tau
             ) {
                 ascend_this_member = true;
             }
@@ -124,9 +124,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members threaten and blackmail people.
         for (const s of name) {
             if (!this.is_blackmailer(s)) {
@@ -156,9 +154,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members run a con.
         for (const s of name) {
             if (!this.is_con_artist(s)) {
@@ -177,9 +173,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members be involved in dealing drugs.
         for (const s of name) {
             if (!this.is_dealing_drugs(s)) {
@@ -224,7 +218,7 @@ export class Gangster {
         assert(gang_armour.has(amr));
         const cost = this.#ns.gang.getEquipmentCost(amr);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_t.COST_MULT * cost)) {
+        if (funds < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, amr);
@@ -244,7 +238,7 @@ export class Gangster {
         assert(gang_aug.has(aug));
         const cost = this.#ns.gang.getEquipmentCost(aug);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_t.COST_MULT * cost)) {
+        if (funds < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
@@ -264,7 +258,7 @@ export class Gangster {
         assert(gang_rootkit.has(kit));
         const cost = this.#ns.gang.getEquipmentCost(kit);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_t.COST_MULT * cost)) {
+        if (funds < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, kit);
@@ -284,7 +278,7 @@ export class Gangster {
         assert(gang_vehicle.has(vhc));
         const cost = this.#ns.gang.getEquipmentCost(vhc);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_t.COST_MULT * cost)) {
+        if (funds < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, vhc);
@@ -304,7 +298,7 @@ export class Gangster {
         assert(gang_weapon.has(wpn));
         const cost = this.#ns.gang.getEquipmentCost(wpn);
         const funds = this.#player_money() - money_reserve;
-        if (funds < (gang_t.COST_MULT * cost)) {
+        if (funds < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, wpn);
@@ -320,9 +314,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members be involved in ethical hacking.
         for (const s of name) {
             if (!this.is_ethical_hacker(s)) {
@@ -341,9 +333,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members strongarm civilians.
         for (const s of name) {
             if (!this.is_extortionist(s)) {
@@ -362,9 +352,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit financial fraud and digital counterfeiting.
         for (const s of name) {
             if (!this.is_fraudster(s)) {
@@ -387,20 +375,19 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their combat stats, members graduate to mugging
         // random people.
-        const combatant = name.filter(s => this.is_combatant(s));
+        const combatant = name.filter((s) => this.is_combatant(s));
         const graduate = combatant.filter(
-            s => this.is_training_combat(s)
-                && (this.strength(s) >= min)
-                && (this.defense(s) >= min)
-                && (this.dexterity(s) >= min)
-                && (this.agility(s) >= min)
+            (s) =>
+                this.is_training_combat(s) &&
+                this.strength(s) >= min &&
+                this.defense(s) >= min &&
+                this.dexterity(s) >= min &&
+                this.agility(s) >= min,
         );
         this.mug(graduate);
     }
@@ -424,24 +411,22 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their Hack stat, a hacker also trains their Charisma
         // stat.
-        const hacker = name.filter(s => this.is_hacker(s));
+        const hacker = name.filter((s) => this.is_hacker(s));
         const hack_graduate = hacker.filter(
-            s => this.is_training_hack(s)
-                && (this.hack(s) >= min)
+            (s) => this.is_training_hack(s) && this.hack(s) >= min,
         );
         this.train_charisma(hack_graduate);
         // Once a hacker's Hack and Charisma stats are of minimum amounts,
         // assign them their first job.
         const charisma_graduate = hacker.filter(
-            s => this.is_training_charisma(s)
-                && (this.charisma(s) >= task_t.CHARISMA)
+            (s) =>
+                this.is_training_charisma(s) &&
+                this.charisma(s) >= task_t.CHARISMA,
         );
         this.ransomware(charisma_graduate);
     }
@@ -466,27 +451,25 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their Charisma stat, a miscellaneous member also
         // trains their combat stats.
-        const graduate = name.filter(s => this.is_miscellaneous(s));
+        const graduate = name.filter((s) => this.is_miscellaneous(s));
         const charisma_graduate = graduate.filter(
-            s => this.is_training_charisma(s)
-                && (this.charisma(s) >= min)
+            (s) => this.is_training_charisma(s) && this.charisma(s) >= min,
         );
         this.train_combat(charisma_graduate);
         // Once the Charisma and combat stats of a miscellaneous member are of
         // minimum amounts, assign them their first job.
         const combat_graduate = graduate.filter(
-            s => this.is_training_combat(s)
-                && (this.strength(s) >= task_t.COMBAT)
-                && (this.defense(s) >= task_t.COMBAT)
-                && (this.dexterity(s) >= task_t.COMBAT)
-                && (this.agility(s) >= task_t.COMBAT)
+            (s) =>
+                this.is_training_combat(s) &&
+                this.strength(s) >= task_t.COMBAT &&
+                this.defense(s) >= task_t.COMBAT &&
+                this.dexterity(s) >= task_t.COMBAT &&
+                this.agility(s) >= task_t.COMBAT,
         );
         this.deal_drugs(combat_graduate);
     }
@@ -515,7 +498,7 @@ export class Gangster {
         const gang_armour = new Set(Object.values(armour));
         assert(gang_armour.has(amr));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades
+            this.#ns.gang.getMemberInformation(name).upgrades,
         );
         return equipment.has(amr);
     }
@@ -533,7 +516,7 @@ export class Gangster {
         const gang_aug = new Set(Object.values(gang_augment));
         assert(gang_aug.has(aug));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).augmentations
+            this.#ns.gang.getMemberInformation(name).augmentations,
         );
         return equipment.has(aug);
     }
@@ -550,7 +533,7 @@ export class Gangster {
         const gang_rootkit = new Set(Object.values(rootkit));
         assert(gang_rootkit.has(kit));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades
+            this.#ns.gang.getMemberInformation(name).upgrades,
         );
         return equipment.has(kit);
     }
@@ -567,7 +550,7 @@ export class Gangster {
         const gang_vehicle = new Set(Object.values(vehicle));
         assert(gang_vehicle.has(vhc));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades
+            this.#ns.gang.getMemberInformation(name).upgrades,
         );
         return equipment.has(vhc);
     }
@@ -584,7 +567,7 @@ export class Gangster {
         const gang_weapon = new Set(Object.values(weapon));
         assert(gang_weapon.has(wpn));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades
+            this.#ns.gang.getMemberInformation(name).upgrades,
         );
         return equipment.has(wpn);
     }
@@ -599,9 +582,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit identity theft.
         for (const s of name) {
             if (!this.is_id_thief(s)) {
@@ -662,10 +643,12 @@ export class Gangster {
      */
     is_combatant(name) {
         assert(this.is_member(name));
-        return this.is_artillery(name)
-            || this.is_pilot(name)
-            || (this.role(name) == members.ROLE.punk)
-            || this.is_vanguard(name);
+        return (
+            this.is_artillery(name) ||
+            this.is_pilot(name) ||
+            this.role(name) == members.ROLE.punk ||
+            this.is_vanguard(name)
+        );
     }
 
     /**
@@ -822,10 +805,12 @@ export class Gangster {
     is_miscellaneous(name) {
         assert(this.is_member(name));
         const role = this.role(name);
-        return (role == members.ROLE.medic)
-            || (role == members.ROLE.spy)
-            || (role == members.ROLE.thief)
-            || (role == members.ROLE.traitor);
+        return (
+            role == members.ROLE.medic ||
+            role == members.ROLE.spy ||
+            role == members.ROLE.thief ||
+            role == members.ROLE.traitor
+        );
     }
 
     /**
@@ -912,9 +897,11 @@ export class Gangster {
      *     training; false otherwise.
      */
     is_training(name) {
-        return this.is_training_charisma(name)
-            || this.is_training_combat(name)
-            || this.is_training_hack(name);
+        return (
+            this.is_training_charisma(name) ||
+            this.is_training_combat(name) ||
+            this.is_training_hack(name)
+        );
     }
 
     /**
@@ -1002,9 +989,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members launder money.
         for (const s of name) {
             if (!this.is_launderer(s)) {
@@ -1023,9 +1008,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members mug random people.
         for (const s of name) {
             if (!this.is_mugger(s)) {
@@ -1055,10 +1038,10 @@ export class Gangster {
     needs_combat_training(name) {
         assert(this.is_member(name));
         if (
-            (this.strength(name) < task_t.COMBAT)
-                || (this.defense(name) < task_t.COMBAT)
-                || (this.dexterity(name) < task_t.COMBAT)
-                || (this.agility(name) < task_t.COMBAT)
+            this.strength(name) < task_t.COMBAT ||
+            this.defense(name) < task_t.COMBAT ||
+            this.dexterity(name) < task_t.COMBAT ||
+            this.agility(name) < task_t.COMBAT
         ) {
             return true;
         }
@@ -1089,12 +1072,16 @@ export class Gangster {
             return this.needs_combat_training(name);
         }
         if (this.is_hacker(name)) {
-            return this.needs_hack_training(name)
-                || this.needs_charisma_training(name);
+            return (
+                this.needs_hack_training(name) ||
+                this.needs_charisma_training(name)
+            );
         }
         assert(this.is_miscellaneous(name));
-        return this.needs_charisma_training(name)
-            || this.needs_combat_training(name);
+        return (
+            this.needs_charisma_training(name) ||
+            this.needs_combat_training(name)
+        );
     }
 
     /**
@@ -1107,13 +1094,9 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members be in the idle state.
-        name.map(
-            s => this.#ns.gang.setMemberTask(s, task.IDLE)
-        );
+        name.map((s) => this.#ns.gang.setMemberTask(s, task.IDLE));
     }
 
     /**
@@ -1126,9 +1109,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit phishing scams.
         for (const s of name) {
             if (!this.is_phisher(s)) {
@@ -1169,9 +1150,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members create and distribute ransomware.
         for (const s of name) {
             if (!this.is_creating_ransomware(s)) {
@@ -1265,9 +1244,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in armed robbery.
         for (const s of name) {
             if (!this.is_robber(s)) {
@@ -1314,15 +1291,15 @@ export class Gangster {
      */
     #roster() {
         const member = {
-            "artillery": 0,
-            "hacker": 0,
-            "medic": 0,
-            "pilot": 0,
-            "punk": 0,
-            "spy": 0,
-            "thief": 0,
-            "traitor": 0,
-            "vanguard": 0,
+            artillery: 0,
+            hacker: 0,
+            medic: 0,
+            pilot: 0,
+            punk: 0,
+            spy: 0,
+            thief: 0,
+            traitor: 0,
+            vanguard: 0,
         };
         // Assume the name of each member follows this format:
         //
@@ -1355,9 +1332,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in terrorism.
         for (const s of name) {
             if (!this.is_terrorist(s)) {
@@ -1376,9 +1351,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in trafficking illegal arms.
         for (const s of name) {
             if (!this.is_arms_trafficker(s)) {
@@ -1397,9 +1370,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members operate a human trafficking ring.
         for (const s of name) {
             if (!this.is_human_trafficker(s)) {
@@ -1429,19 +1400,13 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Train various stats.  The stat(s) to train, and the amount of time
         // spent in training, depend on a member's role.
-        const hacker = name.filter(s => this.is_hacker(s));
-        const combatant = name.filter(s => this.is_combatant(s));
-        const other = name.filter(s => this.is_miscellaneous(s));
-        assert(
-            (hacker.length > 0)
-                || (combatant.length > 0)
-                || (other.length > 0)
-        );
+        const hacker = name.filter((s) => this.is_hacker(s));
+        const combatant = name.filter((s) => this.is_combatant(s));
+        const other = name.filter((s) => this.is_miscellaneous(s));
+        assert(hacker.length > 0 || combatant.length > 0 || other.length > 0);
         this.train_combat(combatant);
         this.train_hack(hacker);
         this.train_charisma(other);
@@ -1459,9 +1424,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Charisma training.
         for (const s of name) {
             if (this.is_training_charisma(s)) {
@@ -1483,9 +1446,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Combat training.
         for (const s of name) {
             if (this.is_training_combat(s)) {
@@ -1507,9 +1468,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Hack training.
         for (const s of name) {
             if (this.is_training_hack(s)) {
@@ -1529,9 +1488,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in turf warfare.
         for (const s of name) {
             if (!this.is_warrior(s)) {
@@ -1550,9 +1507,7 @@ export class Gangster {
         if (0 == name.length) {
             return;
         }
-        name.map(
-            s => assert(this.is_member(s))
-        );
+        name.map((s) => assert(this.is_member(s)));
         // Let gang members be vigilantes.
         for (const s of name) {
             if (!this.is_vigilante(s)) {

@@ -215,7 +215,7 @@ export class Player {
         // conditions.
         let program = Array.from(this.#port_opener);
         // Determine the number of ports we can open on other servers.
-        program = program.filter(p => this.#ns.fileExists(p, this.home()));
+        program = program.filter((p) => this.#ns.fileExists(p, this.home()));
         return program.length;
     }
 

@@ -108,9 +108,9 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const n = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        partition(n) - 1, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(partition(n) - 1, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/sum.txt";

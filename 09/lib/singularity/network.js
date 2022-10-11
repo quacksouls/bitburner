@@ -73,7 +73,7 @@ export async function visit_city(ns, city) {
     if (player.city() == city) {
         return;
     }
-    ns.singularity.goToLocation(cities.generic["TA"]);  // Raise Int XP.
+    ns.singularity.goToLocation(cities.generic["TA"]); // Raise Int XP.
     let success = ns.singularity.travelToCity(city);
     while (!success) {
         await ns.sleep(wait_t.DEFAULT);

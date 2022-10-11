@@ -16,9 +16,17 @@
  */
 
 import {
-    assert, choose_best_server, choose_targets, copy_and_run,
-    filter_bankrupt_servers, minutes_to_milliseconds, network, Player,
-    PurchasedServer, seconds_to_milliseconds, Server
+    assert,
+    choose_best_server,
+    choose_targets,
+    copy_and_run,
+    filter_bankrupt_servers,
+    minutes_to_milliseconds,
+    network,
+    Player,
+    PurchasedServer,
+    seconds_to_milliseconds,
+    Server,
 } from "./libbnr.js";
 
 /**
@@ -61,8 +69,8 @@ function renew_targets(ns, target) {
  * @return true if a particular stage should be skipped; false otherwise.
  */
 function skip_stage(ns, ram, money) {
-    const SKIP = true;      // Skip a stage.
-    const NO_SKIP = !SKIP;  // Do not skip a stage.
+    const SKIP = true; // Skip a stage.
+    const NO_SKIP = !SKIP; // Do not skip a stage.
     assert(ram > 0);
     assert(money > 0);
 
@@ -88,7 +96,7 @@ function skip_stage(ns, ram, money) {
 
     // Skip the stage if we have the maximum number of purchased servers
     // and each server has the given amount of RAM.
-    if (has_max_pserv(ns) && (server.ram_max() == ram)) {
+    if (has_max_pserv(ns) && server.ram_max() == ram) {
         return SKIP;
     }
 
@@ -205,7 +213,7 @@ async function update(ns, ram) {
             // Choose the best target server.
             target = renew_targets(ns, target);
             const server = new Server(ns, choose_best_server(ns, target));
-            target = target.filter(s => s != server.hostname());
+            target = target.filter((s) => s != server.hostname());
             // Run our hack script on the purchased server.
             assert(await server.gain_root_access());
             assert(await copy_and_run(ns, hostname, server.hostname()));
@@ -230,8 +238,12 @@ export async function main(ns) {
     const billion = 1000 * million;
     const trillion = 1000 * billion;
     const money_threshold = [
-        10 * million, 100 * million, 100 * billion, trillion];
-    const ram = [128, 1024, 16384, 32768];  // Power of 2.
+        10 * million,
+        100 * million,
+        100 * billion,
+        trillion,
+    ];
+    const ram = [128, 1024, 16384, 32768]; // Power of 2.
     const time = minutes_to_milliseconds(10);
 
     // Do we reboot our farm of purchased servers?
@@ -251,7 +263,7 @@ export async function main(ns) {
     }
     // Upgrade to servers, each having over 50TB RAM.
     const high_threshold = [2 * trillion, 50 * trillion, 100 * trillion];
-    const ram_threshold = [65536, 131072, 262144];  // Power of 2.
+    const ram_threshold = [65536, 131072, 262144]; // Power of 2.
     i = 0;
     for (const money of high_threshold) {
         await next_stage(ns, ram_threshold[i], money);

@@ -25,7 +25,9 @@ import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import {
-    join_faction, raise_combat_stats, raise_hack
+    join_faction,
+    raise_combat_stats,
+    raise_hack,
 } from "/lib/singularity/faction.js";
 import { assert } from "/lib/util.js";
 
@@ -80,7 +82,7 @@ function load_chain(ns, faction) {
  */
 async function lower_karma(ns) {
     const threshold = karma_threshold(ns);
-    ns.singularity.goToLocation(cities.generic["slum"]);  // Raise Int XP.
+    ns.singularity.goToLocation(cities.generic["slum"]); // Raise Int XP.
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     const player = new Player(ns);
     while (Math.floor(player.karma()) > threshold) {
@@ -118,9 +120,7 @@ export async function main(ns) {
     // Should not be working for any of the banned companies.
     const fac = "Speakers for the Dead";
     const player = new Player(ns);
-    faction_req[fac].ban.map(
-        e => assert(!player.is_employer(e))
-    );
+    faction_req[fac].ban.map((e) => assert(!player.is_employer(e)));
     // Raise Hack and combat stats, ensure we have the required minimum karma,
     // and killed the required number of people.  Then join the faction
     // Speakers for the Dead.  Lower our karma so we can create a gang.

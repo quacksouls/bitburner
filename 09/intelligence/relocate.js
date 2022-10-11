@@ -16,7 +16,8 @@
  */
 
 import {
-    intelligence, intelligence_gain_per_minute
+    intelligence,
+    intelligence_gain_per_minute,
 } from "/intelligence/util.js";
 import { wait_t } from "/lib/constant/time.js";
 import { random_integer } from "/lib/random.js";
@@ -27,11 +28,22 @@ import { assert } from "/lib/util.js";
  */
 function all_locations() {
     const location = [
-        "Alpha Enterprises", "Blade Industries", "Central Intelligence Agency",
-        "Carmichael Security", "Sector-12 City Hall", "DeltaOne", "FoodNStuff",
-        "Four Sigma", "Icarus Microsystems", "Iron Gym", "Joe's Guns",
-        "MegaCorp", "National Security Agency", "Powerhouse Gym",
-        "Rothman University", "Universal Energy"
+        "Alpha Enterprises",
+        "Blade Industries",
+        "Central Intelligence Agency",
+        "Carmichael Security",
+        "Sector-12 City Hall",
+        "DeltaOne",
+        "FoodNStuff",
+        "Four Sigma",
+        "Icarus Microsystems",
+        "Iron Gym",
+        "Joe's Guns",
+        "MegaCorp",
+        "National Security Agency",
+        "Powerhouse Gym",
+        "Rothman University",
+        "Universal Energy",
     ];
     return location;
 }
@@ -78,6 +90,6 @@ export async function main(ns) {
     }
     const after = intelligence(ns);
     const action = "Relocate within Sector-12";
-    const n = 60;  // Minutes in one hour.
+    const n = 60; // Minutes in one hour.
     intelligence_gain_per_minute(ns, before, after, action, n);
 }

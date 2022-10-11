@@ -16,7 +16,10 @@
  */
 
 import {
-    assert, minutes_to_milliseconds, Player, seconds_to_milliseconds
+    assert,
+    minutes_to_milliseconds,
+    Player,
+    seconds_to_milliseconds,
 } from "./libbnr.js";
 
 /**
@@ -162,7 +165,7 @@ async function next_stage(ns, n, money) {
 async function upgrade_core(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
-    const howmany = 1;  // Upgrade this many Cores at a time.
+    const howmany = 1; // Upgrade this many Cores at a time.
     const time = seconds_to_milliseconds(10);
 
     // Add another Core to each Hacknet Node.
@@ -190,7 +193,7 @@ async function upgrade_core(ns, farm) {
 async function upgrade_level(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
-    const level = 1;  // Upgrade this many Levels at a time.
+    const level = 1; // Upgrade this many Levels at a time.
     const time = seconds_to_milliseconds(10);
 
     // Add another Level to each Hacknet node.
@@ -218,7 +221,7 @@ async function upgrade_level(ns, farm) {
 async function upgrade_ram(ns, farm) {
     assert(farm.length > 0);
     const player = new Player(ns);
-    const howmany = 1;  // Upgrade by 1GB RAM at a time.
+    const howmany = 1; // Upgrade by 1GB RAM at a time.
     const time = seconds_to_milliseconds(10);
 
     // Add another 1GB RAM to each Hacknet node.
@@ -267,7 +270,12 @@ export async function main(ns) {
     const billion = 1000 * million;
     const trillion = 1000 * billion;
     const threshold = [
-        10 * million, 100 * million, billion, 100 * billion, trillion];
+        10 * million,
+        100 * million,
+        billion,
+        100 * billion,
+        trillion,
+    ];
     const node = [6, 12, 24, 30, 33];
 
     // Bootstrap our farm of Hacknet nodes.

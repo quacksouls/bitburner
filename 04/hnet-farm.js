@@ -41,7 +41,7 @@ async function setup_farm(ns, n) {
     assert(nNode > 0);
     assert(nNode < ns.hacknet.maxNumNodes());
     const home = "home";
-    const time = 10000;  // 10 seconds
+    const time = 10000; // 10 seconds
     // If we already have a farm of n Hacknet Nodes, return the IDs of the
     // Nodes.
     if (ns.hacknet.numNodes() == nNode) {
@@ -72,8 +72,8 @@ async function setup_farm(ns, n) {
  */
 async function upgrade_core(ns, farm) {
     const home = "home";
-    const howmany = 1;   // Upgrade this many Cores at a time.
-    const time = 10000;  // 10 seconds
+    const howmany = 1; // Upgrade this many Cores at a time.
+    const time = 10000; // 10 seconds
     // Max out the number of Cores of a Hacknet Node.  Then wait and see
     // whether we can max out the number of Cores of another Node.
     for (const node of farm) {
@@ -101,8 +101,8 @@ async function upgrade_core(ns, farm) {
  */
 async function upgrade_level(ns, farm) {
     const home = "home";
-    const level = 1;     // Upgrade this many Levels at a time.
-    const time = 10000;  // 10 seconds
+    const level = 1; // Upgrade this many Levels at a time.
+    const time = 10000; // 10 seconds
     // Max out the Level of a Hacknet Node.  Then wait and see whether we can
     // max out the Level of another Node.
     for (const node of farm) {
@@ -130,8 +130,8 @@ async function upgrade_level(ns, farm) {
  */
 async function upgrade_ram(ns, farm) {
     const home = "home";
-    const howmany = 1;   // Upgrade by 1GB RAM at a time.
-    const time = 10000;  // 10 seconds
+    const howmany = 1; // Upgrade by 1GB RAM at a time.
+    const time = 10000; // 10 seconds
     // Max out the amount of RAM of a Hacknet Node.  Then wait and see whether
     // we can max out the amount of RAM of another Node.
     for (const node of farm) {

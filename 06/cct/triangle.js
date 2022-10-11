@@ -16,7 +16,10 @@
  */
 
 import {
-    log_cct_failure, matrix_to_string, print_error, print_success
+    log_cct_failure,
+    matrix_to_string,
+    print_error,
+    print_success,
 } from "/lib/cct.js";
 import { bool } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
@@ -87,7 +90,7 @@ function descend(triangle) {
     const path = new Array();
     // Start from the penultimate level and work upward to the top level.
     // Keep track of a minimum path as we move along.
-    for (let i = (triangle.length - 2); i >= 0; i--) {
+    for (let i = triangle.length - 2; i >= 0; i--) {
         // The minimum sum at level i.
         let minsum = Infinity;
         // A node at level i + 1.  This is a node of a path of minimum sum.
@@ -101,7 +104,7 @@ function descend(triangle) {
             // index at level i + 1.
             if (minsum > mtriangle[i][j]) {
                 minsum = mtriangle[i][j];
-                mink = (a < b) ? j : (j + 1);
+                mink = a < b ? j : j + 1;
             }
         }
         path.push(mink);
@@ -133,7 +136,7 @@ function is_triangle(triangle) {
         if (bottom.length < 1) {
             return bool.INVALID;
         }
-        if (top.length != (bottom.length - 1)) {
+        if (top.length != bottom.length - 1) {
             return bool.INVALID;
         }
     }
@@ -176,9 +179,9 @@ export async function main(ns) {
     // Solve the coding contract.
     const triangle = ns.codingcontract.getData(cct, host);
     const [_, sum] = descend(triangle);
-    const result = ns.codingcontract.attempt(
-        sum, cct, host, { returnReward: true }
-    );
+    const result = ns.codingcontract.attempt(sum, cct, host, {
+        returnReward: true,
+    });
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/triangle.txt";

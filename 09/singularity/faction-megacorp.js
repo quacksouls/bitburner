@@ -119,16 +119,16 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        ("Bachman & Associates" == faction)
-            || ("Blade Industries" == faction)
-            || ("Clarke Incorporated" == faction)
-            || ("ECorp" == faction)
-            || ("Four Sigma" == faction)
-            || ("Fulcrum Secret Technologies" == faction)
-            || ("KuaiGong International" == faction)
-            || ("MegaCorp" == faction)
-            || ("NWO" == faction)
-            || ("OmniTek Incorporated" == faction)
+        "Bachman & Associates" == faction ||
+            "Blade Industries" == faction ||
+            "Clarke Incorporated" == faction ||
+            "ECorp" == faction ||
+            "Four Sigma" == faction ||
+            "Fulcrum Secret Technologies" == faction ||
+            "KuaiGong International" == faction ||
+            "MegaCorp" == faction ||
+            "NWO" == faction ||
+            "OmniTek Incorporated" == faction,
     );
     // Since version 2.0, we need at least 400k company reputation to join the
     // corresponding company faction.  See

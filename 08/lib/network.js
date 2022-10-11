@@ -19,10 +19,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { home } from "/lib/constant/server.js";
-import {
-    assert,
-    filter_pserv,
-} from "/lib/util.js";
+import { assert, filter_pserv } from "/lib/util.js";
 
 /**
  * A combinatorial graph, commonly referrred to as a graph.
@@ -145,11 +142,11 @@ export class Graph {
         const weight = 1;
         while (queue.length > 0) {
             const u = this.#minimumq(queue, dist);
-            queue = queue.filter(s => s != u);
+            queue = queue.filter((s) => s != u);
             // Consider the neighbours of u.  Each neighbour must still be in
             // the queue.
             let neighbour = Array.from(this.neighbour(u));
-            neighbour = neighbour.filter(s => queue.includes(s));
+            neighbour = neighbour.filter((s) => queue.includes(s));
             for (const v of neighbour) {
                 const alt = dist.get(u) + weight;
                 // We have found a shorter path to v.
@@ -346,7 +343,7 @@ export function network(ns) {
     server = [...server];
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
-    return server.filter(s => root != s);
+    return server.filter((s) => root != s);
 }
 
 /**

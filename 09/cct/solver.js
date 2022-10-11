@@ -144,8 +144,14 @@ function solve(ns, cct, host) {
         ns.exec(script, home, nthread, cct, host);
         return;
     }
-    const err_msg = host + ": " + cct +
-          ": No free RAM to run " + script + " on server " + home;
+    const err_msg =
+        host +
+        ": " +
+        cct +
+        ": No free RAM to run " +
+        script +
+        " on server " +
+        home;
     ns.print(err_msg);
 }
 
@@ -175,9 +181,7 @@ export async function main(ns) {
                 continue;
             }
             // Solve all coding contracts on this server.
-            file.map(
-                cct => solve(ns, cct, s)
-            );
+            file.map((cct) => solve(ns, cct, s));
         }
         await ns.sleep(cct_update_interval);
     }

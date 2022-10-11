@@ -48,15 +48,15 @@ const home = "home";
 const wait_t = {
     // The default waiting period in seconds.  Use this for most purposes, when
     // we wait for an action to complete.
-    "DEFAULT": 5e3,
+    DEFAULT: 5e3,
     // One hour expressed in milliseconds.
-    "HOUR": 36e5,
+    HOUR: 36e5,
     // One millisecond.
-    "MILLISECOND": 1,
+    MILLISECOND: 1,
     // One minute expressed in milliseconds.
-    "MINUTE": 6e4,
+    MINUTE: 6e4,
     // One second expressed in milliseconds.
-    "SECOND": 1e3,
+    SECOND: 1e3,
 };
 
 // Helper classes.
@@ -201,27 +201,12 @@ function purchase_schedule(ns) {
         100 * m.billion(),
         m.billion(),
         100 * m.million(),
-        10 * m.million()
+        10 * m.million(),
     ];
     // How many programs to buy.
     const howmany = [
-        1000,
-        900,
-        800,
-        700,
-        600,
-        500,
-        400,
-        300,
-        200,
-        100,
-        50,
-        25,
-        12,
-        6,
-        3,
+        1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25, 12, 6, 3, 1,
         1,
-        1
     ];
     // The sleep intervals.
     const time = [
@@ -241,7 +226,7 @@ function purchase_schedule(ns) {
         10 * wait_t.SECOND,
         30 * wait_t.SECOND,
         wait_t.MINUTE,
-        2 * wait_t.MINUTE
+        2 * wait_t.MINUTE,
     ];
     const funds = player_money(ns);
     for (let i = 0; i < money.length; i++) {

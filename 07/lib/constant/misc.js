@@ -23,9 +23,9 @@
  */
 export const base = {
     // The base of the binary number system.
-    "BINARY": 2,
+    BINARY: 2,
     // The base of the decimal number system.
-    "DECIMAL": 10
+    DECIMAL: 10,
 };
 
 /**
@@ -34,10 +34,10 @@ export const base = {
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
  */
 export const colour = {
-    "DARK_GREEN": "\u001b[38;5;22m",
-    "GREEN": "\u001b[32m",
-    "RED": "\u001b[31m",
-    "RESET": "\u001b[0m"
+    DARK_GREEN: "\u001b[38;5;22m",
+    GREEN: "\u001b[32m",
+    RED: "\u001b[31m",
+    RESET: "\u001b[0m",
 };
 
 /**

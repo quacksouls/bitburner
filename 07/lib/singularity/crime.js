@@ -37,7 +37,7 @@ export async function commit_crime(ns, threshold) {
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
     let money = ns.getServerMoneyAvailable(home);
-    while ((money < threshold) || ns.singularity.isBusy()) {
+    while (money < threshold || ns.singularity.isBusy()) {
         await ns.sleep(wait_t.DEFAULT);
         money = ns.getServerMoneyAvailable(home);
     }
@@ -96,7 +96,7 @@ export function greatest_chance(ns, crime) {
 export async function lower_karma(ns, threshold, crime, nkill) {
     // Sanity checks.
     assert(threshold < 0);
-    assert((crimes.SHOP == crime) || (crimes.KILL == crime));
+    assert(crimes.SHOP == crime || crimes.KILL == crime);
     assert(nkill >= 0);
     // Shoplift.  Use the ceiling function to convert the karma value to an
     // integer.  It is safer to compare integers than it is to compare floating
@@ -115,10 +115,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // Homicide.
     assert(crimes.KILL == crime);
     ns.singularity.commitCrime(crime, bool.FOCUS);
-    while (
-        (Math.ceil(player.karma()) > threshold)
-            || (player.nkill() < nkill)
-    ) {
+    while (Math.ceil(player.karma()) > threshold || player.nkill() < nkill) {
         await ns.sleep(wait_t.SECOND);
     }
     assert(Math.ceil(player.karma()) < 0);
