@@ -1,6 +1,6 @@
 {
     "endOfLine": "lf",
-    "printWidth": 85,
+    "printWidth": 80,
     "singleQuote": false,
     "tabWidth": 4,
     "trailingComma": "all",
