@@ -46,7 +46,7 @@ function choose_upgrade(ns) {
         }
     }
     // Upgrade the RAM.
-    assert(ram_cost <= core_cost || server.cores() == home_t.CORE);
+    assert(ram_cost <= core_cost || server.cores() === home_t.CORE);
     assert(server.ram_max() < home_t.RAM);
     return "RAM";
 }
@@ -91,12 +91,12 @@ async function upgrade(ns) {
     }
     // Wait to accumulate funds to purchase upgrades.
     const attribute = choose_upgrade(ns);
-    assert("" != attribute);
-    if ("Cores" == attribute) {
+    assert("" !== attribute);
+    if ("Cores" === attribute) {
         await upgrade_cores(ns);
         return;
     }
-    assert("RAM" == attribute);
+    assert("RAM" === attribute);
     await upgrade_ram(ns);
 }
 
