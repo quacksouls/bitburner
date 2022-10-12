@@ -23,6 +23,12 @@
             "error",
             "always"
         ],
+        "import/no-absolute-path": [
+            "error",
+            {
+                "commonjs": true
+            }
+        ],
         "import/prefer-default-export": [
             "off"
         ],
