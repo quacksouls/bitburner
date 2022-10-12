@@ -4,11 +4,7 @@
         "commonjs": true,
         "es2021": true
     },
-    "extends": [
-        "eslint:recommended",
-        "prettier",
-        "airbnb-base"
-    ],
+    "extends": ["eslint:recommended", "prettier", "airbnb-base"],
     "plugins": ["prettier"],
     "overrides": [],
     "parserOptions": {
@@ -16,9 +12,7 @@
     },
     "rules": {
         // No camelCase.
-        "camelcase": [
-            "off"
-        ],
+        "camelcase": ["off"],
         "comma-dangle": [
             "error",
             {
@@ -27,28 +21,17 @@
                 "imports": "always-multiline"
             }
         ],
-        "consistent-return": [
-            "off"
-        ],
-        "eqeqeq": [
-            "error",
-            "always"
-        ],
+        "consistent-return": ["off"],
+        "eqeqeq": ["error", "always"],
         "import/extensions": [
             "error",
             {
                 "js": "always"
             }
         ],
-        "import/no-absolute-path": [
-            "off"
-        ],
-        "import/no-unresolved": [
-            "off"
-        ],
-        "import/prefer-default-export": [
-            "off"
-        ],
+        "import/no-absolute-path": ["off"],
+        "import/no-unresolved": ["off"],
+        "import/prefer-default-export": ["off"],
         // Use 4 space indentation.
         "indent": [
             "error",
@@ -59,20 +42,16 @@
         ],
         // Disable this option and let Prettier handle the maximum line width.
         "max-len": [
-            "off"
+            "error",
+            {
+                "code": 80,
+                "comments": 80
+            }
         ],
-        "no-await-in-loop": [
-            "off"
-        ],
-        "no-continue": [
-            "off"
-        ],
-        "no-plusplus": [
-            "off"
-        ],
-        "no-restricted-syntax": [
-            "off"
-        ],
+        "no-await-in-loop": ["off"],
+        "no-continue": ["off"],
+        "no-plusplus": ["off"],
+        "no-restricted-syntax": ["off"],
         "no-use-before-define": [
             "error",
             {
@@ -80,9 +59,6 @@
             }
         ],
         "prettier/prettier": "off",
-        "quotes": [
-            "error",
-            "double"
-        ]
+        "quotes": ["error", "double"]
     }
 }
