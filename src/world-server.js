@@ -156,7 +156,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
                 // been hacked.
                 const target = new Server(ns, choose_best_server(ns, hserver));
                 assert(!target.is_bankrupt());
-                hserver = hserver.filter((s) => s !== target.hostname());
+                hserver = hserver.filter((hs) => hs !== target.hostname());
                 // Redirect the bankrupt server to hack the target server.
                 await hack_a_server(ns, s, target.hostname());
                 continue;
