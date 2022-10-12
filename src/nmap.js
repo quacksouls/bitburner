@@ -34,8 +34,8 @@ function add_fork(matrix) {
     // server.
     for (let i = 1; i < matrix.length; i++) {
         const j = matrix[i].length - 1;
-        assert(leaf() == matrix[i][j]);
-        assert(branch() == matrix[i][j - 1]);
+        assert(leaf() === matrix[i][j]);
+        assert(branch() === matrix[i][j - 1]);
         matrix[i][j - 1] = fork();
     }
 }
@@ -70,13 +70,13 @@ function add_tee_junction(matrix) {
     // Start from the second row and work our way downward.
     for (let i = 1; i < matrix.length; i++) {
         const j = matrix[i].length - 1;
-        assert(leaf() == matrix[i][j]);
-        assert(fork() == matrix[i][j - 1]);
-        if (fork() == matrix[i - 1][j - 1]) {
+        assert(leaf() === matrix[i][j]);
+        assert(fork() === matrix[i][j - 1]);
+        if (fork() === matrix[i - 1][j - 1]) {
             matrix[i - 1][j - 1] = tee();
         }
         if (i < matrix.length - 2) {
-            if (branch() == matrix[i + 1][j - 1]) {
+            if (branch() === matrix[i + 1][j - 1]) {
                 matrix[i][j - 1] = tee();
             }
         }
@@ -155,7 +155,7 @@ function branch() {
 function decorate(ns, server) {
     // We do not need any other decoration for the home server, apart from
     // adding a colour.
-    if (home == server) {
+    if (home === server) {
         return colour.GREEN + server + colour.RESET;
     }
     // Add some more decorations to other servers.
@@ -270,12 +270,12 @@ function prune_branch(matrix, r) {
     let col = matrix[r].length - 3;
     const maxidx = matrix.length - 1;
     while (col >= 0) {
-        if (maxidx != r && leaf() == matrix[r + 1][col]) {
+        if (maxidx !== r && leaf() === matrix[r + 1][col]) {
             return;
         }
         let row = Math.floor(r);
         while (row > 0) {
-            if (leaf() == matrix[row][col + 1]) {
+            if (leaf() === matrix[row][col + 1]) {
                 break;
             }
             matrix[row][col] = placeholder();
@@ -304,16 +304,16 @@ function prune_sibling_branch(matrix) {
         }
         // There is a leaf immediately above the current leaf.
         const j = matrix[i].length - 1;
-        if (leaf() == matrix[i - 1][j]) {
+        if (leaf() === matrix[i - 1][j]) {
             continue;
         }
         // Start pruning from this row and work upward.
         let row = i - 1;
         while (row > 0) {
-            if (fork() == matrix[row][j]) {
+            if (fork() === matrix[row][j]) {
                 break;
             }
-            assert(branch() == matrix[row][j]);
+            assert(branch() === matrix[row][j]);
             matrix[row][j] = placeholder();
             row--;
         }
@@ -344,8 +344,8 @@ function to_ascii_art(tree) {
     // Start from the second row.  The first row has only the home server.
     const grid = []; // ASCII art.
     const map = new Map(); // Coordinates to server name.
-    assert(1 == tree[0].length);
-    assert(home == tree[0][0]);
+    assert(1 === tree[0].length);
+    assert(home === tree[0][0]);
     grid.push([leaf()]);
     const delim = delimiter();
     map.set("0" + delim + "0", home);
@@ -354,17 +354,17 @@ function to_ascii_art(tree) {
         const current = tree[i];
         const row = [];
         // The first element is always the home server.
-        assert(home == current[0]);
+        assert(home === current[0]);
         for (let j = 0; j < current.length; j++) {
             // A leaf, i.e. the destination server in a shortest path.
-            if (j >= previous.length || previous[j] != current[j]) {
+            if (j >= previous.length || previous[j] !== current[j]) {
                 row.push(leaf());
                 const coord = i + delim + j;
                 map.set(coord, current[j]);
                 continue;
             }
             // A branch.
-            assert(previous[j] == current[j]);
+            assert(previous[j] === current[j]);
             row.push(branch());
         }
         grid.push(row);
@@ -386,7 +386,7 @@ function to_string(matrix) {
     const whitespace = "   ";
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
-            if (placeholder() == matrix[i][j]) {
+            if (placeholder() === matrix[i][j]) {
                 matrix[i][j] = whitespace;
             }
         }
@@ -474,7 +474,7 @@ export async function main(ns) {
         return;
     }
     // Print the status of a server.
-    if (1 == ns.args.length) {
+    if (1 === ns.args.length) {
         const host = ns.args[0];
         const server = new Set(network(ns));
         if (!server.has(host)) {
