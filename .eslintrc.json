@@ -47,7 +47,8 @@
             "off"
         ],
         "no-use-before-define": [
-            "error", {
+            "error",
+            {
                 "functions": false
             }
         ],
