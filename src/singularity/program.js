@@ -41,7 +41,7 @@ async function buy_all_programs(ns) {
     assert(program.length > 0);
     const player = new Player(ns);
     program = program.filter((p) => !player.has_program(p));
-    if (0 == program.length) {
+    if (0 === program.length) {
         return;
     }
     // Purchase all remaining programs.
@@ -60,7 +60,7 @@ async function buy_programs(ns, program) {
     const player = new Player(ns);
     let prog = Array.from(program);
     prog = prog.filter((p) => !player.has_program(p));
-    if (0 == prog.length) {
+    if (0 === prog.length) {
         return;
     }
     // Purchase the remaining programs.
@@ -76,7 +76,7 @@ async function buy_programs(ns, program) {
             await ns.sleep(wait_t.SECOND);
         }
         assert(ns.singularity.purchaseProgram(p));
-        prog = prog.filter((e) => e != p);
+        prog = prog.filter((e) => e !== p);
     }
 }
 
