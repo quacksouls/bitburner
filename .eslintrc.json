@@ -27,6 +27,10 @@
         "no-await-in-loop": [
             "off"
         ],
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "quotes": [
+            "error",
+            "double"
+        ]
     }
 }
