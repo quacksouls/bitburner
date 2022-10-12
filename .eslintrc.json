@@ -19,6 +19,9 @@
         "camelcase": [
             "off"
         ],
+        "consistent-return": [
+            "off"
+        ],
         "eqeqeq": [
             "error",
             "always"
