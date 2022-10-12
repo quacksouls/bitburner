@@ -19,6 +19,10 @@
         "camelcase": [
             "off"
         ],
+        "eqeqeq": [
+            "error",
+            "always"
+        ],
         "import/prefer-default-export": [
             "off"
         ],
