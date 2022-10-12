@@ -86,12 +86,12 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        "Aevum" == faction ||
-            "Chongqing" == faction ||
-            "Ishima" == faction ||
-            "New Tokyo" == faction ||
-            "Sector-12" == faction ||
-            "Volhaven" == faction,
+        "Aevum" === faction
+        || "Chongqing" === faction
+        || "Ishima" === faction
+        || "New Tokyo" === faction
+        || "Sector-12" === faction
+        || "Volhaven" === faction
     );
     await city_faction(ns, faction);
     // The next script in the load chain.

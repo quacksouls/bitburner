@@ -131,9 +131,9 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        "Daedalus" == faction ||
-            "Illuminati" == faction ||
-            "The Covenant" == faction,
+        "Daedalus" === faction
+        || "Illuminati" === faction
+        || "The Covenant" === faction
     );
     switch (faction) {
         case "Daedalus":
