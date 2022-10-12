@@ -37,6 +37,9 @@
         "no-continue": [
             "off"
         ],
+        "no-restricted-syntax": [
+            "off"
+        ],
         "prettier/prettier": "error",
         "quotes": [
             "error",
