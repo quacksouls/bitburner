@@ -46,7 +46,7 @@ async function choose_faction(ns) {
     }
     // In case we have already joined each faction on the fast track list,
     // consider the remaining factions.
-    if ("" == faction) {
+    if ("" === faction) {
         for (const f of factions.all) {
             if (join_next(ns, f)) {
                 faction = f;
@@ -54,7 +54,7 @@ async function choose_faction(ns) {
             }
         }
     }
-    if ("" == faction) {
+    if ("" === faction) {
         return;
     }
     // Join a faction.
@@ -157,7 +157,7 @@ async function choose_faction(ns) {
         default:
             break;
     }
-    assert(script != "");
+    assert(script !== "");
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
 }
@@ -176,7 +176,7 @@ function join_next(ns, fac) {
     // get information about our gang.
     if (ns.gang.inGang()) {
         const gang_fac = ns.gang.getGangInformation().faction;
-        if (gang_fac == fac) {
+        if (gang_fac === fac) {
             return bool.NO_JOIN;
         }
     }
