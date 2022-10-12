@@ -119,7 +119,7 @@ async function buy_programs(ns) {
     // possible for this function to hang and buys indefinitely.
     let ntry = 0;
     const maxtry = 1000;
-    while (true) {
+    for (;;) {
         let nbought = 0;
         for (const [c, p] of db) {
             if (player.money() < c) {
