@@ -19,6 +19,12 @@
         "camelcase": [
             "off"
         ],
+        "comma-dangle": [
+            "error",
+            {
+                "functions": "never"
+            }
+        ],
         "consistent-return": [
             "off"
         ],
