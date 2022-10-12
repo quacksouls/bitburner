@@ -38,7 +38,7 @@ export async function main(ns) {
     // Cycle through our purchased servers to see whether to restart our
     // hack script.
     const player = new Player(ns);
-    let target = new Array();
+    let target = [];
     for (const s of player.pserv()) {
         // Determine the target servers to hack.  There are always at least 2
         // targets because at least 2 servers in the game world require only

@@ -342,7 +342,7 @@ function to_ascii_art(tree) {
     assert(tree.length > 0);
     assert(tree[0].length > 0);
     // Start from the second row.  The first row has only the home server.
-    const grid = new Array(); // ASCII art.
+    const grid = []; // ASCII art.
     const map = new Map(); // Coordinates to server name.
     assert(1 == tree[0].length);
     assert(home == tree[0][0]);
@@ -352,7 +352,7 @@ function to_ascii_art(tree) {
     for (let i = 1; i < tree.length; i++) {
         const previous = tree[i - 1];
         const current = tree[i];
-        const row = new Array();
+        const row = [];
         // The first element is always the home server.
         assert(home == current[0]);
         for (let j = 0; j < current.length; j++) {
