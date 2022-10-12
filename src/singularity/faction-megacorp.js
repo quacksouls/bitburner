@@ -128,7 +128,7 @@ export async function main(ns) {
             || faction === "KuaiGong International"
             || faction === "MegaCorp"
             || faction === "NWO"
-            || faction === "OmniTek Incorporated",
+            || faction === "OmniTek Incorporated"
     );
     // Since version 2.0, we need at least 400k company reputation to join the
     // corresponding company faction.  See
