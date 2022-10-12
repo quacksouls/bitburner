@@ -19,6 +19,9 @@
         "camelcase": [
             "off"
         ],
+        "import/prefer-default-export": [
+            "off"
+        ],
         // Use 4 space indentation.
         "indent": [
             "error",
