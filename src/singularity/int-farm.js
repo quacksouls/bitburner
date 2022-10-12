@@ -36,7 +36,7 @@ async function farm_intelligence(ns) {
     const player = new Player(ns);
     const p = cheapest_program;
     ns.rm(p, player.home());
-    while (true) {
+    for (;;) {
         if (player.money() < min_money) {
             await ns.sleep(2 * wait_t.MINUTE);
             continue;
