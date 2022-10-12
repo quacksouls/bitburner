@@ -278,7 +278,7 @@ export async function main(ns) {
     await await_prerequisites(ns);
     await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
-    while (true) {
+    for (;;) {
         // Iterate over each stock.  Decide whether to buy or sell.
         for (const stk of ns.stock.getSymbols()) {
             sell_stock(ns, stk);
