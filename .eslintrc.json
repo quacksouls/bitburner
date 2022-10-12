@@ -15,6 +15,10 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        // No camelCase.
+        "camelcase": [
+            "off"
+        ],
         // Use 4 space indentation.
         "indent": [
             "error",
