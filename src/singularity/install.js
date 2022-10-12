@@ -73,7 +73,7 @@ function buy_other_augmentations(ns) {
     }
     // Sets of Augmentations to exclude.
     const installed = new Set(installed_augmentations(ns));
-    let exclusive = new Array();
+    let exclusive = [];
     for (const fac of Object.keys(exclusive_aug)) {
         exclusive = exclusive.concat(exclusive_aug[fac]);
     }
@@ -157,7 +157,7 @@ async function buy_programs(ns) {
  */
 function cost_program(ns) {
     // The program name and its cost.
-    const db = new Array();
+    const db = [];
     const player = new Player(ns);
     for (const p of all_programs().keys()) {
         // Must delete the program on our home server, otherwise its cost would
