@@ -44,7 +44,10 @@
         // Use 4 space indentation.
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1
+            }
         ],
         "no-await-in-loop": [
             "off"
