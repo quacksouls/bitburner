@@ -119,6 +119,8 @@ function purchase_schedule(ns) {
             return [howmany[i], time[i]];
         }
     }
+    // Should never reach here.
+    assert(false);
 }
 
 /**
