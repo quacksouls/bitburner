@@ -30,10 +30,10 @@
             }
         ],
         "import/no-absolute-path": [
-            "error",
-            {
-                "commonjs": true
-            }
+            "off"
+        ],
+        "import/no-unresolved": [
+            "off"
         ],
         "import/prefer-default-export": [
             "off"
