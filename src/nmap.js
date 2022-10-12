@@ -24,20 +24,24 @@ import { assert } from "/lib/util.js";
 /**
  * Insert forks.  Each fork indicates a child node.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
+ * @param matrix The ASCII art of the network of world servers.
+ * @return The same matrix, but forks are inserted where necessary.
  */
 function add_fork(matrix) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
+    // A shallow copy so we don't modify the parameter directly.  We still
+    // modify it indirectly.
+    const mat = Array.from(matrix);
     // Start from the second row onward because the first row is for the home
     // server.
-    for (let i = 1; i < matrix.length; i++) {
-        const j = matrix[i].length - 1;
-        assert(leaf() === matrix[i][j]);
-        assert(branch() === matrix[i][j - 1]);
-        matrix[i][j - 1] = fork();
+    for (let i = 1; i < mat.length; i++) {
+        const j = mat[i].length - 1;
+        assert(leaf() === mat[i][j]);
+        assert(branch() === mat[i][j - 1]);
+        mat[i][j - 1] = fork();
     }
+    return mat;
 }
 
 /**
@@ -46,16 +50,21 @@ function add_fork(matrix) {
  * @param matrix The ASCII art of the network of world servers.  The function
  *     modifies this argument.
  * @param map A translation from coordinates in the grid to server name.
+ * @return The same matrix, but with server names added.
  */
 function add_server_name(ns, matrix, map) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
     assert(map.size > 0);
+    // A shallow copy so we don't modify the parameter directly.  We still
+    // modify it indirectly.
+    const mat = Array.from(matrix);
     // Add the server names.
     for (const [coord, server] of map) {
         const [i, j] = coord.split(delimiter()).map((k) => parseInt(k));
-        matrix[i][j] = decorate(ns, server);
+        mat[i][j] = decorate(ns, server);
     }
+    return mat;
 }
 
 /**
@@ -63,24 +72,29 @@ function add_server_name(ns, matrix, map) {
  *
  * @param matrix The ASCII art of the network of world servers.  The function
  *     modifies this argument.
+ * @return The same matrix, but with T junctions inserted.
  */
 function add_tee_junction(matrix) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
+    // A shallow copy so we don't modify the parameter directly.  We still
+    // modify it indirectly.
+    const mat = Array.from(matrix);
     // Start from the second row and work our way downward.
-    for (let i = 1; i < matrix.length; i++) {
-        const j = matrix[i].length - 1;
-        assert(leaf() === matrix[i][j]);
-        assert(fork() === matrix[i][j - 1]);
-        if (fork() === matrix[i - 1][j - 1]) {
-            matrix[i - 1][j - 1] = tee();
+    for (let i = 1; i < mat.length; i++) {
+        const j = mat[i].length - 1;
+        assert(leaf() === mat[i][j]);
+        assert(fork() === mat[i][j - 1]);
+        if (fork() === mat[i - 1][j - 1]) {
+            mat[i - 1][j - 1] = tee();
         }
-        if (i < matrix.length - 2) {
-            if (branch() === matrix[i + 1][j - 1]) {
-                matrix[i][j - 1] = tee();
+        if (i < mat.length - 2) {
+            if (branch() === mat[i + 1][j - 1]) {
+                mat[i][j - 1] = tee();
             }
         }
     }
+    return mat;
 }
 
 /**
@@ -125,15 +139,15 @@ function beautify(ns, grid, map) {
         if (diff < 3) {
             continue;
         }
-        prune_branch(matrix, i);
+        matrix = prune_branch(matrix, i);
     }
     // Remove dead branches from the last row.
-    prune_branch(matrix, matrix.length - 1);
+    matrix = prune_branch(matrix, matrix.length - 1);
     // Some final touches.
-    add_fork(matrix);
-    prune_sibling_branch(matrix);
-    add_tee_junction(matrix);
-    add_server_name(ns, matrix, map);
+    matrix = add_fork(matrix);
+    matrix = prune_sibling_branch(matrix);
+    matrix = add_tee_junction(matrix);
+    matrix = add_server_name(ns, matrix, map);
     return to_string(matrix);
 }
 
@@ -262,27 +276,32 @@ function placeholder() {
  * @param matrix The ASCII art of the network of world servers.  The function
  *     modifies this argument.
  * @param r Start the pruning from this row upward.
+ * @return The same matrix, but with dead branches removed.
  */
 function prune_branch(matrix, r) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
     assert(r >= 0);
-    let col = matrix[r].length - 3;
-    const maxidx = matrix.length - 1;
+    // A shallow copy so we don't modify the parameter directly.  Still modify
+    // it indirectly.
+    const mat = Array.from(matrix);
+    let col = mat[r].length - 3;
+    const maxidx = mat.length - 1;
     while (col >= 0) {
-        if (maxidx !== r && leaf() === matrix[r + 1][col]) {
-            return;
+        if (maxidx !== r && leaf() === mat[r + 1][col]) {
+            return mat;
         }
         let row = Math.floor(r);
         while (row > 0) {
-            if (leaf() === matrix[row][col + 1]) {
+            if (leaf() === mat[row][col + 1]) {
                 break;
             }
-            matrix[row][col] = placeholder();
+            mat[row][col] = placeholder();
             row--;
         }
         col--;
     }
+    return mat;
 }
 
 /**
@@ -292,32 +311,37 @@ function prune_branch(matrix, r) {
  *
  * @param matrix The ASCII art of the network of world servers.  The function
  *     modifies this argument.
+ * @return The same matrix, but with sibling branches removed.
  */
 function prune_sibling_branch(matrix) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
+    // A shallow copy so we don't modify the parameter directly.  We still
+    // modify it indirectly.
+    const mat = Array.from(matrix);
     // Start from the second row onward.
-    for (let i = 1; i < matrix.length; i++) {
+    for (let i = 1; i < mat.length; i++) {
         // Top row is shorter than bottom row.
-        if (matrix[i - 1].length < matrix[i].length) {
+        if (mat[i - 1].length < mat[i].length) {
             continue;
         }
         // There is a leaf immediately above the current leaf.
-        const j = matrix[i].length - 1;
-        if (leaf() === matrix[i - 1][j]) {
+        const j = mat[i].length - 1;
+        if (leaf() === mat[i - 1][j]) {
             continue;
         }
         // Start pruning from this row and work upward.
         let row = i - 1;
         while (row > 0) {
-            if (fork() === matrix[row][j]) {
+            if (fork() === mat[row][j]) {
                 break;
             }
-            assert(branch() === matrix[row][j]);
-            matrix[row][j] = placeholder();
+            assert(branch() === mat[row][j]);
+            mat[row][j] = placeholder();
             row--;
         }
     }
+    return mat;
 }
 
 /**
