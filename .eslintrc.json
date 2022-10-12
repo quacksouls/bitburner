@@ -57,6 +57,10 @@
                 "SwitchCase": 1
             }
         ],
+        // Disable this option and let Prettier handle the maximum line width.
+        "max-len": [
+            "off"
+        ],
         "no-await-in-loop": [
             "off"
         ],
