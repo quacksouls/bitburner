@@ -22,7 +22,8 @@
         "comma-dangle": [
             "error",
             {
-                "functions": "never"
+                "functions": "never",
+                "imports": "always-multiline"
             }
         ],
         "consistent-return": [
