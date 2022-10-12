@@ -45,7 +45,7 @@ function buy_exclusive_augmentations(ns) {
     const installed = new Set(installed_augmentations(ns));
     for (const faction of Object.keys(exclusive_aug)) {
         for (const aug of exclusive_aug[faction]) {
-            if (installed.has(aug) || aug == augment.TRP) {
+            if (installed.has(aug) || aug === augment.TRP) {
                 continue;
             }
             const fac_rep = ns.singularity.getFactionRep(gang_faction);
@@ -77,7 +77,7 @@ function buy_other_augmentations(ns) {
     for (const fac of Object.keys(exclusive_aug)) {
         exclusive = exclusive.concat(exclusive_aug[fac]);
     }
-    exclusive = exclusive.filter((a) => a != augment.TRP);
+    exclusive = exclusive.filter((a) => a !== augment.TRP);
     exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
     // Buy other Augmentations available from our gang faction.
@@ -85,7 +85,7 @@ function buy_other_augmentations(ns) {
     const player = new Player(ns);
     const aug = ns.singularity
         .getAugmentationsFromFaction(faction)
-        .filter((a) => a != augment.TRP);
+        .filter((a) => a !== augment.TRP);
     for (const a of aug) {
         if (installed.has(a) || exclusive.has(a)) {
             continue;
