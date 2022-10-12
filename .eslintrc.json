@@ -75,7 +75,7 @@
                 "functions": false
             }
         ],
-        "prettier/prettier": "error",
+        "prettier/prettier": "off",
         "quotes": [
             "error",
             "double"
