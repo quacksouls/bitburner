@@ -23,6 +23,12 @@
             "error",
             "always"
         ],
+        "import/extensions": [
+            "error",
+            {
+                "js": "always"
+            }
+        ],
         "import/no-absolute-path": [
             "error",
             {
