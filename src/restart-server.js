@@ -56,7 +56,7 @@ export async function main(ns) {
             // Choose the best target server that is not bankrupt.  Run our
             // hack script against this target server.
             const t = choose_best_server(ns, target);
-            target = target.filter((s) => s != t);
+            target = target.filter((r) => r != t);
             const target_server = new Server(ns, t);
             assert(await target_server.gain_root_access());
             assert(await server.deploy(target_server.hostname()));
