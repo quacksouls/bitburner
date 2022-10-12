@@ -250,14 +250,14 @@ async function update(ns) {
     // Continuously try to gain root access to servers in the game world and
     // let each server hack itself.  Exclude all purchased servers.
     while (server.length > 0) {
-        let [reject, hacked] = await hack_servers(ns, server);
+        const [reject, hacked] = await hack_servers(ns, server);
         hacked_server = [...new Set(hacked_server.concat(hacked))];
         assert(hacked_server.length > 0);
         // Redirect a bankrupt server to hack another target.
-        if (reject.length > 0) {
-            reject = await redirect_bankrupt_server(ns, reject, hacked_server);
-        }
         server = reject;
+        if (reject.length > 0) {
+            server = await redirect_bankrupt_server(ns, server, hacked_server);
+        }
         await ns.sleep(wait_t.DEFAULT);
     }
 }
