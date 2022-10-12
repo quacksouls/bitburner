@@ -30,6 +30,9 @@
         "no-await-in-loop": [
             "off"
         ],
+        "no-continue": [
+            "off"
+        ],
         "prettier/prettier": "error",
         "quotes": [
             "error",
