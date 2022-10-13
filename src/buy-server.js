@@ -238,7 +238,7 @@ async function update(ns, ram) {
     // maximum number of servers we can buy.
     const player = new Player(ns);
     let i = player.pserv().length;
-    let target = new Array();
+    let target = [];
     while (i < psv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > psv.cost(server_ram)) {
