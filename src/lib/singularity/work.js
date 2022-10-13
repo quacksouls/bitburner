@@ -106,7 +106,7 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
             company,
-            job_area.SOFTWARE,
+            job_area.SOFTWARE
         );
         // We have a promotion.  Work in the new job.
         if (success) {
@@ -145,7 +145,7 @@ export async function rise_to_cfo(ns, company) {
         await ns.sleep(wait_t.DEFAULT);
         const success = ns.singularity.applyToCompany(
             company,
-            job_area.BUSINESS,
+            job_area.BUSINESS
         );
         // We have a promotion.  Work in the new job.
         if (success) {
