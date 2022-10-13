@@ -128,7 +128,7 @@ export async function log_cct_failure(ns, fname, cct, host, data) {
     const newline = "\n";
     const date = new Date(Date.now());
     await ns.write(fname, date.toISOString(), append);
-    await ns.write(fname, ", " + host + ", " + cct + newline, append);
+    await ns.write(fname, `, ${host}, ${cct}${newline}`, append);
     await ns.write(fname, data + newline, append);
 }
 
@@ -142,10 +142,10 @@ export function matrix_to_string(mat) {
     let string = "";
     const delim = ", ";
     for (let i = 0; i < mat.length; i++) {
-        string += "[" + mat[i] + "]" + delim;
+        string += `[${mat[i]}]${delim}`;
     }
     string = string.slice(0, string.length - delim.length);
-    string = "[" + string + "]";
+    string = `[${string}]`;
     return string;
 }
 
@@ -252,8 +252,8 @@ export function parity_position(p) {
  * @param cct The file name of the Coding Contract.
  */
 export function print_error(ns, host, cct) {
-    const prefix = host + ": " + cct + ": ";
-    ns.tprint(`${prefix + colour.RED + "FAILURE" + colour.RESET}`);
+    const prefix = `${host}: ${cct}: `;
+    ns.tprint(`${`${prefix + colour.RED}FAILURE${colour.RESET}`}`);
 }
 
 /**
@@ -266,7 +266,7 @@ export function print_error(ns, host, cct) {
  * @param reward The reward from solving the Coding Contract.
  */
 export function print_success(ns, host, cct, reward) {
-    const prefix = host + ": " + cct + ": ";
+    const prefix = `${host}: ${cct}: `;
     ns.tprint(`${prefix + colour.GREEN + reward + colour.RESET}`);
 }
 
