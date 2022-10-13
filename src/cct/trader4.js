@@ -206,7 +206,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/cct/trader4.txt";
-        const data = "[" + t + ", [" + price.join(",") + "]]";
+        const data = `[${t}, [${price.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
         return;
