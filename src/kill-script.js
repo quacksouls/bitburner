@@ -39,10 +39,10 @@ export async function main(ns) {
     }
     const stype = ns.args[0];
     const player = new Player(ns);
-    if ("pserv" == stype) {
+    if (stype === "pserv") {
         // Kill all scripts on purchased servers.
         player.pserv().map((s) => ns.killall(s));
-    } else if ("world" == stype) {
+    } else if (stype === "world") {
         // Kill all scripts on world servers where we have root access.
         let server = network(ns);
         server = server.filter((s) => ns.hasRootAccess(s));
