@@ -476,7 +476,7 @@ function para_bellum(ns) {
  */
 function penalty(ns) {
     const wanted = ns.gang.getGangInformation().wantedLevel;
-    const respect = ns.gang.getGangInformation().respect;
+    const { respect } = ns.gang.getGangInformation();
     const p = Math.floor(100 * (wanted / respect));
     assert(p >= 0);
     return p;
