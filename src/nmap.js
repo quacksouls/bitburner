@@ -114,7 +114,7 @@ function add_tee_junction(matrix) {
 function all_shortest_paths(ns) {
     const delim = delimiter();
     const path = network(ns).map((destination) =>
-        shortest_path(ns, home, destination).join(delim),
+        shortest_path(ns, home, destination).join(delim)
     );
     return path.sort();
 }
