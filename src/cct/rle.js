@@ -34,7 +34,7 @@ function encode(c, n) {
         return `${k}${c}`;
     }
     // A run-length of more than 9 is split into multiple runs.
-    const s = new Array();
+    const s = [];
     do {
         s.push(`${max}${c}`);
         k -= max;
@@ -54,7 +54,7 @@ function rle(string) {
     const str = string;
     let n = 1;
     let c = str[0];
-    const e = new Array();
+    const e = [];
     const lastidx = string.length - 1;
     for (let i = 1; i < str.length; i++) {
         // Is this character the same as the previous character?
