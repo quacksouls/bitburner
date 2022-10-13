@@ -370,7 +370,7 @@ function to_ascii_art(tree) {
     // Start from the second row.  The first row has only the home server.
     const grid = []; // ASCII art.
     const map = new Map(); // Coordinates to server name.
-    assert(1 === tree[0].length);
+    assert(tree[0].length === 1);
     assert(home === tree[0][0]);
     grid.push([leaf()]);
     const delim = delimiter();
@@ -503,7 +503,7 @@ export async function main(ns) {
         return;
     }
     // Print the status of a server.
-    if (1 === ns.args.length) {
+    if (ns.args.length === 1) {
         const host = ns.args[0];
         const server = new Set(network(ns));
         if (!server.has(host)) {
