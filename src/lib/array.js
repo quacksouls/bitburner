@@ -30,6 +30,7 @@ export class MyArray {
      * @return true if the given array has only non-negative integers;
      *     false otherwise.
      */
+    // eslint-disable-next-line class-methods-use-this
     all_nonnegative(array) {
         assert(array.length > 0);
         for (const a of array) {
@@ -47,6 +48,7 @@ export class MyArray {
      *     be an empty array.
      * @return The largest element of the given array.
      */
+    // eslint-disable-next-line class-methods-use-this
     max(array) {
         assert(array.length > 0);
         const init_value = -Infinity;
@@ -62,6 +64,7 @@ export class MyArray {
      *     num := 4, then our sequence is [0, 1, 2, 3].
      * @return An array representing a sequence of num numbers starting from 0.
      */
+    // eslint-disable-next-line class-methods-use-this
     sequence(num) {
         const n = Math.floor(num);
         assert(n > 0);
@@ -78,6 +81,7 @@ export class MyArray {
      *     the array has duplicate elements, we are actually sorting in
      *     non-decreasing order.
      */
+    // eslint-disable-next-line class-methods-use-this
     sort_ascending(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
@@ -103,6 +107,7 @@ export class MyArray {
      *     ascending order.  The sort is done based on the first element of
      *     each 2-tuple.
      */
+    // eslint-disable-next-line class-methods-use-this
     sort_ascending_tuple(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
@@ -118,6 +123,7 @@ export class MyArray {
      *     the array has duplicate elements, then we are actually sorting the
      *     array in non-increasing order.
      */
+    // eslint-disable-next-line class-methods-use-this
     sort_descending(array) {
         assert(array.length > 0);
         const arr = Array.from(array);
@@ -132,6 +138,7 @@ export class MyArray {
      *     empty array.
      * @return The sum of the elements in the given array.
      */
+    // eslint-disable-next-line class-methods-use-this
     sum(array) {
         assert(array.length > 0);
         const init_value = 0;
