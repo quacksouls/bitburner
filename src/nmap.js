@@ -179,15 +179,15 @@ function decorate(ns, server) {
     const player = ns.getPlayer();
     const hack_lvl = player.skills.hacking;
     const required_hack_lvl = serv.requiredHackingSkill;
-    const nhack = "(" + required_hack_lvl + ")";
-    const nport = "[" + serv.numOpenPortsRequired + "]";
+    const nhack = `(${required_hack_lvl})`;
+    const nport = `[${serv.numOpenPortsRequired}]`;
     // Do we have root access on the server?
     if (serv.hasAdminRights) {
-        const s = server + " " + nhack + nport;
+        const s = `${server} ${nhack}${nport}`;
         return colour.GREEN + s + colour.RESET;
     }
     // Do we have the minimum required Hack stat?
-    let s = server + " " + nhack;
+    let s = `${server} ${nhack}`;
     if (hack_lvl < required_hack_lvl) {
         s = colour.RED + s + colour.RESET;
     } else {
@@ -374,7 +374,7 @@ function to_ascii_art(tree) {
     assert(home === tree[0][0]);
     grid.push([leaf()]);
     const delim = delimiter();
-    map.set("0" + delim + "0", home);
+    map.set(`0${delim}0`, home);
     for (let i = 1; i < tree.length; i++) {
         const previous = tree[i - 1];
         const current = tree[i];
@@ -504,7 +504,7 @@ export async function main(ns) {
         const host = ns.args[0];
         const server = new Set(network(ns));
         if (!server.has(host)) {
-            ns.tprint("Server not found: " + host);
+            ns.tprint(`Server not found: ${host}`);
             return;
         }
         ns.tprint(decorate(ns, host));
