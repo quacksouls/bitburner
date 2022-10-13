@@ -104,17 +104,17 @@ async function maximize_profit(ns, t, price) {
     assert(price.length > 0);
     // No transactions means no profit.  We don't buy and sell, therefore
     // no profit at all.
-    if (0 == t) {
+    if (t === 0) {
         return 0;
     }
     // If t = 1, we are restricted to at most 1 transaction.  Simply use
     // Kadane's algorithm on the price array.
-    if (1 == t) {
+    if (t === 1) {
         return max_profit_kadane(price);
     }
     // If t = 2, we are restricted to at most 2 transactions.  This is the case
     // of Algorithmic Stock Trader III.
-    if (2 == t) {
+    if (t === 2) {
         return stock_traderIII(price);
     }
     // Perform at most t >= 3 transactions.  Let p[t][i] be the maximum profit
@@ -204,7 +204,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/trader4.txt";
         const data = "[" + t + ", [" + price.join(",") + "]]";
         await log_cct_failure(ns, log, cct, host, data);
