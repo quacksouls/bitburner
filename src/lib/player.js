@@ -141,10 +141,10 @@ export class Player {
      *     false otherwise.
      */
     has_all_programs() {
-        let program = Array.from(this.#port_opener);
-        program = program.concat(this.#program);
-        assert(program.length > 0);
-        for (const p of program) {
+        let prog = Array.from(this.#port_opener);
+        prog = prog.concat(this.#program);
+        assert(prog.length > 0);
+        for (const p of prog) {
             if (!this.has_program(p)) {
                 return false;
             }
