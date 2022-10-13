@@ -89,12 +89,12 @@ function is_upgrade_core_ram(ns, idx) {
     // we must skip the upgrade.  It is very likely that the Level of a Hacknet
     // node is at maximum whereas its Cores and RAM are yet to be maxed out.
     // Thus 200 Level is also part of the upgrade schedule for Cores and RAM.
-    if (node_level(ns, idx) == hnet_t.MAX_LEVEL) {
+    if (node_level(ns, idx) === hnet_t.MAX_LEVEL) {
         return bool.IS_TIME;
     }
     const interval = 30;
     const remainder = node_level(ns, idx) % interval;
-    return 0 == remainder;
+    return remainder === 0;
 }
 
 /**
@@ -134,7 +134,7 @@ async function setup_farm(ns, n) {
             continue;
         }
         const id = ns.hacknet.purchaseNode();
-        assert(-1 != id);
+        assert(id !== -1);
     }
 }
 
