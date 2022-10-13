@@ -547,7 +547,7 @@ function reassign_arms_trafficking(ns, member, min, max) {
 function reassign_blackmail(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
     );
     gangster.blackmail(candidate);
 }
@@ -589,7 +589,7 @@ function reassign_combatant(ns) {
 function reassign_con(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
     );
     gangster.con(candidate);
 }
@@ -609,7 +609,7 @@ function reassign_con(ns, member, min, max) {
 function reassign_extortion(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.strength(s) && gangster.strength(s) < max,
+        (s) => min <= gangster.strength(s) && gangster.strength(s) < max
     );
     gangster.extort(candidate);
 }
@@ -629,7 +629,7 @@ function reassign_extortion(ns, member, min, max) {
 function reassign_fraud(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
     );
     gangster.fraud(candidate);
 }
@@ -676,7 +676,7 @@ function reassign_hacker(ns) {
 function reassign_human_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max,
+        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
     );
     gangster.traffick_human(candidate);
 }
@@ -695,7 +695,7 @@ function reassign_human_trafficking(ns, member, min, max) {
 function reassign_id_theft(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
     );
     gangster.id_theft(candidate);
 }
@@ -714,7 +714,7 @@ function reassign_id_theft(ns, member, min, max) {
 function reassign_launder(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
     );
     gangster.launder(candidate);
 }
@@ -746,7 +746,7 @@ function reassign_miscellaneous(ns) {
 function reassign_phish(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max,
+        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
     );
     gangster.phish(candidate);
 }
@@ -765,7 +765,7 @@ function reassign_phish(ns, member, min, max) {
 function reassign_robbery(ns, member, min, max) {
     const gangster = new Gangster(ns);
     const candidate = member.filter(
-        (s) => min <= gangster.strength(s) && gangster.strength(s) < max,
+        (s) => min <= gangster.strength(s) && gangster.strength(s) < max
     );
     gangster.robbery(candidate);
 }
