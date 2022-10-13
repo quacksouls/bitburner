@@ -116,7 +116,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/sum2.txt";
         const data = `[${n}, [${denomination.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);
