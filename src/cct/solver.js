@@ -172,7 +172,7 @@ export async function main(ns) {
     server.push(home);
     // Continuously search for coding contracts.  Solve a coding contract,
     // provided we have a solution script.
-    while (true) {
+    for (;;) {
         for (const s of server) {
             const file = ns.ls(s, cct_suffix);
             // No coding contracts on this server.
