@@ -93,7 +93,7 @@ function valid_interval(array) {
     assert(array.length > 0);
     for (let i = 0; i < array.length; i++) {
         const arr = array[i];
-        if (arr.length != 2) {
+        if (arr.length !== 2) {
             return bool.INVALID;
         }
         const [a, b] = arr;
@@ -125,7 +125,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/interval.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
