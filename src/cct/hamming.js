@@ -39,7 +39,7 @@ function encode(n) {
     const data = n
         .toString(base.BINARY)
         .split("")
-        .map((s) => parseInt(s));
+        .map((s) => parseInt(s, base.DECIMAL));
     // Determine the number of parity bits.
     const nparity = num_parity(data);
     assert(nparity > 0);
