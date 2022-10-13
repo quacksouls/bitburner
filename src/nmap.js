@@ -61,7 +61,9 @@ function add_server_name(ns, matrix, map) {
     const mat = Array.from(matrix);
     // Add the server names.
     for (const [coord, server] of map) {
-        const [i, j] = coord.split(delimiter()).map((k) => parseInt(k, base.DECIMAL));
+        const [i, j] = coord
+            .split(delimiter())
+            .map((k) => parseInt(k, base.DECIMAL));
         mat[i][j] = decorate(ns, server);
     }
     return mat;
