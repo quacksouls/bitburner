@@ -61,11 +61,11 @@ function choose_location(loc) {
     const high = location.length - 1;
     let i = random_integer(low, high);
     let new_loc = location[i];
-    while (loc == new_loc) {
+    while (loc === new_loc) {
         i = random_integer(low, high);
         new_loc = location[i];
     }
-    assert(loc != new_loc);
+    assert(loc !== new_loc);
     return new_loc;
 }
 
