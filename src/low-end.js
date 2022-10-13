@@ -36,7 +36,7 @@ import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
  *         servers.
  */
 function current_compromised(ns) {
-    const hacked = new Array();
+    const hacked = [];
     const player = new Player(ns);
     for (const target of low_end_servers(ns)) {
         if (ns.isRunning(player.script(), player.home(), target)) {
@@ -86,7 +86,7 @@ async function hack_low_end(ns, target) {
 function has_target(ns) {
     const lowend = new_low_end(ns);
     assert(lowend.length > 0);
-    const target = new Array();
+    const target = [];
     for (const host of lowend) {
         if (skip_low_end(ns, host)) {
             continue;
@@ -148,7 +148,7 @@ function is_low_end(ns, hostname) {
  */
 function low_end_servers(ns) {
     const server = filter_bankrupt_servers(ns, filter_pserv(ns, network(ns)));
-    const lowend = new Array();
+    const lowend = [];
     for (const s of server) {
         if (is_low_end(ns, s)) {
             lowend.push(s);
@@ -168,7 +168,7 @@ function low_end_servers(ns) {
  * @return An array of low-end servers that are yet to be hacked.
  */
 function new_low_end(ns) {
-    const target = new Array();
+    const target = [];
     const player = new Player(ns);
     for (const host of low_end_servers(ns)) {
         if (ns.isRunning(player.script(), player.home(), host)) {
@@ -220,7 +220,7 @@ async function update(ns) {
         return;
     }
     // Hack all low-end servers we can compromise.
-    const target = new Array();
+    const target = [];
     for (const host of low_end_servers(ns)) {
         if (skip_low_end(ns, host)) {
             continue;
