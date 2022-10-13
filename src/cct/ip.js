@@ -35,7 +35,7 @@ function all_ip(string) {
     // of digits in the digit string.
     const max_octet_length = 3;
     const ip_length = string.length;
-    const ip = new Array();
+    const ip = [];
     for (let i = 1; i <= max_octet_length; i++) {
         for (let j = 1; j <= max_octet_length; j++) {
             for (let k = 1; k <= max_octet_length; k++) {
