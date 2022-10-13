@@ -3,6 +3,6 @@
     "printWidth": 80,
     "singleQuote": false,
     "tabWidth": 4,
-    "trailingComma": "all",
+    "trailingComma": "es5",
     "useTabs": false
 }
