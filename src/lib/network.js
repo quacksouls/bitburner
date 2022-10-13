@@ -98,7 +98,7 @@ export class Graph {
         if (this.has_node(v)) {
             return bool.FAILURE;
         }
-        this.#adj.set(v, new Array());
+        this.#adj.set(v, []);
         return bool.SUCCESS;
     }
 
@@ -126,7 +126,7 @@ export class Graph {
         // A map of the node preceeding a given node.
         const prev = new Map();
         // A queue of nodes to visit.
-        let queue = new Array();
+        let queue = [];
         // Initialization.
         for (const v of this.nodes()) {
             dist.set(v, Infinity);
@@ -166,7 +166,7 @@ export class Graph {
     edges() {
         // Directed graph.
         if (this.#directed) {
-            const edge = new Array();
+            const edge = [];
             for (const u of this.nodes()) {
                 for (const v of this.neighbour(u)) {
                     edge.push([u, v]);
@@ -292,7 +292,7 @@ export class Graph {
         if (!dist.has(target)) {
             return [];
         }
-        const stack = new Array();
+        const stack = [];
         let u = target;
         // Start from the target and work backward to find a shortest path from
         // the source to the target.
@@ -359,7 +359,7 @@ export function network(ns) {
  */
 export function shortest_path(ns, source, target) {
     // Represent the network of world servers as an undirected graph.
-    const stack = new Array();
+    const stack = [];
     const visit = new Set();
     stack.push(source);
     const graph = new Graph(bool.UNDIRECTED);
