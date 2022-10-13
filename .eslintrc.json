@@ -41,7 +41,6 @@
                 "SwitchCase": 1
             }
         ],
-        // Disable this option and let Prettier handle the maximum line width.
         "max-len": [
             "error",
             {
