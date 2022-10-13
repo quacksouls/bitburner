@@ -60,7 +60,7 @@ export function augment_to_buy(ns, fac) {
     }
     assert(fac_aug.length > 0);
     // Choose n Augmentations that have the least reputation requirements.
-    const tobuy = new Array();
+    const tobuy = [];
     let i = 0;
     while (i < augment.BUY_TAU) {
         const aug = lowest_reputation(ns, fac_aug);
@@ -189,7 +189,7 @@ export function owned_augment(ns) {
  */
 export function prerequisites(ns, aug) {
     assert(aug !== "");
-    const candidate = new Array();
+    const candidate = [];
     const prereq = ns.singularity.getAugmentationPrereq(aug);
     if (prereq.length === 0) {
         return candidate;
