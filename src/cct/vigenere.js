@@ -39,7 +39,7 @@ function pad_key(plaintext, key) {
     if (plaintext.length === key.length) {
         return key;
     }
-    let new_key = new String(key);
+    let new_key = String(key);
     let i = 0;
     let n = 0;
     while (new_key.length < plaintext.length) {
