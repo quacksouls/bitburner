@@ -373,8 +373,8 @@ function is_new_tick(ns, other) {
     const current = ns.gang.getOtherGangInformation();
     for (const g of Object.keys(current)) {
         if (
-            current[g].power != other[g].power ||
-            current[g].territory != other[g].territory
+            current[g].power !== other[g].power
+            || current[g].territory !== other[g].territory
         ) {
             return bool.NEW;
         }
