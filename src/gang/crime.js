@@ -157,7 +157,8 @@ function decrease_penalty(ns) {
  * that the following conditions are satisfied:
  *
  * (1) We have the maximum number of gang members.
- * (2) Our chance of winning against a rival gang is at least a given percentage.
+ * (2) Our chance of winning against a rival gang is at least a given
+ *     percentage.
  *
  * However, if our gang already has taken over 100% of the territory, then
  * there is no need to engage in turf warfare.
@@ -495,7 +496,8 @@ function reassign(ns) {
 }
 
 /**
- * Following territory warfare against a rival gang, reassign our gang members to other jobs.
+ * Following territory warfare against a rival gang, reassign our gang members
+ * to other jobs.
  *
  * @param ns The Netscript API.
  */
