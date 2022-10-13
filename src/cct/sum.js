@@ -61,7 +61,7 @@ const partition = (function () {
             return 0;
         }
         // Base case.
-        if (0 == num) {
+        if (num === 0) {
             return 1;
         }
         // Check the cache.
@@ -113,7 +113,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/sum.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);
