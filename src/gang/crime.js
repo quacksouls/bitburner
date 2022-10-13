@@ -913,7 +913,7 @@ export async function main(ns) {
     }
     const faction = ns.args[0];
     if (!is_valid_faction(faction)) {
-        ns.tprint("Cannot create criminal gang within faction: " + faction);
+        ns.tprint(`Cannot create criminal gang within faction: ${faction}`);
         return;
     }
     // Create our criminal gang and recruit the first crop of gangsters.  By
