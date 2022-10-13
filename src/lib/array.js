@@ -24,13 +24,6 @@ import { assert } from "/lib/util.js";
  */
 export class MyArray {
     /**
-     * Initialize an array object.
-     */
-    constructor() {
-        // Nothing to do here.
-    }
-
-    /**
      * Whether the given array has only non-negative numbers.
      *
      * @param array An array of integers.  Cannot be an empty array.
