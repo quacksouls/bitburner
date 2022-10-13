@@ -50,7 +50,7 @@ export async function main(ns) {
         host,
         {
             returnReward: true,
-        },
+        }
     );
     // Log the result in case of failure.
     if (0 == result.length) {

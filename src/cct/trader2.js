@@ -96,7 +96,7 @@ export async function main(ns) {
         host,
         {
             returnReward: true,
-        },
+        }
     );
     // Log the result in case of failure.
     if (result.length === 0) {
