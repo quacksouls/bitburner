@@ -82,7 +82,7 @@ export async function join_faction(ns, fac) {
     // quit working once we have joined the faction.
     let company = fac;
     if (is_megacorp_faction(fac)) {
-        if ("Fulcrum Secret Technologies" == fac) {
+        if (fac === "Fulcrum Secret Technologies") {
             company = "Fulcrum Technologies";
         }
         ns.singularity.applyToCompany(company, job_area.SOFTWARE);
@@ -193,7 +193,7 @@ export async function raise_hack(ns, threshold) {
         }
     }
     // Carry out Hacking Contracts for the faction.
-    if ("" != target) {
+    if (target !== "") {
         ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
         while (player.hacking_skill() < threshold) {
             await ns.sleep(wait_t.DEFAULT);
