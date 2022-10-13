@@ -90,7 +90,7 @@ export async function main(ns) {
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
     // Continuously hack/grow/weaken the target server.
     const time = 1; // One millisecond.
-    while (true) {
+    for (;;) {
         const money_available = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
             // If the server's security level is above our threshold, weaken it.
