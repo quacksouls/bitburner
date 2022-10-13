@@ -710,6 +710,7 @@ export const gangster_t = {
         "Mia Wallace",
         "Mikasa Ackerman",
         // N
+        "Ned Kelly",
         "Nucky Thompson",
         // O
         "O-Ren Ishii",
