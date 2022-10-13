@@ -143,7 +143,7 @@ export class Graph {
         const weight = 1;
         while (queue.length > 0) {
             const u = this.#minimumq(queue, dist);
-            queue = queue.filter((s) => s != u);
+            queue = queue.filter((s) => s !== u);
             // Consider the neighbours of u.  Each neighbour must still be in
             // the queue.
             let neighbour = Array.from(this.neighbour(u));
@@ -296,12 +296,12 @@ export class Graph {
         let u = target;
         // Start from the target and work backward to find a shortest path from
         // the source to the target.
-        while (prev.get(u) != undefined) {
+        while (prev.get(u) !== undefined) {
             stack.push(u);
             u = prev.get(u);
         }
         // Target is not reachable from the source node.
-        if (0 == stack.length) {
+        if (stack.length === 0) {
             return [];
         }
         // Reconstruct the full path from source to target.
@@ -344,7 +344,7 @@ export function network(ns) {
     server = [...server];
     // Remove the root node from our array.  We want all servers that are
     // connected either directly or indirectly to the root node.
-    return server.filter((s) => root != s);
+    return server.filter((s) => root !== s);
 }
 
 /**
