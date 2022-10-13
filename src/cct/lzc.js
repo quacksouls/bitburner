@@ -38,7 +38,7 @@ function compress(plain) {
 
     function set(state, i, j, str) {
         const current = state[i][j];
-        if (current == null || str.length < current.length) {
+        if (current === null || str.length < current.length) {
             state[i][j] = str;
         } else if (str.length === current.length && Math.random() < 0.5) {
             // if two strings are the same length, pick randomly so that
@@ -58,7 +58,7 @@ function compress(plain) {
         // handle literals
         for (let length = 1; length <= 9; ++length) {
             const string = cur_state[0][length];
-            if (string == null) {
+            if (string === null) {
                 continue;
             }
             if (length < 9) {
@@ -92,7 +92,7 @@ function compress(plain) {
         for (let offset = 1; offset <= 9; ++offset) {
             for (let length = 1; length <= 9; ++length) {
                 const string = cur_state[offset][length];
-                if (string == null) {
+                if (string === null) {
                     continue;
                 }
                 if (plain[i - offset] === c) {
@@ -138,14 +138,14 @@ function compress(plain) {
 
     for (let len = 1; len <= 9; ++len) {
         let string = cur_state[0][len];
-        if (string == null) {
+        if (string === null) {
             continue;
         }
         string
             += String(len) + plain.substring(plain.length - len, plain.length);
-        if (result == null || string.length < result.length) {
+        if (result === null || string.length < result.length) {
             result = string;
-        } else if (string.length == result.length && Math.random() < 0.5) {
+        } else if (string.length === result.length && Math.random() < 0.5) {
             result = string;
         }
     }
@@ -153,13 +153,13 @@ function compress(plain) {
     for (let offset = 1; offset <= 9; ++offset) {
         for (let len = 1; len <= 9; ++len) {
             let string = cur_state[offset][len];
-            if (string == null) {
+            if (string === null) {
                 continue;
             }
             string += `${String(len)}${String(offset)}`;
-            if (result == null || string.length < result.length) {
+            if (result === null || string.length < result.length) {
                 result = string;
-            } else if (string.length == result.length && Math.random() < 0.5) {
+            } else if (string.length === result.length && Math.random() < 0.5) {
                 result = string;
             }
         }
@@ -203,7 +203,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/lzc.txt";
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
