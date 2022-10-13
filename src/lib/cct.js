@@ -236,7 +236,7 @@ export function max_profit_kadane(price) {
  */
 export function parity_position(p) {
     assert(p > 0);
-    const array = new Array();
+    const array = [];
     for (let i = 0; i < p; i++) {
         array.push(2 ** i);
     }
