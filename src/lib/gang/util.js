@@ -39,9 +39,11 @@ function choose_vigilante_ehacker_threshold(ns) {
     const ngangster = ns.gang.getMemberNames().length;
     if (ngangster == members.INITIAL) {
         return 1;
-    } else if (members.INITIAL < ngangster && ngangster <= mid_point) {
+    }
+    if (members.INITIAL < ngangster && ngangster <= mid_point) {
         return 2;
-    } else if (mid_point < ngangster && ngangster <= quarter_point) {
+    }
+    if (mid_point < ngangster && ngangster <= quarter_point) {
         return 3;
     }
     assert(quarter_point < ngangster && ngangster <= members.MAX);
