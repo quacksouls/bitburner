@@ -127,7 +127,7 @@ export function filter_pserv(ns, server) {
  */
 export function is_bankrupt(ns, s) {
     const server = ns.getServer(s);
-    return 0 == server.moneyMax;
+    return server.moneyMax === 0;
 }
 
 /**
