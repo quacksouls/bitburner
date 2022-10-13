@@ -279,7 +279,7 @@ export class Server {
      */
     is_bankrupt() {
         const max_money = Math.floor(this.money_max());
-        return 0 == max_money;
+        return max_money === 0;
     }
 
     /**
