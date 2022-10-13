@@ -32,6 +32,7 @@ export class Graph {
      * array is a neighbour of i.
      */
     #adj;
+
     /**
      * A boolean signifying whether each edge is directed or undirected.
      */
