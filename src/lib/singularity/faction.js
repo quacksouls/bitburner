@@ -139,7 +139,7 @@ export async function raise_combat_stats(ns, threshold) {
     let target = "Slum Snakes";
     let city = "Sector-12";
     if (ns.gang.inGang()) {
-        if (ns.gang.getGangInformation().faction == target) {
+        if (ns.gang.getGangInformation().faction === target) {
             target = "Tetrads";
             city = faction_req[target].city;
         }
@@ -244,7 +244,7 @@ function total_reputation(ns, fac) {
  */
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
-    assert(job_area.HACK == work_type || job_area.FIELD == work_type);
+    assert(job_area.HACK === work_type || job_area.FIELD === work_type);
     const threshold = total_reputation(ns, fac);
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
