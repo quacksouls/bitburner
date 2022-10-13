@@ -147,6 +147,7 @@ export class Graph {
             // Consider the neighbours of u.  Each neighbour must still be in
             // the queue.
             let neighbour = Array.from(this.neighbour(u));
+            // eslint-disable-next-line no-loop-func
             neighbour = neighbour.filter((s) => queue.includes(s));
             for (const v of neighbour) {
                 const alt = dist.get(u) + weight;
