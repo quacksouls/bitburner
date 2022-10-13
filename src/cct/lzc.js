@@ -80,9 +80,9 @@ function compress(plain) {
                         new_state,
                         offset,
                         1,
-                        string +
-                            String(length) +
-                            plain.substring(i - length, i),
+                        string
+                            + String(length)
+                            + plain.substring(i - length, i)
                     );
                 }
             }
@@ -141,8 +141,8 @@ function compress(plain) {
         if (string == null) {
             continue;
         }
-        string +=
-            String(len) + plain.substring(plain.length - len, plain.length);
+        string
+            += String(len) + plain.substring(plain.length - len, plain.length);
         if (result == null || string.length < result.length) {
             result = string;
         } else if (string.length == result.length && Math.random() < 0.5) {
