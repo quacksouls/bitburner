@@ -96,7 +96,7 @@ export class Server {
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
-        if (this.hostname() == this.#home) {
+        if (this.hostname() === this.#home) {
             // By default, we reserve 50GB RAM on the player's home server.  If
             // the home server has less than this amount of RAM, we do not
             // reserve any RAM at all.
