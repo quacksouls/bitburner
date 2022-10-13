@@ -137,8 +137,8 @@ export async function rise_to_cfo(ns, company) {
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (true) {
         if (
-            player.job(company) == job_title.CFO
-            || player.job(company) == job_title.CEO
+            player.job(company) === job_title.CFO
+            || player.job(company) === job_title.CEO
         ) {
             break;
         }
