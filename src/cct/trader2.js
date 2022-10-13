@@ -52,7 +52,7 @@ function maximize_profit(price) {
     // If the price array has only one value, we can buy on the first day.
     // However, we won't be able to sell at all.  Therefore the maximum profit
     // should be zero.
-    if (1 == price.length) {
+    if (price.length === 1) {
         return 0;
     }
     // Keep track of the running maximum profit by considering the price
@@ -99,7 +99,7 @@ export async function main(ns) {
         },
     );
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/trader2.txt";
         const data = "[" + array.join(",") + "]";
         await log_cct_failure(ns, log, cct, host, data);
