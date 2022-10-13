@@ -18,7 +18,8 @@
             {
                 "arrays": "always-multiline",
                 "functions": "never",
-                "imports": "always-multiline"
+                "imports": "always-multiline",
+                "objects": "always-multiline"
             }
         ],
         "consistent-return": ["off"],

@@ -417,7 +417,7 @@ export class Gangster {
         // stat.
         const hacker = name.filter((s) => this.is_hacker(s));
         const hack_graduate = hacker.filter(
-            (s) => this.is_training_hack(s) && this.hack(s) >= min,
+            (s) => this.is_training_hack(s) && this.hack(s) >= min
         );
         this.train_charisma(hack_graduate);
         // Once a hacker's Hack and Charisma stats are of minimum amounts,
@@ -456,7 +456,7 @@ export class Gangster {
         // trains their combat stats.
         const graduate = name.filter((s) => this.is_miscellaneous(s));
         const charisma_graduate = graduate.filter(
-            (s) => this.is_training_charisma(s) && this.charisma(s) >= min,
+            (s) => this.is_training_charisma(s) && this.charisma(s) >= min
         );
         this.train_combat(charisma_graduate);
         // Once the Charisma and combat stats of a miscellaneous member are of
@@ -495,7 +495,7 @@ export class Gangster {
         const gang_armour = new Set(Object.values(armour));
         assert(gang_armour.has(amr));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades,
+            this.#ns.gang.getMemberInformation(name).upgrades
         );
         return equipment.has(amr);
     }
@@ -513,7 +513,7 @@ export class Gangster {
         const gang_aug = new Set(Object.values(gang_augment));
         assert(gang_aug.has(aug));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).augmentations,
+            this.#ns.gang.getMemberInformation(name).augmentations
         );
         return equipment.has(aug);
     }
@@ -530,7 +530,7 @@ export class Gangster {
         const gang_rootkit = new Set(Object.values(rootkit));
         assert(gang_rootkit.has(kit));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades,
+            this.#ns.gang.getMemberInformation(name).upgrades
         );
         return equipment.has(kit);
     }
@@ -547,7 +547,7 @@ export class Gangster {
         const gang_vehicle = new Set(Object.values(vehicle));
         assert(gang_vehicle.has(vhc));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades,
+            this.#ns.gang.getMemberInformation(name).upgrades
         );
         return equipment.has(vhc);
     }
@@ -564,7 +564,7 @@ export class Gangster {
         const gang_weapon = new Set(Object.values(weapon));
         assert(gang_weapon.has(wpn));
         const equipment = new Set(
-            this.#ns.gang.getMemberInformation(name).upgrades,
+            this.#ns.gang.getMemberInformation(name).upgrades
         );
         return equipment.has(wpn);
     }
