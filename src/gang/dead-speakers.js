@@ -116,7 +116,7 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Should not be in BN2.  If in BN2, it's easier to join Slum Snakes.
-    assert(bitnode["Rise of the Underworld"] != ns.getPlayer().bitNodeN);
+    assert(bitnode["Rise of the Underworld"] !== ns.getPlayer().bitNodeN);
     // Should not be working for any of the banned companies.
     const fac = "Speakers for the Dead";
     const player = new Player(ns);
