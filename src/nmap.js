@@ -131,7 +131,7 @@ function beautify(ns, grid, map) {
     assert(grid.length > 0);
     assert(grid[0].length > 0);
     assert(map.size > 0);
-    const matrix = Array.from(grid);
+    let matrix = Array.from(grid);
     // Remove dead branches in the visualization.  A branch is said to be dead
     // if it does not lead to a server.
     for (let i = 0; i < matrix.length - 1; i++) {
