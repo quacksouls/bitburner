@@ -39,10 +39,12 @@ function compress(plain) {
     function set(state, i, j, str) {
         const current = state[i][j];
         if (current === null || str.length < current.length) {
+            // eslint-disable-next-line no-param-reassign
             state[i][j] = str;
         } else if (str.length === current.length && Math.random() < 0.5) {
             // if two strings are the same length, pick randomly so that
             // we generate more possible inputs to Compression II
+            // eslint-disable-next-line no-param-reassign
             state[i][j] = str;
         }
     }
