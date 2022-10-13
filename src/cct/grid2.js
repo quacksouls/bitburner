@@ -31,7 +31,7 @@ import { assert } from "/lib/util.js";
  * @return true if an obstacle is located at (r, c); false otherwise.
  */
 function is_obstacle(grid, r, c) {
-    return 1 == grid[r][c];
+    return grid[r][c] === 1;
 }
 
 /**
@@ -113,7 +113,7 @@ function unique_paths(grid) {
     // The table of path counts.
     const path = new Array();
     for (let i = 0; i < nrow; i++) {
-        assert(ncol == grid[i].length);
+        assert(ncol === grid[i].length);
         path.push(new Array(ncol));
     }
     // Start from (0, 0) and work our way to (m-1, n-1).
@@ -125,17 +125,17 @@ function unique_paths(grid) {
                 continue;
             }
             // r = 0, c = 0
-            if (0 == r && 0 == c) {
+            if (r === 0 && c === 0) {
                 path[r][c] = 1;
                 continue;
             }
             // r = 0, c >= 1
-            if (0 == r && c >= 1) {
+            if (r === 0 && c >= 1) {
                 path[r][c] = path[r][c - 1];
                 continue;
             }
             // r >= 1, c = 0
-            if (r >= 1 && 0 == c) {
+            if (r >= 1 && c === 0) {
                 path[r][c] = path[r - 1][c];
                 continue;
             }
@@ -177,7 +177,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/grid2.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);
