@@ -408,18 +408,21 @@ function to_ascii_art(tree) {
 function to_string(matrix) {
     assert(matrix.length > 0);
     assert(matrix[0].length > 0);
+    // A shallow copy so we don't modify the parameter directly.  We still
+    // modify it indirectly.
+    const mat = Array.from(matrix);
     // Substitute a place holder with a whitespace.
     const whitespace = "   ";
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[i].length; j++) {
-            if (placeholder() === matrix[i][j]) {
-                matrix[i][j] = whitespace;
+    for (let i = 0; i < mat.length; i++) {
+        for (let j = 0; j < mat[i].length; j++) {
+            if (placeholder() === mat[i][j]) {
+                mat[i][j] = whitespace;
             }
         }
     }
     // Entries in the matrix as a string.
     let art = newline();
-    for (const row of matrix) {
+    for (const row of mat) {
         art += row.join("") + newline();
     }
     return art;
