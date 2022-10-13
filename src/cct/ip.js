@@ -42,7 +42,7 @@ function all_ip(string) {
                 for (let ell = 1; ell <= max_octet_length; ell++) {
                     // Ensure the length of each octet sums to the length of a
                     // valid IPv4 address.
-                    if (ip_length != i + j + k + ell) {
+                    if (ip_length !== i + j + k + ell) {
                         continue;
                     }
                     // Extract each segment.
@@ -99,7 +99,7 @@ function extract_octets(string, i, j, k) {
  * @return true if each octet is valid; false otherwise.
  */
 function is_valid_ip(octet) {
-    assert(4 == octet.length);
+    assert(octet.length === 4);
     for (const seg of octet) {
         if (!is_valid_octet(seg)) {
             return bool.INVALID;
@@ -118,8 +118,8 @@ function is_valid_octet(octet) {
     assert(octet.length > 0);
     // An octet cannot begin with '0'.  The exception to this rule
     // is when the octet itself represents the number 0.
-    if ("0" == octet[0]) {
-        if ("0" != octet) {
+    if (octet[0] === "0") {
+        if (octet !== "0") {
             return bool.INVALID;
         }
     }
@@ -159,7 +159,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/ip.txt";
         await log_cct_failure(ns, log, cct, host, string);
         print_error(ns, host, cct);
