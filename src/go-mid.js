@@ -35,7 +35,7 @@ async function reboot(ns) {
     // server.
     await ns.sleep(wait_t.MINUTE);
     for (const s of script) {
-        if (s != target) {
+        if (s !== target) {
             assert(ns.kill(s, home));
         }
     }
