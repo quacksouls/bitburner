@@ -1224,9 +1224,9 @@ export class Gangster {
         assert(this.#ns.gang.canRecruitMember());
         assert(name.length > 0);
         assert(role.length > 0);
-        let s = "[" + role + "] " + this.#random_name(name);
+        let s = `[${role}] ${this.#random_name(name)}`;
         while (this.is_member(s)) {
-            s = "[" + role + "] " + this.#random_name(name);
+            s = `[${role}] ${this.#random_name(name)}`;
         }
         assert(this.#ns.gang.recruitMember(s));
         return s;
