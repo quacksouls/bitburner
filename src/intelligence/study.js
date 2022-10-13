@@ -36,7 +36,7 @@ async function study(ns) {
     const uni = cities[ns.getPlayer().city].uni;
     ns.tprint("Study at " + uni);
     for (const c of Object.values(course)) {
-        const action = "Course: " + c;
+        const action = `Course: ${c}`;
         const before = intelligence(ns);
         assert(ns.singularity.universityCourse(uni, c, bool.FOCUS));
         await ns.sleep(wait_t.HOUR);

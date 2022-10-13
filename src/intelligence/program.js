@@ -81,7 +81,7 @@ async function create_program(ns, program) {
     }
     assert(has_program(ns, program));
     const after = intelligence(ns);
-    const action = "Create program: " + program;
+    const action = `Create program: ${program}`;
     intelligence_gain(ns, before, after, action);
 }
 

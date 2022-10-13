@@ -33,6 +33,6 @@ export async function main(ns) {
     const before = intelligence(ns);
     assert(ns.singularity.travelToCity(city));
     const after = intelligence(ns);
-    const action = "Travel to " + city;
+    const action = `Travel to ${city}`;
     intelligence_gain(ns, before, after, action);
 }

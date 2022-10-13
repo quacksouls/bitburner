@@ -50,7 +50,7 @@ function join_faction(ns, fac) {
     const before = intelligence(ns);
     assert(ns.singularity.joinFaction(fac));
     const after = intelligence(ns);
-    const action = "Join faction: " + fac;
+    const action = `Join faction: ${fac}`;
     intelligence_gain(ns, before, after, action);
 }
 

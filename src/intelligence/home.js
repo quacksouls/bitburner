@@ -37,7 +37,7 @@ function upgrade_core(ns) {
     assert(ns.singularity.upgradeHomeCores());
     const cores_after = server.cores();
     const after = intelligence(ns);
-    const action = "Upgrade home Cores: " + cores_before + " -> " + cores_after;
+    const action = `Upgrade home Cores: ${cores_before} -> ${cores_after}`;
     intelligence_gain(ns, before, after, action);
 }
 
@@ -57,7 +57,7 @@ function upgrade_ram(ns) {
     assert(ns.singularity.upgradeHomeRam());
     const ram_after = server.ram_max();
     const after = intelligence(ns);
-    const action = "Upgrade home RAM: " + ram_before + " -> " + ram_after;
+    const action = `Upgrade home RAM: ${ram_before} -> ${ram_after}`;
     intelligence_gain(ns, before, after, action);
 }
 

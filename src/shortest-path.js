@@ -39,16 +39,16 @@ export async function main(ns) {
     const target = ns.args[0];
     const server = new Set(network(ns));
     if (!server.has(target)) {
-        ns.tprint("Server not found: " + target);
+        ns.tprint(`Server not found: ${target}`);
         return;
     }
     // Find shortest path.
     let path = shortest_path(ns, home, target);
     if (path.length < 1) {
-        ns.tprint("Target server must be reachable from " + home + ".");
+        ns.tprint(`Target server must be reachable from ${home}.`);
         return;
     }
     // Print commands to connect to target server.
     path = path.filter((s) => s !== home);
-    ns.tprint("connect " + path.join("; connect "));
+    ns.tprint(`connect ${path.join("; connect ")}`);
 }

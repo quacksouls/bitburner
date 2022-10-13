@@ -92,7 +92,7 @@ async function next_stage(ns, ram) {
     // amount of RAM.
     const player = new Player(ns);
     const current_pserv = player.pserv();
-    const msg = "Buy servers with RAM: " + ram;
+    const msg = `Buy servers with RAM: ${ram}`;
     if (current_pserv.length < 1) {
         ns.print(msg);
         await update(ns, ram);
@@ -190,7 +190,7 @@ async function stage_one(ns) {
     const psv = new PurchasedServer(ns);
     const default_ram = psv.default_ram();
     if (has_max_pserv(ns)) {
-        const msg = "RAM: " + default_ram + ".  Already has max pserv.";
+        const msg = `RAM: ${default_ram}.  Already has max pserv.`;
         ns.print(msg);
         return;
     }
@@ -198,7 +198,7 @@ async function stage_one(ns) {
     // that have the default amount of RAM.
     const player = new Player(ns);
     const current_pserv = player.pserv();
-    const msg = "Buy servers with default RAM: " + default_ram;
+    const msg = `Buy servers with default RAM: ${default_ram}`;
     if (current_pserv.length < 1) {
         ns.print(msg);
         await update(ns, default_ram);

@@ -72,9 +72,9 @@ export function intelligence_gain(ns, before, after, action) {
     assert(action.length > 0);
     const gain = after - before;
     ns.tprint(action);
-    ns.tprint("Intelligence before: " + before);
-    ns.tprint("Intelligence after: " + after);
-    ns.tprint("Intelligence gain: " + gain);
+    ns.tprint(`Intelligence before: ${before}`);
+    ns.tprint(`Intelligence after: ${after}`);
+    ns.tprint(`Intelligence gain: ${gain}`);
     ns.tprint("");
 }
 
@@ -94,7 +94,7 @@ export function intelligence_gain_per_minute(
     before,
     after,
     action,
-    minute,
+    minute
 ) {
     assert(before >= 0);
     assert(after >= 0);
@@ -103,10 +103,10 @@ export function intelligence_gain_per_minute(
     const gain = after - before;
     const gpm = gain / minute;
     ns.tprint(action);
-    ns.tprint("Intelligence before: " + before);
-    ns.tprint("Intelligence after: " + after);
-    ns.tprint("Intelligence gain: " + gain);
-    ns.tprint("Intelligence gain per minute: " + gpm);
+    ns.tprint(`Intelligence before: ${before}`);
+    ns.tprint(`Intelligence after: ${after}`);
+    ns.tprint(`Intelligence gain: ${gain}`);
+    ns.tprint(`Intelligence gain per minute: ${gpm}`);
     ns.tprint("");
 }
 

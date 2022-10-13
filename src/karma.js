@@ -26,5 +26,5 @@ import { Player } from "/lib/player.js";
  */
 export async function main(ns) {
     const player = new Player(ns);
-    ns.tprint("Karma: " + player.karma());
+    ns.tprint(`Karma: ${player.karma()}`);
 }

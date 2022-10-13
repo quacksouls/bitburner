@@ -38,7 +38,7 @@ export async function main(ns) {
         // Print the name of the coding contract, together with its type.
         for (const cct of file) {
             const type = ns.codingcontract.getContractType(cct, host);
-            ns.tprint(host + ": " + cct + ", " + type);
+            ns.tprint(`${host}: ${cct}, ${type}`);
         }
     }
 }
