@@ -34,7 +34,7 @@ export async function choose_hardware_company(ns) {
     // Intelligence XP.
     if (city === "Chongqing" || city === "New Tokyo") {
         city = "Sector-12";
-        ns.singularity.goToLocation(cities.generic["TA"]);
+        ns.singularity.goToLocation(cities.generic.TA);
         let success = ns.singularity.travelToCity(city);
         while (!success) {
             await ns.sleep(wait_t.SECOND);
