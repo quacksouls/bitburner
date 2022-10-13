@@ -39,7 +39,7 @@ async function commit_crime(ns, c) {
     await ns.sleep(wait_t.HOUR);
     ns.singularity.stopAction();
     const after = intelligence(ns);
-    const action = "Commit crime: " + c;
+    const action = `Commit crime: ${c}`;
     intelligence_gain_per_minute(ns, before, after, action, n);
 }
 
