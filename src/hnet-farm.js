@@ -254,7 +254,7 @@ export async function main(ns) {
     // Add increasingly more nodes to the farm.  Also upgrade the nodes.
     const time = update_interval();
     const player = new Player(ns);
-    while (true) {
+    for (;;) {
         if (threshold.length > 0) {
             if (player.money() > threshold[0]) {
                 await expand_farm(ns, node[0]);
