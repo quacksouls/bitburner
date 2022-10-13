@@ -268,7 +268,7 @@ function path_to_string(gpath) {
         return "";
     }
     // We have a shortest path in the grid.
-    const path = new Array();
+    const path = [];
     let [rold, cold] = unpairing(gpath[0]);
     for (const v of gpath.slice(1, gpath.length)) {
         const [r, c] = unpairing(v);
