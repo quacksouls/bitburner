@@ -43,7 +43,7 @@ function factor(n) {
     while (i <= max) {
         const remainder = n % i;
         // Found a factor of n.
-        if (0 == remainder) {
+        if (remainder === 0) {
             return i;
         }
         i += 2;
@@ -61,7 +61,7 @@ function factor(n) {
 function is_even(n) {
     assert(n > 1);
     const remainder = n % 2;
-    return 0 == remainder;
+    return remainder === 0;
 }
 
 /**
@@ -103,7 +103,7 @@ function prime_factorization(n) {
         const k = candidate.pop();
         const a = factor(k);
         // k cannot be factorized any further, hence is prime.
-        if (a == k) {
+        if (a === k) {
             pfactor.push(k);
             continue;
         }
@@ -113,7 +113,7 @@ function prime_factorization(n) {
         assert(a < k);
         const b = k / a;
         const remainder = k % b;
-        assert(0 == remainder);
+        assert(remainder === 0);
         candidate.push(a);
         candidate.push(b);
     }
@@ -144,7 +144,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/prime.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);
