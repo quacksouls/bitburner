@@ -56,7 +56,7 @@ function bipartite(n, edge) {
     // All root nodes of trees.  If the graph is disconnected, then it has
     // a number of subgraphs each of which can be considered a tree by
     // means of breath-first search.
-    const root = new Array();
+    const root = [];
     // Colour all nodes of the graph.
     while (v >= 0) {
         root.push(v);
@@ -111,7 +111,7 @@ function colouring(graph, root) {
     const colr = new Array(n).fill(colour.WHITE);
     // Colour the root node.
     assert(graph.has_node(root));
-    const stack = new Array();
+    const stack = [];
     stack.push(root);
     const visit = new Set();
     visit.add(root);
@@ -156,7 +156,7 @@ function colouring(graph, root) {
  */
 function is_bipartite(graph, root, colr) {
     // Mark the root node as visited.
-    const stack = new Array();
+    const stack = [];
     const visit = new Set();
     stack.push(root);
     visit.add(root);
