@@ -87,10 +87,10 @@ export class Gangster {
         let ascend_this_member = false;
         if (this.is_combatant(name)) {
             if (
-                to_int(asc.agi) > tau ||
-                to_int(asc.def) > tau ||
-                to_int(asc.dex) > tau ||
-                to_int(asc.str) > tau
+                to_int(asc.agi) > tau
+                || to_int(asc.def) > tau
+                || to_int(asc.dex) > tau
+                || to_int(asc.str) > tau
             ) {
                 ascend_this_member = true;
             }
@@ -382,12 +382,11 @@ export class Gangster {
         // random people.
         const combatant = name.filter((s) => this.is_combatant(s));
         const graduate = combatant.filter(
-            (s) =>
-                this.is_training_combat(s) &&
-                this.strength(s) >= min &&
-                this.defense(s) >= min &&
-                this.dexterity(s) >= min &&
-                this.agility(s) >= min,
+            (s) => this.is_training_combat(s)
+                && this.strength(s) >= min
+                && this.defense(s) >= min
+                && this.dexterity(s) >= min
+                && this.agility(s) >= min
         );
         this.mug(graduate);
     }
@@ -424,9 +423,8 @@ export class Gangster {
         // Once a hacker's Hack and Charisma stats are of minimum amounts,
         // assign them their first job.
         const charisma_graduate = hacker.filter(
-            (s) =>
-                this.is_training_charisma(s) &&
-                this.charisma(s) >= task_t.CHARISMA,
+            (s) => this.is_training_charisma(s)
+                && this.charisma(s) >= task_t.CHARISMA
         );
         this.ransomware(charisma_graduate);
     }
@@ -464,12 +462,11 @@ export class Gangster {
         // Once the Charisma and combat stats of a miscellaneous member are of
         // minimum amounts, assign them their first job.
         const combat_graduate = graduate.filter(
-            (s) =>
-                this.is_training_combat(s) &&
-                this.strength(s) >= task_t.COMBAT &&
-                this.defense(s) >= task_t.COMBAT &&
-                this.dexterity(s) >= task_t.COMBAT &&
-                this.agility(s) >= task_t.COMBAT,
+            (s) => this.is_training_combat(s)
+                && this.strength(s) >= task_t.COMBAT
+                && this.defense(s) >= task_t.COMBAT
+                && this.dexterity(s) >= task_t.COMBAT
+                && this.agility(s) >= task_t.COMBAT
         );
         this.deal_drugs(combat_graduate);
     }
@@ -644,10 +641,10 @@ export class Gangster {
     is_combatant(name) {
         assert(this.is_member(name));
         return (
-            this.is_artillery(name) ||
-            this.is_pilot(name) ||
-            this.role(name) == members.ROLE.punk ||
-            this.is_vanguard(name)
+            this.is_artillery(name)
+            || this.is_pilot(name)
+            || this.role(name) == members.ROLE.punk
+            || this.is_vanguard(name)
         );
     }
 
@@ -806,10 +803,10 @@ export class Gangster {
         assert(this.is_member(name));
         const role = this.role(name);
         return (
-            role == members.ROLE.medic ||
-            role == members.ROLE.spy ||
-            role == members.ROLE.thief ||
-            role == members.ROLE.traitor
+            role == members.ROLE.medic
+            || role == members.ROLE.spy
+            || role == members.ROLE.thief
+            || role == members.ROLE.traitor
         );
     }
 
@@ -898,9 +895,9 @@ export class Gangster {
      */
     is_training(name) {
         return (
-            this.is_training_charisma(name) ||
-            this.is_training_combat(name) ||
-            this.is_training_hack(name)
+            this.is_training_charisma(name)
+            || this.is_training_combat(name)
+            || this.is_training_hack(name)
         );
     }
 
@@ -1038,10 +1035,10 @@ export class Gangster {
     needs_combat_training(name) {
         assert(this.is_member(name));
         if (
-            this.strength(name) < task_t.COMBAT ||
-            this.defense(name) < task_t.COMBAT ||
-            this.dexterity(name) < task_t.COMBAT ||
-            this.agility(name) < task_t.COMBAT
+            this.strength(name) < task_t.COMBAT
+            || this.defense(name) < task_t.COMBAT
+            || this.dexterity(name) < task_t.COMBAT
+            || this.agility(name) < task_t.COMBAT
         ) {
             return true;
         }
@@ -1073,14 +1070,14 @@ export class Gangster {
         }
         if (this.is_hacker(name)) {
             return (
-                this.needs_hack_training(name) ||
-                this.needs_charisma_training(name)
+                this.needs_hack_training(name)
+                || this.needs_charisma_training(name)
             );
         }
         assert(this.is_miscellaneous(name));
         return (
-            this.needs_charisma_training(name) ||
-            this.needs_combat_training(name)
+            this.needs_charisma_training(name)
+            || this.needs_combat_training(name)
         );
     }
 
