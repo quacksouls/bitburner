@@ -35,8 +35,8 @@ function end_reachable(array) {
     assert(myarr.all_nonnegative(array));
     // Use a greedy method to try to reach the last array cell.
     let i = 0; // Current array index.
-    const index = new Array(); // Index of intermediary cells.
-    const jump = new Array(); // Jump length of array cell index[i].
+    const index = []; // Index of intermediary cells.
+    const jump = []; // Jump length of array cell index[i].
     let reduce_distance = false;
     let d; // The jump distance.
     while (i < array.length) {
