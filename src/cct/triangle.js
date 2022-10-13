@@ -31,7 +31,7 @@ import { assert } from "/lib/util.js";
  * @return The same triangle, but as a deep copy.
  */
 function clone(triangle) {
-    const new_triangle = new Array();
+    const new_triangle = [];
     for (let i = 0; i < triangle.length; i++) {
         const level = [...triangle[i]];
         new_triangle.push(level);
@@ -87,7 +87,7 @@ function descend(triangle) {
     // Get a deep copy of the triangle.  We don't want to modify the input
     // triangle.
     const mtriangle = clone(triangle);
-    const path = new Array();
+    const path = [];
     // Start from the penultimate level and work upward to the top level.
     // Keep track of a minimum path as we move along.
     for (let i = triangle.length - 2; i >= 0; i--) {
