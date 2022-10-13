@@ -37,7 +37,7 @@ function choose_vigilante_ehacker_threshold(ns) {
     const mid_point = Math.floor(members.MAX / 2);
     const quarter_point = mid_point + Math.floor(mid_point / 2);
     const ngangster = ns.gang.getMemberNames().length;
-    if (ngangster == members.INITIAL) {
+    if (ngangster === members.INITIAL) {
         return 1;
     }
     if (members.INITIAL < ngangster && ngangster <= mid_point) {
@@ -66,7 +66,7 @@ function has_enough_vigilante_ehacker(ns) {
         .filter(
             (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s),
         );
-    return tau == vigilante_ehacker.length;
+    return tau === vigilante_ehacker.length;
 }
 
 /**
@@ -119,7 +119,7 @@ function reassign_excess_vigilante_ehacker(ns, threshold) {
  * @param name An array of member names.
  */
 function reassign_other(ns, name) {
-    if (0 == name.length) {
+    if (name.length === 0) {
         return;
     }
     const trainee = new Array();
@@ -150,7 +150,7 @@ export function reassign_soft_reset(ns) {
     const vanguard = ns.gang
         .getMemberNames()
         .filter((s) => gangster.is_vanguard(s));
-    assert(1 == vanguard.length);
+    assert(vanguard.length === 1);
     gangster.vigilante(vanguard);
     // Other members currently on vigilante justice or ethical hacking are
     // reassigned to other jobs.
@@ -278,6 +278,6 @@ export function strongest_member(ns, member) {
             name = s;
         }
     }
-    assert("" != name);
+    assert(name !== "");
     return name;
 }
