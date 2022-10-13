@@ -74,7 +74,7 @@ async function buy_servers(ns) {
 function has_max_pserv(ns) {
     const player = new Player(ns);
     const psv = new PurchasedServer(ns);
-    return player.pserv().length == psv.limit();
+    return player.pserv().length === psv.limit();
 }
 
 /**
@@ -107,7 +107,7 @@ async function next_stage(ns, ram) {
         ns.print(msg);
         psv.kill_all();
         await update(ns, ram);
-    } else if (server.ram_max() == ram) {
+    } else if (server.ram_max() === ram) {
         // The current purchased servers have the same amount of RAM as our
         // target RAM.  Continue purchasing more servers with the current
         // amount of RAM.
@@ -212,7 +212,7 @@ async function stage_one(ns) {
     if (default_ram < server.ram_max()) {
         return;
     }
-    assert(server.ram_max() == default_ram);
+    assert(server.ram_max() === default_ram);
     ns.print(msg);
     await update(ns, default_ram);
 }
@@ -246,7 +246,7 @@ async function update(ns, ram) {
             const s = choose_best_server(ns, target);
             assert(!is_bankrupt(ns, s));
             const target_server = new Server(ns, s);
-            target = target.filter((s) => s != target_server.hostname());
+            target = target.filter((s) => s !== target_server.hostname());
             // Run our hack script on the purchased server.
             assert(await target_server.gain_root_access());
             assert(await server.deploy(target_server.hostname()));
