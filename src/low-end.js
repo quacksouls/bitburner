@@ -106,7 +106,7 @@ function has_target(ns) {
  */
 function is_complete(ns) {
     const lowend = new_low_end(ns);
-    return 0 == lowend.length;
+    return lowend.length === 0;
 }
 
 /**
@@ -131,7 +131,7 @@ function is_low_end(ns, hostname) {
         return bool.NOT_LOWEND;
     }
     const nthread = server.num_threads(player.script());
-    return 0 == nthread;
+    return nthread === 0;
 }
 
 /**
