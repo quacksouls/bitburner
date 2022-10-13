@@ -82,7 +82,7 @@ function load_chain(ns, faction) {
  */
 async function lower_karma(ns) {
     const threshold = karma_threshold(ns);
-    ns.singularity.goToLocation(cities.generic["slum"]); // Raise Int XP.
+    ns.singularity.goToLocation(cities.generic.slum); // Raise Int XP.
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     const player = new Player(ns);
     while (Math.floor(player.karma()) > threshold) {
