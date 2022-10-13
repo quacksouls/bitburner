@@ -36,7 +36,7 @@ import { assert } from "/lib/util.js";
 function can_move_down(grid, r, c) {
     // Are we at the bottom-most edge of the grid?
     const lastidx = grid.length - 1;
-    if (lastidx == r) {
+    if (lastidx === r) {
         return bool.NOT_MOVE;
     }
     // Below us is an obstacle.
@@ -61,7 +61,7 @@ function can_move_down(grid, r, c) {
  */
 function can_move_left(grid, r, c) {
     // Are we at the left-most edge of the grid?
-    if (0 == c) {
+    if (c === 0) {
         return bool.NOT_MOVE;
     }
     // To our left is an obstacle.
@@ -87,7 +87,7 @@ function can_move_left(grid, r, c) {
 function can_move_right(grid, r, c) {
     const lastidx = grid[r].length - 1;
     // Are we at the right-most edge of the grid?
-    if (lastidx == c) {
+    if (lastidx === c) {
         return bool.NOT_MOVE;
     }
     // To our right is an obstacle.
@@ -110,7 +110,7 @@ function can_move_right(grid, r, c) {
  */
 function can_move_up(grid, r, c) {
     // Are we at the top-most edge of the grid?
-    if (0 == r) {
+    if (r === 0) {
         return bool.NOT_MOVE;
     }
     // Above us is an obstacle.
@@ -133,7 +133,7 @@ function can_move_up(grid, r, c) {
  *     false otherwise.
  */
 function is_obstacle(grid, r, c) {
-    return 1 == grid[r][c];
+    return grid[r][c] === 1;
 }
 
 /**
@@ -215,7 +215,7 @@ function to_graph(grid) {
     const ncol = grid[0].length;
     const graph = new Graph(bool.UNDIRECTED);
     for (let r = 0; r < grid.length; r++) {
-        assert(ncol == grid[r].length);
+        assert(ncol === grid[r].length);
         for (let c = 0; c < ncol; c++) {
             // Our current location is u := (r, c).
             const u = pairing(r, c);
@@ -224,7 +224,7 @@ function to_graph(grid) {
                 continue;
             }
             // Can we move one step left?
-            assert(0 == grid[r][c]);
+            assert(grid[r][c] === 0);
             if (can_move_left(grid, r, c)) {
                 const v = pairing(r, c - 1);
                 graph.add_edge(u, v);
@@ -264,7 +264,7 @@ function to_graph(grid) {
  */
 function path_to_string(gpath) {
     // No shortest paths in the grid.
-    if (0 == gpath.length) {
+    if (gpath.length === 0) {
         return "";
     }
     // We have a shortest path in the grid.
@@ -273,19 +273,19 @@ function path_to_string(gpath) {
     for (const v of gpath.slice(1, gpath.length)) {
         const [r, c] = unpairing(v);
         // Are we moving up?
-        if (rold - 1 == r) {
+        if (rold - 1 === r) {
             path.push("U");
         }
         // Are we moving down?
-        if (rold + 1 == r) {
+        if (rold + 1 === r) {
             path.push("D");
         }
         // Are we moving left?
-        if (cold - 1 == c) {
+        if (cold - 1 === c) {
             path.push("L");
         }
         // Are we moving right?
-        if (cold + 1 == c) {
+        if (cold + 1 === c) {
             path.push("R");
         }
         [rold, cold] = [r, c];
@@ -339,7 +339,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/grid3.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);
