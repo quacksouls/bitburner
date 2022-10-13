@@ -49,12 +49,8 @@ function can_jump(i, array) {
  * The minimum number of jumps to reach the end of an array.
  *
  * @param array An array of non-negative integers.  Cannot be an empty array.
- * @return Array [min_jump, path] of two elements:
- *     (1) min_jump := The minimum number of jumps from the first to the last
- *         cell.  If we cannot reach the last cell, then the minimum number is
- *         0.
- *     (2) path := An array representing the jump path.  An empty array if we
- *         cannot reach the last cell.
+ * @return The minimum number of jumps from the first to the last cell.  If we
+ *     cannot reach the last cell, then the minimum number is 0.
  */
 function minimum_jump(array) {
     const myarr = new MyArray();
@@ -74,7 +70,7 @@ function minimum_jump(array) {
     assert(path.length > 0);
     const min_jump = path.length - 1;
     assert(min_jump > 0);
-    return [min_jump, path];
+    return min_jump;
 }
 
 /**
@@ -147,7 +143,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const [min_jump, _] = minimum_jump(array);
+    const min_jump = minimum_jump(array);
     const result = ns.codingcontract.attempt(min_jump, cct, host, {
         returnReward: true,
     });
