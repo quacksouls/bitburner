@@ -135,7 +135,7 @@ export async function rise_to_cfo(ns, company) {
     ns.singularity.goToLocation(company); // Raise Intelligence XP.
     ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
-    while (true) {
+    for (;;) {
         if (
             player.job(company) === job_title.CFO
             || player.job(company) === job_title.CEO
