@@ -171,7 +171,10 @@ function pserv_ram(ns, minserv) {
 function renew_targets(ns, target) {
     let new_target = Array.from(target);
     if (new_target.length < 1) {
-        new_target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
+        new_target = filter_bankrupt_servers(
+            ns,
+            choose_targets(ns, network(ns))
+        );
         assert(new_target.length > 0);
     }
     return new_target;
