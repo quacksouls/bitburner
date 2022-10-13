@@ -129,12 +129,12 @@ export class Server {
      * least one thread.  We ignore any amount of RAM that has been reserved,
      * using all available RAM to help us make a decision.
      *
-     * @param script We want to run this script on this server.
+     * @param s We want to run this script on this server.
      * @return true if the given script can be run on this server;
      *     false otherwise.
      */
-    can_run_script(script) {
-        const script_ram = this.#ns.getScriptRam(script, this.#home);
+    can_run_script(s) {
+        const script_ram = this.#ns.getScriptRam(s, this.#home);
         const server_ram = this.available_ram();
         if (server_ram < 1) {
             return bool.NOT_RUN;
@@ -285,13 +285,13 @@ export class Server {
     /**
      * Whether this server is currently running a script.
      *
-     * @param script Check to see if this script is currently running on the
+     * @param s Check to see if this script is currently running on the
      *     server.
      * @return true if the given script is running on the server;
      *     false otherwise.
      */
-    is_running_script(script) {
-        return this.#ns.scriptRunning(script, this.hostname());
+    is_running_script(s) {
+        return this.#ns.scriptRunning(s, this.hostname());
     }
 
     /**
@@ -323,14 +323,14 @@ export class Server {
      * some amount of RAM on the home server and use the remaining available
      * RAM to calculate the number of threads to devote to the given script.
      *
-     * @param script We want to run this script on the server.  The script must
+     * @param s We want to run this script on the server.  The script must
      *     exist on our home server.
      * @return The number of threads that can be used to run the given script
      *     on this server.  Return 0 if the amount of RAM to reserve is higher
      *     than the available RAM.
      */
-    num_threads(script) {
-        const script_ram = this.#ns.getScriptRam(script, this.#home);
+    num_threads(s) {
+        const script_ram = this.#ns.getScriptRam(s, this.#home);
         const server_ram = this.available_ram() - this.#ram_reserve;
         if (server_ram < 1) {
             return 0;
@@ -369,17 +369,17 @@ export class Server {
      * of threads.  Given the number of instances to run, we want to know how
      * many threads each instance can use.
      *
-     * @param script The script to run on this server.
+     * @param s The script to run on this server.
      * @param n We want to run this many instances of the given script.
      *     Must be a positive whole number.
      * @return The number of threads for each instance of the script.
      *     Return 0 if we cannot run any scripts on this server.
      */
-    threads_per_instance(script, n) {
+    threads_per_instance(s, n) {
         // Sanity check.
         const ninstance = Math.floor(n);
         assert(ninstance > 0);
-        const nthread = this.num_threads(script);
+        const nthread = this.num_threads(s);
         const nthread_per_instance = Math.floor(nthread / ninstance);
         return nthread_per_instance;
     }
