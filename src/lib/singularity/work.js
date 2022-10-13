@@ -57,7 +57,7 @@ function choose_company(ns) {
             company = "";
             break;
     }
-    assert("" != company);
+    assert(company !== "");
     return company;
 }
 
