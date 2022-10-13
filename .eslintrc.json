@@ -67,9 +67,6 @@
         ],
         "prettier/prettier": "off",
         "quotes": ["error", "double"],
-        "yoda": [
-            "error",
-            "never"
-        ]
+        "yoda": ["error", "never"]
     }
 }
