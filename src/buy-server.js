@@ -250,7 +250,7 @@ async function update(ns, ram) {
             const s = choose_best_server(ns, target);
             assert(!is_bankrupt(ns, s));
             const target_server = new Server(ns, s);
-            target = target.filter((s) => s !== target_server.hostname());
+            target = target.filter((t) => t !== target_server.hostname());
             // Run our hack script on the purchased server.
             assert(await target_server.gain_root_access());
             assert(await server.deploy(target_server.hostname()));
