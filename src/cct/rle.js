@@ -26,7 +26,7 @@ import { assert } from "/lib/util.js";
  * @return A run-length encoding of the given character.
  */
 function encode(c, n) {
-    assert(1 == c.length);
+    assert(c.length === 1);
     assert(n > 0);
     let k = n;
     const max = 9;
@@ -58,10 +58,10 @@ function rle(string) {
     const lastidx = string.length - 1;
     for (let i = 1; i < str.length; i++) {
         // Is this character the same as the previous character?
-        if (c == str[i]) {
+        if (c === str[i]) {
             n++;
             // Are we at the end of the string?
-            if (i == lastidx) {
+            if (i === lastidx) {
                 e.push(encode(c, n));
                 break;
             }
@@ -72,7 +72,7 @@ function rle(string) {
         n = 1;
         c = str[i];
         // Are we at the end of the string?
-        if (i == lastidx) {
+        if (i === lastidx) {
             e.push(encode(c, n));
         }
     }
@@ -103,7 +103,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/rle.txt";
         await log_cct_failure(ns, log, cct, host, string);
         print_error(ns, host, cct);

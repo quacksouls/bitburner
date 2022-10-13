@@ -41,7 +41,7 @@ function ring(m, tlr, tlc, brr, brc) {
         elem = Array.from(array.slice(tlc, brc + 1));
     }
     // Is this a matrix of one row?
-    if (tlr == brr) {
+    if (tlr === brr) {
         return elem;
     }
     // Top-right to bottom-right.
@@ -51,7 +51,7 @@ function ring(m, tlr, tlc, brr, brc) {
         }
     }
     // Do we have a matrix of one column?
-    if (tlc == brc) {
+    if (tlc === brc) {
         return elem;
     }
     // Bottom-right to bottom-left.
@@ -86,7 +86,7 @@ function spiral(m) {
     for (const a of m) {
         // Ensure each row has the same number of elements.
         assert(a.length > 0);
-        assert(ncol == a.length);
+        assert(ncol === a.length);
     }
     // The spiral order of a matrix.
     let tlr = 0; // top-left row
@@ -126,7 +126,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/spiral.txt";
         const data = matrix_to_string(matrix);
         await log_cct_failure(ns, log, cct, host, data);
