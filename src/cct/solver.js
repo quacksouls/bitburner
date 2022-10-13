@@ -50,85 +50,85 @@ function solve(ns, cct, host) {
     const prefix = "/cct/";
     switch (type) {
         case "Algorithmic Stock Trader I":
-            script = prefix + "trader.js";
+            script = `${prefix}trader.js`;
             break;
         case "Algorithmic Stock Trader II":
-            script = prefix + "trader2.js";
+            script = `${prefix}trader2.js`;
             break;
         case "Algorithmic Stock Trader III":
-            script = prefix + "trader3.js";
+            script = `${prefix}trader3.js`;
             break;
         case "Algorithmic Stock Trader IV":
-            script = prefix + "trader4.js";
+            script = `${prefix}trader4.js`;
             break;
         case "Array Jumping Game":
-            script = prefix + "jump.js";
+            script = `${prefix}jump.js`;
             break;
         case "Array Jumping Game II":
-            script = prefix + "jump2.js";
+            script = `${prefix}jump2.js`;
             break;
         case "Compression I: RLE Compression":
-            script = prefix + "rle.js";
+            script = `${prefix}rle.js`;
             break;
         case "Compression II: LZ Decompression":
-            script = prefix + "lzd.js";
+            script = `${prefix}lzd.js`;
             break;
         case "Compression III: LZ Compression":
-            script = prefix + "lzc.js";
+            script = `${prefix}lzc.js`;
             break;
         case "Encryption I: Caesar Cipher":
-            script = prefix + "caesar.js";
+            script = `${prefix}caesar.js`;
             break;
         case "Encryption II: Vigenère Cipher":
-            script = prefix + "vigenere.js";
+            script = `${prefix}vigenere.js`;
             break;
         case "Find All Valid Math Expressions":
-            script = prefix + "maths.js";
+            script = `${prefix}maths.js`;
             break;
         case "Find Largest Prime Factor":
-            script = prefix + "prime.js";
+            script = `${prefix}prime.js`;
             break;
         case "Generate IP Addresses":
-            script = prefix + "ip.js";
+            script = `${prefix}ip.js`;
             break;
         case "HammingCodes: Encoded Binary to Integer":
-            script = prefix + "hamming2.js";
+            script = `${prefix}hamming2.js`;
             break;
         case "HammingCodes: Integer to Encoded Binary":
-            script = prefix + "hamming.js";
+            script = `${prefix}hamming.js`;
             break;
         case "Merge Overlapping Intervals":
-            script = prefix + "interval.js";
+            script = `${prefix}interval.js`;
             break;
         case "Minimum Path Sum in a Triangle":
-            script = prefix + "triangle.js";
+            script = `${prefix}triangle.js`;
             break;
         case "Proper 2-Coloring of a Graph":
-            script = prefix + "bipartite.js";
+            script = `${prefix}bipartite.js`;
             break;
         case "Sanitize Parentheses in Expression":
-            script = prefix + "parenthesis.js";
+            script = `${prefix}parenthesis.js`;
             break;
         case "Shortest Path in a Grid":
-            script = prefix + "grid3.js";
+            script = `${prefix}grid3.js`;
             break;
         case "Spiralize Matrix":
-            script = prefix + "spiral.js";
+            script = `${prefix}spiral.js`;
             break;
         case "Subarray with Maximum Sum":
-            script = prefix + "subarray.js";
+            script = `${prefix}subarray.js`;
             break;
         case "Total Ways to Sum":
-            script = prefix + "sum.js";
+            script = `${prefix}sum.js`;
             break;
         case "Total Ways to Sum II":
-            script = prefix + "sum2.js";
+            script = `${prefix}sum2.js`;
             break;
         case "Unique Paths in a Grid I":
-            script = prefix + "grid.js";
+            script = `${prefix}grid.js`;
             break;
         case "Unique Paths in a Grid II":
-            script = prefix + "grid2.js";
+            script = `${prefix}grid2.js`;
             break;
         default:
             script = "";
@@ -144,14 +144,13 @@ function solve(ns, cct, host) {
         ns.exec(script, home, nthread, cct, host);
         return;
     }
-    const err_msg =
-        host +
-        ": " +
-        cct +
-        ": No free RAM to run " +
-        script +
-        " on server " +
-        home;
+    const err_msg = `${host
+    }: ${
+        cct
+    }: No free RAM to run ${
+        script
+    } on server ${
+        home}`;
     ns.print(err_msg);
 }
 

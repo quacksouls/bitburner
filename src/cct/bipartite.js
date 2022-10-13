@@ -271,7 +271,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/bipartite.txt";
-        const data = "[" + n + ", " + matrix_to_string(edge) + "]";
+        const data = `[${n}, ${matrix_to_string(edge)}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
         return;

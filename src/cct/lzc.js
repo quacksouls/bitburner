@@ -70,7 +70,7 @@ function compress(plain) {
                     new_state,
                     0,
                     1,
-                    string + "9" + plain.substring(i - 9, i) + "0",
+                    `${string}9${plain.substring(i - 9, i)}0`
                 );
             }
             for (let offset = 1; offset <= Math.min(9, i); ++offset) {
@@ -105,7 +105,7 @@ function compress(plain) {
                             new_state,
                             offset,
                             1,
-                            string + "9" + String(offset) + "0",
+                            `${string}9${String(offset)}0`
                         );
                     }
                 }
@@ -122,7 +122,7 @@ function compress(plain) {
                             new_state,
                             new_offset,
                             1,
-                            string + String(length) + String(offset) + "0",
+                            `${string + String(length) + String(offset)}0`
                         );
                     }
                 }
@@ -156,7 +156,7 @@ function compress(plain) {
             if (string == null) {
                 continue;
             }
-            string += String(len) + "" + String(offset);
+            string += `${String(len)}${String(offset)}`;
             if (result == null || string.length < result.length) {
                 result = string;
             } else if (string.length == result.length && Math.random() < 0.5) {

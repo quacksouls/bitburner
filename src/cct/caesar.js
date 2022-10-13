@@ -105,7 +105,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/caesar.txt";
-        const data = "[" + plaintext + ", " + k + "]";
+        const data = `[${plaintext}, ${k}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
         return;

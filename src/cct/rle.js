@@ -31,15 +31,15 @@ function encode(c, n) {
     let k = n;
     const max = 9;
     if (k <= max) {
-        return k + "" + c;
+        return `${k}${c}`;
     }
     // A run-length of more than 9 is split into multiple runs.
     const s = new Array();
     do {
-        s.push(max + "" + c);
+        s.push(`${max}${c}`);
         k -= max;
     } while (k > max);
-    s.push(k + "" + c);
+    s.push(`${k}${c}`);
     return s.join("");
 }
 

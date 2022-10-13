@@ -72,13 +72,13 @@ function* expressions(digit, target, k = 1) {
         const right = digit.slice(i);
         const n = k * parseInt(left, base.DECIMAL);
         for (const e of expressions(right, target, n)) {
-            yield left + "*" + e;
+            yield `${left}*${e}`;
         }
         for (const e of expressions(right, target - n)) {
-            yield left + "+" + e;
+            yield `${left}+${e}`;
         }
         for (const e of expressions(right, target - n, -1)) {
-            yield left + "-" + e;
+            yield `${left}-${e}`;
         }
         // Do we have a leading zero?
         if ("0" == left) {
@@ -142,7 +142,7 @@ export async function main(ns) {
     // Log the result in case of failure.
     if (0 == result.length) {
         const log = "/cct/maths.txt";
-        const data = string + ", " + target;
+        const data = `${string}, ${target}`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
         return;
