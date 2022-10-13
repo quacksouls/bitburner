@@ -1178,7 +1178,7 @@ export class Gangster {
      *     recruit any new members.
      */
     recruit() {
-        const newbie = new Array();
+        const newbie = [];
         const roster = this.#roster();
         while (this.#ns.gang.canRecruitMember()) {
             let role = "";
