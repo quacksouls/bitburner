@@ -47,6 +47,6 @@ export async function main(ns) {
         assert(server.maxRam < home_t.RAM_MID);
         script = "go-low.js";
     }
-    assert("" != script);
+    assert(script !== "");
     ns.exec(script, home, nthread);
 }
