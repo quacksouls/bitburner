@@ -34,12 +34,12 @@ function can_jump(i, array) {
     assert(i >= 0);
     assert(i < array.length);
     // Cannot jump if the maximum number of jumps is zero.
-    if (0 == array[i]) {
+    if (array[i] === 0) {
         return bool.NO_JUMP;
     }
     // Cannot jump if we are at the last array cell.
     const last_index = array.length - 1;
-    if (last_index == i) {
+    if (last_index === i) {
         return bool.NO_JUMP;
     }
     return bool.JUMP;
@@ -67,7 +67,7 @@ function minimum_jump(array) {
     const graph = to_graph(array);
     const path = graph.shortest_path(start, end);
     // Cannot reach the last cell of the given array.
-    if (0 == path.length) {
+    if (path.length === 0) {
         return [0, []];
     }
     // We can reach the last cell of the array.
@@ -152,7 +152,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/jump2.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
