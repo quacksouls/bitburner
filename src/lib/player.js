@@ -130,7 +130,7 @@ export class Player {
     has_all_port_openers() {
         const limit = this.#port_opener.length;
         const nport = this.num_ports();
-        return nport == limit;
+        return nport === limit;
     }
 
     /**
@@ -201,7 +201,7 @@ export class Player {
     job(company) {
         assert(company.length > 0);
         const stat = this.#ns.getPlayer();
-        if (stat.jobs[company] == undefined) {
+        if (stat.jobs[company] === undefined) {
             return "";
         }
         return stat.jobs[company];
