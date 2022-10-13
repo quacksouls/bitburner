@@ -128,10 +128,10 @@ export async function raise_combat_stats(ns, threshold) {
     assert(tau > 0);
     const player = new Player(ns);
     if (
-        player.strength() >= tau &&
-        player.defense() >= tau &&
-        player.dexterity() >= tau &&
-        player.agility() >= tau
+        player.strength() >= tau
+        && player.defense() >= tau
+        && player.dexterity() >= tau
+        && player.agility() >= tau
     ) {
         return;
     }
@@ -157,10 +157,10 @@ export async function raise_combat_stats(ns, threshold) {
     }
     ns.singularity.workForFaction(target, job_area.FIELD, bool.FOCUS);
     while (
-        player.strength() < tau ||
-        player.defense() < tau ||
-        player.dexterity() < tau ||
-        player.agility() < tau
+        player.strength() < tau
+        || player.defense() < tau
+        || player.dexterity() < tau
+        || player.agility() < tau
     ) {
         await ns.sleep(wait_t.DEFAULT);
     }
