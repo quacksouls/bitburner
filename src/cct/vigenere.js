@@ -36,7 +36,7 @@ import { assert } from "/lib/util.js";
 function pad_key(plaintext, key) {
     assert(plaintext.length > 0);
     assert(key.length > 0);
-    if (plaintext.length == key.length) {
+    if (plaintext.length === key.length) {
         return key;
     }
     let new_key = new String(key);
@@ -47,7 +47,7 @@ function pad_key(plaintext, key) {
         n++;
         i = n % key.length;
     }
-    assert(new_key.length == plaintext.length);
+    assert(new_key.length === plaintext.length);
     assert(new_key.length > key.length);
     return new_key;
 }
@@ -78,7 +78,7 @@ function vigenere(plaintext, key) {
         const col = char_index(pk[i]);
         ciphertext += matrix[row][col];
     }
-    assert(ciphertext.length == plaintext.length);
+    assert(ciphertext.length === plaintext.length);
     return ciphertext;
 }
 
@@ -135,7 +135,7 @@ export async function main(ns) {
         }
     );
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/vigenere.txt";
         const data = `[${plaintext}, ${key}]`;
         await log_cct_failure(ns, log, cct, host, data);
