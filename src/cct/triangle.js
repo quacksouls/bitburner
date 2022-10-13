@@ -52,7 +52,7 @@ function clone(triangle) {
 function descend(triangle) {
     // Sanity checks.
     assert(is_triangle(triangle));
-    if (1 == triangle.length) {
+    if (triangle.length === 1) {
         return [triangle[0], triangle[0][0]];
     }
     // A triangle having at least 2 levels.  Consider the following triangle:
@@ -136,7 +136,7 @@ function is_triangle(triangle) {
         if (bottom.length < 1) {
             return bool.INVALID;
         }
-        if (top.length != bottom.length - 1) {
+        if (top.length !== bottom.length - 1) {
             return bool.INVALID;
         }
     }
@@ -183,7 +183,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/triangle.txt";
         const data = matrix_to_string(triangle);
         await log_cct_failure(ns, log, cct, host, data);
