@@ -81,11 +81,11 @@ function* expressions(digit, target, k = 1) {
             yield `${left}-${e}`;
         }
         // Do we have a leading zero?
-        if ("0" == left) {
+        if (left === "0") {
             return;
         }
     }
-    if (k * parseInt(digit, base.DECIMAL) == target) {
+    if (k * parseInt(digit, base.DECIMAL) === target) {
         yield digit;
     }
 }
@@ -140,7 +140,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/maths.txt";
         const data = `${string}, ${target}`;
         await log_cct_failure(ns, log, cct, host, data);
