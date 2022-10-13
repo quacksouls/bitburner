@@ -34,7 +34,7 @@ import { assert } from "/lib/util.js";
 function choose_university(ns) {
     const city = ns.getPlayer().city;
     const uni = cities[city].uni;
-    if (undefined == uni) {
+    if (undefined === uni) {
         return "";
     }
     return uni;
@@ -76,11 +76,11 @@ export async function study(ns, threshold) {
     assert(threshold > 0);
     const uni = choose_university(ns);
     const empty_str = "";
-    if (empty_str == uni) {
+    if (empty_str === uni) {
         return;
     }
     // Go to a different location to gain some Intelligence XP.
-    assert(empty_str != uni);
+    assert(empty_str !== uni);
     ns.singularity.goToLocation(uni);
     // Study the free computer science course at a university.
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
