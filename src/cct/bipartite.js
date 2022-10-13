@@ -46,7 +46,7 @@ function bipartite(n, edge) {
     const empty_array = "[]";
     // The graph must have at least one edge.  A graph with nodes only and
     // no edges is not bipartite.
-    if (0 == edge.length) {
+    if (edge.length === 0) {
         return empty_array;
     }
     // Use breath-first search to colour each node of the graph.
@@ -61,7 +61,7 @@ function bipartite(n, edge) {
     while (v >= 0) {
         root.push(v);
         const col = colouring(graph, v);
-        if (0 == col.length) {
+        if (col.length === 0) {
             return empty_array;
         }
         colr = update_colouring(colr, col);
@@ -86,7 +86,7 @@ function bipartite(n, edge) {
 function choose_white_node(colr) {
     assert(colr.length > 0);
     for (let i = 0; i < colr.length; i++) {
-        if (colour.WHITE == colr[i]) {
+        if (colour.WHITE === colr[i]) {
             return i;
         }
     }
@@ -127,17 +127,17 @@ function colouring(graph, root) {
             // Colour the neighbours of u.
             visit.add(v);
             stack.push(v);
-            if (colour.BLUE == colr[u]) {
+            if (colour.BLUE === colr[u]) {
                 colr[v] = colour.RED;
                 continue;
             }
-            assert(colour.RED == colr[u]);
+            assert(colour.RED === colr[u]);
             colr[v] = colour.BLUE;
             // Determine whether v is connected to any node of the same colour.
             for (const w of graph.neighbour(v)) {
                 // The graph is not bipartite because v is neighbour with a
                 // node that has the same colour.
-                if (colr[v] == colr[w]) {
+                if (colr[v] === colr[w]) {
                     return [];
                 }
             }
@@ -164,9 +164,9 @@ function is_bipartite(graph, root, colr) {
     // graph has a 2-colouring.
     while (stack.length > 0) {
         const u = stack.pop();
-        assert(colr[u] == colour.BLUE || colr[u] == colour.RED);
+        assert(colr[u] === colour.BLUE || colr[u] === colour.RED);
         for (const v of graph.neighbour(u)) {
-            if (colr[u] == colr[v]) {
+            if (colr[u] === colr[v]) {
                 return bool.NOT_BIPARTITE;
             }
             if (visit.has(v)) {
@@ -204,7 +204,7 @@ function to_graph(n, edge) {
     for (const v of node) {
         assert(graph.add_node(v));
     }
-    assert(n == graph.nodes().length);
+    assert(n === graph.nodes().length);
     return graph;
 }
 
@@ -217,19 +217,19 @@ function to_graph(n, edge) {
  */
 function update_colouring(prev_colour, new_colour) {
     assert(prev_colour.length > 0);
-    assert(prev_colour.length == new_colour.length);
+    assert(prev_colour.length === new_colour.length);
     const colr = Array.from(prev_colour);
     for (let i = 0; i < prev_colour.length; i++) {
         // Find a white node.
-        if (colour.WHITE != prev_colour[i]) {
+        if (colour.WHITE !== prev_colour[i]) {
             continue;
         }
-        if (colour.WHITE == new_colour[i]) {
+        if (colour.WHITE === new_colour[i]) {
             continue;
         }
         // Previously node i was white, but now has been coloured.
-        assert(colour.WHITE == prev_colour[i]);
-        assert(colour.WHITE != new_colour[i]);
+        assert(colour.WHITE === prev_colour[i]);
+        assert(colour.WHITE !== new_colour[i]);
         colr[i] = new_colour[i];
     }
     return colr;
@@ -269,7 +269,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/bipartite.txt";
         const data = `[${n}, ${matrix_to_string(edge)}]`;
         await log_cct_failure(ns, log, cct, host, data);
