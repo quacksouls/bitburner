@@ -264,8 +264,8 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const [n, edge] = ns.codingcontract.getData(cct, host);
-    const colour = bipartite(n, edge);
-    const result = ns.codingcontract.attempt(colour, cct, host, {
+    const colr = bipartite(n, edge);
+    const result = ns.codingcontract.attempt(colr, cct, host, {
         returnReward: true,
     });
     // Log the result in case of failure.
