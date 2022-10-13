@@ -61,7 +61,7 @@ function unique_paths(n, k) {
     assert(n >= 0);
     assert(k >= 0);
     // Edge cases.
-    if (0 == k || n == k) {
+    if (k === 0 || n === k) {
         return 1;
     }
     if (k > n) {
@@ -122,7 +122,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/grid.txt";
         const data = `[${row}, ${column}]`;
         await log_cct_failure(ns, log, cct, host, data);
