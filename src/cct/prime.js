@@ -98,7 +98,7 @@ function prime_factorization(n) {
     // factors.
     const candidate = [n];
     // The prime factors of n.
-    const pfactor = new Array();
+    const pfactor = [];
     while (candidate.length > 0) {
         const k = candidate.pop();
         const a = factor(k);
