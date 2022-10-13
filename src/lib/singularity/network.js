@@ -35,7 +35,7 @@ import { assert } from "/lib/util.js";
 export function connect_to(ns, source, target) {
     const path = shortest_path(ns, source, target);
     assert(path.length > 0);
-    assert(source == path[0]);
+    assert(source === path[0]);
     path.shift();
     while (path.length > 0) {
         const node = path.shift();
@@ -70,7 +70,7 @@ export async function install_backdoor(ns, hostname) {
  */
 export async function visit_city(ns, city) {
     const player = new Player(ns);
-    if (player.city() == city) {
+    if (player.city() === city) {
         return;
     }
     ns.singularity.goToLocation(cities.generic.TA); // Raise Int XP.
