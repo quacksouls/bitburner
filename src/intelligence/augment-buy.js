@@ -101,7 +101,7 @@ async function purchase_augmentations(ns, fac) {
         const before = intelligence(ns);
         assert(ns.singularity.purchaseAugmentation(fac, nfg()));
         const after = intelligence(ns);
-        const action = "Purchase Augmentation " + nfg() + " from " + fac;
+        const action = `Purchase Augmentation ${nfg()} from ${fac}`;
         intelligence_gain(ns, before, after, action);
         cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
         nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
@@ -141,7 +141,7 @@ async function purchase_aug(ns, aug, fac) {
         success = ns.singularity.purchaseAugmentation(fac, aug);
     }
     const after = intelligence(ns);
-    const action = "Purchase Augmentation " + aug + " from " + fac;
+    const action = `Purchase Augmentation ${aug} from ${fac}`;
     intelligence_gain(ns, before, after, action);
     assert(has_augment(ns, aug));
 }
