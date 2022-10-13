@@ -931,7 +931,6 @@ export async function main(ns) {
     // tick.  If we are at the tick threshold, then do whatever is necessary to
     // prepare for a clash against a rival gang.
     let other_gang = ns.gang.getOtherGangInformation();
-    const gangster = new Gangster(ns);
     let tick_threshold = 1;
     while (true) {
         if (enable_turf_war(ns)) {
