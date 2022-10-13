@@ -169,11 +169,12 @@ function pserv_ram(ns, minserv) {
  * @return A possibly new array of more targets to hack.
  */
 function renew_targets(ns, target) {
-    if (target.length < 1) {
-        target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
-        assert(target.length > 0);
+    let new_target = Array.from(target);
+    if (new_target.length < 1) {
+        new_target = filter_bankrupt_servers(ns, choose_targets(ns, network(ns)));
+        assert(new_target.length > 0);
     }
-    return target;
+    return new_target;
 }
 
 /**
