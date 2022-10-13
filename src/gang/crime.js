@@ -133,9 +133,9 @@ async function create_gang(ns, fac) {
  */
 function decrease_penalty(ns) {
     reassign_vigilante_ehacker(ns);
-    const name = new Array();
+    const name = [];
     const gangster = new Gangster(ns);
-    const trainee = new Array();
+    const trainee = [];
     for (const s of ns.gang.getMemberNames()) {
         if (gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)) {
             continue;
@@ -518,7 +518,7 @@ function reassign_after_warfare(ns) {
  */
 function reassign_arms_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
-    const candidate = new Array();
+    const candidate = [];
     for (const s of member) {
         if (!has_all_turf(ns)) {
             if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
