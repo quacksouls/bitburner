@@ -74,7 +74,7 @@ export function choose_targets(ns, candidate) {
     const port_opener = program.filter((p) => ns.fileExists(p, home));
     const nport = port_opener.length;
     // Find a bunch of target servers to hack.
-    const target = new Array();
+    const target = [];
     for (const s of candidate) {
         const server = ns.getServer(s);
         // Do we have the minimum hacking skill required?
