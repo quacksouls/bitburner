@@ -16,7 +16,7 @@
  */
 
 import { program as popen } from "/lib/constant/exe.js";
-import { colour } from "/lib/constant/misc.js";
+import { base, colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
 import { assert } from "/lib/util.js";
@@ -61,7 +61,7 @@ function add_server_name(ns, matrix, map) {
     const mat = Array.from(matrix);
     // Add the server names.
     for (const [coord, server] of map) {
-        const [i, j] = coord.split(delimiter()).map((k) => parseInt(k));
+        const [i, j] = coord.split(delimiter()).map((k) => parseInt(k, base.DECIMAL));
         mat[i][j] = decorate(ns, server);
     }
     return mat;
