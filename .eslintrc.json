@@ -62,7 +62,7 @@
         "quotes": ["error", "double"],
         "yoda": [
             "error",
-            "always"
+            "never"
         ]
     }
 }
