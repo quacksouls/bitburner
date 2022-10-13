@@ -97,7 +97,7 @@ export function greatest_chance(ns, crime) {
 export async function lower_karma(ns, threshold, crime, nkill) {
     // Sanity checks.
     assert(threshold < 0);
-    assert(crimes.SHOP == crime || crimes.KILL == crime);
+    assert(crimes.SHOP === crime || crimes.KILL === crime);
     assert(nkill >= 0);
     // Relocate to raise Intelligence XP.
     ns.singularity.goToLocation(cities.generic.slum);
@@ -105,7 +105,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // integer.  It is safer to compare integers than it is to compare floating
     // point numbers.
     const player = new Player(ns);
-    if (crimes.SHOP == crime) {
+    if (crimes.SHOP === crime) {
         ns.singularity.commitCrime(crime, bool.FOCUS);
         while (Math.ceil(player.karma()) > threshold) {
             await ns.sleep(wait_t.SECOND);
@@ -116,7 +116,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
         return;
     }
     // Homicide.
-    assert(crimes.KILL == crime);
+    assert(crimes.KILL === crime);
     ns.singularity.commitCrime(crime, bool.FOCUS);
     while (Math.ceil(player.karma()) > threshold || player.nkill() < nkill) {
         await ns.sleep(wait_t.SECOND);
