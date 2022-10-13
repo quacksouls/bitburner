@@ -239,10 +239,10 @@ export class Player {
     num_ports() {
         // These are programs that can be created after satisfying certain
         // conditions.
-        let program = Array.from(this.#port_opener);
+        let prog = Array.from(this.#port_opener);
         // Determine the number of ports we can open on other servers.
-        program = program.filter((p) => this.#ns.fileExists(p, this.home()));
-        return program.length;
+        prog = prog.filter((p) => this.#ns.fileExists(p, this.home()));
+        return prog.length;
     }
 
     /**
