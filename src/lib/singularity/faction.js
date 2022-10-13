@@ -250,7 +250,7 @@ export async function work_for_faction(ns, fac, work_type) {
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
         const amount = Math.floor(
-            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home),
+            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home)
         );
         ns.singularity.donateToFaction(fac, amount);
         await ns.sleep(wait_t.DEFAULT);
