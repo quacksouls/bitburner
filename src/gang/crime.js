@@ -89,10 +89,9 @@ function choose_warriors(ns) {
     const combatant = ns.gang
         .getMemberNames()
         .filter(
-            (s) =>
-                gangster.is_vanguard(s) ||
-                gangster.is_artillery(s) ||
-                gangster.is_pilot(s),
+            (s) => gangster.is_vanguard(s)
+                || gangster.is_artillery(s)
+                || gangster.is_pilot(s)
         );
     assert(combatant.length > 0);
     const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
@@ -453,9 +452,8 @@ function para_bellum(ns) {
     const trafficker = ns.gang
         .getMemberNames()
         .filter(
-            (s) =>
-                gangster.is_arms_trafficker(s) ||
-                gangster.is_human_trafficker(s),
+            (s) => gangster.is_arms_trafficker(s)
+                || gangster.is_human_trafficker(s)
         );
     if (trafficker.length <= threshold) {
         return;
