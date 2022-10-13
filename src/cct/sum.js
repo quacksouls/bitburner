@@ -50,7 +50,7 @@ import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
  *     * 0 if n < 0.
  *     * p(n)
  */
-let partition = (function () {
+const partition = (function () {
     // A memoized version of the partition function.
     const cache = new Map();
     function p(n) {
@@ -81,7 +81,7 @@ let partition = (function () {
         return cache.get(num);
     }
     return p;
-})();
+}());
 
 /**
  * Total Ways to Sum: Given a number, how many different distinct ways can
