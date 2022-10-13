@@ -52,7 +52,7 @@ function end_reachable(array) {
             index.push(i);
             jump.push(d);
         }
-        assert(index.length == jump.length);
+        assert(index.length === jump.length);
         // Are we at the last array cell?
         if (is_last_cell(i, array)) {
             return bool.REACHABLE;
@@ -60,9 +60,9 @@ function end_reachable(array) {
         // Zero jump distance.
         d = jump[jump.length - 1];
         i = index[index.length - 1];
-        if (0 == d) {
+        if (d === 0) {
             // Does the first array cell have zero as the jump distace?
-            if (0 == i) {
+            if (i === 0) {
                 return bool.NOT_REACHABLE;
             }
             // Backtrack and reduce jump distance.
@@ -96,7 +96,7 @@ function is_last_cell(i, array) {
     assert(array.length > 0);
     assert(i >= 0);
     assert(i < array.length);
-    return i == array.length - 1;
+    return i === array.length - 1;
 }
 
 /**
@@ -134,7 +134,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/jump.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
