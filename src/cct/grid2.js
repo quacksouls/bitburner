@@ -111,7 +111,7 @@ function unique_paths(grid) {
     assert(nrow > 0);
     assert(ncol > 0);
     // The table of path counts.
-    const path = new Array();
+    const path = [];
     for (let i = 0; i < nrow; i++) {
         assert(ncol === grid[i].length);
         path.push(new Array(ncol));
