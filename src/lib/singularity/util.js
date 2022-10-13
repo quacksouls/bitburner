@@ -32,7 +32,7 @@ export async function choose_hardware_company(ns) {
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.
-    if ("Chongqing" == city || "New Tokyo" == city) {
+    if (city === "Chongqing" || city === "New Tokyo") {
         city = "Sector-12";
         ns.singularity.goToLocation(cities.generic["TA"]);
         let success = ns.singularity.travelToCity(city);
