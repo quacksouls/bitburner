@@ -178,7 +178,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const triangle = ns.codingcontract.getData(cct, host);
-    const [_, sum] = descend(triangle);
+    const [, sum] = descend(triangle);
     const result = ns.codingcontract.attempt(sum, cct, host, {
         returnReward: true,
     });
