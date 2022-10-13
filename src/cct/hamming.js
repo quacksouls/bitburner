@@ -119,7 +119,7 @@ function num_parity(data) {
     // where the operator [] means the ceiling function and log() is the
     // logarithm using base 2.
     const m = k + p + 1;
-    assert(p == Math.ceil(Math.log2(m)));
+    assert(p === Math.ceil(Math.log2(m)));
     return p;
 }
 
@@ -205,7 +205,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/hamming.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);
