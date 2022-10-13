@@ -932,7 +932,7 @@ export async function main(ns) {
     // prepare for a clash against a rival gang.
     let other_gang = ns.gang.getOtherGangInformation();
     let tick_threshold = 1;
-    while (true) {
+    for (;;) {
         if (enable_turf_war(ns)) {
             if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
                 ns.gang.setTerritoryWarfare(bool.ENABLE);
