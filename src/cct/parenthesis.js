@@ -35,7 +35,7 @@ function is_balanced(expression) {
         return bool.INVALID;
     }
     // The stack data structure is perfect for this problem.
-    const stack = new Array();
+    const stack = [];
     for (const c of expression) {
         // Is this character the starting parenthesis?
         if (parenthesis.OPEN === c) {
@@ -142,13 +142,13 @@ function slice(expr, i) {
 function sanitize(string) {
     assert(string.length > 0);
     // Test the expression at the start of this array.
-    const queue = new Array();
+    const queue = [];
     queue.push(string);
     // All expressions and sub-expressions we have considered.
     const seen = new Set();
     seen.add(string);
     // All expressions that have balanced parentheses.
-    const result = new Array();
+    const result = [];
     // Whether we need to prune one parenthesis from an expression to
     // create a new sub-expression.
     let prune = true;
