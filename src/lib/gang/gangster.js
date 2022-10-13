@@ -1129,6 +1129,7 @@ export class Gangster {
      *     array to randomly choose a name for our new member.
      * @return A string representing the name of our newest member.
      */
+    // eslint-disable-next-line class-methods-use-this
     #random_name(name) {
         assert(name.length > 0);
         const min = 0;
