@@ -42,7 +42,7 @@ function check_parity(msg, nparity) {
     const pos = parity_position(nparity);
     // Locations of error.  Each location is an index of the bit string.
     // Each index is the position of a parity (i.e. redundant) bit.
-    const error = new Array();
+    const error = [];
     // Check each parity (i.e. redundant) bit.
     for (const p of pos) {
         assert(p > 0);
@@ -157,7 +157,7 @@ function to_integer(msg, nparity) {
     // Index 1 is reserved for a redundant bit, so is index 2.  Therefore, we
     // start at index 3.
     const pos = new Set(parity_position(nparity));
-    const data = new Array();
+    const data = [];
     for (let i = 3; i < msg.length; i++) {
         if (pos.has(i)) {
             continue;
