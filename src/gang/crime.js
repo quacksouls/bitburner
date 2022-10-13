@@ -49,7 +49,7 @@ import { assert } from "/lib/util.js";
  */
 function ascend(ns) {
     const member = ns.gang.getMemberNames();
-    if (0 == member.length) {
+    if (member.length === 0) {
         return;
     }
     const gangster = new Gangster(ns);
@@ -304,7 +304,7 @@ function has_ethical_hacker(ns) {
  * @return true if our gang is at capacity; false otherwise.
  */
 function has_max_members(ns) {
-    return members.MAX == ns.gang.getMemberNames().length;
+    return members.MAX === ns.gang.getMemberNames().length;
 }
 
 /**
@@ -356,7 +356,7 @@ function is_in_war(ns) {
     const warrior = ns.gang
         .getMemberNames()
         .filter((s) => gangster.is_warrior(s));
-    return warrior.length == members.MAX;
+    return warrior.length === members.MAX;
 }
 
 /**
@@ -417,7 +417,7 @@ function min_victory_chance(ns) {
     const our_gang = ns.gang.getGangInformation().faction;
     const other_gang = ns.gang.getOtherGangInformation();
     for (const g of Object.keys(other_gang)) {
-        if (our_gang == g) {
+        if (our_gang === g) {
             continue;
         }
         chance = Math.min(chance, ns.gang.getChanceToWinClash(g));
@@ -643,8 +643,8 @@ function reassign_hacker(ns) {
     const gangster = new Gangster(ns);
     const hacker = ns.gang
         .getMemberNames()
-        .filter((s) => gangster.role(s) == members.ROLE.hacker);
-    assert(1 == hacker.length);
+        .filter((s) => gangster.role(s) === members.ROLE.hacker);
+    assert(hacker.length === 1);
     // If this is a hacking gang, then reassign the Hacker to one of the
     // hacking-related jobs.
     if (ns.gang.getGangInformation().isHacking) {
@@ -804,15 +804,14 @@ function reassign_terrorism(ns, member, min, max) {
     assert(!has_max_members(ns));
     // We want our Vanguard to commit acts of terrorism.
     const vanguard = member.filter(
-        (s) =>
-            gangster.role(s) == members.ROLE.vanguard &&
-            min <= gangster.strength(s) &&
-            gangster.strength(s) < max,
+        (s) => gangster.role(s) === members.ROLE.vanguard
+            && min <= gangster.strength(s)
+            && gangster.strength(s) < max
     );
-    if (0 == vanguard.length) {
+    if (vanguard.length === 0) {
         return;
     }
-    assert(1 == vanguard.length);
+    assert(vanguard.length === 1);
     gangster.terrorism(vanguard);
 }
 
@@ -908,7 +907,7 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Sanity checks.
-    if (ns.args.length != 1) {
+    if (ns.args.length !== 1) {
         ns.tprint("Must provide the name of a criminal organization.");
         return;
     }
