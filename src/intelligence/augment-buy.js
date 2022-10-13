@@ -40,7 +40,7 @@ function augmentations_to_buy(ns, fac) {
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
     const owned_aug = new Set(
-        ns.singularity.getOwnedAugmentations(bool.PURCHASED),
+        ns.singularity.getOwnedAugmentations(bool.PURCHASED)
     );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
