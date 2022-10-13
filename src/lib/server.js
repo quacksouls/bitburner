@@ -29,27 +29,33 @@ export class Server {
      * The amount of Hack stat required to hack this server.
      */
     #hacking_skill;
+
     /**
      * The player's home server.
      */
     #home;
+
     /**
      * The hostname of this server.
      */
     #hostname;
+
     /**
      * The maximum amount of money this server can hold.
      */
     #money_max;
+
     /**
      * How many ports must be opened on this server in order to run
      * NUKE.exe on it.
      */
     #n_ports_required;
+
     /**
      * The Netscript API.
      */
     #ns;
+
     /**
      * Reserve this amount of RAM.  We want the server to always have at least
      * this amount of RAM available.  The reserve RAM is important especially
@@ -57,10 +63,12 @@ export class Server {
      * of RAM on the home server for various purposes.
      */
     #ram_reserve;
+
     /**
      * The player's main hacking script.
      */
     #script;
+
     /**
      * The minimum security level to which this server can be weaked.
      */
