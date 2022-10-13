@@ -34,8 +34,8 @@ import { assert } from "/lib/util.js";
  */
 function ring(m, tlr, tlc, brr, brc) {
     // Top-left to top-right.
-    let array = new Array();
-    let elem = new Array();
+    let array = [];
+    let elem = [];
     if (tlc <= brc) {
         array = m[tlr];
         elem = Array.from(array.slice(tlc, brc + 1));
@@ -62,7 +62,7 @@ function ring(m, tlr, tlc, brr, brc) {
     }
     // Bottom-left to top-left.
     if (tlr < brr) {
-        const arr = new Array();
+        const arr = [];
         for (let r = tlr + 1; r < brr; r++) {
             arr.push(m[r][tlc]);
         }
@@ -93,7 +93,7 @@ function spiral(m) {
     let tlc = tlr; // top-left column
     let brr = nrow - 1; // bottom-right row
     let brc = ncol - 1; // bottom-right column
-    let elem = new Array();
+    let elem = [];
     while (tlr <= brr && tlc <= brc) {
         elem = elem.concat(ring(m, tlr, tlc, brr, brc));
         tlr++;
