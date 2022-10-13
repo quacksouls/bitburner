@@ -50,6 +50,12 @@
         ],
         "no-await-in-loop": ["off"],
         "no-continue": ["off"],
+        "no-empty": [
+            "error",
+            {
+                "allowEmptyCatch": true
+            }
+        ],
         "no-plusplus": ["off"],
         "no-restricted-syntax": ["off"],
         "no-use-before-define": [
