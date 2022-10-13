@@ -45,7 +45,7 @@ function purchase_programs(ns) {
         const before = intelligence(ns);
         assert(ns.singularity.purchaseProgram(p));
         const after = intelligence(ns);
-        const action = "Purchase " + p + " via dark web";
+        const action = `Purchase ${p} via dark web`;
         intelligence_gain(ns, before, after, action);
     }
 }
