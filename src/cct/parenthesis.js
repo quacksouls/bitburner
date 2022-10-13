@@ -31,26 +31,26 @@ import { assert } from "/lib/util.js";
  *     false otherwise.
  */
 function is_balanced(expression) {
-    if (0 == expression.length) {
+    if (expression.length === 0) {
         return bool.INVALID;
     }
     // The stack data structure is perfect for this problem.
     const stack = new Array();
     for (const c of expression) {
         // Is this character the starting parenthesis?
-        if (parenthesis.OPEN == c) {
+        if (parenthesis.OPEN === c) {
             stack.push(c);
             continue;
         }
         // Is this character the ending parenthesis?
-        if (parenthesis.CLOSE == c) {
+        if (parenthesis.CLOSE === c) {
             // We have an ending parenthesis, but the stack is empty.
-            if (0 == stack.length) {
+            if (stack.length === 0) {
                 return bool.INVALID;
             }
             // This ending parenthesis must be matched with an opening
             // parenthesis at the top of the stack.
-            if (parenthesis.OPEN == stack[stack.length - 1]) {
+            if (parenthesis.OPEN === stack[stack.length - 1]) {
                 stack.pop();
                 continue;
             }
@@ -61,7 +61,7 @@ function is_balanced(expression) {
     }
     // Every opening parenthesis should be matched with a closing parenthesis.
     // If the stack has zero elements, then the expression is balanced.
-    return 0 == stack.length;
+    return stack.length === 0;
 }
 
 /**
@@ -71,8 +71,8 @@ function is_balanced(expression) {
  * @return true if the given character is a parenthesis; false otherwise.
  */
 function is_parenthesis(c) {
-    assert(1 == c.length);
-    if (parenthesis.OPEN == c || parenthesis.CLOSE == c) {
+    assert(c.length === 1);
+    if (parenthesis.OPEN === c || parenthesis.CLOSE === c) {
         return true;
     }
     return false;
@@ -216,7 +216,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/parenthesis.txt";
         await log_cct_failure(ns, log, cct, host, expression);
         print_error(ns, host, cct);
