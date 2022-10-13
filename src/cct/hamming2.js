@@ -51,12 +51,12 @@ function check_parity(msg, nparity) {
         // msg[p] is 1, we must subtract 1 from the result of the
         // count_one() function.
         let n1 = count_one(msg, p);
-        if (1 == msg[p]) {
+        if (msg[p] === 1) {
             n1--;
         }
         // Is there an error?
         const parity = n1 % 2;
-        if (parity != msg[p]) {
+        if (parity !== msg[p]) {
             error.push(p);
         }
     }
@@ -105,7 +105,7 @@ function num_parity(msg) {
         i++;
         pos = 2 ** i;
     }
-    assert(i == Math.ceil(Math.log2(msg.length)));
+    assert(i === Math.ceil(Math.log2(msg.length)));
     return i;
 }
 
@@ -123,7 +123,7 @@ function secded(msg, nparity) {
     // Check for errors in the parity (i.e. redundant) bits.
     const error = check_parity(msg, nparity);
     // No errors in the bit string.
-    if (0 == error.length) {
+    if (error.length === 0) {
         return msg;
     }
     // We have an error in the bit string.  Calculate the sum of the indices of
@@ -136,7 +136,7 @@ function secded(msg, nparity) {
     // Check the overall parity bit.  This allows us to check for the presence
     // of a second error, but we would not be able to correct the second error.
     const n1 = array.sum(_msg.slice(1, _msg.length));
-    assert(_msg[0] == n1 % 2);
+    assert(_msg[0] === n1 % 2);
     return _msg;
 }
 
@@ -195,7 +195,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/hamming2.txt";
         await log_cct_failure(ns, log, cct, host, msg);
         print_error(ns, host, cct);
