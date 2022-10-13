@@ -71,7 +71,7 @@ export class Gangster {
     ascend(name) {
         assert(this.is_member(name));
         const asc = this.#ns.gang.getAscensionResult(name);
-        if (undefined == asc) {
+        if (undefined === asc) {
             return bool.FAILURE;
         }
         // Convert a number in the form 1.xyz to 1xy.  We multiply the number
@@ -107,7 +107,7 @@ export class Gangster {
         // Now ascend the gangster.
         if (ascend_this_member) {
             const result = this.#ns.gang.ascendMember(name);
-            if (undefined != result) {
+            if (undefined !== result) {
                 return bool.SUCCESS;
             }
         }
@@ -121,7 +121,7 @@ export class Gangster {
      */
     blackmail(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -151,7 +151,7 @@ export class Gangster {
      */
     con(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -170,7 +170,7 @@ export class Gangster {
      */
     deal_drugs(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -311,7 +311,7 @@ export class Gangster {
      */
     ethical_hacking(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -330,7 +330,7 @@ export class Gangster {
      */
     extort(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -349,7 +349,7 @@ export class Gangster {
      */
     fraud(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -372,7 +372,7 @@ export class Gangster {
      */
     graduate_combatant(name, threshold) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -407,7 +407,7 @@ export class Gangster {
      */
     graduate_hacker(name, threshold) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -446,7 +446,7 @@ export class Gangster {
      */
     graduate_other(name, threshold) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -576,7 +576,7 @@ export class Gangster {
      */
     id_theft(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -598,7 +598,7 @@ export class Gangster {
     is_arms_trafficker(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TRAFFICK_ARMS == current_task;
+        return task.TRAFFICK_ARMS === current_task;
     }
 
     /**
@@ -610,7 +610,7 @@ export class Gangster {
      */
     is_artillery(name) {
         assert(this.is_member(name));
-        return this.role(name) == members.ROLE.artillery;
+        return this.role(name) === members.ROLE.artillery;
     }
 
     /**
@@ -623,7 +623,7 @@ export class Gangster {
      */
     is_blackmailer(name) {
         assert(this.is_member(name));
-        return task.BLACKMAIL == this.#ns.gang.getMemberInformation(name).task;
+        return task.BLACKMAIL === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -643,7 +643,7 @@ export class Gangster {
         return (
             this.is_artillery(name)
             || this.is_pilot(name)
-            || this.role(name) == members.ROLE.punk
+            || this.role(name) === members.ROLE.punk
             || this.is_vanguard(name)
         );
     }
@@ -656,7 +656,7 @@ export class Gangster {
      */
     is_con_artist(name) {
         assert(this.is_member(name));
-        return task.CON == this.#ns.gang.getMemberInformation(name).task;
+        return task.CON === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -669,7 +669,7 @@ export class Gangster {
     is_creating_ransomware(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.RANSOMWARE == current_task;
+        return task.RANSOMWARE === current_task;
     }
 
     /**
@@ -681,7 +681,7 @@ export class Gangster {
     is_dealing_drugs(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.DRUGS == current_task;
+        return task.DRUGS === current_task;
     }
 
     /**
@@ -694,7 +694,7 @@ export class Gangster {
     is_ethical_hacker(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.EHACK == current_task;
+        return task.EHACK === current_task;
     }
 
     /**
@@ -707,7 +707,7 @@ export class Gangster {
     is_extortionist(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.EXTORT == current_task;
+        return task.EXTORT === current_task;
     }
 
     /**
@@ -721,7 +721,7 @@ export class Gangster {
     is_fraudster(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.FRAUD == current_task;
+        return task.FRAUD === current_task;
     }
 
     /**
@@ -733,7 +733,7 @@ export class Gangster {
      */
     is_hacker(name) {
         assert(this.is_member(name));
-        return this.role(name) == members.ROLE.hacker;
+        return this.role(name) === members.ROLE.hacker;
     }
 
     /**
@@ -745,7 +745,7 @@ export class Gangster {
     is_human_trafficker(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TRAFFICK_HUMAN == current_task;
+        return task.TRAFFICK_HUMAN === current_task;
     }
 
     /**
@@ -758,7 +758,7 @@ export class Gangster {
     is_id_thief(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.ID_THEFT == current_task;
+        return task.ID_THEFT === current_task;
     }
 
     /**
@@ -770,7 +770,7 @@ export class Gangster {
     is_launderer(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.LAUNDER == current_task;
+        return task.LAUNDER === current_task;
     }
 
     /**
@@ -803,10 +803,10 @@ export class Gangster {
         assert(this.is_member(name));
         const role = this.role(name);
         return (
-            role == members.ROLE.medic
-            || role == members.ROLE.spy
-            || role == members.ROLE.thief
-            || role == members.ROLE.traitor
+            role === members.ROLE.medic
+            || role === members.ROLE.spy
+            || role === members.ROLE.thief
+            || role === members.ROLE.traitor
         );
     }
 
@@ -820,7 +820,7 @@ export class Gangster {
     is_mugger(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.MUG == current_task;
+        return task.MUG === current_task;
     }
 
     /**
@@ -833,7 +833,7 @@ export class Gangster {
     is_phisher(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.PHISH == current_task;
+        return task.PHISH === current_task;
     }
 
     /**
@@ -845,7 +845,7 @@ export class Gangster {
      */
     is_pilot(name) {
         assert(this.is_member(name));
-        return this.role(name) == members.ROLE.pilot;
+        return this.role(name) === members.ROLE.pilot;
     }
 
     /**
@@ -857,7 +857,7 @@ export class Gangster {
      */
     is_punk(name) {
         assert(this.is_member(name));
-        return this.role(name) == members.ROLE.punk;
+        return this.role(name) === members.ROLE.punk;
     }
 
     /**
@@ -870,7 +870,7 @@ export class Gangster {
     is_robber(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.ROBBERY == current_task;
+        return task.ROBBERY === current_task;
     }
 
     /**
@@ -883,7 +883,7 @@ export class Gangster {
     is_terrorist(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TERROR == current_task;
+        return task.TERROR === current_task;
     }
 
     /**
@@ -911,7 +911,7 @@ export class Gangster {
     is_training_charisma(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.CHARISMA == current_task;
+        return task.CHARISMA === current_task;
     }
 
     /**
@@ -923,7 +923,7 @@ export class Gangster {
     is_training_combat(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.COMBAT == current_task;
+        return task.COMBAT === current_task;
     }
 
     /**
@@ -935,7 +935,7 @@ export class Gangster {
     is_training_hack(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.HACK == current_task;
+        return task.HACK === current_task;
     }
 
     /**
@@ -947,7 +947,7 @@ export class Gangster {
      */
     is_vanguard(name) {
         assert(this.is_member(name));
-        return this.role(name) == members.ROLE.vanguard;
+        return this.role(name) === members.ROLE.vanguard;
     }
 
     /**
@@ -960,7 +960,7 @@ export class Gangster {
     is_vigilante(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.VIGILANTE == current_task;
+        return task.VIGILANTE === current_task;
     }
 
     /**
@@ -973,7 +973,7 @@ export class Gangster {
     is_warrior(name) {
         assert(this.is_member(name));
         const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TURF_WAR == current_task;
+        return task.TURF_WAR === current_task;
     }
 
     /**
@@ -983,7 +983,7 @@ export class Gangster {
      */
     launder(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1002,7 +1002,7 @@ export class Gangster {
      */
     mug(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1088,7 +1088,7 @@ export class Gangster {
      */
     neutral(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1103,7 +1103,7 @@ export class Gangster {
      */
     phish(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1144,7 +1144,7 @@ export class Gangster {
      */
     ransomware(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1201,7 +1201,7 @@ export class Gangster {
             } else if (roster.traitor < gang_t.ROSTER.traitor) {
                 role = members.ROLE.traitor;
             }
-            assert("" != role);
+            assert(role !== "");
             const role_lowercase = role.toLowerCase();
             const name = this.#recruit_member(gangster_t[role_lowercase], role);
             roster[role_lowercase]++;
@@ -1238,7 +1238,7 @@ export class Gangster {
      */
     robbery(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1326,7 +1326,7 @@ export class Gangster {
      */
     terrorism(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1345,7 +1345,7 @@ export class Gangster {
      */
     traffick_arms(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1364,7 +1364,7 @@ export class Gangster {
      */
     traffick_human(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1394,7 +1394,7 @@ export class Gangster {
      */
     train(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1418,7 +1418,7 @@ export class Gangster {
      */
     train_charisma(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1440,7 +1440,7 @@ export class Gangster {
      */
     train_combat(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1462,7 +1462,7 @@ export class Gangster {
      */
     train_hack(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1482,7 +1482,7 @@ export class Gangster {
      */
     turf_war(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
@@ -1501,7 +1501,7 @@ export class Gangster {
      */
     vigilante(name) {
         // Sanity checks.
-        if (0 == name.length) {
+        if (name.length === 0) {
             return;
         }
         name.map((s) => assert(this.is_member(s)));
