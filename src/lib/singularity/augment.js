@@ -56,7 +56,7 @@ export function augment_to_buy(ns, fac) {
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
     if (fac_aug.includes(nfg())) {
-        fac_aug = fac_aug.filter((a) => a != nfg());
+        fac_aug = fac_aug.filter((a) => a !== nfg());
     }
     assert(fac_aug.length > 0);
     // Choose n Augmentations that have the least reputation requirements.
@@ -65,8 +65,8 @@ export function augment_to_buy(ns, fac) {
     while (i < augment.BUY_TAU) {
         const aug = lowest_reputation(ns, fac_aug);
         tobuy.push(aug);
-        fac_aug = fac_aug.filter((a) => a != aug);
-        if (0 == fac_aug.length) {
+        fac_aug = fac_aug.filter((a) => a !== aug);
+        if (fac_aug.length === 0) {
             break;
         }
         i++;
@@ -97,7 +97,7 @@ export function choose_augment(ns, candidate) {
             aug = a;
         }
     }
-    assert("" != aug);
+    assert(aug !== "");
     return aug;
 }
 
@@ -137,7 +137,7 @@ function lowest_reputation(ns, candidate) {
             min_aug = aug;
         }
     }
-    assert("" != min_aug);
+    assert(min_aug !== "");
     return min_aug;
 }
 
@@ -188,10 +188,10 @@ export function owned_augment(ns) {
  *     all of its pre-requisites.
  */
 export function prerequisites(ns, aug) {
-    assert("" != aug);
+    assert(aug !== "");
     const candidate = new Array();
     const prereq = ns.singularity.getAugmentationPrereq(aug);
-    if (0 == prereq.length) {
+    if (prereq.length === 0) {
         return candidate;
     }
     // An array of Augmentation names.
@@ -232,16 +232,16 @@ export async function purchase_augment(ns, fac) {
         // Choose the most expensive Augmentation.
         const aug = choose_augment(ns, candidate);
         if (has_augment(ns, aug)) {
-            candidate = candidate.filter((a) => a != aug);
+            candidate = candidate.filter((a) => a !== aug);
             continue;
         }
         // If the most expensive Augmentation has no pre-requisites or we have
         // already purchased all of its pre-requisites, then purchase the
         // Augmentation.
         let prereq = prerequisites(ns, aug);
-        if (0 == prereq.length) {
+        if (prereq.length === 0) {
             await purchase_aug(ns, aug, fac);
-            candidate = candidate.filter((a) => a != aug);
+            candidate = candidate.filter((a) => a !== aug);
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
@@ -249,10 +249,10 @@ export async function purchase_augment(ns, fac) {
         while (prereq.length > 0) {
             const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac);
-            prereq = prereq.filter((a) => a != pre);
+            prereq = prereq.filter((a) => a !== pre);
         }
         await purchase_aug(ns, aug, fac);
-        candidate = candidate.filter((a) => a != aug);
+        candidate = candidate.filter((a) => a !== aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
@@ -283,7 +283,7 @@ async function purchase_aug(ns, aug, fac) {
     while (prereq.length > 0) {
         const pre = choose_augment(ns, prereq);
         await purchase_aug(ns, pre, fac);
-        prereq = prereq.filter((a) => a != pre);
+        prereq = prereq.filter((a) => a !== pre);
     }
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.
