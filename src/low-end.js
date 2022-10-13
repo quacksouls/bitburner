@@ -252,7 +252,7 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously search for low-end servers to hack.
-    while (true) {
+    for (;;) {
         await update(ns);
         await ns.sleep(wait_t.MINUTE);
     }
