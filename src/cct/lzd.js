@@ -109,7 +109,7 @@ function decompress(data) {
     while (i < data.length) {
         const ell = parseInt(data[i], base.DECIMAL);
         // Is this chunk of type L<string>?
-        if (lzchunk.LS == chunk_type) {
+        if (lzchunk.LS === chunk_type) {
             // Do we end the chunk now?
             if (end_now(ell)) {
                 i++;
@@ -126,7 +126,7 @@ function decompress(data) {
             continue;
         }
         // This chunk is of type LX, which has 2 characters.
-        assert(lzchunk.LX == chunk_type);
+        assert(lzchunk.LX === chunk_type);
         // Do we end the chunk now?
         if (end_now(ell)) {
             i++;
@@ -155,7 +155,7 @@ function decompress(data) {
  * @return true if a chunk ends now; false otherwise.
  */
 function end_now(ell) {
-    return 0 == ell;
+    return ell === 0;
 }
 
 /**
@@ -193,7 +193,7 @@ export async function main(ns) {
         returnReward: true,
     });
     // Log the result in case of failure.
-    if (0 == result.length) {
+    if (result.length === 0) {
         const log = "/cct/lzd.txt";
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
