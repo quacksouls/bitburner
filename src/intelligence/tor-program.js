@@ -31,7 +31,7 @@ import { assert } from "/lib/util.js";
  */
 function purchase_programs(ns) {
     const player = new Player(ns);
-    for (const [p, _] of all_programs()) {
+    for (const p of all_programs().keys()) {
         // We already have the program.
         if (has_program(ns, p)) {
             continue;
