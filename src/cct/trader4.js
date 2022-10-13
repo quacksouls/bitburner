@@ -130,7 +130,7 @@ async function maximize_profit(ns, t, price) {
     // current day.
     assert(t >= 3);
     // The base case p[0][i] := 0 for all i.
-    const p = new Array();
+    const p = [];
     p.push(new Array(price.length).fill(0));
     for (let i = 1; i <= t; i++) {
         // The base case p[t][0] := 0 for all t.
