@@ -27,7 +27,7 @@ import { assert } from "/lib/util.js";
  * @return The index of the given character, where index starts from zero.
  */
 export function char_index(c) {
-    assert(1 == c.length);
+    assert(c.length === 1);
     const alphabet = new Map([
         ["A", 0],
         ["B", 1],
@@ -85,7 +85,7 @@ export function count_one(msg, p) {
     const skip = 2 * p;
     while (i < msg.length) {
         for (let j = i; j < i + p; j++) {
-            if (1 == msg[j]) {
+            if (msg[j] === 1) {
                 n1++;
             }
         }
@@ -109,7 +109,7 @@ export function english_alphabet() {
  *     alphabet; false otherwise.
  */
 export function is_alphabetic(c) {
-    assert(1 == c.length);
+    assert(c.length === 1);
     return english_alphabet().includes(c);
 }
 
@@ -175,7 +175,7 @@ export function matrix_to_string(mat) {
  */
 export function max_profit_kadane(price) {
     // Empty price array means zero profit.
-    if (0 == price.length) {
+    if (price.length === 0) {
         return 0;
     }
     let max_profit = 0;
