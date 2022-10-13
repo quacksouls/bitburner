@@ -50,6 +50,7 @@ import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
  *     * 0 if n < 0.
  *     * p(n)
  */
+// eslint-disable-next-line func-names
 const partition = (function () {
     // A memoized version of the partition function.
     const cache = new Map();
