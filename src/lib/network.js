@@ -244,6 +244,7 @@ export class Graph {
      *     a target node.
      * @return The node i such that dist[i] is minimal.
      */
+    // eslint-disable-next-line class-methods-use-this
     #minimumq(queue, dist) {
         assert(queue.length > 0);
         assert(dist.size > 0);
