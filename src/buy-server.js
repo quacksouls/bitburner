@@ -117,7 +117,6 @@ async function next_stage(ns, ram) {
         // Each current purchased server has more RAM than the given amount of
         // RAM.
         assert(ram < server.ram_max());
-        return;
     }
 }
 
