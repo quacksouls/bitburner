@@ -95,7 +95,7 @@ function reassign_excess_vigilante_ehacker(ns, threshold) {
         vigilante.filter((s) => !gangster.is_vanguard(s))
     );
     assert(vigilante_ehacker.length > tau);
-    const candidate = new Array();
+    const candidate = [];
     while (vigilante_ehacker.length > tau) {
         candidate.push(vigilante_ehacker.pop());
     }
@@ -122,8 +122,8 @@ function reassign_other(ns, name) {
     if (name.length === 0) {
         return;
     }
-    const trainee = new Array();
-    const other = new Array();
+    const trainee = [];
+    const other = [];
     const gangster = new Gangster(ns);
     for (const s of name) {
         if (gangster.needs_training(s) && !gangster.is_training(s)) {
