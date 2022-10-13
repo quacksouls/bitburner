@@ -45,7 +45,8 @@
             "error",
             {
                 "code": 80,
-                "comments": 80
+                "comments": 80,
+                "ignoreUrls": true
             }
         ],
         "no-await-in-loop": ["off"],

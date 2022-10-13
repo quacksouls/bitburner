@@ -28,20 +28,24 @@ export class Player {
      * The name of the home server of this player.
      */
     #home;
+
     /**
      * The Netscript API.
      */
     #ns;
+
     /**
      * Programs that allow a player to open ports on a world server.
      * These are port openers.
      */
     #port_opener;
+
     /**
      * Programs necessary for visiting the network of world servers.
      * These are usuallly network programs.
      */
     #program;
+
     /**
      * The hack script of the player.  Assumed to be located on the player's
      * home server.
