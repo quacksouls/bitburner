@@ -1117,8 +1117,9 @@ export const penalty_t = {
 };
 
 /**
- * Various rootkits we can purchase for a gang member.  Going from top to bottom, the rootkits are listed in ascending
- * order of price.  The rootkit names are taken from this file:
+ * Various rootkits we can purchase for a gang member.  Going from top to
+ * bottom, the rootkits are listed in ascending order of price.  The rootkit
+ * names are taken from this file:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
  */
