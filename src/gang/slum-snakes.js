@@ -28,34 +28,6 @@ import { work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
 
 /**
- * The karma threshold.  We want to lower our karma to a given amount.  Outside
- * of BN2, to join a gang we must have karma at -54,000 or lower.  It takes a
- * very long time to achieve this many negative karma.  A more sensible option
- * is to have a target karma value and try to lower our karma to that value.
- * Then move on.  Say we want to lower our karma in 4 batches, each batch is
- * followed by possibly a soft reset.  In each batch, we would need to achieve
- * -13,500 karma.
- *
- * @param ns The Netscript API.
- * @return Our current negative karma plus some more negative karma value as
- *     low as -13,500.  Return 0 if we have enough negative karma to create a
- *     gang.
- */
-function karma_threshold(ns) {
-    const player = new Player(ns);
-    const current_karma = Math.floor(player.karma());
-    if (current_karma <= gang_t.KARMA) {
-        return 0;
-    }
-    let target = -13500;
-    const delta = gang_t.KARMA - current_karma;
-    if (Math.abs(delta) < Math.abs(target)) {
-        target = delta;
-    }
-    return Math.floor(current_karma + target);
-}
-
-/**
  * Run the next script(s) in our load chain for criminal gangs.
  *
  * @param ns The Netscript API.
@@ -71,20 +43,15 @@ function load_chain(ns, faction) {
 /**
  * Decrease our karma low enough to allow us to create a gang.  We need -54,000
  * karma.  Homicide yields -3 karma so we must commit homicide at most 18,000
- * times.  We lower our karma in batches.  After each batch we might not have
- * enough negative karma to create a gang.
+ * times.
  *
  * @param ns The Netscript API.
  */
 async function lower_karma(ns) {
-    const threshold = karma_threshold(ns);
     ns.singularity.goToLocation(cities.generic.slum); // Raise Int XP.
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     const player = new Player(ns);
-    while (Math.floor(player.karma()) > threshold) {
-        if (Math.floor(player.karma()) < gang_t.KARMA) {
-            break;
-        }
+    while (Math.floor(player.karma()) > gang_t.KARMA) {
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
