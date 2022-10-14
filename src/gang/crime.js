@@ -53,7 +53,7 @@ function ascend(ns) {
         return;
     }
     const gangster = new Gangster(ns);
-    member.map((s) => gangster.ascend(s));
+    member.forEach((s) => gangster.ascend(s));
 }
 
 /**
