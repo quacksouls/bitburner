@@ -277,7 +277,7 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously try to purchase servers.
-    while (true) {
+    for (;;) {
         await buy_servers(ns);
         await ns.sleep(wait_t.MINUTE);
     }
