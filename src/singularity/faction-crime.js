@@ -114,7 +114,7 @@ async function speakers_for_the_dead(ns) {
         ns,
         faction_req[fac].karma,
         crimes.KILL,
-        faction_req[fac].kill,
+        faction_req[fac].kill
     );
     await raise_combat_stats(ns, faction_req[fac].combat);
     await raise_hack(ns, faction_req[fac].hack);
@@ -169,7 +169,7 @@ async function the_dark_army(ns) {
         ns,
         faction_req[fac].karma,
         crimes.KILL,
-        faction_req[fac].kill,
+        faction_req[fac].kill
     );
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await visit_city(ns, faction_req[fac].city);

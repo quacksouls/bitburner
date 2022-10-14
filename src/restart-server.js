@@ -47,7 +47,7 @@ export async function main(ns) {
         if (target.length < 1) {
             target = filter_bankrupt_servers(
                 ns,
-                choose_targets(ns, network(ns)),
+                choose_targets(ns, network(ns))
             );
             assert(target.length > 0);
         }
