@@ -68,6 +68,7 @@ function compress(plain) {
                 set(new_state, 0, length + 1, string);
             } else {
                 // start new literal
+                // prettier-ignore
                 set(
                     new_state,
                     0,
@@ -78,6 +79,7 @@ function compress(plain) {
             for (let offset = 1; offset <= Math.min(9, i); ++offset) {
                 if (plain[i - offset] === c) {
                     // start new backreference
+                    // prettier-ignore
                     set(
                         new_state,
                         offset,
