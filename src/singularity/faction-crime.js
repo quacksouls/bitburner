@@ -227,12 +227,12 @@ export async function main(ns) {
     // Join the appropriate faction.
     const faction = ns.args[0];
     assert(
-        "Silhouette" === faction
-        || "Slum Snakes" === faction
-        || "The Syndicate" === faction
-        || "Speakers for the Dead" === faction
-        || "Tetrads" === faction
-        || "The Dark Army" === faction
+        faction === "Silhouette"
+            || faction === "Slum Snakes"
+            || faction === "The Syndicate"
+            || faction === "Speakers for the Dead"
+            || faction === "Tetrads"
+            || faction === "The Dark Army"
     );
     ns.singularity.goToLocation("The Slums"); // Increase Intelligence XP.
     switch (faction) {

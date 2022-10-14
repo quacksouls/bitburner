@@ -106,10 +106,10 @@ async function raise_combat_stats(ns, threshold) {
     const player = new Player(ns);
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
     while (
-        player.strength() < threshold ||
-        player.defense() < threshold ||
-        player.dexterity() < threshold ||
-        player.agility() < threshold
+        player.strength() < threshold
+        || player.defense() < threshold
+        || player.dexterity() < threshold
+        || player.agility() < threshold
     ) {
         await ns.sleep(wait_t.DEFAULT);
     }
