@@ -144,6 +144,7 @@ function solve(ns, cct, host) {
         ns.exec(script, home, nthread, cct, host);
         return;
     }
+    // prettier-ignore
     const err_msg = `${host
     }: ${
         cct
