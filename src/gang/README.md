@@ -1,4 +1,4 @@
-# Gangs
+# Gang
 
 Scripts to create and manage a gang. The script `/gang/slum-snakes.js` joins the
 criminal organization Slum Snakes, setting the groundwork for you to create a
