@@ -28,7 +28,7 @@ import { wait_t } from "/lib/constant/time.js";
  * @return A string representing the name of a hardware store.
  */
 export async function choose_hardware_company(ns) {
-    let city = ns.getPlayer().city;
+    let { city } = ns.getPlayer();
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.

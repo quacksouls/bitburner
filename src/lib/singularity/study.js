@@ -32,8 +32,8 @@ import { assert } from "/lib/util.js";
  *     have a university.
  */
 function choose_university(ns) {
-    const city = ns.getPlayer().city;
-    const uni = cities[city].uni;
+    const { city } = ns.getPlayer();
+    const { uni } = cities[city];
     if (undefined === uni) {
         return "";
     }

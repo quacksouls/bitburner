@@ -81,7 +81,7 @@ function buy_other_augmentations(ns) {
     exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
     // Buy other Augmentations available from our gang faction.
-    const faction = ns.gang.getGangInformation().faction;
+    const { faction } = ns.gang.getGangInformation();
     const player = new Player(ns);
     const aug = ns.singularity
         .getAugmentationsFromFaction(faction)
@@ -234,7 +234,7 @@ function set_neutral_gang(ns) {
     }
     // First, kill our gang script.
     const script = "/gang/crime.js";
-    const faction = ns.gang.getGangInformation().faction;
+    const { faction } = ns.gang.getGangInformation();
     const player = new Player(ns);
     if (ns.isRunning(script, player.home(), faction)) {
         assert(ns.kill(script, player.home(), faction));

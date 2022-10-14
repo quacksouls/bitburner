@@ -272,7 +272,7 @@ export function strongest_member(ns, member) {
     let maxstr = -Infinity;
     let name = "";
     for (const s of member) {
-        const str = ns.gang.getMemberInformation(s).str;
+        const { str } = ns.gang.getMemberInformation(s);
         if (str > maxstr) {
             maxstr = str;
             name = s;
