@@ -34,7 +34,7 @@ import { assert } from "/lib/util.js";
 async function study(ns) {
     const n = 60;
     const { uni } = cities[ns.getPlayer().city];
-    ns.tprint("Study at " + uni);
+    ns.tprint(`Study at ${uni}`);
     for (const c of Object.values(course)) {
         const action = `Course: ${c}`;
         const before = intelligence(ns);
