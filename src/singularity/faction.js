@@ -46,7 +46,7 @@ async function choose_faction(ns) {
     }
     // In case we have already joined each faction on the fast track list,
     // consider the remaining factions.
-    if ("" === faction) {
+    if (faction === "") {
         for (const f of factions.all) {
             if (join_next(ns, f)) {
                 faction = f;
@@ -54,7 +54,7 @@ async function choose_faction(ns) {
             }
         }
     }
-    if ("" === faction) {
+    if (faction === "") {
         return;
     }
     // Join a faction.

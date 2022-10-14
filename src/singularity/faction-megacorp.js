@@ -139,7 +139,7 @@ export async function main(ns) {
     // installed a backdoor on the corresponding company server.
     await install_backdoor_on_server(ns, faction);
     let company = faction;
-    if ("Fulcrum Secret Technologies" === faction) {
+    if (faction === "Fulcrum Secret Technologies") {
         company = "Fulcrum Technologies";
     }
     assert(company.length > 0);

@@ -91,12 +91,12 @@ async function upgrade(ns) {
     }
     // Wait to accumulate funds to purchase upgrades.
     const attribute = choose_upgrade(ns);
-    assert("" !== attribute);
-    if ("Cores" === attribute) {
+    assert(attribute !== "");
+    if (attribute === "Cores") {
         await upgrade_cores(ns);
         return;
     }
-    assert("RAM" === attribute);
+    assert(attribute === "RAM");
     await upgrade_ram(ns);
 }
 
