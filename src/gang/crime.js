@@ -804,7 +804,7 @@ function reassign_terrorism(ns, member, min, max) {
     assert(!has_max_members(ns));
     // We want our Vanguard to commit acts of terrorism.
     const vanguard = member.filter(
-        (s) => gangster.role(s) === members.ROLE.vanguard
+        (s) => gangster.is_vanguard(s)
             && min <= gangster.strength(s)
             && gangster.strength(s) < max
     );
