@@ -28,14 +28,17 @@ export class PurchasedServer {
      * The player's home server.
      */
     #home;
+
     /**
      * The Netscript API.
      */
     #ns;
+
     /**
      * The player's main hacking script.
      */
     #script;
+
     /**
      * Possible amount of RAM (GB) for a purchased server.
      */
