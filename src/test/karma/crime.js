@@ -150,7 +150,7 @@ export async function main(ns) {
     const gain = gained_stats(ns, start, end, divisor);
     ns.tprint(`Crime: ${crime}`);
     ns.tprint(`Duration: ${n} hours`);
-    ns.tprint(`Stat gain per minute.`);
+    ns.tprint("Stat gain per minute.");
     ns.tprint(`Agility: ${gain.agility}`);
     ns.tprint(`Defense: ${gain.defense}`);
     ns.tprint(`Dexterity: ${gain.dexterity}`);
