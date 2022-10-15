@@ -277,8 +277,8 @@ function usage(ns) {
 }
 
 /**
- * Pull all files (on github.com) under the directory quacksouls/bitburner/src into
- * the game.
+ * Pull all files (on github.com) under the directory quacksouls/bitburner/src
+ * into the game.
  *
  * Usage: run pull.js
  *
