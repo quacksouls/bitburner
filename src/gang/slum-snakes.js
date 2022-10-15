@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
@@ -26,6 +27,19 @@ import { Player } from "/lib/player.js";
 import { join_faction } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * The karma threshold.  This value depends on the BitNode we are currently in.
+ *
+ * @param ns The Netscript API.
+ * @return The karma threshold.
+ */
+function karma_threshold(ns) {
+    if (bitnode["Rise of the Underworld"] === ns.getPlayer().bitNodeN) {
+        return faction_req["Slum Snakes"].karma;
+    }
+    return gang_t.KARMA;
+}
 
 /**
  * Run the next script(s) in our load chain for criminal gangs.
@@ -41,9 +55,10 @@ function load_chain(ns, faction) {
 }
 
 /**
- * Decrease our karma low enough to allow us to create a gang.  We need -54,000
- * karma.  Homicide yields -3 karma so we must commit homicide at most 18,000
- * times.
+ * Decrease our karma low enough to allow us to create a gang.  In BN2, we only
+ * need to satisfy the karma requirement of Slum Snakes.  In a BitNode other
+ * than BN2, we need -54,000 karma.  Homicide yields -3 karma so we must commit
+ * homicide at most 18,000 times.
  *
  * @param ns The Netscript API.
  */
@@ -51,7 +66,8 @@ async function lower_karma(ns) {
     ns.singularity.goToLocation(cities.generic.slum); // Raise Int XP.
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     const player = new Player(ns);
-    while (Math.floor(player.karma()) > gang_t.KARMA) {
+    const threshold = karma_threshold(ns);
+    while (Math.floor(player.karma()) > threshold) {
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
