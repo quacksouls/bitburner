@@ -196,6 +196,8 @@ function dir_test() {
         "test/intelligence/tor.js",
         "test/intelligence/travel.js",
         "test/intelligence/util.js",
+        // Scripts used to gather data on karma gain for each crime.
+        "test/karma/crime.js",
     ];
     return dir;
 }
