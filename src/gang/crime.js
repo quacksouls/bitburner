@@ -33,7 +33,6 @@ import {
     reassign_vigilante_ehacker,
     strongest_member,
 } from "/lib/gang/util.js";
-import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -114,10 +113,6 @@ async function create_gang(ns, fac) {
     assert(is_valid_faction(fac));
     if (ns.gang.inGang()) {
         return;
-    }
-    const player = new Player(ns);
-    while (player.karma() > gang_t.KARMA) {
-        await ns.sleep(wait_t.MINUTE);
     }
     assert(ns.gang.createGang(fac));
 }
