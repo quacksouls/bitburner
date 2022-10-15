@@ -259,7 +259,7 @@ function target_name(f) {
     // "src/file.js".  When we split the string according to "/", we should end
     // up with an array of at least 2 elements.
     const newf = fname.split(slash);
-    if (1 == newf.length) {
+    if (newf.length === 1) {
         return fname;
     }
     assert(newf.length > 1);
