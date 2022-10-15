@@ -46,11 +46,15 @@ async function commit_crime(ns, crime, howlong) {
  * The gain in each stat.
  *
  * @param ns The Netscript API.
- * @param start An object following the format of the function player_stat().  Values of various stats before some action.
- * @param end An object following the format of the function player_stat().  Values of various stats after some action.
- * @param d The divisor.  Each gained stat is divided by this number to result in an average.  For example, if d
- *     represents the number of minutes, then the result means the gain per minute.
- * @return An object following the format of the function player_stat().  Gained values of various stats.
+ * @param start An object following the format of the function player_stat().
+ *     Values of various stats before some action.
+ * @param end An object following the format of the function player_stat().
+ *     Values of various stats after some action.
+ * @param d The divisor.  Each gained stat is divided by this number to result
+ *     in an average.  For example, if d represents the number of minutes, then
+ *     the result means the gain per minute.
+ * @return An object following the format of the function player_stat().
+ *     Gained values of various stats.
  */
 function gained_stats(ns, start, end, d) {
     const denom = Math.floor(d);
