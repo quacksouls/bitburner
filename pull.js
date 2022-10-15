@@ -81,32 +81,6 @@ function dir_gang() {
 }
 
 /**
- * Scripts that are used to determine the gain in Intelligence XP from various
- * actions.
- */
-function dir_intelligence() {
-    const dir = [
-        "intelligence/augment-buy.js",
-        "intelligence/augment-install.js",
-        "intelligence/augment-post-install.js",
-        "intelligence/crime.js",
-        "intelligence/daemon.js",
-        "intelligence/faction-join-all.js",
-        "intelligence/faction-join.js",
-        "intelligence/home.js",
-        "intelligence/int.js",
-        "intelligence/program.js",
-        "intelligence/relocate.js",
-        "intelligence/study.js",
-        "intelligence/tor-program.js",
-        "intelligence/tor.js",
-        "intelligence/travel.js",
-        "intelligence/util.js",
-    ];
-    return dir;
-}
-
-/**
  * Library files whose functionalities are used in various scripts.
  */
 function dir_lib() {
@@ -200,6 +174,33 @@ function dir_singularity() {
 }
 
 /**
+ * Scripts to test various aspects of the game.
+ */
+function dir_test() {
+    const dir = [
+        // Scripts that are used to determine the gain in Intelligence XP from
+        // various actions.
+        "test/intelligence/augment-buy.js",
+        "test/intelligence/augment-install.js",
+        "test/intelligence/augment-post-install.js",
+        "test/intelligence/crime.js",
+        "test/intelligence/daemon.js",
+        "test/intelligence/faction-join-all.js",
+        "test/intelligence/faction-join.js",
+        "test/intelligence/home.js",
+        "test/intelligence/int.js",
+        "test/intelligence/program.js",
+        "test/intelligence/relocate.js",
+        "test/intelligence/study.js",
+        "test/intelligence/tor-program.js",
+        "test/intelligence/tor.js",
+        "test/intelligence/travel.js",
+        "test/intelligence/util.js",
+    ];
+    return dir;
+}
+
+/**
  * The directory structure under "src/" on github.com.
  *
  * @return All files under "src/" on github.com.
@@ -209,9 +210,9 @@ function dir_structure() {
         dir_root(),
         dir_cct(),
         dir_gang(),
-        dir_intelligence(),
         dir_lib(),
         dir_singularity(),
+        dir_test(),
     ].flat();
     assert(filesystem.length > 0);
     return filesystem;
