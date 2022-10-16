@@ -130,8 +130,8 @@ function usage(ns) {
 
 /**
  * Commit a crime for a period of time, currently default to 24 hours.  Then
- * calculate the amount of negative karma earned per minute.  This script
- * accepts a command line argument.
+ * calculate the amount of negative karma earned per minute as well as other
+ * stat gains.  This script accepts a command line argument.
  *
  * Usage: run test/karma/crime.js [crime]
  * Example: run test/karma/crime.js "shoplift"
