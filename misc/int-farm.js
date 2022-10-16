@@ -134,7 +134,7 @@ async function farm_intelligence(ns) {
     // it.  After purchasing the program, delete it again.
     const p = cheapest_program;
     ns.rm(p, home);
-    while (true) {
+    for (;;) {
         if (player_money(ns) < min_money) {
             await ns.sleep(2 * wait_t.MINUTE);
             continue;
