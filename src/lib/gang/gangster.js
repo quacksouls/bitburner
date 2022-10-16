@@ -395,15 +395,19 @@ export class Gangster {
      * Graduate gang members who have been training their Hack stat.  Although
      * hackers primarily train their Hack stat, they could also benefit from
      * some training in their Charisma stat.  After a hacker has trained their
-     * Hack and Charisma stats, assign them their first job of creating and
-     * distributing ransomware.
+     * Hack and Charisma stats, assign them their first job.  The first job of
+     * the hacker depends on whether we have a criminal or hacking gang.  If we
+     * have a criminal gang, then the first job of the hacker is the same as the
+     * first job of a miscellaneous member.  In case our gang is a hacking gang,
+     * the first job of a hacker is to create and distribute ransomware.
      *
      * @param name An array each of whose elements is a string that represents
      *     a member name.
-     * @param threshold A hacker transitions to ransomware once their Hack stat
-     *     is at least this amount.  The transition is also affected by their
-     *     Charisma stat.  If they do not have sufficient Charisma, they must
-     *     train their Charisma stat before being assigned their first job.
+     * @param threshold A hacker transitions to ransomware (or the first job of
+     *     a miscellaneous gangster) once their Hack stat is at least this
+     *     amount.  The transition is also affected by their Charisma stat.  If
+     *     they do not have sufficient Charisma, they must train their Charisma
+     *     stat before being assigned their first job.
      */
     graduate_hacker(name, threshold) {
         // Sanity checks.
@@ -426,7 +430,11 @@ export class Gangster {
             (s) => this.is_training_charisma(s)
                 && this.charisma(s) >= task_t.CHARISMA
         );
-        this.ransomware(charisma_graduate);
+        if (this.#ns.gang.getGangInformation().isHacking) {
+            this.ransomware(charisma_graduate);
+            return;
+        }
+        this.deal_drugs(charisma_graduate);
     }
 
     /**
