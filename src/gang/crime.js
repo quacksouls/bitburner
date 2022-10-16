@@ -638,7 +638,15 @@ function reassign_fraud(ns, member, min, max) {
 function reassign_from_neutral(ns) {
     const gangster = new Gangster(ns);
     const idle = ns.gang.getMemberNames().filter((s) => gangster.is_idle(s));
-    gangster.extort(idle);
+    if (idle.length === 0) {
+        return;
+    }
+    const combatant = idle.filter((s) => gangster.is_combatant(s));
+    const other = idle.filter(
+        (s) => gangster.is_hacker(s) || gangster.is_miscellaneous(s)
+    );
+    gangster.extort(combatant);
+    gangster.con(other);
 }
 
 /**
