@@ -762,6 +762,17 @@ export class Gangster {
     }
 
     /**
+     * Whether a gang member is currently unassigned.
+     *
+     * @param name A string representing the name of a gang member.
+     * @return true if the given member is idle; false otherwise.
+     */
+    is_idle(name) {
+        assert(this.is_member(name));
+        return task.IDLE === this.#ns.gang.getMemberInformation(name).task;
+    }
+
+    /**
      * Whether a gang member is laundering money.
      *
      * @param name A string representing the name of a gang member.

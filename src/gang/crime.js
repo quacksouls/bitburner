@@ -486,6 +486,7 @@ function reassign(ns) {
     reassign_combatant(ns);
     reassign_hacker(ns);
     reassign_miscellaneous(ns);
+    reassign_from_neutral(ns);
 }
 
 /**
@@ -627,6 +628,17 @@ function reassign_fraud(ns, member, min, max) {
         (s) => min <= gangster.hack(s) && gangster.hack(s) < max
     );
     gangster.fraud(candidate);
+}
+
+/**
+ * Reassign anyone who is in the neutral state to a default task.
+ *
+ * @param ns The Netscript API.
+ */
+function reassign_from_neutral(ns) {
+    const gangster = new Gangster(ns);
+    const idle = ns.gang.getMemberNames().filter((s) => gangster.is_idle(s));
+    gangster.extort(idle);
 }
 
 /**
