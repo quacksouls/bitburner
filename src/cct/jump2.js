@@ -64,7 +64,7 @@ function minimum_jump(array) {
     const path = graph.shortest_path(start, end);
     // Cannot reach the last cell of the given array.
     if (path.length === 0) {
-        return [0, []];
+        return 0;
     }
     // We can reach the last cell of the array.
     assert(path.length > 0);
