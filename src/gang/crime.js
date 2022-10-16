@@ -728,6 +728,8 @@ function reassign_launder(ns, member, min, max) {
 
 /**
  * Reassign miscellaneous gang members to various jobs.
+ *
+ * @param ns The Netscript API.
  */
 function reassign_miscellaneous(ns) {
     const gangster = new Gangster(ns);
