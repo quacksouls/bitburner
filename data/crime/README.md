@@ -1,7 +1,8 @@
 # Crime
 
-Various gains when committing certain crimes.  Each crime was committed for 24 hours.  The total amount of gain is divided
-by the number of minutes.  Each number x in the table below is interpreted as x per minute.
+Various gains when committing certain crimes.  Each crime was committed for 24
+hours.  The total amount of gain is divided by the number of minutes.  Each
+number x in the table below is interpreted as x per minute.
 
 | Crime                 | Agility | Charisma | Defense | Dexterity | Karma       | Money     | Strength |
 |-----------------------|--------:|---------:|--------:|----------:|------------:|----------:|---------:|
