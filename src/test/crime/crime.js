@@ -61,6 +61,7 @@ function gained_stats(ns, start, end, d) {
     assert(denom > 0);
     return {
         agility: (end.agility - start.agility) / denom,
+        charisma: (end.charisma - start.charisma) / denom,
         defense: (end.defense - start.defense) / denom,
         dexterity: (end.dexterity - start.dexterity) / denom,
         karma: (end.karma - start.karma) / denom,
@@ -99,6 +100,7 @@ function karma(ns) {
  *
  *     {
  *         agility: // The player's agility.
+ *         charisma: // The player's charisma.
  *         defense: // The player's defense.
  *         dexterity: // The player's dexterity.
  *         karma: // The player's karma.
@@ -109,6 +111,7 @@ function karma(ns) {
 function player_stat(ns) {
     return {
         agility: ns.getPlayer().exp.agility,
+        charisma: ns.getPlayer().exp.charisma,
         defense: ns.getPlayer().exp.defense,
         dexterity: ns.getPlayer().exp.dexterity,
         karma: karma(ns),
@@ -156,6 +159,7 @@ export async function main(ns) {
     ns.tprint(`Duration: ${n} hours`);
     ns.tprint("Stat gain per minute.");
     ns.tprint(`Agility: ${gain.agility}`);
+    ns.tprint(`Charisma: ${gain.charisma}`);
     ns.tprint(`Defense: ${gain.defense}`);
     ns.tprint(`Dexterity: ${gain.dexterity}`);
     ns.tprint(`Karma: ${gain.karma}`);
