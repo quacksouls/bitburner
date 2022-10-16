@@ -120,17 +120,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     blackmail(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members threaten and blackmail people.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_blackmailer(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.BLACKMAIL));
             }
-        }
+        });
     }
 
     /**
@@ -150,17 +150,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     con(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members run a con.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_con_artist(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.CON));
             }
-        }
+        });
     }
 
     /**
@@ -169,17 +169,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     deal_drugs(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members be involved in dealing drugs.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_dealing_drugs(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.DRUGS));
             }
-        }
+        });
     }
 
     /**
@@ -310,17 +310,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     ethical_hacking(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members be involved in ethical hacking.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_ethical_hacker(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.EHACK));
             }
-        }
+        });
     }
 
     /**
@@ -329,17 +329,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     extort(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members strongarm civilians.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_extortionist(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.EXTORT));
             }
-        }
+        });
     }
 
     /**
@@ -348,17 +348,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     fraud(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit financial fraud and digital counterfeiting.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_fraudster(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.FRAUD));
             }
-        }
+        });
     }
 
     /**
@@ -375,14 +375,14 @@ export class Gangster {
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
+        name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their combat stats, members graduate to mugging
         // random people.
-        const combatant = name.filter((s) => this.is_combatant(s));
-        const graduate = combatant.filter(
-            (s) => this.is_training_combat(s)
+        const graduate = name.filter(
+            (s) => this.is_combatant(s)
+                && this.is_training_combat(s)
                 && this.strength(s) >= min
                 && this.defense(s) >= min
                 && this.dexterity(s) >= min
@@ -410,7 +410,7 @@ export class Gangster {
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
+        name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their Hack stat, a hacker also trains their Charisma
@@ -449,7 +449,7 @@ export class Gangster {
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
+        name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
         // After training their Charisma stat, a miscellaneous member also
@@ -575,17 +575,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     id_theft(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit identity theft.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_id_thief(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.ID_THEFT));
             }
-        }
+        });
     }
 
     /**
@@ -639,7 +639,6 @@ export class Gangster {
      * @return true if the given member is a combatant; false otherwise.
      */
     is_combatant(name) {
-        assert(this.is_member(name));
         return (
             this.is_artillery(name)
             || this.is_pilot(name)
@@ -680,8 +679,7 @@ export class Gangster {
      */
     is_dealing_drugs(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.DRUGS === current_task;
+        return task.DRUGS === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -693,8 +691,7 @@ export class Gangster {
      */
     is_ethical_hacker(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.EHACK === current_task;
+        return task.EHACK === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -706,8 +703,7 @@ export class Gangster {
      */
     is_extortionist(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.EXTORT === current_task;
+        return task.EXTORT === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -720,8 +716,7 @@ export class Gangster {
      */
     is_fraudster(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.FRAUD === current_task;
+        return task.FRAUD === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -757,8 +752,7 @@ export class Gangster {
      */
     is_id_thief(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.ID_THEFT === current_task;
+        return task.ID_THEFT === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -780,14 +774,13 @@ export class Gangster {
      */
     is_launderer(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.LAUNDER === current_task;
+        return task.LAUNDER === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
      * Whether the given name belongs to a member of our gang.
      *
-     * @param name A string representing the name of a gang member.  A member's
+     * @param name A string representing the name of a gangster.  A member's
      *     name should be prefixed with their role, according to the format:
      *     "[Role] Full Name".
      * @return true if our gang has the specified member; false otherwise.
@@ -830,8 +823,7 @@ export class Gangster {
      */
     is_mugger(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.MUG === current_task;
+        return task.MUG === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -843,8 +835,7 @@ export class Gangster {
      */
     is_phisher(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.PHISH === current_task;
+        return task.PHISH === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -880,8 +871,7 @@ export class Gangster {
      */
     is_robber(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.ROBBERY === current_task;
+        return task.ROBBERY === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -893,8 +883,7 @@ export class Gangster {
      */
     is_terrorist(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TERROR === current_task;
+        return task.TERROR === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -921,8 +910,7 @@ export class Gangster {
      */
     is_training_charisma(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.CHARISMA === current_task;
+        return task.CHARISMA === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -933,8 +921,7 @@ export class Gangster {
      */
     is_training_combat(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.COMBAT === current_task;
+        return task.COMBAT === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -945,8 +932,7 @@ export class Gangster {
      */
     is_training_hack(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.HACK === current_task;
+        return task.HACK === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -970,8 +956,7 @@ export class Gangster {
      */
     is_vigilante(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.VIGILANTE === current_task;
+        return task.VIGILANTE === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -983,8 +968,7 @@ export class Gangster {
      */
     is_warrior(name) {
         assert(this.is_member(name));
-        const current_task = this.#ns.gang.getMemberInformation(name).task;
-        return task.TURF_WAR === current_task;
+        return task.TURF_WAR === this.#ns.gang.getMemberInformation(name).task;
     }
 
     /**
@@ -993,17 +977,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     launder(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members launder money.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_launderer(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.LAUNDER));
             }
-        }
+        });
     }
 
     /**
@@ -1012,17 +996,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     mug(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members mug random people.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_mugger(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.MUG));
             }
-        }
+        });
     }
 
     /**
@@ -1044,7 +1028,6 @@ export class Gangster {
      * @return true if the given member needs combat training; false otherwise.
      */
     needs_combat_training(name) {
-        assert(this.is_member(name));
         if (
             this.strength(name) < task_t.COMBAT
             || this.defense(name) < task_t.COMBAT
@@ -1075,7 +1058,6 @@ export class Gangster {
      *     false otherwise.
      */
     needs_training(name) {
-        assert(this.is_member(name));
         if (this.is_combatant(name)) {
             return this.needs_combat_training(name);
         }
@@ -1098,13 +1080,15 @@ export class Gangster {
      * @param name An array of member names.
      */
     neutral(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members be in the idle state.
-        name.map((s) => this.#ns.gang.setMemberTask(s, task.IDLE));
+        name.forEach((s) => {
+            assert(this.is_member(s));
+            this.#ns.gang.setMemberTask(s, task.IDLE);
+        });
     }
 
     /**
@@ -1113,17 +1097,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     phish(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members commit phishing scams.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_phisher(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.PHISH));
             }
-        }
+        });
     }
 
     /**
@@ -1155,17 +1139,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     ransomware(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members create and distribute ransomware.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_creating_ransomware(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.RANSOMWARE));
             }
-        }
+        });
     }
 
     /**
@@ -1249,17 +1233,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     robbery(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in armed robbery.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_robber(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.ROBBERY));
             }
-        }
+        });
     }
 
     /**
@@ -1337,17 +1321,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     terrorism(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in terrorism.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_terrorist(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TERROR));
             }
-        }
+        });
     }
 
     /**
@@ -1356,17 +1340,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     traffick_arms(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in trafficking illegal arms.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_arms_trafficker(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_ARMS));
             }
-        }
+        });
     }
 
     /**
@@ -1375,17 +1359,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     traffick_human(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members operate a human trafficking ring.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_human_trafficker(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TRAFFICK_HUMAN));
             }
-        }
+        });
     }
 
     /**
@@ -1409,7 +1393,7 @@ export class Gangster {
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
+        name.forEach((s) => assert(this.is_member(s)));
         // Train various stats.  The stat(s) to train, and the amount of time
         // spent in training, depend on a member's role.
         const hacker = name.filter((s) => this.is_hacker(s));
@@ -1429,18 +1413,17 @@ export class Gangster {
      *     members.
      */
     train_charisma(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Charisma training.
-        for (const s of name) {
-            if (this.is_training_charisma(s)) {
-                continue;
+        name.forEach((s) => {
+            assert(this.is_member(s));
+            if (!this.is_training_charisma(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.CHARISMA));
             }
-            assert(this.#ns.gang.setMemberTask(s, task.CHARISMA));
-        }
+        });
     }
 
     /**
@@ -1451,18 +1434,17 @@ export class Gangster {
      *     members.
      */
     train_combat(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Combat training.
-        for (const s of name) {
-            if (this.is_training_combat(s)) {
-                continue;
+        name.forEach((s) => {
+            assert(this.is_member(s));
+            if (!this.is_training_combat(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.COMBAT));
             }
-            assert(this.#ns.gang.setMemberTask(s, task.COMBAT));
-        }
+        });
     }
 
     /**
@@ -1473,18 +1455,17 @@ export class Gangster {
      *     members.
      */
     train_hack(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Hack training.
-        for (const s of name) {
-            if (this.is_training_hack(s)) {
-                continue;
+        name.forEach((s) => {
+            assert(this.is_member(s));
+            if (!this.is_training_hack(s)) {
+                assert(this.#ns.gang.setMemberTask(s, task.HACK));
             }
-            assert(this.#ns.gang.setMemberTask(s, task.HACK));
-        }
+        });
     }
 
     /**
@@ -1493,17 +1474,17 @@ export class Gangster {
      * @param name An array of member names.
      */
     turf_war(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members engage in turf warfare.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_warrior(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.TURF_WAR));
             }
-        }
+        });
     }
 
     /**
@@ -1512,16 +1493,16 @@ export class Gangster {
      * @param name An array of member names.
      */
     vigilante(name) {
-        // Sanity checks.
+        // Sanity check.
         if (name.length === 0) {
             return;
         }
-        name.map((s) => assert(this.is_member(s)));
         // Let gang members be vigilantes.
-        for (const s of name) {
+        name.forEach((s) => {
+            assert(this.is_member(s));
             if (!this.is_vigilante(s)) {
                 assert(this.#ns.gang.setMemberTask(s, task.VIGILANTE));
             }
-        }
+        });
     }
 }
