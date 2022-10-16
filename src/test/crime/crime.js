@@ -133,8 +133,8 @@ function usage(ns) {
  * calculate the amount of negative karma earned per minute as well as other
  * stat gains.  This script accepts a command line argument.
  *
- * Usage: run test/karma/crime.js [crime]
- * Example: run test/karma/crime.js "shoplift"
+ * Usage: run test/crime/crime.js [crime]
+ * Example: run test/crime/crime.js "shoplift"
  */
 export async function main(ns) {
     // Sanity check.
