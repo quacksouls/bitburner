@@ -69,6 +69,7 @@ class Money {
      * The value for one million.
      */
     #million;
+
     /**
      * Initialize a money object.
      */
