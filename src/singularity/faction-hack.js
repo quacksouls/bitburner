@@ -61,6 +61,7 @@ async function hacking_group(ns, fac) {
     await install_backdoor(ns, server.hostname());
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
+    ns.print(`Buy Augmentations from ${fac}`);
     await purchase_augment(ns, fac);
 }
 
@@ -80,6 +81,7 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("scan");
     ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.donateToFaction");
     ns.disableLog("singularity.workForCompany");
     ns.disableLog("sleep");
     // Join the appropriate faction.
