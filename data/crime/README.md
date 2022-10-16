@@ -1,6 +1,7 @@
-# Karma
+# Crime
 
-The karma gain when committing various crimes.  Consider these crimes:
+The karma, stat, and money gains when committing various crimes.  Consider
+these crimes:
 
 - [] assassinate
 - [] deal drugs
