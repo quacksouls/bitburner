@@ -50,9 +50,9 @@ async function commit_crime(ns, crime, howlong) {
  *     Values of various stats before some action.
  * @param end An object following the format of the function player_stat().
  *     Values of various stats after some action.
- * @param d The divisor.  Each gained stat is divided by this number to result
- *     in an average.  For example, if d represents the number of minutes, then
- *     the result means the gain per minute.
+ * @param d The denominator.  Each gained stat is divided by this number to
+ *     result in an average.  For example, if d represents the number of
+ *     minutes, then the result means the gain per minute.
  * @return An object following the format of the function player_stat().
  *     Gained values of various stats.
  */
@@ -153,8 +153,8 @@ export async function main(ns) {
     const howlong = n * wait_t.HOUR;
     await commit_crime(ns, crime, howlong);
     const end = player_stat(ns);
-    const divisor = n * minute;
-    const gain = gained_stats(ns, start, end, divisor);
+    const denom = n * minute;
+    const gain = gained_stats(ns, start, end, denom);
     ns.tprint(`Crime: ${crime}`);
     ns.tprint(`Duration: ${n} hours`);
     ns.tprint("Stat gain per minute.");
