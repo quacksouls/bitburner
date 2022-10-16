@@ -643,7 +643,7 @@ export class Gangster {
         return (
             this.is_artillery(name)
             || this.is_pilot(name)
-            || this.role(name) === members.ROLE.punk
+            || this.is_punk(name)
             || this.is_vanguard(name)
         );
     }
