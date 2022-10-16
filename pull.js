@@ -178,6 +178,8 @@ function dir_singularity() {
  */
 function dir_test() {
     const dir = [
+        // Scripts used to gather data on karma and stat gains for each crime.
+        "test/crime/crime.js",
         // Scripts that are used to determine the gain in Intelligence XP from
         // various actions.
         "test/intelligence/augment-buy.js",
@@ -196,8 +198,6 @@ function dir_test() {
         "test/intelligence/tor.js",
         "test/intelligence/travel.js",
         "test/intelligence/util.js",
-        // Scripts used to gather data on karma gain for each crime.
-        "test/karma/crime.js",
     ];
     return dir;
 }
