@@ -74,6 +74,13 @@ export class Player {
     }
 
     /**
+     * The BitNode in which the player currently inhabits.
+     */
+    bitnode() {
+        return this.#ns.getPlayer().bitNodeN;
+    }
+
+    /**
      * The player's current Charisma level.
      */
     charisma() {
