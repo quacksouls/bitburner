@@ -19,6 +19,7 @@ import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
 import { Player } from "/lib/player.js";
+import { assert } from "/lib/util.js";
 
 /**
  * A class to hold information about a corporation.  We use this class to help
@@ -101,6 +102,11 @@ export class Corporation {
      * @return true if we have already created a corporation; false otherwise.
      */
     has_corp() {
-        return this.#ns[corp.API].getCorporation().name === corp.NAME;
+        try {
+            assert(this.#ns[corp.API].getCorporation().name === corp.NAME);
+            return bool.HAS;
+        } catch {
+            return bool.NOT;
+        }
     }
 }
