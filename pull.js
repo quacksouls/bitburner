@@ -112,6 +112,7 @@ function dir_lib() {
         "lib/constant/time.js",
         "lib/constant/work.js",
         "lib/constant/wse.js",
+        "lib/corporation/corp.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
         "lib/money.js",
