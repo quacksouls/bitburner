@@ -65,6 +65,10 @@ export const bool = {
     // Array Jumping Game.
     REACHABLE: 1,
     NOT_REACHABLE: 0,
+    /**
+     * Whether we are self-funding the creation of our corporation.
+     */
+    SELF_FUND: true,
     // Whether or not to skip an action.
     SKIP: true,
     NO_SKIP: false,

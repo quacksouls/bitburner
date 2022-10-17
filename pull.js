@@ -68,6 +68,14 @@ function dir_cct() {
 }
 
 /**
+ * Scripts for managing a corporation.
+ */
+function dir_corporation() {
+    const corp = ["corporation/corp.js"];
+    return corp;
+}
+
+/**
  * Scripts to automate gangs.
  */
 function dir_gang() {
@@ -90,6 +98,7 @@ function dir_lib() {
         "lib/constant/bn.js",
         "lib/constant/bool.js",
         "lib/constant/cct.js",
+        "lib/constant/corp.js",
         "lib/constant/crime.js",
         "lib/constant/exe.js",
         "lib/constant/faction.js",
@@ -211,6 +220,7 @@ function dir_structure() {
     const filesystem = [
         dir_root(),
         dir_cct(),
+        dir_corporation(),
         dir_gang(),
         dir_lib(),
         dir_singularity(),
