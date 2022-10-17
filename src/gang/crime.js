@@ -203,20 +203,6 @@ function equip(ns) {
                 break;
             }
         }
-        // The Hacker is special in the sense that they primarily depend on
-        // their Hack stat.  Ensure the Hacker is first equipped with a rootkit
-        // prior to equipping them with a weapon, armour piece, or vehicle.
-        if (gangster.is_hacker(s)) {
-            for (const kit of Object.values(rootkit)) {
-                if (gangster.has_rootkit(s, kit)) {
-                    continue;
-                }
-                const success = gangster.equip_rootkit(s, kit);
-                if (success) {
-                    break;
-                }
-            }
-        }
         // Try to equip a new weapon.
         for (const wpn of Object.values(weapon)) {
             if (gangster.has_weapon(s, wpn)) {
@@ -243,6 +229,18 @@ function equip(ns) {
                 continue;
             }
             const success = gangster.equip_vehicle(s, vhc);
+            if (success) {
+                break;
+            }
+        }
+        // Try to equip a rootkit.  This should be low on our priority list
+        // because members of a criminal gang primarily depend on their combat
+        // stats and Charisma.
+        for (const kit of Object.values(rootkit)) {
+            if (gangster.has_rootkit(s, kit)) {
+                continue;
+            }
+            const success = gangster.equip_rootkit(s, kit);
             if (success) {
                 break;
             }
