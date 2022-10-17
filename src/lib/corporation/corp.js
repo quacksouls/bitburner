@@ -67,4 +67,13 @@ export class Corporation {
         }
         return this.#ns[corp.API].createCorporation(corp.NAME, bool.SELF_FUND);
     }
+
+    /**
+     * Whether we have already created a corporation.
+     *
+     * @return true if we have already created a corporation; false otherwise.
+     */
+    has_corp() {
+        return this.#ns[corp.API].getCorporation().name === corp.NAME;
+    }
 }

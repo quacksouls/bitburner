@@ -25,6 +25,9 @@ import { Corporation } from "/lib/corporation/corp.js";
  */
 async function create_corp(ns) {
     const org = new Corporation(ns);
+    if (org.has_corp()) {
+        return;
+    }
     while (!org.create()) {
         await ns.sleep(wait_t.DEFAULT);
     }
