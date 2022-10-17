@@ -64,6 +64,7 @@ function gained_stats(ns, start, end, d) {
         charisma: (end.charisma - start.charisma) / denom,
         defense: (end.defense - start.defense) / denom,
         dexterity: (end.dexterity - start.dexterity) / denom,
+        hack: (end.hack - start.hack) / denom,
         karma: (end.karma - start.karma) / denom,
         money: (end.money - start.money) / denom,
         strength: (end.strength - start.strength) / denom,
@@ -103,6 +104,7 @@ function karma(ns) {
  *         charisma: // The player's charisma.
  *         defense: // The player's defense.
  *         dexterity: // The player's dexterity.
+ *         hack: // The player's hacking skill.
  *         karma: // The player's karma.
  *         money: // The player's money.
  *         strength: // The player's strength.
@@ -114,6 +116,7 @@ function player_stat(ns) {
         charisma: ns.getPlayer().exp.charisma,
         defense: ns.getPlayer().exp.defense,
         dexterity: ns.getPlayer().exp.dexterity,
+        hack: ns.getPlayer().exp.hacking,
         karma: karma(ns),
         money: ns.getPlayer().money,
         strength: ns.getPlayer().exp.strength,
@@ -162,6 +165,7 @@ export async function main(ns) {
     ns.tprint(`Charisma: ${gain.charisma}`);
     ns.tprint(`Defense: ${gain.defense}`);
     ns.tprint(`Dexterity: ${gain.dexterity}`);
+    ns.tprint(`Hack: ${gain.hack}`);
     ns.tprint(`Karma: ${gain.karma}`);
     ns.tprint(`Money: ${gain.money}`);
     ns.tprint(`Strength: ${gain.strength}`);
