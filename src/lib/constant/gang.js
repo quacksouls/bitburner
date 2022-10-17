@@ -32,21 +32,24 @@ export const armour = {
 };
 
 /**
- * All Augmentations that can be equipped on a member of a criminal gang.  The
- * Augmentations are listed from least expensive to most expensive.  The data
- * are taken from this file:
+ * All Augmentations that can be equipped on a gang member.  The Augmentations
+ * are listed from least expensive to most expensive.  The data are taken from
+ * this file:
  *
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
  */
 export const gang_augment = {
-    ARMS: "Bionic Arms",
-    LEGS: "Bionic Legs",
-    WEAVE: "Nanofiber Weave",
-    SPINE: "Bionic Spine",
-    MUSCLE: "Synfibril Muscle",
-    BLADES: "BrachiBlades",
-    HEART: "Synthetic Heart",
-    BONE: "Graphene Bone Lacings",
+    WIRE: "BitWire", // 5e9
+    DATA: "DataJack", // 7.5e9
+    ARMS: "Bionic Arms", // 10e9
+    LEGS: "Bionic Legs", // 10e9
+    NEURAL: "Neuralstimulator", // 10e9
+    WEAVE: "Nanofiber Weave", // 12e9
+    SPINE: "Bionic Spine", // 15e9
+    MUSCLE: "Synfibril Muscle", // 15e9
+    BLADES: "BrachiBlades", // 20e9
+    HEART: "Synthetic Heart", // 25e9
+    BONE: "Graphene Bone Lacings", // 50e9
 };
 
 /**
