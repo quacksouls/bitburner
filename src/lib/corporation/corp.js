@@ -69,6 +69,33 @@ export class Corporation {
     }
 
     /**
+     * Expand our corporation into other industries.
+     */
+    expand() {
+        if (!this.has_agriculture()) {
+            this.#ns[corp.API].expandIndustry(
+                corp.industry.AGRI,
+                corp.industry.AGRI
+            );
+        }
+    }
+
+    /**
+     * Whether we have a division in the agriculture industry.
+     *
+     * @return true if we have expanded into the agriculture industry;
+     *     false otherwise.
+     */
+    has_agriculture() {
+        for (const d of this.#ns[corp.API].getCorporation().divisions) {
+            if (d.type === corp.industry.AGRI) {
+                return bool.HAS;
+            }
+        }
+        return bool.NOT;
+    }
+
+    /**
      * Whether we have already created a corporation.
      *
      * @return true if we have already created a corporation; false otherwise.

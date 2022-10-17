@@ -27,6 +27,28 @@ export const corp = {
      */
     API: "corporation",
     /**
+     * All available industries into which we can expand.  Data taken from this
+     * file:
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/Corporation/data/Constants.ts
+     */
+    industry: {
+        AGRI: "Agriculture",
+        CHEM: "Chemical",
+        COMP: "Computers",
+        ENERGY: "Energy",
+        FISH: "Fishing",
+        FOOD: "Food",
+        HEALTH: "Healthcare",
+        LAND: "RealEstate",
+        MINE: "Mining",
+        PHARMA: "Pharmaceutical",
+        ROBO: "Robotics",
+        SOFTWARE: "Software",
+        TOBACCO: "Tobacco",
+        UTIL: "Utilities",
+    },
+    /**
      * The name of our corporation.
      */
     NAME: "Quacken Industries",
