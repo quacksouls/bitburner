@@ -34,7 +34,7 @@ async function farm_intelligence(ns) {
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
     const player = new Player(ns);
-    const p = cheapest_program;
+    const p = cheapest_program.NAME;
     ns.rm(p, player.home());
     for (;;) {
         if (player.money() < min_money) {

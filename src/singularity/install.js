@@ -16,9 +16,9 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { MyArray } from "/lib/array.js";
-import { all_programs } from "/lib/constant/exe.js";
+import { cheapest_program } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/lib/gang/util.js";
@@ -112,65 +112,23 @@ function buy_other_augmentations(ns) {
 async function buy_programs(ns) {
     const player = new Player(ns);
     assert(player.has_tor());
-    const db = cost_program(ns);
-    const time = 1; // Millisecond.
     // Try to buy at most this many times to prevent the script from hanging.
     // If our income rises faster than our spending on programs, then it is
     // possible for this function to hang and buys indefinitely.
-    let ntry = 0;
     const maxtry = 1000;
-    for (;;) {
-        let nbought = 0;
-        for (const [c, p] of db) {
-            if (player.money() < c) {
-                continue;
+    const p = cheapest_program.NAME;
+    const cost = cheapest_program.COST;
+    ns.rm(p, player.home());
+    for (let i = 0; i < maxtry; i++) {
+        for (let j = 0; j < maxtry; j++) {
+            if (player.money() < cost) {
+                return;
             }
-            const success = ns.singularity.purchaseProgram(p);
-            if (success) {
-                nbought++;
-                assert(ns.rm(p, player.home()));
-            }
+            ns.singularity.purchaseProgram(p);
+            assert(ns.rm(p, player.home()));
         }
-        if (nbought < 1) {
-            break;
-        }
-        ntry++;
-        if (ntry >= maxtry) {
-            break;
-        }
-        await ns.sleep(time);
+        await ns.sleep(wait_t.MILLISECOND);
     }
-}
-
-/**
- * The cost of each program that can be purchased via the dark web.
- *
- * @param ns The Netscript API.
- * @return An array of arrays.  Each element is a 2-tuple [c, p] as follows:
- *
- *     (1) c := The cost of buying the given program.
- *     (2) p := A string representing the name of a program available via the
- *         dark web.
- *
- *     The returned array is sorted in ascending order, using the first element
- *     of each 2-tuple.
- */
-function cost_program(ns) {
-    // The program name and its cost.
-    const db = [];
-    const player = new Player(ns);
-    for (const p of all_programs().keys()) {
-        // Must delete the program on our home server, otherwise its cost would
-        // be zero.
-        if (player.has_program(p)) {
-            ns.rm(p, player.home());
-        }
-        const cost = ns.singularity.getDarkwebProgramCost(p);
-        db.push([cost, p]);
-    }
-    assert(db.length > 0);
-    const array = new MyArray();
-    return array.sort_ascending_tuple(db);
 }
 
 /**

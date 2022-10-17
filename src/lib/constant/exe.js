@@ -61,7 +61,10 @@ export function all_programs() {
  * ServerProfiler.exe and DeepscanV1.exe.  Decide which of these two programs
  * we do not need and delete that one.
  */
-export const cheapest_program = "DeepscanV1.exe";
+export const cheapest_program = {
+    COST: 5e5,
+    NAME: "DeepscanV1.exe",
+};
 
 /**
  * These programs are port openers.  Each program can be used to open a
