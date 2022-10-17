@@ -146,6 +146,27 @@ function decrease_penalty(ns) {
 }
 
 /**
+ * All Augmentations that raise the defense of a gang member.
+ */
+function defensive_equipment_augment() {
+    return Object.values(gang_augment).filter(
+        (a) => a !== gang_augment.ARMS
+            && a !== gang_augment.LEGS
+            && a !== gang_augment.HEART
+            && a !== gang_augment.WIRE
+            && a !== gang_augment.NEURAL
+            && a !== gang_augment.DATA
+    );
+}
+
+/**
+ * All weapons that raise the defense of a gang member.
+ */
+function defensive_equipment_weapon() {
+    return Object.values(weapon).filter((w) => w !== weapon.AWM);
+}
+
+/**
  * Whether to engage in territory warfare against a rival gang.  By default,
  * we do not engage in turf warfare.  However, we enable turf warfare provided
  * that the following conditions are satisfied:
@@ -192,34 +213,49 @@ function enable_turf_war(ns) {
 function equip(ns) {
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
-        // Always try to first purchase an Augmentation because the effects of
-        // Augmentations are persistent after an ascension.
-        for (const aug of Object.values(gang_augment)) {
-            if (gangster.has_augment(s, aug)) {
-                continue;
-            }
-            const success = gangster.equip_augment(s, aug);
-            if (success) {
-                break;
-            }
-        }
-        // Try to equip a new weapon.
-        for (const wpn of Object.values(weapon)) {
-            if (gangster.has_weapon(s, wpn)) {
-                continue;
-            }
-            const success = gangster.equip_weapon(s, wpn);
-            if (success) {
-                break;
-            }
-        }
-        // Try to equip a new armour piece.
+        // Equip items that raise a member's defense.  Higher defense translates
+        // to a lower probability of death during a clash against a rival gang.
+        // Always try to first purchase an Augmentation that raises defense
+        // because the effects of Augmentations are persistent after an
+        // ascension.  Next, we equip weapons that raise defense.  Not all
+        // weapons raise the defense of a gang member.  Finally, we equip armour
+        // pieces, all of which raise defense.
+        equip_augment_def(ns, s);
+        equip_weapon_def(ns, s);
         for (const amr of Object.values(armour)) {
             if (gangster.has_armour(s, amr)) {
                 continue;
             }
-            const success = gangster.equip_armour(s, amr);
-            if (success) {
+            if (gangster.equip_armour(s, amr)) {
+                break;
+            }
+        }
+        // Now equip items that raise other stats.  Ensure we have first
+        // equipped all items that raise defense.
+        if (!has_all_def_equipment(ns, s)) {
+            continue;
+        }
+        // Try to equip other Augmentations.
+        const other_augment = Object.values(gang_augment).filter(
+            (a) => !defensive_equipment_augment().includes(a)
+        );
+        for (const aug of other_augment) {
+            if (gangster.has_augment(s, aug)) {
+                continue;
+            }
+            if (gangster.equip_augment(s, aug)) {
+                break;
+            }
+        }
+        // Try to equip other weapons.
+        const other_weapon = Object.values(weapon).filter(
+            (w) => !defensive_equipment_weapon().includes(w)
+        );
+        for (const wpn of other_weapon) {
+            if (gangster.has_weapon(s, wpn)) {
+                continue;
+            }
+            if (gangster.equip_weapon(s, wpn)) {
                 break;
             }
         }
@@ -228,8 +264,7 @@ function equip(ns) {
             if (gangster.has_vehicle(s, vhc)) {
                 continue;
             }
-            const success = gangster.equip_vehicle(s, vhc);
-            if (success) {
+            if (gangster.equip_vehicle(s, vhc)) {
                 break;
             }
         }
@@ -240,10 +275,88 @@ function equip(ns) {
             if (gangster.has_rootkit(s, kit)) {
                 continue;
             }
-            const success = gangster.equip_rootkit(s, kit);
-            if (success) {
+            if (gangster.equip_rootkit(s, kit)) {
                 break;
             }
+        }
+    }
+}
+
+/**
+ * Equip a gang member with various Augmentations that raise their defense.  The
+ * effects of Augmentations are persistent and a member does not lose them after
+ * an ascension.  We want to equip a member with Augmentations that raise their
+ * defense.  The higher is the defense of a member, the lower is the probability
+ * of death during a clash against a rival gang.  The following Augmentations
+ * raise defense:
+ *
+ * (1) Bionic Spine: 1.15
+ * (2) BrachiBlades: 1.4
+ * (3) Nanofiber Weave: 1.2
+ * (4) Synfibril Muscle: 1.3
+ * (5) Graphene Bone Lacings: 1.7
+ *
+ * Unfortunately, the following Augmentations do not raise defense:
+ *
+ * (1) Bionic Arms
+ * (2) Bionic Legs
+ * (3) Synthetic Heart
+ * (4) BitWire
+ * (5) Neuralstimulator
+ * (6) DataJack
+ *
+ * Refer to these files for more detail:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/Gang.ts
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ *
+ * @param ns The Netscript API.
+ * @param name A string representing the name of our gang member.
+ */
+function equip_augment_def(ns, name) {
+    const gangster = new Gangster(ns);
+    for (const aug of defensive_equipment_augment()) {
+        if (gangster.has_augment(name, aug)) {
+            continue;
+        }
+        if (gangster.equip_augment(name, aug)) {
+            return;
+        }
+    }
+}
+
+/**
+ * Equip a gang member with various weapons that raise their defense.  Weapons
+ * are important because most of them raise a ganster's defense.  While engaged
+ * in a clash against a rival gang, the defense of our gangster helps to lower
+ * the chance of death.  The higher is our member's defense, the lower is the
+ * probability of death.  The following weapons raise defense:
+ *
+ * (1) Baseball Bat: 1.04
+ * (2) Katana: 1.08
+ * (3) Glock 18C: 1.1
+ * (4) P90C: 1.1
+ * (5) Steyr AUG: 1.15
+ * (6) AK-47: 1.2
+ * (7) M15A10 Assault Rifle: 1.25
+ *
+ * Unfortunately, the AWM Sniper Rifle does not raise our member's defense.
+ * Refer to these files for more detail:
+ *
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/Gang.ts
+ * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ *
+ * @param ns The Netscript API.
+ * @param name A string representing the name of our gang member.
+ */
+function equip_weapon_def(ns, name) {
+    const gangster = new Gangster(ns);
+    for (const wpn of defensive_equipment_weapon()) {
+        if (gangster.has_weapon(name, wpn)) {
+            continue;
+        }
+        if (gangster.equip_weapon(name, wpn)) {
+            return;
         }
     }
 }
@@ -260,6 +373,36 @@ function graduate(ns) {
     gangster.graduate_combatant(member, task_t.COMBAT);
     gangster.graduate_hacker(member, task_t.HACK);
     gangster.graduate_other(member, task_t.CHARISMA);
+}
+
+/**
+ * Whether we have equipped all items that raise a gang member's defense.
+ * Defense is important during a clash against a rival gang.  The higher is a
+ * member's defense, the lower is the probability of death during the clash.
+ *
+ * @param ns The Netscript API.
+ * @param name A string representing the name of a gang member.
+ * @return true if a gang member has all equipment that raise their defense;
+ *     false otherwise.
+ */
+function has_all_def_equipment(ns, name) {
+    const gangster = new Gangster(ns);
+    for (const aug of defensive_equipment_augment()) {
+        if (!gangster.has_augment(name, aug)) {
+            return bool.NOT;
+        }
+    }
+    for (const wpn of defensive_equipment_weapon()) {
+        if (!gangster.has_weapon(name, wpn)) {
+            return bool.NOT;
+        }
+    }
+    for (const amr of Object.values(armour)) {
+        if (!gangster.has_armour(name, amr)) {
+            return bool.NOT;
+        }
+    }
+    return bool.HAS;
 }
 
 /**
