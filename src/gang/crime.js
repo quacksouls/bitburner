@@ -814,6 +814,13 @@ function reassign_hacker(ns) {
     // miscellaneous gang member.
     reassign_con(ns, hacker, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, hacker, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+    // If we already control 100% of the territory, then assign everyone to
+    // trafficking illegal arms because this task generally earns more money
+    // than human trafficking.
+    if (has_all_turf(ns)) {
+        reassign_arms_trafficking(ns, hacker, task_t.TRAFFICK_ARMS, Infinity);
+        return;
+    }
     reassign_human_trafficking(ns, hacker, task_t.TRAFFICK_HUMAN, Infinity);
 }
 
@@ -887,6 +894,13 @@ function reassign_miscellaneous(ns) {
         .filter((s) => gangster.is_miscellaneous(s));
     reassign_con(ns, other, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, other, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+    // If we already control 100% of the territory, then assign everyone to
+    // trafficking illegal arms because this task generally earns more money
+    // than human trafficking.
+    if (has_all_turf(ns)) {
+        reassign_arms_trafficking(ns, other, task_t.TRAFFICK_ARMS, Infinity);
+        return;
+    }
     reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
 }
 
