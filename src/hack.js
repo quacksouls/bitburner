@@ -47,10 +47,10 @@ export async function main(ns) {
     // Continuously hack/grow/weaken the target server.
     const time = 1; // One millisecond.
     for (;;) {
-        const money_available = ns.getServerMoneyAvailable(target);
+        const money = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
             await ns.weaken(target);
-        } else if (money_available < money_threshold) {
+        } else if (money < money_threshold) {
             await ns.grow(target);
         } else {
             await ns.hack(target);
