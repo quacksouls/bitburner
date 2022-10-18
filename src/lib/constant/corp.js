@@ -52,6 +52,52 @@ export const corp = {
      * The name of our corporation.
      */
     NAME: "Quacken Industries",
+    /**
+     * Unlock upgrades.  These are one-time unlockable upgrades and apply to the
+     * entire corporation.  We cannot level these upgrades.  Data are taken from
+     * this file:
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/Corporation/data/CorporationUnlockUpgrades.ts
+     */
+    unlock: {
+        /**
+         * Shady tactics to reduce our corporation's tax.
+         */
+        ACCOUNT: "Shady Accounting",
+        /**
+         * Statistics about our corporation and its supply chain.
+         */
+        CHAIN: "VeChain",
+        /**
+         * Display the competition of each material or product.
+         */
+        COMPETITION: "Market Data - Competition",
+        /**
+         * Display the demand of each material or product.
+         */
+        DEMAND: "Market Research - Demand",
+        /**
+         * Allows us to export goods.
+         */
+        EXPORT: "Export",
+        /**
+         * The Office API.
+         */
+        OFFICE: "Office API",
+        /**
+         * Private/public partnership or PPP.  Partner with national governments
+         * to help lower our taxes.
+         */
+        PPP: "Government Partnership",
+        /**
+         * Allows us to purchase the exact amount of supply for production.
+         */
+        SMART: "Smart Supply",
+        /**
+         * The Warehouse API.
+         */
+        WAREHOUSE: "Warehouse API",
+    },
 };
 
 /**

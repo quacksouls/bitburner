@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { corp } from "/lib/constant/corp.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 
@@ -44,6 +45,19 @@ function expand(ns) {
 }
 
 /**
+ * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
+ * applies to the entire corporation and cannot be levelled.
+ *
+ * @param ns The Netscript API.
+ */
+function unlock_upgrade(ns) {
+    const org = new Corporation(ns);
+    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
+        org.buy_unlock_upgrade(corp.unlock.SMART);
+    }
+}
+
+/**
  * Create and manage a corporation.
  *
  * @param ns The Netscript API.
@@ -55,4 +69,5 @@ export async function main(ns) {
     // Create and manage our corporation.
     await create_corp(ns);
     expand(ns);
+    unlock_upgrade(ns);
 }

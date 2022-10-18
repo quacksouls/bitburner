@@ -18,6 +18,7 @@
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
+import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
@@ -40,6 +41,24 @@ export class Corporation {
      */
     constructor(ns) {
         this.#ns = ns;
+    }
+
+    /**
+     * Purchase an unlock upgrade.  This type of upgrade is a one-time
+     * unlockable.  It applies to the entire corporation and cannot be levelled.
+     *
+     * @param upg A string representing the name of an unlock upgrade.
+     * @return true if we successfully purchased the given unlock upgrade or
+     *     already have it; false otherwise.
+     */
+    buy_unlock_upgrade(upg) {
+        assert(this.is_valid_unlock_upgrade(upg));
+        const cost = this.#ns[corp.API].getUnlockUpgradeCost(upg);
+        if (this.player_money() < cost) {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].unlockUpgrade(upg);
+        return bool.SUCCESS;
     }
 
     /**
@@ -108,5 +127,38 @@ export class Corporation {
         } catch {
             return bool.NOT;
         }
+    }
+
+    /**
+     * Whether we have an unlockable upgrade.
+     *
+     * @param upg A string representing the name of an unlock upgrade.
+     * @return true if we already have the given unlock upgrade;
+     *     false otherwise.
+     */
+    has_unlock_upgrade(upg) {
+        assert(this.is_valid_unlock_upgrade(upg));
+        return this.#ns[corp.API].hasUnlockUpgrade(upg);
+    }
+
+    /**
+     * Whether the given name refers to a valid unlock upgrade.
+     *
+     * @param upg A string representing the name of an unlock upgrade.
+     * @return true if the given name refers to a valid unlock upgrade;
+     *     false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_unlock_upgrade(upg) {
+        assert(upg !== "");
+        const upgrade = new Set(Object.values(corp.unlock));
+        return upgrade.has(upg);
+    }
+
+    /**
+     * The amount of money the player has.
+     */
+    player_money() {
+        return this.#ns.getServerMoneyAvailable(home);
     }
 }
