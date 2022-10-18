@@ -19,3 +19,18 @@ have been rounded to 6 decimal places.
 | Rob store             |           |            |         |           |           |           |           |          |
 | Shoplift              |           |            |         |           |           |           |           |          |
 | Traffick illegal arms |           |            |         |           |           |           |           |          |
+
+## Experiment
+
+We used the following procedure to gather the experimental data.
+
+1. Load the online version of the game at https://danielyxie.github.io/bitburner/
+1. Import the save file `crime.json`.  This save file starts us at BN1.  We
+   have the default amount of $1k.  We have level 1 in each of the following
+   stats: Hack, Strength, Defense, Dexterity, Agility, Charisma.
+1. Execute the command `run test/crime/crime.js [crimeName]` and replace the
+   argument `[crimeName]` with the exact name of the crime we want to commit.
+   The crime name should be written in all lowercase.  The script commits the
+   specified crime for 24 hours.
+1. Leave the script run continuously for 24 hours.  When the script finishes,
+   it would print the above stat and money gain rates to the Terminal.
