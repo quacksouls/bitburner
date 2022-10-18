@@ -53,12 +53,15 @@ export class Corporation {
      */
     buy_unlock_upgrade(upg) {
         assert(this.is_valid_unlock_upgrade(upg));
+        if (this.has_unlock_upgrade(upg)) {
+            return bool.SUCCESS;
+        }
         const cost = this.#ns[corp.API].getUnlockUpgradeCost(upg);
         if (this.player_money() < cost) {
             return bool.FAILURE;
         }
         this.#ns[corp.API].unlockUpgrade(upg);
-        return bool.SUCCESS;
+        return this.has_unlock_upgrade(upg);
     }
 
     /**
