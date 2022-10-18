@@ -19,9 +19,9 @@ import { home, home_t } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Restart our source of income and Hack experience points.  This script is
- * useful whenever we have installed a bunch of Augmentations and we want to
- * automatically restart scripts to:
+ * Restart our source of income and Hack XP.  This script is useful whenever we
+ * have installed a bunch of Augmentations and we want to automatically restart
+ * scripts to:
  *
  * (1) Purchase Hacknet nodes and manage our farm of nodes.
  * (2) Buy servers and use each purchased server to hack a target server in the
