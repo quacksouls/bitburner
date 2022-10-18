@@ -56,7 +56,7 @@ async function create_corp(ns) {
  */
 function expand_industry(ns) {
     const org = new Corporation(ns);
-    org.expand();
+    org.expand_industry();
 }
 
 /**

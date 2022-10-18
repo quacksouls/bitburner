@@ -92,7 +92,7 @@ export class Corporation {
     /**
      * Expand our corporation into other industries.
      */
-    expand() {
+    expand_industry() {
         if (!this.has_agriculture()) {
             this.#ns[corp.API].expandIndustry(
                 corp.industry.AGRI,
