@@ -15,9 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { corp } from "/lib/constant/corp.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
+
+/**
+ * Purchase the Warehouse and Office APIs.
+ */
+async function buy_api(ns) {
+    const org = new Corporation(ns);
+    for (;;) {
+        org.buy_unlock_upgrade(corp.unlock.WAREHOUSE);
+        org.buy_unlock_upgrade(corp.unlock.OFFICE);
+        if (
+            org.has_unlock_upgrade(corp.unlock.WAREHOUSE)
+            && org.has_unlock_upgrade(corp.unlock.OFFICE)
+        ) {
+            return;
+        }
+        await ns.sleep(wait_t.DEFAULT);
+    }
+}
 
 /**
  * Create a corporation.
@@ -54,6 +73,11 @@ function unlock_upgrade(ns) {
     const org = new Corporation(ns);
     if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
         org.buy_unlock_upgrade(corp.unlock.SMART);
+        ns[corp.API].setSmartSupply(
+            corp.industry.AGRI,
+            "Sector-12",
+            bool.ENABLE
+        );
     }
 }
 
@@ -68,6 +92,7 @@ export async function main(ns) {
 
     // Create and manage our corporation.
     await create_corp(ns);
+    await buy_api(ns);
     expand(ns);
     unlock_upgrade(ns);
 }
