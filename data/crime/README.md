@@ -30,7 +30,7 @@ We used the following procedure to gather the experimental data.
    stats: Hack, Strength, Defense, Dexterity, Agility, Charisma.  Furthermore,
    we have level 3 of each of Source-File 1 (Genesis) and Source-File 4
    (Singularity).
-1. Execute the command `run test/crime/crime.js [crimeName]` and replace the
+1. Execute the command `run test/crime/crime.js [crimeName]`.  Replace the
    argument `[crimeName]` with the exact name of the crime we want to commit.
    The crime name should be written in all lowercase.  The script commits the
    specified crime for 24 hours.
