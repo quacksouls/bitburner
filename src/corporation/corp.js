@@ -21,17 +21,13 @@ import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 
 /**
- * Purchase the Warehouse and Office APIs.
+ * Purchase the Warehouse API.
  */
-async function buy_api(ns) {
+async function buy_warehouse_api(ns) {
     const org = new Corporation(ns);
     for (;;) {
         org.buy_unlock_upgrade(corp.unlock.WAREHOUSE);
-        org.buy_unlock_upgrade(corp.unlock.OFFICE);
-        if (
-            org.has_unlock_upgrade(corp.unlock.WAREHOUSE)
-            && org.has_unlock_upgrade(corp.unlock.OFFICE)
-        ) {
+        if (org.has_unlock_upgrade(corp.unlock.WAREHOUSE)) {
             return;
         }
         await ns.sleep(wait_t.DEFAULT);
@@ -92,7 +88,7 @@ export async function main(ns) {
 
     // Create and manage our corporation.
     await create_corp(ns);
-    await buy_api(ns);
+    await buy_warehouse_api(ns);
     expand(ns);
     unlock_upgrade(ns);
 }
