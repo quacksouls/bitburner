@@ -145,7 +145,7 @@ export const gang_t = {
      * probability of death.  The defense of a gang member determines their
      * chance of dying during a turf war against a rival gang.
      */
-    WIN: 60,
+    WIN: 55,
 };
 
 /**
