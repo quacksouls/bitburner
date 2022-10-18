@@ -18,7 +18,6 @@
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
-import { home } from "/lib/constant/server.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
@@ -56,8 +55,7 @@ export class Corporation {
         if (this.has_unlock_upgrade(upg)) {
             return bool.SUCCESS;
         }
-        const cost = this.#ns[corp.API].getUnlockUpgradeCost(upg);
-        if (this.player_money() < cost) {
+        if (this.funds() < this.#ns[corp.API].getUnlockUpgradeCost(upg)) {
             return bool.FAILURE;
         }
         this.#ns[corp.API].unlockUpgrade(upg);
@@ -101,6 +99,13 @@ export class Corporation {
                 corp.industry.AGRI
             );
         }
+    }
+
+    /**
+     * The funds available to our corporation.
+     */
+    funds() {
+        return this.#ns[corp.API].funds;
     }
 
     /**
@@ -156,12 +161,5 @@ export class Corporation {
         assert(upg !== "");
         const upgrade = new Set(Object.values(corp.unlock));
         return upgrade.has(upg);
-    }
-
-    /**
-     * The amount of money the player has.
-     */
-    player_money() {
-        return this.#ns.getServerMoneyAvailable(home);
     }
 }
