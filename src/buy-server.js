@@ -41,10 +41,10 @@ async function buy_servers(ns) {
     // 2 threads.
     const psv = new PurchasedServer(ns);
     const default_ram = psv.default_ram();
-    // By default, we want to purchase min_pserv servers.  As for the remaining
+    // By default, we want to purchase pserv.MIN servers.  As for the remaining
     // servers that make up the number to reach the maximum number of purchased
     // servers, we wait until we have enough money to purchase each of them.
-    // The constant min_pserv should be a small number so we can bootstrap a
+    // The constant pserv.MIN should be a small number so we can bootstrap a
     // source of passive income and Hack XP.
     let ram = pserv_ram(ns, pserv.MIN);
     if (ram <= default_ram) {
