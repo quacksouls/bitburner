@@ -54,7 +54,7 @@ async function create_corp(ns) {
  *
  * @param ns The Netscript API.
  */
-function expand(ns) {
+function expand_industry(ns) {
     const org = new Corporation(ns);
     org.expand();
 }
@@ -89,6 +89,6 @@ export async function main(ns) {
     // Create and manage our corporation.
     await create_corp(ns);
     await buy_warehouse_api(ns);
-    expand(ns);
+    expand_industry(ns);
     unlock_upgrade(ns);
 }
