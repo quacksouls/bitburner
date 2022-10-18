@@ -137,10 +137,14 @@ export const gang_t = {
     // The territory and power of each gang is updated approximately every 20
     // seconds.  We refer to this time period as a tick.
     TICK: 20e3,
-    // The minimum chance of winning a clash against a rival gang.  This chance
-    // of victory is expressed as an integer percentage.  In general, we should
-    // only engage in turf warfare against another gang if our chance of
-    // victory is at least this number.
+    /**
+     * The minimum chance of winning a clash against a rival gang.  This chance
+     * of victory is expressed as an integer percentage.  In general, we should
+     * only engage in turf warfare against another gang if our chance of victory
+     * is at least this number.  The win chance is not the same as the
+     * probability of death.  The defense of a gang member determines their
+     * chance of dying during a turf war against a rival gang.
+     */
     WIN: 60,
 };
 
