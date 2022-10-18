@@ -17,6 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { corp } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 
@@ -46,6 +47,22 @@ async function create_corp(ns) {
     }
     while (!org.create()) {
         await ns.sleep(wait_t.DEFAULT);
+    }
+}
+
+/**
+ * Expand our divisions by opening offices in other cities.
+ *
+ * @param ns The Netscript API.
+ */
+function expand_city(ns) {
+    const org = new Corporation(ns);
+    for (const div of org.all_divisions()) {
+        for (const ct of Object.keys(cities)) {
+            if (!org.has_division_office(div, ct)) {
+                org.expand_city(div, ct);
+            }
+        }
     }
 }
 
@@ -91,4 +108,5 @@ export async function main(ns) {
     await buy_warehouse_api(ns);
     expand_industry(ns);
     unlock_upgrade(ns);
+    expand_city(ns);
 }
