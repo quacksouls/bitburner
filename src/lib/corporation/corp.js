@@ -45,7 +45,8 @@ export class Corporation {
     /**
      * All divisions of our corporation.
      *
-     * @return An array containing the names of all divisions of our corporation.
+     * @return An array containing the names of all divisions of our
+     *     corporation.
      */
     all_divisions() {
         const name = [];
@@ -103,11 +104,15 @@ export class Corporation {
     }
 
     /**
-     * Expand our corporation into other cities.  We open a division office in another city.
+     * Expand our corporation into other cities.  We open a division office in
+     * another city.
      *
-     * @param name A string representing the name of a division of our corporation.
-     * @param city A string representing the name of a city.  We want to expand the given division into this city.
-     * @return true if the expansion is successful or we already have a division office in the given city; false otherwise.
+     * @param name A string representing the name of a division of our
+     *     corporation.
+     * @param city A string representing the name of a city.  We want to expand
+     *     the given division into this city.
+     * @return true if the expansion is successful or we already have a division
+     *     office in the given city; false otherwise.
      */
     expand_city(name, city) {
         if (this.has_division_office(name, city)) {
@@ -170,7 +175,8 @@ export class Corporation {
      *
      * @param name A string representing the name of a division.
      * @param city A string representing the name of a city.
-     * @return true if the given division has an office in the particular city; false otherwise.
+     * @return true if the given division has an office in the particular city;
+     *     false otherwise.
      */
     has_division_office(name, city) {
         assert(this.is_valid_division(name));
@@ -198,7 +204,8 @@ export class Corporation {
      * Whether we have the given division.
      *
      * @param name A string representing the name of a division.
-     * @return true if our corporation has a division with the given name; false otherwise.
+     * @return true if our corporation has a division with the given name;
+     *     false otherwise.
      */
     is_valid_division(name) {
         assert(name !== "");
