@@ -19,6 +19,7 @@ import { cheapest_program } from "/lib/constant/exe.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
+import { has_ai_sf } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -135,6 +136,9 @@ function purchase_schedule(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    if (!has_ai_sf(ns)) {
+        return;
+    }
     // Suppress various log messages.
     ns.disableLog("getServerMoneyAvailable");
 
