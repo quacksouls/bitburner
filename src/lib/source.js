@@ -20,14 +20,15 @@ import { bool } from "/lib/constant/bool.js";
 // Helper functions relating to Source-Files.
 
 /**
- * Whether we have Source-File 5: Artificial Intelligence.
+ * Whether we have access to the Artificial Intelligence (AI) API.
  *
  * @param ns The Netscript API.
- * @return true if we have Source-File 5; false otherwise.
+ * @return true if we have access to the AI API; false otherwise.
  */
-export function has_ai_sf(ns) {
+export function has_ai_api(ns) {
     try {
-        // This is the only function we are rewarded with upon destroying BN5.1.
+        // This is the only function we are rewarded with upon entering or
+        // destroying BN5.1.
         ns.getBitNodeMultipliers();
         return bool.HAS;
     } catch {

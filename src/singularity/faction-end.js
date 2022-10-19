@@ -26,7 +26,7 @@ import {
     work_for_faction,
 } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
-import { has_ai_sf } from "/lib/source.js";
+import { has_ai_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -48,7 +48,7 @@ async function daedalus(ns) {
     // Ensure we have already installed a minimum number of Augmentations.
     const augment = owned_augment(ns);
     let min_augment = 30;
-    if (has_ai_sf(ns)) {
+    if (has_ai_api(ns)) {
         min_augment = ns.getBitNodeMultipliers().DaedalusAugsRequirement;
     }
     assert(augment.size >= min_augment);
