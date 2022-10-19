@@ -36,14 +36,9 @@ import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
  *         servers.
  */
 function current_compromised(ns) {
-    const hacked = [];
-    const player = new Player(ns);
-    for (const target of low_end_servers(ns)) {
-        if (ns.isRunning(player.script(), player.home(), target)) {
-            hacked.push(target);
-        }
-    }
-    return hacked;
+    const p = new Player(ns);
+    // eslint-disable-next-line max-len
+    return low_end_servers(ns).filter((s) => ns.isRunning(p.script(), p.home(), s));
 }
 
 /**
