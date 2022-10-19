@@ -62,7 +62,7 @@ import { home } from "/lib/constant/server.js";
  * and The Black Hand, they can duke it out amongst themselves.  They might
  * swallow up the territories of other weaker NPC gangs, but when these 2
  * powerful gangs fight amongst themselves it can take a long time for one of
- * them to be vanguished.
+ * them to be vanquished.
  *
  * Anyway, join Slum Snakes regardless of the BitNode we are in.
  *
