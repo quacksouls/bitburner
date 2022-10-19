@@ -34,11 +34,9 @@ async function reboot(ns) {
     // Wait a while and then kill a script to free up some RAM on the home
     // server.
     await ns.sleep(wait_t.MINUTE);
-    for (const s of script) {
-        if (s !== target) {
-            assert(ns.kill(s, home));
-        }
-    }
+    script.filter((s) => s !== target).forEach((t) => {
+        assert(ns.kill(t, home));
+    });
 }
 
 /**
