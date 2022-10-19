@@ -62,7 +62,7 @@ function hacknet_nodes(ns) {
  * @param ns The Netscript API.
  * @param idx Whether to upgrade the Cores and RAM of the Hacknet node having
  *     this ID.
- * @return true if it is time to ugprade the Cores and RAM; false otherwise.
+ * @return true if it is time to upgrade the Cores and RAM; false otherwise.
  */
 function is_upgrade_core_ram(ns, idx) {
     // Each time we upgrade the RAM by one unit, we effectively double the
