@@ -93,9 +93,16 @@ function choose_warriors(ns) {
                 || gangster.is_pilot(s)
         );
     assert(combatant.length > 0);
+    // We want at most 1 Punk assigned to territory warfare.
     const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
+    const punk_warrior = punk.filter((p) => gangster.is_warrior(p));
     assert(punk.length > 0);
-    const warrior = combatant.concat([strongest_member(ns, punk)]);
+    let warrior = [];
+    if (punk_warrior.length > 0) {
+        warrior = combatant.concat([]);
+    } else {
+        warrior = combatant.concat([strongest_member(ns, punk)]);
+    }
     assert(warrior.length > 0);
     assert(warrior.length <= members.WARRIOR);
     return warrior;
