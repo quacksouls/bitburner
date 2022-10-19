@@ -128,6 +128,7 @@ function dir_lib() {
         "lib/singularity/study.js",
         "lib/singularity/util.js",
         "lib/singularity/work.js",
+        "lib/source.js",
         "lib/util.js",
     ];
     return lib;
