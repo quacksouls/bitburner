@@ -41,12 +41,12 @@ export async function main(ns) {
     const player = new Player(ns);
     if (stype === "pserv") {
         // Kill all scripts on purchased servers.
-        player.pserv().map((s) => ns.killall(s));
+        player.pserv().forEach((s) => ns.killall(s));
     } else if (stype === "world") {
         // Kill all scripts on world servers where we have root access.
         let server = network(ns);
         server = server.filter((s) => ns.hasRootAccess(s));
-        server.map((s) => ns.killall(s));
+        server.forEach((s) => ns.killall(s));
     } else {
         ns.tprint(error_msg);
     }
