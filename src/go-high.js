@@ -16,6 +16,7 @@
  */
 
 import { home } from "/lib/constant/server.js";
+import { has_singularity_sf } from "/lib/source.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -69,5 +70,7 @@ function singularity_scripts(ns) {
  */
 export async function main(ns) {
     reboot(ns);
-    singularity_scripts(ns);
+    if (has_singularity_sf(ns)) {
+        singularity_scripts(ns);
+    }
 }
