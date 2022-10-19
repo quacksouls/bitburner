@@ -155,15 +155,10 @@ function low_end_servers(ns) {
  * @return An array of low-end servers that are yet to be hacked.
  */
 function new_low_end(ns) {
-    const target = [];
     const player = new Player(ns);
-    for (const host of low_end_servers(ns)) {
-        if (ns.isRunning(player.script(), player.home(), host)) {
-            continue;
-        }
-        target.push(host);
-    }
-    return target;
+    return low_end_servers(ns).filter(
+        (s) => !ns.isRunning(player.script(), player.home(), s)
+    );
 }
 
 /**
