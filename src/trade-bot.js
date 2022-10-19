@@ -75,20 +75,16 @@ function buy_stock(ns, stk) {
  *     false otherwise.
  */
 function has_api_access(ns) {
-    let success = ns.stock.purchaseWseAccount();
-    if (!success) {
+    if (!ns.stock.purchaseWseAccount()) {
         return bool.NOT;
     }
-    success = ns.stock.purchaseTixApi();
-    if (!success) {
+    if (!ns.stock.purchaseTixApi()) {
         return bool.NOT;
     }
-    success = ns.stock.purchase4SMarketData();
-    if (!success) {
+    if (!ns.stock.purchase4SMarketData()) {
         return bool.NOT;
     }
-    success = ns.stock.purchase4SMarketDataTixApi();
-    if (!success) {
+    if (!ns.stock.purchase4SMarketDataTixApi()) {
         return bool.NOT;
     }
     return bool.HAS;
