@@ -202,13 +202,7 @@ async function update(ns) {
         return;
     }
     // Hack all low-end servers we can compromise.
-    const target = [];
-    for (const host of low_end_servers(ns)) {
-        if (skip_low_end(ns, host)) {
-            continue;
-        }
-        target.push(host);
-    }
+    const target = low_end_servers(ns).filter((s) => !skip_low_end(ns, s));
     const current = current_compromised(ns);
     assert(target.length > 0);
     assert(target.length > current.length);
