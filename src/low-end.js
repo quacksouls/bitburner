@@ -130,8 +130,8 @@ function is_low_end(ns, hostname) {
  *
  * A bankrupt server can be low-end if it lacks the required amount of RAM to
  * run our hack script using one thread.  Although we would not obtain any money
- * from hacking a low-end bankrupt server, we would still obtain some hacking
- * XP.  We exclude all low-end bankrupt servers.
+ * from hacking a low-end bankrupt server, we would still obtain some Hack XP.
+ * We exclude all low-end bankrupt servers.
  *
  * @param ns The Netscript API.
  * @return An array of low-end servers, not including low-end bankrupt servers.
