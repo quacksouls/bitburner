@@ -16,6 +16,7 @@
  */
 
 import { home } from "/lib/constant/server.js";
+import { has_gang_api } from "/lib/source.js";
 
 /**
  * Decide which criminal faction to join.  Our goal is to create a gang within
@@ -71,6 +72,9 @@ import { home } from "/lib/constant/server.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    if (!has_gang_api(ns)) {
+        return;
+    }
     // Regardless of the BitNode we are in, join Slum Snakes and set up our
     // gang within that faction.
     const script = "/gang/slum-snakes.js";

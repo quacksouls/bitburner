@@ -37,6 +37,22 @@ export function has_ai_api(ns) {
 }
 
 /**
+ * Whether we have access to the Gang API.
+ *
+ * @param ns The Netscript API.
+ * @return true if we have access to the Gang API; false otherwise.
+ */
+export function has_gang_api(ns) {
+    try {
+        // This function from the Gang API has the lowest RAM cost, at 0GB.
+        ns.gang.getBonusTime();
+        return bool.HAS;
+    } catch {
+        return bool.NOT;
+    }
+}
+
+/**
  * Whether we have access to the Singularity API.
  *
  * @param ns The Netscript API.
