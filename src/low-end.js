@@ -53,8 +53,9 @@ async function hack_low_end(ns, target) {
     // First, kill all instances of our hack script (running on home) that are
     // directed against low-end servers.
     const player = new Player(ns);
-    const kill_target = low_end_servers(ns);
-    kill_target.map((host) => ns.kill(player.script(), player.home(), host));
+    low_end_servers(ns).forEach((host) => {
+        ns.kill(player.script(), player.home(), host);
+    });
     // Next, hack all low-end servers we can now visit, including those newly
     // found.
     const home = new Server(ns, player.home());
