@@ -27,6 +27,7 @@ import { bool } from "/lib/constant/bool.js";
  */
 export function has_ai_sf(ns) {
     try {
+        // This is the only function we are rewarded with upon destroying BN5.1.
         ns.getBitNodeMultipliers();
         return bool.HAS;
     } catch {
