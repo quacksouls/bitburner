@@ -72,7 +72,7 @@ async function hack_low_end(ns, target) {
 
 /**
  * Whether we can compromise any new low-end servers.  Suppose there are
- * low-end servers that our hacking script is not targetting.  We want to know
+ * low-end servers that our hacking script is not targeting.  We want to know
  * if we can compromise any of those remaining low-end servers.
  *
  * @param ns The Netscript API.
