@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
-import { has_singularity_sf } from "/lib/source.js";
+import { has_singularity_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -76,7 +76,7 @@ function singularity_scripts(ns) {
  */
 export async function main(ns) {
     await reboot(ns);
-    if (has_singularity_sf(ns)) {
+    if (has_singularity_api(ns)) {
         singularity_scripts(ns);
     }
 }

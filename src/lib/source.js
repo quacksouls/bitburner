@@ -41,7 +41,7 @@ export function has_ai_sf(ns) {
  * @param ns The Netscript API.
  * @return true if we have access to the Singularity API; false otherwise.
  */
-export function has_singularity_sf(ns) {
+export function has_singularity_api(ns) {
     try {
         // This function from the Singularity API has the lowest RAM cost, at
         // 0.1GB.
