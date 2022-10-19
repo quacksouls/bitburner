@@ -239,7 +239,7 @@ export function reassign_vigilante_ehacker(ns) {
     // little to decrease our wanted level.  With such a small membership, it
     // is more important to raise the members' stats and recruit more members
     // than to lower our wanted level.
-    if (ns.gang.getMemberNames().length <= members.INITIAL + 1) {
+    if (ns.gang.getMemberNames().length <= members.HALF) {
         return;
     }
     // Do we already have the required number of members on vigilante justice

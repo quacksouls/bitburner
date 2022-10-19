@@ -58,6 +58,11 @@ export const gang_augment = {
 export const members = {
     // The maximum number of gang members to assign to Ethical Hacking.
     EHACK: 1,
+    /**
+     * The number of members that constitute half of the maximum number of
+     * members we can have.  This is the 50% membership mark.
+     */
+    HALF: 6,
     // The number of gangsters we can recruit upon creating our gang.  We must
     // earn more respect to recruit more gang members.
     INITIAL: 3,
