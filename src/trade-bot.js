@@ -117,8 +117,7 @@ function has_funds(ns) {
 function has_minimum_pserv(ns) {
     // Do we have the maximum number of purchased servers?
     const player = new Player(ns);
-    const pserv_limit = ns.getPurchasedServerLimit();
-    if (player.pserv().length < pserv_limit) {
+    if (player.pserv().length < ns.getPurchasedServerLimit()) {
         return bool.NOT;
     }
     // Does each purchased server have at least the given amount of RAM?
