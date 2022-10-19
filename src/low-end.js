@@ -137,13 +137,10 @@ function is_low_end(ns, hostname) {
  * @return An array of low-end servers, not including low-end bankrupt servers.
  */
 function low_end_servers(ns) {
-    const server = filter_bankrupt_servers(ns, filter_pserv(ns, network(ns)));
-    const lowend = [];
-    for (const s of server) {
-        if (is_low_end(ns, s)) {
-            lowend.push(s);
-        }
-    }
+    const lowend = filter_bankrupt_servers(
+        ns,
+        filter_pserv(ns, network(ns))
+    ).filter((s) => is_low_end(ns, s));
     assert(lowend.length > 0);
     return lowend;
 }
