@@ -170,7 +170,7 @@ function num_shares(ns, stk) {
     if (!has_funds(ns)) {
         return 0;
     }
-    //
+    // Our funds is less than the spending threshold.
     const player = new Player(ns);
     const funds = player.money() - money_reserve;
     if (funds < wse.SPEND_T) {
