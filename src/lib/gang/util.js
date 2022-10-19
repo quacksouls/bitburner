@@ -234,6 +234,14 @@ function reassign_to_vigilante_ehack(ns, threshold) {
  * @param ns The Netscript API.
  */
 export function reassign_vigilante_ehacker(ns) {
+    // Initially, our gang has a small number of members.  Assigning one or
+    // more members to vigilante justice or ethical hacking would do precious
+    // little to decrease our wanted level.  With such a small membership, it
+    // is more important to raise the members' stats and recruit more members
+    // than to lower our wanted level.
+    if (ns.gang.getMemberNames().length <= members.INITIAL + 1) {
+        return;
+    }
     // Do we already have the required number of members on vigilante justice
     // or ethical hacking?
     if (has_enough_vigilante_ehacker(ns)) {
