@@ -23,16 +23,16 @@ import { Server } from "/lib/server.js";
 import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
 
 /**
- * All low-end servers against which our hacking script is targetting.
+ * All low-end servers against which our hacking script is targeting.
  *
  * @param ns The Netscript API.
  * @return An array of hostnames, each of which is a low-end server that our
- *     hacking script is targetting.  An empty array if:
+ *     hacking script is targeting.  An empty array if:
  *
  *     (1) We have not yet compromised any low-end servers.
  *     (2) Our hack script is not running against any compromised low-end
  *         servers.  We have root access on at least one low-end server, but
- *         our hack script is currently not targetting any of those compromised
+ *         our hack script is currently not targeting any of those compromised
  *         servers.
  */
 function current_compromised(ns) {
