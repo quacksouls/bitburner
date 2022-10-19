@@ -203,8 +203,8 @@ function upgrade_level(ns) {
     for (const node of farm) {
         // The Level of a node is at maximum if the cost of upgrading to
         // another Level is Infinity.
-        if (Number.isFinite(ns.hacknet.getLevelUpgradeCost(node, level))) {
-            const cost = ns.hacknet.getLevelUpgradeCost(node, level);
+        const cost = ns.hacknet.getLevelUpgradeCost(node, level);
+        if (Number.isFinite(cost)) {
             if (player.money() < cost) {
                 continue;
             }
