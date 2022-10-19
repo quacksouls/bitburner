@@ -22,7 +22,7 @@ import { assert } from "/lib/util.js";
 /**
  * This function should be run immediately after the soft reset of installing a
  * bunch of Augmentations or after visiting a new BitNode.  Our purpose is to
- * gain some money and Hack experience points early on when our stats are low.
+ * gain some money and Hack XP early on when our stats are low.
  *
  * @param ns The Netscript API.
  */
@@ -56,9 +56,9 @@ function singularity_scripts(ns) {
  * NOTE: This script assumes our home server has a small amount of RAM,
  * possibly less than 64GB RAM.
  *
- * Restart our source of income and Hack experience points.  This script is
- * useful whenever we have installed a bunch of Augmentations and we want to
- * automatically restart scripts to:
+ * Restart our source of income and Hack XP.  This script is useful whenever we
+ * have installed a bunch of Augmentations and we want to automatically restart
+ * scripts to:
  *
  * (1) Purchase Hacknet nodes and manage our farm of nodes.
  * (2) Buy servers and use each purchased server to hack a target server in the
