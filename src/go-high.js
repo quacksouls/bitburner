@@ -34,7 +34,7 @@ function reboot(ns) {
         "trade-bot.js",
         "/cct/solver.js",
     ];
-    script.map((s) => ns.exec(s, home, nthread));
+    script.forEach((s) => ns.exec(s, home, nthread));
 }
 
 /**
