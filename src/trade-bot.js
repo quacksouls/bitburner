@@ -91,7 +91,7 @@ function has_api_access(ns) {
 }
 
 /**
- * Whether we have sufficient funds for puchasing stocks.  This function
+ * Whether we have sufficient funds for purchasing stocks.  This function
  * takes into account the minimum amount of money that should be held in
  * reserve whenever we trade on the Stock Market.
  *
