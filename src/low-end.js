@@ -82,13 +82,7 @@ async function hack_low_end(ns, target) {
 function has_target(ns) {
     const lowend = new_low_end(ns);
     assert(lowend.length > 0);
-    const target = [];
-    for (const host of lowend) {
-        if (skip_low_end(ns, host)) {
-            continue;
-        }
-        target.push(host);
-    }
+    const target = lowend.filter((host) => !skip_low_end(ns, host));
     return target.length > 0;
 }
 
