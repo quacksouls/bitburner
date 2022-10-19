@@ -5,20 +5,20 @@ for 24 hours.  The total amount of gain is divided by the number of minutes.
 Each number n in the table below is interpreted as n XP per minute.  All
 numbers have been rounded to 6 decimal places.
 
-| Crime                 | Agility   | Charisma   | Defense | Dexterity | Hack      | Karma     | Money     | Strength |
-|-----------------------|----------:|-----------:|--------:|----------:|----------:|----------:|----------:|---------:|
-| Assassinate           | 57.200000 | 0          | 57.2    | 57.200000 | 0         | -0.744792 | 501333.33 | 57.2     |
-| Deal drugs            | 74.766667 | 149.533333 | 0       | 74.766667 | 0         | -2.920573 | 889066.67 | 0        |
-| Bond forgery          | 0         | 4.700000   | 0       | 47.000000 | 31.333333 | -0.012240 | 556000.00 | 0        |
-| Grand theft auto      |           |            |         |           |           |           |           |          |
-| Heist                 |           |            |         |           |           |           |           |          |
-| Homicide              |           |            |         |           |           |           |           |          |
-| Kidnap and ransom     |           |            |         |           |           |           |           |          |
-| Larceny               |           |            |         |           |           |           |           |          |
-| Mug someone           |           |            |         |           |           |           |           |          |
-| Rob store             |           |            |         |           |           |           |           |          |
-| Shoplift              |           |            |         |           |           |           |           |          |
-| Traffick illegal arms |           |            |         |           |           |           |           |          |
+| Crime                 | Agility   | Charisma   | Defense   | Dexterity | Hack      | Karma     | Money     | Strength  |
+|-----------------------|----------:|-----------:|----------:|----------:|----------:|----------:|----------:|----------:|
+| Assassinate           | 57.200000 | 0          | 57.2      | 57.200000 | 0         | -0.744792 | 501333.33 | 57.2      |
+| Deal drugs            | 74.766667 | 149.533333 | 0         | 74.766667 | 0         | -2.920573 | 889066.67 | 0         |
+| Bond forgery          | 0         | 4.700000   | 0         | 47.000000 | 31.333333 | -0.012240 | 556000.00 | 0         |
+| Grand theft auto      | 60.266667 | 30.133333  | 15.066667 | 15.066667 | 0         | -1.471354 | 291555.56 | 15.066667 |
+| Heist                 |           |            |           |           |           |           |           |           |
+| Homicide              |           |            |           |           |           |           |           |           |
+| Kidnap and ransom     |           |            |           |           |           |           |           |           |
+| Larceny               |           |            |           |           |           |           |           |           |
+| Mug someone           |           |            |           |           |           |           |           |           |
+| Rob store             |           |            |           |           |           |           |           |           |
+| Shoplift              |           |            |           |           |           |           |           |           |
+| Traffick illegal arms |           |            |           |           |           |           |           |           |
 
 ## Experiment
 
