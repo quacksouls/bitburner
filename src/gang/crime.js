@@ -334,7 +334,7 @@ function equip_augment_def(ns, name) {
 
 /**
  * Equip a gang member with various weapons that raise their defense.  Weapons
- * are important because most of them raise a ganster's defense.  While engaged
+ * are important because most of them raise a gangster's defense.  While engaged
  * in a clash against a rival gang, the defense of our gangster helps to lower
  * the chance of death.  The higher is our member's defense, the lower is the
  * probability of death.  The following weapons raise defense:
