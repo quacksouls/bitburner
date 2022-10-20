@@ -22,13 +22,12 @@ import { Gangster } from "/lib/gang/gangster.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Choose the number of gang members to assign to vigilante justice or ethical
- * hacking.  The number of gangsters who will be assigned to these jobs depends
- * on our current membership.
+ * Choose the number of gang members to assign to vigilante justice.  The number
+ * of gangsters who will be assigned to these jobs depends on our current
+ * membership.
  *
  * @param ns The Netscript API.
- * @return The number of members to assign to vigilante justice or ethical
- *     hacking.
+ * @return The number of members to assign to vigilante justice.
  */
 function choose_vigilante_threshold(ns) {
     assert(members.EHACK > 0);
