@@ -30,7 +30,7 @@ import { assert } from "/lib/util.js";
  * @return The number of members to assign to vigilante justice.
  */
 function choose_vigilante_threshold(ns) {
-    assert(members.EHACK > 0);
+    assert(!ns.gang.getGangInformation().isHacking);
     assert(members.VIGILANTE > 0);
     // Lower the threshold, depending on our gang membership.
     const mid_point = Math.floor(members.MAX / 2);
@@ -46,7 +46,7 @@ function choose_vigilante_threshold(ns) {
         return 3;
     }
     assert(quarter_point < ngangster && ngangster <= members.MAX);
-    return Math.floor(members.EHACK + members.VIGILANTE);
+    return Math.floor(members.VIGILANTE);
 }
 
 /**
