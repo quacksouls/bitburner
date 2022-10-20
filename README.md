@@ -3,7 +3,7 @@
 A bunch of scripts for a walkthrough of the game Bitburner.
 
 <!-- prettier-ignore -->
-- [Source code](https://github.com/danielyxie/bitburner)
+- [Source code](https://github.com/bitburner-official/bitburner-src)
 - [Play online](https://danielyxie.github.io/bitburner/)
 - [Steam version](https://store.steampowered.com/app/1812820/Bitburner/)
 
