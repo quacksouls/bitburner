@@ -20,8 +20,7 @@ import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { assert } from "/lib/util.js";
 
 /**
- * The number of ways to change n using coins in the given set of
- * denominations.
+ * The number of ways to change n using coins in the given set of denominations.
  *
  * @param n We want to partition this number.  Must be a positive integer.
  * @param denom The array of denominations.  An array of positive integers to
