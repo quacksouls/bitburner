@@ -77,15 +77,15 @@ function caesar(plaintext, k) {
 
 /**
  * Encryption I: Caesar Cipher: Caesar cipher is one of the simplest encryption
- * technique.  It is a type of substitution cipher in which each letter in the
+ * techniques.  It is a type of substitution cipher in which each letter in the
  * plaintext is replaced by a letter some fixed number of positions down the
  * alphabet.  For example, with a left shift of 3, D would be replaced by A, E
  * would become B, and A would become X (because of rotation).  You are given
  * an array with two elements.  The first element is the plaintext, the second
  * element is the left shift value.  Return the ciphertext as uppercase string.
- * Spaces remains the same.
+ * Spaces remain the same.
  *
- * This is Ceasar cipher encryption, where the plaintext alphabet is the
+ * This is Caesar cipher encryption, where the plaintext alphabet is the
  * uppercase characters of the English alphabet.
  *
  * Usage: run cct/caesar.js [cct] [hostname]
