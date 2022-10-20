@@ -67,14 +67,14 @@ function has_enough_vigilante(ns) {
 }
 
 /**
- * We have too many gang members in vigilante justice or ethical hacking.
- * Reassign the excess members to some other jobs.
+ * We have too many gang members in vigilante justice.  Reassign the excess
+ * members to some other jobs.
  *
  * @param ns The Netscript API.
- * @param threshold We want this many members to be in vigilante justice or
- *     ethical hacking.
+ * @param threshold We want this many members to be in vigilante justice.
  */
 function reassign_excess_vigilante(ns, threshold) {
+    assert(!ns.gang.getGangInformation().isHacking);
     const tau = Math.floor(threshold);
     assert(tau > 0);
     const gangster = new Gangster(ns);
@@ -86,25 +86,18 @@ function reassign_excess_vigilante(ns, threshold) {
         .filter((s) => gangster.is_hacker(s));
     const vanguard = vigilante.filter((s) => gangster.is_vanguard(s));
     // The Vanguard is always the first to be assigned to vigilante justice.
-    // The Hacker is always the next member to be assigned to ethical hacking.
-    let vigilante_ehacker = vanguard.concat(hacker);
-    vigilante_ehacker = vigilante_ehacker.concat(
+    // The Hacker is always the next member to be assigned to this task.
+    let vigilante_hacker = vanguard.concat(hacker);
+    vigilante_hacker = vigilante_hacker.concat(
         vigilante.filter((s) => !gangster.is_vanguard(s))
     );
-    assert(vigilante_ehacker.length > tau);
+    assert(vigilante_hacker.length > tau);
     const candidate = [];
-    while (vigilante_ehacker.length > tau) {
-        candidate.push(vigilante_ehacker.pop());
+    while (vigilante_hacker.length > tau) {
+        candidate.push(vigilante_hacker.pop());
     }
     assert(candidate.length > 0);
-    gangster.vigilante(vigilante_ehacker.filter((s) => !gangster.is_hacker(s)));
-    // If we are in a criminal gang, then there is no option to perform ethical
-    // hacking.  In that case, assign the Hacker to vigilante justice as well.
-    if (ns.gang.getGangInformation().isHacking) {
-        gangster.ethical_hacking(hacker);
-    } else {
-        gangster.vigilante(hacker);
-    }
+    gangster.vigilante(vigilante_hacker);
     // Reassign the rest to other jobs.
     reassign_other(ns, candidate);
 }
