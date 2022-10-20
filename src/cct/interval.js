@@ -21,7 +21,7 @@ import { bool } from "/lib/constant/bool.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Merge overlapping inervals.
+ * Merge overlapping intervals.
  *
  * @param interval An array of intervals.  Each interval is represented as an
  *     array [a, b] of two elements, where a < b.  So this is an array of
