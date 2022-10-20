@@ -228,12 +228,12 @@ function reassign_to_vigilante_ehack(ns, threshold) {
 }
 
 /**
- * Reassign a number of our gang members to vigilante justice or ethical
- * hacking.  Our objective is to lower our wanted level.
+ * Reassign a number of our gang members to vigilante justice.  Our objective is
+ * to lower our wanted level.
  *
  * @param ns The Netscript API.
  */
-export function reassign_vigilante_ehacker(ns) {
+export function reassign_vigilante(ns) {
     // Initially, our gang has a small number of members.  Assigning one or
     // more members to vigilante justice or ethical hacking would do precious
     // little to decrease our wanted level.  With such a small membership, it
