@@ -38,7 +38,7 @@ function can_run_script(ns, script) {
  *
  * @param ns The Netscript API.
  * @param cct The file name of the coding contract.
- * @param host The host name of the server on which the coding contract is
+ * @param host The hostname of the server on which the coding contract is
  *     located.
  */
 function solve(ns, cct, host) {
