@@ -128,13 +128,14 @@ function reassign_other(ns, name) {
 }
 
 /**
- * Reassign a number of our gang members to vigilante justice or ethical
- * hacking before doing a soft reset.  Our objective is to lower our wanted
- * level while other gang members are involved in other jobs.
+ * Reassign a number of our gang members to vigilante justice before doing a
+ * soft reset.  Our objective is to lower our wanted level while other gang
+ * members are involved in other jobs.
  *
  * @param ns The Netscript API.
  */
 export function reassign_soft_reset(ns) {
+    assert(!ns.gang.getGangInformation().isHacking);
     // We want only one gang member on vigilante justice.  That member is the
     // Vanguard.
     const gangster = new Gangster(ns);
@@ -143,20 +144,18 @@ export function reassign_soft_reset(ns) {
         .filter((s) => gangster.is_vanguard(s));
     assert(vanguard.length === 1);
     gangster.vigilante(vanguard);
-    // Other members currently on vigilante justice or ethical hacking are
-    // reassigned to other jobs.
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_vigilante(s)) {
-            if (gangster.is_vanguard(s)) {
-                continue;
-            }
-            gangster.extort([s]);
-            continue;
-        }
+    // Other members currently on vigilante justice are reassigned to other
+    // jobs.
+    const vigilante = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_vigilante(s) && !gangster.is_vanguard(s));
+    vigilante.forEach((s) => {
         if (gangster.is_hacker(s)) {
             gangster.blackmail([s]);
+        } else {
+            gangster.extort([s]);
         }
-    }
+    });
 }
 
 /**
