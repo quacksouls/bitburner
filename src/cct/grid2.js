@@ -154,9 +154,9 @@ function unique_paths(grid) {
  * Unique Paths in a Grid II: You are given a 2-D array of numbers (array of
  * arrays of numbers) representing a grid, i.e. a 2-D matrix.  The 2-D array
  * contains 1s and 0s, where 1 represents an obstacle and 0 represents a free
- * space.  Assume you are initially positioned in top-left square of that grid
- * and that you are trying to reach the bottom-right square.  In each step, you
- * may only move down or to the right.  Furthermore, you cannot move onto a
+ * space.  Assume you are initially positioned in the top-left square of that
+ * grid and that you are trying to reach the bottom-right square.  In each step,
+ * you may only move down or to the right.  Furthermore, you cannot move onto a
  * square that has an obstacle.  Determine how many unique paths there are from
  * start to finish.
  *
