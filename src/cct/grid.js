@@ -69,17 +69,17 @@ function unique_paths(n, k) {
     }
     // Use the recurrence relation
     //
-    // C(n, k) = C(n - 1, k - 1) + C(n - 1, k)
+    // C(n, k) := C(n - 1, k - 1) + C(n - 1, k)
     //
     // which can be read off Pascal's triangle.  Or use the more
     // efficient multiplicative rule
     //
-    // C(n, k) = (n / k) * C(n-1, k-1)
+    // C(n, k) := (n / k) * C(n - 1, k - 1)
     //
     // which can be directly translated to an iterative program.
     assert(k > 0);
     assert(k < n);
-    // By symmetry, we have C(n, k) = C(n, n-k).
+    // By symmetry, we have C(n, k) = C(n, n - k).
     const mink = Math.min(k, n - k);
     let result = 1;
     for (let i = 0; i < mink; i++) {
