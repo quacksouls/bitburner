@@ -53,7 +53,7 @@ function pad_key(plaintext, key) {
 }
 
 /**
- * Vigenère enryption.  We encrypt only uppercase letters of the English
+ * Vigenère encryption.  We encrypt only uppercase letters of the English
  * alphabet.  All other characters are ignored.
  *
  * @param plaintext We want to encrypt this string.  Cannot be empty string.
@@ -85,7 +85,7 @@ function vigenere(plaintext, key) {
 /**
  * Encryption II: Vigenère Cipher: Vigenère cipher is a type of polyalphabetic
  * substitution.  It uses the Vigenère square to encrypt and decrypt plaintext
- * with a keyword.  Vignenère square:
+ * with a keyword.  Vigenère square:
  *
  *     A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
  *   +====================================================
