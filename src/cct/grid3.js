@@ -142,7 +142,7 @@ function is_obstacle(grid, r, c) {
  *
  * @param x, y A pair of coordinates (x, y), each number being a
  *     non-negative integer.
- * @return A unique non-negative interger associated with the coordinates
+ * @return A unique non-negative integer associated with the coordinates
  *     (x, y).
  */
 function pairing(x, y) {
