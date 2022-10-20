@@ -177,7 +177,7 @@ function to_integer(msg, nparity) {
  *
  * Note 1: The length of the binary string is dynamic, but its encoding/decoding
  *     follows Hamming's rule.
- * Note 2: Index 0 is an overall parity bit.
+ * Note 2: Index 0 has an overall parity bit.
  * Note 3: There's a ~55% chance of having an altered bit.
  *
  * Usage: run cct/hamming2.js [cct] [hostname]
