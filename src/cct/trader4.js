@@ -26,7 +26,7 @@ import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
 
 /**
- * The maximimum profit that can be made when we are restricted to at most t
+ * The maximum profit that can be made when we are restricted to at most t
  * transactions.  When we are restricted to at most 2 transactions, we find
  * all possible partitions of the price array into 2 non-overlapping subarrays.
  * For each such partition we have 2 subarrays.  We run Kadane's algorithm on
@@ -96,7 +96,7 @@ import { assert } from "/lib/util.js";
  * @param t The maximum number of transactions.
  * @param price An array of prices, where price[i] is the price of one share of
  *     a stock on day i.  All prices relate to the same stock.
- * @return The maximum profit to be made, assumming we can perform at most t
+ * @return The maximum profit to be made, assuming we can perform at most t
  *     transactions.  Return 0 if no profit can be made.
  */
 async function maximize_profit(ns, t, price) {
