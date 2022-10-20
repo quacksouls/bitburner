@@ -77,7 +77,7 @@ function has_enough_vigilante(ns) {
  * @param threshold We want this many members to be in vigilante justice or
  *     ethical hacking.
  */
-function reassign_excess_vigilante_ehacker(ns, threshold) {
+function reassign_excess_vigilante(ns, threshold) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     const gangster = new Gangster(ns);
@@ -253,7 +253,7 @@ export function reassign_vigilante(ns) {
         .getMemberNames()
         .filter((s) => gangster.is_vigilante(s));
     if (vigilante.length > tau) {
-        reassign_excess_vigilante_ehacker(ns, tau);
+        reassign_excess_vigilante(ns, tau);
         return;
     }
     // If we already have some vigilantes, then add more members to vigilante
