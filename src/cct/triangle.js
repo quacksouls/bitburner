@@ -71,7 +71,7 @@ function descend(triangle) {
     // level (i + 1).  The minimum sum of a path from level (0) to level
     // (i + 1) is given by
     //
-    // min_sum + mininum(b[j], b[j + 1])
+    // min_sum + minimum(b[j], b[j + 1])
     //
     // Alternatively, consider the problem in a bottom-up manner.  Any minimum
     // path must end at the bottom level of the triangle.  Let i be any level
@@ -145,10 +145,10 @@ function is_triangle(triangle) {
 
 /**
  * Minimum Path Sum in a Triangle: You are given a 2-D array of numbers
- * (array of array of numbers) that represents a triangle (the first array
- * has one element, each sequent array has one more element than the one before
- * it, forming a triangle).  Find the minimum path sum from the top to the
- * bottom of the triangle.  In each step of the path, you may only move to
+ * (array of arrays of numbers) that represents a triangle (the first array
+ * has one element, each subsequent array has one more element than the one
+ * before it, forming a triangle).  Find the minimum path sum from the top to
+ * the bottom of the triangle.  In each step of the path, you may only move to
  * adjacent numbers in the row below.
  *
  * For example, given this array
