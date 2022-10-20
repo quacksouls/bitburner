@@ -73,7 +73,7 @@ export const small_primes = [
 ];
 
 /**
- * The Vigen�re square.
+ * The Vigenère square.
  */
 export const vigenere_square = [
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
