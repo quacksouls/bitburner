@@ -159,17 +159,17 @@ export function reassign_soft_reset(ns) {
 }
 
 /**
- * We do not have enough gang members in vigilante justice or ethical hacking.
- * Reassign some members to these jobs.
+ * We do not have enough gang members in vigilante justice.  Reassign some
+ * members to these jobs.
  *
  * @param ns The Netscript API.
- * @param threshold We want this many members to be in vigilante justice or
- *     ethical hacking.
+ * @param threshold We want this many members to be in vigilante justice.
  */
 function reassign_to_vigilante(ns, threshold) {
+    assert(!ns.gang.getGangInformation().isHacking);
     const tau = Math.floor(threshold);
     assert(tau > 0);
-    // All gang members who should be in vigilante justice or ethical hacking.
+    // All gang members who should be on vigilante justice.
     const gangster = new Gangster(ns);
     const vanguard = ns.gang
         .getMemberNames()
@@ -181,40 +181,26 @@ function reassign_to_vigilante(ns, threshold) {
         .getMemberNames()
         .filter((s) => gangster.is_artillery(s));
     const pilot = ns.gang.getMemberNames().filter((s) => gangster.is_pilot(s));
-    // Determine which members to assign to vigilante justice or ethical
-    // hacking.  The Vanguard is always the first to be assigned to vigilante
-    // justice.  This is followed by the Hacker, who is assigned to ethical
-    // hacking.  However, if this is a criminal gang, then assign the Hacker to
-    // vigilante justice as well.  Next comes the Artillery and the Pilot, who
-    // are assigned to vigilante justice in that order.
+    // Determine which members to assign to vigilante justice.  The Vanguard is
+    // always the first to be assigned to vigilante justice.  This is followed
+    // by the Hacker.  Next comes the Artillery and the Pilot, who are assigned
+    // to vigilante justice in that order.
     const candidate = [vanguard, hacker, artillery, pilot].flat();
-    const vigilante_ehacker = ns.gang
+    const vigilante = ns.gang
         .getMemberNames()
-        .filter(
-            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-        );
-    assert(vigilante_ehacker.length < candidate.length);
-    assert(vigilante_ehacker.length < tau);
-    while (vigilante_ehacker.includes(candidate[0])) {
+        .filter((s) => gangster.is_vigilante(s));
+    assert(vigilante.length < candidate.length);
+    assert(vigilante.length < tau);
+    while (vigilante.includes(candidate[0])) {
         candidate.shift();
     }
-    const nmore = tau - vigilante_ehacker.length;
+    const nmore = tau - vigilante.length;
     assert(nmore > 0);
     while (candidate.length > nmore) {
         candidate.pop();
     }
-    // Assign the candidates to vigilante justice or ethical hacking.
-    for (const s of candidate) {
-        if (gangster.is_hacker(s)) {
-            if (ns.gang.getGangInformation().isHacking) {
-                gangster.ethical_hacking([s]);
-            } else {
-                gangster.vigilante([s]);
-            }
-            continue;
-        }
-        gangster.vigilante([s]);
-    }
+    // Assign the candidates to vigilante justice.
+    gangster.vigilante(candidate);
 }
 
 /**
