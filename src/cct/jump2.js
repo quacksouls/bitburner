@@ -86,9 +86,7 @@ function to_graph(array) {
     const myarr = new MyArray();
     const node = myarr.sequence(array.length);
     const graph = new Graph(bool.DIRECTED);
-    for (const v of node) {
-        graph.add_node(v);
-    }
+    node.forEach((v) => graph.add_node(v));
     // Add the directed edges of the graph.
     const last_index = array.length - 1;
     for (const u of node) {
