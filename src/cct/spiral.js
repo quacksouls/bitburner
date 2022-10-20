@@ -75,7 +75,7 @@ function ring(m, tlr, tlc, brr, brc) {
  * The elements of a 2-D matrix in spiral order, going in clockwise direction.
  *
  * @param m A 2-D matrix, represented as an array of arrays.
- * @return An array rerepsenting the elements of the matrix in spiral order.
+ * @return An array representing the elements of the matrix in spiral order.
  */
 function spiral(m) {
     // Sanity checks.
@@ -105,7 +105,7 @@ function spiral(m) {
 }
 
 /**
- * Spiralize Matrix: Given an array of array of numbers representing a 2D
+ * Spiralize Matrix: Given an array of array of numbers representing a 2-D
  * matrix, return the elements of that matrix in clockwise spiral order.
  *
  * Output the elements of a 2-D matrix in spiral order, going in clockwise
