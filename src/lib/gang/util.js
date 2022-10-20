@@ -236,19 +236,17 @@ function reassign_to_vigilante_ehack(ns, threshold) {
 export function reassign_vigilante(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
     // Initially, our gang has a small number of members.  Assigning one or
-    // more members to vigilante justice or ethical hacking would do precious
-    // little to decrease our wanted level.  With such a small membership, it
-    // is more important to raise the members' stats and recruit more members
-    // than to lower our wanted level.
+    // more members to vigilante justice would do precious little to decrease
+    // our wanted level.  With such a small membership, it is more important to
+    // raise the members' stats and recruit more members than to lower our
+    // wanted level.
     assert(ns.gang.getMemberNames().length > members.HALF);
-    // Do we already have the required number of members on vigilante justice
-    // or ethical hacking?
+    // Do we already have the required number of members on vigilante justice?
     if (has_enough_vigilante_ehacker(ns)) {
         return;
     }
-    // We have more vigilantes or ethical hackers than the given threshold.
-    // Move some members out of vigilante justice or ethical hacking, and into
-    // some other jobs.
+    // We have more vigilantes than the given threshold.  Move some members out
+    // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
     const tau = choose_vigilante_ehacker_threshold(ns);
     const vigilante_ehacker = ns.gang
@@ -260,9 +258,8 @@ export function reassign_vigilante(ns) {
         reassign_excess_vigilante_ehacker(ns, tau);
         return;
     }
-    // If we already have some vigilantes or ethical hackers, then add more
-    // members to vigilante justice or ethical hacking to make up the required
-    // threshold.
+    // If we already have some vigilantes, then add more members to vigilante
+    // justice to make up the required threshold.
     assert(vigilante_ehacker.length < tau);
     reassign_to_vigilante_ehack(ns, tau);
 }
