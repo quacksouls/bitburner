@@ -64,8 +64,7 @@ function merge(interval) {
  *
  * @param intA An interval, represented as an array [x, y] of two elements.
  * @param intB Another interval.
- * @return true if the given intervals should be merged;
- *     false otherwise.
+ * @return true if the given intervals should be merged; false otherwise.
  */
 function merge_interval(intA, intB) {
     const start = 0;
