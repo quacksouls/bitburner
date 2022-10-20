@@ -109,6 +109,7 @@ function reassign_excess_vigilante(ns, threshold) {
  * @param name An array of member names.
  */
 function reassign_other(ns, name) {
+    assert(!ns.gang.getGangInformation().isHacking);
     if (name.length === 0) {
         return;
     }
