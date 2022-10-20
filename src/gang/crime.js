@@ -1035,13 +1035,20 @@ function update(ns) {
             return;
         }
     }
-    // Is our penalty too high?  If our penalty percentage exceeds a given
-    // threshold, then reassign some gang members to vigilante justice in
-    // order to lower our penalty.  Furthermore, reassign the remaining
-    // members to jobs that attract a lower wanted level.
-    if (penalty(ns) >= penalty_t.HIGH) {
-        decrease_penalty(ns);
-        return;
+    // Initially, our gang has a small number of members.  Assigning one or
+    // more members to vigilante justice or ethical hacking would do precious
+    // little to decrease our wanted level.  With such a small membership, it
+    // is more important to raise the members' stats and recruit more members
+    // than to lower our wanted level.
+    if (ns.gang.getMemberNames().length > members.HALF) {
+        // Is our penalty too high?  If our penalty percentage exceeds a given
+        // threshold, then reassign some gang members to vigilante justice in
+        // order to lower our penalty.  Furthermore, reassign the remaining
+        // members to jobs that attract a lower wanted level.
+        if (penalty(ns) >= penalty_t.HIGH) {
+            decrease_penalty(ns);
+            return;
+        }
     }
     // Ascend a gang member before we spend any more money on them.  After the
     // ascension, the member would lose all equipment and their stats would
