@@ -17,6 +17,7 @@
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
 import { bool } from "/lib/constant/bool.js";
+import { base } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -124,8 +125,7 @@ function is_valid_octet(octet) {
         }
     }
     // An octet represents an integer between 0 and 255, inclusive.
-    const base = 10;
-    const n = parseInt(octet, base);
+    const n = parseInt(octet, base.DECIMAL);
     const min = 0;
     const max = 255;
     if (min <= n && n <= max) {
