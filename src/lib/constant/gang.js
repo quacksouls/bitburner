@@ -87,8 +87,11 @@ export const members = {
     // Terrorism greatly increases our respect and wanted level, but generate
     // no income.  We should only have one terrorist.
     TERRORIST: 1,
-    // The maximum number of gang members to assign to Vigilante Justice.
-    VIGILANTE: 3,
+    /**
+     * The maximum number of gang members to assign to vigilante justice.
+     * Assume we are in a criminal gang.
+     */
+    VIGILANTE: 4,
     // The maximum number of gang members to assign to territory warfare.  This
     // threshold applies only when we are not engaged in territory warfare
     // against a rival gang.  If we are about to clash against a rival gang, we
