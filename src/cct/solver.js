@@ -181,7 +181,7 @@ export async function main(ns) {
                 continue;
             }
             // Solve all coding contracts on this server.
-            file.map((cct) => solve(ns, cct, s));
+            file.forEach((cct) => solve(ns, cct, s));
         }
         await ns.sleep(cct_update_interval);
     }
