@@ -61,7 +61,7 @@ function end_reachable(array) {
         d = jump[jump.length - 1];
         i = index[index.length - 1];
         if (d === 0) {
-            // Does the first array cell have zero as the jump distace?
+            // Does the first array cell have zero as the jump distance?
             if (i === 0) {
                 return bool.NOT_REACHABLE;
             }
