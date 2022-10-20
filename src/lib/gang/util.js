@@ -30,7 +30,7 @@ import { assert } from "/lib/util.js";
  * @return The number of members to assign to vigilante justice or ethical
  *     hacking.
  */
-function choose_vigilante_ehacker_threshold(ns) {
+function choose_vigilante_threshold(ns) {
     assert(members.EHACK > 0);
     assert(members.VIGILANTE > 0);
     // Lower the threshold, depending on our gang membership.
@@ -59,7 +59,7 @@ function choose_vigilante_ehacker_threshold(ns) {
  *     ethical hacking; false otherwise.
  */
 function has_enough_vigilante(ns) {
-    const tau = choose_vigilante_ehacker_threshold(ns);
+    const tau = choose_vigilante_threshold(ns);
     const gangster = new Gangster(ns);
     const vigilante_ehacker = ns.gang
         .getMemberNames()
@@ -248,7 +248,7 @@ export function reassign_vigilante(ns) {
     // We have more vigilantes than the given threshold.  Move some members out
     // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
-    const tau = choose_vigilante_ehacker_threshold(ns);
+    const tau = choose_vigilante_threshold(ns);
     const vigilante_ehacker = ns.gang
         .getMemberNames()
         .filter(
