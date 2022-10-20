@@ -44,8 +44,7 @@ export function has_ai_api(ns) {
  */
 export function has_gang_api(ns) {
     try {
-        // This function from the Gang API has the lowest RAM cost, at 0GB.
-        ns.gang.getBonusTime();
+        ns.gang.inGang();
         return bool.HAS;
     } catch {
         return bool.NOT;
