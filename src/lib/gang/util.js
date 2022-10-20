@@ -176,7 +176,7 @@ export function reassign_soft_reset(ns) {
  * @param threshold We want this many members to be in vigilante justice or
  *     ethical hacking.
  */
-function reassign_to_vigilante_ehack(ns, threshold) {
+function reassign_to_vigilante(ns, threshold) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     // All gang members who should be in vigilante justice or ethical hacking.
@@ -259,7 +259,7 @@ export function reassign_vigilante(ns) {
     // If we already have some vigilantes, then add more members to vigilante
     // justice to make up the required threshold.
     assert(vigilante.length < tau);
-    reassign_to_vigilante_ehack(ns, tau);
+    reassign_to_vigilante(ns, tau);
 }
 
 /**
