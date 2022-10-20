@@ -249,18 +249,16 @@ export function reassign_vigilante(ns) {
     // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
     const tau = choose_vigilante_threshold(ns);
-    const vigilante_ehacker = ns.gang
+    const vigilante = ns.gang
         .getMemberNames()
-        .filter(
-            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-        );
-    if (vigilante_ehacker.length > tau) {
+        .filter((s) => gangster.is_vigilante(s));
+    if (vigilante.length > tau) {
         reassign_excess_vigilante_ehacker(ns, tau);
         return;
     }
     // If we already have some vigilantes, then add more members to vigilante
     // justice to make up the required threshold.
-    assert(vigilante_ehacker.length < tau);
+    assert(vigilante.length < tau);
     reassign_to_vigilante_ehack(ns, tau);
 }
 
