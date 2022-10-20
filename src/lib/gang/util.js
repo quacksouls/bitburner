@@ -58,7 +58,7 @@ function choose_vigilante_ehacker_threshold(ns) {
  * @return true if enough gangsters are assigned to vigilante justice or
  *     ethical hacking; false otherwise.
  */
-function has_enough_vigilante_ehacker(ns) {
+function has_enough_vigilante(ns) {
     const tau = choose_vigilante_ehacker_threshold(ns);
     const gangster = new Gangster(ns);
     const vigilante_ehacker = ns.gang
@@ -242,7 +242,7 @@ export function reassign_vigilante(ns) {
     // wanted level.
     assert(ns.gang.getMemberNames().length > members.HALF);
     // Do we already have the required number of members on vigilante justice?
-    if (has_enough_vigilante_ehacker(ns)) {
+    if (has_enough_vigilante(ns)) {
         return;
     }
     // We have more vigilantes than the given threshold.  Move some members out
