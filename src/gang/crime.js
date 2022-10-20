@@ -1107,6 +1107,7 @@ export async function main(ns) {
     // recruitment and building the strengths of our gang members.
     await create_gang(ns, faction);
     ns.gang.setTerritoryWarfare(bool.DISABLE);
+    assert(!ns.gang.getGangInformation().isHacking);
     recruit(ns);
     // Manage our gang.
     // A tick is a period of time as defined by the constant gang_t.TICK.  At
