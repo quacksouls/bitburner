@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 
 // Helper functions relating to Source-Files.
@@ -43,12 +44,17 @@ export function has_ai_api(ns) {
  * @return true if we have access to the Gang API; false otherwise.
  */
 export function has_gang_api(ns) {
-    try {
-        ns.gang.inGang();
+    if (bitnode["Rise of the Underworld"] === ns.getPlayer().bitNodeN) {
         return bool.HAS;
-    } catch {
-        return bool.NOT;
     }
+    if (has_singularity_api(ns)) {
+        for (const sf of ns.singularity.getOwnedSourceFiles()) {
+            if (sf.n === bitnode["Rise of the Underworld"]) {
+                return bool.HAS;
+            }
+        }
+    }
+    return bool.NOT;
 }
 
 /**
