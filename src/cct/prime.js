@@ -24,11 +24,15 @@ import { assert } from "/lib/util.js";
  * Obtain a factor of a positive integer.
  *
  * @param n A positive integer greater than 1.
+ * @param prime A set of small primes.
  * @return A factor of n.  If 1 and n are the only factors of n, then n is
  *     prime so return n.
  */
-function factor(n) {
+function factor(n, prime) {
     assert(n > 1);
+    if (prime.has(n)) {
+        return n;
+    }
     // If n is even, then 2 is a factor of n.
     if (is_even(n)) {
         return 2;
@@ -101,7 +105,7 @@ function prime_factorization(n) {
     const pfactor = [];
     while (candidate.length > 0) {
         const k = candidate.pop();
-        const a = factor(k);
+        const a = factor(k, prime);
         // k cannot be factorized any further, hence is prime.
         if (a === k) {
             pfactor.push(k);
