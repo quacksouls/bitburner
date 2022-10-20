@@ -132,22 +132,26 @@ async function create_gang(ns, fac) {
  */
 function decrease_penalty(ns) {
     reassign_vigilante(ns);
-    const name = [];
-    const gangster = new Gangster(ns);
+    const combatant = [];
+    const other = [];
     const trainee = [];
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_vigilante(s)) {
-            continue;
-        }
+    const gangster = new Gangster(ns);
+    const candidate = ns.gang
+        .getMemberNames()
+        .filter((s) => !gangster.is_vigilante(s));
+    candidate.forEach((s) => {
         if (gangster.needs_training(s)) {
             trainee.push(s);
-            continue;
+        } else if (gangster.is_combatant(s)) {
+            combatant.push(s);
+        } else if (gangster.is_miscellaneous(s)) {
+            other.push(s);
         }
-        name.push(s);
-    }
+    });
     gangster.train(trainee);
     graduate(ns);
-    gangster.extort(name);
+    gangster.extort(combatant);
+    gangster.blackmail(other);
 }
 
 /**
