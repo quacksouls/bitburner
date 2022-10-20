@@ -50,22 +50,20 @@ function choose_vigilante_threshold(ns) {
 }
 
 /**
- * Whether we already have enough gang members assigned to vigilante justice or
- * ethical hacking.
+ * Whether we already have enough gang members assigned to vigilante justice.
  *
  * @param ns The Netscript API.
- * @return true if enough gangsters are assigned to vigilante justice or
- *     ethical hacking; false otherwise.
+ * @return true if enough gangsters are assigned to vigilante justice;
+ *     false otherwise.
  */
 function has_enough_vigilante(ns) {
+    assert(!ns.gang.getGangInformation().isHacking);
     const tau = choose_vigilante_threshold(ns);
     const gangster = new Gangster(ns);
-    const vigilante_ehacker = ns.gang
+    const vigilante = ns.gang
         .getMemberNames()
-        .filter(
-            (s) => gangster.is_vigilante(s) || gangster.is_ethical_hacker(s)
-        );
-    return tau === vigilante_ehacker.length;
+        .filter((s) => gangster.is_vigilante(s));
+    return tau === vigilante.length;
 }
 
 /**
