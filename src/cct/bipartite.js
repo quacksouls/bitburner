@@ -201,9 +201,7 @@ function to_graph(n, edge) {
         node.delete(v);
     }
     // Add any nodes not listed in the edge set.
-    for (const v of node) {
-        assert(graph.add_node(v));
-    }
+    node.forEach((v) => assert(graph.add_node(v)));
     assert(n === graph.nodes().length);
     return graph;
 }
