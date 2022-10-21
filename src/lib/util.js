@@ -158,7 +158,7 @@ export function is_valid_faction(fac) {
  * Whether the given name represents a valid program.
  *
  * @param name A string representing the name of a program.
- * @return true if the given name refers a valid program;
+ * @return true if the given name refers to a valid program;
  *     false otherwise.
  */
 export function is_valid_program(name) {
