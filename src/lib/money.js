@@ -28,7 +28,7 @@ export class Money {
      * Initialize a money object.
      */
     constructor() {
-        this.#million = 10 ** 6;
+        this.#million = 1e6;
     }
 
     /**
