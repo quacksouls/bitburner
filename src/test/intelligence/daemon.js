@@ -17,6 +17,7 @@
 
 import { intelligence } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
+import { io } from "/lib/constant/io.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -44,8 +45,7 @@ async function destroy(ns) {
     connect_to(ns, player.home(), server.hostname());
     const before = intelligence(ns);
     const file = "/intelligence/value-daemon.txt";
-    const write_mode = "w";
-    await ns.write(file, before, write_mode);
+    await ns.write(file, before, io.WRITE);
     await ns.singularity.installBackdoor();
 }
 

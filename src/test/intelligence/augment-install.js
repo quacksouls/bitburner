@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { io } from "/lib/constant/io.js";
 import { intelligence } from "/intelligence/util.js";
 
 /**
@@ -25,8 +26,7 @@ import { intelligence } from "/intelligence/util.js";
 async function install_augmentations(ns) {
     const before = intelligence(ns);
     const file = "/intelligence/value.txt";
-    const write_mode = "w";
-    await ns.write(file, before, write_mode);
+    await ns.write(file, before, io.WRITE);
     const script = "/intelligence/augmentation-post-install.js";
     ns.singularity.installAugmentations(script);
 }
