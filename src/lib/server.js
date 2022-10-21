@@ -70,7 +70,7 @@ export class Server {
     #script;
 
     /**
-     * The minimum security level to which this server can be weaked.
+     * The minimum security level to which this server can be weakened.
      */
     #security_min;
 
