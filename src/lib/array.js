@@ -44,8 +44,8 @@ export class MyArray {
     /**
      * The maximum element of an array.
      *
-     * @param We want to determine the maximum element of this array.  Cannot
-     *     be an empty array.
+     * @param array We want to determine the maximum element of this array.
+     *     Cannot be an empty array.
      * @return The largest element of the given array.
      */
     // eslint-disable-next-line class-methods-use-this
