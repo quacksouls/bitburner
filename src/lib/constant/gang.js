@@ -56,22 +56,30 @@ export const gang_augment = {
  * Constants related to various aspects of our gang members.
  */
 export const members = {
-    // The maximum number of gang members to assign to Ethical Hacking.
+    /**
+     * The maximum number of gang members to assign to Ethical Hacking.
+     */
     EHACK: 1,
     /**
      * The number of members that constitute half of the maximum number of
      * members we can have.  This is the 50% membership mark.
      */
     HALF: 6,
-    // The number of gangsters we can recruit upon creating our gang.  We must
-    // earn more respect to recruit more gang members.
+    /**
+     * The number of gangsters we can recruit upon creating our gang.  We must
+     * earn more respect to recruit more gang members.
+     */
     INITIAL: 3,
-    // The maximum number of members in a gang.  This number is taken from the
-    // file:
-    //
-    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+    /**
+     * The maximum number of members in a gang.  This number is taken from the
+     * file:
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+     */
     MAX: 12,
-    // Various roles for members of our gang.
+    /**
+     * Various roles for members of our gang.
+     */
     ROLE: {
         artillery: "Artillery",
         hacker: "Hacker",
@@ -83,21 +91,25 @@ export const members = {
         traitor: "Traitor",
         vanguard: "Vanguard",
     },
-    // The maximum number of gang members to assign to acts of terrorism.
-    // Terrorism greatly increases our respect and wanted level, but generate
-    // no income.  We should only have one terrorist.
+    /**
+     * The maximum number of gang members to assign to acts of terrorism.
+     * Terrorism greatly increases our respect and wanted level, but generate
+     * no income.  We should only have one terrorist.
+     */
     TERRORIST: 1,
     /**
      * The maximum number of gang members to assign to vigilante justice.
      * Assume we are in a criminal gang.
      */
     VIGILANTE: 4,
-    // The maximum number of gang members to assign to territory warfare.  This
-    // threshold applies only when we are not engaged in territory warfare
-    // against a rival gang.  If we are about to clash against a rival gang, we
-    // should devote more members to warfare.  In general, this threshold helps
-    // to build our power while we are not engaged in dispute against any rival
-    // gang.
+    /**
+     * The maximum number of gang members to assign to territory warfare.  This
+     * threshold applies only when we are not engaged in territory warfare
+     * against a rival gang.  If we are about to clash against a rival gang, we
+     * should devote more members to warfare.  In general, this threshold helps
+     * to build our power while we are not engaged in dispute against any rival
+     * gang.
+     */
     WARRIOR: 4,
 };
 
@@ -105,32 +117,40 @@ export const members = {
  * Miscellaneous constants related to various thresholds.
  */
 export const gang_t = {
-    // The minimum percentage boost to a stat of a member.  Let x be the
-    // ascension multiplier of a member, gained by having ascended one or
-    // more times.  Let y be the next ascension multiplier, a boost to x after
-    // ascending the member another time.  The value of y is represented as
-    // 1.p, where 100 * p is the percentage boost to x.  After the next
-    // ascension, the new ascension multiplier of the member would be x * y.
-    // We want the value of y to be at least the given threshold.
+    /**
+     * The minimum percentage boost to a stat of a member.  Let x be the
+     * ascension multiplier of a member, gained by having ascended one or
+     * more times.  Let y be the next ascension multiplier, a boost to x after
+     * ascending the member another time.  The value of y is represented as
+     * 1.p, where 100 * p is the percentage boost to x.  After the next
+     * ascension, the new ascension multiplier of the member would be x * y.
+     * We want the value of y to be at least the given threshold.
+     */
     ASCEND: 1.25,
-    // The cost or expenditure multiplier.  Equipment and Augmentations for a
-    // gang member are expensive.  Whenever we make a decision to purchase a
-    // new equipment or Augmentation for a gang member, we multiply the cost of
-    // the equipment or Augmentation by this multiplier.  In case we do buy the
-    // new equipment, at least we would not have spent all our funds.  Do not
-    // want to go bankrupt because we decided to purchase an expensive
-    // equipment.
+    /**
+     * The cost or expenditure multiplier.  Equipment and Augmentations for a
+     * gang member are expensive.  Whenever we make a decision to purchase a
+     * new equipment or Augmentation for a gang member, we multiply the cost of
+     * the equipment or Augmentation by this multiplier.  In case we do buy the
+     * new equipment, at least we would not have spent all our funds.  Do not
+     * want to go bankrupt because we decided to purchase an expensive
+     * equipment.
+     */
     COST_MULT: 5,
-    // In BitNodes other than BN2.x we must decrease our karma to -54,000 or
-    // lower as a pre-requisite for creating a gang.  This constant is taken
-    // from the file:
-    //
-    // https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+    /**
+     * In BitNodes other than BN2.x we must decrease our karma to -54,000 or
+     * lower as a pre-requisite for creating a gang.  This constant is taken
+     * from the file:
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/Constants.ts
+     */
     KARMA: -54e3,
-    // The roster of our gang.  This lists the number of members we want for
-    // each role.  Except for punk, we want at most 1 member in each of the
-    // other roles.  The number 8 below is the number of members in a non-punk
-    // role.
+    /**
+     * The roster of our gang.  This lists the number of members we want for
+     * each role.  Except for punk, we want at most 1 member in each of the
+     * other roles.  The number 8 below is the number of members in a non-punk
+     * role.
+     */
     ROSTER: {
         artillery: 1,
         hacker: 1,
@@ -142,8 +162,10 @@ export const gang_t = {
         traitor: 1,
         vanguard: 1,
     },
-    // The territory and power of each gang is updated approximately every 20
-    // seconds.  We refer to this time period as a tick.
+    /**
+     * The territory and power of each gang is updated approximately every 20
+     * seconds.  We refer to this time period as a tick.
+     */
     TICK: 20e3,
     /**
      * The minimum chance of winning a clash against a rival gang.  This chance
@@ -1118,16 +1140,20 @@ export const gangster_t = {
  * Various thresholds related to the penalty.
  */
 export const penalty_t = {
-    // The penalty percentage threshold at which we should lower our wanted
-    // level.  If our penalty percentage is at least this value, then we should
-    // re-assign some gang members to jobs such as vigilante justice or ethical
-    // hacking to help reduce our wanted level.
+    /**
+     * The penalty percentage threshold at which we should lower our wanted
+     * level.  If our penalty percentage is at least this value, then we should
+     * reassign some gang members to jobs such as vigilante justice or ethical
+     * hacking to help reduce our wanted level.
+     */
     HIGH: 10,
-    // The penalty percentage threshold at which we should move gang members
-    // out of jobs that lower our wanted level.  Such jobs are vigilante
-    // justice and ethical hacking.  In general, we strive to have as low
-    // wanted level as possible.  However, if our wanted level is below this
-    // threshold, then we should re-assign members to jobs that yield income.
+    /**
+     * The penalty percentage threshold at which we should move gang members
+     * out of jobs that lower our wanted level.  Such jobs are vigilante
+     * justice and ethical hacking.  In general, we strive to have as low
+     * wanted level as possible.  However, if our wanted level is below this
+     * threshold, then we should reassign members to jobs that yield income.
+     */
     LOW: 2,
 };
 
@@ -1153,153 +1179,201 @@ export const rootkit = {
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/tasks.ts
  */
 export const task = {
-    // Set a gang member to the idle state.  This is the default state upon
-    // recruitment.
-    // Gang: criminal, hacking
+    /**
+     * Set a gang member to the idle state.  This is the default state upon
+     * recruitment.
+     * Gang: criminal, hacking
+     */
     IDLE: "Unassigned",
     //
     // Hacking gangs.
     //
-    // Set a gang member to commit cyberterrorism.
-    // Gang: hacking
-    // Money: N/A
-    // Respect: great
-    // Wanted: great
+    /**
+     * Set a gang member to commit cyberterrorism.
+     * Gang: hacking
+     * Money: N/A
+     * Respect: great
+     * Wanted: great
+     */
     CYBERTERROR: "Cyberterrorism",
-    // Set a gang member to attempt distributed denial of service (DDoS)
-    // attacks.
-    // Gang: hacking
-    // Money: N/A
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to attempt distributed denial of service (DDoS)
+     * attacks.
+     * Gang: hacking
+     * Money: N/A
+     * Respect: yes
+     * Wanted: yes
+     */
     DDOS: "DDoS Attacks",
-    // Set a gang member as an ethical hacker.
-    // Gang: hacking
-    // Money: yes
-    // Respect: N/A
-    // Wanted: negative
+    /**
+     * Set a gang member as an ethical hacker.
+     * Gang: hacking
+     * Money: yes
+     * Respect: N/A
+     * Wanted: negative
+     */
     EHACK: "Ethical Hacking",
-    // Set a gang member to commit financial fraud and digital counterfeiting.
-    // Gang: hacking
-    // Money: yes
-    // Respect: slight
-    // Wanted: slight
+    /**
+     * Set a gang member to commit financial fraud and digital counterfeiting.
+     * Gang: hacking
+     * Money: yes
+     * Respect: slight
+     * Wanted: slight
+     */
     FRAUD: "Fraud & Counterfeiting",
-    // Set a gang member to attempt identity theft.
-    // Gang: hacking
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to attempt identity theft.
+     * Gang: hacking
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     ID_THEFT: "Identity Theft",
-    // Set a gang member to launder money.
-    // Gang: hacking
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to launder money.
+     * Gang: hacking
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     LAUNDER: "Money Laundering",
-    // Set a gang member to attempt phishing scams and attacks.
-    // Gang: hacking
-    // Money: yes
-    // Respect: slight
-    // Wanted: slight
+    /**
+     * Set a gang member to attempt phishing scams and attacks.
+     * Gang: hacking
+     * Money: yes
+     * Respect: slight
+     * Wanted: slight
+     */
     PHISH: "Phishing",
-    // Set a gang member to create and distribute ransomware.
-    // Gang: hacking
-    // Money: yes
-    // Respect: slight
-    // Wanted: slight
+    /**
+     * Set a gang member to create and distribute ransomware.
+     * Gang: hacking
+     * Money: yes
+     * Respect: slight
+     * Wanted: slight
+     */
     RANSOMWARE: "Ransomware",
-    // Set a gang member to create and distribute malicious viruses.
-    // Gang: hacking
-    // Money: N/A
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to create and distribute malicious viruses.
+     * Gang: hacking
+     * Money: N/A
+     * Respect: yes
+     * Wanted: yes
+     */
     VIRUS: "Plant Virus",
     //
     // Criminal gangs.
     //
-    // Set a gang member to threaten and blackmail high-profile targets.
-    // Gang: criminal
-    // Money: yes
-    // Respect: slight
-    // Wanted: slight
+    /**
+     * Set a gang member to threaten and blackmail high-profile targets.
+     * Gang: criminal
+     * Money: yes
+     * Respect: slight
+     * Wanted: slight
+     */
     BLACKMAIL: "Threaten & Blackmail",
-    // Set a gang member to run cons.
-    // Gang: criminal
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to run cons.
+     * Gang: criminal
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     CON: "Run a Con",
-    // Set a gang member to sell drugs.
-    // Gang: criminal
-    // Money: yes
-    // Respect: slight
-    // Wanted: slight
+    /**
+     * Set a gang member to sell drugs.
+     * Gang: criminal
+     * Money: yes
+     * Respect: slight
+     * Wanted: slight
+     */
     DRUGS: "Deal Drugs",
-    // Set a gang member to extort civilians in our turf.
-    // Gang: criminal
-    // Money: yes
-    // Respect: slight
-    // Wanted: yes
+    /**
+     * Set a gang member to extort civilians in our turf.
+     * Gang: criminal
+     * Money: yes
+     * Respect: slight
+     * Wanted: yes
+     */
     EXTORT: "Strongarm Civilians",
-    // Set a gang member to randomly mug a person.
-    // Gang: criminal
-    // Money: yes
-    // Respect: slight
-    // Wanted: very slight
+    /**
+     * Set a gang member to randomly mug a person.
+     * Gang: criminal
+     * Money: yes
+     * Respect: slight
+     * Wanted: very slight
+     */
     MUG: "Mug People",
-    // Set a gang member to commit armed robbery.
-    // Gang: criminal
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to commit armed robbery.
+     * Gang: criminal
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     ROBBERY: "Armed Robbery",
-    // Set a gang member to commit acts of terrorism.
-    // Gang: criminal
-    // Money: N/A
-    // Respect: great
-    // Wanted: great
+    /**
+     * Set a gang member to commit acts of terrorism.
+     * Gang: criminal
+     * Money: N/A
+     * Respect: great
+     * Wanted: great
+     */
     TERROR: "Terrorism",
-    // Set a gang member to traffick illegal arms.
-    // Gang: criminal
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to traffick illegal arms.
+     * Gang: criminal
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     TRAFFICK_ARMS: "Traffick Illegal Arms",
-    // Set a gang member to attempt human trafficking.
-    // Gang: criminal
-    // Money: yes
-    // Respect: yes
-    // Wanted: yes
+    /**
+     * Set a gang member to attempt human trafficking.
+     * Gang: criminal
+     * Money: yes
+     * Respect: yes
+     * Wanted: yes
+     */
     TRAFFICK_HUMAN: "Human Trafficking",
     //
     // Both criminal and hacking gangs.
     //
-    // Set a gang member to train their Charisma stat.
-    // Gang: criminal, hacking
-    // Money: N/A
-    // Wanted: N/A
+    /**
+     * Set a gang member to train their Charisma stat.
+     * Gang: criminal, hacking
+     * Money: N/A
+     * Wanted: N/A
+     */
     CHARISMA: "Train Charisma",
-    // Set a gang member to train their combat stats, i.e. Str, Def, Dex, Agi.
-    // Gang: criminal, hacking
-    // Money: N/A
-    // Wanted: N/A
+    /**
+     * Set a gang member to train their combat stats, i.e. Str, Def, Dex, Agi.
+     * Gang: criminal, hacking
+     * Money: N/A
+     * Wanted: N/A
+     */
     COMBAT: "Train Combat",
-    // Set a gang member to train their Hack stat.
-    // Gang: criminal, hacking
-    // Money: N/A
-    // Wanted: N/A
+    /**
+     * Set a gang member to train their Hack stat.
+     * Gang: criminal, hacking
+     * Money: N/A
+     * Wanted: N/A
+     */
     HACK: "Train Hacking",
-    // Set a gang member to engage in territorial warfare against other gangs.
-    // Gang: criminal, hacking
-    // Money: N/A
-    // Wanted: N/A
+    /**
+     * Set a gang member to engage in territorial warfare against other gangs.
+     * Gang: criminal, hacking
+     * Money: N/A
+     * Wanted: N/A
+     */
     TURF_WAR: "Territory Warfare",
-    // Set a gang member to be a vigilante and protect the city from criminals.
-    // Gang: criminal, hacking
-    // Money: N/A
-    // Respect: N/A
-    // Wanted: negative
+    /**
+     * Set a gang member to be a vigilante and protect the city from criminals.
+     * Gang: criminal, hacking
+     * Money: N/A
+     * Respect: N/A
+     * Wanted: negative
+     */
     VIGILANTE: "Vigilante Justice",
 };
 
@@ -1307,63 +1381,93 @@ export const task = {
  * Stat thresholds related to various tasks.
  */
 export const task_t = {
-    // The minimum Charisma stat at which a gang member might be assigned to
-    // threaten and blackmail high-profile targets.
+    /**
+     * The minimum Charisma stat at which a gang member might be assigned to
+     * threaten and blackmail high-profile targets.
+     */
     BLACKMAIL: 200,
-    // The minimum threshold for the Charisma stat that a new recruit must
-    // attain.  A new recruit might be assigned to train their Charisma.  They
-    // graduate out of Charisma training after their Charisma stat is at least
-    // this number.
+    /**
+     * The minimum threshold for the Charisma stat that a new recruit must
+     * attain.  A new recruit might be assigned to train their Charisma.  They
+     * graduate out of Charisma training after their Charisma stat is at least
+     * this number.
+     */
     CHARISMA: 15,
-    // The minimum threshold for the combat stats that a new recruit must
-    // attain.  A new recruit might be assigned to train their combat stats.
-    // They graduate out of combat training after their combat stats are at
-    // least this threshold.
+    /**
+     * The minimum threshold for the combat stats that a new recruit must
+     * attain.  A new recruit might be assigned to train their combat stats.
+     * They graduate out of combat training after their combat stats are at
+     * least this threshold.
+     */
     COMBAT: 15,
-    // The minimum Charisma stat at which a gang member might be assigned to
-    // running a con.
+    /**
+     * The minimum Charisma stat at which a gang member might be assigned to
+     * running a con.
+     */
     CON: 100,
-    // The minimum Hack stat at which a gang member might be assigned to commit
-    // acts of cyberterrorism.
+    /**
+     * The minimum Hack stat at which a gang member might be assigned to commit
+     * acts of cyberterrorism.
+     */
     CYBER_TERROR: 400,
-    // The minimum threshold on a combat stat at which a gang member might be
-    // assigned to strongarm civilians.  For example,
-    // if a member has Strength at least this number, then we might want to
-    // re-assign the member to strongarm civilians.
+    /**
+     * The minimum threshold on a combat stat at which a gang member might be
+     * assigned to strongarm civilians.  For example, if a member has Strength
+     * at least this number, then we might want to reassign the member to
+     * strongarm civilians.
+     */
     EXTORT: 50,
-    // The minimum Hack stat at which a gang member might be assigned to commit
-    // financial fraud and digital counterfeiting.
+    /**
+     * The minimum Hack stat at which a gang member might be assigned to commit
+     * financial fraud and digital counterfeiting.
+     */
     FRAUD: 200,
-    // The minimum threshold for the Hack stat that a new recruit must attain.
-    // A new recruit might be assigned to train their Hack stat.  They graduate
-    // out of Hack training once their Hack stat is at least this number.
+    /**
+     * The minimum threshold for the Hack stat that a new recruit must attain.
+     * A new recruit might be assigned to train their Hack stat.  They graduate
+     * out of Hack training once their Hack stat is at least this number.
+     */
     HACK: 15,
-    // The minimum Hack stat at which a gang member might be assigned to
-    // identity theft.
+    /**
+     * The minimum Hack stat at which a gang member might be assigned to
+     * identity theft.
+     */
     ID: 100,
-    // The minimum Hack stat at which a gang member might be assigned to
-    // launder money.
+    /**
+     * The minimum Hack stat at which a gang member might be assigned to
+     * launder money.
+     */
     LAUNDER: 300,
-    // The minimum Hack stat at which a gang member might be assigned to
-    // phishing scams.
+    /**
+     * The minimum Hack stat at which a gang member might be assigned to
+     * phishing scams.
+     */
     PHISH: 50,
-    // The minimum threshold on a combat stat at which a gang member might be
-    // assigned to armed robbery.  For example, if a member has Strength at
-    // least this number, then we might want to re-assign the member to armed
-    // robbery.
+    /**
+     * The minimum threshold on a combat stat at which a gang member might be
+     * assigned to armed robbery.  For example, if a member has Strength at
+     * least this number, then we might want to re-assign the member to armed
+     * robbery.
+     */
     ROBBERY: 200,
-    // The minimum threshold on a combat stat at which a gang member might be
-    // assigned to acts of terrorism.  For example, if a member has Strength at
-    // least this number, then we might want to re-assign the member to commit
-    // acts of terrorism.
+    /**
+     * The minimum threshold on a combat stat at which a gang member might be
+     * assigned to acts of terrorism.  For example, if a member has Strength at
+     * least this number, then we might want to re-assign the member to commit
+     * acts of terrorism.
+     */
     TERROR: 400,
-    // The minimum threshold on a combat stat at which a gang member might be
-    // assigned to trafficking illegal arms.  For example, if a member has
-    // Strength at least this number, then we might want to re-assign the
-    // member to trafficking illegal arms.
+    /**
+     * The minimum threshold on a combat stat at which a gang member might be
+     * assigned to trafficking illegal arms.  For example, if a member has
+     * Strength at least this number, then we might want to reassign the
+     * member to trafficking illegal arms.
+     */
     TRAFFICK_ARMS: 300,
-    // The minimum Charisma stat at which a gang member might be assigned to
-    // trafficking humans.
+    /**
+     * The minimum Charisma stat at which a gang member might be assigned to
+     * trafficking humans.
+     */
     TRAFFICK_HUMAN: 300,
 };
 
