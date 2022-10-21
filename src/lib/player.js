@@ -42,7 +42,7 @@ export class Player {
 
     /**
      * Programs necessary for visiting the network of world servers.
-     * These are usuallly network programs.
+     * These are usually network programs.
      */
     #program;
 
