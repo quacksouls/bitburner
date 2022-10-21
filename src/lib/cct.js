@@ -144,8 +144,7 @@ export function matrix_to_string(mat) {
         string += `[${mat[i]}]${delim}`;
     }
     string = string.slice(0, string.length - delim.length);
-    string = `[${string}]`;
-    return string;
+    return `[${string}]`;
 }
 
 /**
