@@ -141,7 +141,6 @@ export class MyArray {
     sum(array) {
         assert(array.length > 0);
         const init_value = 0;
-        const total = array.reduce((sum, current) => sum + current, init_value);
-        return total;
+        return array.reduce((sum, current) => sum + current, init_value);
     }
 }
