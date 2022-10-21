@@ -120,8 +120,7 @@ export class Server {
      * How much RAM (in GB) is available on this server.
      */
     available_ram() {
-        const ram = this.ram_max() - this.#ns.getServerUsedRam(this.hostname());
-        return ram;
+        return this.ram_max() - this.#ns.getServerUsedRam(this.hostname());
     }
 
     /**
