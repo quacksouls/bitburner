@@ -69,8 +69,7 @@ export class Player {
      * The player's agility level.
      */
     agility() {
-        const stat = this.#ns.getPlayer().skills;
-        return stat.agility;
+        return this.#ns.getPlayer().skills.agility;
     }
 
     /**
@@ -84,40 +83,35 @@ export class Player {
      * The player's current Charisma level.
      */
     charisma() {
-        const stat = this.#ns.getPlayer().skills;
-        return stat.charisma;
+        return this.#ns.getPlayer().skills.charisma;
     }
 
     /**
      * The current city where the player is located.
      */
     city() {
-        const stat = this.#ns.getPlayer();
-        return stat.city;
+        return this.#ns.getPlayer().city;
     }
 
     /**
      * The player's defense level.
      */
     defense() {
-        const stat = this.#ns.getPlayer().skills;
-        return stat.defense;
+        return this.#ns.getPlayer().skills.defense;
     }
 
     /**
      * The player's dexterity level.
      */
     dexterity() {
-        const stat = this.#ns.getPlayer().skills;
-        return stat.dexterity;
+        return this.#ns.getPlayer().skills.dexterity;
     }
 
     /**
      * An array of all factions to which the player is a member.
      */
     faction() {
-        const stat = this.#ns.getPlayer();
-        return stat.factions;
+        return this.#ns.getPlayer().factions;
     }
 
     /**
@@ -135,9 +129,7 @@ export class Player {
      *     false otherwise.
      */
     has_all_port_openers() {
-        const limit = this.#port_opener.length;
-        const nport = this.num_ports();
-        return nport === limit;
+        return this.num_ports() === this.#port_opener.length;
     }
 
     /**
@@ -148,8 +140,7 @@ export class Player {
      *     false otherwise.
      */
     has_all_programs() {
-        let prog = Array.from(this.#port_opener);
-        prog = prog.concat(this.#program);
+        const prog = Array.from(this.#port_opener).concat(this.#program);
         assert(prog.length > 0);
         for (const p of prog) {
             if (!this.has_program(p)) {
@@ -234,8 +225,7 @@ export class Player {
      * The number of people the player has killed.
      */
     nkill() {
-        const stat = this.#ns.getPlayer();
-        return stat.numPeopleKilled;
+        return this.#ns.getPlayer().numPeopleKilled;
     }
 
     /**
@@ -270,7 +260,6 @@ export class Player {
      * The player's strength level.
      */
     strength() {
-        const stat = this.#ns.getPlayer().skills;
-        return stat.strength;
+        return this.#ns.getPlayer().skills.strength;
     }
 }
