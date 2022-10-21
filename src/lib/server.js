@@ -341,8 +341,7 @@ export class Server {
      * The maximum amount of RAM (GB) of this server.
      */
     ram_max() {
-        const serv = this.#ns.getServer(this.hostname());
-        return serv.maxRam;
+        return this.#ns.getServer(this.hostname()).maxRam;
     }
 
     /**
