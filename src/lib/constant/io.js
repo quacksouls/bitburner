@@ -22,5 +22,6 @@
  */
 export const io = {
     APPEND: "a",
+    NEWLINE: "\n",
     WRITE: "w",
 };

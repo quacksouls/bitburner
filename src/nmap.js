@@ -16,6 +16,7 @@
  */
 
 import { program as popen } from "/lib/constant/exe.js";
+import { io } from "/lib/constant/io.js";
 import { base, colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
@@ -246,13 +247,6 @@ function leaf() {
 }
 
 /**
- * The new line character.
- */
-function newline() {
-    return "\n";
-}
-
-/**
  * Determine the number of ports a player can currently open on servers in
  * the game world.  This depends on whether the player has the necessary
  * hacking programs on the home server.
@@ -422,9 +416,9 @@ function to_string(matrix) {
         }
     }
     // Entries in the matrix as a string.
-    let art = newline();
+    let art = io.NEWLINE;
     for (const row of mat) {
-        art += row.join("") + newline();
+        art += row.join("") + io.NEWLINE;
     }
     return art;
 }
