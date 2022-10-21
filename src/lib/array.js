@@ -52,8 +52,7 @@ export class MyArray {
     max(array) {
         assert(array.length > 0);
         const init_value = -Infinity;
-        const mx = array.reduce((x, y) => Math.max(x, y), init_value);
-        return mx;
+        return array.reduce((x, y) => Math.max(x, y), init_value);
     }
 
     /**
