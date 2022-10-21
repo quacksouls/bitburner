@@ -95,12 +95,18 @@ export class Gangster {
                 ascend_this_member = true;
             }
         } else if (this.is_hacker(name)) {
-            if (to_int(asc.hack) > tau) {
+            if (to_int(asc.hack) > tau || to_int(asc.cha) > tau) {
                 ascend_this_member = true;
             }
         } else {
             assert(this.is_miscellaneous(name));
-            if (to_int(asc.cha) > tau) {
+            if (
+                to_int(asc.cha) > tau
+                || to_int(asc.agi) > tau
+                || to_int(asc.def) > tau
+                || to_int(asc.dex) > tau
+                || to_int(asc.str) > tau
+            ) {
                 ascend_this_member = true;
             }
         }
