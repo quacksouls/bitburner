@@ -125,8 +125,7 @@ export function filter_pserv(ns, server) {
  * @return true if the server is bankrupt; false otherwise.
  */
 export function is_bankrupt(ns, s) {
-    const server = ns.getServer(s);
-    return server.moneyMax === 0;
+    return ns.getServer(s).moneyMax === 0;
 }
 
 /**
