@@ -806,7 +806,7 @@ function reassign_hacker(ns) {
     const gangster = new Gangster(ns);
     const hacker = ns.gang
         .getMemberNames()
-        .filter((s) => gangster.role(s) === members.ROLE.hacker);
+        .filter((s) => gangster.is_hacker(s));
     assert(hacker.length === 1);
     // If this is a hacking gang, then reassign the Hacker to one of the
     // hacking-related jobs.
