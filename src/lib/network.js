@@ -168,11 +168,9 @@ export class Graph {
         // Directed graph.
         if (this.#directed) {
             const edge = [];
-            for (const u of this.nodes()) {
-                for (const v of this.neighbour(u)) {
-                    edge.push([u, v]);
-                }
-            }
+            this.nodes().forEach((u) => {
+                this.neighbour(u).forEach((v) => edge.push([u, v]));
+            });
             return edge;
         }
         // Undirected graph.
