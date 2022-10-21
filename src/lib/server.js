@@ -375,9 +375,7 @@ export class Server {
     threads_per_instance(s, n) {
         const ninstance = Math.floor(n);
         assert(ninstance > 0);
-        const nthread = this.num_threads(s);
-        const nthread_per_instance = Math.floor(nthread / ninstance);
-        return nthread_per_instance;
+        return Math.floor(this.num_threads(s) / ninstance);
     }
 
     /**
