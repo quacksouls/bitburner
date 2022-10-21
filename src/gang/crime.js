@@ -759,26 +759,6 @@ function reassign_extortion(ns, member, min, max) {
 }
 
 /**
- * Reassign our Hacker to commit financial fraud and digital counterfeiting.
- * Reassign our member if their Hack stat is in the half-open interval
- * [min, max).  We include the minimum threshold but exclude the maximum
- * threshold.
- *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to commit financial fraud and digital counterfeiting.
- * @param min The minimum value for the Hack stat.
- * @param max The maximum value for the Hack stat.
- */
-function reassign_fraud(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
-    );
-    gangster.fraud(candidate);
-}
-
-/**
  * Reassign anyone who is in the neutral state to a default task.
  *
  * @param ns The Netscript API.
@@ -808,17 +788,8 @@ function reassign_hacker(ns) {
         .getMemberNames()
         .filter((s) => gangster.is_hacker(s));
     assert(hacker.length === 1);
-    // If this is a hacking gang, then reassign the Hacker to one of the
-    // hacking-related jobs.
-    if (ns.gang.getGangInformation().isHacking) {
-        reassign_phish(ns, hacker, task_t.PHISH, task_t.ID);
-        reassign_id_theft(ns, hacker, task_t.ID, task_t.FRAUD);
-        reassign_fraud(ns, hacker, task_t.FRAUD, task_t.LAUNDER);
-        reassign_launder(ns, hacker, task_t.LAUNDER, Infinity);
-        return;
-    }
-    // Otherwise, reassign the Hacker to one of the jobs normally done by a
-    // miscellaneous gang member.
+    // This is not a hacking gang.  Reassign the Hacker to one of the jobs
+    // normally done by a miscellaneous gang member.
     reassign_con(ns, hacker, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, hacker, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
     // If we already control 100% of the territory, then assign everyone to
@@ -852,44 +823,6 @@ function reassign_human_trafficking(ns, member, min, max) {
 }
 
 /**
- * Reassign our Hacker to commit identity theft.  Reassign our member if their
- * Hack stat is in the half-open interval [min, max).  We include the minimum
- * threshold but exclude the maximum threshold.
- *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to commit identity theft.
- * @param min The minimum value for the Hack stat.
- * @param max The maximum value for the Hack stat.
- */
-function reassign_id_theft(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
-    );
-    gangster.id_theft(candidate);
-}
-
-/**
- * Reassign our Hacker to commit money laundering.  Reassign our member if
- * their Hack stat is in the half-open interval [min, max).  We include the
- * minimum threshold but exclude the maximum threshold.
- *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to launder money.
- * @param min The minimum value for the Hack stat.
- * @param max The maximum value for the Hack stat.
- */
-function reassign_launder(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
-    );
-    gangster.launder(candidate);
-}
-
-/**
  * Reassign miscellaneous gang members to various jobs.
  *
  * @param ns The Netscript API.
@@ -909,25 +842,6 @@ function reassign_miscellaneous(ns) {
         return;
     }
     reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
-}
-
-/**
- * Reassign our Hacker to commit phishing scams.  Reassign our member if their
- * Hack stat is in the half-open interval [min, max).  We include the minimum
- * threshold but exclude the maximum threshold.
- *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to commit phishing scams.
- * @param min The minimum value for the Hack stat.
- * @param max The maximum value for the Hack stat.
- */
-function reassign_phish(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.hack(s) && gangster.hack(s) < max
-    );
-    gangster.phish(candidate);
 }
 
 /**
