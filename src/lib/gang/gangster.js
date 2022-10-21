@@ -1169,7 +1169,7 @@ export class Gangster {
     /**
      * Recruit as many new gang members as possible.  There is a maximum to how
      * many members can be in our gang.  We want our gang to have the following
-     * structure:
+     * structure and let each member role play.
      *
      * (1) Artillery x 1.  A gun expert and ranged fighter.  Good with bow and
      *     arrows, or missiles.
