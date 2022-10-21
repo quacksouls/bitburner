@@ -424,23 +424,6 @@ function has_all_turf(ns) {
 }
 
 /**
- * Whether any of our gang members are currently engaged in ethical hacking.
- *
- * @param ns The Netscript API.
- * @return true if at least one gang member is currently assigned to ethical
- *     hacking; false otherwise.
- */
-function has_ethical_hacker(ns) {
-    const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_ethical_hacker(s)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/**
  * Whether we have the maximum number of members in our gang.
  *
  * @param ns The Netscript API.
@@ -942,18 +925,18 @@ function retrain(ns) {
  */
 function update(ns) {
     recruit(ns);
-    // Do we have anyone on vigilante justice or ethical hacking?
-    if (has_vigilante(ns) || has_ethical_hacker(ns)) {
+    // Do we have anyone on vigilante justice?
+    if (has_vigilante(ns)) {
         if (penalty(ns) < penalty_t.LOW) {
             reassign(ns);
             return;
         }
     }
     // Initially, our gang has a small number of members.  Assigning one or
-    // more members to vigilante justice or ethical hacking would do precious
-    // little to decrease our wanted level.  With such a small membership, it
-    // is more important to raise the members' stats and recruit more members
-    // than to lower our wanted level.
+    // more members to vigilante justice would do precious little to decrease
+    // our wanted level.  With such a small membership, it is more important to
+    // raise the members' stats and recruit more members than to lower our
+    // wanted level.
     if (ns.gang.getMemberNames().length > members.HALF) {
         // Is our penalty too high?  If our penalty percentage exceeds a given
         // threshold, then reassign some gang members to vigilante justice in
