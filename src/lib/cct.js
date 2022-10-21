@@ -17,6 +17,7 @@
 
 // Miscellaneous helper functions for solving coding contracts.
 
+import { io } from "/lib/constant/io.js";
 import { colour } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
@@ -124,12 +125,11 @@ export function is_alphabetic(c) {
  * @param data The data used for solving the coding contract.
  */
 export async function log_cct_failure(ns, fname, cct, host, data) {
-    const append = "a";
     const newline = "\n";
     const date = new Date(Date.now());
-    await ns.write(fname, date.toISOString(), append);
-    await ns.write(fname, `, ${host}, ${cct}${newline}`, append);
-    await ns.write(fname, data + newline, append);
+    await ns.write(fname, date.toISOString(), io.APPEND);
+    await ns.write(fname, `, ${host}, ${cct}${newline}`, io.APPEND);
+    await ns.write(fname, data + newline, io.APPEND);
 }
 
 /**

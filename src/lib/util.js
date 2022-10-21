@@ -19,6 +19,7 @@
 
 import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
+import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { home } from "/lib/constant/server.js";
 import { wse } from "/lib/constant/wse.js";
@@ -189,6 +190,5 @@ export function trade_bot_resume(ns) {
 export async function trade_bot_stop_buy(ns) {
     const fname = wse.STOP_BUY;
     const data = "Trade bot stop buy.";
-    const write_mode = "w";
-    await ns.write(fname, data, write_mode);
+    await ns.write(fname, data, io.WRITE);
 }
