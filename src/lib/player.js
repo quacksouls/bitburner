@@ -208,6 +208,7 @@ export class Player {
     /**
      * The player's karma.  This is an Easter egg, buried in the source code
      * of the game.  Refer to this file:
+     *
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Extra.ts
      */
     karma() {
