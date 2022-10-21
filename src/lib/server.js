@@ -149,8 +149,7 @@ export class Server {
      * The number of CPU Cores on this server.
      */
     cores() {
-        const serv = this.#ns.getServer(this.hostname());
-        return serv.cpuCores;
+        return this.#ns.getServer(this.hostname()).cpuCores;
     }
 
     /**
