@@ -22,7 +22,7 @@ import { home } from "/lib/constant/server.js";
 import { assert, filter_pserv } from "/lib/util.js";
 
 /**
- * A combinatorial graph, commonly referrred to as a graph.
+ * A combinatorial graph, commonly referred to as a graph.
  */
 export class Graph {
     /**
@@ -113,7 +113,7 @@ export class Graph {
      *         node.  Each path starts from the given source node.  For
      *         example, the map element A[i] means the shortest number of nodes
      *         in a path to node i.
-     *     (2) A map of the node preceeding a given node, in a shortest path.
+     *     (2) A map of the node preceding a given node, in a shortest path.
      *         For example, the map element M[i] gives a node that directly
      *         connects to node i, where M[i] and i are nodes in a shortest
      *         path.
@@ -123,7 +123,7 @@ export class Graph {
         // graphs.
         // A map of the shortest number of nodes in a path to a target node.
         const dist = new Map();
-        // A map of the node preceeding a given node.
+        // A map of the node preceding a given node.
         const prev = new Map();
         // A queue of nodes to visit.
         let queue = [];
