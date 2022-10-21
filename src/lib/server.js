@@ -368,12 +368,11 @@ export class Server {
      *
      * @param s The script to run on this server.
      * @param n We want to run this many instances of the given script.
-     *     Must be a positive whole number.
+     *     Must be a positive integer.
      * @return The number of threads for each instance of the script.
      *     Return 0 if we cannot run any scripts on this server.
      */
     threads_per_instance(s, n) {
-        // Sanity check.
         const ninstance = Math.floor(n);
         assert(ninstance > 0);
         const nthread = this.num_threads(s);
