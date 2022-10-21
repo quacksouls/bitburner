@@ -158,8 +158,9 @@ export class Server {
      *
      * @param target We run our hack script against this target server.
      * @return true if our hack script is running on the server using at least
-     *     one thread; false otherwise, e.g. no free RAM on the server or we
-     *     do not have root access on either servers.
+     *     one thread; false otherwise.  The method can return false if, for
+     *     example, there is no free RAM on the server or we do not have root
+     *     access on either servers.
      */
     async deploy(target) {
         assert(target.length > 0);
