@@ -113,8 +113,7 @@ export function filter_bankrupt_servers(ns, candidate) {
  */
 export function filter_pserv(ns, server) {
     const pserv = ns.getPurchasedServers();
-    const serv = Array.from(server);
-    return serv.filter((s) => !pserv.includes(s));
+    return server.filter((s) => !pserv.includes(s));
 }
 
 /**
