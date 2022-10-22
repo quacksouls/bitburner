@@ -104,6 +104,7 @@ function dir_lib() {
         "lib/constant/faction.js",
         "lib/constant/gang.js",
         "lib/constant/hacknet.js",
+        "lib/constant/io.js",
         "lib/constant/location.js",
         "lib/constant/misc.js",
         "lib/constant/pserv.js",
