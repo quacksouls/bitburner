@@ -62,11 +62,9 @@ function is_megacorp_faction(fac) {
  */
 export function join_all_factions(ns) {
     const invite = new Set(ns.singularity.checkFactionInvitations());
-    for (const f of Array.from(factions.all)) {
-        if (invite.has(f)) {
-            ns.singularity.joinFaction(f);
-        }
-    }
+    factions.all
+        .filter((f) => invite.has(f))
+        .forEach((g) => ns.singularity.joinFaction(g));
 }
 
 /**
