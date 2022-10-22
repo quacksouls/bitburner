@@ -55,8 +55,8 @@ export function augment_to_buy(ns, fac) {
     );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
-    if (fac_aug.includes(nfg())) {
-        fac_aug = fac_aug.filter((a) => a !== nfg());
+    if (fac_aug.includes(augment.NFG)) {
+        fac_aug = fac_aug.filter((a) => a !== augment.NFG);
     }
     assert(fac_aug.length > 0);
     // Choose n Augmentations that have the least reputation requirements.
@@ -127,7 +127,7 @@ export function has_augment(ns, aug) {
  */
 function lowest_reputation(ns, candidate) {
     assert(candidate.length > 0);
-    assert(!candidate.includes(nfg()));
+    assert(!candidate.includes(augment.NFG));
     let min = Infinity;
     let min_aug = "";
     for (const aug of candidate) {
@@ -139,13 +139,6 @@ function lowest_reputation(ns, candidate) {
     }
     assert(min_aug !== "");
     return min_aug;
-}
-
-/**
- * A string representing the name of the NeuroFlux Governor Augmentation.
- */
-export function nfg() {
-    return "NeuroFlux Governor";
 }
 
 /**
@@ -255,14 +248,14 @@ export async function purchase_augment(ns, fac) {
         candidate = candidate.filter((a) => a !== aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
-    let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
-    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
+    let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
     let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
     let money = ns.getServerMoneyAvailable(home);
     while (cost <= money && nfg_rep <= fac_rep) {
-        assert(ns.singularity.purchaseAugmentation(fac, nfg()));
-        cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
-        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
+        assert(ns.singularity.purchaseAugmentation(fac, augment.NFG));
+        cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
         fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
         money = ns.getServerMoneyAvailable(home);
     }

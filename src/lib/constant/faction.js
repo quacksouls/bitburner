@@ -42,6 +42,7 @@ export const augment = {
     /**
      * Named Augmentations.
      */
+    NFG: "NeuroFlux Governor",
     TRP: "The Red Pill",
 };
 

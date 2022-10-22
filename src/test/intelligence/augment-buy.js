@@ -17,12 +17,12 @@
 
 import { intelligence, intelligence_gain } from "/intelligence/util.js";
 import { bool } from "/lib/constant/bool.js";
+import { augment } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import {
     choose_augment,
     has_augment,
-    nfg,
     prerequisites,
 } from "/lib/singularity/augment.js";
 import { assert, is_valid_faction } from "/lib/util.js";
@@ -44,8 +44,8 @@ function augmentations_to_buy(ns, fac) {
     );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
     fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
-    if (fac_aug.includes(nfg())) {
-        fac_aug = fac_aug.filter((a) => a !== nfg());
+    if (fac_aug.includes(augment.NFG)) {
+        fac_aug = fac_aug.filter((a) => a !== augment.NFG);
     }
     assert(fac_aug.length > 0);
     return fac_aug;
@@ -58,19 +58,19 @@ function augmentations_to_buy(ns, fac) {
  * @param fac We want to buy all Augmentations from this faction.
  */
 async function purchase_augmentations(ns, fac) {
-    let augment = augmentations_to_buy(ns, fac);
-    assert(augment.length > 0);
+    let augmentation = augmentations_to_buy(ns, fac);
+    assert(augmentation.length > 0);
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
-    while (augment.length > 0) {
+    while (augmentation.length > 0) {
         // Choose the most expensive Augmentation.
-        const aug = choose_augment(ns, augment);
+        const aug = choose_augment(ns, augmentation);
         if (has_augment(ns, aug)) {
-            augment = augment.filter((a) => a !== aug);
+            augmentation = augmentation.filter((a) => a !== aug);
             continue;
         }
         // If the most expensive Augmentation has no pre-requisites or we have
@@ -79,7 +79,7 @@ async function purchase_augmentations(ns, fac) {
         let prereq = prerequisites(ns, aug);
         if (prereq.length === 0) {
             await purchase_aug(ns, aug, fac);
-            augment = augment.filter((a) => a !== aug);
+            augmentation = augmentation.filter((a) => a !== aug);
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
@@ -90,21 +90,21 @@ async function purchase_augmentations(ns, fac) {
             prereq = prereq.filter((a) => a !== pre);
         }
         await purchase_aug(ns, aug, fac);
-        augment = augment.filter((a) => a !== aug);
+        augmentation = augmentation.filter((a) => a !== aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
-    let cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
-    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
+    let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
     let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
     let money = ns.getServerMoneyAvailable(home);
     while (cost <= money && nfg_rep <= fac_rep) {
         const before = intelligence(ns);
-        assert(ns.singularity.purchaseAugmentation(fac, nfg()));
+        assert(ns.singularity.purchaseAugmentation(fac, augment.NFG));
         const after = intelligence(ns);
-        const action = `Purchase Augmentation ${nfg()} from ${fac}`;
+        const action = `Purchase Augmentation ${augment.NFG} from ${fac}`;
         intelligence_gain(ns, before, after, action);
-        cost = Math.ceil(ns.singularity.getAugmentationPrice(nfg()));
-        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(nfg()));
+        cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
         fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
         money = ns.getServerMoneyAvailable(home);
     }
