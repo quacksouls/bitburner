@@ -21,23 +21,27 @@
  * Various constants and thresholds related to Augmentations.
  */
 export const augment = {
-    // The maximum number of Augmentations to purchase from a faction.  This
-    // number does not include the NeuroFlux Governor.  We limit the number of
-    // Augmentations to purchase to help speed up the process of buying all
-    // Augmentations from a faction.  We purchase this number of Augmentations
-    // from a faction and install them.  If the faction has any more
-    // Augmentations (besides the NeuroFlux Governor), we purchase those after
-    // the installation.  Some Augmentations require a huge amount of faction
-    // reputation.  It can take a very long time to accumulate enough
-    // reputation points, especially if an Augmentation requires at least one
-    // million reputation points.  By purchasing a given number of
-    // Augmentations and installing them, we gain some favour with the faction.
-    // In case our favour points are high enough, we would be able to donate to
-    // the faction in exchange for reputation points.  This should help to
-    // shorten the amount of time required to reach a certain amount of
-    // reputation points.
+    /**
+     * The maximum number of Augmentations to purchase from a faction.  This
+     * number does not include the NeuroFlux Governor.  We limit the number of
+     * Augmentations to purchase to help speed up the process of buying all
+     * Augmentations from a faction.  We purchase this number of Augmentations
+     * from a faction and install them.  If the faction has any more
+     * Augmentations (besides the NeuroFlux Governor), we purchase those after
+     * the installation.  Some Augmentations require a huge amount of faction
+     * reputation.  It can take a very long time to accumulate enough
+     * reputation points, especially if an Augmentation requires at least one
+     * million reputation points.  By purchasing a given number of
+     * Augmentations and installing them, we gain some favour with the faction.
+     * In case our favour points are high enough, we would be able to donate to
+     * the faction in exchange for reputation points.  This should help to
+     * shorten the amount of time required to reach a certain amount of
+     * reputation points.
+     */
     BUY_TAU: 5,
-    // Named Augmentations.
+    /**
+     * Named Augmentations.
+     */
     TRP: "The Red Pill",
 };
 
