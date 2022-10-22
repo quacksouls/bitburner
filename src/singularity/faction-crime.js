@@ -119,8 +119,10 @@ async function speakers_for_the_dead(ns) {
     await raise_combat_stats(ns, faction_req[fac].combat);
     await raise_hack(ns, faction_req[fac].hack);
     // Join the faction, earn reputation points, and purchase all Augmentations.
+    // Perform Hacking Contracts so we can benefit from the extra reputation
+    // gain when we share our home server with the faction.
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, job_area.FIELD);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
@@ -200,9 +202,11 @@ async function the_syndicate(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.KILL, nkill);
     await work(ns, faction_req[fac].money);
     // Join the faction, earn reputation points, and purchase all Augmentations.
+    // Perform Hacking Contracts so we can benefit from the extra reputation
+    // gain when we share our home server with the faction.
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
-    await work_for_faction(ns, fac, job_area.FIELD);
+    await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(ns, fac);
 }
 
