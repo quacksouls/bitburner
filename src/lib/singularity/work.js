@@ -167,6 +167,10 @@ export async function work(ns, threshold) {
     if (ns.getServerMoneyAvailable(home) >= threshold) {
         return;
     }
+    // Ensure we have the minimum Hack stat.
+    if (ns.getHackingLevel() < work_hack_lvl) {
+        await study(ns, work_hack_lvl);
+    }
     assert(ns.getHackingLevel() >= work_hack_lvl);
     // Work for a company until our money is at least the given threshold.
     // Every once in a while, apply for a promotion to earn more money per
