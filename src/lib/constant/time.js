@@ -23,15 +23,25 @@
  * time in millisecond, second, or minute.
  */
 export const wait_t = {
-    // The default waiting period in seconds.  Use this for most purposes, when
-    // we wait for an action to complete.
+    /**
+     * The default waiting period in seconds.  Use this for most purposes, when
+     * we wait for an action to complete.
+     */
     DEFAULT: 5e3,
-    // One hour expressed in milliseconds.
+    /**
+     * One hour expressed in milliseconds.
+     */
     HOUR: 36e5,
-    // One millisecond.
+    /**
+     * One millisecond.
+     */
     MILLISECOND: 1,
-    // One minute expressed in milliseconds.
+    /**
+     * One minute expressed in milliseconds.
+     */
     MINUTE: 6e4,
-    // One second expressed in milliseconds.
+    /**
+     * One second expressed in milliseconds.
+     */
     SECOND: 1e3,
 };

@@ -21,14 +21,20 @@
  * Various thresholds related to the market forecast.
  */
 export const forecast = {
-    // The buying threshold for the market forecast.  We skip buying shares if
-    // the forecast is below this threshold.
+    /**
+     * The buying threshold for the market forecast.  We skip buying shares if
+     * the forecast is below this threshold.
+     */
     BUY: 0.575,
-    // A selling threshold for the market forecast.  We sell all shares of a
-    // stock if the forecast is below this threshold.
+    /**
+     * A selling threshold for the market forecast.  We sell all shares of a
+     * stock if the forecast is below this threshold.
+     */
     SELL: 0.5,
-    // The threshold for the market volatility.  We do not buy shares if the
-    // volatility is above this threshold.
+    /**
+     * The threshold for the market volatility.  We do not buy shares if the
+     * volatility is above this threshold.
+     */
     VOLATILITY: 0.05,
 };
 
@@ -36,25 +42,33 @@ export const forecast = {
  * Miscellaneous constants.
  */
 export const wse = {
-    // A multiplier for the amount of money we should have in reserve.  When
-    // trading on the Stock Market, we should not spend all our money on
-    // shares.  Instead we should have a fixed amount of money in reserve.  The
-    // multiplier is used to calculate how much money we should have before we
-    // buy any shares.  Let our funds threshold be the reserve multiplier times
-    // the amount of money to be held in reserve.  If our current amount of
-    // money is greater than the resulting product, then we have sufficient
-    // funds.  Increase the value of this constant to hold more money in
-    // reserve.
+    /**
+     * A multiplier for the amount of money we should have in reserve.  When
+     * trading on the Stock Market, we should not spend all our money on
+     * shares.  Instead we should have a fixed amount of money in reserve.  The
+     * multiplier is used to calculate how much money we should have before we
+     * buy any shares.  Let our funds threshold be the reserve multiplier times
+     * the amount of money to be held in reserve.  If our current amount of
+     * money is greater than the resulting product, then we have sufficient
+     * funds.  Increase the value of this constant to hold more money in
+     * reserve.
+     */
     RESERVE_MULT: 1.1,
-    // The minimum amount of money we are willing to spend to purchase shares
-    // of a stock.  This is our spending threshold.  If our money is less than
-    // the spending threshold, then do not purchase any shares.
+    /**
+     * The minimum amount of money we are willing to spend to purchase shares
+     * of a stock.  This is our spending threshold.  If our money is less than
+     * the spending threshold, then do not purchase any shares.
+     */
     SPEND_T: 5e6,
-    // The Stock Market updates approximately every 6 seconds.
+    /**
+     * The Stock Market updates approximately every 6 seconds.
+     */
     TICK: 6e3,
-    // A file name.  If the trade bot detects the existence of this file on the
-    // home server, it would stop purchasing shares of stocks.  The behaviour
-    // is subject to certain conditions.  See the trade-bot.js script for more
-    // details.
+    /**
+     * A file name.  If the trade bot detects the existence of this file on the
+     * home server, it would stop purchasing shares of stocks.  The behaviour
+     * is subject to certain conditions.  See the trade-bot.js script for more
+     * details.
+     */
     STOP_BUY: "trade_bot_stop_buy.txt",
 };

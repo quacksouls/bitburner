@@ -37,7 +37,9 @@
  * (7) uni := The name of the city's university.
  */
 export const cities = {
-    // Aevum locations.
+    /**
+     * Aevum locations.
+     */
     Aevum: {
         company: [
             "AeroCorp",
@@ -55,18 +57,24 @@ export const cities = {
         shop: "NetLink Technologies",
         uni: "Summit University",
     },
-    // Chongqing locations.
+    /**
+     * Chongqing locations.
+     */
     Chongqing: {
         company: ["KuaiGong International", "Solaris Space Systems"],
         other: "Church of the Machine God",
     },
-    // Ishima locations.
+    /**
+     * Ishima locations.
+     */
     Ishima: {
         company: ["Nova Medical", "Omega Software"],
         other: "0x6C1",
         shop: "Storm Technologies",
     },
-    // New Tokyo locations.
+    /**
+     * New Tokyo locations.
+     */
     "New Tokyo": {
         company: [
             "DefComm",
@@ -76,7 +84,9 @@ export const cities = {
         ],
         leisure: "Arcade",
     },
-    // Sector-12 locations.
+    /**
+     * Sector-12 locations.
+     */
     "Sector-12": {
         company: [
             "Blade Industries",
@@ -98,7 +108,9 @@ export const cities = {
         shop: "Alpha Enterprises",
         uni: "Rothman University",
     },
-    // Volhaven locations.
+    /**
+     * Volhaven locations.
+     */
     Volhaven: {
         company: [
             "CompuTek",
@@ -112,7 +124,9 @@ export const cities = {
         shop: "OmniTek Incorporated",
         uni: "ZB Institute of Technology",
     },
-    // These are generic locations that are found in every city.
+    /**
+     * These are generic locations that are found in every city.
+     */
     generic: {
         hospital: "Hospital",
         slum: "The Slums",

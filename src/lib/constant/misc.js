@@ -22,9 +22,13 @@
  * The bases for various number systems.
  */
 export const base = {
-    // The base of the binary number system.
+    /**
+     * The base of the binary number system.
+     */
     BINARY: 2,
-    // The base of the decimal number system.
+    /**
+     * The base of the decimal number system.
+     */
     DECIMAL: 10,
 };
 
