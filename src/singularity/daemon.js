@@ -16,6 +16,7 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
+import { augment } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -56,8 +57,10 @@ async function destroy(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const augment = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
-    if (!augment.includes("The Red Pill")) {
+    const augmentation = ns.singularity.getOwnedAugmentations(
+        bool.NOT_PURCHASED
+    );
+    if (!augmentation.includes(augment.TRP)) {
         return;
     }
     await destroy(ns);
