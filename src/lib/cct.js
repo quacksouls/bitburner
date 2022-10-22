@@ -250,7 +250,7 @@ export function parity_position(p) {
  */
 export function print_error(ns, host, cct) {
     const prefix = `${host}: ${cct}: `;
-    ns.tprint(`${`${prefix + colour.RED}FAILURE${colour.RESET}`}`);
+    ns.tprint(`${prefix + colour.RED}FAILURE${colour.RESET}`);
 }
 
 /**
