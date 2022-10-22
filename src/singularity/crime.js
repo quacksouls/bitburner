@@ -44,7 +44,7 @@ async function commit_other_crime(ns, threshold) {
  *
  * @param ns The Netscript API.
  */
-async function mug_somone(ns) {
+async function mug_someone(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.MUG);
     const time = crimes.n * stat.time;
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
@@ -98,6 +98,6 @@ export async function main(ns) {
     assert(threshold > 0);
     // Commit crimes as long as our funds is less than the given threshold.
     await shoplift(ns);
-    await mug_somone(ns);
+    await mug_someone(ns);
     await commit_other_crime(ns, threshold);
 }
