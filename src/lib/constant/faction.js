@@ -47,8 +47,7 @@ export const augment = {
 
 /**
  * Stat requirements for receiving an invitation from a faction.  Here is an
- * explanation of each requirement.  The value of "undefined" means this
- * particular attribute is not part of the requirements for the given faction.
+ * explanation of each requirement.
  *
  * (1) backdoor := Must install a backdoor on this server.
  * (2) ban := An array of companies at which we should not be working.
