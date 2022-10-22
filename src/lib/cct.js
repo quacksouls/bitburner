@@ -189,7 +189,7 @@ export function max_profit_kadane(price) {
         // Why do we need to keep track of the minimum price so far?  Let mp be
         // the minimum price up to and including day i.  Let price[i] be the
         // price on day i.  The profit pf is defined as the price on day i
-        // minus the running minimium price:
+        // minus the running minimum price:
         //
         // pf := price[i] - mp
         //
