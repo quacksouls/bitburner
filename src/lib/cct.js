@@ -213,7 +213,6 @@ export function max_profit_kadane(price) {
         //     at a price lower than when we bought the stock.  Our minimum
         //     price should be adjusted to the price on day i.  The minimum
         //     price so far is the minimum of mp and price[i].
-        //
         const profit = price[i] - min_price;
         max_profit = Math.max(max_profit, profit);
     }
