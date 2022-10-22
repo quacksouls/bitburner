@@ -69,8 +69,7 @@ function choose_company(ns) {
  */
 export function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
-    const stat = ns.getPlayer().skills;
-    if (stat.charisma < charisma_lvl) {
+    if (ns.getPlayer().skills.charisma < charisma_lvl) {
         return job_area.SOFTWARE;
     }
     return job_area.BUSINESS;
