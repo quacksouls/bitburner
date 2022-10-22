@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cct_suffix, cct_update_interval } from "/lib/constant/cct.js";
+import { cct } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
@@ -37,13 +37,13 @@ function can_run_script(ns, script) {
  * Solve a coding contract.
  *
  * @param ns The Netscript API.
- * @param cct The file name of the coding contract.
+ * @param fname The file name of the coding contract.
  * @param host The hostname of the server on which the coding contract is
  *     located.
  */
-function solve(ns, cct, host) {
+function solve(ns, fname, host) {
     const nthread = 1;
-    const type = ns.codingcontract.getContractType(cct, host);
+    const type = ns.codingcontract.getContractType(fname, host);
     // Determine the type of the coding contract and set the appropriate
     // solution script.
     let script = "";
@@ -141,13 +141,13 @@ function solve(ns, cct, host) {
     }
     // Run the appropriate script to solve the coding contract.
     if (can_run_script(ns, script)) {
-        ns.exec(script, home, nthread, cct, host);
+        ns.exec(script, home, nthread, fname, host);
         return;
     }
     // prettier-ignore
     const err_msg = `${host
     }: ${
-        cct
+        fname
     }: No free RAM to run ${
         script
     } on server ${
@@ -175,14 +175,14 @@ export async function main(ns) {
     // provided we have a solution script.
     for (;;) {
         for (const s of server) {
-            const file = ns.ls(s, cct_suffix);
+            const file = ns.ls(s, cct.SUFFIX);
             // No coding contracts on this server.
             if (file.length < 1) {
                 continue;
             }
             // Solve all coding contracts on this server.
-            file.forEach((cct) => solve(ns, cct, s));
+            file.forEach((f) => solve(ns, f, s));
         }
-        await ns.sleep(cct_update_interval);
+        await ns.sleep(cct.UPDATE_TIME);
     }
 }

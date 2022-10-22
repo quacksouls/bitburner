@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cct_suffix } from "/lib/constant/cct.js";
+import { cct } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/server.js";
 import { network } from "/lib/network.js";
 
@@ -31,14 +31,14 @@ export async function main(ns) {
     const server = network(ns);
     server.push(home);
     for (const host of server) {
-        const file = ns.ls(host, cct_suffix);
+        const file = ns.ls(host, cct.SUFFIX);
         if (file.length < 1) {
             continue;
         }
         // Print the name of the coding contract, together with its type.
-        for (const cct of file) {
-            const type = ns.codingcontract.getContractType(cct, host);
-            ns.tprint(`${host}: ${cct}, ${type}`);
+        for (const f of file) {
+            const type = ns.codingcontract.getContractType(f, host);
+            ns.tprint(`${host}: ${f}, ${type}`);
         }
     }
 }

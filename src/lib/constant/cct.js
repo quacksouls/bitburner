@@ -17,23 +17,25 @@
 
 // Various constant values related to Coding Contracts.
 
-/**
- * The suffix for files that contain Coding Contracts.
- */
-export const cct_suffix = ".cct";
-
-/**
- * The time in milliseconds required for the game to randomly generate a random
- * Coding Contract on a random server, while in game.  While the game is
- * running, the probability for a Coding Contract to be spawned is 0.25.  Each
- * game cycle is 200 milliseconds.  The game randomly generates a Coding
- * Contract once every 3000 cycles.  Thus once every 200 x 3000 = 600,000
- * milliseconds, or every 10 minutes, we have 25% chance for a Coding Contract
- * to spawn on a server.  These constants are taken from
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/engine.tsx
- */
-export const cct_update_interval = 6e5;
+export const cct = {
+    /**
+     * The suffix for files that contain Coding Contracts.
+     */
+    SUFFIX: ".cct",
+    /**
+     * The time in milliseconds required for the game to randomly generate a
+     * random Coding Contract on a random server, while in game.  While the
+     * game is running, the probability for a Coding Contract to be spawned is
+     * 0.25.  Each game cycle is 200 milliseconds.  The game randomly generates
+     * a Coding Contract once every 3000 cycles.  Thus once every
+     * 200 x 3000 = 600,000 milliseconds, or every 10 minutes, we have 25%
+     * chance for a Coding Contract to spawn on a server.  These constants are
+     * taken from
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/engine.tsx
+     */
+    UPDATE_TIME: 6e5,
+};
 
 /**
  * Various colours for graph colouring, i.e. testing whether a graph is
