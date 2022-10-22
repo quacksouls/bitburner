@@ -1,6 +1,14 @@
 # Bitburner
 
-A bunch of scripts for a walkthrough of the game Bitburner.
+A bunch of scripts for a walkthrough of the game Bitburner. Run these commands to pull all scripts into your game.
+
+```sh
+# Run this command from the Terminal and wait for it to finish.
+$ wget https://raw.githubusercontent.com/quacksouls/bitburner/main/pull.js pull.js
+
+# Run this command to download all scripts into your game.
+$ run pull.js
+```
 
 <!-- prettier-ignore -->
 - [Source code](https://github.com/bitburner-official/bitburner-src)
