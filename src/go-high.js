@@ -16,6 +16,7 @@
  */
 
 import { home } from "/lib/constant/server.js";
+import { Server } from "/lib/server.js";
 import { has_singularity_api } from "/lib/source.js";
 
 /**
@@ -26,7 +27,7 @@ import { has_singularity_api } from "/lib/source.js";
  * @param ns The Netscript API.
  */
 function reboot(ns) {
-    const nthread = 1;
+    let nthread = 1;
     const script = [
         "world-server.js",
         "hnet-farm.js",
@@ -35,6 +36,15 @@ function reboot(ns) {
         "/cct/solver.js",
     ];
     script.forEach((s) => ns.exec(s, home, nthread));
+    // Share our home server with a faction to increase our reputation gains.
+    const server = new Server(ns, home);
+    const share_script = "share.js";
+    const ncopy = 1;
+    nthread = server.threads_per_instance(share_script, ncopy);
+    if (nthread < 1) {
+        nthread = 1;
+    }
+    ns.exec(share_script, home, nthread);
 }
 
 /**

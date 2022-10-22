@@ -152,6 +152,7 @@ function dir_root() {
         "kill-server.js",
         "nmap.js",
         "restart-server.js",
+        "share.js",
         "shortest-path.js",
         "trade-bot.js",
         "world-server.js",
