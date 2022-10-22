@@ -45,7 +45,7 @@ function choose_university(ns) {
  * a given threshold.
  *
  * @param ns The Netscript API.
- * @param threshold We want to increase our Hack stat to be at leat this
+ * @param threshold We want to increase our Hack stat to be at least this
  *     threshold.
  */
 export async function raise_hack(ns, threshold) {
@@ -64,8 +64,8 @@ export async function raise_hack(ns, threshold) {
  * (2) When we start all over on a different BitNode.
  * (3) If there is a special need to increase our Hack stat.
  *
- * Note that some cities have universities, while others do not.  If you really
- * want to study at a university, ensure you are located in a city that has a
+ * Note that some cities have universities, while others do not.  If we really
+ * want to study at a university, ensure we are located in a city that has a
  * university.
  *
  * @param ns The Netscript API.
