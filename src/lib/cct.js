@@ -268,7 +268,7 @@ export function print_success(ns, host, cct, reward) {
 }
 
 /**
- * The maximimum profit that can be made when we are restricted to at most two
+ * The maximum profit that can be made when we are restricted to at most two
  * transactions.  Transactions must occur one after the other.  Suppose we buy
  * one share of a stock on day i and sell the share on day j, where i < j.  We
  * cannot buy another share of the same stock on any day between i and j.
@@ -292,7 +292,7 @@ export function print_success(ns, host, cct, reward) {
  *
  * @param price An array of prices, where price[i] is the price of one share of
  *     a stock on day i.  All prices relate to the same stock.
- * @return The maximum profit to be made, assumming we can perform at most
+ * @return The maximum profit to be made, assuming we can perform at most
  *     two transactions.  Return 0 if no profit can be made.
  */
 export function stock_traderIII(price) {
