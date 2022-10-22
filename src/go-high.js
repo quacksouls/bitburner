@@ -28,7 +28,6 @@ import { has_singularity_api } from "/lib/source.js";
 function reboot(ns) {
     const nthread = 1;
     const script = [
-        "low-end.js",
         "world-server.js",
         "hnet-farm.js",
         "buy-server.js",
