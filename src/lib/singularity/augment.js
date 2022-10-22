@@ -182,19 +182,11 @@ export function owned_augment(ns) {
  */
 export function prerequisites(ns, aug) {
     assert(aug !== "");
-    const candidate = [];
     const prereq = ns.singularity.getAugmentationPrereq(aug);
     if (prereq.length === 0) {
-        return candidate;
+        return [];
     }
-    // An array of Augmentation names.
-    for (const a of prereq) {
-        if (has_augment(ns, a)) {
-            continue;
-        }
-        candidate.push(a);
-    }
-    return candidate;
+    return prereq.filter((a) => !has_augment(ns, a));
 }
 
 /**
