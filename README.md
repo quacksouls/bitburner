@@ -1,6 +1,7 @@
 # Bitburner
 
-A bunch of scripts for a walkthrough of the game Bitburner. Run these commands to pull all scripts into your game.
+A bunch of scripts for a walkthrough of the game Bitburner. Run these commands
+to pull all scripts into your game.
 
 ```sh
 # Run this command from the Terminal and wait for it to finish.
