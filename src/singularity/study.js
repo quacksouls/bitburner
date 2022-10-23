@@ -107,7 +107,7 @@ async function study_and_create(ns) {
         // on our home server to allow multiple scripts to run in the
         // background.
         if (home_ram < home_t.RAM_MID) {
-            const script = ["hnet-farm.js", "world-server.js"];
+            const script = ["hnet-farm.js", "low-end.js"];
             const nthread = 1;
             for (const s of script) {
                 assert(!ns.isRunning(s, home));
