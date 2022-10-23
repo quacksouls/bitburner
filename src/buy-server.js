@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { pserv } from "/lib/constant/pserv.js";
+import { home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
@@ -239,6 +240,10 @@ async function update(ns, ram) {
     const player = new Player(ns);
     let i = player.pserv().length;
     let target = [];
+    // Choose a static target against which all purchased servers would attack.
+    // Depending on the amount of RAM on our home server, we would direct all
+    // purchased servers to attack one target.
+    const static_target = choose_best_server(ns, renew_targets(ns, target));
     while (i < psv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > psv.cost(server_ram)) {
@@ -246,12 +251,19 @@ async function update(ns, ram) {
             const hostname = psv.purchase(pserv.PREFIX, server_ram);
             const server = new Server(ns, hostname);
             // Choose the best target server.
-            target = renew_targets(ns, target);
-            const s = choose_best_server(ns, target);
+            let s = "";
+            if (ns.getServerMaxRam(player.home()) <= 4 * home_t.RAM_HIGH) {
+                // We want all purchased servers to attack 1 server.
+                s = static_target;
+            } else {
+                // Each purchased server attacks its own target.
+                target = renew_targets(ns, target);
+                s = choose_best_server(ns, target);
+            }
             assert(!is_bankrupt(ns, s));
             const target_server = new Server(ns, s);
             target = target.filter((t) => t !== target_server.hostname());
-            // Run our hack script on the purchased server.
+            // Let the purchased server attack the chosen target.
             assert(await target_server.gain_root_access());
             assert(await server.deploy(target_server.hostname()));
             i++;
