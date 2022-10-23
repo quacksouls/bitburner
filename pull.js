@@ -151,6 +151,7 @@ function dir_root() {
         "karma.js",
         "kill-script.js",
         "kill-server.js",
+        "low-end.js",
         "nmap.js",
         "restart-server.js",
         "share.js",

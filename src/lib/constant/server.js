@@ -49,3 +49,20 @@ export const home_t = {
      */
     RAM_MID: 128,
 };
+
+/**
+ * Various thresholds related to servers.
+ */
+export const server_t = {
+    /**
+     * The number of low-end servers to target.  This number means we target n
+     * servers that have the lowest Hack stat requirement.  This number is
+     * divided into various tiers.  We use each tier, depending on various
+     * criteria.
+     */
+    lowend: {
+        LOW: 1,
+        MID: 2,
+        HIGH: 3,
+    },
+};
