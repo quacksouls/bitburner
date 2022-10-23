@@ -31,8 +31,7 @@ import { assert } from "/lib/util.js";
  */
 function end_reachable(array) {
     // Sanity check.
-    const myarr = new MyArray();
-    assert(myarr.all_nonnegative(array));
+    assert(MyArray.all_nonnegative(array));
     // Use a greedy method to try to reach the last array cell.
     let i = 0; // Current array index.
     const index = []; // Index of intermediary cells.

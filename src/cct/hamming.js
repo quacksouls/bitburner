@@ -154,8 +154,7 @@ function set_parity(msg, nparity) {
     // Count the number of 1s in the encoded message, excluding the
     // very first position.
     const _msga = _msg.slice(1, _msg.length);
-    const array = new MyArray();
-    const n1 = array.sum(_msga);
+    const n1 = MyArray.sum(_msga);
     // Set the overall parity bit.
     _msg[0] = n1 % 2;
     return _msg;

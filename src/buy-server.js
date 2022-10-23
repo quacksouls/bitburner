@@ -142,9 +142,7 @@ function pserv_ram(ns, minserv) {
             ram.push(r);
         }
     }
-    // Sort the array of RAM in descending order.
-    const array = new MyArray();
-    ram = array.sort_descending(ram);
+    ram = MyArray.sort_descending(ram);
     // Let's see whether we can purchase servers, each having the given amount
     // of RAM.  Start with the highest amount of RAM.  See if we can buy at
     // least minserv servers, each with the given amount of RAM.  If not, then

@@ -53,8 +53,7 @@ function can_jump(i, array) {
  *     cannot reach the last cell, then the minimum number is 0.
  */
 function minimum_jump(array) {
-    const myarr = new MyArray();
-    assert(myarr.all_nonnegative(array));
+    assert(MyArray.all_nonnegative(array));
     // We interpret the array and its elements as a directed graph.  The
     // minimum jump length is found by computing the shortest path from the
     // first cell to the last cell.
@@ -83,8 +82,7 @@ function to_graph(array) {
     assert(array.length > 0);
     // First, add the nodes of the directed graph because the graph might be
     // disconnected.  Each node ID is an index of the given array.
-    const myarr = new MyArray();
-    const node = myarr.sequence(array.length);
+    const node = MyArray.sequence(array.length);
     const graph = new Graph(bool.DIRECTED);
     node.forEach((v) => graph.add_node(v));
     // Add the directed edges of the graph.

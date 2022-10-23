@@ -47,8 +47,7 @@ function hacknet_nodes(ns) {
     if (nNode < 1) {
         return [];
     }
-    const array = new MyArray();
-    return array.sequence(nNode);
+    return MyArray.sequence(nNode);
 }
 
 /**

@@ -32,8 +32,7 @@ function coin_change(n, denom) {
     assert(denom.length > 0);
     // Sort the array of denominations in ascending order.
     let denomination = Array.from(new Set(denom));
-    const array = new MyArray();
-    denomination = array.sort_ascending(denomination);
+    denomination = MyArray.sort_ascending(denomination);
     // Remove any coin value higher than n.
     let i = denomination.length - 1;
     while (n < denomination[i]) {

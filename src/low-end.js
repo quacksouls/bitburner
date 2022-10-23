@@ -68,8 +68,7 @@ function low_end(ns) {
         const security_lvl = ns.getServer(s).hackDifficulty;
         lowend.push([security_lvl, s]);
     });
-    const array = new MyArray();
-    lowend = array.sort_ascending_tuple(lowend);
+    lowend = MyArray.sort_ascending_tuple(lowend);
     // Choose how many low-end servers to target.
     const home_ram = ns.getServer(home).maxRam;
     let ntarget = 0;

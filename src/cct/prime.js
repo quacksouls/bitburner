@@ -81,8 +81,7 @@ function max_prime_factor(n) {
     assert(Number.isSafeInteger(n));
     // Determine the largest prime factor.
     const pfactor = prime_factorization(n);
-    const array = new MyArray();
-    return array.max(pfactor);
+    return MyArray.max(pfactor);
 }
 
 /**

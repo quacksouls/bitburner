@@ -190,8 +190,7 @@ function is_bipartite(graph, root, colr) {
 function to_graph(n, edge) {
     assert(n > 0);
     assert(edge.length > 0);
-    const array = new MyArray();
-    const node = new Set(array.sequence(n));
+    const node = new Set(MyArray.sequence(n));
     const graph = new Graph(bool.UNDIRECTED);
     // First, add the edges.
     for (let i = 0; i < edge.length; i++) {
