@@ -27,7 +27,7 @@ import { assert } from "/lib/util.js";
  * (2) Buy servers and use each purchased server to hack a target server in the
  *     game world.
  * (3) Gain root access to servers in the game world (excluding purchased
- *     servers) and use each server to hack itself.
+ *     servers) and use each server to hack itself or a low-end server.
  *
  * Usage: run go.js
  *
