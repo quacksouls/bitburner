@@ -22,7 +22,10 @@ import { choose_hardware_company } from "/lib/singularity/util.js";
 import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
 
 /**
- * Determine which to upgrade on the home server: Cores or RAM.
+ * Determine which to upgrade on the home server: Cores or RAM.  If the script
+ * "share.js" is running, this means that we are sharing our home server with a
+ * faction.  In this case, we only need to upgrade our RAM in order to run
+ * "share.js" using more threads.
  *
  * @param ns The Netscript API.
  * @return A string having exactly one of the following values.
@@ -36,8 +39,14 @@ function choose_upgrade(ns) {
     if (is_at_limits(ns)) {
         return "";
     }
-    // Upgrade the Cores.
+    // Is the script "share.js" running on our home server?
     const server = new Server(ns, home);
+    const script = "share.js";
+    assert(ns.fileExists(script, home));
+    if (server.is_running_script(script)) {
+        return "RAM";
+    }
+    // Upgrade the Cores.
     const core_cost = Math.ceil(ns.singularity.getUpgradeHomeCoresCost());
     const ram_cost = Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     if (core_cost < ram_cost) {
