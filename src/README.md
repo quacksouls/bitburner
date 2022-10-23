@@ -3,8 +3,8 @@
 This directory contains all scripts for playing Bitburner. Your game play is
 affected by whether you have access to the Singularity API.
 
-1. If you have destroyed BN4.3, you access to the Singularity API and the RAM
-   cost of each function from the API is at its lowest. The game play is
+1. If you have destroyed BN4.3, you have access to the Singularity API and the
+   RAM cost of each function from the API is at its lowest. The game play is
    automated. All you need to do is run the script `go.js`.
 1. If you are in BN4.1, you have access to the Singularity API. However, the RAM
    cost of using functions from this API is so high that you would not be able
