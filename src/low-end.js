@@ -108,7 +108,6 @@ async function nuke_servers(ns) {
         // Gain root access to the server.
         const server = new Server(ns, s);
         assert(player.hacking_skill() >= server.hacking_skill());
-        assert(!server.has_root_access());
         await server.gain_root_access();
         nuked.push(s);
     }
