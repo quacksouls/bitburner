@@ -57,15 +57,16 @@ function compromised_servers(ns, script) {
  * @return An array of hostnames of low-end servers.  This array is never empty.
  */
 function low_end(ns) {
-    // Sort the servers in ascending order of Hack stat requirement.
+    // Sort the servers in ascending order of hack difficulty,
+    // i.e. security level.
     let lowend = [];
     const candidate = filter_bankrupt_servers(
         ns,
         filter_pserv(ns, network(ns))
     ).filter((s) => s !== "darkweb");
     candidate.forEach((s) => {
-        const hack_lvl = ns.getServer(s).requiredHackingSkill;
-        lowend.push([hack_lvl, s]);
+        const security_lvl = ns.getServer(s).hackDifficulty;
+        lowend.push([security_lvl, s]);
     });
     const array = new MyArray();
     lowend = array.sort_ascending_tuple(lowend);
