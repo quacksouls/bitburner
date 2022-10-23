@@ -28,7 +28,7 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "world-server.js";
+    const target = "low-end.js";
     const nthread = 1;
     const script = ["hnet-farm.js", target, "buy-server.js", "/cct/solver.js"];
     script.forEach((s) => ns.exec(s, home, nthread));

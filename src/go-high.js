@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
+import { home, home_t } from "/lib/constant/server.js";
 import { Server } from "/lib/server.js";
 import { has_singularity_api } from "/lib/source.js";
 
@@ -28,8 +28,12 @@ import { has_singularity_api } from "/lib/source.js";
  */
 function reboot(ns) {
     let nthread = 1;
+    let extra = "low-end.js";
+    if (ns.getServerMaxRam(home) >= 4 * home_t.RAM_HIGH) {
+        extra = "world-server.js";
+    }
     const script = [
-        "world-server.js",
+        extra,
         "hnet-farm.js",
         "buy-server.js",
         "trade-bot.js",
