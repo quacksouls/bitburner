@@ -100,6 +100,7 @@ function unlock_upgrade(ns) {
  */
 export async function main(ns) {
     // Make the log less verbose.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Sanity check.
     if (!has_corporation_api(ns)) {
