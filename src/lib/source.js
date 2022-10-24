@@ -44,10 +44,12 @@ export function has_ai_api(ns) {
  * @return true if we have access to the Gang API; false otherwise.
  */
 export function has_gang_api(ns) {
+    // Are we in BitNode-2: Rise of the Underworld?
     const bn_name = "Rise of the Underworld";
     if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
         return bool.HAS;
     }
+    // Use the Singularity API to help us find out.
     if (has_singularity_api(ns)) {
         for (const sf of ns.singularity.getOwnedSourceFiles()) {
             if (sf.n === bitnode[bn_name]) {
