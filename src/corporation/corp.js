@@ -23,20 +23,6 @@ import { Corporation } from "/lib/corporation/corp.js";
 import { has_corporation_api } from "/lib/source.js";
 
 /**
- * Purchase the Warehouse API.
- */
-async function buy_warehouse_api(ns) {
-    const org = new Corporation(ns);
-    for (;;) {
-        org.buy_unlock_upgrade(corp.unlock.WAREHOUSE);
-        if (org.has_unlock_upgrade(corp.unlock.WAREHOUSE)) {
-            return;
-        }
-        await ns.sleep(wait_t.DEFAULT);
-    }
-}
-
-/**
  * Create a corporation.
  *
  * @param ns The Netscript API.
@@ -78,6 +64,18 @@ function expand_industry(ns) {
 }
 
 /**
+ * Whether we have access to the Office and Warehouse APIs.  We have permanent
+ * access to these APIs after we have destroyed BN3.3.
+ */
+function has_office_warehouse_api(ns) {
+    const org = new Corporation(ns);
+    return (
+        org.has_unlock_upgrade(corp.unlock.OFFICE)
+        && org.has_unlock_upgrade(corp.unlock.WAREHOUSE)
+    );
+}
+
+/**
  * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
  * applies to the entire corporation and cannot be levelled.
  *
@@ -107,9 +105,15 @@ export async function main(ns) {
     if (!has_corporation_api(ns)) {
         return;
     }
-    // Create and manage our corporation.
+    // Create our corporation.  If we do not have access to the Office and
+    // Warehouse APIs, then we cannot automate the early stages of our
+    // corporation.  We want to automate as much of the game as possible.
+    // Without the above APIs, quit the script as soon as possible.
     await create_corp(ns);
-    await buy_warehouse_api(ns);
+    if (!has_office_warehouse_api(ns)) {
+        return;
+    }
+    // Manage our corporation.
     expand_industry(ns);
     unlock_upgrade(ns);
     expand_city(ns);
