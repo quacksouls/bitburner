@@ -80,6 +80,7 @@ async function load_chain(ns) {
     const script = [
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
+        "/corporation/corp.js",
         gang_script[0],
     ];
     const nthread = 1;
