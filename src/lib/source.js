@@ -38,6 +38,28 @@ export function has_ai_api(ns) {
 }
 
 /**
+ * Whether we have access to the Corporation API.
+ *
+ * @param ns The Netscript API.
+ * @return true if we have access to the Corporation API; false otherwise.
+ */
+export function has_corporation_api(ns) {
+    // Are we in BitNode-3: Corporatocracy?
+    if (bitnode.Corporatocracy === ns.getPlayer().bitNodeN) {
+        return bool.HAS;
+    }
+    // Use the Singularity API to help us find out.
+    if (has_singularity_api(ns)) {
+        for (const sf of ns.singularity.getOwnedSourceFiles()) {
+            if (sf.n === bitnode.Corporatocracy) {
+                return bool.HAS;
+            }
+        }
+    }
+    return bool.NOT;
+}
+
+/**
  * Whether we have access to the Gang API.
  *
  * @param ns The Netscript API.

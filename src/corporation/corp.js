@@ -20,6 +20,7 @@ import { corp } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
+import { has_corporation_api } from "/lib/source.js";
 
 /**
  * Purchase the Warehouse API.
@@ -102,7 +103,10 @@ function unlock_upgrade(ns) {
 export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("sleep");
-
+    // Sanity check.
+    if (!has_corporation_api(ns)) {
+        return;
+    }
     // Create and manage our corporation.
     await create_corp(ns);
     await buy_warehouse_api(ns);
