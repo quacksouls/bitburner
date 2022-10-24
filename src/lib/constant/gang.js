@@ -209,6 +209,8 @@ export const gangster_t = {
         "Bomb Man",
         "Bomberman",
         "Bomb Voyage",
+        "Boom Box",
+        "Boom Stick",
         "Boris Turgoff",
         "Burt Gummer",
         // C
@@ -228,6 +230,7 @@ export const gangster_t = {
         "Fatman",
         "Forte Stollen",
         // G
+        "Gunne Knutt",
         "Guy Fawkes",
         // H
         "Hange Zoe",
@@ -287,6 +290,8 @@ export const gangster_t = {
         "Yoko Littner",
     ],
     hacker: [
+        // Numbers
+        "1337 H4X0R",
         // A
         "Acid Burn",
         "Adrian Lamo",
@@ -301,12 +306,15 @@ export const gangster_t = {
         "Benji Dunn",
         "Beto O'Rourke",
         "Boris Grishenko",
+        "Brave Coward",
         // C
         "Carl Arbogast",
         "Chihiro Fujisaki",
         "Chloe O'Brian",
+        "Chrumium",
         "Chuck Bartowski",
         "Crash Override",
+        "Crumbmium",
         "Cypher",
         // D
         "Dade Murphy",
@@ -321,10 +329,13 @@ export const gangster_t = {
         "Eugene Belford",
         // F
         "Felicity Smoak",
+        "Firefax",
         // H
         "Henry Dorsett Case",
         "Hiro Protagonist",
         // I
+        "Interknit Explorer",
+        "Internet Exploiter",
         "Irwin Emery",
         // J
         "Jeanson James Ancheta",
@@ -354,9 +365,11 @@ export const gangster_t = {
         "Mouse",
         // N
         "Neo",
+        "Net Surfer",
         // P
         "Paul Cook",
         "Penny Brown",
+        "Phandom of the Opera",
         "Phantom Phreak",
         // R
         "Rachel Gibson",
@@ -369,7 +382,9 @@ export const gangster_t = {
         "Switch",
         // T
         "The Plague",
+        "TORricelli's Lore",
         "Trinity",
+        "TypoManiac",
         // Z
         "Zero Cool",
     ],
@@ -501,6 +516,7 @@ export const gangster_t = {
         // L
         "Leonard H. McCoy",
         "Leoparda",
+        "Les McPainy",
         "Lexie Grey",
         "Linda Burfield Hazzard",
         // M
@@ -524,8 +540,10 @@ export const gangster_t = {
         // O
         "Oribasius",
         // P
-        "Patanjali",
+        "Pain Hathaway",
+        "Pain Killer",
         "Paracelsus",
+        "Patanjali",
         "Paul of Aegina",
         "Pedanius Dioscorides",
         "Penthu",
@@ -534,6 +552,7 @@ export const gangster_t = {
         "Philinus of Cos",
         "Philistion of Locri",
         "Philumenus",
+        "Pil Moore",
         "Plistonicus",
         "Praxagoras of Cos",
         // Q
@@ -542,10 +561,12 @@ export const gangster_t = {
         // R
         "Rabâ-ša-Marduk",
         "Remy Hadley",
+        "Richard Needleman",
         "Robert Koch",
         "Rufus of Ephesus",
         // S
         "Saint Fabiola",
+        "Sawbone",
         "Scribonius Largus",
         "Serapion of Alexandria",
         "Servilius Damocrates",
@@ -575,6 +596,8 @@ export const gangster_t = {
     ],
     pilot: [
         // A
+        "Air Boss",
+        "Air Bust",
         "Alan Shepard",
         "Alex Rogan",
         "Amelia Earhart",
@@ -588,20 +611,24 @@ export const gangster_t = {
         "Bessie Coleman",
         "Betty Skelton",
         "Bill Owens",
+        "Buttery Fly",
         "Buzz Aldrin",
         // C
         "Charles Kingsford Smith",
         "Charles Lindbergh",
         "Chesley Sullenberger",
+        "Chopper McFly",
         // D
         "Diana Barnato Walker",
         "Dieter F. Uchtdorf",
         "Douglas Bader",
+        "DragonFlew",
         // E
         "Edward O'Hare",
         "Elliott Roosevelt",
         "Eugene Bullard",
         // F
+        "Fly Undone",
         "Fox McCloud",
         "Francis Gary Powers",
         // G
@@ -670,6 +697,7 @@ export const gangster_t = {
         "Valentina Tereshkova",
         "Valentina Vostok",
         // W
+        "Warbird",
         "Wolf O'Donnell",
         // Y
         "Yuri Gagarin",
@@ -769,6 +797,7 @@ export const gangster_t = {
         "Tony Montana",
         "Tony Soprano",
         "Tyler Durden",
+        "U. Tolkien 2 Me",
         // V
         "Vincent Vega",
         "Virginia Hill",
@@ -784,6 +813,7 @@ export const gangster_t = {
         "Aldrich Ames",
         "Andree Borrel",
         "Ashraf Marwan",
+        "Atomic Blonde",
         "Austin Millbarge",
         "Austin Powers",
         // B
@@ -804,6 +834,7 @@ export const gangster_t = {
         "Ethel Rosenberg",
         // F
         "Felix Leiter",
+        "Foxy Skulk",
         "Francis Walsingham",
         "Frederick Joubert Duquesne",
         // G
@@ -896,6 +927,7 @@ export const gangster_t = {
         "Carl Gugasian",
         "Carmen Sandiego",
         "Catwoman",
+        "Cat Burglar",
         "Charles Peace",
         "Colton Harris-Moore",
         // D
@@ -938,7 +970,9 @@ export const gangster_t = {
         "Prometheus",
         // R
         "Richard Turpin",
+        "Rob McYoinker",
         "Robert LeRoy Parker",
+        "Robert Money",
         "Robin Hood",
         // S
         "Sante Singhrs",
@@ -1059,6 +1093,7 @@ export const gangster_t = {
         "Hector",
         "Horatius Cocles",
         // I
+        "I. M. Stronk",
         "Isshin",
         // J
         "Joan of Arc",
@@ -1078,6 +1113,7 @@ export const gangster_t = {
         // M
         "Maria Quiteria",
         "Maximus Decimus Meridius",
+        "Meat Shield",
         "Miltiades",
         "Miyamoto Musashi",
         // N
