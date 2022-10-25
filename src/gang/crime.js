@@ -925,12 +925,19 @@ function retrain(ns) {
  */
 function update(ns) {
     recruit(ns);
+    retrain(ns);
     graduate(ns);
+    // Ascend a gang member before we spend any more money on them.  After the
+    // ascension, the member would lose all equipment and their stats would
+    // reset.  We ascend the member now so down the pipeline we can retrain
+    // and re-equip them.
+    ascend(ns);
+    equip(ns);
     // Prepare for war.
     para_bellum(ns);
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
-        if (penalty(ns) < penalty_t.LOW) {
+        if (penalty(ns) <= penalty_t.LOW) {
             reassign(ns);
             return;
         }
@@ -950,16 +957,7 @@ function update(ns) {
             return;
         }
     }
-    // Ascend a gang member before we spend any more money on them.  After the
-    // ascension, the member would lose all equipment and their stats would
-    // reset.  We ascend the member now so down the pipeline we can retrain
-    // and re-equip them.
-    ascend(ns);
-    // Some training and easy jobs for greenhorn gangsters.
-    retrain(ns);
-    graduate(ns);
     reassign(ns);
-    equip(ns);
 }
 
 /**
