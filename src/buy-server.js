@@ -192,7 +192,7 @@ async function stage_one(ns) {
     const psv = new PurchasedServer(ns);
     const default_ram = psv.default_ram();
     if (has_max_pserv(ns)) {
-        const msg = `RAM: ${default_ram}.  Already has max pserv.`;
+        const msg = `RAM: ${default_ram}. Already has max pserv.`;
         ns.print(msg);
         return;
     }
