@@ -925,6 +925,7 @@ function retrain(ns) {
  */
 function update(ns) {
     recruit(ns);
+    graduate(ns);
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) < penalty_t.LOW) {
