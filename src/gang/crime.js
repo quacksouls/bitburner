@@ -581,11 +581,11 @@ function para_bellum(ns) {
             (s) => gangster.is_arms_trafficker(s)
                 || gangster.is_human_trafficker(s)
         );
-    if (trafficker.length <= threshold) {
+    if (trafficker.length < threshold) {
         return;
     }
     // Choose various combatants and reassign them to turf warfare.
-    assert(trafficker.length > threshold);
+    assert(trafficker.length >= threshold);
     gangster.turf_war(choose_warriors(ns));
 }
 
@@ -618,6 +618,18 @@ function reassign(ns) {
     reassign_hacker(ns);
     reassign_miscellaneous(ns);
     reassign_from_neutral(ns);
+}
+
+/**
+ * When we no longer need to lower our penalty, reassign our gang members to
+ * other jobs.
+ *
+ * @param ns The Netscript API.
+ */
+ function reassign_after_vigilante_justice(ns) {
+    const gangster = new Gangster(ns);
+    gangster.neutral(ns.gang.getMemberNames());
+    update(ns);
 }
 
 /**
@@ -938,7 +950,7 @@ function update(ns) {
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) <= penalty_t.LOW) {
-            reassign(ns);
+            reassign_after_vigilante_justice(ns);
             return;
         }
     }
