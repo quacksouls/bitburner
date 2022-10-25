@@ -183,7 +183,7 @@ async function update(ns) {
 /**
  * Use each server in the game world to hack low-end servers.  We exclude
  * purchased servers.  A server is low-end if its Hack stat requirement is low,
- * possible less than 10 Hack requirement.  Early in a BitNode when our stats
+ * possibly less than 10 Hack requirement.  Early in a BitNode when our stats
  * and money are low, we need a good source of passive income.  Hacking low-end
  * servers provides a good source of income.  We do not target all low-end
  * servers, only a small number of these.
