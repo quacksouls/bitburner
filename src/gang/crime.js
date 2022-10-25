@@ -626,7 +626,7 @@ function reassign(ns) {
  *
  * @param ns The Netscript API.
  */
- function reassign_after_vigilante_justice(ns) {
+function reassign_after_vigilante_justice(ns) {
     const gangster = new Gangster(ns);
     gangster.neutral(ns.gang.getMemberNames());
     update(ns);
