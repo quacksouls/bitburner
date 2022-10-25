@@ -367,6 +367,7 @@ export const gangster_t = {
         "Neo",
         "Net Surfer",
         // P
+        "Packet Sniffer",
         "Paul Cook",
         "Penny Brown",
         "Phandom of the Opera",
