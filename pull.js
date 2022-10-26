@@ -148,6 +148,7 @@ function dir_root() {
         "go.js",
         "hack.js",
         "hnet-farm.js",
+        "hram.js",
         "karma.js",
         "kill-script.js",
         "kill-server.js",

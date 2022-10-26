@@ -16,7 +16,6 @@
  */
 
 import { home, home_t } from "/lib/constant/server.js";
-import { Server } from "/lib/server.js";
 import { has_singularity_api } from "/lib/source.js";
 
 /**
@@ -27,7 +26,7 @@ import { has_singularity_api } from "/lib/source.js";
  * @param ns The Netscript API.
  */
 function reboot(ns) {
-    let nthread = 1;
+    const nthread = 1;
     let extra = "low-end.js";
     if (ns.getServerMaxRam(home) >= 4 * home_t.RAM_HIGH) {
         extra = "world-server.js";
@@ -38,17 +37,9 @@ function reboot(ns) {
         "buy-server.js",
         "trade-bot.js",
         "/cct/solver.js",
+        "hram.js",
     ];
     script.forEach((s) => ns.exec(s, home, nthread));
-    // Share our home server with a faction to increase our reputation gains.
-    const server = new Server(ns, home);
-    const share_script = "share.js";
-    const ncopy = 1;
-    nthread = server.threads_per_instance(share_script, ncopy);
-    if (nthread < 1) {
-        nthread = 1;
-    }
-    ns.exec(share_script, home, nthread);
 }
 
 /**

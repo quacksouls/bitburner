@@ -20,10 +20,12 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { factions, faction_req, faction_t } from "/lib/constant/faction.js";
-import { home } from "/lib/constant/server.js";
+import { io } from "/lib/constant/io.js";
+import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
+import { Server } from "/lib/server.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
 import { visit_city } from "/lib/singularity/network.js";
 import { study } from "/lib/singularity/study.js";
@@ -209,6 +211,48 @@ export async function raise_hack(ns, threshold) {
 }
 
 /**
+ * Start sharing our home server with a faction.
+ *
+ * @param ns The Netscript API.
+ */
+async function start_share_home(ns) {
+    // Tell the script hram.js to suspend whatever it is doing.  This should
+    // free up some RAM on the home server.
+    const player = new Player(ns);
+    if (!ns.fileExists(server.SHARE, player.home())) {
+        const data = "Share home server.";
+        ns.write(server.SHARE, data, io.WRITE);
+    }
+    const target = ns.read(server.HRAM).trim();
+    assert(target !== "");
+    while (ns.isRunning(player.script(), player.home(), target)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    // Share our home server with a faction.
+    const serv = new Server(ns, player.home());
+    const ncopy = 1;
+    let nthread = serv.threads_per_instance(server.SHARE_SCRIPT, ncopy);
+    if (nthread < 1) {
+        nthread = 1;
+    }
+    ns.exec(server.SHARE_SCRIPT, player.home(), nthread);
+}
+
+/**
+ * Stop sharing our home server with a faction.
+ *
+ * @param ns The Netscript API.
+ */
+function stop_share_home(ns) {
+    if (ns.fileExists(server.SHARE, home)) {
+        ns.rm(server.SHARE, home);
+    }
+    if (ns.isRunning(server.SHARE_SCRIPT, home)) {
+        assert(ns.kill(server.SHARE_SCRIPT, home));
+    }
+}
+
+/**
  * The total amount of reputation points we need to earn in order to purchase
  * some Augmentations from a faction.  This is not necessarily the highest
  * reputation requirement of any Augmentation.
@@ -243,6 +287,10 @@ function total_reputation(ns, fac) {
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
     assert(job_area.HACK === work_type || job_area.FIELD === work_type);
+    // Share our home server with the faction.  Doing so would boost the amount
+    // of reputation points we earn.
+    await start_share_home(ns);
+    // Start working for the faction.
     const threshold = total_reputation(ns, fac);
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
@@ -254,4 +302,6 @@ export async function work_for_faction(ns, fac, work_type) {
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
+    // We no longer need to share our home server with the faction.
+    stop_share_home(ns);
 }

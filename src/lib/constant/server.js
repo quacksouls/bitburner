@@ -51,6 +51,27 @@ export const home_t = {
 };
 
 /**
+ * Various constants related to a server.
+ */
+export const server = {
+    /**
+     * The name of a text file.  The file contains the hostname of the server we
+     * are currently targetting.  We use our home RAM to hack the target.
+     */
+    HRAM: "hram.txt",
+    /**
+     * The name of a text file.  If a file with the given name appears on our
+     * home server, then it means that we are sharing our home server with a
+     * faction.  Doing so boosts our reputation gain within the faction.
+     */
+    SHARE: "share.txt",
+    /**
+     * The name of the script for sharing our home server with a faction.
+     */
+    SHARE_SCRIPT: "share.js",
+};
+
+/**
  * Various thresholds related to servers.
  */
 export const server_t = {
