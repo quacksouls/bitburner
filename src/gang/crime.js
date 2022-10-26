@@ -945,8 +945,6 @@ function update(ns) {
     // and re-equip them.
     ascend(ns);
     equip(ns);
-    // Prepare for war.
-    para_bellum(ns);
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) <= penalty_t.LOW) {
@@ -970,6 +968,8 @@ function update(ns) {
         }
     }
     reassign(ns);
+    // Prepare for war.
+    para_bellum(ns);
 }
 
 /**
