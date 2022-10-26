@@ -119,8 +119,8 @@ export async function main(ns) {
     ns.disableLog("getServerUsedRam");
     ns.disableLog("scan");
     ns.disableLog("sleep");
-    // Periodically search for a better target.  Kill this, and the spawned
-    // script, if we need to share our home server with a faction.
+    // Periodically search for a better target.  Suspend this script, and kill
+    // the spawned script, if we need to share our home server with a faction.
     let target = await update(ns, "");
     const player = new Player(ns);
     for (;;) {
