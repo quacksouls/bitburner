@@ -186,7 +186,7 @@ export async function raise_hack(ns, threshold) {
     const invite = new Set(ns.singularity.checkFactionInvitations());
     let target = "";
     for (const f of factions.early) {
-        if (invite.has(f)) {
+        if (invite.has(f) || player.is_member(f)) {
             target = f;
             ns.singularity.joinFaction(f);
             break;

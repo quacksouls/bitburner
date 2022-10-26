@@ -189,6 +189,17 @@ export class Player {
     }
 
     /**
+     * Whether the player is a member of a faction.
+     *
+     * @param fac A string representing the name of a faction.
+     * @return true if the player belongs to the given faction; false otherwise.
+     */
+    is_member(fac) {
+        assert(fac !== "");
+        return this.#ns.getPlayer().factions.includes(fac);
+    }
+
+    /**
      * The position the player holds at a given company.
      *
      * @param company The name of a company.
