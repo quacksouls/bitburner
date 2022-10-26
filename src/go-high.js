@@ -28,7 +28,7 @@ import { has_singularity_api } from "/lib/source.js";
 function reboot(ns) {
     const nthread = 1;
     let extra = "low-end.js";
-    if (ns.getServerMaxRam(home) >= 4 * home_t.RAM_HIGH) {
+    if (ns.getServerMaxRam(home) > home_t.RAM_HIGH) {
         extra = "world-server.js";
     }
     const script = [
