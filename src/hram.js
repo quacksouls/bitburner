@@ -116,6 +116,7 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMaxMoney");
+    ns.disableLog("getServerUsedRam");
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Periodically search for a better target.  Kill this, and the spawned
