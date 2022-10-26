@@ -65,13 +65,18 @@ function best_target(ns) {
  * @param t A string representing the name of the current target.
  * @return The hostname of the (possibly new) server currently being targeted.
  */
-function update(ns, t) {
+async function update(ns, t) {
+    // Ensure we have root access on the chosen target.
     const target = best_target(ns);
     assert(target !== "");
-    const player = new Player(ns);
-    const home = new Server(ns, player.home());
+    const serv = new Server(ns, target);
+    if (!serv.has_root_access()) {
+        await serv.gain_root_access();
+    }
     // No new target.  Hack the current target if it is not already being
     // targeted.
+    const player = new Player(ns);
+    const home = new Server(ns, player.home());
     if (t === target) {
         if (!ns.isRunning(player.script(), player.home(), target)) {
             const nthread = home.num_threads(player.script());
@@ -109,7 +114,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Periodically search for a better target.  Kill this, and the spawned
     // script, if we need to share our home server with a faction.
-    let target = update(ns, "");
+    let target = await update(ns, "");
     const player = new Player(ns);
     for (;;) {
         // Do we need to suspend the script?
@@ -124,7 +129,7 @@ export async function main(ns) {
             continue;
         }
         // Find a better target.
-        target = update(ns, target);
+        target = await update(ns, target);
         await ns.sleep(wait_t.DEFAULT);
     }
 }
