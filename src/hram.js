@@ -79,7 +79,10 @@ async function update(ns, t) {
     const home = new Server(ns, player.home());
     if (t === target) {
         if (!ns.isRunning(player.script(), player.home(), target)) {
-            const nthread = home.num_threads(player.script());
+            let nthread = home.num_threads(player.script());
+            if (nthread < 1) {
+                nthread = 1;
+            }
             ns.exec(player.script(), player.home(), nthread, target);
             ns.write(server.HRAM, target, io.WRITE);
         }
@@ -87,9 +90,12 @@ async function update(ns, t) {
     }
     // We have found a better target.  Hack this better server.
     assert(t !== target);
-    const nthread = home.num_threads(player.script());
     if (ns.isRunning(player.script(), player.home(), t)) {
         assert(ns.kill(player.script(), player.home(), t));
+    }
+    let nthread = home.num_threads(player.script());
+    if (nthread < 1) {
+        nthread = 1;
     }
     ns.exec(player.script(), player.home(), nthread, target);
     ns.write(server.HRAM, target, io.WRITE);
