@@ -102,7 +102,7 @@ function update(ns, t) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    let target = "";
+    let target = update(ns, "");
     const player = new Player(ns);
     // Periodically search for a better target.  Kill this, and the spawned
     // script, if we need to share our home server with a faction.
