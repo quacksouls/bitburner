@@ -250,7 +250,7 @@ async function update(ns, ram) {
             const server = new Server(ns, hostname);
             // Choose the best target server.
             let s = "";
-            if (ns.getServerMaxRam(player.home()) <= 4 * home_t.RAM_HIGH) {
+            if (ns.getServerMaxRam(player.home()) <= home_t.RAM_HIGH) {
                 // We want all purchased servers to attack 1 server.
                 s = static_target;
             } else {
