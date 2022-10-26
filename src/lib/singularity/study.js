@@ -81,6 +81,9 @@ export async function raise_hack_until(ns, threshold, fac) {
     ns.singularity.goToLocation(uni); // Raise Intelligence XP.
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
     while (ns.getHackingLevel() < tau) {
+        if (ns.getPlayer().factions.includes(fac)) {
+            break;
+        }
         const invitation = ns.singularity.checkFactionInvitations();
         if (invitation.includes(fac)) {
             break;
