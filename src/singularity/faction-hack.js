@@ -21,9 +21,13 @@ import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
-import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
+import {
+    join_faction,
+    raise_hack,
+    work_for_faction,
+} from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
-import { raise_hack } from "/lib/singularity/study.js";
+import { raise_hack_until } from "/lib/singularity/study.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -43,10 +47,16 @@ import { assert } from "/lib/util.js";
  * @param fac We want to join this hacking group.
  */
 async function hacking_group(ns, fac) {
-    await visit_city(ns, "Sector-12");
+    // If possible, we want to perform Hacking Contracts for this faction in
+    // order to raise our Hack stat.
+    const target_fac = "Sector-12";
+    await visit_city(ns, target_fac);
     // Ensure we have the required Hack stat.
     const player = new Player(ns);
     const server = new Server(ns, faction_req[fac].backdoor);
+    if (player.hacking_skill() < server.hacking_skill()) {
+        await raise_hack_until(ns, server.hacking_skill(), target_fac);
+    }
     if (player.hacking_skill() < server.hacking_skill()) {
         await raise_hack(ns, server.hacking_skill());
     }
