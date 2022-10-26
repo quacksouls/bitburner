@@ -102,13 +102,18 @@ function update(ns, t) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    let target = update(ns, "");
-    const player = new Player(ns);
+    // Make the log less verbose.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMaxMoney");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
     // Periodically search for a better target.  Kill this, and the spawned
     // script, if we need to share our home server with a faction.
+    let target = update(ns, "");
+    const player = new Player(ns);
     for (;;) {
         // Do we need to suspend the script?
-        if ((ns.fileExists(server.SHARE), player.home())) {
+        if (ns.fileExists(server.SHARE, player.home())) {
             if (
                 target !== ""
                 && ns.isRunning(player.script(), player.home(), target)
