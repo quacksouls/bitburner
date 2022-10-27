@@ -64,9 +64,7 @@ export class MyArray {
     static sequence(num) {
         const n = Math.floor(num);
         assert(n > 0);
-        return Array(n)
-            .fill()
-            .map((_, index) => index);
+        return [...Array(n).keys()];
     }
 
     /**
