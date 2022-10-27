@@ -64,6 +64,12 @@ export class MyArray {
     static sequence(num) {
         const n = Math.floor(num);
         assert(n > 0);
+        // Zoekeeper (Ansopedi#3422) on the Bitburner server of Discord pointed
+        // out that this code is faster:
+        //
+        // return Array(n).fill().map((_, index) => index);
+        //
+        // However, the above is less readable than the line below.
         return [...Array(n).keys()];
     }
 
