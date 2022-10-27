@@ -2,3 +2,4 @@
 *.md~
 *.txt~
 node_modules/
+doc/batch.pdf
