@@ -129,7 +129,7 @@ function player_stat(ns) {
  * @param ns The Netscript API.
  */
 function usage(ns) {
-    const msg = "Usage: run test/karma/crime.js [crime]\n\n"
+    const msg = "Usage: run test/crime/crime.js [crime]\n\n"
         + "crime -- (string) The name of a crime.";
     ns.tprint(msg);
 }
