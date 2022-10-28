@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { cheapest_program } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
@@ -132,6 +133,21 @@ async function buy_programs(ns) {
 }
 
 /**
+ * Do any cleanup before we install Augmentations.
+ *
+ * @param ns The Netscript API.
+ */
+function cleanup(ns) {
+    const junk = [server.HRAM, server.SHARE, wse.STOP_BUY];
+    const player = new Player(ns);
+    junk.forEach((f) => {
+        if (ns.fileExists(f, player.home())) {
+            ns.rm(f, player.home());
+        }
+    });
+}
+
+/**
  * Whether we have Augmentations that are purchased and yet to be installed.
  *
  * @param ns The Netscript API.
@@ -233,5 +249,6 @@ export async function main(ns) {
     // penalty.
     set_neutral_gang(ns);
     // Install all Augmentations and soft reset.
+    cleanup(ns);
     install(ns);
 }
