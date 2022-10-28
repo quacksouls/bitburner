@@ -194,6 +194,7 @@ function dir_test() {
     const dir = [
         // Scripts used to gather data on karma and stat gains for each crime.
         "test/crime/crime.js",
+        "test/crime/crime-int.js",
         // Scripts that are used to determine the gain in Intelligence XP from
         // various actions.
         "test/intelligence/augment-buy.js",
