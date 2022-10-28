@@ -43,10 +43,11 @@ We used the following procedure to gather the experimental data.
 
 1. Load the online version of the game at
    https://danielyxie.github.io/bitburner/
-1. Import the save file `crime-int.json`. This save file starts us at BN5.1. We have
-   the default amount of $1k. We have level 1 in each of the following stats:
-   Hack, Strength, Defense, Dexterity, Agility, Charisma. Furthermore, we have
-   level 3 of each of Source-File 1 (Genesis) and Source-File 4 (Singularity).
+1. Import the save file `crime-int.json`. This save file starts us at BN5.1. We
+   have the default amount of $1k. We have level 1 in each of the following
+   stats: Hack, Strength, Defense, Dexterity, Agility, Charisma. Furthermore, we
+   have level 3 of each of Source-File 1 (Genesis) and Source-File 4
+   (Singularity).
 1. Execute the command `run test/crime/crime-int.js [crimeName]`. Replace the
    argument `[crimeName]` with the exact name of the crime we want to commit.
    The crime name should be written in all lowercase. The script commits the
