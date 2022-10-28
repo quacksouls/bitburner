@@ -29,6 +29,7 @@
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-markdownlint": "^0.4.0",
         "eslint-plugin-prettier": "^4.2.1",
+        "markdownlint": "^0.26.2",
         "prettier": "^2.7.1"
     }
 }
