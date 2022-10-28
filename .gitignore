@@ -2,4 +2,4 @@
 *.md~
 *.txt~
 node_modules/
-doc/batch.pdf
+doc/batch/batch.pdf
