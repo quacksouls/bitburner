@@ -38,6 +38,10 @@
  */
 export const cities = {
     /**
+     * All cities in the game world.
+     */
+    all: ["Aevum", "Chongqing", "Ishima", "New Tokyo", "Sector-12", "Volhaven"],
+    /**
      * Aevum locations.
      */
     Aevum: {

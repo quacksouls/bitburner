@@ -45,11 +45,11 @@ async function create_corp(ns) {
 function expand_city(ns) {
     const org = new Corporation(ns);
     for (const div of org.all_divisions()) {
-        for (const ct of Object.keys(cities)) {
+        cities.all.forEach((ct) => {
             if (!org.has_division_office(div, ct)) {
                 org.expand_city(div, ct);
             }
-        }
+        });
     }
 }
 
