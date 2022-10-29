@@ -28,25 +28,19 @@ limitation at the end.
 First, we define a timing model, which tells us the structure of the
 batches we want to achieve.  As usual, we need to leave some time
 buffer between events to work with JavaScript concurrency timing.  We
-call that time $t_0$.  The timing model we will use is the following:
-%% \begin{diagram}[x = 0.25cm]
-%%   \foreach \i in {0, ..., 2} {
-%%   \draw (17 * \i +  0, 0) to +(0, 2) node [above] {X};
-%%   \draw (17 * \i +  2, 0) to +(0, 2);
-%%   \draw (17 * \i +  7, 0) to +(0, 2);
-%%   \draw (17 * \i +  9, 0) to +(0, 2) node [above] {H};
-%%   \draw (17 * \i + 11, 0) to +(0, 2) node [above] {W};
-%%   \draw (17 * \i + 13, 0) to +(0, 2) node [above] {G};
-%%   \draw (17 * \i + 15, 0) to +(0, 2) node [above] {W};
-%% }
-%%   \draw (51, 0) to +(0, 2) node [above] {X};
+call that time $t_0$.  The timing model we will use is illustrated in
+\Figure{fig:batching_model}.
 
-%%   \node at (-2, 1) {$\cdots$};
-%%   \node at (53, 1) {$\cdots$};
-%%   \draw [decorate, decoration = {brace, mirror}] (2, -0.25) to node [below, midway] {Safe window} (7, -0.25);
-%%   \draw [decorate, decoration = {brace, mirror}] (17, -0.25) to node [below, midway] {Repeating period} (34, -0.25);
-%%   \draw [decorate, decoration = {brace, mirror}] (45, -0.25) to node [below, midway] {$t_0$} (47, -0.25);
-%% \end{diagram}
+\begin{figure}[!htbp]
+\centering
+\captionsetup{font=normal,justification=justified}
+\includegraphics[scale=0.525]{image/model.pdf}
+\caption{%%
+  A timing model for batching.
+}
+\label{fig:batching_model}
+\end{figure}
+
 %% H, G, and W respectively denote when hacks, grows, and weakens end, and X denotes a point where a batch manager script both checks the previous batch completed properly and also launches scripts for the next batch. Different timing windows are possible: for example, you may want to run HGW batching, or have your manager script run at a different point, or use different buffer times between different events. Ideally, these notes should let you work through the calculations required to calculate a schedule for any timing model.
 
 %% Before moving on those calculations, first we show two sketches to help visualise the timing model we're using here. First, we show an example of a HWGW batch where each script overlaps with 10 different periods:
