@@ -16,6 +16,7 @@
  */
 
 import { buy_schedule, cheapest_program } from "/lib/constant/exe.js";
+import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -67,8 +68,7 @@ async function farm_intelligence(ns) {
  *         We buy a bunch of programs, then sleep for this interval.
  */
 function purchase_schedule(ns) {
-    const player = new Player(ns);
-    const funds = player.money();
+    const funds = ns.getServerMoneyAvailable(home);
     for (let i = 0; i < buy_schedule.money.length; i++) {
         if (funds >= buy_schedule.money[i]) {
             return [buy_schedule.howmany[i], buy_schedule.time[i]];
