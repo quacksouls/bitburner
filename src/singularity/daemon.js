@@ -45,8 +45,8 @@ async function destroy(ns) {
     // First, try to raise our Intelligence stat.
     join_all_factions(ns);
     // Now hack the target server.
-    connect_to(ns, player.home(), serv.hostname());
     cleanup(ns);
+    connect_to(ns, player.home(), serv.hostname());
     await ns.singularity.installBackdoor();
 }
 
