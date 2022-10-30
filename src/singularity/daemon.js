@@ -22,7 +22,7 @@ import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
 import { connect_to } from "/lib/singularity/network.js";
-import { assert } from "/lib/util.js";
+import { assert, cleanup } from "/lib/util.js";
 
 /**
  * Find and destroy the w0r1d_d43m0n server.
@@ -46,6 +46,7 @@ async function destroy(ns) {
     join_all_factions(ns);
     // Now hack the target server.
     connect_to(ns, player.home(), server.hostname());
+    cleanup(ns);
     await ns.singularity.installBackdoor();
 }
 
