@@ -34,6 +34,8 @@ function decorate(str, colour) {
 /**
  * Add custom fields to the HUD.
  *
+ * Usage: run hud.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
