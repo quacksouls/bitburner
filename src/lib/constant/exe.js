@@ -79,6 +79,66 @@ export const program = [
 ];
 
 /**
+ * The purchasing schedule.  Use this schedule to help us buy a batch of
+ * programs, depending on our current funds.
+ */
+export const buy_schedule = {
+    /**
+     * How many programs in a batch.  Each number n means we purchase n copies
+     * of a particular program.
+     */
+    howmany: [
+        1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25, 12, 6, 3, 1,
+        1,
+    ],
+    /**
+     * Various money thresholds.
+     */
+    money: [
+        1e15, // 1 quadrillion
+        900e12,
+        800e12,
+        700e12,
+        600e12,
+        500e12,
+        400e12,
+        300e12,
+        200e12,
+        100e12,
+        10e12,
+        1e12, // 1 trillion
+        500e9,
+        100e9,
+        1e9, // 1 billion
+        100e6,
+        10e6, // 10 million
+    ],
+    /**
+     * The sleep time.  We sleep a given amount of time, depending on the batch
+     * size and money.
+     */
+    time: [
+        1, // 1 millisecond
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1e3, // 1 second
+        10e3, // 10 seconds
+        30e3,
+        60e3, // 60 seconds or 1 minute
+        120e3, // 120 seconds or 2 minutes
+    ],
+};
+
+/**
  * These are utility programs.  They are useful when we need to manually
  * traverse the network of world servers.
  */

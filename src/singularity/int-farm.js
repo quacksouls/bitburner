@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cheapest_program } from "/lib/constant/exe.js";
+import { buy_schedule, cheapest_program } from "/lib/constant/exe.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
@@ -67,57 +67,11 @@ async function farm_intelligence(ns) {
  *         We buy a bunch of programs, then sleep for this interval.
  */
 function purchase_schedule(ns) {
-    // The money threshold.
-    const m = new Money();
-    const money = [
-        m.quadrillion(),
-        900 * m.trillion(),
-        800 * m.trillion(),
-        700 * m.trillion(),
-        600 * m.trillion(),
-        500 * m.trillion(),
-        400 * m.trillion(),
-        300 * m.trillion(),
-        200 * m.trillion(),
-        100 * m.trillion(),
-        10 * m.trillion(),
-        m.trillion(),
-        500 * m.billion(),
-        100 * m.billion(),
-        m.billion(),
-        100 * m.million(),
-        10 * m.million(),
-    ];
-    // How many programs to buy.
-    const howmany = [
-        1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25, 12, 6, 3, 1,
-        1,
-    ];
-    // The sleep intervals.
-    const time = [
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.MILLISECOND,
-        wait_t.SECOND,
-        10 * wait_t.SECOND,
-        30 * wait_t.SECOND,
-        wait_t.MINUTE,
-        2 * wait_t.MINUTE,
-    ];
     const player = new Player(ns);
     const funds = player.money();
-    for (let i = 0; i < money.length; i++) {
-        if (funds >= money[i]) {
-            return [howmany[i], time[i]];
+    for (let i = 0; i < buy_schedule.money.length; i++) {
+        if (funds >= buy_schedule.money[i]) {
+            return [buy_schedule.howmany[i], buy_schedule.time[i]];
         }
     }
     // Should never reach here.
