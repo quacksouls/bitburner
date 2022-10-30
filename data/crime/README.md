@@ -55,17 +55,17 @@ We used the following procedure to gather the experimental data.
 1. Leave the script run continuously for 24 hours. When the script finishes, it
    would print the above stat and money gain rates to the Terminal.
 
-| Crime                 |   Agility | Charisma |   Defense | Dexterity | Hack | Intelligence |     Karma |     Money |  Strength |
-| --------------------- | --------: | -------: | --------: | --------: | ---: | -----------: | --------: | --------: | --------: |
-| Assassinate           | 53.173333 |        0 | 53.173333 | 53.173333 |    0 |     0.167014 | -0.692361 | 197333.33 | 53.173333 |
-| Deal drugs            |           |          |           |           |      |              |           |           |           |
-| Bond forgery          |           |          |           |           |      |              |           |           |           |
-| Grand theft auto      |           |          |           |           |      |              |           |           |           |
-| Heist                 |           |          |           |           |      |              |           |           |           |
-| Homicide              |           |          |           |           |      |              |           |           |           |
-| Kidnap and ransom     |           |          |           |           |      |              |           |           |           |
-| Larceny               |           |          |           |           |      |              |           |           |           |
-| Mug someone           |           |          |           |           |      |              |           |           |           |
-| Rob store             |           |          |           |           |      |              |           |           |           |
-| Shoplift              |           |          |           |           |      |              |           |           |           |
-| Traffick illegal arms |           |          |           |           |      |              |           |           |           |
+| Crime                 |   Agility |   Charisma |   Defense | Dexterity | Hack | Intelligence |     Karma |     Money |  Strength |
+| --------------------- | --------: | ---------: | --------: | --------: | ---: | -----------: | --------: | --------: | --------: |
+| Assassinate           | 53.173333 |          0 | 53.173333 | 53.173333 |    0 |     0.167014 | -0.692361 | 197333.33 | 53.173333 |
+| Deal drugs            | 74.920000 | 149.840000 |         0 | 74.920000 |    0 |            0 | -2.926563 | 445760.00 |         0 |
+| Bond forgery          |           |            |           |           |      |              |           |           |           |
+| Grand theft auto      |           |            |           |           |      |              |           |           |           |
+| Heist                 |           |            |           |           |      |              |           |           |           |
+| Homicide              |           |            |           |           |      |              |           |           |           |
+| Kidnap and ransom     |           |            |           |           |      |              |           |           |           |
+| Larceny               |           |            |           |           |      |              |           |           |           |
+| Mug someone           |           |            |           |           |      |              |           |           |           |
+| Rob store             |           |            |           |           |      |              |           |           |           |
+| Shoplift              |           |            |           |           |      |              |           |           |           |
+| Traffick illegal arms |           |            |           |           |      |              |           |           |           |
