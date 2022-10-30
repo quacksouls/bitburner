@@ -43,13 +43,13 @@ function reboot(ns) {
 }
 
 /**
- * Start a load chain.  Each script in the chain uses functions from the
- * Singularity API.  Each function from this API tends to use a huge amount
+ * Start a load chain.  A script in the chain would likely use functions from
+ * the Singularity API.  Each function from this API tends to use a huge amount
  * of RAM.
  *
  * @param ns The Netscript API.
  */
-function singularity_scripts(ns) {
+function load_chain(ns) {
     const script = "/singularity/study.js";
     const nthread = 1;
     ns.exec(script, home, nthread);
@@ -75,6 +75,6 @@ function singularity_scripts(ns) {
 export async function main(ns) {
     reboot(ns);
     if (has_singularity_api(ns)) {
-        singularity_scripts(ns);
+        load_chain(ns);
     }
 }
