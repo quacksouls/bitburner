@@ -21,7 +21,7 @@ import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
+import { home, server } from "/lib/constant/server.js";
 import { wse } from "/lib/constant/wse.js";
 
 /**
@@ -77,19 +77,29 @@ export function choose_targets(ns, candidate) {
     // Find a bunch of target servers to hack.
     const target = [];
     for (const s of candidate) {
-        const server = ns.getServer(s);
+        const serv = ns.getServer(s);
         // Do we have the minimum hacking skill required?
-        if (ns.getHackingLevel() < server.requiredHackingSkill) {
+        if (ns.getHackingLevel() < serv.requiredHackingSkill) {
             continue;
         }
         // Can we open all required ports?
-        if (server.numOpenPortsRequired > nport) {
+        if (serv.numOpenPortsRequired > nport) {
             continue;
         }
         // We have found a target server.
         target.push(s);
     }
     return target;
+}
+
+/**
+ * Remove any files created by other scripts.
+ *
+ * @param ns The Netscript API.
+ */
+export function cleanup(ns) {
+    const junk = [server.HRAM, server.SHARE, wse.STOP_BUY];
+    junk.forEach((f) => ns.rm(f, home));
 }
 
 /**
@@ -109,12 +119,12 @@ export function filter_bankrupt_servers(ns, candidate) {
  * Exclude the purchased servers.
  *
  * @param ns The Netscript API.
- * @param server An array of server names.
+ * @param serv An array of server names.
  * @return An array of servers, but minus the purchased servers.
  */
-export function filter_pserv(ns, server) {
+export function filter_pserv(ns, serv) {
     const pserv = ns.getPurchasedServers();
-    return server.filter((s) => !pserv.includes(s));
+    return serv.filter((s) => !pserv.includes(s));
 }
 
 /**

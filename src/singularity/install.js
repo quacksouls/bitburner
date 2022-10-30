@@ -18,14 +18,18 @@
 import { bool } from "/lib/constant/bool.js";
 import { cheapest_program } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
-import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/lib/gang/util.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
-import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
+import {
+    assert,
+    cleanup,
+    trade_bot_resume,
+    trade_bot_stop_buy,
+} from "/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have
@@ -130,21 +134,6 @@ async function buy_programs(ns) {
         }
         await ns.sleep(wait_t.MILLISECOND);
     }
-}
-
-/**
- * Do any cleanup before we install Augmentations.
- *
- * @param ns The Netscript API.
- */
-function cleanup(ns) {
-    const junk = [server.HRAM, server.SHARE, wse.STOP_BUY];
-    const player = new Player(ns);
-    junk.forEach((f) => {
-        if (ns.fileExists(f, player.home())) {
-            ns.rm(f, player.home());
-        }
-    });
 }
 
 /**
