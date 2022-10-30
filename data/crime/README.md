@@ -20,7 +20,13 @@ We used the following procedure to gather the experimental data.
    The crime name should be written in all lowercase. The script commits the
    specified crime for 24 hours.
 1. Leave the script run continuously for 24 hours. When the script finishes, it
-   would print the above stat and money gain rates to the Terminal.
+   would print the above stat and money gain rates to the Terminal. Each crime
+   has a given probability of success. If we successfully commit a crime, the
+   probability of success is increased and we gain our rewards (money and XP).
+   Failure results in no gain at all, whether it be an increase in the success
+   probability or money or XP. In general, the longer that a crime takes the
+   more slowly would the probability of success increase. Each 24 hour run for a
+   particular crime might result in different gains.
 
 | Crime                 |    Agility |   Charisma |    Defense |  Dexterity |      Hack |      Karma |      Money |  Strength |
 | --------------------- | ---------: | ---------: | ---------: | ---------: | --------: | ---------: | ---------: | --------: |
@@ -53,7 +59,13 @@ We used the following procedure to gather the experimental data.
    The crime name should be written in all lowercase. The script commits the
    specified crime for 24 hours.
 1. Leave the script run continuously for 24 hours. When the script finishes, it
-   would print the above stat and money gain rates to the Terminal.
+   would print the above stat and money gain rates to the Terminal. Each crime
+   has a given probability of success. If we successfully commit a crime, the
+   probability of success is increased and we gain our rewards (money and XP).
+   Failure results in no gain at all, whether it be an increase in the success
+   probability or money or XP. In general, the longer that a crime takes the
+   more slowly would the probability of success increase. Each 24 hour run for a
+   particular crime might result in different gains.
 
 | Crime                 |   Agility |   Charisma |   Defense | Dexterity | Hack | Intelligence |     Karma |     Money |  Strength |
 | --------------------- | --------: | ---------: | --------: | --------: | ---: | -----------: | --------: | --------: | --------: |
