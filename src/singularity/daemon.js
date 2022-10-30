@@ -17,6 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
+import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -30,22 +31,21 @@ import { assert, cleanup } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function destroy(ns) {
-    const target = "w0r1d_d43m0n";
-    const server = new Server(ns, target);
+    const serv = new Server(ns, server.WD);
     const player = new Player(ns);
-    while (player.hacking_skill() < server.hacking_skill()) {
+    while (player.hacking_skill() < serv.hacking_skill()) {
         await ns.sleep(wait_t.DEFAULT);
     }
-    while (!server.has_root_access()) {
+    while (!serv.has_root_access()) {
         await ns.sleep(wait_t.DEFAULT);
-        await server.gain_root_access();
+        await serv.gain_root_access();
     }
-    assert(player.hacking_skill() >= server.hacking_skill());
-    assert(server.has_root_access());
+    assert(player.hacking_skill() >= serv.hacking_skill());
+    assert(serv.has_root_access());
     // First, try to raise our Intelligence stat.
     join_all_factions(ns);
     // Now hack the target server.
-    connect_to(ns, player.home(), server.hostname());
+    connect_to(ns, player.home(), serv.hostname());
     cleanup(ns);
     await ns.singularity.installBackdoor();
 }

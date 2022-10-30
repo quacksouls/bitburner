@@ -69,6 +69,10 @@ export const server = {
      * The name of the script for sharing our home server with a faction.
      */
     SHARE_SCRIPT: "share.js",
+    /**
+     * The w0r1d_d43m0n server.
+     */
+    WD: "w0r1d_d43m0n",
 };
 
 /**
