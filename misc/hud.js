@@ -43,7 +43,11 @@ export async function main(ns) {
     const doc = eval("document");
     const hook0 = doc.getElementById("overview-extra-hook-0");
     const hook1 = doc.getElementById("overview-extra-hook-1");
-    // A 1 second update interval
+    // Custom colouring for the new fields.
+    const fav_colour = "#FFA500"; // orange
+    hook0.style.color = fav_colour;
+    hook1.style.color = fav_colour;
+    // Update the HUD every 1 second.
     const time = 1000;
     for (;;) {
         try {
