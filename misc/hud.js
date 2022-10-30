@@ -18,11 +18,10 @@
 /**
  * Decorate a custom line with our favourite colour.
  *
- * @param str We want to display this line in the HUD.  The line is represented
- *     as a string.
- * @param colour We want to use this colour to print the given line.  The colour
- *     string should be given as a Unicode escape sequence.  Refer to this page
- *     for more details:
+ * @param str We want to add colour to this string.
+ * @param colour Colourize the given string with this colour.  The colour string
+ *     should be given as a Unicode escape sequence.  Refer to this page for
+ *     more details:
  *     https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
  * @return The given line coloured using the given colour.
  */
