@@ -29,14 +29,11 @@ import { assert } from "/lib/util.js";
  * @param crime Assign sleeves to commit this crime.
  * @param tau Commit the given crime for this amount of time.  Must be
  *     non-negative integer.
- * @param msg A logging message.
  */
-async function commit_a_crime(ns, crime, tau, msg) {
+async function commit_a_crime(ns, crime, tau) {
     assert(tau >= 0);
-    log(ns, msg);
-    all_sleeves(ns).forEach((i) => {
-        ns.sleeve.setToCommitCrime(i, crime);
-    });
+    log(ns, crime);
+    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
     await ns.sleep(tau);
 }
 
@@ -56,9 +53,9 @@ async function commit_a_crime(ns, crime, tau, msg) {
  */
 async function commit_crimes(ns) {
     const time = 2 * wait_t.MINUTE;
-    await commit_a_crime(ns, crimes.SHOP, time, "Shoplift");
-    await commit_a_crime(ns, crimes.MUG, time, "Mug someone");
-    await commit_a_crime(ns, crimes.KILL, 0, "Homicide");
+    await commit_a_crime(ns, crimes.SHOP, time);
+    await commit_a_crime(ns, crimes.MUG, time);
+    await commit_a_crime(ns, crimes.KILL, 0);
 }
 
 /**
