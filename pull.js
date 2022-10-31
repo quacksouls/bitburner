@@ -31,6 +31,14 @@ function assert(cond) {
 }
 
 /**
+ * Scripts for managing a load chain.
+ */
+function dir_chain() {
+    const chain = ["chain/study.js"];
+    return chain;
+}
+
+/**
  * Scripts for solving Coding Contracts.
  */
 function dir_cct() {
@@ -234,6 +242,7 @@ function dir_test() {
 function dir_structure() {
     const filesystem = [
         dir_root(),
+        dir_chain(),
         dir_cct(),
         dir_corporation(),
         dir_gang(),

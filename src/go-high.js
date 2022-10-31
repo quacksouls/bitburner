@@ -16,7 +16,6 @@
  */
 
 import { home, home_t } from "/lib/constant/server.js";
-import { load_chain_study } from "/lib/singularity/study.js";
 import { has_singularity_api } from "/lib/source.js";
 
 /**
@@ -63,6 +62,8 @@ function reboot(ns) {
 export async function main(ns) {
     reboot(ns);
     if (has_singularity_api(ns)) {
-        await load_chain_study(ns);
+        const script = "/chain/study.js";
+        const nthread = 1;
+        ns.exec(script, home, nthread);
     }
 }
