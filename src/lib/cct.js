@@ -19,6 +19,7 @@
 
 import { io } from "/lib/constant/io.js";
 import { colour } from "/lib/constant/misc.js";
+import { log } from "/lib/io.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -249,8 +250,8 @@ export function parity_position(p) {
  * @param cct The file name of the Coding Contract.
  */
 export function print_error(ns, host, cct) {
-    const prefix = `${host}: ${cct}: `;
-    ns.tprint(`${prefix + colour.RED}FAILURE${colour.RESET}`);
+    const msg = `${host}: ${cct}: FAILURE`;
+    log(ns, msg, colour.RED);
 }
 
 /**
@@ -263,8 +264,8 @@ export function print_error(ns, host, cct) {
  * @param reward The reward from solving the Coding Contract.
  */
 export function print_success(ns, host, cct, reward) {
-    const prefix = `${host}: ${cct}: `;
-    ns.tprint(`${prefix + colour.GREEN + reward + colour.RESET}`);
+    const msg = `${host}: ${cct}: ${reward}`;
+    log(ns, msg);
 }
 
 /**
