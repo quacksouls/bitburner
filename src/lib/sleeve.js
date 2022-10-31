@@ -88,7 +88,7 @@ export class Sleeve {
                 this.agility(i) < tau
                 || this.defense(i) < tau
                 || this.dexterity(i) < tau
-                || this.strength(i)
+                || this.strength(i) < tau
             ) {
                 return bool.NOT;
             }
