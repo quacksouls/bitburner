@@ -46,9 +46,9 @@ export async function main(ns) {
         "/gang/dead-speakers.js",
     ];
     const script = [
+        "/corporation/corp.js",
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
-        "/corporation/corp.js",
         gang_script[0],
     ];
     const nthread = 1;
