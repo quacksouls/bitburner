@@ -34,7 +34,7 @@ function assert(cond) {
  * Scripts for managing a load chain.
  */
 function dir_chain() {
-    const chain = ["chain/study.js"];
+    const chain = ["chain/money.js", "chain/study.js"];
     return chain;
 }
 
@@ -200,7 +200,7 @@ function dir_singularity() {
  * Scripts that use the Sleeve API.
  */
 function dir_sleeve() {
-    const dir = ["sleeve/study.js"];
+    const dir = ["sleeve/money.js", "sleeve/study.js"];
     return dir;
 }
 

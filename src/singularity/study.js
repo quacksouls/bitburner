@@ -133,8 +133,8 @@ export async function main(ns) {
     ns.disableLog("sleep");
 
     await study_and_create(ns);
-    // The next script in the load chain.
-    const script = "/singularity/money.js";
+    // The next segment in the load chain.
+    const script = "/chain/money.js";
     const nthread = 1;
     ns.exec(script, home, nthread);
 }
