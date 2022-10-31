@@ -56,52 +56,14 @@ async function commit_crimes(ns, threshold) {
 }
 
 /**
- * Chain load the next scripts.  Here is a brief description of the purpose of
- * each script.
- *
- * (1) /singularity/daemon.js := This script determines whether we should be
- *     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
- *     not met for the server to appear in the game world.
- * (2) /singularity/int-farm.js := This script passively farms Intelligence XP.
- * (3) /singularity/program.js := This script attempts to purchase port opener
- *     programs.  We need all five port opener programs so we can open all
- *     ports of each server.
- * (4) /gang/go.js := This utility script helps us to decide which criminal
- *     faction to join so we can create a gang within that faction.
+ * Run the next script in the load chain.
  *
  * @param ns The Netscript API.
  */
-async function load_chain(ns) {
-    const gang_script = [
-        "/gang/go.js",
-        "/gang/slum-snakes.js",
-        "/gang/dead-speakers.js",
-    ];
-    const script = [
-        "/singularity/daemon.js",
-        "/singularity/int-farm.js",
-        "/corporation/corp.js",
-        gang_script[0],
-    ];
+function load_chain(ns) {
+    const script = "/chain/misc.js";
     const nthread = 1;
-    script.map((s) => ns.exec(s, home, nthread));
-    // Wait until we have joined a criminal faction.  Then launch another
-    // script.  We must wait because the script launched by "/gang/go.sh" needs
-    // to perform tasks that require focus.  The script
-    // "/singularity/program.js" also requires focus.  We can only focus on one
-    // task at a time.
-    let is_running = true;
-    while (is_running) {
-        is_running = false;
-        for (const s of gang_script) {
-            if (ns.scriptRunning(s, home)) {
-                is_running = true;
-                break;
-            }
-        }
-        await ns.sleep(wait_t.SECOND);
-    }
-    ns.exec("/singularity/program.js", home, nthread);
+    ns.exec(script, home, nthread);
 }
 
 /**
@@ -122,7 +84,7 @@ export async function main(ns) {
     const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
     if (player_money > threshold && home_ram >= home_t.RAM_HIGH) {
-        await load_chain(ns);
+        load_chain(ns);
         return;
     }
     await commit_crimes(ns, threshold);
@@ -141,5 +103,5 @@ export async function main(ns) {
         ns.exec(script, home, nthread);
         return;
     }
-    await load_chain(ns);
+    load_chain(ns);
 }
