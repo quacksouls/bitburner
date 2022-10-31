@@ -847,6 +847,7 @@ export const gangster_t = {
         "Harry Hart",
         "Harry Tasker",
         "Herbert Philbrick",
+        "Hubert Bonisseur de La Bath",
         // I
         "Ian Fleming",
         "Illya Kuryakin",
