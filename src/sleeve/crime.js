@@ -16,6 +16,7 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { colour } from "/lib/constant/misc.js";
 import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
@@ -95,7 +96,7 @@ async function update(ns) {
  */
 export async function main(ns) {
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API");
+        log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
     for (;;) {
