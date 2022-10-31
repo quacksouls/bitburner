@@ -29,7 +29,7 @@ export async function main(ns) {
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
-    let script = "/sleeve/money.js";
+    let script = "/sleeve/crime.js";
     const nthread = 1;
     const pid = ns.exec(script, home, nthread);
     while (ns.isRunning(pid)) {

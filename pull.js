@@ -200,7 +200,7 @@ function dir_singularity() {
  * Scripts that use the Sleeve API.
  */
 function dir_sleeve() {
-    const dir = ["sleeve/money.js", "sleeve/study.js"];
+    const dir = ["sleeve/crime.js", "sleeve/study.js"];
     return dir;
 }
 
