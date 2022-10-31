@@ -31,5 +31,5 @@ import { colour } from "/lib/constant/misc.js";
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
     const suffix = clr !== "" ? colour.RESET : "";
-    ns.tprintf(`[${date}]${clr}${ns.getScriptName()}: ${msg}${suffix}`);
+    ns.tprintf(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
 }
