@@ -27,4 +27,14 @@ export const cc_t = {
      * player's consciousness.
      */
     MAX_SYNC: 100,
+    /**
+     * Mugging increases all of a sleeve's combat stats.  Let a sleeve mug until
+     * each of their combat stats is at least this value.
+     */
+    MUG_TAU: 15,
+    /**
+     * Shoplift increases a sleeve's Dexterity and Agility.  Let a sleeve
+     * shoplift until their Dexterity and Agility are at least this value.
+     */
+    SHOP_TAU: 5,
 };

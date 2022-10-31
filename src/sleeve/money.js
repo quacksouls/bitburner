@@ -16,26 +16,12 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { colour } from "/lib/constant/misc.js";
+import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
-import { all_sleeves } from "/lib/sleeve.js";
-import { assert } from "/lib/util.js";
-
-/**
- * Commit a crime for a period of time to the combat stats of our sleeves.
- *
- * @param ns The Netscript API.
- * @param crime Assign sleeves to commit this crime.
- * @param tau Commit the given crime for this amount of time.  Must be
- *     non-negative integer.
- */
-async function commit_a_crime(ns, crime, tau) {
-    assert(tau >= 0);
-    log(ns, crime);
-    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
-    await ns.sleep(tau);
-}
+import { all_sleeves, Sleeve } from "/lib/sleeve.js";
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do
@@ -52,10 +38,22 @@ async function commit_a_crime(ns, crime, tau) {
  * @param ns The Netscript API.
  */
 async function commit_crimes(ns) {
-    const time = 2 * wait_t.MINUTE;
-    await commit_a_crime(ns, crimes.SHOP, time);
-    await commit_a_crime(ns, crimes.MUG, time);
-    await commit_a_crime(ns, crimes.KILL, 0);
+    // Shoplift.
+    const sleeve = new Sleeve(ns);
+    log(ns, crimes.SHOP);
+    sleeve.shoplift(all_sleeves(ns));
+    while (!sleeve.has_shoplift_threshold(all_sleeves(ns), cc_t.SHOP_TAU)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    // Mugging people.
+    log(ns, crimes.MUG);
+    sleeve.mug(all_sleeves(ns));
+    while (!sleeve.has_mug_threshold(all_sleeves(ns), cc_t.MUG_TAU)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    // Homicide.
+    log(ns, crimes.KILL);
+    sleeve.homicide(all_sleeves(ns));
 }
 
 /**
@@ -67,8 +65,9 @@ async function commit_crimes(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    ns.disableLog("sleep");
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API");
+        log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
     await commit_crimes(ns);
