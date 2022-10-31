@@ -16,8 +16,29 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { all_sleeves } from "/lib/sleeve.js";
+import { assert } from "/lib/util.js";
+
+/**
+ * Commit a crime for a period of time to the combat stats of our sleeves.
+ *
+ * @param ns The Netscript API.
+ * @param crime Assign sleeves to commit this crime.
+ * @param tau Commit the given crime for this amount of time.  Must be
+ *     non-negative integer.
+ * @param msg A logging message.
+ */
+async function commit_a_crime(ns, crime, tau, msg) {
+    assert(tau >= 0);
+    log(ns, msg);
+    all_sleeves(ns).forEach((i) => {
+        ns.sleeve.setToCommitCrime(i, crime);
+    });
+    await ns.sleep(tau);
+}
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do
@@ -33,10 +54,11 @@ import { all_sleeves } from "/lib/sleeve.js";
  *
  * @param ns The Netscript API.
  */
-function commit_crimes(ns) {
-    all_sleeves(ns).forEach((i) => {
-        ns.sleeve.setToCommitCrime(i, crimes.KILL);
-    });
+async function commit_crimes(ns) {
+    const time = 2 * wait_t.MINUTE;
+    await commit_a_crime(ns, crimes.SHOP, time, "Shoplift");
+    await commit_a_crime(ns, crimes.MUG, time, "Mug someone");
+    await commit_a_crime(ns, crimes.KILL, 0, "Homicide");
 }
 
 /**
@@ -49,7 +71,7 @@ function commit_crimes(ns) {
  */
 export async function main(ns) {
     if (!has_sleeve_api(ns)) {
-        ns.tprint("No access to Sleeve API.");
+        log(ns, "No access to Sleeve API");
         return;
     }
     commit_crimes(ns);

@@ -124,6 +124,7 @@ function dir_lib() {
         "lib/corporation/corp.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
+        "lib/io.js",
         "lib/money.js",
         "lib/network.js",
         "lib/player.js",
