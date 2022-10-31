@@ -74,5 +74,5 @@ export async function main(ns) {
         log(ns, "No access to Sleeve API");
         return;
     }
-    commit_crimes(ns);
+    await commit_crimes(ns);
 }
