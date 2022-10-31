@@ -65,13 +65,13 @@ export async function main(ns) {
             const value = [];
             // The current negative karma value.
             header.push("Karma");
-            value.push(ns.nFormat(ns.heart.break(), "0,0.00"));
+            value.push(ns.nFormat(ns.heart.break(), "0,0.000a"));
             // The Hack XP of all scripts per second.
-            header.push("Hack XP");
-            value.push(ns.nFormat(ns.getTotalScriptExpGain(), "0,0.00"));
+            header.push("Hack");
+            value.push(ns.nFormat(ns.getTotalScriptExpGain(), "0,0.000a"));
             // The income of all scripts per second.
-            header.push("Income");
-            value.push(ns.nFormat(ns.getTotalScriptIncome()[0], "$0,0.00"));
+            header.push("Money");
+            value.push(ns.nFormat(ns.getTotalScriptIncome()[0], "$0,0.000a"));
             // Apply line breaks (newline characters) to separate each custom
             // field.
             hook0.innerText = header.join("\n");
