@@ -117,6 +117,7 @@ function dir_lib() {
         "lib/constant/misc.js",
         "lib/constant/pserv.js",
         "lib/constant/server.js",
+        "lib/constant/sleeve.js",
         "lib/constant/study.js",
         "lib/constant/time.js",
         "lib/constant/work.js",

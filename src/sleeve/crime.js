@@ -16,29 +16,12 @@
  */
 
 import { crimes } from "/lib/constant/crime.js";
+import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { all_sleeves } from "/lib/sleeve.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Commit a crime for a period of time to the combat stats of our sleeves.
- *
- * @param ns The Netscript API.
- * @param crime Assign sleeves to commit this crime.
- * @param tau Commit the given crime for this amount of time.  Must be
- *     non-negative integer.
- * @param msg A logging message.
- */
-async function commit_a_crime(ns, crime, tau, msg) {
-    assert(tau >= 0);
-    log(ns, msg);
-    all_sleeves(ns).forEach((i) => {
-        ns.sleeve.setToCommitCrime(i, crime);
-    });
-    await ns.sleep(tau);
-}
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do
@@ -53,17 +36,58 @@ async function commit_a_crime(ns, crime, tau, msg) {
  *     requirements for creating a gang.
  *
  * @param ns The Netscript API.
+ * @param crime Assign sleeves to commit this crime.
+ * @param tau Commit the given crime for this amount of time (in milliseconds).
+ *     Must be non-negative integer.
  */
-async function commit_crimes(ns) {
-    const time = 2 * wait_t.MINUTE;
-    await commit_a_crime(ns, crimes.SHOP, time, "Shoplift");
-    await commit_a_crime(ns, crimes.MUG, time, "Mug someone");
-    await commit_a_crime(ns, crimes.KILL, 0, "Homicide");
+async function commit_crime(ns, crime, tau) {
+    assert(tau >= 0);
+    log(ns, crime);
+    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
+    await ns.sleep(tau);
 }
 
 /**
- * Assign sleeves to commit crimes as a means of earning some money in the early
- * stages of a BitNode.
+ * Whether a sleeve is fully synchronized with the player's consciousness.
+ *
+ * @param ns The Netscript API.
+ * @param idx The index of a sleeve.  Must be a non-negative integer.
+ * @return True if the sleeve having the given index is fully synchronized with
+ *     the player; false otherwise.
+ */
+function is_fully_synchronized(ns, idx) {
+    assert(idx >= 0);
+    return ns.sleeve.getSleeveStats(idx).sync >= cc_t.MAX_SYNC;
+}
+
+/**
+ * Assign sleeves to synchronize with the consciousness of the player.
+ *
+ * @param ns The Netscript API.
+ * @param tau Synchronize for this amount of time (in milliseconds).  Must be a
+ *     positive integer.
+ */
+async function synchronize(ns, tau) {
+    assert(tau > 0);
+    log(ns, "Synchronize");
+    all_sleeves(ns)
+        .filter((i) => !is_fully_synchronized(ns, i))
+        .forEach((j) => ns.sleeve.setToSynchronize(j));
+    await ns.sleep(tau);
+}
+
+/**
+ * Manage our sleeves.
+ *
+ * @param ns The Netscript API.
+ */
+async function update(ns) {
+    await commit_crime(ns, crimes.KILL, 10 * wait_t.MINUTE);
+    await synchronize(ns, wait_t.MINUTE);
+}
+
+/**
+ * Assign sleeves to commit crimes as a means of earning money and lower karma.
  *
  * Usage: run sleeve/money.js
  *
@@ -74,5 +98,7 @@ export async function main(ns) {
         log(ns, "No access to Sleeve API");
         return;
     }
-    await commit_crimes(ns);
+    for (;;) {
+        await update(ns);
+    }
 }
