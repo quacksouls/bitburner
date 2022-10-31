@@ -129,6 +129,7 @@ function dir_lib() {
         "lib/singularity/study.js",
         "lib/singularity/util.js",
         "lib/singularity/work.js",
+        "lib/sleeve.js",
         "lib/source.js",
         "lib/util.js",
     ];
@@ -188,6 +189,14 @@ function dir_singularity() {
 }
 
 /**
+ * Scripts that use the Sleeve API.
+ */
+function dir_sleeve() {
+    const dir = ["sleeve/study.js"];
+    return dir;
+}
+
+/**
  * Scripts to test various aspects of the game.
  */
 function dir_test() {
@@ -230,6 +239,7 @@ function dir_structure() {
         dir_gang(),
         dir_lib(),
         dir_singularity(),
+        dir_sleeve(),
         dir_test(),
     ].flat();
     assert(filesystem.length > 0);

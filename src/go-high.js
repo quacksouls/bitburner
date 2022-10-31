@@ -16,6 +16,7 @@
  */
 
 import { home, home_t } from "/lib/constant/server.js";
+import { load_chain_study } from "/lib/singularity/study.js";
 import { has_singularity_api } from "/lib/source.js";
 
 /**
@@ -43,19 +44,6 @@ function reboot(ns) {
 }
 
 /**
- * Start a load chain.  A script in the chain would likely use functions from
- * the Singularity API.  Each function from this API tends to use a huge amount
- * of RAM.
- *
- * @param ns The Netscript API.
- */
-function load_chain(ns) {
-    const script = "/singularity/study.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
-}
-
-/**
  * NOTE: Assume our home server to have at least 512GB RAM.
  *
  * Restart our source of income and Hack XP.  This script is useful whenever we
@@ -75,6 +63,6 @@ function load_chain(ns) {
 export async function main(ns) {
     reboot(ns);
     if (has_singularity_api(ns)) {
-        load_chain(ns);
+        await load_chain_study(ns);
     }
 }

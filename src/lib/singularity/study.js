@@ -19,6 +19,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { cities } from "/lib/constant/location.js";
+import { home } from "/lib/constant/server.js";
 import { course } from "/lib/constant/study.js";
 import { wait_t } from "/lib/constant/time.js";
 import { assert } from "/lib/util.js";
@@ -38,6 +39,27 @@ function choose_university(ns) {
         return "";
     }
     return uni;
+}
+
+/**
+ * Start a load chain for studying at a university.  A script in the chain would
+ * likely use functions from the Singularity API.  Each function from this API
+ * tends to use a huge amount of RAM.
+ *
+ * @param ns The Netscript API.
+ */
+export async function load_chain_study(ns) {
+    // Assume our home server has limited RAM.  The server cannot run multiple
+    // scripts at the same time.  Load a sleeve script and let it run until
+    // completion.  Then start another script.
+    let script = "/sleeve/study.js";
+    const nthread = 1;
+    const pid = ns.exec(script, home, nthread);
+    while (ns.isRunning(pid)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    script = "/singularity/study.js";
+    ns.exec(script, home, nthread);
 }
 
 /**

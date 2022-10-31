@@ -17,6 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { load_chain_study } from "/lib/singularity/study.js";
 import { has_singularity_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
@@ -38,19 +39,6 @@ async function reboot(ns) {
         await ns.sleep(wait_t.DEFAULT);
         assert(ns.kill(s, home));
     }
-}
-
-/**
- * Start a load chain.  A script in the chain would likely use functions from
- * the Singularity API.  Each function from this API tends to use a huge amount
- * of RAM.
- *
- * @param ns The Netscript API.
- */
-function load_chain(ns) {
-    const script = "/singularity/study.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
 }
 
 /**
@@ -77,6 +65,6 @@ function load_chain(ns) {
 export async function main(ns) {
     await reboot(ns);
     if (has_singularity_api(ns)) {
-        load_chain(ns);
+        await load_chain_study(ns);
     }
 }

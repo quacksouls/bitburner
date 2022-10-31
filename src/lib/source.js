@@ -98,3 +98,26 @@ export function has_singularity_api(ns) {
         return bool.NOT;
     }
 }
+
+/**
+ * Whether we have access to the Sleeve API.
+ *
+ * @param ns The Netscript API.
+ * @return true if we have access to the Sleeve API; false otherwise.
+ */
+export function has_sleeve_api(ns) {
+    // Are we in BitNode 10: Digital Carbon?
+    const bn_name = "Digital Carbon";
+    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+        return bool.HAS;
+    }
+    // Use the Singularity API to help us find out.
+    if (has_singularity_api(ns)) {
+        for (const sf of ns.singularity.getOwnedSourceFiles()) {
+            if (sf.n === bitnode[bn_name]) {
+                return bool.HAS;
+            }
+        }
+    }
+    return bool.NOT;
+}
