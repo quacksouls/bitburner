@@ -121,11 +121,15 @@ async function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Less verbose log.
+    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+    // Sanity check.
     if (!has_sleeve_api(ns)) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
+    // The update loop.
     for (;;) {
         await update(ns);
     }
