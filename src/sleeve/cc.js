@@ -75,15 +75,19 @@ async function retrain(ns) {
     // Train Dexterity and Agility by shoplift.
     const sleeve = new Sleeve(ns);
     let trainee = sleeve.all().filter((i) => !sleeve.has_shoplift_threshold(i));
-    sleeve.shoplift(trainee);
-    while (!sleeve.graduate_shoplift(trainee)) {
-        await ns.sleep(wait_t.SECOND);
+    if (trainee.length > 0) {
+        sleeve.shoplift(trainee);
+        while (!sleeve.graduate_shoplift(trainee)) {
+            await ns.sleep(wait_t.SECOND);
+        }
     }
     // Train combat stats by mugging people.
     trainee = sleeve.all().filter((i) => !sleeve.has_mug_threshold(i));
-    sleeve.mug(trainee);
-    while (!sleeve.graduate_mug(trainee)) {
-        await ns.sleep(wait_t.SECOND);
+    if (trainee.length > 0) {
+        sleeve.mug(trainee);
+        while (!sleeve.graduate_mug(trainee)) {
+            await ns.sleep(wait_t.SECOND);
+        }
     }
     sleeve.homicide(sleeve.all());
 }

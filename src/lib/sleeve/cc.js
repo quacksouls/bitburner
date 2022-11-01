@@ -130,9 +130,12 @@ export class Sleeve {
      *
      * @param s An array of sleeve indices.  We want to graduate these sleeves.
      * @return True if each sleeve in the given array can graduate;
-     *     false otherwise.
+     *     false otherwise or the array is empty.
      */
     graduate_mug(s) {
+        if (s.length === 0) {
+            return bool.NOT;
+        }
         assert(this.#is_valid_index(s));
         for (const i of s) {
             if (!this.has_mug_threshold(i)) {
@@ -147,9 +150,12 @@ export class Sleeve {
      *
      * @param s An array of sleeve indices.  We want to graduate these sleeves.
      * @return True if each sleeve in the given array can graduate;
-     *     false otherwise.
+     *     false otherwise or the array is empty.
      */
     graduate_shoplift(s) {
+        if (s.length === 0) {
+            return bool.NOT;
+        }
         assert(this.#is_valid_index(s));
         for (const i of s) {
             if (!this.has_shoplift_threshold(i)) {
