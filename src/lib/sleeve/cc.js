@@ -217,15 +217,3 @@ export class Sleeve {
             .forEach((j) => this.#ns.sleeve.setToSynchronize(j));
     }
 }
-
-// Utility functions for managing sleeves.
-
-/**
- * The index of every sleeve.
- *
- * @param ns The Netscript API.
- * @return An array of sleeve indices.
- */
-export function all_sleeves(ns) {
-    return MyArray.sequence(ns.sleeve.getNumSleeves());
-}

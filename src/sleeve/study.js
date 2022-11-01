@@ -19,7 +19,7 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { course } from "/lib/constant/study.js";
 import { log } from "/lib/io.js";
-import { all_sleeves } from "/lib/sleeve/cc.js";
+import { all_sleeves } from "/lib/sleeve/util.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 

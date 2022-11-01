@@ -140,6 +140,7 @@ function dir_lib() {
         "lib/singularity/util.js",
         "lib/singularity/work.js",
         "lib/sleeve/cc.js",
+        "lib/sleeve/util.js",
         "lib/source.js",
         "lib/util.js",
     ];
