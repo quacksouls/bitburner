@@ -88,6 +88,7 @@ function dir_corporation() {
  */
 function dir_gang() {
     const gang = [
+        "gang/augment.js",
         "gang/crime.js",
         "gang/dead-speakers.js",
         "gang/go.js",
