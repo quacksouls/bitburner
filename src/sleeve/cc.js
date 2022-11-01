@@ -64,7 +64,7 @@ async function synchronize(ns, tau) {
 }
 
 /**
- * Manage our sleeves.
+ * Manage our sleeves via an update loop.
  *
  * @param ns The Netscript API.
  */
@@ -74,7 +74,7 @@ async function update(ns) {
 }
 
 /**
- * Assign sleeves to commit crimes as a means of earning money and lower karma.
+ * Mange our sleeves.
  *
  * Usage: run sleeve/cc.js
  *
