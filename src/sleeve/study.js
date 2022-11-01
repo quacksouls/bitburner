@@ -16,7 +16,9 @@
  */
 
 import { cities } from "/lib/constant/location.js";
+import { colour } from "/lib/constant/misc.js";
 import { course } from "/lib/constant/study.js";
+import { log } from "/lib/io.js";
 import { all_sleeves } from "/lib/sleeve.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
@@ -47,9 +49,11 @@ function choose_university(ns, i) {
 export async function main(ns) {
     // Sanity check.
     if (!has_sleeve_api(ns)) {
+        log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
     // Study at a university.
+    log(ns, course.CS);
     all_sleeves(ns).forEach((i) => {
         const uni = choose_university(ns, i);
         assert(uni !== "");
