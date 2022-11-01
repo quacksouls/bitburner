@@ -96,7 +96,7 @@ function choose_augment(ns) {
     let aug = ns.singularity
         .getAugmentationsFromFaction(faction)
         .filter((a) => a !== augment.TRP)
-        .filter((b) => !installed.includes(b));
+        .filter((b) => !installed.has(b));
     if (aug.length <= augment.BUY_TAU) {
         // TODO: Sort this array in ascending order of price.
         return aug;
