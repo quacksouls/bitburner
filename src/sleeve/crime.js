@@ -20,7 +20,7 @@ import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
-import { all_sleeves, Sleeve } from "/lib/sleeve.js";
+import { all_sleeves, Sleeve } from "/lib/sleeve/cc.js";
 import { assert } from "/lib/util.js";
 
 /**
