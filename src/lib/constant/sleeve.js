@@ -23,6 +23,15 @@
  */
 export const cc_t = {
     /**
+     * The cost or expenditure multiplier.  Augmentations for a sleeve are
+     * expensive.  Whenever we make a decision to purchase an Augmentation for a
+     * sleeve, we multiply the cost of the Augmentation by this multiplier.  In
+     * case we do buy the Augmentation, at least we would not have spent all our
+     * funds.  Do not want to go bankrupt because we decided to purchase an
+     * expensive Augmentation.
+     */
+    COST_MULT: 3,
+    /**
      * The maximum value at which a sleeve is fully synchronized with the
      * player's consciousness.
      */

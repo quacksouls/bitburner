@@ -17,11 +17,27 @@
 
 import { crimes } from "/lib/constant/crime.js";
 import { colour } from "/lib/constant/misc.js";
+import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
+import { Player } from "/lib/player.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { Sleeve } from "/lib/sleeve/cc.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * Purchase Augmentations and install them on our sleeves.
+ */
+function buy_augmentation(ns) {
+    const player = new Player(ns);
+    const sleeve = new Sleeve(ns);
+    sleeve.all().forEach((i) => {
+        const [name, cost] = sleeve.cheapest_augment(i);
+        if (player.money() > cc_t.COST_MULT * cost) {
+            sleeve.buy_augment(i, name);
+        }
+    });
+}
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do
@@ -49,6 +65,28 @@ async function commit_crime(ns, crime, tau) {
 }
 
 /**
+ * Retrain the combat stats of our sleeves.
+ *
+ * @param ns The Netscript API.
+ */
+async function retrain(ns) {
+    // Train Dexterity and Agility by shoplift.
+    const sleeve = new Sleeve(ns);
+    let trainee = sleeve.all().filter((i) => !sleeve.has_shoplift_threshold(i));
+    sleeve.shoplift(trainee);
+    while (!sleeve.graduate_shoplift(trainee)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    // Train combat stats by mugging people.
+    trainee = sleeve.all().filter((i) => !sleeve.has_mug_threshold(i));
+    sleeve.mug(trainee);
+    while (!sleeve.graduate_mug(trainee)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    sleeve.homicide(sleeve.all());
+}
+
+/**
  * Assign sleeves to synchronize with the consciousness of the player.
  *
  * @param ns The Netscript API.
@@ -69,6 +107,8 @@ async function synchronize(ns, tau) {
  * @param ns The Netscript API.
  */
 async function update(ns) {
+    buy_augmentation(ns);
+    await retrain(ns);
     await commit_crime(ns, crimes.KILL, 10 * wait_t.MINUTE);
     await synchronize(ns, wait_t.MINUTE);
 }
@@ -81,6 +121,7 @@ async function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    ns.disableLog("sleep");
     if (!has_sleeve_api(ns)) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;

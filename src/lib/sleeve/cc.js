@@ -60,6 +60,50 @@ export class Sleeve {
     }
 
     /**
+     * Purchase an Augmentation for a sleeve.
+     *
+     * @param idx The index of a sleeve.
+     * @param aug Purchase this Augmentation for the sleeve.
+     * @return True if the given Augmentation was successfully purchased and
+     *     installed on the sleeve; false otherwise.
+     */
+    buy_augment(idx, aug) {
+        assert(this.#is_valid_index([idx]));
+        return this.#ns.sleeve.purchaseSleeveAug(idx, aug);
+    }
+
+    /**
+     * The cheapest available Augmentation that a sleeve can purchase.
+     *
+     * @param idx The index of a sleeve.
+     * @return An array [name, cost] as follows.  An empty array if no
+     *     Augmentations are available for purchase.
+     *     (1) name := A string representing the name of the cheapest
+     *         Augmentation that the given sleeve can purchase at the moment.
+     *     (2) cost := The cost of the cheapest Augmentation.
+     */
+    cheapest_augment(idx) {
+        // Sanity checks.
+        assert(this.#is_valid_index([idx]));
+        const aug = this.#ns.sleeve.getSleevePurchasableAugs(idx);
+        if (aug.length === 0) {
+            return [];
+        }
+        // Find the cheapest Augmentation.
+        let name = "";
+        let cost = Infinity;
+        aug.forEach((a) => {
+            if (a.cost < cost) {
+                cost = a.cost;
+                name = a.name;
+            }
+        });
+        assert(name !== "");
+        assert(cost < Infinity);
+        return [name, cost];
+    }
+
+    /**
      * The Defense stat of a sleeve.
      *
      * @param idx The index of a sleeve.
@@ -82,49 +126,71 @@ export class Sleeve {
     }
 
     /**
-     * Whether the combat stats of sleeves are at least a given threshold.
+     * Whether to graduate sleeves from training stats by mugging people.
      *
-     * @param s An array of sleeve indices.
-     * @param tau We want the combat stats of each sleeve to be at least this
-     *     amount.
-     * @return True if the combat stats of each sleeve are each at least the
-     *     given amount; false otherwise.
+     * @param s An array of sleeve indices.  We want to graduate these sleeves.
+     * @return True if each sleeve in the given array can graduate;
+     *     false otherwise.
      */
-    has_mug_threshold(s, tau) {
+    graduate_mug(s) {
         assert(this.#is_valid_index(s));
-        assert(tau > 0);
         for (const i of s) {
-            if (
-                this.agility(i) < tau
-                || this.defense(i) < tau
-                || this.dexterity(i) < tau
-                || this.strength(i) < tau
-            ) {
+            if (!this.has_mug_threshold(i)) {
                 return bool.NOT;
             }
         }
-        return bool.HAS;
+        return bool.GRADUATE;
     }
 
     /**
-     * Whether the Dexterity and Agility stats of sleeves are at least a given
-     * threshold.
+     * Whether to graduate sleeves from training stats by shoplift.
      *
-     * @param s An array of sleeve indices.
-     * @param tau We want the Dexterity and Agility stats of each sleeve to be
-     *     at least this amount.
-     * @return True if the Dexterity and Agility stats of each sleeve are each
-     *     at least the given amount; false otherwise.
+     * @param s An array of sleeve indices.  We want to graduate these sleeves.
+     * @return True if each sleeve in the given array can graduate;
+     *     false otherwise.
      */
-    has_shoplift_threshold(s, tau) {
+    graduate_shoplift(s) {
         assert(this.#is_valid_index(s));
-        assert(tau > 0);
         for (const i of s) {
-            if (this.agility(i) < tau || this.dexterity(i) < tau) {
+            if (!this.has_shoplift_threshold(i)) {
                 return bool.NOT;
             }
         }
-        return bool.HAS;
+        return bool.GRADUATE;
+    }
+
+    /**
+     * Whether the combat stats of a sleeve are at least the threshold for
+     * mugging people.
+     *
+     * @param idx A sleeve index.
+     * @return True if the combat stats of a sleeve are each at least the
+     *     threshold for mugging people; false otherwise.
+     */
+    has_mug_threshold(idx) {
+        assert(this.#is_valid_index([idx]));
+        return (
+            this.agility(idx) >= cc_t.MUG_TAU
+            && this.defense(idx) >= cc_t.MUG_TAU
+            && this.dexterity(idx) >= cc_t.MUG_TAU
+            && this.strength(idx) >= cc_t.MUG_TAU
+        );
+    }
+
+    /**
+     * Whether the Dexterity and Agility stats of a sleeve are at least the
+     * threshold for shoplift.
+     *
+     * @param idx A sleeve index.
+     * @return True if the Dexterity and Agility stats of a sleeve are each
+     *     at least the threshold for shoplift; false otherwise.
+     */
+    has_shoplift_threshold(idx) {
+        assert(this.#is_valid_index([idx]));
+        return (
+            this.agility(idx) >= cc_t.SHOP_TAU
+            && this.dexterity(idx) >= cc_t.SHOP_TAU
+        );
     }
 
     /**

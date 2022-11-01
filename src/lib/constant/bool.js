@@ -45,6 +45,10 @@ export const bool = {
     FOCUS: true,
     NO_FOCUS: false,
     /**
+     * Whether or not to graduate from a class or training.
+     */
+    GRADUATE: true,
+    /**
      * Whether or not we have access to something.
      */
     HAS: true,
