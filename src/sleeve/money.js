@@ -21,8 +21,11 @@ import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
-import { Sleeve } from "/lib/sleeve/cc.js";
-import { all_sleeves } from "/lib/sleeve/util.js";
+import {
+    all_sleeves,
+    has_mug_threshold,
+    has_shoplift_threshold,
+} from "/lib/sleeve/util.js";
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do
@@ -40,21 +43,20 @@ import { all_sleeves } from "/lib/sleeve/util.js";
  */
 async function commit_crimes(ns) {
     // Shoplift.
-    const sleeve = new Sleeve(ns);
     log(ns, crimes.SHOP);
-    sleeve.shoplift(all_sleeves(ns));
-    while (!sleeve.has_shoplift_threshold(all_sleeves(ns), cc_t.SHOP_TAU)) {
+    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.SHOP));
+    while (!has_shoplift_threshold(ns, cc_t.SHOP_TAU)) {
         await ns.sleep(wait_t.SECOND);
     }
     // Mugging people.
     log(ns, crimes.MUG);
-    sleeve.mug(all_sleeves(ns));
-    while (!sleeve.has_mug_threshold(all_sleeves(ns), cc_t.MUG_TAU)) {
+    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.MUG));
+    while (!has_mug_threshold(ns, cc_t.MUG_TAU)) {
         await ns.sleep(wait_t.SECOND);
     }
     // Homicide.
     log(ns, crimes.KILL);
-    sleeve.homicide(all_sleeves(ns));
+    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.KILL));
 }
 
 /**

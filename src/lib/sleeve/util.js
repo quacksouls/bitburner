@@ -16,6 +16,8 @@
  */
 
 import { MyArray } from "/lib/array.js";
+import { bool } from "/lib/constant/bool.js";
+import { assert } from "/lib/util.js";
 
 // Utility functions for managing sleeves.  Use one or more of these utility
 // functions to help lower the RAM cost of our scripts.  Importing one utility
@@ -29,4 +31,74 @@ import { MyArray } from "/lib/array.js";
  */
 export function all_sleeves(ns) {
     return MyArray.sequence(ns.sleeve.getNumSleeves());
+}
+
+/**
+ * Whether the combat stats of sleeves are at least a given threshold.
+ *
+ * @param t We want the combat stats of each sleeve to be at least this
+ *     amount.
+ * @return True if the combat stats of each sleeve are each at least the
+ *     given amount; false otherwise.
+ */
+export function has_mug_threshold(ns, t) {
+    const all_cc = all_sleeves(ns);
+    assert(is_valid_index(ns, all_cc));
+    const tau = Math.floor(t);
+    assert(tau > 0);
+    for (const i of all_cc) {
+        const stat = ns.sleeve.getSleeveStats(i);
+        if (
+            stat.agility < tau
+            || stat.defense < tau
+            || stat.dexterity < tau
+            || stat.strength < tau
+        ) {
+            return bool.NOT;
+        }
+    }
+    return bool.HAS;
+}
+
+/**
+ * Whether the Dexterity and Agility stats of sleeves are at least a given
+ * threshold.
+ *
+ * @param ns The Netscript API.
+ * @param t We want the Dexterity and Agility stats of each sleeve to be
+ *     at least this amount.
+ * @return True if the Dexterity and Agility stats of each sleeve are each
+ *     at least the given amount; false otherwise.
+ */
+export function has_shoplift_threshold(ns, t) {
+    const all_cc = all_sleeves(ns);
+    assert(is_valid_index(ns, all_cc));
+    const tau = Math.floor(t);
+    assert(tau > 0);
+    for (const i of all_cc) {
+        const stat = ns.sleeve.getSleeveStats(i);
+        if (stat.agility < tau || stat.dexterity < tau) {
+            return bool.NOT;
+        }
+    }
+    return bool.HAS;
+}
+
+/**
+ * Whether an array contains valid sleeve indices.
+ *
+ * @param ns The Netscript API.
+ * @param s An array of sleeve indices.
+ * @return True if the array has all valid sleeve indices; false otherwise.
+ */
+function is_valid_index(ns, s) {
+    const min = 0;
+    const max = ns.sleeve.getNumSleeves();
+    assert(s.length > 0);
+    for (const i of s) {
+        if (i < min || i >= max) {
+            return bool.INVALID;
+        }
+    }
+    return bool.VALID;
 }
