@@ -196,14 +196,18 @@ export function prerequisites(ns, aug) {
  *
  * @param ns The Netscript API.
  * @param fac We want to buy Augmentations from this faction.
+ * @param stop_trade A boolean signifying whether the trade bot should stop
+ *     buying shares of stocks.  Default is true.
  */
-export async function purchase_augment(ns, fac) {
+export async function purchase_augment(ns, fac, stop_trade = true) {
     assert(is_valid_faction(fac));
     let candidate = augment_to_buy(ns, fac);
     assert(candidate.length > 0);
     // Tell the trade bot to stop buying shares of stocks.  We want to cash in
     // on our shares and raise money to buy Augmentations.
-    await trade_bot_stop_buy(ns);
+    if (stop_trade) {
+        await trade_bot_stop_buy(ns);
+    }
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
@@ -252,7 +256,9 @@ export async function purchase_augment(ns, fac) {
         money = ns.getServerMoneyAvailable(home);
     }
     // The trade bot can now resume buying and selling shares.
-    trade_bot_resume(ns);
+    if (stop_trade) {
+        trade_bot_resume(ns);
+    }
 }
 
 /**
