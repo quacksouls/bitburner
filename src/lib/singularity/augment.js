@@ -212,12 +212,16 @@ export function prerequisites(ns, aug) {
  *     buying shares of stocks.  Default is true.
  * @param buy_nfg A boolean signifying whether to upgrade the NeuroFlux Governor
  *     Augmentation.  Default is true.
+ * @param raise_money A boolean signifying whether we should raise funds to buy
+ *     Augmentations.  Default is true.  We can raise funds by working at a
+ *     company or committing crimes.
  */
 export async function purchase_augment(
     ns,
     fac,
     stop_trade = true,
-    buy_nfg = true
+    buy_nfg = true,
+    raise_money = true
 ) {
     assert(is_valid_faction(fac));
     let candidate = augment_to_buy(ns, fac);
@@ -248,7 +252,7 @@ export async function purchase_augment(
         // Augmentation.
         let prereq = prerequisites(ns, aug);
         if (prereq.length === 0) {
-            await purchase_aug(ns, aug, fac);
+            await purchase_aug(ns, aug, fac, raise_money);
             candidate = candidate.filter((a) => a !== aug);
             continue;
         }
@@ -256,10 +260,10 @@ export async function purchase_augment(
         // purchased, then first purchase the pre-requisites.
         while (prereq.length > 0) {
             const pre = choose_augment(ns, prereq);
-            await purchase_aug(ns, pre, fac);
+            await purchase_aug(ns, pre, fac, raise_money);
             prereq = prereq.filter((a) => a !== pre);
         }
-        await purchase_aug(ns, aug, fac);
+        await purchase_aug(ns, aug, fac, raise_money);
         candidate = candidate.filter((a) => a !== aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
@@ -292,8 +296,11 @@ export async function purchase_augment(
  * @param ns The Netscript API.
  * @param aug We want to purchase this Augmentation.
  * @param fac We want to purchase the given Augmentation from this faction.
+ * @param raise_money A boolean signifying whether we should raise funds to buy
+ *     the given Augmentation.  Default is true.  We can raise funds by working
+ *     at a company or committing crimes.
  */
-async function purchase_aug(ns, aug, fac) {
+async function purchase_aug(ns, aug, fac, raise_money = true) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
@@ -308,10 +315,12 @@ async function purchase_aug(ns, aug, fac) {
     while (!success) {
         assert(!has_augment(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
-            if (ns.getHackingLevel() < work_hack_lvl) {
-                await commit_crime(ns, cost);
-            } else {
-                await work(ns, cost);
+            if (raise_money) {
+                if (ns.getHackingLevel() < work_hack_lvl) {
+                    await commit_crime(ns, cost);
+                } else {
+                    await work(ns, cost);
+                }
             }
         }
         await ns.sleep(wait_t.SECOND);

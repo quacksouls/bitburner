@@ -35,7 +35,8 @@ async function buy_augment(ns) {
     const { faction } = ns.gang.getGangInformation();
     const stop_trade = false;
     const buy_nfg = false;
-    await purchase_augment(ns, faction, stop_trade, buy_nfg);
+    const raise_money = false;
+    await purchase_augment(ns, faction, stop_trade, buy_nfg, raise_money);
     const to_install = augment_to_install(ns);
     return to_install.length > 0;
 }
