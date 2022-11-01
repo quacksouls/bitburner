@@ -49,7 +49,7 @@ export async function main(ns) {
         "/corporation/corp.js",
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
-        "/sleeve/crime.js",
+        "/sleeve/cc.js",
         gang_script[0],
     ];
     const nthread = 1;
