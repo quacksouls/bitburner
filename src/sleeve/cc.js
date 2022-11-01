@@ -27,6 +27,8 @@ import { assert } from "/lib/util.js";
 
 /**
  * Purchase Augmentations and install them on our sleeves.
+ *
+ * @param ns The Netscript API.
  */
 function buy_augmentation(ns) {
     const player = new Player(ns);
