@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
 import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
@@ -29,12 +30,13 @@ import { assert } from "/lib/util.js";
  * Purchase Augmentations from our gang faction.
  *
  * @param ns The Netscript API.
+ * @return True if we bought at least one Augmentation; false otherwise.
  */
 async function buy_augment(ns) {
     // Sanity check.
     const aug = choose_augment(ns);
     if (aug.length === 0) {
-        return;
+        return bool.FAILURE;
     }
     // Accumulate enough money to purchase Augmentations.
     const player = new Player(ns);
@@ -51,6 +53,7 @@ async function buy_augment(ns) {
         assert(fac_rep >= rep);
         assert(ns.singularity.purchaseAugmentation(faction, a));
     }
+    return bool.SUCCESS;
 }
 
 /**
@@ -139,9 +142,11 @@ export async function main(ns) {
     while (!ns.gang.inGang()) {
         await ns.sleep(wait_t.DEFAULT);
     }
-    await buy_augment(ns);
-    // The next script in the load chain.
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    const success = await buy_augment(ns);
+    if (success) {
+        // The next script in the load chain.
+        const script = "/singularity/home.js";
+        const nthread = 1;
+        ns.exec(script, home, nthread);
+    }
 }
