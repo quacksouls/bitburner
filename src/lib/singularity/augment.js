@@ -54,10 +54,9 @@ export function augment_to_buy(ns, fac) {
         ns.singularity.getOwnedAugmentations(bool.PURCHASED)
     );
     let fac_aug = ns.singularity.getAugmentationsFromFaction(fac);
-    fac_aug = fac_aug.filter((a) => !owned_aug.has(a));
-    if (fac_aug.includes(augment.NFG)) {
-        fac_aug = fac_aug.filter((a) => a !== augment.NFG);
-    }
+    fac_aug = fac_aug
+        .filter((a) => !owned_aug.has(a))
+        .filter((b) => b !== augment.NFG);
     assert(fac_aug.length > 0);
     // Choose n Augmentations that have the least reputation requirements.
     const tobuy = [];
