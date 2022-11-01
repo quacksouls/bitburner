@@ -75,6 +75,19 @@ export function augment_to_buy(ns, fac) {
 }
 
 /**
+ * Augmentations we have purchased and are yet to be installed.
+ *
+ * @param ns The Netscript API.
+ * @return An array of Augmentation names.  These are Augmentations we have
+ *     bought, but we have not yet installed them.  Can be an empty array.
+ */
+export function augment_to_install(ns) {
+    const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
+    const installed_aug = owned_augment(ns);
+    return purchased_aug.filter((a) => !installed_aug.has(a));
+}
+
+/**
  * Choose the most expensive Augmentation to buy.  Why should we buy the most
  * expensive Augmentation first?  The answer is simple.  After we have
  * purchased an Augmentation from a faction, the cost of each remaining
