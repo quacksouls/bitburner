@@ -21,7 +21,6 @@ import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
 import { Sleeve } from "/lib/sleeve/cc.js";
-import { all_sleeves } from "/lib/sleeve/util.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -44,7 +43,8 @@ import { assert } from "/lib/util.js";
 async function commit_crime(ns, crime, tau) {
     assert(tau >= 0);
     log(ns, crime);
-    all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
+    const sleeve = new Sleeve(ns);
+    sleeve.all().forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
     await ns.sleep(tau);
 }
 
