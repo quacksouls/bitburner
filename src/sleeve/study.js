@@ -34,7 +34,7 @@ function choose_university(ns, i) {
     assert(i >= 0);
     const { city } = ns.sleeve.getInformation(i);
     const { uni } = cities[city];
-    return uni !== undefined ? uni : "";
+    return uni ?? "";
 }
 
 /**
