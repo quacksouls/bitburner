@@ -76,7 +76,7 @@ async function update(ns) {
 /**
  * Assign sleeves to commit crimes as a means of earning money and lower karma.
  *
- * Usage: run sleeve/money.js
+ * Usage: run sleeve/crime.js
  *
  * @param ns The Netscript API.
  */
