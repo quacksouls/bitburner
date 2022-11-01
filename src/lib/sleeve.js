@@ -18,6 +18,7 @@
 import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
+import { cc_t } from "/lib/constant/sleeve.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -47,6 +48,15 @@ export class Sleeve {
     agility(idx) {
         assert(this.#is_valid_index([idx]));
         return this.#ns.sleeve.getSleeveStats(idx).agility;
+    }
+
+    /**
+     * Indices of all sleeves.
+     *
+     * @return An array of all sleeve indices.
+     */
+    all() {
+        return MyArray.sequence(this.#ns.sleeve.getNumSleeves());
     }
 
     /**
@@ -131,6 +141,18 @@ export class Sleeve {
     }
 
     /**
+     * Whether a sleeve is fully synchronized with the player's consciousness.
+     *
+     * @param idx The index of a sleeve.  Must be a non-negative integer.
+     * @return True if the sleeve having the given index is fully synchronized
+     *     with the player; false otherwise.
+     */
+    is_in_sync(idx) {
+        assert(this.#is_valid_index([idx]));
+        return this.#ns.sleeve.getSleeveStats(idx).sync >= cc_t.MAX_SYNC;
+    }
+
+    /**
      * Whether an array contains valid sleeve indices.
      *
      * @param s An array of sleeve indices.
@@ -183,6 +205,16 @@ export class Sleeve {
     strength(idx) {
         assert(this.#is_valid_index([idx]));
         return this.#ns.sleeve.getSleeveStats(idx).strength;
+    }
+
+    /**
+     * Assign sleeves to synchronize with the consciousness of the player.  Only
+     * assign those sleeves whose consciousness is not yet fully synchronized.
+     */
+    synchronize() {
+        this.all()
+            .filter((i) => !this.is_in_sync(i))
+            .forEach((j) => this.#ns.sleeve.setToSynchronize(j));
     }
 }
 

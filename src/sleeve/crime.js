@@ -17,11 +17,10 @@
 
 import { crimes } from "/lib/constant/crime.js";
 import { colour } from "/lib/constant/misc.js";
-import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
-import { all_sleeves } from "/lib/sleeve.js";
+import { all_sleeves, Sleeve } from "/lib/sleeve.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -49,19 +48,6 @@ async function commit_crime(ns, crime, tau) {
 }
 
 /**
- * Whether a sleeve is fully synchronized with the player's consciousness.
- *
- * @param ns The Netscript API.
- * @param idx The index of a sleeve.  Must be a non-negative integer.
- * @return True if the sleeve having the given index is fully synchronized with
- *     the player; false otherwise.
- */
-function is_fully_synchronized(ns, idx) {
-    assert(idx >= 0);
-    return ns.sleeve.getSleeveStats(idx).sync >= cc_t.MAX_SYNC;
-}
-
-/**
  * Assign sleeves to synchronize with the consciousness of the player.
  *
  * @param ns The Netscript API.
@@ -71,9 +57,8 @@ function is_fully_synchronized(ns, idx) {
 async function synchronize(ns, tau) {
     assert(tau > 0);
     log(ns, "Synchronize");
-    all_sleeves(ns)
-        .filter((i) => !is_fully_synchronized(ns, i))
-        .forEach((j) => ns.sleeve.setToSynchronize(j));
+    const sleeve = new Sleeve(ns);
+    sleeve.synchronize();
     await ns.sleep(tau);
 }
 
