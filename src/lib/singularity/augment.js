@@ -197,8 +197,15 @@ export function prerequisites(ns, aug) {
  * @param fac We want to buy Augmentations from this faction.
  * @param stop_trade A boolean signifying whether the trade bot should stop
  *     buying shares of stocks.  Default is true.
+ * @param buy_nfg A boolean signifying whether to upgrade the NeuroFlux Governor
+ *     Augmentation.  Default is true.
  */
-export async function purchase_augment(ns, fac, stop_trade = true) {
+export async function purchase_augment(
+    ns,
+    fac,
+    stop_trade = true,
+    buy_nfg = true
+) {
     assert(is_valid_faction(fac));
     let candidate = augment_to_buy(ns, fac);
     assert(candidate.length > 0);
@@ -243,16 +250,22 @@ export async function purchase_augment(ns, fac, stop_trade = true) {
         candidate = candidate.filter((a) => a !== aug);
     }
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
-    let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
-    let nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
-    let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
-    let money = ns.getServerMoneyAvailable(home);
-    while (cost <= money && nfg_rep <= fac_rep) {
-        assert(ns.singularity.purchaseAugmentation(fac, augment.NFG));
-        cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
-        nfg_rep = Math.ceil(ns.singularity.getAugmentationRepReq(augment.NFG));
-        fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
-        money = ns.getServerMoneyAvailable(home);
+    if (buy_nfg) {
+        let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+        let nfg_rep = Math.ceil(
+            ns.singularity.getAugmentationRepReq(augment.NFG)
+        );
+        let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
+        let money = ns.getServerMoneyAvailable(home);
+        while (cost <= money && nfg_rep <= fac_rep) {
+            assert(ns.singularity.purchaseAugmentation(fac, augment.NFG));
+            cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
+            nfg_rep = Math.ceil(
+                ns.singularity.getAugmentationRepReq(augment.NFG)
+            );
+            fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
+            money = ns.getServerMoneyAvailable(home);
+        }
     }
     // The trade bot can now resume buying and selling shares.
     if (stop_trade) {
