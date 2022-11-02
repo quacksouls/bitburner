@@ -69,10 +69,14 @@ export async function main(ns) {
             value.push(ns.nFormat(ns.heart.break(), "0,0.000a"));
             // The Hack XP of all scripts per second.
             header.push("Hack");
-            value.push(ns.nFormat(ns.getTotalScriptExpGain(), "0,0.000a"));
+            value.push(
+                `${ns.nFormat(ns.getTotalScriptExpGain(), "0,0.000a")}/s`
+            );
             // The income of all scripts per second.
             header.push("Money");
-            value.push(ns.nFormat(ns.getTotalScriptIncome()[0], "$0,0.000a"));
+            value.push(
+                `${ns.nFormat(ns.getTotalScriptIncome()[0], "$0,0.000a")}/s`
+            );
             // Apply line breaks (newline characters) to separate each custom
             // field.
             hook0.innerText = header.join("\n");
