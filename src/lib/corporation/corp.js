@@ -144,7 +144,7 @@ export class Corporation {
     /**
      * Whether we have a division in the agriculture industry.
      *
-     * @return true if we have expanded into the agriculture industry;
+     * @return True if we have expanded into the agriculture industry;
      *     false otherwise.
      */
     has_agriculture() {
@@ -159,7 +159,7 @@ export class Corporation {
     /**
      * Whether we have already created a corporation.
      *
-     * @return true if we have already created a corporation; false otherwise.
+     * @return True if we have already created a corporation; false otherwise.
      */
     has_corp() {
         try {
@@ -175,7 +175,7 @@ export class Corporation {
      *
      * @param name A string representing the name of a division.
      * @param city A string representing the name of a city.
-     * @return true if the given division has an office in the particular city;
+     * @return True if the given division has an office in the particular city;
      *     false otherwise.
      */
     has_division_office(name, city) {
@@ -192,7 +192,7 @@ export class Corporation {
      * Whether we have an unlockable upgrade.
      *
      * @param upg A string representing the name of an unlock upgrade.
-     * @return true if we already have the given unlock upgrade;
+     * @return True if we already have the given unlock upgrade;
      *     false otherwise.
      */
     has_unlock_upgrade(upg) {
@@ -204,7 +204,7 @@ export class Corporation {
      * Whether we have the given division.
      *
      * @param name A string representing the name of a division.
-     * @return true if our corporation has a division with the given name;
+     * @return True if our corporation has a division with the given name;
      *     false otherwise.
      */
     is_valid_division(name) {
@@ -221,7 +221,7 @@ export class Corporation {
      * Whether the given name refers to a valid unlock upgrade.
      *
      * @param upg A string representing the name of an unlock upgrade.
-     * @return true if the given name refers to a valid unlock upgrade;
+     * @return True if the given name refers to a valid unlock upgrade;
      *     false otherwise.
      */
     // eslint-disable-next-line class-methods-use-this
