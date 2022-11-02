@@ -18,8 +18,10 @@
 import { bool } from "/lib/constant/bool.js";
 import { corp } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
+import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
+import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 
 /**
@@ -30,11 +32,13 @@ import { has_corporation_api } from "/lib/source.js";
 async function create_corp(ns) {
     const org = new Corporation(ns);
     if (org.has_corp()) {
+        log(ns, "Manage a corporation");
         return;
     }
     while (!org.create()) {
         await ns.sleep(wait_t.DEFAULT);
     }
+    log(ns, "Create and manage a corporation");
 }
 
 /**
@@ -104,6 +108,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Sanity check.
     if (!has_corporation_api(ns)) {
+        log(ns, "No access to Corporation API", colour.RED);
         return;
     }
     // Create our corporation.  If we do not have access to the Office and
@@ -112,6 +117,7 @@ export async function main(ns) {
     // Without the above APIs, quit the script as soon as possible.
     await create_corp(ns);
     if (!has_office_warehouse_api(ns)) {
+        log(ns, "No access to Warehouse and/or Office APIs", colour.RED);
         return;
     }
     // Manage our corporation.
