@@ -38,6 +38,7 @@ function decorate(str, colour) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    ns.disableLog("sleep");
     // eslint-disable-next-line no-eval
     const doc = eval("document");
     const hook0 = doc.getElementById("overview-extra-hook-0");
