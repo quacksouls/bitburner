@@ -237,6 +237,8 @@ export async function purchase_augment(
     // (2) If an Augmentation has a pre-requisite that we have not yet bought,
     //     purchase the pre-requisite first.
     // (3) Leave the NeuroFlux Governor Augmentation to last.
+    const fac_aug = new Set(ns.singularity.getAugmentationsFromFaction(fac));
+    const fac_has_aug = (a) => fac_aug.has(a);
     while (candidate.length > 0) {
         if (num_augment(ns) >= augment.BUY_TAU) {
             break;
@@ -257,7 +259,12 @@ export async function purchase_augment(
             continue;
         }
         // If the Augmentation has one or more pre-requisites we have not yet
-        // purchased, then first purchase the pre-requisites.
+        // purchased, then first purchase the pre-requisites.  Ensure that the
+        // faction has the pre-requisites as well.
+        if (!prereq.every(fac_has_aug)) {
+            candidate = candidate.filter((a) => a !== aug);
+            continue;
+        }
         while (prereq.length > 0) {
             const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac, raise_money);
