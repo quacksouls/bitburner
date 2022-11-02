@@ -42,7 +42,9 @@ async function buy_augment(ns) {
 }
 
 /**
- * Purchase Augmentations from the faction in which we created a gang.
+ * Purchase Augmentations from the faction in which we created a gang.  We use
+ * any money available to us.  This should help to speed up our run through a
+ * BitNode.
  *
  * Usage: run gang/augment.js
  *
