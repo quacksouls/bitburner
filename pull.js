@@ -137,6 +137,7 @@ function dir_lib() {
         "lib/singularity/crime.js",
         "lib/singularity/faction.js",
         "lib/singularity/network.js",
+        "lib/singularity/program.js",
         "lib/singularity/study.js",
         "lib/singularity/util.js",
         "lib/singularity/work.js",

@@ -25,16 +25,21 @@ import { wait_t } from "/lib/constant/time.js";
  * more RAM for our home server.
  *
  * @param ns The Netscript API.
+ * @param visit A boolean signifying whether to visit the travel agency.
+ *     Default to true.  Although not required, we typically visit a travel
+ *     agency to raise our Intelligence XP.
  * @return A string representing the name of a hardware store.
  */
-export async function choose_hardware_company(ns) {
+export async function choose_hardware_company(ns, visit = true) {
     let { city } = ns.getPlayer();
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.
     if (city === "Chongqing" || city === "New Tokyo") {
         city = "Sector-12";
-        ns.singularity.goToLocation(cities.generic.TA);
+        if (visit) {
+            ns.singularity.goToLocation(cities.generic.TA);
+        }
         let success = ns.singularity.travelToCity(city);
         while (!success) {
             await ns.sleep(wait_t.SECOND);

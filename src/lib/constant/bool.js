@@ -119,8 +119,18 @@ export const bool = {
     VALID: true,
     INVALID: false,
     /**
+     * Whether to visit a particular location.
+     */
+    VISIT: true,
+    NO_VISIT: false,
+    /**
      * Whether we are (or should be) engaged in territory warfare.
      */
     WAR: true,
     NO_WAR: false,
+    /**
+     * Whether to work to increase money or stats.
+     */
+    WORK: true,
+    NO_WORK: false,
 };
