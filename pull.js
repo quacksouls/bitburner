@@ -92,6 +92,7 @@ function dir_gang() {
         "gang/crime.js",
         "gang/dead-speakers.js",
         "gang/go.js",
+        "gang/program.js",
         "gang/slum-snakes.js",
     ];
     return gang;

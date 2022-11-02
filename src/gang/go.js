@@ -77,7 +77,11 @@ export async function main(ns) {
     }
     // Regardless of the BitNode we are in, join Slum Snakes and set up our
     // gang within that faction.
-    const script = ["/gang/augment.js", "/gang/slum-snakes.js"];
+    const script = [
+        "/gang/augment.js",
+        "/gang/program.js",
+        "/gang/slum-snakes.js",
+    ];
     const nthread = 1;
     script.forEach((s) => ns.exec(s, home, nthread));
     // If we want, we can create a criminal gang within Speakers for the Dead.
