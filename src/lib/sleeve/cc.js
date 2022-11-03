@@ -69,6 +69,9 @@ export class Sleeve {
      */
     buy_augment(idx, aug) {
         assert(this.#is_valid_index([idx]));
+        if (this.is_in_shock(idx)) {
+            return bool.NOT_PURCHASED;
+        }
         return this.#ns.sleeve.purchaseSleeveAug(idx, aug);
     }
 
