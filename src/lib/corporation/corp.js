@@ -73,6 +73,18 @@ export class Corporation {
     }
 
     /**
+     * Purchase a warehouse for a division in a particular city.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     */
+    buy_warehouse(div, ct) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        this.#ns[corp.API].purchaseWarehouse(div, ct);
+    }
+
+    /**
      * Start a corporation.  We can start a corporation in one of two ways:
      *
      * (1) Self-funded.  Use $150b of our own money to start a corporation.

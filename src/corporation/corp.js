@@ -52,6 +52,7 @@ function expand_city(ns) {
         cities.all.forEach((ct) => {
             if (!org.has_division_office(div, ct)) {
                 org.expand_city(div, ct);
+                org.buy_warehouse(div, ct);
             }
         });
     }
