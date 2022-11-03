@@ -140,7 +140,7 @@ async function update(ns) {
     await retrain(ns);
     await commit_crime(ns, crimes.KILL, 10 * wait_t.MINUTE);
     await synchronize(ns, wait_t.MINUTE);
-    await shock_therapy(ns, wait_t.MINUTE);
+    await shock_therapy(ns, 2 * wait_t.MINUTE);
 }
 
 /**
