@@ -37,6 +37,10 @@ export const cc_t = {
      */
     MAX_SYNC: 100,
     /**
+     * The minimum shock value of a sleeve.
+     */
+    MIN_SHOCK: 0,
+    /**
      * Mugging increases all of a sleeve's combat stats.  Let a sleeve mug until
      * each of their combat stats is at least this value.
      */

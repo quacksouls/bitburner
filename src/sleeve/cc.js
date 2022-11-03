@@ -97,6 +97,23 @@ async function retrain(ns) {
 }
 
 /**
+ * Assign sleeves to shock recovery.
+ *
+ * @param ns The Netscript API.
+ * @param tau Be in shock recovery for this amount of time (in milliseconds).
+ *     Must be a positive integer.
+ */
+async function shock_therapy(ns, tau) {
+    assert(tau > 0);
+    const sleeve = new Sleeve(ns);
+    if (sleeve.all().some(sleeve.is_in_shock)) {
+        log(ns, "Shock recovery");
+        sleeve.shock_recovery();
+        await ns.sleep(tau);
+    }
+}
+
+/**
  * Assign sleeves to synchronize with the consciousness of the player.
  *
  * @param ns The Netscript API.
@@ -121,6 +138,7 @@ async function update(ns) {
     await retrain(ns);
     await commit_crime(ns, crimes.KILL, 10 * wait_t.MINUTE);
     await synchronize(ns, wait_t.MINUTE);
+    await shock_therapy(ns, wait_t.MINUTE);
 }
 
 /**

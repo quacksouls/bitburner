@@ -213,6 +213,19 @@ export class Sleeve {
     }
 
     /**
+     * Whether a sleeve is in shock.  A sleeve is in shock if its shock value is
+     * greater than 0.
+     *
+     * @param idx The index of a sleeve.  Must be a non-negative integer.
+     * @return True if the sleeve with the given index has a shock value greater
+     *     than 0; false otherwise.
+     */
+    is_in_shock(idx) {
+        assert(this.#is_valid_index([idx]));
+        return this.#ns.sleeve.getSleeveStats(idx).shock > cc_t.MIN_SHOCK;
+    }
+
+    /**
      * Whether a sleeve is fully synchronized with the player's consciousness.
      *
      * @param idx The index of a sleeve.  Must be a non-negative integer.
@@ -277,6 +290,16 @@ export class Sleeve {
     strength(idx) {
         assert(this.#is_valid_index([idx]));
         return this.#ns.sleeve.getSleeveStats(idx).strength;
+    }
+
+    /**
+     * Assign sleeves to shock recovery.  Only assign those sleeves whose shock
+     * values are greater than 0.
+     */
+    shock_recovery() {
+        this.all()
+            .filter((i) => this.is_in_shock(i))
+            .forEach((j) => this.#ns.sleeve.setToShockRecovery(j));
     }
 
     /**
