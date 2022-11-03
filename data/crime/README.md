@@ -67,17 +67,17 @@ We used the following procedure to gather the experimental data.
    more slowly would the probability of success increase. Each 24 hour run for a
    particular crime might result in different gains.
 
-| Crime                 |   Agility |   Charisma |   Defense | Dexterity |      Hack | Intelligence |     Karma |     Money |  Strength |
-| --------------------- | --------: | ---------: | --------: | --------: | --------: | -----------: | --------: | --------: | --------: |
-| Assassinate           | 53.173333 |          0 | 53.173333 | 53.173333 |         0 |     0.167014 | -0.692361 | 197333.33 | 53.173333 |
-| Deal drugs            | 74.920000 | 149.840000 |         0 | 74.920000 |         0 |            0 | -2.926563 | 445760.00 |         0 |
-| Bond forgery          |         0 |   5.020000 |         0 | 50.200000 | 33.466667 |     0.645833 | -0.013073 | 310000.00 |         0 |
-| Grand theft auto      | 60.373333 |  30.186667 | 15.093333 | 15.093333 |         0 |     0.228889 | -1.473958 | 146488.89 | 15.093333 |
-| Heist                 | 33.600000 |  33.600000 | 33.600000 | 33.600000 | 33.600000 |     0.072222 | -0.437500 | 426666.67 | 33.600000 |
-| Homicide              |           |            |           |           |           |              |           |           |           |
-| Kidnap and ransom     |           |            |           |           |           |              |           |           |           |
-| Larceny               |           |            |           |           |           |              |           |           |           |
-| Mug someone           |           |            |           |           |           |              |           |           |           |
-| Rob store             |           |            |           |           |           |              |           |           |           |
-| Shoplift              |           |            |           |           |           |              |           |           |           |
-| Traffick illegal arms |           |            |           |           |           |              |           |           |           |
+| Crime                 |   Agility |   Charisma |   Defense | Dexterity |      Hack | Intelligence |      Karma |     Money |  Strength |
+| --------------------- | --------: | ---------: | --------: | --------: | --------: | -----------: | ---------: | --------: | --------: |
+| Assassinate           | 53.173333 |          0 | 53.173333 | 53.173333 |         0 |     0.167014 |  -0.692361 | 197333.33 | 53.173333 |
+| Deal drugs            | 74.920000 | 149.840000 |         0 | 74.920000 |         0 |            0 |  -2.926563 | 445760.00 |         0 |
+| Bond forgery          |         0 |   5.020000 |         0 | 50.200000 | 33.466667 |     0.645833 |  -0.013073 | 310000.00 |         0 |
+| Grand theft auto      | 60.373333 |  30.186667 | 15.093333 | 15.093333 |         0 |     0.228889 |  -1.473958 | 146488.89 | 15.093333 |
+| Heist                 | 33.600000 |  33.600000 | 33.600000 | 33.600000 | 33.600000 |     0.072222 |  -0.437500 | 426666.67 | 33.600000 |
+| Homicide              | 98.213333 |          0 | 98.213333 | 98.213333 |         0 |            0 | -57.546875 | 544600.00 | 98.213333 |
+| Kidnap and ransom     |           |            |           |           |           |              |            |           |           |
+| Larceny               |           |            |           |           |           |              |            |           |           |
+| Mug someone           |           |            |           |           |           |              |            |           |           |
+| Rob store             |           |            |           |           |           |              |            |           |           |
+| Shoplift              |           |            |           |           |           |              |            |           |           |
+| Traffick illegal arms |           |            |           |           |           |              |            |           |           |
