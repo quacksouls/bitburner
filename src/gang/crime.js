@@ -115,10 +115,10 @@ function choose_warriors(ns) {
  */
 async function create_gang(ns, fac) {
     assert(is_valid_faction(fac));
-    if (ns.gang.inGang()) {
-        return;
+    while (!ns.gang.inGang()) {
+        ns.gang.createGang(fac);
+        await ns.sleep(wait_t.SECOND);
     }
-    assert(ns.gang.createGang(fac));
 }
 
 /**
