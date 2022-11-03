@@ -106,7 +106,8 @@ async function retrain(ns) {
 async function shock_therapy(ns, tau) {
     assert(tau > 0);
     const sleeve = new Sleeve(ns);
-    if (sleeve.all().some(sleeve.is_in_shock)) {
+    const to_therapy = sleeve.all().filter((s) => sleeve.is_in_shock(s));
+    if (to_therapy.length > 0) {
         log(ns, "Shock recovery");
         sleeve.shock_recovery();
         await ns.sleep(tau);
@@ -123,7 +124,8 @@ async function shock_therapy(ns, tau) {
 async function synchronize(ns, tau) {
     assert(tau > 0);
     const sleeve = new Sleeve(ns);
-    if (!sleeve.all().some(sleeve.is_in_sync)) {
+    const to_sync = sleeve.all().filter((s) => !sleeve.is_in_sync(s));
+    if (to_sync.length > 0) {
         log(ns, "Synchronize");
         sleeve.synchronize();
         await ns.sleep(tau);
