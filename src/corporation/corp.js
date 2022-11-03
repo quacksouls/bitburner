@@ -80,6 +80,20 @@ function has_office_warehouse_api(ns) {
 }
 
 /**
+ * Hire 3 employees for each new office in each city.  For each office, assign
+ * an employee to each of the following positions: Business, Engineer, and
+ * Operations.
+ *
+ * @param ns The Netscript API.
+ */
+function initial_hire(ns) {
+    const org = new Corporation(ns);
+    for (const div of org.all_divisions()) {
+        cities.all.forEach((ct) => org.initial_hire(div, ct));
+    }
+}
+
+/**
  * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
  * applies to the entire corporation and cannot be levelled.
  *
@@ -124,4 +138,5 @@ export async function main(ns) {
     expand_industry(ns);
     unlock_upgrade(ns);
     expand_city(ns);
+    initial_hire(ns);
 }

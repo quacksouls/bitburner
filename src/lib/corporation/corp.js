@@ -198,6 +198,37 @@ export class Corporation {
     }
 
     /**
+     * Hire a new employee for a division in a particular city.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return A string representing the name of the newly hired employee.  An
+     *     empty string if we fail to hire a new employee.
+     */
+    hire(div, ct) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        const worker = this.#ns[corp.API].hireEmployee(div, ct);
+        return worker !== undefined ? worker.name : "";
+    }
+
+    /**
+     * Hire the initial crop of employees for a new office in a city.  Assign an
+     * employee to each of the initial positions.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     */
+    initial_hire(div, ct) {
+        for (let i = 0; i < corp_t.INIT_HIRE; i++) {
+            const name = this.hire(div, ct);
+            if (name !== "") {
+                this.#ns[corp.API].assignJob(div, ct, name, corp.position[i]);
+            }
+        }
+    }
+
+    /**
      * Whether we have the given division.
      *
      * @param name A string representing the name of a division.

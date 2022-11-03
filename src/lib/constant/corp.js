@@ -49,6 +49,19 @@ export const corp = {
         UTIL: "Utilities",
     },
     /**
+     * The positions to assign to employees.  Data taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts
+     */
+    position: [
+        "Operations",
+        "Engineer",
+        "Business",
+        "Management",
+        "Research & Development",
+        "Training",
+    ],
+    /**
      * The name of our corporation.
      */
     NAME: "Quacken Industries",
@@ -104,6 +117,10 @@ export const corp = {
  * Thresholds on various aspects of a corporation.
  */
 export const corp_t = {
+    /**
+     * The initial number of employees to hire for an office.
+     */
+    INIT_HIRE: 3,
     /**
      * We need $150b to start a corporation.  Data taken from this file:
      *
