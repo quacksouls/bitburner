@@ -213,6 +213,16 @@ export class Corporation {
     }
 
     /**
+     * Hire AdVert.inc to advertise for our company.
+     *
+     * @param div A string representing the name of a division.
+     */
+    hire_advert(div) {
+        assert(this.is_valid_division(div));
+        this.#ns[corp.API].hireAdVert(div);
+    }
+
+    /**
      * Hire the initial crop of employees for a new office in a city.  Assign an
      * employee to each of the initial positions.
      *

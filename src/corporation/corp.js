@@ -80,6 +80,14 @@ function has_office_warehouse_api(ns) {
 }
 
 /**
+ * Hire AdVert.inc to advertise for our company.
+ */
+function hire_advert(ns) {
+    const org = new Corporation(ns);
+    org.all_divisions().forEach((div) => org.hire_advert(div));
+}
+
+/**
  * Hire 3 employees for each new office in each city.  For each office, assign
  * an employee to each of the following positions: Business, Engineer, and
  * Operations.
@@ -139,4 +147,5 @@ export async function main(ns) {
     unlock_upgrade(ns);
     expand_city(ns);
     initial_hire(ns);
+    hire_advert(ns);
 }
