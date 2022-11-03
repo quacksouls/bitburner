@@ -32,16 +32,20 @@ export async function main(ns) {
     // scripts at the same time.  Here is a brief description of the purpose of
     // each script.
     //
-    // (1) /singularity/daemon.js := This script determines whether we should be
+    // (1) /corporation/corp.js := This script creates and manage our
+    //     corporation.  Along with our gang, a corporation can be a source of
+    //     significant income.
+    // (2) /gang/go.js := This utility script helps us to decide which faction
+    //     to join so we can create a gang within that faction.
+    // (3) /singularity/daemon.js := This script determines whether we should be
     //     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
     //     not met for the server to appear in the game world.
-    // (2) /singularity/int-farm.js := This script passively farms Intelligence
+    // (4) /singularity/int-farm.js := This script passively farms Intelligence
     //     XP.
-    // (3) /singularity/program.js := This script attempts to purchase port
+    // (5) /singularity/program.js := This script attempts to purchase port
     //     opener programs.  We need all five port opener programs so we can
     //     open all ports of each server.
-    // (4) /gang/go.js := This utility script helps us to decide which criminal
-    //     faction to join so we can create a gang within that faction.
+    // (6) /sleeve/cc.js := Our sleeve manager.
     const gang_script = [
         "/gang/go.js",
         "/gang/slum-snakes.js",
