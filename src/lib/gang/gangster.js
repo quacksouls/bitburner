@@ -78,9 +78,7 @@ export class Gangster {
         // by 100 and take the integer part.  So 1.25 would be 125.  We do this
         // because comparing floating point numbers can be tricky and result in
         // unexpected behaviour.  It is easier and simpler to compare integers.
-        function to_int(x) {
-            return Math.floor(100 * x);
-        }
+        const to_int = (x) => Math.floor(100 * x);
         // See whether we can ascend this gang member.  The cases of combatant,
         // hacker, and miscellaneous are each handled separately.
         const tau = to_int(gang_t.ASCEND);
