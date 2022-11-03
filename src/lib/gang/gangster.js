@@ -66,7 +66,7 @@ export class Gangster {
      * Ascend a gang member.
      *
      * @param name A string representing the name of a gang member.
-     * @return true if the ascension is successful; false otherwise.
+     * @return True if the ascension is successful; false otherwise.
      */
     ascend(name) {
         assert(this.is_member(name));
