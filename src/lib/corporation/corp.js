@@ -49,11 +49,7 @@ export class Corporation {
      *     corporation.
      */
     all_divisions() {
-        const name = [];
-        for (const div of this.#ns[corp.API].getCorporation().divisions) {
-            name.push(div.name);
-        }
-        return name;
+        return this.#ns[corp.API].getCorporation().divisions.map((d) => d.name);
     }
 
     /**
