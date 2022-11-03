@@ -26,6 +26,8 @@ import { wait_t } from "/lib/constant/time.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Suppress some log messages.
+    ns.disableLog("sleep");
     // Assume our home server is high-end and has enough RAM to run multiple
     // scripts at the same time.  Here is a brief description of the purpose of
     // each script.
