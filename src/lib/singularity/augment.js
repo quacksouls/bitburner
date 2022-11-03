@@ -44,7 +44,8 @@ import {
  * @param fac We want to purchase all Augmentations from this faction.
  * @return An array of Augmentation names.  We do not yet have these
  *     Augmentations.  This array never includes the NeuroFlux Governor
- *     Augmentation.  Cannot be an empty array.
+ *     Augmentation.  An empty array if there are no Augmentations to buy from
+ *     the given faction.
  */
 export function augment_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
@@ -57,7 +58,9 @@ export function augment_to_buy(ns, fac) {
     fac_aug = fac_aug
         .filter((a) => !owned_aug.has(a))
         .filter((b) => b !== augment.NFG);
-    assert(fac_aug.length > 0);
+    if (fac_aug.length === 0) {
+        return [];
+    }
     // Choose n Augmentations that have the least reputation requirements.
     const tobuy = [];
     let i = 0;
@@ -223,9 +226,12 @@ export async function purchase_augment(
     buy_nfg = true,
     raise_money = true
 ) {
+    // Sanity checks.
     assert(is_valid_faction(fac));
     let candidate = augment_to_buy(ns, fac);
-    assert(candidate.length > 0);
+    if (candidate.length === 0) {
+        return;
+    }
     // Tell the trade bot to stop buying shares of stocks.  We want to cash in
     // on our shares and raise money to buy Augmentations.
     if (stop_trade) {
