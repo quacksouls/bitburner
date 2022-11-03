@@ -30,6 +30,7 @@ import {
 import { wait_t } from "/lib/constant/time.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
+import { log } from "/lib/io.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -115,6 +116,11 @@ function choose_warriors(ns) {
  */
 async function create_gang(ns, fac) {
     assert(is_valid_faction(fac));
+    if (ns.gang.inGang()) {
+        log(ns, `Manage a gang in ${fac}`);
+        return;
+    }
+    log(ns, `Create and manage a gang in ${fac}`);
     while (!ns.gang.inGang()) {
         ns.gang.createGang(fac);
         await ns.sleep(wait_t.SECOND);
