@@ -34,7 +34,11 @@ function buy_augmentation(ns) {
     const player = new Player(ns);
     const sleeve = new Sleeve(ns);
     sleeve.all().forEach((i) => {
-        const [name, cost] = sleeve.cheapest_augment(i);
+        const aug = sleeve.cheapest_augment(i);
+        if (aug.length === 0) {
+            return;
+        }
+        const [name, cost] = aug;
         if (player.money() > cc_t.COST_MULT * cost) {
             sleeve.buy_augment(i, name);
         }
