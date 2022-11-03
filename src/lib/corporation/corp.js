@@ -122,7 +122,7 @@ export class Corporation {
      * Expand our corporation into other industries.
      */
     expand_industry() {
-        if (!this.has_agriculture()) {
+        if (!this.has_division(corp.industry.AGRI)) {
             this.#ns[corp.API].expandIndustry(
                 corp.industry.AGRI,
                 corp.industry.AGRI
@@ -138,21 +138,6 @@ export class Corporation {
     }
 
     /**
-     * Whether we have a division in the agriculture industry.
-     *
-     * @return True if we have expanded into the agriculture industry;
-     *     false otherwise.
-     */
-    has_agriculture() {
-        for (const d of this.#ns[corp.API].getCorporation().divisions) {
-            if (d.type === corp.industry.AGRI) {
-                return bool.HAS;
-            }
-        }
-        return bool.NOT;
-    }
-
-    /**
      * Whether we have already created a corporation.
      *
      * @return True if we have already created a corporation; false otherwise.
@@ -164,6 +149,22 @@ export class Corporation {
         } catch {
             return bool.NOT;
         }
+    }
+
+    /**
+     * Whether we have a particular division.
+     *
+     * @param div A string representing the name of a division.
+     * @return True if we have expanded into the given division;
+     *     false otherwise.
+     */
+    has_division(div) {
+        for (const d of this.#ns[corp.API].getCorporation().divisions) {
+            if (d.type === div) {
+                return bool.HAS;
+            }
+        }
+        return bool.NOT;
     }
 
     /**
