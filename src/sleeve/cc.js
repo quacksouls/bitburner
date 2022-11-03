@@ -122,10 +122,12 @@ async function shock_therapy(ns, tau) {
  */
 async function synchronize(ns, tau) {
     assert(tau > 0);
-    log(ns, "Synchronize");
     const sleeve = new Sleeve(ns);
-    sleeve.synchronize();
-    await ns.sleep(tau);
+    if (!sleeve.all().some(sleeve.is_in_sync)) {
+        log(ns, "Synchronize");
+        sleeve.synchronize();
+        await ns.sleep(tau);
+    }
 }
 
 /**
