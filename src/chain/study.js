@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
+import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 
 /**
@@ -39,4 +39,7 @@ export async function main(ns) {
     }
     script = "/singularity/study.js";
     ns.exec(script, home, nthread);
+    if (ns.getServer(home).maxRam >= home_t.RAM_HIGH) {
+        ns.exec("/gang/program.js", home, nthread);
+    }
 }
