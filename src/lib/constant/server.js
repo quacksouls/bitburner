@@ -48,6 +48,24 @@ export const home_t = {
      * The minimum amount of RAM for a mid-sized home server.
      */
     RAM_MID: 128,
+    /**
+     * Reserve various amounts of RAM on the home server.
+     */
+    reserve: {
+        /**
+         * By default, we reserve this amount of RAM on the home server.
+         */
+        DEFAULT: 64,
+        /**
+         * If our home server is high-end or better, reserve this amount of RAM.
+         */
+        HIGH: 256,
+        /**
+         * If our home server is mid-end or thereabout, reserve this amount of
+         * RAM.
+         */
+        MID: 128,
+    },
 };
 
 /**

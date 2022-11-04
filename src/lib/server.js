@@ -17,7 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { script } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
+import { home, home_t } from "/lib/constant/server.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -97,20 +97,17 @@ export class Server {
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
         if (this.hostname() === this.#home) {
-            // By default, we reserve 50GB RAM on the player's home server.  If
-            // the home server has less than this amount of RAM, we do not
-            // reserve any RAM at all.
-            const default_ram = 50;
-            this.#ram_reserve = default_ram;
+            // By default, we reserve a small amouint of RAM on the player's
+            // home server.  If the home server has less than this amount of
+            // RAM, we do not reserve any RAM at all.
+            this.#ram_reserve = home_t.reserve.DEFAULT;
             // Reserve a higher amount of RAM, depending on the maximum RAM on
             // the home server.
-            if (this.ram_max() >= 1024) {
-                this.#ram_reserve = 512;
-            } else if (this.ram_max() >= 512) {
-                this.#ram_reserve = 256;
-            } else if (this.ram_max() >= 256) {
-                this.#ram_reserve = 128;
-            } else if (this.ram_max() < default_ram) {
+            if (this.ram_max() >= home_t.RAM_HIGH) {
+                this.#ram_reserve = home_t.reserve.HIGH;
+            } else if (this.ram_max() >= home_t.RAM_HIGH / 2) {
+                this.#ram_reserve = home_t.reserve.MID;
+            } else if (this.ram_max() < home_t.reserve.DEFAULT) {
                 this.#ram_reserve = 0;
             }
         }
