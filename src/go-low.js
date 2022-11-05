@@ -63,7 +63,10 @@ async function reboot(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    log(ns, "Home server is low-end. Bootstrap with a small number of scripts.");
+    log(
+        ns,
+        "Home server is low-end. Bootstrap with a small number of scripts."
+    );
     await reboot(ns);
     if (has_singularity_api(ns)) {
         const script = "/chain/study.js";
