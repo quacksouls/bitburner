@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { log } from "/lib/io.js";
 import { has_gang_api } from "/lib/source.js";
 
 /**
@@ -73,6 +75,7 @@ import { has_gang_api } from "/lib/source.js";
  */
 export async function main(ns) {
     if (!has_gang_api(ns)) {
+        log(ns, "No access to Gang API", colour.RED);
         return;
     }
     // Regardless of the BitNode we are in, join Slum Snakes and set up our
