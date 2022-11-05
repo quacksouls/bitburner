@@ -40,7 +40,7 @@ async function bootstrap(ns) {
             assert(!ns.isRunning(s, home));
             ns.exec(s, home, nthread);
             await ns.sleep(wait_t.DEFAULT);
-            assert(ns.kill(s, home));
+            ns.kill(s, home);
         }
     }
 }
