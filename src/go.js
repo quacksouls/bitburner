@@ -37,6 +37,8 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Check whether we have access to the Singularity API.  If the check fails,
+    // then we cannot automate the game play so we exit the script.
     if (!has_singularity_api(ns)) {
         log(
             ns,
