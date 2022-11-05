@@ -21,7 +21,7 @@ import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { study } from "/lib/singularity/study.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * If our home server is less than a mid-sized server, then run a script to
@@ -144,7 +144,5 @@ export async function main(ns) {
 
     await study_and_create(ns);
     // The next segment in the load chain.
-    const script = "/chain/money.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/chain/money.js");
 }
