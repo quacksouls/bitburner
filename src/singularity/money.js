@@ -17,6 +17,7 @@
 
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Money } from "/lib/money.js";
 import { assert } from "/lib/util.js";
 
@@ -90,6 +91,7 @@ export async function main(ns) {
     await commit_crimes(ns, threshold);
     // If our home server is not high-end, upgrade the RAM on the home server.
     if (home_ram < home_t.RAM_HIGH) {
+        log(ns, "Raise money to upgrade home RAM");
         // Upgrade the RAM on the home server.
         const cost = ns.singularity.getUpgradeHomeRamCost();
         let success = ns.singularity.upgradeHomeRam();
