@@ -233,7 +233,10 @@ export async function main(ns) {
     // some shares.
     trade_bot_stop_buy(ns);
     const time = 3 * wse.TICK;
-    log(ns, `Wait ${time} seconds to sell shares of stocks (if any)`);
+    log(
+        ns,
+        `Wait ${time / wait_t.SECOND} seconds to sell shares of stocks (if any)`
+    );
     await ns.sleep(time);
     // Raise some Intelligence XP.
     if (has_ai_api(ns)) {
