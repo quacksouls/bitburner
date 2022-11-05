@@ -19,7 +19,12 @@ import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Server } from "/lib/server.js";
 import { choose_hardware_company } from "/lib/singularity/util.js";
-import { assert, trade_bot_resume, trade_bot_stop_buy } from "/lib/util.js";
+import {
+    assert,
+    exec,
+    trade_bot_resume,
+    trade_bot_stop_buy,
+} from "/lib/util.js";
 
 /**
  * Determine which to upgrade on the home server: Cores or RAM.  If the script
@@ -160,7 +165,5 @@ export async function main(ns) {
     await upgrade(ns);
     trade_bot_resume(ns);
     // The next script in the load chain.
-    const script = "/singularity/install.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/install.js");
 }
