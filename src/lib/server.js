@@ -17,9 +17,8 @@
 
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
-import { colour, script } from "/lib/constant/misc.js";
+import { script } from "/lib/constant/misc.js";
 import { home, home_t } from "/lib/constant/server.js";
-import { format_ram, log } from "/lib/io.js";
 import { has_singularity_api, sf_level } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
@@ -370,33 +369,15 @@ export class Server {
     #reserve_ram_with_singularity() {
         const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
         if (lvl === undefined || lvl === 1) {
-            const min_ram = 1.5 * home_t.reserve.MASSIVE;
-            if (this.ram_max() >= min_ram) {
+            if (this.ram_max() >= 1.5 * home_t.reserve.MASSIVE) {
                 return home_t.reserve.MASSIVE;
             }
-            log(
-                this.#ns,
-                `Recommended RAM for home server: ${format_ram(
-                    this.#ns,
-                    min_ram
-                )} or higher`,
-                colour.RED
-            );
             return 0;
         }
         if (lvl === 2) {
-            const min_ram = 1.5 * home_t.reserve.HUGE;
-            if (this.ram_max() >= min_ram) {
+            if (this.ram_max() >= 1.5 * home_t.reserve.HUGE) {
                 return home_t.reserve.HUGE;
             }
-            log(
-                this.#ns,
-                `Recommended RAM for home server: ${format_ram(
-                    this.#ns,
-                    min_ram
-                )} or higher`,
-                colour.RED
-            );
             return 0;
         }
         assert(lvl >= 3);
