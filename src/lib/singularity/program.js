@@ -106,7 +106,7 @@ async function buy_programs(ns, program, wrk) {
  *     cases, we require certain stats to be offered a job.
  */
 async function buy_tor_router(ns, wrk) {
-    log(ns, "Purchase the Tor router");
+    log(ns, "Purchase Tor router");
     const player = new Player(ns);
     while (!ns.singularity.purchaseTor()) {
         if (player.hacking_skill() < work_hack_lvl) {
