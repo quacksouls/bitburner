@@ -47,6 +47,7 @@ function choose_threshold(ns) {
  */
 async function commit_crimes(ns, threshold) {
     assert(threshold > 0);
+    log(ns, "Commit crimes to raise money and lower karma");
     const script = "/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
