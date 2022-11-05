@@ -102,9 +102,8 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Commit crime to raise some money.
     const player_money = ns.getServerMoneyAvailable(home);
-    const home_ram = ns.getServer(home).maxRam;
     const threshold = choose_threshold(ns);
-    if (player_money > threshold && home_ram >= home_t.RAM_HIGH) {
+    if (player_money > threshold && !is_upgrade_home_ram(ns)) {
         load_chain(ns);
         return;
     }
