@@ -16,8 +16,10 @@
  */
 
 import { buy_schedule, cheapest_program } from "/lib/constant/exe.js";
+import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Money } from "/lib/money.js";
 import { Player } from "/lib/player.js";
 import { has_ai_api } from "/lib/source.js";
@@ -91,6 +93,7 @@ function purchase_schedule(ns) {
  */
 export async function main(ns) {
     if (!has_ai_api(ns)) {
+        log(ns, "No access to Artificial Intelligence API", colour.RED);
         return;
     }
     // Suppress various log messages.
