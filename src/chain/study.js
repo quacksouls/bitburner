@@ -17,7 +17,7 @@
 
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
-import { exec } from "/lib/util.js";
+import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 
 /**
  * Start a load chain for studying at a university.  A script in the chain would
@@ -29,6 +29,8 @@ import { exec } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Try to free up some RAM on home server so we can run the scripts below.
+    await hram_suspend(ns);
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
@@ -40,4 +42,5 @@ export async function main(ns) {
     if (ns.getServer(home).maxRam >= home_t.RAM_HIGH) {
         exec(ns, "/gang/program.js");
     }
+    hram_resume(ns);
 }
