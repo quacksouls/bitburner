@@ -158,6 +158,7 @@ function has_augmentations(ns) {
  */
 function install(ns) {
     assert(has_augmentations(ns));
+    log(ns, "Install Augmentations and soft reset");
     const script = "go.js";
     ns.singularity.installAugmentations(script);
 }
