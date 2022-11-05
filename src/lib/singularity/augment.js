@@ -22,6 +22,7 @@ import { augment } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { commit_crime } from "/lib/singularity/crime.js";
 import { work } from "/lib/singularity/work.js";
 import {
@@ -340,4 +341,5 @@ async function purchase_aug(ns, aug, fac, raise_money = true) {
         success = ns.singularity.purchaseAugmentation(fac, aug);
     }
     assert(has_augment(ns, aug));
+    log(ns, `Purchased ${aug} from ${fac}`);
 }
