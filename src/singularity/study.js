@@ -35,10 +35,9 @@ import { assert, exec } from "/lib/util.js";
 async function bootstrap(ns) {
     if (ns.getServer(home).maxRam < home_t.RAM_MID) {
         const script = ["hnet-farm.js", "low-end.js"];
-        const nthread = 1;
         for (const s of script) {
             assert(!ns.isRunning(s, home));
-            ns.exec(s, home, nthread);
+            exec(ns, s);
             await ns.sleep(wait_t.DEFAULT);
             ns.kill(s, home);
         }

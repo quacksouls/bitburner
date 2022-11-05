@@ -18,7 +18,7 @@
 import { home, home_t } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -28,7 +28,6 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 function reboot(ns) {
-    const nthread = 1;
     let extra = "low-end.js";
     if (ns.getServerMaxRam(home) > home_t.RAM_HIGH) {
         extra = "world-server.js";
@@ -41,7 +40,7 @@ function reboot(ns) {
         "/cct/solver.js",
         "hram.js",
     ];
-    script.forEach((s) => ns.exec(s, home, nthread));
+    script.forEach((s) => exec(ns, s));
 }
 
 /**
@@ -65,7 +64,5 @@ export async function main(ns) {
     log(ns, "Home server is high-end. Bootstrap with all scripts.");
     reboot(ns);
     assert(has_singularity_api(ns));
-    const script = "/chain/study.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/chain/study.js");
 }

@@ -19,7 +19,7 @@ import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -32,10 +32,9 @@ async function reboot(ns) {
     // Execute a script, let it run for a while, kill the script, and run
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
-    const nthread = 1;
     const script = ["hnet-farm.js", "low-end.js"];
     for (const s of script) {
-        ns.exec(s, home, nthread);
+        exec(ns, s);
         await ns.sleep(wait_t.DEFAULT);
         assert(ns.kill(s, home));
     }
@@ -69,7 +68,5 @@ export async function main(ns) {
     );
     await reboot(ns);
     assert(has_singularity_api(ns));
-    const script = "/chain/study.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/chain/study.js");
 }

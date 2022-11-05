@@ -19,7 +19,7 @@ import { colour } from "/lib/constant/misc.js";
 import { home, home_t } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Restart our source of income and Hack XP.  This script is useful whenever we
@@ -50,7 +50,6 @@ export async function main(ns) {
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     const server = ns.getServer(home);
-    const nthread = 1;
     let script = "";
     if (server.maxRam >= home_t.RAM_HIGH) {
         script = "go-high.js";
@@ -61,5 +60,5 @@ export async function main(ns) {
         script = "go-low.js";
     }
     assert(script !== "");
-    ns.exec(script, home, nthread);
+    exec(ns, script);
 }

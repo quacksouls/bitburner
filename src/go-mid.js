@@ -19,7 +19,7 @@ import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -30,9 +30,8 @@ import { assert } from "/lib/util.js";
  */
 async function reboot(ns) {
     const target = "low-end.js";
-    const nthread = 1;
     const script = ["hnet-farm.js", target, "buy-server.js", "/cct/solver.js"];
-    script.forEach((s) => ns.exec(s, home, nthread));
+    script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home
     // server.
     await ns.sleep(wait_t.MINUTE);
@@ -60,7 +59,5 @@ export async function main(ns) {
     log(ns, "Home server is mid-end. Bootstrap with some scripts.");
     await reboot(ns);
     assert(has_singularity_api(ns));
-    const script = "/chain/study.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/chain/study.js");
 }
