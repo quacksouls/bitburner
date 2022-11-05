@@ -17,6 +17,7 @@
 
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Server } from "/lib/server.js";
 import { choose_hardware_company } from "/lib/singularity/util.js";
 import {
@@ -99,8 +100,12 @@ async function upgrade(ns) {
     // reached, we do not want to wait to accumulate money for upgrading Cores
     // or RAM.  We simply upgrade if our current funds allow.
     if (is_at_limits(ns)) {
-        ns.singularity.upgradeHomeCores();
-        ns.singularity.upgradeHomeRam();
+        if (ns.singularity.upgradeHomeCores()) {
+            log(ns, "Upgrade home Cores");
+        }
+        if (ns.singularity.upgradeHomeRam()) {
+            log(ns, "Upgrade home RAM");
+        }
         return;
     }
     // Wait to accumulate funds to purchase upgrades.
@@ -120,6 +125,7 @@ async function upgrade(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_cores(ns) {
+    log(ns, "Upgrade home Cores");
     const success = ns.singularity.upgradeHomeCores();
     // We are willing to wait some time for our funds to increase.  After the
     // waiting period is over, try to upgrade the Cores again.  If we are still
@@ -136,6 +142,7 @@ async function upgrade_cores(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_ram(ns) {
+    log(ns, "Upgrade home RAM");
     const success = ns.singularity.upgradeHomeRam();
     // We are willing to wait some time for our funds to increase.  After the
     // waiting period is over, try to upgrade the RAM again.  If we are still
