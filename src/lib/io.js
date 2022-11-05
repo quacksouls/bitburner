@@ -16,6 +16,7 @@
  */
 
 import { colour } from "/lib/constant/misc.js";
+import { assert } from "/lib/util.js";
 
 // Miscellaneous functions for input/output.
 
@@ -32,4 +33,18 @@ export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
     const suffix = clr !== "" ? colour.RESET : "";
     ns.tprintf(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
+}
+
+/**
+ * Convert a RAM amount in the game to a value suitable for display in the
+ * Terminal.
+ *
+ * @param ns The Netscript API.
+ * @param n An amount of RAM as returned by a function in the game.
+ * @return An amount of RAM suitable to be displayed in the Terminal.
+ */
+export function format_ram(ns, n) {
+    assert(n > 0);
+    const byte_factor = 1e9;
+    return ns.nFormat(n * byte_factor, "0.00b");
 }
