@@ -16,8 +16,8 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { home } from "/lib/constant/server.js";
 import { buy_all_programs } from "/lib/singularity/program.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Purchase various programs from the dark web.
@@ -35,7 +35,5 @@ export async function main(ns) {
     ns.disableLog("sleep");
 
     await buy_all_programs(ns, bool.VISIT, bool.WORK);
-    const script = "/singularity/faction.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/faction.js");
 }
