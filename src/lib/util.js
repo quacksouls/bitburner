@@ -21,7 +21,9 @@ import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
+import { script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 
 /**
@@ -137,6 +139,23 @@ export function filter_bankrupt_servers(ns, candidate) {
 export function filter_pserv(ns, serv) {
     const pserv = ns.getPurchasedServers();
     return serv.filter((s) => !pserv.includes(s));
+}
+
+/**
+ * Suspend the script "hram.js" to free up some RAM on the home server.
+ *
+ * @param ns The Netscript API.
+ */
+export async function hram_suspend(ns) {
+    if (!ns.fileExists(server.SHARE, home)) {
+        const data = "Share home server.";
+        ns.write(server.SHARE, data, io.WRITE);
+    }
+    const target = ns.read(server.HRAM).trim();
+    assert(target !== "");
+    while (ns.isRunning(script, home, target)) {
+        await ns.sleep(wait_t.SECOND);
+    }
 }
 
 /**

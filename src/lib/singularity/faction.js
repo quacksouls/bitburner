@@ -20,7 +20,6 @@
 import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { factions, faction_req, faction_t } from "/lib/constant/faction.js";
-import { io } from "/lib/constant/io.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
@@ -30,7 +29,7 @@ import { Server } from "/lib/server.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
 import { visit_city } from "/lib/singularity/network.js";
 import { study } from "/lib/singularity/study.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+import { assert, hram_suspend, is_valid_faction } from "/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.
@@ -220,24 +219,15 @@ export async function raise_hack(ns, threshold) {
 async function start_share_home(ns) {
     // Tell the script hram.js to suspend whatever it is doing.  This should
     // free up some RAM on the home server.
-    const player = new Player(ns);
-    if (!ns.fileExists(server.SHARE, player.home())) {
-        const data = "Share home server.";
-        ns.write(server.SHARE, data, io.WRITE);
-    }
-    const target = ns.read(server.HRAM).trim();
-    assert(target !== "");
-    while (ns.isRunning(player.script(), player.home(), target)) {
-        await ns.sleep(wait_t.SECOND);
-    }
+    await hram_suspend(ns);
     // Share our home server with a faction.
-    const serv = new Server(ns, player.home());
+    const serv = new Server(ns, home);
     const ncopy = 1;
     let nthread = serv.threads_per_instance(server.SHARE_SCRIPT, ncopy);
     if (nthread < 1) {
         nthread = 1;
     }
-    ns.exec(server.SHARE_SCRIPT, player.home(), nthread);
+    ns.exec(server.SHARE_SCRIPT, home, nthread);
 }
 
 /**
