@@ -17,6 +17,7 @@
 
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
+import { assert } from "/lib/util.js";
 
 // Helper functions relating to Source-Files.
 
@@ -120,4 +121,21 @@ export function has_sleeve_api(ns) {
         }
     }
     return bool.NOT;
+}
+
+/**
+ * The level of a Source-File.
+ *
+ * @param ns The Netscript API.
+ * @param n The Source-File number.
+ * @return The level of the Source-File having the given number.
+ */
+export function sf_level(ns, n) {
+    assert(n >= bitnode["Source Genesis"]);
+    assert(n <= bitnode["They're lunatics"]);
+    for (const sf of ns.singularity.getOwnedSourceFiles()) {
+        if (sf.n === n) {
+            return sf.lvl;
+        }
+    }
 }
