@@ -22,6 +22,7 @@ import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/lib/gang/util.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
 import {
@@ -227,6 +228,7 @@ export async function main(ns) {
     // some shares.
     trade_bot_stop_buy(ns);
     const time = 3 * wse.TICK;
+    log(ns, `Wait ${time} seconds to sell shares of stocks (if any)`);
     await ns.sleep(time);
     // Raise some more Intelligence XP.
     join_all_factions(ns);
