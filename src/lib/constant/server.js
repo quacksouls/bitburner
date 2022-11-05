@@ -92,8 +92,12 @@ export const server = {
     HRAM: "hram.txt",
     /**
      * The name of a text file.  If a file with the given name appears on our
-     * home server, then it means that we are sharing our home server with a
-     * faction.  Doing so boosts our reputation gain within the faction.
+     * home server, then it means one of the following:
+     *
+     * (1) We are sharing our home server with a faction.  Doing so boosts our
+     *     reputation gain within the faction.
+     * (2) We want to suspend the most RAM intensive script in order to free up
+     *     some RAM on the home server.
      */
     SHARE: "share.txt",
     /**
