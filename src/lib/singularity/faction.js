@@ -29,7 +29,12 @@ import { Server } from "/lib/server.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
 import { visit_city } from "/lib/singularity/network.js";
 import { study } from "/lib/singularity/study.js";
-import { assert, hram_suspend, is_valid_faction } from "/lib/util.js";
+import {
+    assert,
+    hram_resume,
+    hram_suspend,
+    is_valid_faction,
+} from "/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.
@@ -236,9 +241,7 @@ async function start_share_home(ns) {
  * @param ns The Netscript API.
  */
 function stop_share_home(ns) {
-    if (ns.fileExists(server.SHARE, home)) {
-        ns.rm(server.SHARE, home);
-    }
+    hram_resume(ns);
     if (ns.isRunning(server.SHARE_SCRIPT, home)) {
         assert(ns.kill(server.SHARE_SCRIPT, home));
     }

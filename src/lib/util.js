@@ -142,6 +142,17 @@ export function filter_pserv(ns, serv) {
 }
 
 /**
+ * Tell the script "hram.js" to resume whatever it was doing.
+ *
+ * @param ns The Netscript API.
+ */
+export function hram_resume(ns) {
+    if (ns.fileExists(server.SHARE, home)) {
+        ns.rm(server.SHARE, home);
+    }
+}
+
+/**
  * Suspend the script "hram.js" to free up some RAM on the home server.
  *
  * @param ns The Netscript API.
