@@ -18,6 +18,7 @@
 import { program as popen } from "/lib/constant/exe.js";
 import { tor_cost, work_hack_lvl } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { choose_hardware_company } from "/lib/singularity/util.js";
@@ -91,6 +92,7 @@ async function buy_programs(ns, program, wrk) {
             await ns.sleep(wait_t.SECOND);
         }
         assert(ns.singularity.purchaseProgram(p));
+        log(ns, `Purchased program ${p}`);
         prog = prog.filter((e) => e !== p);
     }
 }
@@ -104,6 +106,7 @@ async function buy_programs(ns, program, wrk) {
  *     cases, we require certain stats to be offered a job.
  */
 async function buy_tor_router(ns, wrk) {
+    log(ns, "Purchase the Tor router");
     const player = new Player(ns);
     while (!ns.singularity.purchaseTor()) {
         if (player.hacking_skill() < work_hack_lvl) {
