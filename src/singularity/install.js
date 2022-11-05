@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { cheapest_program } from "/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/lib/constant/faction.js";
+import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
 import { Gangster } from "/lib/gang/gangster.js";
@@ -25,6 +26,7 @@ import { reassign_soft_reset } from "/lib/gang/util.js";
 import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
+import { has_ai_api } from "/lib/source.js";
 import {
     assert,
     cleanup,
@@ -230,11 +232,16 @@ export async function main(ns) {
     const time = 3 * wse.TICK;
     log(ns, `Wait ${time} seconds to sell shares of stocks (if any)`);
     await ns.sleep(time);
-    // Raise some more Intelligence XP.
-    join_all_factions(ns);
-    buy_exclusive_augmentations(ns);
-    buy_other_augmentations(ns);
-    await buy_programs(ns);
+    // Raise some Intelligence XP.
+    if (has_ai_api(ns)) {
+        log(ns, "Raise Intelligence XP");
+        join_all_factions(ns);
+        buy_exclusive_augmentations(ns);
+        buy_other_augmentations(ns);
+        await buy_programs(ns);
+    } else {
+        log(ns, "No access to Artificial Intelligence API", colour.RED);
+    }
     trade_bot_resume(ns);
     // Set our gang to a state where it at least is working to lower the
     // penalty.
