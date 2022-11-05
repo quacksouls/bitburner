@@ -17,6 +17,8 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Start a load chain for raising money.
@@ -29,12 +31,21 @@ export async function main(ns) {
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
-    let script = "/sleeve/money.js";
-    const nthread = 1;
-    const pid = ns.exec(script, home, nthread);
+    let pid = exec(ns, "/sleeve/money.js");
     while (ns.isRunning(pid)) {
         await ns.sleep(wait_t.SECOND);
     }
-    script = "/singularity/money.js";
-    ns.exec(script, home, nthread);
+    // See whether any Coding Contracts have appeared and solve them.
+    const script = "/cct/solver.js";
+    if (!ns.isRunning(script, home)) {
+        log(ns, "Solve Coding Contracts to raise some money");
+        const ntry = 3;
+        for (let i = 0; i < ntry; i++) {
+            pid = exec(ns, script);
+            await ns.sleep(wait_t.DEFAULT);
+            ns.kill(pid);
+        }
+    }
+    // Now launch the main script for raising money.
+    exec(ns, "/singularity/money.js");
 }

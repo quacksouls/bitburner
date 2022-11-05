@@ -103,6 +103,18 @@ export function cleanup(ns) {
 }
 
 /**
+ * Execute a script on the home server and using 1 thread.
+ *
+ * @param ns The Netscript API.
+ * @param s A string representing the name of the script to run.
+ * @return The PID of the running script.
+ */
+export function exec(ns, s) {
+    const nthread = 1;
+    return ns.exec(s, home, nthread);
+}
+
+/**
  * Remove bankrupt servers from a given array of servers.  A server is bankrupt
  * if the maximum amount of money it can hold is zero.
  *
