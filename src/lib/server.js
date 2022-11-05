@@ -377,6 +377,7 @@ export class Server {
             log(
                 this.#ns,
                 `Recommended RAM for home server: ${format_ram(
+                    this.#ns,
                     min_ram
                 )} or higher`,
                 colour.RED
@@ -391,6 +392,7 @@ export class Server {
             log(
                 this.#ns,
                 `Recommended RAM for home server: ${format_ram(
+                    this.#ns,
                     min_ram
                 )} or higher`,
                 colour.RED
