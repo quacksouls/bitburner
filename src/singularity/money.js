@@ -15,11 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { Money } from "/lib/money.js";
-import { assert } from "/lib/util.js";
+import { sf_level } from "/lib/source.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Choose the threshold amount of money to raise.
@@ -58,6 +60,23 @@ async function commit_crimes(ns, threshold) {
 }
 
 /**
+ * Whether to upgrade the RAM of our home server.
+ *
+ * @param ns The Netscript API.
+ * @return True if we need to upgrade the RAM of our home server;
+ *     false otherwise.
+ */
+function is_upgrade_home_ram(ns) {
+    const lvl = sf_level(ns, bitnode["The Singularity"]);
+    const home_ram = ns.getServer(home).maxRam;
+    if (lvl === undefined || lvl === 1 || lvl === 2) {
+        return home_ram < home_t.RAM_HUGE;
+    }
+    assert(lvl >= 3);
+    return home_ram < home_t.RAM_HIGH;
+}
+
+/**
  * Run the next script in the load chain.
  *
  * @param ns The Netscript API.
@@ -91,7 +110,7 @@ export async function main(ns) {
     }
     await commit_crimes(ns, threshold);
     // If our home server is not high-end, upgrade the RAM on the home server.
-    if (home_ram < home_t.RAM_HIGH) {
+    if (is_upgrade_home_ram(ns)) {
         log(ns, "Raise money to upgrade home RAM");
         // Upgrade the RAM on the home server.
         const cost = ns.singularity.getUpgradeHomeRamCost();
@@ -101,9 +120,7 @@ export async function main(ns) {
             success = ns.singularity.upgradeHomeRam();
         }
         // Reboot to take advantage of the newly upgraded home server.
-        const script = "go.js";
-        const nthread = 1;
-        ns.exec(script, home, nthread);
+        exec(ns, "go.js");
         return;
     }
     load_chain(ns);
