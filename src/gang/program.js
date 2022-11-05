@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { log } from "/lib/io.js";
 import { buy_all_programs } from "/lib/singularity/program.js";
+import { has_gang_api } from "/lib/source.js";
 
 /**
  * Purchase programs via the dark web.  We use any money available to us, most
@@ -32,6 +33,8 @@ export async function main(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
     // Purchase programs via the dark web.
-    log(ns, "Buy programs via dark web");
-    await buy_all_programs(ns, bool.NO_VISIT, bool.NO_WORK);
+    if (has_gang_api(ns)) {
+        log(ns, "Buy programs via dark web");
+        await buy_all_programs(ns, bool.NO_VISIT, bool.NO_WORK);
+    }
 }
