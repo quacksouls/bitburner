@@ -196,8 +196,10 @@ function purchased_augmentations(ns) {
  */
 function set_neutral_gang(ns) {
     if (!ns.gang.inGang()) {
+        log(ns, "No access to Gang API", colour.RED);
         return;
     }
+    log(ns, "Prepare gang for soft reset");
     // First, kill our gang script.
     const script = "/gang/crime.js";
     const { faction } = ns.gang.getGangInformation();
