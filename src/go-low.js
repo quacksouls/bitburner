@@ -17,6 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
@@ -62,6 +63,7 @@ async function reboot(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    log(ns, "Home server is low-end. Bootstrap with a small number of scripts.");
     await reboot(ns);
     if (has_singularity_api(ns)) {
         const script = "/chain/study.js";
