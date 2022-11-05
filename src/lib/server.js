@@ -369,7 +369,7 @@ export class Server {
      */
     #reserve_ram_with_singularity() {
         const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
-        if (lvl === 1) {
+        if (lvl === undefined || lvl === 1) {
             const min_ram = 1.5 * home_t.reserve.MASSIVE;
             if (this.ram_max() >= min_ram) {
                 return home_t.reserve.MASSIVE;
