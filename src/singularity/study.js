@@ -19,6 +19,7 @@ import { bool } from "/lib/constant/bool.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { study } from "/lib/singularity/study.js";
 import { assert } from "/lib/util.js";
 
@@ -119,8 +120,10 @@ function is_valid_program(name) {
 async function study_and_create(ns) {
     const program = ["BruteSSH.exe", "FTPCrack.exe"];
     for (const p of program) {
+        log(ns, `Raise Hack to create program ${p}`);
         await study(ns, hack_requirement(p));
         await bootstrap(ns);
+        log(ns, `Create program ${p}`);
         await create_program(ns, p);
         await bootstrap(ns);
     }
