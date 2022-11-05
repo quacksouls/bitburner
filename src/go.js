@@ -15,7 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { colour } from "/lib/constant/misc.js";
 import { home, home_t } from "/lib/constant/server.js";
+import { log } from "/lib/io.js";
+import { has_singularity_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -34,6 +37,14 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    if (!has_singularity_api(ns)) {
+        log(
+            ns,
+            "No access to Singularity API. Cannot automate game play.",
+            colour.RED
+        );
+        return;
+    }
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     const server = ns.getServer(home);
