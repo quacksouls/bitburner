@@ -18,7 +18,6 @@
 import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
 import { job_area } from "/lib/constant/work.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { lower_karma } from "/lib/singularity/crime.js";
@@ -30,7 +29,7 @@ import {
 } from "/lib/singularity/faction.js";
 import { visit_city } from "/lib/singularity/network.js";
 import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Join the Silhouette criminal organization.  The requirements for receiving
@@ -262,7 +261,5 @@ export async function main(ns) {
             break;
     }
     // The next script in the load chain.
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/home.js");
 }

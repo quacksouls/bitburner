@@ -27,7 +27,7 @@ import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { work } from "/lib/singularity/work.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Join the CyberSec faction.  The requirement for receiving an invitation is
@@ -190,8 +190,5 @@ export async function main(ns) {
             break;
     }
     // The next script in the load chain.
-    const player = new Player(ns);
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, player.home(), nthread);
+    exec(ns, "/singularity/home.js");
 }

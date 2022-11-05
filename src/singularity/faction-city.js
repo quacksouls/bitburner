@@ -17,7 +17,6 @@
 
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
 import { job_area } from "/lib/constant/work.js";
 import { Player } from "/lib/player.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
@@ -25,7 +24,7 @@ import { commit_crime } from "/lib/singularity/crime.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { visit_city } from "/lib/singularity/network.js";
 import { work } from "/lib/singularity/work.js";
-import { assert, is_valid_city } from "/lib/util.js";
+import { assert, exec, is_valid_city } from "/lib/util.js";
 
 /**
  * Join a city faction.  The requirements for receiving an invitation usually
@@ -95,7 +94,5 @@ export async function main(ns) {
     );
     await city_faction(ns, faction);
     // The next script in the load chain.
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/home.js");
 }

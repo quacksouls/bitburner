@@ -28,7 +28,7 @@ import {
 } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack_until } from "/lib/singularity/study.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Join a hacking group.  The requirement for receiving an invitation is to
@@ -103,8 +103,5 @@ export async function main(ns) {
     );
     await hacking_group(ns, faction);
     // The next script in the load chain.
-    const player = new Player(ns);
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, player.home(), nthread);
+    exec(ns, "/singularity/home.js");
 }

@@ -16,7 +16,6 @@
  */
 
 import { faction_req } from "/lib/constant/faction.js";
-import { home } from "/lib/constant/server.js";
 import { job_area } from "/lib/constant/work.js";
 import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
 import {
@@ -27,7 +26,7 @@ import {
 } from "/lib/singularity/faction.js";
 import { work } from "/lib/singularity/work.js";
 import { has_ai_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Join the endgame faction Daedalus.  The requirements for receiving an
@@ -153,7 +152,5 @@ export async function main(ns) {
             break;
     }
     // The next script in the load chain.
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/home.js");
 }

@@ -26,7 +26,7 @@ import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { choose_field, work_for_company } from "/lib/singularity/work.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Install a backdoor on a megacorporation server.  Since version 2.0 of the
@@ -146,8 +146,5 @@ export async function main(ns) {
     assert(faction.length > 0);
     await megacorporation(ns, company, faction, faction_t.CORP_REP);
     // The next script in the load chain.
-    const player = new Player(ns);
-    const script = "/singularity/home.js";
-    const nthread = 1;
-    ns.exec(script, player.home(), nthread);
+    exec(ns, "/singularity/home.js");
 }
