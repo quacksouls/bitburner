@@ -17,6 +17,7 @@
 
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Start a load chain for studying at a university.  A script in the chain would
@@ -31,15 +32,12 @@ export async function main(ns) {
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
-    let script = "/sleeve/study.js";
-    const nthread = 1;
-    const pid = ns.exec(script, home, nthread);
+    const pid = exec(ns, "/sleeve/study.js");
     while (ns.isRunning(pid)) {
         await ns.sleep(wait_t.SECOND);
     }
-    script = "/singularity/study.js";
-    ns.exec(script, home, nthread);
+    exec(ns, "/singularity/study.js");
     if (ns.getServer(home).maxRam >= home_t.RAM_HIGH) {
-        ns.exec("/gang/program.js", home, nthread);
+        exec(ns, "/gang/program.js");
     }
 }
