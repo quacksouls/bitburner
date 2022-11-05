@@ -68,9 +68,8 @@ export async function main(ns) {
         "Home server is low-end. Bootstrap with a small number of scripts."
     );
     await reboot(ns);
-    if (has_singularity_api(ns)) {
-        const script = "/chain/study.js";
-        const nthread = 1;
-        ns.exec(script, home, nthread);
-    }
+    assert(has_singularity_api(ns));
+    const script = "/chain/study.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }

@@ -18,6 +18,7 @@
 import { home, home_t } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
+import { assert } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -63,9 +64,8 @@ function reboot(ns) {
 export async function main(ns) {
     log(ns, "Home server is high-end. Bootstrap with all scripts.");
     reboot(ns);
-    if (has_singularity_api(ns)) {
-        const script = "/chain/study.js";
-        const nthread = 1;
-        ns.exec(script, home, nthread);
-    }
+    assert(has_singularity_api(ns));
+    const script = "/chain/study.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }

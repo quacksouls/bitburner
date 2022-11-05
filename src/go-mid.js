@@ -59,9 +59,8 @@ async function reboot(ns) {
 export async function main(ns) {
     log(ns, "Home server is mid-end. Bootstrap with some scripts.");
     await reboot(ns);
-    if (has_singularity_api(ns)) {
-        const script = "/chain/study.js";
-        const nthread = 1;
-        ns.exec(script, home, nthread);
-    }
+    assert(has_singularity_api(ns));
+    const script = "/chain/study.js";
+    const nthread = 1;
+    ns.exec(script, home, nthread);
 }
