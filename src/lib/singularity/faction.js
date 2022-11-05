@@ -24,6 +24,7 @@ import { io } from "/lib/constant/io.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { augment_to_buy } from "/lib/singularity/augment.js";
@@ -77,6 +78,7 @@ export function join_all_factions(ns) {
  */
 export async function join_faction(ns, fac) {
     assert(is_valid_faction(fac));
+    log(ns, `Join faction: ${fac}`);
     // Since version 2.0 of the game, we must be working for a megacorporation
     // while waiting for an invitation from the corresponding faction.  We can
     // quit working once we have joined the faction.
@@ -286,6 +288,7 @@ function total_reputation(ns, fac) {
  */
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
+    log(ns, `Work for faction: ${fac}`);
     assert(job_area.HACK === work_type || job_area.FIELD === work_type);
     // Share our home server with the faction.  Doing so would boost the amount
     // of reputation points we earn.
