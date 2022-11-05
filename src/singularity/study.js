@@ -23,6 +23,28 @@ import { study } from "/lib/singularity/study.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * If our home server is less than a mid-sized server, then run a script to
+ * manage our farm of Hacknet nodes as well as another script to compromise
+ * world servers.  Let each script run for a while, then kill it.  The reason is
+ * that it is likely we do not have enough RAM on our home server to allow
+ * multiple scripts to run in the background.
+ *
+ * @param ns The Netscript API.
+ */
+async function bootstrap(ns) {
+    if (ns.getServer(home).maxRam < home_t.RAM_MID) {
+        const script = ["hnet-farm.js", "low-end.js"];
+        const nthread = 1;
+        for (const s of script) {
+            assert(!ns.isRunning(s, home));
+            ns.exec(s, home, nthread);
+            await ns.sleep(wait_t.DEFAULT);
+            assert(ns.kill(s, home));
+        }
+    }
+}
+
+/**
  * Create a program.
  *
  * @param ns The Netscript API.
@@ -96,26 +118,11 @@ function is_valid_program(name) {
  */
 async function study_and_create(ns) {
     const program = ["BruteSSH.exe", "FTPCrack.exe"];
-    const home_ram = ns.getServer(home).maxRam;
     for (const p of program) {
         await study(ns, hack_requirement(p));
+        await bootstrap(ns);
         await create_program(ns, p);
-        // If our home server is less than a mid-sized server, then run a
-        // script to manage our farm of Hacknet nodes as well as another script
-        // to compromise world servers.  Let each script run for a while, then
-        // kill it.  The reason is that it is likely we do not have enough RAM
-        // on our home server to allow multiple scripts to run in the
-        // background.
-        if (home_ram < home_t.RAM_MID) {
-            const script = ["hnet-farm.js", "low-end.js"];
-            const nthread = 1;
-            for (const s of script) {
-                assert(!ns.isRunning(s, home));
-                ns.exec(s, home, nthread);
-                await ns.sleep(wait_t.DEFAULT);
-                assert(ns.kill(s, home));
-            }
-        }
+        await bootstrap(ns);
     }
 }
 
