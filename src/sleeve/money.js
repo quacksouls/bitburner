@@ -73,5 +73,6 @@ export async function main(ns) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
+    log(ns, "Sleeves commit crimes to raise money");
     await commit_crimes(ns);
 }
