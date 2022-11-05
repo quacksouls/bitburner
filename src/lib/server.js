@@ -15,9 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
-import { script } from "/lib/constant/misc.js";
+import { colour, script } from "/lib/constant/misc.js";
 import { home, home_t } from "/lib/constant/server.js";
+import { format_ram, log } from "/lib/io.js";
+import { has_singularity_api, sf_level } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -97,18 +100,16 @@ export class Server {
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
         if (this.hostname() === this.#home) {
-            // By default, we reserve a small amouint of RAM on the player's
-            // home server.  If the home server has less than this amount of
-            // RAM, we do not reserve any RAM at all.
+            // By default, we reserve a small amount of RAM on the player's
+            // home server.
             this.#ram_reserve = home_t.reserve.DEFAULT;
             // Reserve a higher amount of RAM, depending on the maximum RAM on
-            // the home server.
-            if (this.ram_max() >= home_t.RAM_HIGH) {
-                this.#ram_reserve = home_t.reserve.HIGH;
-            } else if (this.ram_max() >= home_t.RAM_HIGH / 2) {
-                this.#ram_reserve = home_t.reserve.MID;
-            } else if (this.ram_max() < home_t.reserve.DEFAULT) {
-                this.#ram_reserve = 0;
+            // the home server.  Also need to check the level of
+            // "Source-File 4: The Singularity".
+            if (has_singularity_api(this.#ns)) {
+                this.#ram_reserve = this.#reserve_ram_with_singularity();
+            } else {
+                this.#ram_reserve = this.#reserve_ram();
             }
         }
     }
@@ -339,6 +340,65 @@ export class Server {
      */
     ram_max() {
         return this.#ns.getServer(this.hostname()).maxRam;
+    }
+
+    /**
+     * Reserve some RAM on the home server.  Use this method when we know we
+     * have level 3 of "Source-File 4: The Singularity".
+     *
+     * @return The amount of RAM to reserve.
+     */
+    #reserve_ram() {
+        if (this.ram_max() >= home_t.RAM_HIGH) {
+            return home_t.reserve.HIGH;
+        }
+        if (this.ram_max() >= home_t.RAM_HIGH / 2) {
+            return home_t.reserve.MID;
+        }
+        if (this.ram_max() < home_t.reserve.DEFAULT) {
+            return 0;
+        }
+    }
+
+    /**
+     * Reserve some RAM on the home server.  Here, we assume that we have access
+     * to the Singularity API.
+     *
+     * @return The amount of RAM to reserve.  Return 0 if we are unable to
+     *     reserve any amount of RAM.
+     */
+    #reserve_ram_with_singularity() {
+        const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
+        if (lvl === 1) {
+            const min_ram = 1.5 * home_t.reserve.MASSIVE;
+            if (this.ram_max() >= min_ram) {
+                return home_t.reserve.MASSIVE;
+            }
+            log(
+                this.#ns,
+                `Recommended RAM for home server: ${format_ram(
+                    min_ram
+                )} or higher`,
+                colour.RED
+            );
+            return 0;
+        }
+        if (lvl === 2) {
+            const min_ram = 1.5 * home_t.reserve.HUGE;
+            if (this.ram_max() >= min_ram) {
+                return home_t.reserve.HUGE;
+            }
+            log(
+                this.#ns,
+                `Recommended RAM for home server: ${format_ram(
+                    min_ram
+                )} or higher`,
+                colour.RED
+            );
+            return 0;
+        }
+        assert(lvl >= 3);
+        return this.#reserve_ram();
     }
 
     /**

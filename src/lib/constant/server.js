@@ -61,6 +61,14 @@ export const home_t = {
          */
         HIGH: 256,
         /**
+         * If we have only level 2 of "Source-File 4: The Singularity".
+         */
+        HUGE: 2048,
+        /**
+         * If we have only level 1 of "Source-File 4: The Singularity".
+         */
+        MASSIVE: 4096,
+        /**
          * If our home server is mid-end or thereabout, reserve this amount of
          * RAM.
          */
