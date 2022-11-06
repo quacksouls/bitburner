@@ -34,7 +34,12 @@ function assert(cond) {
  * Scripts for managing a load chain.
  */
 function dir_chain() {
-    const chain = ["chain/misc.js", "chain/money.js", "chain/study.js"];
+    const chain = [
+        "chain/faction.js",
+        "chain/misc.js",
+        "chain/money.js",
+        "chain/study.js",
+    ];
     return chain;
 }
 

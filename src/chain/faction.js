@@ -15,25 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { buy_all_programs } from "/lib/singularity/program.js";
-import { exec } from "/lib/util.js";
+import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 
 /**
- * Purchase various programs from the dark web.
+ * Start a load chain to run scripts related to factions.
  *
- * Usage: run singularity/program.js
+ * Usage: run chain/faction.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Suppress various log messages.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
+    // Suppress some log messages.
     ns.disableLog("sleep");
-
-    await buy_all_programs(ns, bool.VISIT, bool.WORK);
-    exec(ns, "/chain/faction.js");
+    // Try to free up some RAM on home server so we can run the script below.
+    await hram_suspend(ns);
+    exec(ns, "/singularity/faction.js");
+    hram_resume(ns);
 }
