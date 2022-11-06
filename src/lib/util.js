@@ -163,9 +163,14 @@ export async function hram_suspend(ns) {
         ns.write(server.SHARE, data, io.WRITE);
     }
     const target = ns.read(server.HRAM).trim();
-    assert(target !== "");
-    while (ns.isRunning(script, home, target)) {
-        await ns.sleep(wait_t.SECOND);
+    if (target === "") {
+        while (ns.isRunning(script, home)) {
+            await ns.sleep(wait_t.SECOND);
+        }
+    } else {
+        while (ns.isRunning(script, home, target)) {
+            await ns.sleep(wait_t.SECOND);
+        }
     }
 }
 
