@@ -329,10 +329,19 @@ async function purchase_aug(ns, aug, fac, raise_money = true) {
     while (!success) {
         assert(!has_augment(ns, aug));
         if (ns.getServerMoneyAvailable(home) < cost) {
+            log(ns, `Not enough money to buy Augmentation: ${aug}`);
             if (raise_money) {
                 if (ns.getHackingLevel() < work_hack_lvl) {
+                    log(ns, `Raising Hack stat to target: ${work_hack_lvl}`);
                     await commit_crime(ns, cost);
                 } else {
+                    log(
+                        ns,
+                        `Raising money to target: ${ns.nFormat(
+                            cost,
+                            "$0,0.00a"
+                        )}`
+                    );
                     await work(ns, cost);
                 }
             }
