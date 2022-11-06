@@ -19,7 +19,12 @@ import { bool } from "/lib/constant/bool.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
 import { owned_augment } from "/lib/singularity/augment.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+import {
+    assert,
+    hram_resume,
+    hram_suspend,
+    is_valid_faction,
+} from "/lib/util.js";
 
 /**
  * Choose a faction to join and join that faction.  Work for the faction to
@@ -202,5 +207,8 @@ function join_next(ns, fac) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Try to free up some RAM on home server so we can run some scripts.
+    await hram_suspend(ns);
     choose_faction(ns);
+    hram_resume(ns);
 }
