@@ -69,7 +69,10 @@ async function commit_crimes(ns, threshold) {
 function is_upgrade_home_ram(ns) {
     const lvl = sf_level(ns, bitnode["The Singularity"]);
     const home_ram = ns.getServer(home).maxRam;
-    if (lvl === undefined || lvl === 1 || lvl === 2) {
+    if (lvl === undefined || lvl === 1) {
+        return home_ram < home_t.RAM_MASSIVE;
+    }
+    if (lvl === 2) {
         return home_ram < home_t.RAM_HUGE;
     }
     assert(lvl >= 3);
