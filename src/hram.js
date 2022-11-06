@@ -20,7 +20,6 @@ import { script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { assert, choose_targets, filter_bankrupt_servers } from "/lib/util.js";
 
@@ -88,22 +87,21 @@ async function update(ns, t) {
     }
     // No new target.  Hack the current target if it is not already being
     // targeted.
-    const player = new Player(ns);
     if (t === target) {
-        if (!ns.isRunning(player.script(), player.home(), target)) {
+        if (!ns.isRunning(script, home, target)) {
             const nthread = home_num_threads(ns);
-            ns.exec(player.script(), player.home(), nthread, target);
+            ns.exec(script, home, nthread, target);
             ns.write(server.HRAM, target, io.WRITE);
         }
         return target;
     }
     // We have found a better target.  Hack this better server.
     assert(t !== target);
-    if (ns.isRunning(player.script(), player.home(), t)) {
-        assert(ns.kill(player.script(), player.home(), t));
+    if (ns.isRunning(script, home, t)) {
+        assert(ns.kill(script, home, t));
     }
     const nthread = home_num_threads(ns);
-    ns.exec(player.script(), player.home(), nthread, target);
+    ns.exec(script, home, nthread, target);
     ns.write(server.HRAM, target, io.WRITE);
     return target;
 }
@@ -128,15 +126,11 @@ export async function main(ns) {
     // Periodically search for a better target.  Suspend this script, and kill
     // the spawned script, if we need to share our home server with a faction.
     let target = await update(ns, "");
-    const player = new Player(ns);
     for (;;) {
         // Do we need to suspend the script?
-        if (ns.fileExists(server.SHARE, player.home())) {
-            if (
-                target !== ""
-                && ns.isRunning(player.script(), player.home(), target)
-            ) {
-                assert(ns.kill(player.script(), player.home(), target));
+        if (ns.fileExists(server.SHARE, home)) {
+            if (target !== "" && ns.isRunning(script, home, target)) {
+                assert(ns.kill(script, home, target));
             }
             await ns.sleep(wait_t.DEFAULT);
             continue;
