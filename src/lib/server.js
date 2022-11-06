@@ -370,13 +370,13 @@ export class Server {
         const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
         if (lvl === undefined || lvl === 1) {
             if (this.ram_max() >= 1.5 * home_t.reserve.MASSIVE) {
-                return home_t.reserve.MASSIVE;
+                return home_t.reserve.HIGH;
             }
             return 0;
         }
         if (lvl === 2) {
             if (this.ram_max() >= 1.5 * home_t.reserve.HUGE) {
-                return home_t.reserve.HUGE;
+                return home_t.reserve.MID;
             }
             return 0;
         }
