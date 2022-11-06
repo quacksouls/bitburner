@@ -244,7 +244,7 @@ export class Corporation {
      * @param ct The name of a city.
      */
     initial_hire(div, ct) {
-        for (let i = 0; i < corp_t.INIT_HIRE; i++) {
+        for (let i = this.num_employees(div, ct); i < corp_t.INIT_HIRE; i++) {
             const name = this.hire(div, ct);
             if (name !== "") {
                 this.#ns[corp.API].assignJob(div, ct, name, corp.position[i]);
@@ -281,5 +281,20 @@ export class Corporation {
         assert(upg !== "");
         const upgrade = new Set(Object.values(corp.unlock));
         return upgrade.has(upg);
+    }
+
+    /**
+     * The number of employees in a division at a particular city.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     * @return The number of employees in the given division at the given city.
+     */
+    num_employees(div, ct) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        const { employees, size } = this.#ns[corp.API].getOffice(div, ct);
+        assert(employees.length === size);
+        return size;
     }
 }
