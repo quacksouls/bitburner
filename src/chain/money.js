@@ -18,7 +18,7 @@
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
-import { exec } from "/lib/util.js";
+import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 
 /**
  * Start a load chain for raising money.
@@ -28,6 +28,8 @@ import { exec } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    // Try to free up some RAM on home server so we can run the scripts below.
+    await hram_suspend(ns);
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
@@ -48,4 +50,5 @@ export async function main(ns) {
     }
     // Now launch the main script for raising money.
     exec(ns, "/singularity/money.js");
+    hram_resume(ns);
 }

@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
-import { exec } from "/lib/util.js";
+import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 
 /**
  * Start a load chain to run various scripts.
@@ -29,6 +29,8 @@ import { exec } from "/lib/util.js";
 export async function main(ns) {
     // Suppress some log messages.
     ns.disableLog("sleep");
+    // Try to free up some RAM on home server so we can run the scripts below.
+    await hram_suspend(ns);
     // Assume our home server is high-end and has enough RAM to run multiple
     // scripts at the same time.  Here is a brief description of the purpose of
     // each script.
@@ -77,4 +79,5 @@ export async function main(ns) {
         await ns.sleep(wait_t.SECOND);
     }
     exec(ns, "/singularity/program.js");
+    hram_resume(ns);
 }
