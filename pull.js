@@ -37,7 +37,7 @@ function dir_chain() {
     const chain = [
         "chain/faction.js",
         "chain/home.js",
-        "chain/install",
+        "chain/install.js",
         "chain/misc.js",
         "chain/money.js",
         "chain/study.js",
