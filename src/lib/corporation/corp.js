@@ -231,7 +231,9 @@ export class Corporation {
      */
     hire_advert(div) {
         assert(this.is_valid_division(div));
-        this.#ns[corp.API].hireAdVert(div);
+        if (this.funds() > this.#ns[corp.API].getHireAdVertCost(div)) {
+            this.#ns[corp.API].hireAdVert(div);
+        }
     }
 
     /**
