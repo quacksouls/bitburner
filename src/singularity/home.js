@@ -172,5 +172,5 @@ export async function main(ns) {
     await upgrade(ns);
     trade_bot_resume(ns);
     // The next script in the load chain.
-    exec(ns, "/singularity/install.js");
+    exec(ns, "/chain/install.js");
 }
