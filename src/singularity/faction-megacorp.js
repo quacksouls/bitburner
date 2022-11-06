@@ -146,5 +146,5 @@ export async function main(ns) {
     assert(faction.length > 0);
     await megacorporation(ns, company, faction, faction_t.CORP_REP);
     // The next script in the load chain.
-    exec(ns, "/singularity/home.js");
+    exec(ns, "/chain/home.js");
 }

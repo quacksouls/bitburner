@@ -94,5 +94,5 @@ export async function main(ns) {
     );
     await city_faction(ns, faction);
     // The next script in the load chain.
-    exec(ns, "/singularity/home.js");
+    exec(ns, "/chain/home.js");
 }

@@ -36,6 +36,7 @@ function assert(cond) {
 function dir_chain() {
     const chain = [
         "chain/faction.js",
+        "chain/home.js",
         "chain/misc.js",
         "chain/money.js",
         "chain/study.js",

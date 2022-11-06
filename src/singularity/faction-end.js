@@ -152,5 +152,5 @@ export async function main(ns) {
             break;
     }
     // The next script in the load chain.
-    exec(ns, "/singularity/home.js");
+    exec(ns, "/chain/home.js");
 }
