@@ -17,6 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Start a load chain to run various scripts.
@@ -58,8 +59,7 @@ export async function main(ns) {
         "/sleeve/cc.js",
         gang_script[0],
     ];
-    const nthread = 1;
-    script.forEach((s) => ns.exec(s, home, nthread));
+    script.forEach((s) => exec(ns, s));
     // Wait until we have joined a criminal faction.  Then launch another
     // script.  We must wait because the script launched by "/gang/go.sh" needs
     // to perform tasks that require focus.  The script
@@ -76,5 +76,5 @@ export async function main(ns) {
         }
         await ns.sleep(wait_t.SECOND);
     }
-    ns.exec("/singularity/program.js", home, nthread);
+    exec(ns, "/singularity/program.js");
 }
