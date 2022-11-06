@@ -32,7 +32,7 @@ import { assert, is_valid_faction } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  */
-async function choose_faction(ns) {
+function choose_faction(ns) {
     // Determine which faction to join next.  First, consider factions on our
     // fast track.  These factions have Augmentations to boost our reputation
     // multiplier as well as allowing us to start with various port opener
@@ -202,5 +202,5 @@ function join_next(ns, fac) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    await choose_faction(ns);
+    choose_faction(ns);
 }
