@@ -16,7 +16,8 @@
  */
 
 import { io } from "/lib/constant/io.js";
-import { server } from "/lib/constant/server.js";
+import { script } from "/lib/constant/misc.js";
+import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
@@ -59,6 +60,18 @@ function best_target(ns) {
 }
 
 /**
+ * The number of threads we can use to run a script on our home server.
+ *
+ * @param ns The Netscript API.
+ * @return The number of threads to use.  Always at least 1.
+ */
+function home_num_threads(ns) {
+    const home_serv = new Server(ns, home);
+    const nthread = home_serv.num_threads(script);
+    return nthread < 1 ? 1 : nthread;
+}
+
+/**
  * Constantly update the target to hack.
  *
  * @param ns The Netscript API.
@@ -76,13 +89,9 @@ async function update(ns, t) {
     // No new target.  Hack the current target if it is not already being
     // targeted.
     const player = new Player(ns);
-    const home = new Server(ns, player.home());
     if (t === target) {
         if (!ns.isRunning(player.script(), player.home(), target)) {
-            let nthread = home.num_threads(player.script());
-            if (nthread < 1) {
-                nthread = 1;
-            }
+            const nthread = home_num_threads(ns);
             ns.exec(player.script(), player.home(), nthread, target);
             ns.write(server.HRAM, target, io.WRITE);
         }
@@ -93,10 +102,7 @@ async function update(ns, t) {
     if (ns.isRunning(player.script(), player.home(), t)) {
         assert(ns.kill(player.script(), player.home(), t));
     }
-    let nthread = home.num_threads(player.script());
-    if (nthread < 1) {
-        nthread = 1;
-    }
+    const nthread = home_num_threads(ns);
     ns.exec(player.script(), player.home(), nthread, target);
     ns.write(server.HRAM, target, io.WRITE);
     return target;
