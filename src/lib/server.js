@@ -349,7 +349,7 @@ export class Server {
      */
     #reserve_ram() {
         if (this.ram_max() >= home_t.RAM_HIGH) {
-            return home_t.reserve.HIGH;
+            return home_t.reserve.HIGH / 2;
         }
         if (this.ram_max() >= home_t.RAM_HIGH / 2) {
             return home_t.reserve.MID;
@@ -369,14 +369,14 @@ export class Server {
     #reserve_ram_with_singularity() {
         const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
         if (lvl === undefined || lvl === 1) {
-            if (this.ram_max() >= 1.5 * home_t.reserve.MASSIVE) {
+            if (this.ram_max() >= home_t.RAM_MASSIVE) {
                 return home_t.reserve.HIGH;
             }
             return 0;
         }
         if (lvl === 2) {
-            if (this.ram_max() >= 1.5 * home_t.reserve.HUGE) {
-                return home_t.reserve.MID;
+            if (this.ram_max() >= home_t.RAM_HUGE) {
+                return home_t.reserve.HIGH / 2;
             }
             return 0;
         }

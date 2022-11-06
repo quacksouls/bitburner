@@ -46,9 +46,14 @@ export const home_t = {
     RAM_HIGH: 512,
     /**
      * The minimum amount of RAM for a high-end home server, assuming that we
-     * have level at most 2 of "Source-File 4: The Singularity".
+     * have level 2 of "Source-File 4: The Singularity".
      */
     RAM_HUGE: 1024,
+    /**
+     * The minimum amount of RAM for a high-end home server, assuming that we
+     * have level at most 1 of "Source-File 4: The Singularity".
+     */
+    RAM_MASSIVE: 2048,
     /**
      * The minimum amount of RAM for a mid-sized home server.
      */
@@ -64,15 +69,15 @@ export const home_t = {
         /**
          * If our home server is high-end or better, reserve this amount of RAM.
          */
-        HIGH: 256,
+        HIGH: 512,
         /**
          * If we have only level 2 of "Source-File 4: The Singularity".
          */
-        HUGE: 2048,
+        HUGE: 1024,
         /**
          * If we have only level 1 of "Source-File 4: The Singularity".
          */
-        MASSIVE: 4096,
+        MASSIVE: 2048,
         /**
          * If our home server is mid-end or thereabout, reserve this amount of
          * RAM.
