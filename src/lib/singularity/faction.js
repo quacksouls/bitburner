@@ -255,10 +255,13 @@ function stop_share_home(ns) {
  * @param ns The Netscript API.
  * @param fac We want to earn reputation points from this faction.
  * @return The maximum amount of reputation points we must earn from a faction.
+ *     Return 0 if we do not need to earn any reputation points.
  */
 function total_reputation(ns, fac) {
     const augment = augment_to_buy(ns, fac);
-    assert(augment.length > 0);
+    if (augment.length === 0) {
+        return 0;
+    }
     // The total reputation points we need to earn.
     let max = -Infinity;
     for (const aug of augment) {
@@ -288,6 +291,9 @@ export async function work_for_faction(ns, fac, work_type) {
     await start_share_home(ns);
     // Start working for the faction.
     const threshold = total_reputation(ns, fac);
+    if (threshold === 0) {
+        return;
+    }
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
