@@ -15,12 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
 import { home, home_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { Money } from "/lib/money.js";
-import { sf_level } from "/lib/source.js";
 import { assert, exec } from "/lib/util.js";
 
 /**
@@ -67,15 +65,7 @@ async function commit_crimes(ns, threshold) {
  *     false otherwise.
  */
 function is_upgrade_home_ram(ns) {
-    const lvl = sf_level(ns, bitnode["The Singularity"]);
     const home_ram = ns.getServer(home).maxRam;
-    if (lvl === undefined || lvl === 1) {
-        return home_ram < home_t.RAM_MASSIVE;
-    }
-    if (lvl === 2) {
-        return home_ram < home_t.RAM_HUGE;
-    }
-    assert(lvl >= 3);
     return home_ram < home_t.RAM_HIGH;
 }
 

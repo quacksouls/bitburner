@@ -15,11 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { script } from "/lib/constant/misc.js";
 import { home, home_t } from "/lib/constant/server.js";
-import { has_singularity_api, sf_level } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -103,13 +101,8 @@ export class Server {
             // home server.
             this.#ram_reserve = home_t.reserve.DEFAULT;
             // Reserve a higher amount of RAM, depending on the maximum RAM on
-            // the home server.  Also need to check the level of
-            // "Source-File 4: The Singularity".
-            if (has_singularity_api(this.#ns)) {
-                this.#ram_reserve = this.#reserve_ram_with_singularity();
-            } else {
-                this.#ram_reserve = this.#reserve_ram();
-            }
+            // the home server.
+            this.#ram_reserve = this.#reserve_ram();
         }
     }
 
@@ -343,7 +336,9 @@ export class Server {
 
     /**
      * Reserve some RAM on the home server.  Use this method when we know we
-     * have level 3 of "Source-File 4: The Singularity".
+     * have level 3 of "Source-File 4: The Singularity".  Even if we are in
+     * BN4.1 or BN4.2, the game allows us to use Singularity functions at their
+     * lowest RAM costs as if we have level 3 of the Source-File.
      *
      * @return The amount of RAM to reserve.
      */
@@ -357,31 +352,6 @@ export class Server {
         if (this.ram_max() < home_t.reserve.DEFAULT) {
             return 0;
         }
-    }
-
-    /**
-     * Reserve some RAM on the home server.  Here, we assume that we have access
-     * to the Singularity API.
-     *
-     * @return The amount of RAM to reserve.  Return 0 if we are unable to
-     *     reserve any amount of RAM.
-     */
-    #reserve_ram_with_singularity() {
-        const lvl = sf_level(this.#ns, bitnode["The Singularity"]);
-        if (lvl === undefined || lvl === 1) {
-            if (this.ram_max() >= home_t.RAM_MASSIVE) {
-                return home_t.reserve.HIGH;
-            }
-            return 0;
-        }
-        if (lvl === 2) {
-            if (this.ram_max() >= home_t.RAM_HUGE) {
-                return home_t.reserve.HIGH / 2;
-            }
-            return 0;
-        }
-        assert(lvl >= 3);
-        return this.#reserve_ram();
     }
 
     /**
