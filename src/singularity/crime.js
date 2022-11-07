@@ -19,6 +19,7 @@ import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -31,6 +32,10 @@ import { assert } from "/lib/util.js";
  */
 async function commit_other_crime(ns, threshold) {
     assert(threshold > 0);
+    log(
+        ns,
+        `Commit homicide to raise money to ${ns.nFormat(threshold, "$0,0.00a")}`
+    );
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(wait_t.SECOND);
@@ -45,6 +50,7 @@ async function commit_other_crime(ns, threshold) {
  * @param ns The Netscript API.
  */
 async function mug_someone(ns) {
+    log(ns, "Mug someone to raise money and combat stats");
     const stat = ns.singularity.getCrimeStats(crimes.MUG);
     const time = crimes.n * stat.time;
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
@@ -58,6 +64,7 @@ async function mug_someone(ns) {
  * @param ns The Netscript API.
  */
 async function shoplift(ns) {
+    log(ns, "Shoplift to raise money, and Dexterity and Agility stats");
     const stat = ns.singularity.getCrimeStats(crimes.SHOP);
     const time = crimes.n * stat.time;
     ns.singularity.commitCrime(crimes.SHOP, bool.FOCUS);
