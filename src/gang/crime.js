@@ -194,7 +194,7 @@ function defensive_equipment_weapon() {
  * there is no need to engage in turf warfare.
  *
  * @param ns The Netscript API.
- * @return true if we are to engage in territory warfare against another gang;
+ * @return True if we are to engage in territory warfare against another gang;
  *     false otherwise.
  */
 function enable_turf_war(ns) {
@@ -395,7 +395,7 @@ function graduate(ns) {
  *
  * @param ns The Netscript API.
  * @param name A string representing the name of a gang member.
- * @return true if a gang member has all equipment that raise their defense;
+ * @return True if a gang member has all equipment that raise their defense;
  *     false otherwise.
  */
 function has_all_def_equipment(ns, name) {
@@ -422,7 +422,7 @@ function has_all_def_equipment(ns, name) {
  * Whether our gang already controls 100% of the territory.
  *
  * @param ns The Netscript API.
- * @return true if we already have control over 100% of the territory;
+ * @return True if we already have control over 100% of the territory;
  *     false otherwise.
  */
 function has_all_turf(ns) {
@@ -433,7 +433,7 @@ function has_all_turf(ns) {
  * Whether we have the maximum number of members in our gang.
  *
  * @param ns The Netscript API.
- * @return true if our gang is at capacity; false otherwise.
+ * @return True if our gang is at capacity; false otherwise.
  */
 function has_max_members(ns) {
     return members.MAX === ns.gang.getMemberNames().length;
@@ -443,7 +443,7 @@ function has_max_members(ns) {
  * Whether any of our gang members are currently committing acts of terrorism.
  *
  * @param ns The Netscript API.
- * @return true if at least one gang member is committing acts of terrorism;
+ * @return True if at least one gang member is committing acts of terrorism;
  *     false otherwise.
  */
 function has_terrorist(ns) {
@@ -460,7 +460,7 @@ function has_terrorist(ns) {
  * Whether any of our gang members are currently on vigilante justice.
  *
  * @param ns The Netscript API.
- * @return true if at least one gang member is currently assigned to vigilante
+ * @return True if at least one gang member is currently assigned to vigilante
  *     justice; false otherwise.
  */
 function has_vigilante(ns) {
@@ -477,7 +477,7 @@ function has_vigilante(ns) {
  * Whether our gang is engaged in turf warfare.
  *
  * @param ns The Netscript API.
- * @return true if our gang is engaged in turf warfare against a rival gang;
+ * @return True if our gang is engaged in turf warfare against a rival gang;
  *     false otherwise.
  */
 function is_in_war(ns) {
@@ -499,7 +499,7 @@ function is_in_war(ns) {
  * @param ns The Netscript API.
  * @param other An object containing information about other gangs.  The data
  *     in the object should be from the previous tick.
- * @return true if we are in a new tick; false otherwise.
+ * @return True if we are in a new tick; false otherwise.
  */
 function is_new_tick(ns, other) {
     const current = ns.gang.getOtherGangInformation();
@@ -519,7 +519,7 @@ function is_new_tick(ns, other) {
  * within which we can create a criminal gang.
  *
  * @param fac A string representing the name of a criminal organization.
- * @return true if we can create a criminal gang within the given faction;
+ * @return True if we can create a criminal gang within the given faction;
  *     false otherwise.
  */
 function is_valid_faction(fac) {
