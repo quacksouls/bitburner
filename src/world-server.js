@@ -17,6 +17,7 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -126,6 +127,7 @@ async function hack_servers(ns, target) {
         // Use the server to hack itself.
         await hack_a_server(ns, s, s);
         hacked_server.push(s);
+        log(ns, `Server compromised: ${s}`);
     }
     return [reject, hacked_server];
 }
@@ -159,6 +161,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
                 hserver = hserver.filter((hs) => hs !== target.hostname());
                 // Redirect the bankrupt server to hack the target server.
                 await hack_a_server(ns, s, target.hostname());
+                log(ns, `Server compromised: ${s}`);
                 continue;
             }
         }
@@ -278,6 +281,7 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously look for world servers to hack.
+    log(ns, "Searching for world servers to nuke and hack");
     for (;;) {
         await update(ns);
         await ns.sleep(wait_t.MINUTE);
