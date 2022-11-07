@@ -19,6 +19,7 @@ import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
 import { home, home_t, server_t } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -109,6 +110,7 @@ async function nuke_servers(ns) {
         assert(player.hacking_skill() >= server.hacking_skill());
         await server.gain_root_access();
         nuked.push(s);
+        log(ns, `Compromised server: ${s}`);
     }
     return nuked;
 }
@@ -176,6 +178,7 @@ async function update(ns) {
         const server = new Server(ns, s);
         const i = n % lowend.length;
         await server.deploy(lowend[i]);
+        log(ns, `Redirect ${s} to hack low-end server: ${lowend[i]}`);
         n++;
     }
 }
@@ -199,6 +202,7 @@ export async function main(ns) {
     ns.disableLog("scan");
     ns.disableLog("sleep");
     // Continuously look for world servers to hack low-end servers.
+    log(ns, "Hacking low-end servers");
     for (;;) {
         await update(ns);
         await ns.sleep(wait_t.MINUTE);
