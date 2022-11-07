@@ -19,6 +19,7 @@ import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
 import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { join_all_factions } from "/lib/singularity/faction.js";
@@ -31,6 +32,7 @@ import { assert, cleanup } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function destroy(ns) {
+    log(ns, `Searching for target server: ${server.WD}`);
     const serv = new Server(ns, server.WD);
     const player = new Player(ns);
     while (player.hacking_skill() < serv.hacking_skill()) {
