@@ -17,7 +17,9 @@
 
 import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
-import { home, home_t, server_t } from "/lib/constant/server.js";
+import {
+    home, home_t, server, server_t,
+} from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
@@ -64,7 +66,7 @@ function low_end(ns) {
     const candidate = filter_bankrupt_servers(
         ns,
         filter_pserv(ns, network(ns))
-    ).filter((s) => s !== "darkweb");
+    ).filter((s) => s !== server.ONION);
     candidate.forEach((s) => {
         const security_lvl = ns.getServer(s).hackDifficulty;
         lowend.push([security_lvl, s]);

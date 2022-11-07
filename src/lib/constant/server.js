@@ -96,6 +96,10 @@ export const server = {
      */
     HRAM: "hram.txt",
     /**
+     * The darkweb server, accessible after purchasing the Tor router.
+     */
+    ONION: "darkweb",
+    /**
      * The name of a text file.  If a file with the given name appears on our
      * home server, then it means one of the following:
      *
