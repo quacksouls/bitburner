@@ -6,11 +6,10 @@ affected by whether you have access to the Singularity API.
 1. If you have destroyed BN4.3, you have access to the Singularity API and the
    RAM cost of each function from the API is at its lowest. The game play is
    automated. All you need to do is run the script `go.js`.
-1. If you are in BN4.1, you have access to the Singularity API. However, the RAM
-   cost of using functions from this API is so high that you would not be able
-   to automate the game play in the early stages of the BitNode. Manually
-   upgrade the RAM on your home server to at least 512GB or more and run `go.js`
-   to automate the remainder of the playthrough.
+1. If you are in BN4.1, you have access to the Singularity API. Furthermore, the
+   RAM cost of each Singularity function is at its lowest. Take advantage of
+   this to destroy BN4.1, BN4.2, and BN4.3. The game play can be automated in
+   BN4.x by running the script `go.js`.
 1. If you do not have access to the Singularity API, then most of your game play
    would be manual. The script `go.js` launches various other scripts to help
    you generate passive income, but that is as far as automation goes. Read the
