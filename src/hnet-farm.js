@@ -19,6 +19,7 @@ import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
 import { hnet_t } from "/lib/constant/hacknet.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
@@ -134,6 +135,7 @@ async function setup_farm(ns, n) {
         }
         const id = ns.hacknet.purchaseNode();
         assert(id !== -1);
+        log(ns, `Purchased Hacknet node: ${id}`);
     }
 }
 
