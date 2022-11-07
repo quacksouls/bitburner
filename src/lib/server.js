@@ -97,11 +97,8 @@ export class Server {
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
         if (this.hostname() === this.#home) {
-            // By default, we reserve a small amount of RAM on the player's
+            // Reserve an amount of RAM, depending on the maximum RAM on the
             // home server.
-            this.#ram_reserve = home_t.reserve.DEFAULT;
-            // Reserve a higher amount of RAM, depending on the maximum RAM on
-            // the home server.
             this.#ram_reserve = this.#reserve_ram();
         }
     }
@@ -343,6 +340,9 @@ export class Server {
      * @return The amount of RAM to reserve.
      */
     #reserve_ram() {
+        if (this.ram_max() >= home_t.RAM_HUGE) {
+            return home_t.reserve.HIGH;
+        }
         if (this.ram_max() >= home_t.RAM_HIGH) {
             return home_t.reserve.HIGH / 2;
         }
