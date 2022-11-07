@@ -241,10 +241,10 @@ async function start_share_home(ns) {
  * @param ns The Netscript API.
  */
 function stop_share_home(ns) {
-    hram_resume(ns);
     if (ns.isRunning(server.SHARE_SCRIPT, home)) {
         assert(ns.kill(server.SHARE_SCRIPT, home));
     }
+    hram_resume(ns);
 }
 
 /**
