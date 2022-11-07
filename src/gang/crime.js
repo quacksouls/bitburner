@@ -920,6 +920,9 @@ function recruit(ns) {
     if (ns.gang.getMemberNames().length < members.MAX) {
         const newbie = gangster.recruit();
         gangster.train(newbie);
+        if (newbie.length > 0) {
+            newbie.forEach((s) => log(ns, `Recruited new member: ${s}`));
+        }
     }
 }
 
@@ -1020,6 +1023,7 @@ export async function main(ns) {
     // default, we disable territory warfare.  Instead, we concentrate on
     // recruitment and building the strengths of our gang members.
     await create_gang(ns, faction);
+    log(ns, `Disable territory warfare for gang in ${faction}`);
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     assert(!ns.gang.getGangInformation().isHacking);
     recruit(ns);
@@ -1034,9 +1038,11 @@ export async function main(ns) {
     for (;;) {
         if (enable_turf_war(ns)) {
             if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
+                log(ns, `Enable territory warfare for gang in ${faction}`);
                 ns.gang.setTerritoryWarfare(bool.ENABLE);
             }
         } else if (ns.gang.getGangInformation().territoryWarfareEngaged) {
+            log(ns, `Disable territory warfare for gang in ${faction}`);
             ns.gang.setTerritoryWarfare(bool.DISABLE);
         }
         // Are we in a new tick?  If we are having a turf war, then let our
