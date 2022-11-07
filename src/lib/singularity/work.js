@@ -179,7 +179,6 @@ export async function work(ns, threshold) {
     const company = choose_company(ns);
     ns.singularity.goToLocation(company); // Increase Intelligence XP.
     ns.singularity.applyToCompany(company, choose_field(ns));
-    ns.singularity.stopAction();
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(wait_t.DEFAULT);
@@ -215,7 +214,6 @@ export async function work_for_company(ns, company, rep) {
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
     ns.singularity.applyToCompany(company, choose_field(ns));
-    ns.singularity.stopAction();
     ns.singularity.workForCompany(company, bool.FOCUS);
     while (ns.singularity.getCompanyRep(company) < rep) {
         await ns.sleep(wait_t.DEFAULT);
