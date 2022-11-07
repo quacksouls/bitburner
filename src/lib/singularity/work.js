@@ -180,6 +180,7 @@ export async function work(ns, threshold) {
     ns.singularity.goToLocation(company); // Increase Intelligence XP.
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
+    ns.singularity.setFocus(bool.FOCUS);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(wait_t.DEFAULT);
         const field = choose_field(ns);
@@ -187,6 +188,7 @@ export async function work(ns, threshold) {
         // We have a promotion.  Start working in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
+            ns.singularity.setFocus(bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
@@ -215,6 +217,7 @@ export async function work_for_company(ns, company, rep) {
     // more reputation points per second.
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
+    ns.singularity.setFocus(bool.FOCUS);
     while (ns.singularity.getCompanyRep(company) < rep) {
         await ns.sleep(wait_t.DEFAULT);
         const field = choose_field(ns);
@@ -222,6 +225,7 @@ export async function work_for_company(ns, company, rep) {
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
+            ns.singularity.setFocus(bool.FOCUS);
         }
     }
     ns.singularity.stopAction();
