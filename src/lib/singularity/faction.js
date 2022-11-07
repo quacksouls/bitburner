@@ -289,6 +289,7 @@ export async function work_for_faction(ns, fac, work_type) {
     // Share our home server with the faction.  Doing so would boost the amount
     // of reputation points we earn.
     await start_share_home(ns);
+    log(ns, `Share home server with faction: ${fac}`);
     // Start working for the faction.
     const threshold = total_reputation(ns, fac);
     if (threshold === 0) {
@@ -306,4 +307,5 @@ export async function work_for_faction(ns, fac, work_type) {
     ns.singularity.stopAction();
     // We no longer need to share our home server with the faction.
     stop_share_home(ns);
+    log(ns, `Stop sharing home server with faction: ${fac}`);
 }
