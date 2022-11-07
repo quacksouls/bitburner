@@ -127,7 +127,7 @@ async function hack_servers(ns, target) {
         // Use the server to hack itself.
         await hack_a_server(ns, s, s);
         hacked_server.push(s);
-        log(ns, `Server compromised: ${s}`);
+        log(ns, `Compromised server: ${s}`);
     }
     return [reject, hacked_server];
 }
@@ -161,7 +161,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
                 hserver = hserver.filter((hs) => hs !== target.hostname());
                 // Redirect the bankrupt server to hack the target server.
                 await hack_a_server(ns, s, target.hostname());
-                log(ns, `Server compromised: ${s}`);
+                log(ns, `Compromised server: ${s}`);
                 continue;
             }
         }
