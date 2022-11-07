@@ -320,8 +320,8 @@ function equip(ns) {
  *
  * Refer to these files for more detail:
  *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/Gang.ts
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/Gang.ts
+ * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/data/upgrades.ts
  *
  * @param ns The Netscript API.
  * @param name A string representing the name of our gang member.
@@ -356,8 +356,8 @@ function equip_augment_def(ns, name) {
  * Unfortunately, the AWM Sniper Rifle does not raise our member's defense.
  * Refer to these files for more detail:
  *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/Gang.ts
- * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
+ * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/Gang.ts
+ * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/data/upgrades.ts
  *
  * @param ns The Netscript API.
  * @param name A string representing the name of our gang member.
