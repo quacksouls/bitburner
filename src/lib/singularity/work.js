@@ -22,6 +22,7 @@ import { work_hack_lvl } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area, job_title } from "/lib/constant/work.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { study } from "/lib/singularity/study.js";
 import { assert } from "/lib/util.js";
@@ -178,17 +179,20 @@ export async function work(ns, threshold) {
     // level is low, work a software job instead to raise our Charisma.
     const company = choose_company(ns);
     ns.singularity.goToLocation(company); // Increase Intelligence XP.
-    ns.singularity.applyToCompany(company, choose_field(ns));
+    let field = choose_field(ns);
+    ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, bool.FOCUS);
     ns.singularity.setFocus(bool.FOCUS);
+    log(ns, `Work for ${company} in ${field}`);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(wait_t.DEFAULT);
-        const field = choose_field(ns);
+        field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Start working in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
             ns.singularity.setFocus(bool.FOCUS);
+            log(ns, `Work for ${company} in ${field}`);
         }
     }
     ns.singularity.stopAction();
@@ -215,17 +219,20 @@ export async function work_for_company(ns, company, rep) {
     // Work for the company until we have accumulated the given amount of
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
-    ns.singularity.applyToCompany(company, choose_field(ns));
+    let field = choose_field(ns);
+    ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, bool.FOCUS);
     ns.singularity.setFocus(bool.FOCUS);
+    log(ns, `Work for ${company} in ${field}`);
     while (ns.singularity.getCompanyRep(company) < rep) {
         await ns.sleep(wait_t.DEFAULT);
-        const field = choose_field(ns);
+        field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
             ns.singularity.setFocus(bool.FOCUS);
+            log(ns, `Work for ${company} in ${field}`);
         }
     }
     ns.singularity.stopAction();
