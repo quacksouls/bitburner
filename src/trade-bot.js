@@ -21,6 +21,7 @@ import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { forecast, wse } from "/lib/constant/wse.js";
+import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { assert } from "/lib/util.js";
 
@@ -75,19 +76,32 @@ function buy_stock(ns, stk) {
  *     false otherwise.
  */
 function has_api_access(ns) {
-    if (!ns.stock.purchaseWseAccount()) {
-        return bool.NOT;
+    if (!ns.stock.hasWSEAccount()) {
+        if (ns.stock.purchaseWseAccount()) {
+            log(ns, "Purchased WSE account");
+        }
     }
-    if (!ns.stock.purchaseTixApi()) {
-        return bool.NOT;
+    if (!ns.stock.hasTIXAPIAccess()) {
+        if (ns.stock.purchaseTixApi()) {
+            log(ns, "Purchased access to TIX API");
+        }
     }
-    if (!ns.stock.purchase4SMarketData()) {
-        return bool.NOT;
+    if (!ns.stock.has4SData()) {
+        if (ns.stock.purchase4SMarketData()) {
+            log(ns, "Purchased access to 4S Market Data");
+        }
     }
-    if (!ns.stock.purchase4SMarketDataTixApi()) {
-        return bool.NOT;
+    if (!ns.stock.has4SDataTIXAPI()) {
+        if (ns.stock.purchase4SMarketDataTixApi()) {
+            log(ns, "Purchased access to 4S Market Data TIX API");
+        }
     }
-    return bool.HAS;
+    return (
+        ns.stock.hasWSEAccount()
+        && ns.stock.hasTIXAPIAccess()
+        && ns.stock.has4SData()
+        && ns.stock.has4SDataTIXAPI()
+    );
 }
 
 /**
@@ -273,6 +287,7 @@ export async function main(ns) {
     await await_prerequisites(ns);
     await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
+    log(ns, "Trading on the Stock Market");
     for (;;) {
         // Iterate over each stock.  Decide whether to buy or sell.
         for (const stk of ns.stock.getSymbols()) {
