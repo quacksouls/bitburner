@@ -31,6 +31,7 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function farm_intelligence(ns) {
+    log(ns, "Passively farm for Intelligence XP");
     // The minimum amount of money we should have in order to purchase one of
     // the cheapest programs.
     const m = new Money();
