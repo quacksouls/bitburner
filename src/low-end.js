@@ -41,8 +41,8 @@ import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
 function compromised_servers(ns, script) {
     const compromised = [];
     for (const s of filter_pserv(ns, network(ns))) {
-        const server = new Server(ns, s);
-        if (server.has_root_access() && server.is_running_script(script)) {
+        const serv = new Server(ns, s);
+        if (serv.has_root_access() && serv.is_running_script(script)) {
             compromised.push(s);
         }
     }
@@ -106,9 +106,9 @@ async function nuke_servers(ns) {
             continue;
         }
         // Gain root access to the server.
-        const server = new Server(ns, s);
-        assert(player.hacking_skill() >= server.hacking_skill());
-        await server.gain_root_access();
+        const serv = new Server(ns, s);
+        assert(player.hacking_skill() >= serv.hacking_skill());
+        await serv.gain_root_access();
         nuked.push(s);
         log(ns, `Compromised server: ${s}`);
     }
@@ -120,12 +120,12 @@ async function nuke_servers(ns) {
  * various reasons.
  *
  * @param ns The Netscript API.
- * @param server Should we skip this server?
+ * @param s Should we skip this server?
  * @param script The name of our hacking script.
  * @return true if we are to skip over the given server; false otherwise.
  */
-function skip_server(ns, server, script) {
-    const serv = new Server(ns, server);
+function skip_server(ns, s, script) {
+    const serv = new Server(ns, s);
     const player = new Player(ns);
     // Determine the maximum number of ports we can open on a server.
     const nport = player.num_ports();
@@ -175,9 +175,9 @@ async function update(ns) {
     const lowend = low_end(ns);
     let n = 0;
     for (const s of compromised.concat(new_nuked)) {
-        const server = new Server(ns, s);
+        const serv = new Server(ns, s);
         const i = n % lowend.length;
-        await server.deploy(lowend[i]);
+        await serv.deploy(lowend[i]);
         log(ns, `Redirect ${s} to hack low-end server: ${lowend[i]}`);
         n++;
     }
