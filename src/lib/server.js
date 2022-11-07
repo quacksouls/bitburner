@@ -340,9 +340,9 @@ export class Server {
      * @return The amount of RAM to reserve.
      */
     #reserve_ram() {
-        if (this.ram_max() >= home_t.RAM_HUGE) {
-            return home_t.reserve.HIGH;
-        }
+        // if (this.ram_max() >= home_t.RAM_HUGE) {
+        //     return home_t.reserve.HIGH;
+        // }
         if (this.ram_max() >= home_t.RAM_HIGH) {
             return home_t.reserve.HIGH / 2;
         }
