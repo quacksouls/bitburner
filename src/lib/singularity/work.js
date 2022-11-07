@@ -182,7 +182,6 @@ export async function work(ns, threshold) {
     let field = choose_field(ns);
     ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, bool.FOCUS);
-    ns.singularity.setFocus(bool.FOCUS);
     log(ns, `Work for ${company} in ${field}`);
     while (ns.getServerMoneyAvailable(home) < threshold) {
         await ns.sleep(wait_t.DEFAULT);
@@ -191,7 +190,6 @@ export async function work(ns, threshold) {
         // We have a promotion.  Start working in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
-            ns.singularity.setFocus(bool.FOCUS);
             log(ns, `Work for ${company} in ${field}`);
         }
     }
@@ -222,7 +220,6 @@ export async function work_for_company(ns, company, rep) {
     let field = choose_field(ns);
     ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, bool.FOCUS);
-    ns.singularity.setFocus(bool.FOCUS);
     log(ns, `Work for ${company} in ${field}`);
     while (ns.singularity.getCompanyRep(company) < rep) {
         await ns.sleep(wait_t.DEFAULT);
@@ -231,7 +228,6 @@ export async function work_for_company(ns, company, rep) {
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
-            ns.singularity.setFocus(bool.FOCUS);
             log(ns, `Work for ${company} in ${field}`);
         }
     }
