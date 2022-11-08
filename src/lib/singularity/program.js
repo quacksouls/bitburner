@@ -76,6 +76,7 @@ async function buy_programs(ns, program, wrk) {
         return;
     }
     // Purchase the remaining programs.
+    log(ns, `Buying port openers: ${prog.join(", ")}`);
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
         while (player.money() < cost) {
