@@ -28,7 +28,16 @@ square, then $n = ab = a^2$ so one of the factors $a$ and $b$ is at
 most $\sqrt{n}$.  The idea of trial division is to divide $n$ by odd
 integers between $3$ and $\sqrt{n}$, inclusive.  Given an odd integer
 $k$ such that $3 \leq k \leq \sqrt{n}$, note the remainder when $n$ is
-divided by $k$.  If the remainder is $0$, then $k$ is a factor of $n$.
-Otherwise, set $k \gets k + 2$ and repeat the division.  If
-$k > \sqrt{n}$, then $n$ is prime.  Use trial division to find all
-prime factors of $n$ and choose the largest of these prime factors.
+divided by $k$.  If the remainder is $0$, then $k$ is a factor of $n$
+so $n$ is not prime.  Otherwise, set $k \gets k + 2$ and repeat the
+division.  If $k > \sqrt{n}$, then $n$ is prime.  Use trial division
+to find all prime factors of $n$ and choose the largest of these prime
+factors.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/prime/factor.tex}
+\caption{%%
+  Determine a factor of an integer.
+}
+\label{alg:prime:is_prime}
+\end{algorithm}

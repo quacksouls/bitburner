@@ -33,6 +33,25 @@
 \usepackage{datetime2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Typesetting algorithms and pseudocode.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[section]{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\algnotext{EndFor}
+\algnotext{EndFunction}
+\algnotext{EndIf}
+\algnotext{EndProcedure}
+\algnotext{EndWhile}
+\algrenewcommand\algorithmicrequire{\textbf{Input}}
+\algrenewcommand\algorithmicensure{\textbf{Output}}
+\renewcommand{\thealgorithm}{\arabic{section}.\arabic{algorithm}}
+%%
+\newcommand{\code}[1]{{\sf {#1}}}  %% small code snippet
+\newcommand{\Prime}{\code{prime}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Metadata in PDF document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

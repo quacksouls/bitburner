@@ -16,6 +16,7 @@ pdflatex "$DOC".tex
 
 # Clean up after ourselves.
 rm *~
+rm algorithm/prime/*~
 rm tex/*~
 rm .log
 rm *.aux

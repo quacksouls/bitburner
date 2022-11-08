@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require An integer $n > 1$.
+%%
+%% Output.
+\Ensure A positive factor of $n$.
+%%
+%% Algorithm body.
+%%
+%% Check a set of small primes.
+\State $\Prime \gets$ set of small primes\Comment{Check a set of small primes.}
+\If{$n \in \Prime$}
+  \State \Return $n$
+\EndIf
+%%
+%% n is even
+\If{$n$ is even}\Comment{Check whether $n$ is even.}
+  \State \Return $2$
+\EndIf
+%%
+%% Trial division.
+\State $k \gets 3$\Comment{Trial division.}
+\While{$k \leq \sqrt{n}$}
+  \If{$n \bmod k = 0$}
+    \State \Return $k$\Comment{Found a factor of $n$.}
+  \EndIf
+  \State $k \gets k + 2$
+\EndWhile
+\State \Return $n$\Comment{The input $n$ is prime.}
+\end{algorithmic}
