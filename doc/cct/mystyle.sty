@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathptmx}
+\usepackage{mathtools}
+
+%% Graphics
+\usepackage{caption}
+\usepackage{tikz}
+
+%% Language and encoding
+\usepackage[utf8]{inputenc}
+
+%% Customized page geometry
+\textwidth=400pt
+\textheight=650pt
+
+%% IEEE uses Times Roman font, so we'll default to Times.
+%% These three commands make up the entire times.sty package.
+%% \renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\ttdefault}{pcr}
+%% Enable Times/Palatino main text font
+\normalfont\selectfont
+
+%% Date and time
+\usepackage{datetime2}
+
+%% Metadata in PDF document.
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Coding Contracts},%%
+  pdfauthor={Duck McSouls},%%
+  pdfsubject={mathematics, computing},%%
+  colorlinks=true,%%
+  linkcolor=black,%%
+  citecolor=black,%%
+  urlcolor=black
+}
