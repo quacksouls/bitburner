@@ -11,3 +11,24 @@ Determine the largest prime factor of a positive integer.\footnote{
   See Wikipedia for more detail:
   \url{https://en.wikipedia.org/wiki/Integer_factorization}
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+Let $n > 1$ be an integer.  If $n$ is prime, then $n$ is its own
+largest prime factor.  Otherwise, use trial division to find a
+positive factor of $n$.  Other efficient factorization techniques are
+available, but trial division is simple enough and sufficient for the
+game.  If $n$ is even, then $2$ is a factor and we are done.
+Otherwise suppose $n$ is odd.  The integer $n$ can be factorized as
+$n = ab$, where $a \geq 1$ and $b \geq 1$.  If $n$ is a perfect
+square, then $n = ab = a^2$ so one of the factors $a$ and $b$ is at
+most $\sqrt{n}$.  The idea of trial division is to divide $n$ by odd
+integers between $3$ and $\sqrt{n}$, inclusive.  Given an odd integer
+$k$ such that $3 \leq k \leq \sqrt{n}$, note the remainder when $n$ is
+divided by $k$.  If the remainder is $0$, then $k$ is a factor of $n$.
+Otherwise, set $k \gets k + 2$ and repeat the division.  If
+$k > \sqrt{n}$, then $n$ is prime.  Use trial division to find all
+prime factors of $n$ and choose the largest of these prime factors.
