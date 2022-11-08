@@ -54,7 +54,7 @@ export async function buy_all_programs(ns, visit = true, wrk = true) {
         return;
     }
     // Purchase all remaining programs.
-    await buy_programs(ns, popen);
+    await buy_programs(ns, popen, wrk);
 }
 
 /**
