@@ -45,7 +45,6 @@ async function commit_crime(ns, crime, howlong) {
 /**
  * The gain in each stat.
  *
- * @param ns The Netscript API.
  * @param start An object following the format of the function player_stat().
  *     Values of various stats before some action.
  * @param end An object following the format of the function player_stat().
@@ -56,7 +55,7 @@ async function commit_crime(ns, crime, howlong) {
  * @return An object following the format of the function player_stat().
  *     Gained values of various stats.
  */
-function gained_stats(ns, start, end, d) {
+function gained_stats(start, end, d) {
     const denom = Math.floor(d);
     assert(denom > 0);
     return {
@@ -161,7 +160,7 @@ export async function main(ns) {
     await commit_crime(ns, crime, howlong);
     const end = player_stat(ns);
     const denom = n * minute;
-    const gain = gained_stats(ns, start, end, denom);
+    const gain = gained_stats(start, end, denom);
     ns.tprint(`Crime: ${crime}`);
     ns.tprint(`Duration: ${n} hours`);
     ns.tprint("Stat gain per minute.");
