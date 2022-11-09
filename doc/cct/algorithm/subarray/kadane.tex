@@ -1,0 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require A non-empty array $A = \Array{a}{n}$.
+%%
+%% Output.
+\Ensure The greatest sum of any non-empty contiguous subarray of $A$.
+%%
+%% Algorithm body.
+%%
+\State $g \gets -\infty$\Comment{A number smaller than any $a_i$.}
+\State $c \gets 0$\Comment{Current sum is $0$.}
+\For{$k \gets \Seq{a}{n}$}
+  \State $c \gets \Max{k}{c + k}$
+  \State $g \gets \Max{g}{c}$
+\EndFor
+\State \Return $g$
+\end{algorithmic}

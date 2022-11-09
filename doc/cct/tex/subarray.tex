@@ -9,3 +9,24 @@
 
 Consider an array of integers.  Determine the largest sum of a
 non-empty, contiguous subarray.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+This is the maximum subarray problem, where empty subarrays are not
+allowed.\footnote{
+  Refer to Wikipedia for more details:
+  \url{https://en.wikipedia.org/wiki/Maximum_subarray_problem}
+}
+The problem is easily solved by Kadane's algorithm, as shown in
+\Algorithm{alg:subarray:kadane}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/subarray/kadane.tex}
+\caption{%%
+  Kadane's algorithm.
+}
+\label{alg:subarray:kadane}
+\end{algorithm}
