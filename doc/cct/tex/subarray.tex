@@ -21,7 +21,14 @@ allowed.\footnote{
   \url{https://en.wikipedia.org/wiki/Maximum_subarray_problem}
 }
 The problem is easily solved by Kadane's algorithm, as shown in
-\Algorithm{alg:subarray:kadane}.
+\Algorithm{alg:subarray:kadane}.  Given an array
+$A = \Array{a}{n}$ of $n \geq 1$ elements, Kadane's algorithm uses $2$
+variables $g$ and $c$.  The variable $g$ keeps track of the greatest
+sum of any contiguous subarray so far, whereas $c$ keeps track of the
+sum of all $a_i$ up to and including index $i$.  Initially, $g$
+represents a number lower than any $a_i$ and we set $c \gets 0$.  Step
+through each array element $a_i$ in order of index and update
+$c \gets \Max{a_i}{c + a_i}$ and $g \gets \Max{g}{c}$.
 
 \begin{algorithm}[!htbp]
 \input{algorithm/subarray/kadane.tex}
