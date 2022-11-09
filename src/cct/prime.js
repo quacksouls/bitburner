@@ -15,112 +15,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { small_primes } from "/lib/constant/cct.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Obtain a factor of a positive integer.
- *
- * @param n A positive integer greater than 1.
- * @param prime A set of small primes.
- * @return A factor of n.  If 1 and n are the only factors of n, then n is
- *     prime so return n.
- */
-function factor(n, prime) {
-    assert(n > 1);
-    if (prime.has(n)) {
-        return n;
-    }
-    // If n is even, then 2 is a factor of n.
-    if (is_even(n)) {
-        return 2;
-    }
-    // Use trial division to find a factor of n.  Suppose n can be factorized
-    // as n = ab, where a > 1 and b > 1.  If n is a perfect square, then
-    // n = ab = a^2.  Assume n is not a perfect square.  One of the factors a
-    // and b is at most sqrt(n).  Divide n by odd integers between 3 and
-    // sqrt(n), inclusive.
-    const max = Math.ceil(Math.sqrt(n));
-    let i = 3;
-    while (i <= max) {
-        const remainder = n % i;
-        // Found a factor of n.
-        if (remainder === 0) {
-            return i;
-        }
-        i += 2;
-    }
-    assert(i > max);
-    return n;
-}
-
-/**
- * Whether a number is even.
- *
- * @param n A positive integer greater than 1.
- * @return true if n is even; false otherwise.
- */
-function is_even(n) {
-    assert(n > 1);
-    const remainder = n % 2;
-    return remainder === 0;
-}
 
 /**
  * The largest prime factor of a positive integer.
  *
  * @param n A positive integer greater than 1.
  * @return The largest prime factor of the given integer.
- *     Return -1 if there is an error.
  */
 function max_prime_factor(n) {
     // Sanity checks.
     assert(n > 1);
     assert(Number.isSafeInteger(n));
     // Determine the largest prime factor.
-    const pfactor = prime_factorization(n);
-    return MyArray.max(pfactor);
-}
-
-/**
- * The prime factorization of a positive integer.
- *
- * @param n A positive integer greater than 1.
- * @return An array containing the prime factorization of n.
- */
-function prime_factorization(n) {
-    assert(n > 1);
-    // First, take care of the small primes.
-    const prime = new Set(small_primes);
-    if (prime.has(n)) {
-        return [n];
+    let k = Number(n);
+    let p = k;
+    // Divide n by the prime 2.
+    while (k % 2 === 0) {
+        k /= 2;
+        p = 2;
     }
-    // A list of factors of n.  We want to break these factors into prime
-    // factors.
-    const candidate = [n];
-    // The prime factors of n.
-    const pfactor = [];
-    while (candidate.length > 0) {
-        const k = candidate.pop();
-        const a = factor(k, prime);
-        // k cannot be factorized any further, hence is prime.
-        if (a === k) {
-            pfactor.push(k);
-            continue;
+    // Use trial division to divide n by increasingly larger primes.  Start with
+    // the next higher prime, i.e. 3.
+    let i = 3;
+    const max = Math.ceil(Math.sqrt(n));
+    while (i <= max) {
+        if (i > Math.sqrt(k)) {
+            return k;
         }
-        // The integer a is a factor of k.  Obtain another factor b such that
-        // ab == k, where a > 1, b > 1, and each factor is less than k.
-        assert(a > 1);
-        assert(a < k);
-        const b = k / a;
-        const remainder = k % b;
-        assert(remainder === 0);
-        candidate.push(a);
-        candidate.push(b);
+        // The number i is an odd integer.  If i is a factor of k, then i is the
+        // highest prime factor of n so far.
+        while (k % i === 0 && k > 1) {
+            k /= i;
+            p = i;
+        }
+        i += 2;
     }
-    return pfactor;
+    return p;
 }
 
 /**
