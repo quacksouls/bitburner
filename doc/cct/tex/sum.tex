@@ -9,3 +9,58 @@
 
 Given an integer $n > 0$, how many different ways can $n$ be written
 as a sum of at least two positive integers?
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+This is the problem of integer partition, in particular calculating
+the partition number of a positive integer.\footnote{
+  \url{https://en.wikipedia.org/wiki/Partition_(number_theory)}
+}
+The problem asks for a partition that has at least two parts, so we
+must subtract $1$ from the partition number.  In number theory, the
+partition number of a non-negative integer $n$ is the number of
+possible partitions of $n$.  That is, the number of ways to write $n$
+as a sum of positive integers.  The partition function $p(n)$ solves
+the problem.\footnote{
+  \url{https://en.wikipedia.org/wiki/Partition_function_(number_theory)}
+}
+The value of $p(n)$ can be calculated by means of a recurrence
+relation due to Euler, derived from using Euler's pentagonal number
+theorem.\footnote{
+  \url{https://en.wikipedia.org/wiki/Pentagonal_number_theorem}
+}
+The recurrence relation is
+%%
+\begin{equation}
+\label{eqn:sum:partition_function}
+p(n)
+=
+\sum_{k \in \PP} (-1)^{k-1} \BigParen{A + B}
+\end{equation}
+%%
+where
+%%
+\begin{align*}
+A &= p\BigParen{n - k(3k - 1) / 2} \\[4pt]
+B &= p\BigParen{n - k(3k + 1) / 2}
+\end{align*}
+%%
+and $\PP$ is the set of all positive integers.\footnote{
+  Refer to the following page for how to derive
+  \Equation{eqn:sum:partition_function}:
+  \url{https://www.mathpages.com/home/kmath623/kmath623.htm}
+}
+In practice, we only sum up to and including $k = n$.  We define the
+following edge cases:
+%%
+\[
+p(n)
+=
+\begin{cases}
+0, & \text{if $n < 0$} \\[4pt]
+1, & \text{if $n = 0$}.
+\end{cases}
+\]
