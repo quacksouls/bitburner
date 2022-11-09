@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require An integer $n > 1$.
+%%
+%% Output.
+\Ensure The largest prime factor of $n$.
+%%
+%% Algorithm body.
+%%
+%% Ensure n is not even.
+\State $k \gets n$
+\State $p \gets k$
+\While{$k \bmod 2 = 0$}\Comment{Ensure $n$ is not even.}
+  \State $k \gets k / 2$
+  \State $p \gets 2$
+\EndWhile
+%%
+\State $i \gets 3$\Comment{Trial division by odd integers.}
+\While{$i \leq \sqrt{n}$}
+  \If{$i > \sqrt{k}$}
+    \State \Return $k$
+  \EndIf
+  \While{$k \bmod i = 0$ \And $k > 1$}
+    \State $k \gets k / i$
+    \State $p \gets i$
+  \EndWhile
+  \State $i \gets i + 2$
+\EndWhile
+\State \Return $p$
+\end{algorithmic}

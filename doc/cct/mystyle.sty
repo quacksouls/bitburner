@@ -29,8 +29,18 @@
 %% Enable Times/Palatino main text font
 \normalfont\selectfont
 
-%% Date and time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Customized numbering for corollary, lemma, theorem, etc.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{theorem}{Theorem}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Miscellaneous.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage{datetime2}
+\usepackage{xspace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Typesetting algorithms and pseudocode.
@@ -48,20 +58,32 @@
 \algrenewcommand\algorithmicensure{\textbf{Output}}
 \renewcommand{\thealgorithm}{\arabic{section}.\arabic{algorithm}}
 %%
+\renewcommand{\And}{\textbf{and}\xspace}
 \newcommand{\code}[1]{{\sf {#1}}}  %% small code snippet
 \newcommand{\Prime}{\code{prime}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Cross-reference various objects.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\Algorithm}[1]{Algorithm~\ref{#1}}
+\newcommand{\Theorem}[1]{Theorem~\ref{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Set theory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\Set}[1]{\left\{#1\right\}}
+%%
+%% A set of the first n primes.
+%%
+%% #1 := The variable.
+%% #2 := The maximum index.
+\newcommand{\SetFirstPrimes}[2]{%%
+  \Set{%%
+    \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
+  }
+}
 \newcommand{\TupleB}[2]{%%
   {#1},\, {#2}
 }
@@ -70,6 +92,18 @@
 }
 \newcommand{\TupleD}[4]{%%
   \TupleC{#1}{#2}{#3},\, {#4}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Sequences.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% A sequence numbers ordered by <.
+%%
+%% #1 := The variable.
+%% #2 := The index.
+\newcommand{\Seqlt}[2]{%%
+  {#1}_1 < {#1}_2 < \cdots < {#1}_{#2}%%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

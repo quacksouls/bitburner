@@ -43,3 +43,68 @@ prime factors.
 }
 \label{alg:prime:factor}
 \end{algorithm}
+
+\begin{algorithm}[!htbp]
+\input{algorithm/prime/max-prime-factor.tex}
+\caption{%%
+  The largest prime factor of an integer.
+}
+\label{alg:prime:max_prime_factor}
+\end{algorithm}
+
+Trial division can be adapted into an algorithm that determines the
+largest prime factor of an integer $n > 1$.  The main idea is to
+divide $n$ by all primes between $2$ and $\sqrt{n}$, inclusive.  The
+game generates a random integer between $500$ and $10^9$, inclusive,
+meaning we need to consider all primes at most $31,622$.  We can use
+the Sieve of Eratosthenes to generate the next prime as we need it or
+use a list of known primes.  A simple solution, as shown in
+\Algorithm{alg:prime:max_prime_factor}, is to adapt trial division to
+divide $n$ by odd integers between $3$ and $\sqrt{n}$, inclusive.  Set
+$k \gets n$.  If $k$ is even, divide $k$ by $2$ and set
+$k \gets k / 2$.  If the result is also even, repeat the division by
+$2$ until $k$ is no longer even.  So far the highest prime we have
+considered is $2$ so we set $p \gets 2$.  The next higher prime is
+$i \gets 3$.  If $k$ is divisible by $i$, then divide and assign
+(i.e.~the operation $k \gets k / i$) as many times as necessary until
+the resulting value of $k$ is no longer divisible by $i$.
+Furthermore, we update the value of $p$ to $i$.  As the newer value of
+$k$ is no longer divisible by $i$, we update $i$ to the next odd
+integer.  Thus we have divided $n$ by the primes in
+$\Set{\TupleB{2}{3}}$ and the current value of $k$ is not divisible by
+any of these primes.
+
+Let's generalize the above argument.  Let
+$P = \SetFirstPrimes{p}{\ell}$ be a set of the first $\ell$ primes,
+where $\Seqlt{p}{\ell}$ for some integer $\ell \geq 1$.  Suppose that
+$p_{\ell}$ is the highest prime factor of $n$ so far.  Divide $n$ by
+each of these primes as many times as necessary until we arrive at an
+integer $k \leq n$ that cannot be divided by any prime in $P$.  Let
+$i$ be the smallest odd integer greater than $p_{\ell}$ and suppose
+that $i$ is a factor of $k$.  We claim that $i$ is the smallest prime
+greater than
+$p_{\ell}$.  Assume for contradiction that $i$ is not prime.  Then $i$
+is a factor of at least two primes in $P$.  Since $i$ is a factor of
+$k$, this implies that $k$ is divisible by a prime in $P$,
+contradicting the assumption that $k$ is not divisible by any prime in
+$P$.  The above argument proves
+\Theorem{thm:prime:next_smallest_prime}.
+
+\begin{theorem}
+\label{thm:prime:next_smallest_prime}
+Let $P = \SetFirstPrimes{p}{\ell}$ be a set of the first $\ell$
+primes, where $\Seqlt{p}{\ell}$ for some integer $\ell \geq 1$.  Let
+$k > 1$ be an integer that is not divisible by any prime in $P$.
+Suppose $i$ is the smallest odd integer greater than $p_{\ell}$.  If
+$i$ is a factor of $k$, then $i$ is the smallest prime greater than
+$p_{\ell}$.
+\end{theorem}
+
+\Theorem{thm:prime:next_smallest_prime} allows us to divide $n$ by
+successively larger primes.  As we do so, we keep track of the largest
+prime factor so far.  If $k$ is not divisible by any prime at most
+$\sqrt{k}$, then $k$ itself is the largest prime factor of $n$.  The
+worst case is where $n > 2$ itself is prime.
+\Algorithm{alg:prime:max_prime_factor} would attempt to divide $n$ by
+all odd integers between $3$ and $\sqrt{n}$, inclusive, before telling
+us that $n$ is prime.
