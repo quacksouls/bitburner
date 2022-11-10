@@ -79,6 +79,10 @@ async function buy_programs(ns, program, wrk) {
     log(ns, `Buying port openers: ${prog.join(", ")}`);
     while (prog.length > 0) {
         const [p, cost] = cheapest(ns, prog);
+        if (player.has_program(p)) {
+            prog = prog.filter((e) => e !== p);
+            continue;
+        }
         while (player.money() < cost) {
             if (player.hacking_skill() < work_hack_lvl) {
                 if (wrk) {
@@ -137,11 +141,9 @@ async function buy_tor_router(ns, wrk) {
  */
 function cheapest(ns, program) {
     assert(program.length > 0);
-    const player = new Player(ns);
     let mincost = Infinity;
     let prog = "";
     for (const p of program) {
-        assert(!player.has_program(p));
         const cost = ns.singularity.getDarkwebProgramCost(p);
         if (mincost > cost) {
             mincost = cost;
