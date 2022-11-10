@@ -213,19 +213,19 @@ export function prerequisites(ns, aug) {
  * @param ns The Netscript API.
  * @param fac We want to buy Augmentations from this faction.
  * @param stop_trade A boolean signifying whether the trade bot should stop
- *     buying shares of stocks.  Default is true.
+ *     buying shares of stocks.
  * @param buy_nfg A boolean signifying whether to upgrade the NeuroFlux Governor
- *     Augmentation.  Default is true.
+ *     Augmentation.
  * @param raise_money A boolean signifying whether we should raise funds to buy
- *     Augmentations.  Default is true.  We can raise funds by working at a
- *     company or committing crimes.
+ *     Augmentations.  We can raise funds by working at a company or committing
+ *     crimes.
  */
 export async function purchase_augment(
     ns,
     fac,
-    stop_trade = true,
-    buy_nfg = true,
-    raise_money = true
+    stop_trade,
+    buy_nfg,
+    raise_money
 ) {
     // Sanity checks.
     assert(is_valid_faction(fac));
@@ -311,15 +311,15 @@ export async function purchase_augment(
  * @param aug We want to purchase this Augmentation.
  * @param fac We want to purchase the given Augmentation from this faction.
  * @param raise_money A boolean signifying whether we should raise funds to buy
- *     the given Augmentation.  Default is true.  We can raise funds by working
- *     at a company or committing crimes.
+ *     the given Augmentation.  We can raise funds by working at a company or
+ *     committing crimes.
  */
-async function purchase_aug(ns, aug, fac, raise_money = true) {
+async function purchase_aug(ns, aug, fac, raise_money) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
     while (prereq.length > 0) {
         const pre = choose_augment(ns, prereq);
-        await purchase_aug(ns, pre, fac);
+        await purchase_aug(ns, pre, fac, raise_money);
         prereq = prereq.filter((a) => a !== pre);
     }
     // Having purchased all pre-requisites of an Augmentation, now purchase

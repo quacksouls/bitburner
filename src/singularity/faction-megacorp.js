@@ -93,7 +93,13 @@ async function megacorporation(ns, company, fac, rep) {
     await join_faction(ns, fac);
     ns.singularity.quitJob(company);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**

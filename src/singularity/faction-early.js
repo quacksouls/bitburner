@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -64,7 +65,13 @@ async function cyberSec(ns) {
     await install_backdoor(ns, server.hostname());
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -115,7 +122,13 @@ async function netburners(ns) {
         ns.singularity.joinFaction(fac);
     }
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -148,7 +161,13 @@ async function tian_di_hui(ns) {
     // Join the faction and purchase all of its Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**

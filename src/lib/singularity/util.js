@@ -26,11 +26,11 @@ import { wait_t } from "/lib/constant/time.js";
  *
  * @param ns The Netscript API.
  * @param visit A boolean signifying whether to visit the travel agency.
- *     Default to true.  Although not required, we typically visit a travel
- *     agency to raise our Intelligence XP.
+ *     Although not required, we typically visit a travel agency to raise our
+ *     Intelligence XP.
  * @return A string representing the name of a hardware store.
  */
-export async function choose_hardware_company(ns, visit = true) {
+export async function choose_hardware_company(ns, visit) {
     let { city } = ns.getPlayer();
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our

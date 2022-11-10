@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { job_area } from "/lib/constant/work.js";
 import { owned_augment, purchase_augment } from "/lib/singularity/augment.js";
@@ -58,7 +59,13 @@ async function daedalus(ns) {
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -84,7 +91,13 @@ async function illuminati(ns) {
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -110,7 +123,13 @@ async function the_covenant(ns) {
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**

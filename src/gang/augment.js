@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -33,10 +34,13 @@ import { has_gang_api } from "/lib/source.js";
  */
 async function buy_augment(ns) {
     const { faction } = ns.gang.getGangInformation();
-    const stop_trade = false;
-    const buy_nfg = false;
-    const raise_money = false;
-    await purchase_augment(ns, faction, stop_trade, buy_nfg, raise_money);
+    await purchase_augment(
+        ns,
+        faction,
+        bool.NO_STOP_TRADE,
+        bool.NO_BUY_NFG,
+        bool.NO_RAISE_MONEY
+    );
     const to_install = augment_to_install(ns);
     return to_install.length > 0;
 }

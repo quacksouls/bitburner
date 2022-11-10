@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { crimes } from "/lib/constant/crime.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { work_hack_lvl } from "/lib/constant/misc.js";
@@ -65,7 +66,13 @@ async function silhouette(ns) {
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -91,7 +98,13 @@ async function slum_snakes(ns) {
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -122,7 +135,13 @@ async function speakers_for_the_dead(ns) {
     // gain when we share our home server with the faction.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -145,7 +164,13 @@ async function tetrads(ns) {
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -176,7 +201,13 @@ async function the_dark_army(ns) {
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**
@@ -206,7 +237,13 @@ async function the_syndicate(ns) {
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**

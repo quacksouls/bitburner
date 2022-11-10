@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
@@ -72,7 +73,13 @@ async function hacking_group(ns, fac) {
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
     ns.print(`Buy Augmentations from ${fac}`);
-    await purchase_augment(ns, fac);
+    await purchase_augment(
+        ns,
+        fac,
+        bool.STOP_TRADE,
+        bool.BUY_NFG,
+        bool.RAISE_MONEY
+    );
 }
 
 /**

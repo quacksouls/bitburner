@@ -25,6 +25,11 @@ export const bool = {
     BIPARTITE: true,
     NOT_BIPARTITE: false,
     /**
+     * Whether or not to buy NeuroFlux Governor.
+     */
+    BUY_NFG: true,
+    NO_BUY_NFG: false,
+    /**
      * Whether or not we can run something.
      */
     CAN_RUN: true,
@@ -94,6 +99,11 @@ export const bool = {
     PURCHASED: true,
     NOT_PURCHASED: false,
     /**
+     * Whether or not to raise money to purchase various items.
+     */
+    RAISE_MONEY: true,
+    NO_RAISE_MONEY: false,
+    /**
      * Whether or not a state is reachable.  These values are specific to
      * Array Jumping Game.
      */
@@ -108,6 +118,11 @@ export const bool = {
      */
     SKIP: true,
     NO_SKIP: false,
+    /**
+     * Whether or not to stop the trade bot from purchasing shares of stocks.
+     */
+    STOP_TRADE: true,
+    NO_STOP_TRADE: false,
     /**
      * Whether or not we are successful at something.
      */

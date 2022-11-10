@@ -31,14 +31,14 @@ import { assert } from "/lib/util.js";
  * Purchase all programs from the dark web.
  *
  * @param ns The Netscript API.
- * @param visit A boolean signifying whether to visit a hardware store.  Default
- *     to true.  Although not required, we typically visit a hardware store to
- *     increase our Intelligence XP.
+ * @param visit A boolean signifying whether to visit a hardware store.
+ *     Although not required, we typically visit a hardware store to increase
+ *     our Intelligence XP.
  * @param wrk A boolean signifying whether to work to increase our funds or
- *     required stats.  Default to true.  We require money to puchase programs.
- *     In most cases, we require certain stats to be offered a job.
+ *     required stats.  We require money to puchase programs.  In most cases, we
+ *     require certain stats to be offered a job.
  */
-export async function buy_all_programs(ns, visit = true, wrk = true) {
+export async function buy_all_programs(ns, visit, wrk) {
     // Purchase the Tor router from a hardware store.
     const shop = await choose_hardware_company(ns, visit);
     if (visit) {
