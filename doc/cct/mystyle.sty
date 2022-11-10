@@ -80,15 +80,6 @@
 %% Set theory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% A finite array of index values.
-%%
-%% #1 := The variable.
-%% #2 := The largest index.
-\newcommand{\Array}[2]{%%
-  \left[%%
-    \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
-  \right]%%
-}
 \newcommand{\Set}[1]{\left\{#1\right\}}
 %%
 %% A set of the first n primes.
@@ -114,6 +105,15 @@
 %% Sequences.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% A finite array of index values.
+%%
+%% #1 := The variable.
+%% #2 := The largest index.
+\newcommand{\Array}[2]{%%
+  \left[%%
+    \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
+  \right]%%
+}
 %% A finite sequence of indexed values.
 %%
 %% #1 := The variable.
