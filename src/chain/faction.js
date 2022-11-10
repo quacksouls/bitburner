@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 
 /**
@@ -29,6 +31,9 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the script below.
     await hram_suspend(ns);
+    while (ns.isRunning("/singularity/program.js", home)) {
+        await ns.sleep(wait_t.SECOND);
+    }
     exec(ns, "/singularity/faction.js");
     hram_resume(ns);
 }
