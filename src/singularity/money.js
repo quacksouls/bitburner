@@ -75,9 +75,7 @@ function is_upgrade_home_ram(ns) {
  * @param ns The Netscript API.
  */
 function load_chain(ns) {
-    const script = "/chain/misc.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread);
+    exec(ns, "/chain/misc.js");
 }
 
 /**
