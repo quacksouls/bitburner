@@ -18,10 +18,11 @@ integer in $A$ can be used zero or more times.
 \subsection*{Solution}
 
 This is also known as the coin changing problem.  Suppose we have a
-target amount of money $n$.  We have $m$ distinct coins of the
-denominations $\Seq{a}{m}$, where $a_i < a_j$ whenever $i < j$.  How
-many ways are there to combine one or more coins such that the total
-amount is $n$?  We can use a coin zero, one, or more times.\footnote{
+target amount of money $n$.  We have $m$ distinct coins.  The
+denominations are given by the set $A = \Set{\Seq{a}{m}}$, where
+$a_i < a_j$ whenever $i < j$.  How many ways are there to combine one
+or more coins such that the total amount is $n$?  We can use a coin
+zero, one, or more times.\footnote{
   Refer to this page for more detail:
   \url{https://algorithmist.com/wiki/Coin_change}
 }
