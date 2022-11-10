@@ -131,6 +131,15 @@
 \newcommand{\Seqlt}[2]{%%
   {#1}_1 < {#1}_2 < \cdots < {#1}_{#2}%%
 }
+%%
+%% A finite sequence of indexed values.  The index starts from zero.
+%%
+%% #1 := The variable.
+%% #2 := The number of indexed variables.  Subtract 1 from this number
+%%     to get the value of the largest index.
+\newcommand{\Seqz}[2]{%%
+  \TupleD{{#1}_0}{{#1}_1}{\dots}{{#1}_{{#2}-1}}%%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Miscellaneous macros.
@@ -139,6 +148,12 @@
 \newcommand{\BigParen}[1]{%%
   \big({#1}\big)
 }
+%%
+%% The congruence relation a equiv b (mod c).
+\newcommand{\Equivmod}[3]{%%
+  {#1} \; \equiv \; {#2} \; (\text{mod}\xspace\; {#3})%%
+}
+%%
 %% The maximum of 2 values.
 %%
 %% #1 := The first value.

@@ -11,3 +11,64 @@ Let $n > 0$ is an integer and consider an array $A$ of positive
 integers.  Elements in $A$ are unique.  Determine the number of
 different ways to represent $n$ as a sum of integers from $A$.  Each
 integer in $A$ can be used zero or more times.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+This is also known as the coin changing problem.  Suppose we have a
+target amount of money $n$.  We have $m$ distinct coins of the
+denominations $\Seq{a}{m}$, where $a_i < a_j$ whenever $i < j$.  How
+many ways are there to combine one or more coins such that the total
+amount is $n$?  We can use a coin zero, one, or more times.\footnote{
+  Refer to this page for more detail:
+  \url{https://algorithmist.com/wiki/Coin_change}
+}
+The problem is easily solved by the method of generating
+function.\footnote{
+  \url{https://en.wikipedia.org/wiki/Generating_function}
+}
+The generating function for the coin changing problem is
+\[
+C(z)
+=
+\prod_{i=1}^{m}
+\frac{
+  1
+}{
+  1 - z^{a_i}
+}.
+\]
+The number of ways to combine coins to reach the target value $n$ is
+the coefficient of $z^n$ in the generating function $C(z)$.  How would
+we determine the coefficient of $z^n$?  Define $k$ as the least common
+multiple of $\Seq{a}{m}$ and define the number
+\[
+M
+=
+(k - a_1)
++
+(k - a_2)
++
+\cdots
++
+(k - a_m).
+\]
+Then the coefficient of $z^n$ is the given by the summation\footnote{
+  Refer to the following paper for the derivation:
+  \url{https://arxiv.org/abs/1406.5213}
+}
+\[
+\sum_{\substack{0 \; \leq \; i \; \leq \; M\\[2pt] \Equivmod{i}{n}{k}}}
+a_i
+\binom{
+  \frac{n-i}{k} + m - 1
+}{
+  m - 1
+}.
+\]
+% Let n be our target sum and let our m denominations be
+% D := [d_0, d_1, ..., d_{m-1}]
+% where d_i < d_j whenever i < j. That is, the array of denominations is sorted in ascending order.
+% We make the following assumptions:
