@@ -69,7 +69,30 @@ a_i
   m - 1
 }.
 \]
-% Let n be our target sum and let our m denominations be
-% D := [d_0, d_1, ..., d_{m-1}]
-% where d_i < d_j whenever i < j. That is, the array of denominations is sorted in ascending order.
-% We make the following assumptions:
+
+Another way to calculate the coefficient of $z^n$ is to consider each
+denomination in turn.  Let $c_i$ be the number of ways to sum to $i$
+by using the denominations in $A$.  Define the recurrence relation
+%%
+\begin{equation}
+\label{eqn:sum2:recurrence_relation}
+c_i
+\coloneqq
+c_i + c_{i-a}
+\end{equation}
+%%
+where $a \in A$ and $a \leq i \leq n$.  The initial conditions are
+that $c_0 = 1$ and $c_i = 0$ for all $i > 0$.  As we work through each
+denomination in turn, the recurrence
+\Relation{eqn:sum2:recurrence_relation} gradually propagates values up
+to $c_n$.  Once we have worked through all denomination values, the
+final value of $c_n$ is the coefficient of $z^n$.  The above procedure
+is summarized in \Algorithm{alg:sum2:recurrence_relation}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/sum2.tex}
+\caption{%%
+  The number of ways to change money.
+}
+\label{alg:sum2:recurrence_relation}
+\end{algorithm}

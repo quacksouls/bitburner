@@ -76,6 +76,7 @@
 
 \newcommand{\Algorithm}[1]{Algorithm~\ref{#1}}
 \newcommand{\Equation}[1]{Equation~\eqref{#1}}
+\newcommand{\Relation}[1]{relation~\eqref{#1}}
 \newcommand{\Theorem}[1]{Theorem~\ref{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,12 +118,32 @@
   \right]%%
 }
 %%
+%% An array of indexed values, where the values are explicitly given.
+%%
+%% #1 := The first value.
+%% #2 := The second value.
+%% #3 := The final value.
+\newcommand{\ArrayABZ}[3]{%%
+  \left[%%
+    \TupleD{#1}{#2}{\dots}{#3}%%
+  \right]
+}
+%%
 %% A finite sequence of indexed values.
 %%
 %% #1 := The variable.
 %% #2 := The maximum index.
 \newcommand{\Seq}[2]{%%
   \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
+}
+%%
+%% A finite sequence, where the values are explicitly given.
+%%
+%% #1 := The first value.
+%% #2 := The second value.
+%% #3 := The final value.
+\newcommand{\SeqABZ}[3]{%%
+  \TupleD{#1}{#2}{\dots}{#3}%%
 }
 %%
 %% A sequence numbers ordered by <.

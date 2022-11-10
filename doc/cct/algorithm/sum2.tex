@@ -1,0 +1,28 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require A non-empty set $A = \Set{\Seq{a}{m}}$ of positive integers
+such that $a_i < a_j$ whenever $i < j$.  A positive integer $n$ such
+that $a_i \leq n$.
+%%
+%% Output.
+\Ensure The number of ways to sum to $n$ by using the numbers in $A$.
+Each $a_i$ can be used any number of times.
+%%
+%% Algorithm body.
+%%
+%% Initialize array.
+\State $C \gets \ArrayABZ{c_0}{c_1}{c_n}$\Comment{Array of $n + 1$ values.}
+\State $c_0 \gets 1$\Comment{Initialize array.}
+\State $c_i \gets 0$ for all $i > 0$
+%%
+%% Recursively compute values.
+\For{$a \in A$}\Comment{Propagate the sum up to $c_n$.}
+  \For{$i \gets \SeqABZ{a}{a+1}{n}$}
+    \State $c_i \gets c_i + c_{i-a}$
+  \EndFor
+\EndFor
+\State \Return $c_n$
+\end{algorithmic}
