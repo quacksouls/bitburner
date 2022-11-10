@@ -31,6 +31,9 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the scripts below.
     await hram_suspend(ns);
+    while (ns.isRunning("/singularity/money.js", home)) {
+        await ns.sleep(wait_t.SECOND);
+    }
     // Assume our home server is high-end and has enough RAM to run multiple
     // scripts at the same time.  Here is a brief description of the purpose of
     // each script.
