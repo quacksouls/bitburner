@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require An integer $n > 0$.
+%%
+%% Output.
+\Ensure The number of ways to write $n$ as a sum of positive
+integers.  Each integer $1 \leq k \leq n$ can be used any number of
+times.
+%%
+%% Algorithm body.
+%%
+%% Initialize array.
+\State $P \gets \ArrayABZ{p_0}{p_1}{p_n}$\Comment{Array of $n + 1$ values.}
+\State $p_0 \gets 1$\Comment{Initialize array.}
+\State $p_i \gets 0$ for all $i > 0$
+%%
+%% Recursively compute values.
+\For{$i \gets \SeqABZ{1}{2}{n}$}\Comment{Propagate the sum up to $p_n$.}
+  \For{$j \gets \SeqABZ{i}{i+1}{n}$}
+    \State $p_j \gets p_j + p_{j-i}$
+  \EndFor
+\EndFor
+\State \Return $p_n$
+\end{algorithmic}

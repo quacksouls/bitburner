@@ -65,3 +65,26 @@ p(n)
 \end{cases}
 \]
 The solution is the number $p(n) - 1$.
+
+The value of $p(n)$ is also the coefficient of $z^n$ in the generating
+function
+\[
+P(z)
+=
+\prod_{i=1}^n
+\frac{
+  1
+}{
+  1 - z^i
+}.
+\]
+A straightforward way to calculate the coefficint of $z^n$ is the
+procedure presented in \Algorithm{alg:sum:recurrence_relation}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/sum.tex}
+\caption{%%
+  The number of ways to partition $n$.
+}
+\label{alg:sum:recurrence_relation}
+\end{algorithm}
