@@ -16,12 +16,13 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { assert } from "/lib/util.js";
 
 /**
  * The number of possible partitions of a non-negative integer n.  That is,
  * the number of ways to write n as a sum of positive integers.  In number
- * theory, the partition function p(n) solves the problem.  Here, we use
- * a recurrence relation due to Euler, derived from using Euler's pentagonal
+ * theory, the partition function p(n) solves the problem.  One solution is to
+ * use a recurrence relation due to Euler, derived from using Euler's pentagonal
  * number theorem.  The recurrence relation is
  *
  * p(n) := \sum_{k \in PP} (-1)^{k-1} \{ A + B \}
@@ -32,8 +33,14 @@ import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
  * B := p(n - k(3k + 1) / 2)
  * PP := The set of all positive integers.
  *
- * In practice, we only sum up to and including k := n.  Refer to the following
- * for more details:
+ * In practice, we only sum up to and including k := n.  Another way to
+ * calculate p(n) is to note that p(n) is the coefficient of z^n in the
+ * generating function
+ *
+ * P(z) = \prod_{i=1}^n \frac{1}{1 - z^i}
+ *
+ * Calculating the coefficient of z^n is straightforward.  Refer to the
+ * following for more details:
  *
  * [1] https://en.wikipedia.org/wiki/Pentagonal_number_theorem
  * [2] On Euler's Pentagonal Theorem
@@ -46,43 +53,26 @@ import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
  * @param n We want to determine the number of partitions of this number.
  *     Must be a non-negative integer.
  * @return Possible values:
- *     * 1 if n = 0.
- *     * 0 if n < 0.
- *     * p(n)
+ *     (1) 1 if n = 0.
+ *     (2) 0 if n < 0.
+ *     (3) p(n)
  */
-// eslint-disable-next-line func-names
-const partition = (function () {
-    // A memoized version of the partition function.
-    const cache = new Map();
-    function p(n) {
-        // Sanity check.
-        const num = Math.floor(n);
-        if (num < 0) {
-            return 0;
-        }
-        // Base case.
-        if (num === 0) {
-            return 1;
-        }
-        // Check the cache.
-        if (cache.has(num)) {
-            return cache.get(num);
-        }
-        // Recursion.
-        let sum = 0;
-        for (let k = 1; k <= num; k++) {
-            const c = (k * (3 * k - 1)) / 2;
-            const d = (k * (3 * k + 1)) / 2;
-            const a = p(num - c);
-            const b = p(num - d);
-            const sign = (-1) ** (k - 1);
-            sum += sign * (a + b);
-        }
-        cache.set(num, sum);
-        return cache.get(num);
+function partition(n) {
+    assert(n >= 0);
+    if (n === 0) {
+        return 1;
     }
-    return p;
-}());
+    // Use an array of n + 1 elements because we also need to take care of the
+    // base case.
+    const cache = Array(n + 1).fill(0);
+    cache[0] = 1;
+    for (let i = 1; i <= n; i++) {
+        for (let j = i; j <= n; j++) {
+            cache[j] += cache[j - i];
+        }
+    }
+    return cache[n];
+}
 
 /**
  * Total Ways to Sum: Given a number, how many different distinct ways can
@@ -96,7 +86,7 @@ const partition = (function () {
  * https://en.wikipedia.org/wiki/Partition_(number_theory)
  * https://en.wikipedia.org/wiki/Partition_function_(number_theory)
  *
- * Use Euler's pentagonal number theorem.
+ * Use the method of generating function.
  *
  * Usage: run cct/sum.js [cct] [hostname]
  *
