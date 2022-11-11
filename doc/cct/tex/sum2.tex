@@ -17,12 +17,13 @@ integer in $A$ can be used zero or more times.
 
 \subsection*{Solution}
 
-This is also known as the coin changing problem.  Suppose we have a
-target amount of money $n$.  We have $m$ distinct coins.  The
-denominations are given by the set $A = \Set{\Seq{a}{m}}$, where
-$a_i < a_j$ whenever $i < j$.  How many ways are there to combine one
-or more coins such that the total amount is $n$?  We can use a coin
-zero, one, or more times.\footnote{
+This is a special case of the problem
+in \Section{sec:sum:total_ways_to_sum}, known as the coin changing
+problem.  Suppose we have a target amount of money $n$.  We have $m$
+distinct coins.  The denominations are given by the set
+$A = \Set{\Seq{a}{m}}$, where $a_i < a_j$ whenever $i < j$.  How many
+ways are there to combine one or more coins such that the total amount
+is $n$?  We can use a coin zero, one, or more times.\footnote{
   Refer to this page for more detail:
   \url{https://algorithmist.com/wiki/Coin_change}
 }
@@ -87,7 +88,9 @@ denomination in turn, the recurrence
 \Relation{eqn:sum2:recurrence_relation} gradually propagates values up
 to $c_n$.  Once we have worked through all denomination values, the
 final value of $c_n$ is the coefficient of $z^n$.  The above procedure
-is summarized in \Algorithm{alg:sum2:recurrence_relation}.
+is summarized in \Algorithm{alg:sum2:recurrence_relation}.  Notice the
+similarity between
+\AlgorithmB{alg:sum:recurrence_relation}{alg:sum2:recurrence_relation}.
 
 \begin{algorithm}[!htbp]
 \input{algorithm/sum2.tex}
