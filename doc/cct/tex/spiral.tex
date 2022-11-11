@@ -9,3 +9,79 @@
 
 Given a 2-D matrix, print the elements of the matrix in spiral order,
 going in clockwise direction.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+Consider an example matrix:
+%%
+\begin{equation}
+\label{eqn:spiral:example_matrix}
+\begin{bmatrix}
+0  & 1  & 2  & 3  & 4  \\[4pt]
+5  & 6  & 7  & 8  & 9  \\[4pt]
+10 & 11 & 12 & 13 & 14 \\[4pt]
+15 & 16 & 17 & 18 & 19
+\end{bmatrix}.
+\end{equation}
+%%
+Start from the entry $\Pair{0}{0}$ in row $0$ and column $0$,
+i.e.~$0$, and navigate the outer ring of the matrix.  Move along row
+$0$ from left to right and collect the numbers
+$\TupleE{0}{1}{2}{3}{4}$.  Start from the rightmost column at the
+entry $\Pair{0}{4}$ in row $0$ and column $4$, i.e.~$4$.  Move down
+from top to bottom and collect the numbers as we go along, excluding
+the entry at the coordinates $\Pair{0}{4}$, and we have
+$\TupleC{9}{14}{19}$.  From the bottommost row, move along from right
+to left and collect the numbers $\TupleD{18}{17}{16}{15}$.  We exclude
+the entry $19$ because it was collected when we traversed along the
+rightmost column.  From the entry $15$ in the leftmost column, going
+from bottom to top collect numbers as we go along, resulting in
+$\TupleB{10}{5}$.  We exclude $15$ because it was already collected
+when we traversed the bottommost row.  Furthermore, we exclude $0$
+because it was collected when we moved along the topmost row.  The
+outer ring of \Matrix{eqn:spiral:example_matrix} consists of the
+numbers
+\[
+\TupleE{0}{1}{2}{3}{4},\,
+\TupleC{9}{14}{19},\,
+\TupleD{18}{17}{16}{15},\,
+\TupleB{10}{5}.
+\]
+Now consider the submatrix
+%%
+\begin{equation}
+\label{eqn:spiral:example_matrix:submatrix}
+\begin{bmatrix}
+6  & 7  & 8  \\[4pt]
+11 & 12 & 13
+\end{bmatrix}
+\end{equation}
+%%
+of \Matrix{eqn:spiral:example_matrix}.  Use same procedure as above,
+i.e.~move along the outer ring of
+\Submatrix{eqn:spiral:example_matrix:submatrix}, and we obtain the
+sequence of numbers
+\[
+\TupleC{6}{7}{8},\,
+\TupleC{13}{12}{11}.
+\]
+The spiral order of \Matrix{eqn:spiral:example_matrix} in clockwise
+direction is the sequence of numbers
+\[
+\TupleE{0}{1}{2}{3}{4},\,
+\TupleC{9}{14}{19},\,
+\TupleD{18}{17}{16}{15},\,
+\TupleB{10}{5},\,
+\TupleC{6}{7}{8},\,
+\TupleC{13}{12}{11}.
+\]
+
+We have $2$ exceptional cases.  The first is a (sub)matrix consisting
+entirely of $1$ row, called a row matrix.  The second is a (sub)matrix
+consisting entirely of $1$ column, called a column matrix.  If we have
+a row matrix, then traverse the row from left to right and we are
+done.  For the case of a column matrix, traverse the column from top
+to bottom.

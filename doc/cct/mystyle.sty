@@ -82,8 +82,10 @@
 \newcommand{\Algorithm}[1]{Algorithm~\ref{#1}}
 \newcommand{\AlgorithmB}[2]{Algorithms~\ref{#1} and~\ref{#2}}
 \newcommand{\Equation}[1]{Equation~\eqref{#1}}
+\newcommand{\Matrix}[1]{matrix~\eqref{#1}}
 \newcommand{\Relation}[1]{relation~\eqref{#1}}
 \newcommand{\Section}[1]{section~\ref{#1}}
+\newcommand{\Submatrix}[1]{submatrix~\eqref{#1}}
 \newcommand{\Theorem}[1]{Theorem~\ref{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,6 +127,14 @@
   \left[%%
     \TupleD{#1}{#2}{\dots}{#3}%%
   \right]
+}
+%%
+%% A pair of numbers.
+%%
+%% #1 := The first element.
+%% #2 := The second element.
+\newcommand{\Pair}[2]{%%
+  \left( \TupleB{#1}{#2} \right)%%
 }
 %%
 %% A finite sequence of indexed values.
@@ -170,6 +180,9 @@
 }
 \newcommand{\TupleD}[4]{%%
   \TupleC{#1}{#2}{#3},\, {#4}
+}
+\newcommand{\TupleE}[5]{%%
+  \TupleD{#1}{#2}{#3}{#4},\, {#5}%%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
