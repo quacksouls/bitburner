@@ -179,10 +179,10 @@ export class Sleeve {
     has_mug_threshold(idx) {
         assert(this.#is_valid_index([idx]));
         return (
-            this.agility(idx) >= cc_t.MUG_TAU
-            && this.defense(idx) >= cc_t.MUG_TAU
-            && this.dexterity(idx) >= cc_t.MUG_TAU
-            && this.strength(idx) >= cc_t.MUG_TAU
+            this.agility(idx) >= cc_t.MUG
+            && this.defense(idx) >= cc_t.MUG
+            && this.dexterity(idx) >= cc_t.MUG
+            && this.strength(idx) >= cc_t.MUG
         );
     }
 
@@ -197,8 +197,7 @@ export class Sleeve {
     has_shoplift_threshold(idx) {
         assert(this.#is_valid_index([idx]));
         return (
-            this.agility(idx) >= cc_t.SHOP_TAU
-            && this.dexterity(idx) >= cc_t.SHOP_TAU
+            this.agility(idx) >= cc_t.SHOP && this.dexterity(idx) >= cc_t.SHOP
         );
     }
 
