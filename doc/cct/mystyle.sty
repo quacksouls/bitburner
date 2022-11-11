@@ -96,15 +96,6 @@
     \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
   }
 }
-\newcommand{\TupleB}[2]{%%
-  {#1},\, {#2}
-}
-\newcommand{\TupleC}[3]{%%
-  \TupleB{#1}{#2},\, {#3}
-}
-\newcommand{\TupleD}[4]{%%
-  \TupleC{#1}{#2}{#3},\, {#4}
-}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Sequences.
@@ -163,6 +154,17 @@
 %%     to get the value of the largest index.
 \newcommand{\Seqz}[2]{%%
   \TupleD{{#1}_0}{{#1}_1}{\dots}{{#1}_{{#2}-1}}%%
+}
+%%
+%% Tuples of numbers.
+\newcommand{\TupleB}[2]{%%
+  {#1},\, {#2}
+}
+\newcommand{\TupleC}[3]{%%
+  \TupleB{#1}{#2},\, {#3}
+}
+\newcommand{\TupleD}[4]{%%
+  \TupleC{#1}{#2}{#3},\, {#4}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
