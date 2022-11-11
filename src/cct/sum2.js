@@ -81,7 +81,7 @@ function partition(n, denom) {
             cache[i] += cache[i - d];
         }
     }
-    return cache[cache.length - 1];
+    return cache[n];
 }
 
 /**
