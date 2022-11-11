@@ -36,9 +36,14 @@ export const crimes = {
     ROB: "rob store",
     SHOP: "shoplift",
     TRAFFICK: "traffick illegal arms",
+};
+
+/**
+ * Various thresholds related to crimes.
+ */
+export const crimes_t = {
     /**
-     * Various numeric constants.
+     * The default number of times we want to commit a particular crime.
      */
-    // The default number of times we want to commit a particular crime.
     n: 10,
 };
