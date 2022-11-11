@@ -17,7 +17,6 @@
 
 import { crimes } from "/lib/constant/crime.js";
 import { colour } from "/lib/constant/misc.js";
-import { cc_t } from "/lib/constant/sleeve.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_sleeve_api } from "/lib/source.js";
@@ -45,13 +44,13 @@ async function commit_crimes(ns) {
     // Shoplift.
     log(ns, crimes.SHOP);
     all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.SHOP));
-    while (!has_shoplift_threshold(ns, cc_t.SHOP_TAU)) {
+    while (!has_shoplift_threshold(ns)) {
         await ns.sleep(wait_t.SECOND);
     }
     // Mugging people.
     log(ns, crimes.MUG);
     all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.MUG));
-    while (!has_mug_threshold(ns, cc_t.MUG_TAU)) {
+    while (!has_mug_threshold(ns)) {
         await ns.sleep(wait_t.SECOND);
     }
     // Homicide.

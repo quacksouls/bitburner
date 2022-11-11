@@ -17,6 +17,7 @@
 
 import { MyArray } from "/lib/array.js";
 import { bool } from "/lib/constant/bool.js";
+import { cc_t } from "/lib/constant/sleeve.js";
 import { assert } from "/lib/util.js";
 
 // Utility functions for managing sleeves.  Use one or more of these utility
@@ -36,23 +37,20 @@ export function all_sleeves(ns) {
 /**
  * Whether the combat stats of sleeves are at least a given threshold.
  *
- * @param t We want the combat stats of each sleeve to be at least this
- *     amount.
- * @return True if the combat stats of each sleeve are each at least the
- *     given amount; false otherwise.
+ * @param ns The Netscript API.
+ * @return True if the combat stats of each sleeve are each at least cc_t.MUG;
+ *     false otherwise.
  */
-export function has_mug_threshold(ns, t) {
+export function has_mug_threshold(ns) {
     const all_cc = all_sleeves(ns);
     assert(is_valid_index(ns, all_cc));
-    const tau = Math.floor(t);
-    assert(tau > 0);
     for (const i of all_cc) {
         const stat = ns.sleeve.getSleeveStats(i);
         if (
-            stat.agility < tau
-            || stat.defense < tau
-            || stat.dexterity < tau
-            || stat.strength < tau
+            stat.agility < cc_t.MUG
+            || stat.defense < cc_t.MUG
+            || stat.dexterity < cc_t.MUG
+            || stat.strength < cc_t.MUG
         ) {
             return bool.NOT;
         }
@@ -65,19 +63,15 @@ export function has_mug_threshold(ns, t) {
  * threshold.
  *
  * @param ns The Netscript API.
- * @param t We want the Dexterity and Agility stats of each sleeve to be
- *     at least this amount.
  * @return True if the Dexterity and Agility stats of each sleeve are each
- *     at least the given amount; false otherwise.
+ *     at least cc_t.SHOP; false otherwise.
  */
-export function has_shoplift_threshold(ns, t) {
+export function has_shoplift_threshold(ns) {
     const all_cc = all_sleeves(ns);
     assert(is_valid_index(ns, all_cc));
-    const tau = Math.floor(t);
-    assert(tau > 0);
     for (const i of all_cc) {
         const stat = ns.sleeve.getSleeveStats(i);
-        if (stat.agility < tau || stat.dexterity < tau) {
+        if (stat.agility < cc_t.SHOP || stat.dexterity < cc_t.SHOP) {
             return bool.NOT;
         }
     }
