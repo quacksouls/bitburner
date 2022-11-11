@@ -15,9 +15,14 @@
 \usepackage[utf8]{inputenc}
 
 %% Customized page geometry
-\textwidth=400pt
-\textheight=700pt
-\topmargin=-40pt
+\usepackage{geometry}
+\geometry{
+  paper=a4paper,
+  margin=80pt,
+  top=30pt,
+  bottom=40pt,
+  includeheadfoot
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% IEEE uses Times Roman font, so we'll default to Times.
