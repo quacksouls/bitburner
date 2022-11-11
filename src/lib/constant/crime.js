@@ -43,7 +43,17 @@ export const crimes = {
  */
 export const crimes_t = {
     /**
+     * Mugging increases all of our combat stats.  Check whether each of our
+     * combat stats is at least this value.
+     */
+    MUG: 10,
+    /**
      * The default number of times we want to commit a particular crime.
      */
     n: 10,
+    /**
+     * Shoplift increases our Dexterity and Agility.  Check whether each of our
+     * Dexterity and Agility is at least this value.
+     */
+    SHOP: 5,
 };

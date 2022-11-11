@@ -44,6 +44,35 @@ async function commit_other_crime(ns, threshold) {
 }
 
 /**
+ * Whether our combat stats are at least a given threshold.
+ *
+ * @param ns The Netscript API.
+ * @return True if our combat stats are each at least crimes_t.MUG;
+ *     false otherwise.
+ */
+function has_mug_threshold(ns) {
+    const stat = ns.getPlayer().skills;
+    return (
+        stat.agility >= crimes_t.MUG
+        && stat.defense >= crimes_t.MUG
+        && stat.dexterity >= crimes_t.MUG
+        && stat.strength >= crimes_t.MUG
+    );
+}
+
+/**
+ * Whether our Dexterity and Agility stats are at least a given threshold.
+ *
+ * @param ns The Netscript API.
+ * @return True if our Dexterity and Agility stats are each at least
+ *   crimes_t.SHOP; false otherwise.
+ */
+function has_shoplift_threshold(ns) {
+    const stat = ns.getPlayer().skills;
+    return stat.agility >= crimes_t.SHOP && stat.dexterity >= crimes_t.SHOP;
+}
+
+/**
  * Mug someone a few times to raise all our combat stats, i.e. Strength,
  * Defense, Dexterity, Agility.
  *
@@ -54,7 +83,9 @@ async function mug_someone(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.MUG);
     const time = crimes_t.n * stat.time;
     ns.singularity.commitCrime(crimes.MUG, bool.FOCUS);
-    await ns.sleep(time);
+    if (!has_mug_threshold(ns)) {
+        await ns.sleep(time);
+    }
     ns.singularity.stopAction();
 }
 
@@ -68,7 +99,9 @@ async function shoplift(ns) {
     const stat = ns.singularity.getCrimeStats(crimes.SHOP);
     const time = crimes_t.n * stat.time;
     ns.singularity.commitCrime(crimes.SHOP, bool.FOCUS);
-    await ns.sleep(time);
+    if (!has_shoplift_threshold(ns)) {
+        await ns.sleep(time);
+    }
     ns.singularity.stopAction();
 }
 
