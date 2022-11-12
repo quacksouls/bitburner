@@ -77,11 +77,16 @@ export class Corporation {
      *
      * @param div A string representing the name of a division.
      * @param ct A string representing the name of a city.
+     * @return True if the purchase was successful; false otherwise.
      */
     buy_warehouse(div, ct) {
         assert(this.is_valid_division(div));
         assert(is_valid_city(ct));
+        if (this.funds() < this.#ns[corp.API].getPurchaseWarehouseCost()) {
+            return bool.FAILURE;
+        }
         this.#ns[corp.API].purchaseWarehouse(div, ct);
+        return bool.SUCCESS;
     }
 
     /**
