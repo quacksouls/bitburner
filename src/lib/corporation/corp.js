@@ -293,8 +293,6 @@ export class Corporation {
     num_employees(div, ct) {
         assert(this.is_valid_division(div));
         assert(is_valid_city(ct));
-        const { employees, size } = this.#ns[corp.API].getOffice(div, ct);
-        assert(employees.length === size);
-        return size;
+        return this.#ns[corp.API].getOffice(div, ct).employees.length;
     }
 }
