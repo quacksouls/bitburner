@@ -84,4 +84,13 @@ entirely of $1$ row, called a row matrix.  The second is a (sub)matrix
 consisting entirely of $1$ column, called a column matrix.  If we have
 a row matrix, then traverse the row from left to right and we are
 done.  For the case of a column matrix, traverse the column from top
-to bottom.
+to bottom.  Our discussion is summarized in
+\Algorithm{alg:spiral:spiral_order_clockwise}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/spiral.tex}
+\caption{%%
+  The spiral order of a matrix, in clockwise direction.
+}
+\label{alg:spiral:spiral_order_clockwise}
+\end{algorithm}

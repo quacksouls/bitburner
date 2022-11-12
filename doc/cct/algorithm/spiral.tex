@@ -1,0 +1,50 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require An $m \times n$ matrix $M$, where $\TupleB{m}{n} > 0$.
+%%
+%% Output.
+\Ensure The spiral order of $M$ in clockwise direction.
+%%
+%% Algorithm body.
+%%
+%% Function ring() to navigate the outer ring of the matrix.
+\Function{ring}{$\TupleE{M}{t_r}{t_c}{b_r}{b_c}$}
+%%
+%% Top-left to top-right.
+\State $E \gets$ empty array
+\State append to $E$ the entries from $\Pair{t_r}{t_c}$ to $\Pair{t_r}{b_c}$\Comment{Top-left to top-right.}
+%% Is this a row matrix?
+\If{$t_r = b_r$}\Comment{A row submatrix?}
+  \State \Return $E$
+\EndIf
+%% Top-right to bottom-right.
+\State append to $E$ the entries from $\Pair{t_r+1}{b_c}$ to $\Pair{b_r}{b_c}$\Comment{Top-right to bottom-right.}
+%% Is this a column matrix?
+\If{$t_c = b_c$}\Comment{A column submatrix?}
+  \State \Return $E$
+\EndIf
+%% Bottom-right to bottom-left.
+\State append to $E$ the entries from $\Pair{b_r}{b_c-1}$ to $\Pair{b_r}{t_c}$\Comment{Bottom-right to bottom-left.}
+%% Bottom-left to top-left.
+\State append to $E$ the entries from $\Pair{b_r-1}{t_c}$ to $\Pair{t_r+1}{t_c}$\Comment{Bottom-left to top-left.}
+\State \Return $E$
+\EndFunction
+%%
+%% Get the spiral order.
+\State $t_r \gets$ index of first row\Comment{Top-left row.}
+\State $t_c \gets t_r$\Comment{Top-left column.}
+\State $b_r \gets$ index of last row\Comment{Bottom-right row.}
+\State $b_c \gets$ index of last column\Comment{Bottom-right column.}
+\State $E \gets$ empty array
+\While{$t_r \leq b_r$ \And $t_c \leq b_c$}
+  \State concatenate $E$ with output of $\textproc{ring}(\TupleE{M}{t_r}{t_c}{b_r}{b_c})$
+  \State $t_r \gets t_r + 1$
+  \State $t_c \gets t_c + 1$
+  \State $b_r \gets b_r - 1$
+  \State $b_c \gets b_c - 1$
+\EndWhile
+\State \Return $E$
+\end{algorithmic}
