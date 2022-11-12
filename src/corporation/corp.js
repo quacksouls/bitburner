@@ -89,6 +89,32 @@ function hire_advert(ns) {
 }
 
 /**
+ * The initial bulk purchase of these materials:
+ *
+ * (1) Hardware.  We want a total of 125.
+ * (2) AI Cores.  We want a total of 75.
+ * (3) Real Estate.  We want a total of 27k.
+ *
+ * @param ns The Netscript API.
+ */
+function initial_bulk_purchase(ns) {
+    const org = new Corporation(ns);
+    const material = [
+        corp.material.AI,
+        corp.material.HARDWARE,
+        corp.material.LAND,
+    ];
+    const amount = [
+        corp_t.material.ai.buy.INIT_BULK,
+        corp_t.material.hardware.buy.INIT_BULK,
+        corp_t.material.land.buy.INIT_BULK,
+    ];
+    for (let i = 0; i < material.length; i++) {
+        org.material_bulk_buy(material[i], amount[i]);
+    }
+}
+
+/**
  * Hire 3 employees for each new office in each city.  For each office, assign
  * an employee to each of the following positions: Business, Engineer, and
  * Operations.
@@ -149,6 +175,7 @@ function stage_one(ns) {
     hire_advert(ns);
     initial_material_sell(ns);
     initial_level_upgrade(ns);
+    initial_bulk_purchase(ns);
 }
 
 /**

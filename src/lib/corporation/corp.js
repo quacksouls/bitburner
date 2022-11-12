@@ -348,6 +348,23 @@ export class Corporation {
     }
 
     /**
+     * Purchase a material in bulk quantity.  We buy this material for each
+     * division in each city.
+     *
+     * @param name The name of the material to buy.
+     * @param amt The bulk amount to buy.
+     */
+    material_bulk_buy(name, amt) {
+        assert(this.is_valid_material(name));
+        assert(amt > 0);
+        for (const div of this.all_divisions()) {
+            cities.all.forEach((ct) => {
+                this.#ns[corp.API].bulkPurchase(div, ct, name, amt);
+            });
+        }
+    }
+
+    /**
      * The initial selling of our materials.  The amount is the maximum of
      * whatever we have.  The price is set at the market price.
      *

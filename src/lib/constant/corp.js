@@ -156,6 +156,53 @@ export const corp = {
  */
 export const corp_t = {
     /**
+     * Various thresholds on materials.
+     */
+    material: {
+        /**
+         * AI Cores.
+         */
+        ai: {
+            /**
+             * Purchasing thresholds.
+             */
+            buy: {
+                /**
+                 * The amount for our initial bulk purchase.
+                 */
+                INIT_BULK: 75,
+            },
+        },
+        /**
+         * Hardware.
+         */
+        hardware: {
+            /**
+             * Purchasing thresholds.
+             */
+            buy: {
+                /**
+                 * The amount for our initial bulk purchase.
+                 */
+                INIT_BULK: 125,
+            },
+        },
+        /**
+         * Real Estate.
+         */
+        land: {
+            /**
+             * Purchasing thresholds.
+             */
+            buy: {
+                /**
+                 * The amount for our initial bulk purchase.
+                 */
+                INIT_BULK: 27e3,
+            },
+        },
+    },
+    /**
      * Various thresholds related to an office.
      */
     office: {
