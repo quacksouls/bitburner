@@ -300,4 +300,26 @@ export class Corporation {
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).employees.length;
     }
+
+    /**
+     * Upgrade the warehouse of a division in a particular city.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @param n How many times to upgrade.  Must be at least 1.
+     * @return True if the upgrade was successful; false otherwise.
+     */
+    upgrade_warehouse(div, ct, n) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        assert(n >= 1);
+        if (
+            this.funds()
+            < this.#ns[corp.API].getUpgradeWarehouseCost(div, ct, n)
+        ) {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].upgradeWarehouse(div, ct, n);
+        return bool.SUCCESS;
+    }
 }

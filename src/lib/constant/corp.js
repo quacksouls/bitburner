@@ -127,4 +127,8 @@ export const corp_t = {
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Corporation.ts
      */
     SEED_COST: 15e10,
+    /**
+     * The initial number of times to upgrade a warehouse upon purchase.
+     */
+    WAREHOUSE_INIT_UPGRADE: 2,
 };
