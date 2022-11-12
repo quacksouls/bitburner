@@ -306,20 +306,35 @@ export class Corporation {
      *
      * @param div A string representing the name of a division.
      * @param ct A string representing the name of a city.
-     * @param n How many times to upgrade.  Must be at least 1.
+     * @param n How many times to upgrade.  Default is 1.
      * @return True if the upgrade was successful; false otherwise.
      */
-    upgrade_warehouse(div, ct, n) {
+    upgrade_warehouse(div, ct, n = 1) {
         assert(this.is_valid_division(div));
         assert(is_valid_city(ct));
         assert(n >= 1);
-        if (
-            this.funds()
-            < this.#ns[corp.API].getUpgradeWarehouseCost(div, ct, n)
-        ) {
+        const cost = this.#ns[corp.API].getUpgradeWarehouseCost(div, ct, n);
+        if (this.funds() < cost) {
             return bool.FAILURE;
         }
         this.#ns[corp.API].upgradeWarehouse(div, ct, n);
         return bool.SUCCESS;
+    }
+
+    /**
+     * Upgrade a newly purchased warehouse to the initial capacity.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     */
+    warehouse_init_upgrade(div, ct) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        while (
+            this.#ns[corp.API].getWarehouse(div, ct).size
+            < corp_t.warehouse.INIT_UPGRADE_SIZE
+        ) {
+            this.upgrade_warehouse(div, ct);
+        }
     }
 }

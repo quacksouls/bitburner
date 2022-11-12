@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { corp } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -53,8 +53,8 @@ function expand_city(ns) {
             if (!org.has_division_office(div, ct)) {
                 org.expand_city(div, ct);
                 org.buy_warehouse(div, ct);
-                org.upgrade_warehouse(div, ct, corp_t.WAREHOUSE_INIT_UPGRADE);
             }
+            org.warehouse_init_upgrade(div, ct);
         });
     }
 }

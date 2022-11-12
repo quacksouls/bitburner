@@ -128,7 +128,14 @@ export const corp_t = {
      */
     SEED_COST: 15e10,
     /**
-     * The initial number of times to upgrade a warehouse upon purchase.
+     * Various thresholds related to a warehouse.
      */
-    WAREHOUSE_INIT_UPGRADE: 2,
+    warehouse: {
+        /**
+         * The initial upgraded size of a warehouse.  When a warehouse is
+         * bought, it has a size of 100.  We want to upgrade our early warehouse
+         * to this size.
+         */
+        INIT_UPGRADE_SIZE: 300,
+    },
 };
