@@ -36,38 +36,33 @@ function ring(m, tlr, tlc, brr, brc) {
     // Top-left to top-right.
     let array = [];
     let elem = [];
-    if (tlc <= brc) {
-        array = m[tlr];
-        elem = Array.from(array.slice(tlc, brc + 1));
-    }
+    assert(tlc <= brc);
+    array = m[tlr];
+    elem = Array.from(array.slice(tlc, brc + 1));
     // Is this a matrix of one row?
     if (tlr === brr) {
         return elem;
     }
     // Top-right to bottom-right.
-    if (tlr < brr) {
-        for (let r = tlr + 1; r <= brr; r++) {
-            elem.push(m[r][brc]);
-        }
+    assert(tlr < brr);
+    for (let r = tlr + 1; r <= brr; r++) {
+        elem.push(m[r][brc]);
     }
     // Do we have a matrix of one column?
     if (tlc === brc) {
         return elem;
     }
     // Bottom-right to bottom-left.
-    if (tlc < brc) {
-        array = m[brr];
-        const arr = Array.from(array.slice(tlc, brc));
-        elem = elem.concat(arr.reverse());
-    }
+    assert(tlc < brc);
+    array = m[brr];
+    array = Array.from(array.slice(tlc, brc));
+    elem = elem.concat(array.reverse());
     // Bottom-left to top-left.
-    if (tlr < brr) {
-        const arr = [];
-        for (let r = tlr + 1; r < brr; r++) {
-            arr.push(m[r][tlc]);
-        }
-        elem = elem.concat(arr.reverse());
+    array = [];
+    for (let r = tlr + 1; r < brr; r++) {
+        array.push(m[r][tlc]);
     }
+    elem = elem.concat(array.reverse());
     return elem;
 }
 
