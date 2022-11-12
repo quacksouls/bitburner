@@ -104,6 +104,21 @@ function initial_hire(ns) {
 }
 
 /**
+ * Add one level to various upgrades.
+ */
+function initial_level_upgrade(ns) {
+    const org = new Corporation(ns);
+    const upgrade = [
+        corp.upgrade.FOCUS,
+        corp.upgrade.NEURAL,
+        corp.upgrade.SPEECH,
+        corp.upgrade.INJECTOR,
+        corp.upgrade.FACTORY,
+    ];
+    upgrade.forEach((upg) => org.level_upgrade(upg));
+}
+
+/**
  * The initial selling of materials.
  *
  * @param ns The Netscript API.
@@ -166,4 +181,5 @@ export async function main(ns) {
     initial_hire(ns);
     hire_advert(ns);
     initial_material_sell(ns);
+    initial_level_upgrade(ns);
 }

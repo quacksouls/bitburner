@@ -303,6 +303,38 @@ export class Corporation {
     }
 
     /**
+     * Whether the given name refers to a valid level upgrade.
+     *
+     * @param upg A string representing the name of a level upgrade.
+     * @return True if the given name refers to a valid level upgrade;
+     *     false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_upgrade(upg) {
+        assert(upg !== "");
+        const upgrade = new Set(Object.values(corp.upgrade));
+        return upgrade.has(upg);
+    }
+
+    /**
+     * Level up an upgrade that can be levelled.  A level upgrade is not the
+     * same as an unlock upgrade.
+     *
+     * @param name The name of the upgrade to level.
+     * @return True if we successfully levelled up the given upgrade;
+     *     false otherwise.
+     */
+    level_upgrade(name) {
+        assert(this.is_valid_upgrade(name));
+        const cost = this.#ns[corp.API].getUpgradeLevelCost(name);
+        if (this.funds() < cost) {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].levelUpgrade(name);
+        return bool.SUCCESS;
+    }
+
+    /**
      * The initial selling of our materials.  The amount is the maximum of
      * whatever we have.  The price is set at the market price.
      *

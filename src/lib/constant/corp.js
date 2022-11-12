@@ -129,6 +129,26 @@ export const corp = {
          */
         WAREHOUSE: "Warehouse API",
     },
+    /**
+     * These are level upgrades, as distinct from the unlock upgrades.  All
+     * level upgrades start off as level 0.  We must purchase more levels for a
+     * particular upgrade to increase its effectiveness.  Data taken from this
+     * file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/data/Constants.ts
+     */
+    upgrade: {
+        ANALYTIC: "Wilson Analytics",
+        DREAM: "DreamSense",
+        FACTORY: "Smart Factories",
+        FOCUS: "FocusWires",
+        INJECTOR: "Nuoptimal Nootropic Injector Implants",
+        INSIGHT: "Project Insight",
+        NEURAL: "Neural Accelerators",
+        SALE: "ABC SalesBots",
+        SPEECH: "Speech Processor Implants",
+        STORAGE: "Smart Storage",
+    },
 };
 
 /**
