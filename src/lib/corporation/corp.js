@@ -261,7 +261,8 @@ export class Corporation {
      * @param ct The name of a city.
      */
     initial_hire(div, ct) {
-        for (let i = this.num_employees(div, ct); i < corp_t.INIT_HIRE; i++) {
+        const max = corp_t.office.INIT_HIRE;
+        for (let i = this.num_employees(div, ct); i < max; i++) {
             const name = this.hire(div, ct);
             if (name !== "") {
                 this.#ns[corp.API].assignJob(div, ct, name, corp.position[i]);

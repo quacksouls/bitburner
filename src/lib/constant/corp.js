@@ -156,9 +156,14 @@ export const corp = {
  */
 export const corp_t = {
     /**
-     * The initial number of employees to hire for an office.
+     * Various thresholds related to an office.
      */
-    INIT_HIRE: 3,
+    office: {
+        /**
+         * The initial number of employees to hire for an office.
+         */
+        INIT_HIRE: 3,
+    },
     /**
      * We need $150b to start a corporation.  Data taken from this file:
      *
