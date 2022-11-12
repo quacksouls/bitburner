@@ -98,7 +98,7 @@ export class Corporation {
      * (2) Get a loan.  Take out a loan of $150b to start our corporation.  This
      *     only works in BN3.
      *
-     * @return true if our corporation is successfully created; false otherwise.
+     * @return True if our corporation is successfully created; false otherwise.
      */
     create() {
         const player = new Player(this.#ns);
@@ -124,7 +124,7 @@ export class Corporation {
      *     corporation.
      * @param city A string representing the name of a city.  We want to expand
      *     the given division into this city.
-     * @return true if the expansion is successful or we already have a division
+     * @return True if the expansion is successful or we already have a division
      *     office in the given city; false otherwise.
      */
     expand_city(name, city) {
