@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
 import { corp } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
@@ -143,11 +142,7 @@ function unlock_upgrade(ns) {
     const org = new Corporation(ns);
     if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
         org.buy_unlock_upgrade(corp.unlock.SMART);
-        ns[corp.API].setSmartSupply(
-            corp.industry.AGRI,
-            "Sector-12",
-            bool.ENABLE
-        );
+        org.enable_smart_supply();
     }
 }
 
@@ -176,8 +171,8 @@ export async function main(ns) {
     }
     // Manage our corporation.
     expand_industry(ns);
-    unlock_upgrade(ns);
     expand_city(ns);
+    unlock_upgrade(ns);
     initial_hire(ns);
     hire_advert(ns);
     initial_material_sell(ns);

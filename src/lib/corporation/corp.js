@@ -18,6 +18,7 @@
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
 import { Player } from "/lib/player.js";
 import { assert, is_valid_city } from "/lib/util.js";
 
@@ -114,6 +115,17 @@ export class Corporation {
             return bool.FAILURE;
         }
         return this.#ns[corp.API].createCorporation(corp.NAME, bool.SELF_FUND);
+    }
+
+    /**
+     * Enable the Smart Supply for all divisions in each city.
+     */
+    enable_smart_supply() {
+        for (const div of this.all_divisions()) {
+            cities.all.forEach((ct) => {
+                this.#ns[corp.API].setSmartSupply(div, ct, bool.ENABLE);
+            });
+        }
     }
 
     /**
