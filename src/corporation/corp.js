@@ -104,6 +104,21 @@ function initial_hire(ns) {
 }
 
 /**
+ * The initial selling of materials.
+ *
+ * @param ns The Netscript API.
+ */
+function initial_material_sell(ns) {
+    const org = new Corporation(ns);
+    for (const div of org.all_divisions()) {
+        cities.all.forEach((ct) => {
+            org.material_initial_sell(div, ct, corp.material.FOOD);
+            org.material_initial_sell(div, ct, corp.material.PLANT);
+        });
+    }
+}
+
+/**
  * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
  * applies to the entire corporation and cannot be levelled.
  *
@@ -150,4 +165,5 @@ export async function main(ns) {
     expand_city(ns);
     initial_hire(ns);
     hire_advert(ns);
+    initial_material_sell(ns);
 }

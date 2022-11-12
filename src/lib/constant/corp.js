@@ -49,6 +49,24 @@ export const corp = {
         UTIL: "Utilities",
     },
     /**
+     * Various types of materials.  Data taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/data/Constants.ts
+     */
+    material: {
+        AI: "AI Cores",
+        CHEMICAL: "Chemicals",
+        DRUG: "Drugs",
+        ENERGY: "Energy",
+        FOOD: "Food",
+        HARDWARE: "Hardware",
+        LAND: "Real Estate",
+        METAL: "Metal",
+        PLANT: "Plants",
+        ROBOT: "Robots",
+        WATER: "Water",
+    },
+    /**
      * The positions to assign to employees.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts
@@ -127,6 +145,29 @@ export const corp_t = {
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Corporation.ts
      */
     SEED_COST: 15e10,
+    /**
+     * Thresholds on various aspects of selling materials or products.
+     */
+    sell: {
+        /**
+         * The sell amount.
+         */
+        amount: {
+            /**
+             * Sell the maximum of whatever we have.
+             */
+            MAX: "MAX",
+        },
+        /**
+         * The sell price.
+         */
+        price: {
+            /**
+             * Sell at the market price.
+             */
+            MP: "MP",
+        },
+    },
     /**
      * Various thresholds related to a warehouse.
      */

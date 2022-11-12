@@ -275,6 +275,20 @@ export class Corporation {
     }
 
     /**
+     * Whether the given name represents a valid material.
+     *
+     * @param name A string representing a material name.
+     * @return True if the given name represents a valid material;
+     *     false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_material(name) {
+        assert(name !== "");
+        const material = new Set(Object.values(corp.material));
+        return material.has(name);
+    }
+
+    /**
      * Whether the given name refers to a valid unlock upgrade.
      *
      * @param upg A string representing the name of an unlock upgrade.
@@ -286,6 +300,27 @@ export class Corporation {
         assert(upg !== "");
         const upgrade = new Set(Object.values(corp.unlock));
         return upgrade.has(upg);
+    }
+
+    /**
+     * The initial selling of our materials.  The amount is the maximum of
+     * whatever we have.  The price is set at the market price.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     * @param name The name of the material to sell.
+     */
+    material_initial_sell(div, ct, name) {
+        assert(this.is_valid_division(div));
+        assert(is_valid_city(ct));
+        assert(this.is_valid_material(name));
+        this.#ns[corp.API].sellMaterial(
+            div,
+            ct,
+            name,
+            corp_t.sell.amount.MAX,
+            corp_t.sell.price.MP
+        );
     }
 
     /**
