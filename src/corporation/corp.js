@@ -133,6 +133,21 @@ function initial_material_sell(ns) {
 }
 
 /**
+ * The initial setup of our corporation.
+ *
+ * @param ns The Netscript API.
+ */
+function stage_one(ns) {
+    expand_industry(ns);
+    expand_city(ns);
+    unlock_upgrade(ns);
+    initial_hire(ns);
+    hire_advert(ns);
+    initial_material_sell(ns);
+    initial_level_upgrade(ns);
+}
+
+/**
  * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
  * applies to the entire corporation and cannot be levelled.
  *
@@ -170,11 +185,5 @@ export async function main(ns) {
         return;
     }
     // Manage our corporation.
-    expand_industry(ns);
-    expand_city(ns);
-    unlock_upgrade(ns);
-    initial_hire(ns);
-    hire_advert(ns);
-    initial_material_sell(ns);
-    initial_level_upgrade(ns);
+    stage_one(ns);
 }
