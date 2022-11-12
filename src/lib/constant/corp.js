@@ -189,6 +189,16 @@ export const corp_t = {
         },
     },
     /**
+     * Thresholds related to level upgrades.  These are distinct from unlock
+     * upgrades.
+     */
+    upgrade: {
+        /**
+         * For our initial setup, we want at least 2 levels of various upgrades.
+         */
+        INIT_LEVEL: 2,
+    },
+    /**
      * Various thresholds related to a warehouse.
      */
     warehouse: {

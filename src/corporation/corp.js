@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp } from "/lib/constant/corp.js";
+import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -103,7 +103,9 @@ function initial_hire(ns) {
 }
 
 /**
- * Add one level to various upgrades.
+ * Add some levels to various upgrades.
+ *
+ * @param ns The Netscript API.
  */
 function initial_level_upgrade(ns) {
     const org = new Corporation(ns);
@@ -114,7 +116,9 @@ function initial_level_upgrade(ns) {
         corp.upgrade.INJECTOR,
         corp.upgrade.FACTORY,
     ];
-    upgrade.forEach((upg) => org.level_upgrade(upg));
+    for (let i = 0; i < corp_t.upgrade.INIT_LEVEL; i++) {
+        upgrade.forEach((upg) => org.level_upgrade(upg));
+    }
 }
 
 /**
