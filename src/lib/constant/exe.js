@@ -80,32 +80,32 @@ export const program = [
 
 /**
  * The purchasing schedule.  Use this schedule to help us buy a batch of
- * programs, depending on our current funds.
+ * programs, depending on our current funds.  This schedule is used whenever our
+ * money is less than some pre-defined constant M.  If our money is at least M,
+ * then we switch to a dynamic purchasing schedule.
  */
 export const buy_schedule = {
+    /**
+     * When we use a dynamic purchasing schedule, this constant is used to help
+     * us determine how many programs to buy in a batch.
+     */
+    DIVISOR: 1e12,
+    /**
+     * The money threshold at which we switch to a dynamic purchasing schedule.
+     * If our money is less than this constant, use the pre-defined schedule
+     * below.
+     */
+    DYNAMIC_TAU: 100e12,
     /**
      * How many programs in a batch.  Each number n means we purchase n copies
      * of a particular program.
      */
-    howmany: [
-        1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25, 12, 6, 3, 1,
-        1,
-    ],
+    howmany: [50, 25, 12, 6, 3, 1, 1],
     /**
      * Various money thresholds.
      */
     money: [
-        1e15, // 1 quadrillion
-        900e12,
-        800e12,
-        700e12,
-        600e12,
-        500e12,
-        400e12,
-        300e12,
-        200e12,
-        100e12,
-        10e12,
+        10e12, // 10 trillion
         1e12, // 1 trillion
         500e9,
         100e9,
@@ -119,16 +119,6 @@ export const buy_schedule = {
      */
     time: [
         1, // 1 millisecond
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
         1,
         1e3, // 1 second
         10e3, // 10 seconds

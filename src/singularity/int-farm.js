@@ -71,14 +71,20 @@ async function farm_intelligence(ns) {
  *         We buy a bunch of programs, then sleep for this interval.
  */
 function purchase_schedule(ns) {
+    // Low on funds.  Use a pre-defined purchasing schedule.
     const funds = ns.getServerMoneyAvailable(home);
-    for (let i = 0; i < buy_schedule.money.length; i++) {
-        if (funds >= buy_schedule.money[i]) {
-            return [buy_schedule.howmany[i], buy_schedule.time[i]];
+    if (funds < buy_schedule.DYNAMIC_TAU) {
+        for (let i = 0; i < buy_schedule.money.length; i++) {
+            if (funds >= buy_schedule.money[i]) {
+                return [buy_schedule.howmany[i], buy_schedule.time[i]];
+            }
         }
+        // Should never reach here.
+        assert(false);
     }
-    // Should never reach here.
-    assert(false);
+    // We are filthy rich.  Use a dynamic purchasing schedule.
+    const howmany = Math.floor(funds / buy_schedule.DIVISOR);
+    return [howmany, wait_t.MILLISECOND];
 }
 
 /**
