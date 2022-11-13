@@ -216,5 +216,5 @@ export async function main(ns) {
         return;
     }
     // Manage our corporation.
-    stage_one(ns);
+    await stage_one(ns);
 }
