@@ -76,40 +76,19 @@ function buy_stock(ns, stk) {
  *     false otherwise.
  */
 function has_api_access(ns) {
-    if (!ns.stock.hasWSEAccount()) {
-        if (ns.stock.purchaseWseAccount()) {
-            log(ns, "Purchased WSE account");
-        } else {
-            return bool.NOT;
-        }
+    if (!ns.stock.purchaseWseAccount()) {
+        return bool.NOT;
     }
-    if (!ns.stock.hasTIXAPIAccess()) {
-        if (ns.stock.purchaseTixApi()) {
-            log(ns, "Purchased access to TIX API");
-        } else {
-            return bool.NOT;
-        }
+    if (!ns.stock.purchaseTixApi()) {
+        return bool.NOT;
     }
-    if (!ns.stock.has4SData()) {
-        if (ns.stock.purchase4SMarketData()) {
-            log(ns, "Purchased access to 4S Market Data");
-        } else {
-            return bool.NOT;
-        }
+    if (!ns.stock.purchase4SMarketData()) {
+        return bool.NOT;
     }
-    if (!ns.stock.has4SDataTIXAPI()) {
-        if (ns.stock.purchase4SMarketDataTixApi()) {
-            log(ns, "Purchased access to 4S Market Data TIX API");
-        } else {
-            return bool.NOT;
-        }
+    if (!ns.stock.purchase4SMarketDataTixApi()) {
+        return bool.NOT;
     }
-    return (
-        ns.stock.hasWSEAccount()
-        && ns.stock.hasTIXAPIAccess()
-        && ns.stock.has4SData()
-        && ns.stock.has4SDataTIXAPI()
-    );
+    return bool.HAS;
 }
 
 /**
@@ -221,6 +200,7 @@ async function purchase_api_access(ns) {
     while (!has_api_access(ns)) {
         await ns.sleep(wait_t.DEFAULT);
     }
+    log(ns, "Purchased access to Stock Market data and APIs");
 }
 
 /**
