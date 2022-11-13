@@ -149,14 +149,14 @@ export class Corporation {
     }
 
     /**
-     * Expand our corporation into other industries.
+     * Expand our corporation into another industry.
+     *
+     * @param ind We want to expand into this industry.
      */
-    expand_industry() {
-        if (!this.has_division(corp.industry.AGRI)) {
-            this.#ns[corp.API].expandIndustry(
-                corp.industry.AGRI,
-                corp.industry.AGRI
-            );
+    expand_industry(ind) {
+        assert(this.is_valid_industry(ind));
+        if (!this.has_division(ind)) {
+            this.#ns[corp.API].expandIndustry(ind, ind);
         }
     }
 
@@ -182,7 +182,8 @@ export class Corporation {
     }
 
     /**
-     * Whether we have a particular division.
+     * Whether we have a particular division.  This is also known as an
+     * industry.
      *
      * @param div A string representing the name of a division.
      * @return True if we have expanded into the given division;
@@ -286,6 +287,19 @@ export class Corporation {
             }
         }
         return bool.INVALID;
+    }
+
+    /**
+     * Whether the given name represents a valid industry.
+     *
+     * @param name A string representing the name of an industry.
+     * @return True if the the name refers to a valid industry; false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_industry(name) {
+        assert(name !== "");
+        const industry = new Set(Object.values(corp.industry));
+        return industry.has(name);
     }
 
     /**

@@ -41,31 +41,20 @@ async function create_corp(ns) {
 }
 
 /**
- * Expand our divisions by opening offices in other cities.
+ * Expand a division by opening offices in other cities.
  *
  * @param ns The Netscript API.
+ * @param div We want to branch this division into other cities.
  */
-function expand_city(ns) {
+function expand_city(ns, div) {
     const org = new Corporation(ns);
-    for (const div of org.all_divisions()) {
-        cities.all.forEach((ct) => {
-            if (!org.has_division_office(div, ct)) {
-                org.expand_city(div, ct);
-                org.buy_warehouse(div, ct);
-            }
-            org.warehouse_init_upgrade(div, ct);
-        });
-    }
-}
-
-/**
- * Expand into other industries.
- *
- * @param ns The Netscript API.
- */
-function expand_industry(ns) {
-    const org = new Corporation(ns);
-    org.expand_industry();
+    cities.all.forEach((ct) => {
+        if (!org.has_division_office(div, ct)) {
+            org.expand_city(div, ct);
+            org.buy_warehouse(div, ct);
+        }
+        org.warehouse_init_upgrade(div, ct);
+    });
 }
 
 /**
@@ -163,33 +152,37 @@ function initial_material_sell(ns) {
 }
 
 /**
- * The initial setup of our corporation.
+ * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
+ * upgrade.  It applies to the entire corporation and cannot be levelled.
  *
  * @param ns The Netscript API.
  */
-async function stage_one(ns) {
-    expand_industry(ns);
-    expand_city(ns);
-    unlock_upgrade(ns);
-    initial_hire(ns);
-    hire_advert(ns);
-    initial_material_sell(ns);
-    initial_level_upgrade(ns);
-    await initial_material_buy(ns);
-}
-
-/**
- * Purchase an unlock upgrade.  This is a one-time unlockable upgrade.  It
- * applies to the entire corporation and cannot be levelled.
- *
- * @param ns The Netscript API.
- */
-function unlock_upgrade(ns) {
+function smart_supply(ns) {
     const org = new Corporation(ns);
     if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
         org.buy_unlock_upgrade(corp.unlock.SMART);
         org.enable_smart_supply();
     }
+}
+
+/**
+ * The initial setup of our corporation.  First, we branch into agriculture.
+ *
+ * @param ns The Netscript API.
+ */
+async function stage_one(ns) {
+    const org = new Corporation(ns);
+    if (org.has_division(corp.industry.AGRI)) {
+        return;
+    }
+    org.expand_industry(corp.industry.AGRI);
+    expand_city(ns, corp.industry.AGRI);
+    smart_supply(ns);
+    initial_hire(ns);
+    hire_advert(ns);
+    initial_material_sell(ns);
+    initial_level_upgrade(ns);
+    await initial_material_buy(ns);
 }
 
 /**
