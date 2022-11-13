@@ -167,7 +167,7 @@ function initial_material_sell(ns) {
  *
  * @param ns The Netscript API.
  */
-function stage_one(ns) {
+async function stage_one(ns) {
     expand_industry(ns);
     expand_city(ns);
     unlock_upgrade(ns);
@@ -175,7 +175,7 @@ function stage_one(ns) {
     hire_advert(ns);
     initial_material_sell(ns);
     initial_level_upgrade(ns);
-    initial_material_buy(ns);
+    await initial_material_buy(ns);
 }
 
 /**
