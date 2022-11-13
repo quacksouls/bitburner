@@ -89,32 +89,6 @@ function hire_advert(ns) {
 }
 
 /**
- * The initial bulk purchase of these materials:
- *
- * (1) Hardware.  We want a total of 125.
- * (2) AI Cores.  We want a total of 75.
- * (3) Real Estate.  We want a total of 27k.
- *
- * @param ns The Netscript API.
- */
-function initial_bulk_purchase(ns) {
-    const org = new Corporation(ns);
-    const material = [
-        corp.material.AI,
-        corp.material.HARDWARE,
-        corp.material.LAND,
-    ];
-    const amount = [
-        corp_t.material.ai.buy.INIT_BULK,
-        corp_t.material.hardware.buy.INIT_BULK,
-        corp_t.material.land.buy.INIT_BULK,
-    ];
-    for (let i = 0; i < material.length; i++) {
-        org.material_bulk_buy(material[i], amount[i]);
-    }
-}
-
-/**
  * Hire 3 employees for each new office in each city.  For each office, assign
  * an employee to each of the following positions: Business, Engineer, and
  * Operations.
@@ -148,6 +122,32 @@ function initial_level_upgrade(ns) {
 }
 
 /**
+ * The initial purchase of these materials:
+ *
+ * (1) Hardware.  We want a total of 125.
+ * (2) AI Cores.  We want a total of 75.
+ * (3) Real Estate.  We want a total of 27k.
+ *
+ * @param ns The Netscript API.
+ */
+async function initial_material_buy(ns) {
+    const org = new Corporation(ns);
+    const material = [
+        corp.material.AI,
+        corp.material.HARDWARE,
+        corp.material.LAND,
+    ];
+    const amount = [
+        corp_t.material.ai.buy.INIT,
+        corp_t.material.hardware.buy.INIT,
+        corp_t.material.land.buy.INIT,
+    ];
+    for (let i = 0; i < material.length; i++) {
+        await org.material_buy(material[i], amount[i]);
+    }
+}
+
+/**
  * The initial selling of materials.
  *
  * @param ns The Netscript API.
@@ -175,7 +175,7 @@ function stage_one(ns) {
     hire_advert(ns);
     initial_material_sell(ns);
     initial_level_upgrade(ns);
-    initial_bulk_purchase(ns);
+    initial_material_buy(ns);
 }
 
 /**

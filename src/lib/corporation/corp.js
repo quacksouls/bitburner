@@ -19,6 +19,7 @@ import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
 import { assert, is_valid_city } from "/lib/util.js";
 
@@ -348,19 +349,27 @@ export class Corporation {
     }
 
     /**
-     * Purchase a material in bulk quantity.  We buy this material for each
-     * division in each city.
+     * Purchase an amount of a material.  We buy this material for each division
+     * in each city.
      *
      * @param name The name of the material to buy.
-     * @param amt The bulk amount to buy.
+     * @param amt The amount to buy.
      */
-    material_bulk_buy(name, amt) {
+    async material_buy(name, amt) {
         assert(this.is_valid_material(name));
         assert(amt > 0);
+        const rate = amt / corp_t.TICK_SECOND; // Amount per second.
         for (const div of this.all_divisions()) {
-            cities.all.forEach((ct) => {
-                this.#ns[corp.API].bulkPurchase(div, ct, name, amt);
-            });
+            for (const ct of cities.all) {
+                let { qty } = this.#ns[corp.API].getMaterial(div, ct, name);
+                const target = qty + amt;
+                this.#ns[corp.API].buyMaterial(div, ct, name, rate);
+                while (qty < target) {
+                    await this.#ns.sleep(wait_t.MILLISECOND);
+                    qty = this.#ns[corp.API].getMaterial(div, ct, name).qty;
+                }
+                this.#ns[corp.API].buyMaterial(div, ct, name, 0);
+            }
         }
     }
 

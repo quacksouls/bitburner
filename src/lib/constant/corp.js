@@ -168,9 +168,9 @@ export const corp_t = {
              */
             buy: {
                 /**
-                 * The amount for our initial bulk purchase.
+                 * The amount for our initial purchase.
                  */
-                INIT_BULK: 75,
+                INIT: 75,
             },
         },
         /**
@@ -182,9 +182,9 @@ export const corp_t = {
              */
             buy: {
                 /**
-                 * The amount for our initial bulk purchase.
+                 * The amount for our initial purchase.
                  */
-                INIT_BULK: 125,
+                INIT: 125,
             },
         },
         /**
@@ -196,9 +196,9 @@ export const corp_t = {
              */
             buy: {
                 /**
-                 * The amount for our initial bulk purchase.
+                 * The amount for our initial purchase.
                  */
-                INIT_BULK: 27e3,
+                INIT: 27e3,
             },
         },
     },
@@ -240,6 +240,15 @@ export const corp_t = {
             MP: "MP",
         },
     },
+    /**
+     * Each tick in a corporation is 10 seconds, expressed in terms of
+     * milliseconds.
+     */
+    TICK: 1e4,
+    /**
+     * The same as TICK, but expressed in terms of seconds.
+     */
+    TICK_SECOND: 10,
     /**
      * Thresholds related to level upgrades.  These are distinct from unlock
      * upgrades.
