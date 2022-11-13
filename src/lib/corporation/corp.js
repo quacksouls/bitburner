@@ -82,7 +82,7 @@ export class Corporation {
      * @return True if the purchase was successful; false otherwise.
      */
     buy_warehouse(div, ct) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         if (this.funds() < this.#ns[corp.API].getPurchaseWarehouseCost()) {
             return bool.FAILURE;
@@ -191,6 +191,7 @@ export class Corporation {
      */
     has_division(div) {
         for (const d of this.#ns[corp.API].getCorporation().divisions) {
+            assert(d.type === d.name);
             if (d.type === div) {
                 return bool.HAS;
             }
@@ -207,7 +208,7 @@ export class Corporation {
      *     false otherwise.
      */
     has_division_office(name, city) {
-        assert(this.is_valid_division(name));
+        assert(this.has_division(name));
         assert(is_valid_city(city));
         for (const div of this.#ns[corp.API].getCorporation().divisions) {
             if (div.name === name) {
@@ -237,7 +238,7 @@ export class Corporation {
      *     empty string if we fail to hire a new employee.
      */
     hire(div, ct) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         const worker = this.#ns[corp.API].hireEmployee(div, ct);
         return worker !== undefined ? worker.name : "";
@@ -249,7 +250,7 @@ export class Corporation {
      * @param div A string representing the name of a division.
      */
     hire_advert(div) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         if (this.funds() > this.#ns[corp.API].getHireAdVertCost(div)) {
             this.#ns[corp.API].hireAdVert(div);
         }
@@ -270,23 +271,6 @@ export class Corporation {
                 this.#ns[corp.API].assignJob(div, ct, name, corp.position[i]);
             }
         }
-    }
-
-    /**
-     * Whether we have the given division.
-     *
-     * @param name A string representing the name of a division.
-     * @return True if our corporation has a division with the given name;
-     *     false otherwise.
-     */
-    is_valid_division(name) {
-        assert(name !== "");
-        for (const div of this.#ns[corp.API].getCorporation().divisions) {
-            if (div.name === name) {
-                return bool.VALID;
-            }
-        }
-        return bool.INVALID;
     }
 
     /**
@@ -396,7 +380,7 @@ export class Corporation {
      * @param name The name of the material to sell.
      */
     material_initial_sell(div, ct, name) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(this.is_valid_material(name));
         this.#ns[corp.API].sellMaterial(
@@ -416,7 +400,7 @@ export class Corporation {
      * @return The number of employees in the given division at the given city.
      */
     num_employees(div, ct) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).employees.length;
     }
@@ -430,7 +414,7 @@ export class Corporation {
      * @return True if the upgrade was successful; false otherwise.
      */
     upgrade_warehouse(div, ct, n = 1) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(n >= 1);
         const cost = this.#ns[corp.API].getUpgradeWarehouseCost(div, ct, n);
@@ -448,7 +432,7 @@ export class Corporation {
      * @param ct A string representing the name of a city.
      */
     warehouse_init_upgrade(div, ct) {
-        assert(this.is_valid_division(div));
+        assert(this.has_division(div));
         assert(is_valid_city(ct));
         while (
             this.#ns[corp.API].getWarehouse(div, ct).size
