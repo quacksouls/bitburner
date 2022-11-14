@@ -61,6 +61,8 @@ function expand_city(ns, div) {
 /**
  * Whether we have access to the Office and Warehouse APIs.  We have permanent
  * access to these APIs after we have destroyed BN3.3.
+ *
+ * @param ns The Netscript API.
  */
 function has_office_warehouse_api(ns) {
     const org = new Corporation(ns);
@@ -72,6 +74,8 @@ function has_office_warehouse_api(ns) {
 
 /**
  * Hire AdVert.inc to advertise for our company.
+ *
+ * @param ns The Netscript API.
  */
 function hire_advert(ns) {
     const org = new Corporation(ns);
