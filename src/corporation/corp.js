@@ -52,6 +52,7 @@ function expand_city(ns, div) {
         if (!org.has_division_office(div, ct)) {
             org.expand_city(div, ct);
             org.buy_warehouse(div, ct);
+            log(ns, `${div}: expanded to ${ct}`);
         }
         org.warehouse_init_upgrade(div, ct);
     });
@@ -87,7 +88,13 @@ function hire_advert(ns) {
 function initial_hire(ns) {
     const org = new Corporation(ns);
     for (const div of org.all_divisions()) {
-        cities.all.forEach((ct) => org.initial_hire(div, ct));
+        cities.all.forEach((ct) => {
+            org.initial_hire(div, ct);
+            log(
+                ns,
+                `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`
+            );
+        });
     }
 }
 
@@ -108,6 +115,7 @@ function initial_level_upgrade(ns) {
     for (let i = 0; i < corp_t.upgrade.INIT_LEVEL; i++) {
         upgrade.forEach((upg) => org.level_upgrade(upg));
     }
+    log(ns, `Level up the following upgrades: ${upgrade.join(", ")}`);
 }
 
 /**
@@ -176,6 +184,7 @@ async function stage_one(ns) {
         return;
     }
     org.expand_industry(corp.industry.AGRI);
+    log(ns, `Created new division: ${corp.industry.AGRI}`);
     expand_city(ns, corp.industry.AGRI);
     smart_supply(ns);
     initial_hire(ns);
