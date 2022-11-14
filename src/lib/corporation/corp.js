@@ -55,6 +55,61 @@ export class Corporation {
     }
 
     /**
+     * The average stats for all employees in an office.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return An object as follows:
+     *     {
+     *         charisma: // The average charisma.
+     *         creativity: // The average creativity.
+     *         efficiency: // The average efficiency.
+     *         energy: // The average energy.
+     *         experience: // The average experience.
+     *         happiness: // The average happiness.
+     *         intelligence: // The average intelligence.
+     *         morale: // The average morale.
+     *         salary: // The average salary.
+     *     }
+     */
+    avg_employee_stats(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const employee = this.#ns[corp.API].getOffice(div, ct).employees;
+        assert(employee.length > 0);
+        // Default is average of 0 in each attribute.
+        const { attribute } = corp.employee;
+        const avg_stat = {};
+        attribute.forEach((a) => {
+            avg_stat[a] = 0;
+        });
+        // A function to abbreviate the name of an attribute.  We get the first
+        // 3 characters of the string.  The reason is that the function
+        // getOffice() of the Office API returns an object where the keys are
+        // each the first 3 characters of the above attribute names.
+        const start = 0;
+        const end = 3;
+        const abbreviate = (x) => x.slice(start, end);
+        // The average of each attribute for all employees in an office.  Use
+        // the following formula to calculate the average:
+        //
+        // a_{i+1} = (x_{i+1} + (i * a_i)) / (i + 1)
+        //
+        // a_{i+1} := The current average value.
+        // a_i := The previous average value.
+        // x_{i+1} := The current data point.
+        // i := Index of the current data point; zero-based.
+        for (let i = 0; i < employee.length; i++) {
+            const stat = this.#ns[corp.API].getEmployee(div, ct, employee[i]);
+            attribute.forEach((a) => {
+                const b = abbreviate(a);
+                avg_stat[a] = (stat[b] + i * avg_stat[a]) / (i + 1);
+            });
+        }
+        return avg_stat;
+    }
+
+    /**
      * Purchase an unlock upgrade.  This type of upgrade is a one-time
      * unlockable.  It applies to the entire corporation and cannot be levelled.
      *
@@ -326,6 +381,29 @@ export class Corporation {
         assert(upg !== "");
         const upgrade = new Set(Object.values(corp.upgrade));
         return upgrade.has(upg);
+    }
+
+    /**
+     * Whether the employees in an office are vivacious.  An office is said to
+     * be vivacious if:
+     *
+     * (1) The average employee morale is 100.000.
+     * (2) The average employee happiness is 99.998 or higher.
+     * (3) The average employee energy is 99.998 or higher.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     */
+    is_vivacious(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const stat = this.avg_employee_stats(div, ct);
+        const int = (x) => Math.floor(x * 1000);
+        return (
+            int(stat.morale) >= int(corp_t.employee.MORALE)
+            && int(stat.happiness) >= int(corp_t.employee.HAPPINESS)
+            && int(stat.energy) >= int(corp_t.employee.ENERGY)
+        );
     }
 
     /**

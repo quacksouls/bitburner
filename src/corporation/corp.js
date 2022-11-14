@@ -186,6 +186,23 @@ async function stage_one(ns) {
 }
 
 /**
+ * Waiting for each office to be vivacious.
+ *
+ * @param ns The Netscript API.
+ */
+async function vivacious_office(ns) {
+    log(ns, "Waiting for each office to be vivacious");
+    const org = new Corporation(ns);
+    for (const div of org.all_divisions()) {
+        const vivacious = (c) => org.is_vivacious(div, c);
+        while (!cities.all.every(vivacious)) {
+            await ns.sleep(wait_t.SECOND);
+        }
+    }
+    log(ns, "Each office is vivacious");
+}
+
+/**
  * Create and manage a corporation.
  *
  * @param ns The Netscript API.
@@ -210,4 +227,5 @@ export async function main(ns) {
     }
     // Manage our corporation.
     await stage_one(ns);
+    await vivacious_office(ns);
 }

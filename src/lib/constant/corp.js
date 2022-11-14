@@ -27,6 +27,25 @@ export const corp = {
      */
     API: "corporation",
     /**
+     * Constants related to an employee.
+     */
+    employee: {
+        /**
+         * Various attributes of an employee.
+         */
+        attribute: [
+            "charisma",
+            "creativity",
+            "efficiency",
+            "energy",
+            "experience",
+            "happiness",
+            "intelligence",
+            "morale",
+            "salary",
+        ],
+    },
+    /**
      * All available industries into which we can expand.  Data taken from this
      * file:
      *
@@ -155,6 +174,24 @@ export const corp = {
  * Thresholds on various aspects of a corporation.
  */
 export const corp_t = {
+    /**
+     * Thresholds on various aspects of employees.
+     */
+    employee: {
+        /**
+         * The average energy percentage for an employee to be considered
+         * vivacious.
+         */
+        ENERGY: 99.998,
+        /**
+         * The average happiness for an employee to be considered vivacious.
+         */
+        HAPPINESS: 99.998,
+        /**
+         * The average morale for an employee to be considered vivacious.
+         */
+        MORALE: 100,
+    },
     /**
      * Various thresholds on materials.
      */
