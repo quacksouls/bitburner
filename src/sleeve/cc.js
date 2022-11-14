@@ -64,8 +64,12 @@ function buy_augmentation(ns) {
  */
 async function commit_crime(ns, crime, tau) {
     assert(tau >= 0);
-    log(ns, crime);
     const sleeve = new Sleeve(ns);
+    const in_shock = (x) => sleeve.is_in_shock(x);
+    const not_in_sync = (x) => !sleeve.is_in_sync(x);
+    if (sleeve.all().some(in_shock) || sleeve.all().some(not_in_sync)) {
+        log(ns, crime);
+    }
     sleeve.all().forEach((i) => ns.sleeve.setToCommitCrime(i, crime));
     await ns.sleep(tau);
 }
