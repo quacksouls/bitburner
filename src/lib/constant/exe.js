@@ -102,6 +102,12 @@ export const buy_schedule = {
      */
     howmany: [50, 25, 12, 6, 3, 1, 1],
     /**
+     * The maximum batch size.  How many programs to purchase in one go.  Need a
+     * limit on the batch size, otherwise the script for Intelligence farming
+     * would slow down the UI.
+     */
+    MAX_BATCH_SIZE: 1e4,
+    /**
      * Various money thresholds.
      */
     money: [

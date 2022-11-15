@@ -82,8 +82,12 @@ function purchase_schedule(ns) {
         // Should never reach here.
         assert(false);
     }
-    // We are filthy rich.  Use a dynamic purchasing schedule.
-    const howmany = Math.floor(funds / buy_schedule.DIVISOR);
+    // We are filthy rich.  Use a dynamic purchasing schedule.  We limit the
+    // batch size to prevent the script from slowing down the UI.
+    let howmany = Math.floor(funds / buy_schedule.DIVISOR);
+    if (howmany > buy_schedule.MAX_BATCH_SIZE) {
+        howmany = buy_schedule.MAX_BATCH_SIZE;
+    }
     return [howmany, wait_t.MILLISECOND];
 }
 
