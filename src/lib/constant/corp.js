@@ -68,6 +68,20 @@ export const corp = {
         UTIL: "Utilities",
     },
     /**
+     * The roles to assign to employees.  Data taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts
+     */
+    job: {
+        BUSINESS: "Business",
+        ENGINEER: "Engineer",
+        MANAGEMENT: "Management",
+        OPERATIONS: "Operations",
+        RND: "Research & Development",
+        TRAIN: "Training",
+        IDLE: "Unassigned",
+    },
+    /**
      * Various types of materials.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/data/Constants.ts
@@ -193,6 +207,16 @@ export const corp_t = {
         MORALE: 100,
     },
     /**
+     * Various funds thresholds.  We use these thresholds to help us make
+     * various decisions related to the direction of our corporation.
+     */
+    funds: {
+        /**
+         * A very low funds threshold: $500m.
+         */
+        VERY_LOW: 5e8,
+    },
+    /**
      * Various thresholds on materials.
      */
     material: {
@@ -247,6 +271,17 @@ export const corp_t = {
          * The initial number of employees to hire for an office.
          */
         INIT_HIRE: 3,
+    },
+    /**
+     * Various profit thresholds.  Each value is a rate per second.  We use
+     * these thresholds to help us make various decisions related to the
+     * direction of our corporation.
+     */
+    profit: {
+        /**
+         * A very low profit threshold: $200k per second.
+         */
+        VERY_LOW: 2e5,
     },
     /**
      * We need $150b to start a corporation.  Data taken from this file:

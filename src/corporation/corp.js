@@ -22,6 +22,7 @@ import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Create a corporation.
@@ -56,6 +57,70 @@ function expand_city(ns, div) {
         }
         org.warehouse_init_upgrade(div, ct);
     });
+}
+
+/**
+ * The first round of hiring after accepting the first investment offer.  We
+ * want to hire 1 employee for each office, in the role of Management.
+ *
+ * We currently have employees in these roles:
+ *
+ * (1) Operations x 1
+ * (2) Engineer x 1
+ * (3) Business x 1
+ *
+ * After this round of hiring, each office should have the following roster:
+ *
+ * (1) Operations x 1
+ * (2) Engineer x 1
+ * (3) Business x 1
+ * (4) Management x 1
+ *
+ * @param ns The Netscript API.
+ */
+async function first_hire_round(ns) {
+    const org = new Corporation(ns);
+    for (const div of org.all_divisions()) {
+        for (const ct of cities.all) {
+            if (org.num_management(div, ct) < 1) {
+                assert(org.office_size(div, ct) === corp_t.office.INIT_HIRE);
+                await new_hire(ns, div, ct, corp.job.MANAGEMENT);
+            }
+        }
+    }
+}
+
+/**
+ * The first round of investment.
+ *
+ * @param ns The Netscript API.
+ */
+async function first_investor_round(ns) {
+    // Need to wait for our corporation to make a certain amount of profit per
+    // second, and have a certain amount of funds.
+    const funds_tau = ns.nFormat(corp_t.funds.VERY_LOW, "$0,0.00a");
+    const profit_tau = ns.nFormat(corp_t.profit.VERY_LOW, "$0,0.00a");
+    log(ns, `Waiting for sufficient funds: ${funds_tau}`);
+    log(ns, `Waiting for sufficient profit: ${profit_tau}/s`);
+    const org = new Corporation(ns);
+    while (
+        org.funds() < corp_t.funds.VERY_LOW
+        || org.profit() < corp_t.profit.VERY_LOW
+    ) {
+        await ns.sleep(corp_t.TICK);
+    }
+    const { funds, round, shares } = ns[corp.API].getInvestmentOffer();
+    if (round !== 1) {
+        return;
+    }
+    ns[corp.API].acceptInvestmentOffer();
+    const fundsf = ns.nFormat(funds, "$0,0.00a");
+    const sharesf = ns.nFormat(shares, "0,0.00a");
+    log(ns, `Round ${round} of investment`);
+    log(
+        ns,
+        `Received ${fundsf} in exchange for ${sharesf} shares of corporation`
+    );
 }
 
 /**
@@ -164,6 +229,28 @@ function initial_material_sell(ns) {
 }
 
 /**
+ * A round of hiring for each office.  For each office, we want to hire an
+ * employee to fill a particular role.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param ct A string representing the name of a city.
+ * @param role We want to hire for this role.
+ */
+async function new_hire(ns, div, ct, role) {
+    const howmany = 1; // How many times to upgrade.
+    const org = new Corporation(ns);
+    if (org.is_at_capacity(div, ct)) {
+        while (!org.upgrade_office(div, ct, howmany)) {
+            await ns.sleep(wait_t.SECOND);
+        }
+    }
+    while (!org.new_hire(div, ct, role)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
  * upgrade.  It applies to the entire corporation and cannot be levelled.
  *
@@ -241,4 +328,6 @@ export async function main(ns) {
     // Manage our corporation.
     await stage_one(ns);
     await vivacious_office(ns);
+    await first_investor_round(ns);
+    await first_hire_round(ns);
 }

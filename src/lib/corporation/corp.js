@@ -329,6 +329,21 @@ export class Corporation {
     }
 
     /**
+     * Whether an office is at capacity, i.e. we already hired the maximum
+     * number of employees for the office.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return True if the given office is at capacity; false otherwise.
+     */
+    is_at_capacity(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const { employees, size } = this.#ns[corp.API].getOffice(div, ct);
+        return employees.length === size;
+    }
+
+    /**
      * Whether the given name represents a valid industry.
      *
      * @param name A string representing the name of an industry.
@@ -353,6 +368,18 @@ export class Corporation {
         assert(name !== "");
         const material = new Set(Object.values(corp.material));
         return material.has(name);
+    }
+
+    /**
+     * Whether the given role is valid.
+     *
+     * @param role The name of a job to assign an employee.
+     * @return True if the given name represents a valid role; false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_role(role) {
+        const job = new Set(Object.values(corp.job));
+        return job.has(role);
     }
 
     /**
@@ -471,6 +498,26 @@ export class Corporation {
     }
 
     /**
+     * Hire an employee and assign them to the given role.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @param role Assign the new hire to this role.
+     * @return True if the hiring was successful; false otherwise.
+     */
+    new_hire(div, ct, role) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        assert(this.is_valid_role(role));
+        const name = this.hire(div, ct);
+        if (name === "") {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].assignJob(div, ct, name, role);
+        return bool.SUCCESS;
+    }
+
+    /**
      * The number of employees in a division at a particular city.
      *
      * @param div The name of a division.
@@ -481,6 +528,111 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).employees.length;
+    }
+
+    /**
+     * The number of employees in an office who are assigned the role of
+     * Business.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Business.
+     */
+    num_business(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const job = this.#ns[corp.API].getOffice(div, ct).employeeJobs;
+        return Number(job.Business);
+    }
+
+    /**
+     * The number of employees in an office who are assigned the role of
+     * Engineer.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Engineer.
+     */
+    num_engineer(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const job = this.#ns[corp.API].getOffice(div, ct).employeeJobs;
+        return Number(job.Engineer);
+    }
+
+    /**
+     * The number of employees in an office who are assigned to Management.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Management.
+     */
+    num_management(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const job = this.#ns[corp.API].getOffice(div, ct).employeeJobs;
+        return Number(job.Management);
+    }
+
+    /**
+     * The number of employees in an office who are assigned to Operations.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Operations.
+     */
+    num_operations(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const job = this.#ns[corp.API].getOffice(div, ct).employeeJobs;
+        return Number(job.Operations);
+    }
+
+    /**
+     * The capacity of an office, i.e. the number of employees the office can
+     * accommodate.  This is not the same as the number of employees in the
+     * office.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The size of the given office.
+     */
+    office_size(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getOffice(div, ct).size;
+    }
+
+    /**
+     * The profit per second during the current tick.
+     */
+    profit() {
+        const { expenses, revenue } = this.#ns[corp.API].getCorporation();
+        return revenue - expenses;
+    }
+
+    /**
+     * Upgrade the office of a division in a particular city.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @param n How many times to upgrade.  Default is 1.
+     * @return True if the upgrade was successful; false otherwise.
+     */
+    upgrade_office(div, ct, n = 1) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        assert(n >= 1);
+        const cost = this.#ns[corp.API].getOfficeSizeUpgradeCost(div, ct, n);
+        if (this.funds() < cost) {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].upgradeOfficeSize(div, ct, n);
+        return bool.SUCCESS;
     }
 
     /**
