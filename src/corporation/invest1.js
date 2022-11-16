@@ -304,7 +304,9 @@ async function vivacious_office(ns) {
 }
 
 /**
- * Create and manage a corporation.
+ * The first round of investment.
+ *
+ * Usage: corporation/invest1.js
  *
  * @param ns The Netscript API.
  */
