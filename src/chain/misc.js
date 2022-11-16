@@ -58,7 +58,7 @@ export async function main(ns) {
         "/gang/dead-speakers.js",
     ];
     const script = [
-        "/corporation/corp.js",
+        "/corporation/go.js",
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
         "/sleeve/cc.js",

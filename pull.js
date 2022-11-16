@@ -86,7 +86,7 @@ function dir_cct() {
  * Scripts for managing a corporation.
  */
 function dir_corporation() {
-    const corp = ["corporation/corp.js"];
+    const corp = ["corporation/go.js"];
     return corp;
 }
 
@@ -132,6 +132,9 @@ function dir_lib() {
         "lib/constant/work.js",
         "lib/constant/wse.js",
         "lib/corporation/corp.js",
+        "lib/corporation/office.js",
+        "lib/corporation/store.js",
+        "lib/corporation/util.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
         "lib/io.js",

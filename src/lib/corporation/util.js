@@ -1,0 +1,221 @@
+/**
+ * Copyright (C) 2022 Duck McSouls
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { bool } from "/lib/constant/bool.js";
+import { corp, corp_t } from "/lib/constant/corp.js";
+import { assert, is_valid_city } from "/lib/util.js";
+
+/**
+ * A class containing various utility methods, implemented as static methods.
+ * We typically use the Corporation API by calling its functions along the
+ * format
+ *
+ * ns["corporation"].functionName()
+ *
+ * as a means of circumventing the high RAM cost.
+ */
+export class Cutil {
+    /**
+     * All divisions of our corporation.
+     *
+     * @param ns The Netscript API.
+     * @return An array containing the names of all divisions of our
+     *     corporation.
+     */
+    static all_divisions(ns) {
+        return ns[corp.API].getCorporation().divisions.map((d) => d.name);
+    }
+
+    /**
+     * The funds available to our corporation.
+     *
+     * @param ns The Netscript API.
+     * @return The amount of funds our corporation has.
+     */
+    static funds(ns) {
+        return ns[corp.API].getCorporation().funds;
+    }
+
+    /**
+     * Whether we have already created a corporation.
+     *
+     * @param ns The Netscript API.
+     * @return True if we have already created a corporation; false otherwise.
+     */
+    static has_corp(ns) {
+        try {
+            assert(ns[corp.API].getCorporation().name === corp.NAME);
+            return bool.HAS;
+        } catch {
+            return bool.NOT;
+        }
+    }
+
+    /**
+     * Whether we have a particular division.  This is also known as an
+     * industry.
+     *
+     * @param ns The Netscript API.
+     * @param div A string representing the name of a division.
+     * @return True if we have expanded into the given division;
+     *     false otherwise.
+     */
+    static has_division(ns, div) {
+        for (const d of ns[corp.API].getCorporation().divisions) {
+            assert(d.type === d.name);
+            if (d.type === div) {
+                return bool.HAS;
+            }
+        }
+        return bool.NOT;
+    }
+
+    /**
+     * Whether one of our divisions has an office in a given city.
+     *
+     * @param ns The Netscript API.
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return True if the given division has an office in the particular city;
+     *     false otherwise.
+     */
+    static has_division_office(ns, div, ct) {
+        assert(this.has_division(ns, div));
+        assert(is_valid_city(ct));
+        for (const d of ns[corp.API].getCorporation().divisions) {
+            if (d.name === div) {
+                return d.cities.includes(ct);
+            }
+        }
+    }
+
+    /**
+     * Whether we have an unlockable upgrade.
+     *
+     * @param ns The Netscript API.
+     * @param upg A string representing the name of an unlock upgrade.
+     * @return True if we already have the given unlock upgrade;
+     *     false otherwise.
+     */
+    static has_unlock_upgrade(ns, upg) {
+        assert(this.is_valid_unlock_upgrade(upg));
+        return ns[corp.API].hasUnlockUpgrade(upg);
+    }
+
+    /**
+     * Whether an office is at capacity, i.e. we already hired the maximum
+     * number of employees for the office.
+     *
+     * @param ns The Netscript API.
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return True if the given office is at capacity; false otherwise.
+     */
+    static is_at_capacity(ns, div, ct) {
+        assert(this.has_division(ns, div));
+        assert(is_valid_city(ct));
+        const { employees, size } = ns[corp.API].getOffice(div, ct);
+        return employees.length === size;
+    }
+
+    /**
+     * Whether the given name represents a valid industry.
+     *
+     * @param name A string representing the name of an industry.
+     * @return True if the given name refers to a valid industry;
+     *     false otherwise.
+     */
+    static is_valid_industry(name) {
+        assert(name !== "");
+        const industry = new Set(Object.values(corp.industry));
+        return industry.has(name);
+    }
+
+    /**
+     * Whether the given name represents a valid material.
+     *
+     * @param name A string representing a material name.
+     * @return True if the given name represents a valid material;
+     *     false otherwise.
+     */
+    static is_valid_material(name) {
+        assert(name !== "");
+        const material = new Set(Object.values(corp.material));
+        return material.has(name);
+    }
+
+    /**
+     * Whether the given role is valid.
+     *
+     * @param role The name of a job to assign an employee.
+     * @return True if the given name represents a valid role; false otherwise.
+     */
+    static is_valid_role(role) {
+        const job = new Set(Object.values(corp.job));
+        return job.has(role);
+    }
+
+    /**
+     * Whether the given name refers to a valid unlock upgrade.
+     *
+     * @param upg A string representing the name of an unlock upgrade.
+     * @return True if the given name refers to a valid unlock upgrade;
+     *     false otherwise.
+     */
+    static is_valid_unlock_upgrade(upg) {
+        assert(upg !== "");
+        const upgrade = new Set(Object.values(corp.unlock));
+        return upgrade.has(upg);
+    }
+
+    /**
+     * Whether the given name refers to a valid level upgrade.
+     *
+     * @param upg A string representing the name of a level upgrade.
+     * @return True if the given name refers to a valid level upgrade;
+     *     false otherwise.
+     */
+    static is_valid_upgrade(upg) {
+        assert(upg !== "");
+        const upgrade = new Set(Object.values(corp.upgrade));
+        return upgrade.has(upg);
+    }
+
+    /**
+     * Whether the employees in an office are vivacious.  An office is said to
+     * be vivacious if:
+     *
+     * (1) The average employee morale is 100.000.
+     * (2) The average employee happiness is 99.998 or higher.
+     * (3) The average employee energy is 99.998 or higher.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     */
+    // FIXME
+    is_vivacious(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const stat = this.avg_employee_stats(div, ct);
+        const int = (x) => Math.floor(x * 1000);
+        return (
+            int(stat.morale) >= int(corp_t.employee.MORALE)
+            && int(stat.happiness) >= int(corp_t.employee.HAPPINESS)
+            && int(stat.energy) >= int(corp_t.employee.ENERGY)
+        );
+    }
+}
