@@ -104,6 +104,19 @@ export class Cutil {
     }
 
     /**
+     * Whether we have access to the Office and Warehouse APIs.  We have
+     * permanent access to these APIs after we have destroyed BN3.3.
+     *
+     * @param ns The Netscript API.
+     */
+    static has_office_warehouse_api(ns) {
+        return (
+            this.has_unlock_upgrade(ns, corp.unlock.OFFICE)
+            && this.has_unlock_upgrade(ns, corp.unlock.WAREHOUSE)
+        );
+    }
+
+    /**
      * Whether we have an unlockable upgrade.
      *
      * @param ns The Netscript API.

@@ -63,19 +63,6 @@ function expand_city(ns, div) {
 }
 
 /**
- * Whether we have access to the Office and Warehouse APIs.  We have permanent
- * access to these APIs after we have destroyed BN3.3.
- *
- * @param ns The Netscript API.
- */
-function has_office_warehouse_api(ns) {
-    return (
-        Cutil.has_unlock_upgrade(ns, corp.unlock.OFFICE)
-        && Cutil.has_unlock_upgrade(ns, corp.unlock.WAREHOUSE)
-    );
-}
-
-/**
  * Hire AdVert.inc to advertise for our company.
  *
  * @param ns The Netscript API.
@@ -241,7 +228,7 @@ export async function main(ns) {
     // corporation.  We want to automate as much of the game as possible.
     // Without the above APIs, quit the script as soon as possible.
     await create_corp(ns);
-    if (!has_office_warehouse_api(ns)) {
+    if (!Cutil.has_office_warehouse_api(ns)) {
         log(ns, "No access to Warehouse and/or Office APIs", colour.RED);
         return;
     }
