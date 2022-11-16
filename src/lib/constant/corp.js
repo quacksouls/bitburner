@@ -217,6 +217,109 @@ export const corp_t = {
         VERY_LOW: 1e9,
     },
     /**
+     * Hiring policies for various rounds of hiring.
+     */
+    hire: {
+        /**
+         * The policy for each round of hiring.
+         */
+        round: {
+            /**
+             * Round 1 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 1
+             * (2) Engineer x 1
+             * (3) Business x 1
+             */
+            one: {
+                /**
+                 * We want to hire an employee and assign them to this role.
+                 */
+                ROLE: "Management",
+                /**
+                 * The number of employees to hire for each office.
+                 */
+                WANT: 1,
+                /**
+                 * The current number of employees in each office who are
+                 * assigned the above role.
+                 */
+                NOW: 0,
+            },
+            /**
+             * Round 2 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 1
+             * (2) Engineer x 1
+             * (3) Business x 1
+             * (4) Management x 1
+             */
+            two: {
+                ROLE: "Operations",
+                WANT: 1,
+                NOW: 1,
+            },
+            /**
+             * Round 3 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 2
+             * (2) Engineer x 1
+             * (3) Business x 1
+             * (4) Management x 1
+             */
+            three: {
+                ROLE: "Engineer",
+                WANT: 1,
+                NOW: 1,
+            },
+            /**
+             * Round 4 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 2
+             * (2) Engineer x 2
+             * (3) Business x 1
+             * (4) Management x 1
+             */
+            four: {
+                ROLE: "Business",
+                WANT: 1,
+                NOW: 1,
+            },
+            /**
+             * Round 5 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 2
+             * (2) Engineer x 2
+             * (3) Business x 2
+             * (4) Management x 1
+             */
+            five: {
+                ROLE: "Management",
+                WANT: 1,
+                NOW: 1,
+            },
+            /**
+             * Round 6 of hiring for an office.  We currently have employees in
+             * these roles:
+             *
+             * (1) Operations x 2
+             * (2) Engineer x 2
+             * (3) Business x 2
+             * (4) Management x 2
+             */
+            six: {
+                ROLE: "Operations",
+                WANT: 1,
+                NOW: 2,
+            },
+        },
+    },
+    /**
      * Various thresholds on materials.
      */
     material: {

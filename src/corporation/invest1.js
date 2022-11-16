@@ -17,50 +17,11 @@
 
 import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
-import { wait_t } from "/lib/constant/time.js";
 import { Office } from "/lib/corporation/office.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
-
-/**
- * The first round of hiring after accepting the first investment offer.  We
- * want to hire 1 employee for each office, in the role of Management.
- *
- * We currently have employees in these roles:
- *
- * (1) Operations x 1
- * (2) Engineer x 1
- * (3) Business x 1
- *
- * After this round of hiring, each office should have the following roster:
- *
- * (1) Operations x 1
- * (2) Engineer x 1
- * (3) Business x 1
- * (4) Management x 1
- *
- * @param ns The Netscript API.
- */
-async function first_hire_round(ns) {
-    const office = new Office(ns);
-    for (const div of Cutil.all_divisions(ns)) {
-        for (const ct of cities.all) {
-            assert(office.num_operations(div, ct) >= 1);
-            assert(office.num_engineer(div, ct) >= 1);
-            assert(office.num_business(div, ct) >= 1);
-            if (office.num_management(div, ct) > 0) {
-                continue;
-            }
-            const job = corp.job.MANAGEMENT;
-            await new_hire(ns, div, ct, job);
-            const prefix = `${div}: ${ct}`;
-            const msg = `hired 1 employee and assigned to ${job}`;
-            log(ns, `${prefix}: ${msg}`);
-        }
-    }
-}
 
 /**
  * The first round of investment.
@@ -94,6 +55,63 @@ async function first_investor_round(ns) {
         `Received ${fundsf} in exchange for ${sharesf} shares of corporation`
     );
     return round;
+}
+
+/**
+ * A round of hiring after accepting the first investment offer.  We
+ * want to hire 1 employee for each office, in a particular role.  We want to
+ * fill the following positions:
+ *
+ * (1) Operations
+ * (2) Engineer
+ * (3) Business
+ * (4) Management
+ *
+ * @param ns The Netscript API.
+ * @param n Which round of hiring is this?  Must be a word representing the
+ *     hiring round.  For example, if this is round 1, then pass in "one".  If
+ *     it is round 2, then pass in "two", and so on.
+ */
+async function hire_round(ns, n) {
+    assert(n !== "");
+    const office = new Office(ns);
+    const current = corp_t.hire.round[n].NOW;
+    const role = corp_t.hire.round[n].ROLE;
+    for (const div of Cutil.all_divisions(ns)) {
+        for (const ct of cities.all) {
+            // Sanity check the current number of employees in the given role.
+            switch (role) {
+                case "Operations":
+                    if (office.num_operations(div, ct) > current) {
+                        continue;
+                    }
+                    break;
+                case "Engineer":
+                    if (office.num_engineer(div, ct) > current) {
+                        continue;
+                    }
+                    break;
+                case "Business":
+                    if (office.num_business(div, ct) > current) {
+                        continue;
+                    }
+                    break;
+                case "Management":
+                    if (office.num_management(div, ct) > current) {
+                        continue;
+                    }
+                    break;
+                default:
+                    // Should never reach here.
+                    assert(false);
+            }
+            // Hire an employee for the role.
+            await new_hire(ns, div, ct, role);
+            const prefix = `${div}: ${ct}`;
+            const msg = `hired 1 employee and assigned to ${role}`;
+            log(ns, `${prefix}: ${msg}`);
+        }
+    }
 }
 
 /**
@@ -138,5 +156,5 @@ export async function main(ns) {
     if (round !== 1) {
         return;
     }
-    await first_hire_round(ns);
+    await hire_round(ns, "one");
 }
