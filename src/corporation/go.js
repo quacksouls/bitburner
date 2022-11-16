@@ -223,6 +223,8 @@ async function vivacious_office(ns) {
  * The inital creation of our corporation.  We also perform various tasks
  * related to the early management of the corporation.
  *
+ * Usage: run corporation/go.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
