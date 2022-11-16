@@ -269,7 +269,7 @@ export class Office {
      * @param n How many times to upgrade.  Must be a positive integer.
      * @return True if the upgrade was successful; false otherwise.
      */
-    upgrade_office(div, ct, n = 1) {
+    upgrade(div, ct, n) {
         assert(Cutil.has_division(this.#ns, div));
         assert(is_valid_city(ct));
         assert(n >= 1);
