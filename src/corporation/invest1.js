@@ -74,6 +74,7 @@ async function first_investor_round(ns) {
  */
 async function hire_round(ns, n) {
     assert(n !== "");
+    log(ns, `Round ${n} of hiring`);
     const office = new Office(ns);
     const current = corp_t.hire.round[n].NOW;
     const role = corp_t.hire.round[n].ROLE;
