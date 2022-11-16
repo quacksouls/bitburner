@@ -20,6 +20,7 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
+import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
@@ -31,7 +32,7 @@ import { assert } from "/lib/util.js";
  */
 async function create_corp(ns) {
     const org = new Corporation(ns);
-    if (org.has_corp()) {
+    if (Cutil.has_corp(ns)) {
         log(ns, "Manage a corporation");
         return;
     }

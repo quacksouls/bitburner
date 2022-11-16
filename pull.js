@@ -86,7 +86,7 @@ function dir_cct() {
  * Scripts for managing a corporation.
  */
 function dir_corporation() {
-    const corp = ["corporation/go.js"];
+    const corp = ["corporation/go.js", "corporation/invest1.js"];
     return corp;
 }
 
