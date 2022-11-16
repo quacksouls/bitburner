@@ -207,4 +207,16 @@ export class Cutil {
         const upgrade = new Set(Object.values(corp.upgrade));
         return upgrade.has(upg);
     }
+
+    /**
+     * The profit per second during the current tick.
+     *
+     * @param ns The Netscript API.
+     * @return The profit of our corporation, expressed as per second during the
+     *     current tick.
+     */
+    static profit(ns) {
+        const { expenses, revenue } = ns[corp.API].getCorporation();
+        return revenue - expenses;
+    }
 }

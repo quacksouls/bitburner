@@ -205,12 +205,4 @@ export class Corporation {
             corp_t.sell.price.MP
         );
     }
-
-    /**
-     * The profit per second during the current tick.
-     */
-    profit() {
-        const { expenses, revenue } = this.#ns[corp.API].getCorporation();
-        return revenue - expenses;
-    }
 }
