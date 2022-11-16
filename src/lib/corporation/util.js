@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { corp } from "/lib/constant/corp.js";
 import { assert, is_valid_city } from "/lib/util.js";
 
 /**
@@ -206,29 +206,5 @@ export class Cutil {
         assert(upg !== "");
         const upgrade = new Set(Object.values(corp.upgrade));
         return upgrade.has(upg);
-    }
-
-    /**
-     * Whether the employees in an office are vivacious.  An office is said to
-     * be vivacious if:
-     *
-     * (1) The average employee morale is 100.000.
-     * (2) The average employee happiness is 99.998 or higher.
-     * (3) The average employee energy is 99.998 or higher.
-     *
-     * @param div The name of a division.
-     * @param ct The name of a city.
-     */
-    // FIXME
-    is_vivacious(div, ct) {
-        assert(this.has_division(div));
-        assert(is_valid_city(ct));
-        const stat = this.avg_employee_stats(div, ct);
-        const int = (x) => Math.floor(x * 1000);
-        return (
-            int(stat.morale) >= int(corp_t.employee.MORALE)
-            && int(stat.happiness) >= int(corp_t.employee.HAPPINESS)
-            && int(stat.energy) >= int(corp_t.employee.ENERGY)
-        );
     }
 }
