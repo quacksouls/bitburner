@@ -25,6 +25,7 @@ import { Warehouse } from "/lib/corporation/store.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Create a corporation.
@@ -235,4 +236,6 @@ export async function main(ns) {
     // Early management of our corporation.
     await stage_one(ns);
     await vivacious_office(ns);
+    // Next script in the load chain.
+    exec(ns, "/corporation/invest1.js");
 }
