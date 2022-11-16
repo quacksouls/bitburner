@@ -110,11 +110,11 @@ async function new_hire(ns, div, ct, role) {
     const office = new Office(ns);
     if (Cutil.is_at_capacity(ns, div, ct)) {
         while (!office.upgrade(div, ct, howmany)) {
-            await ns.sleep(wait_t.SECOND);
+            await ns.sleep(corp_t.TICK);
         }
     }
     while (!office.new_hire(div, ct, role)) {
-        await ns.sleep(wait_t.SECOND);
+        await ns.sleep(corp_t.TICK);
     }
 }
 
