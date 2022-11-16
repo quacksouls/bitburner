@@ -99,6 +99,21 @@ export class Office {
     }
 
     /**
+     * The capacity of an office, i.e. the number of employees the office can
+     * accommodate.  This is not the same as the number of employees in the
+     * office.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The size of the given office.
+     */
+    capacity(div, ct) {
+        assert(Cutil.has_division(this.#ns, div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getOffice(div, ct).size;
+    }
+
+    /**
      * Hire a new employee for an office.
      *
      * @param div A string representing the name of a division.
@@ -244,21 +259,6 @@ export class Office {
         assert(Cutil.has_division(this.#ns, div));
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Operations;
-    }
-
-    /**
-     * The capacity of an office, i.e. the number of employees the office can
-     * accommodate.  This is not the same as the number of employees in the
-     * office.
-     *
-     * @param div A string representing the name of a division.
-     * @param ct A string representing the name of a city.
-     * @return The size of the given office.
-     */
-    office_size(div, ct) {
-        assert(Cutil.has_division(this.#ns, div));
-        assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).size;
     }
 
     /**
