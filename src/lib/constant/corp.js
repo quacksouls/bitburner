@@ -212,9 +212,9 @@ export const corp_t = {
      */
     funds: {
         /**
-         * A very low funds threshold: $500m.
+         * A very low funds threshold: $1b.
          */
-        VERY_LOW: 5e8,
+        VERY_LOW: 1e9,
     },
     /**
      * Various thresholds on materials.
