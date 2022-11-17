@@ -22,7 +22,7 @@ import { Warehouse } from "/lib/corporation/store.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Whether each warehouse has been upgraded for this round.
@@ -135,4 +135,6 @@ export async function main(ns) {
     // Manage our corporation.
     await level_up(ns);
     await level_up_storage(ns);
+    // The next script in the load chain.
+    exec(ns, "/corporation/material1.js");
 }

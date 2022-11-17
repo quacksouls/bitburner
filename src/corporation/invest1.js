@@ -21,7 +21,7 @@ import { Office } from "/lib/corporation/office.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * The first round of investment.
@@ -154,7 +154,10 @@ export async function main(ns) {
     assert(Cutil.has_office_warehouse_api(ns));
     // Manage our corporation.
     const round = await first_investor_round(ns);
+    const script = "/corporation/upgrade1.js";
     if (round !== 1) {
+        // The next script in the load chain.
+        exec(ns, script);
         return;
     }
     const stage = ["one", "two", "three", "four", "five", "six"];
@@ -162,4 +165,6 @@ export async function main(ns) {
         await hire_round(ns, s);
         await ns.sleep(corp_t.TICK);
     }
+    // The next script in the load chain.
+    exec(ns, script);
 }
