@@ -89,6 +89,7 @@ function dir_corporation() {
     const corp = [
         "corporation/go.js",
         "corporation/invest1.js",
+        "corporation/material1.js",
         "corporation/upgrade1.js",
     ];
     return corp;

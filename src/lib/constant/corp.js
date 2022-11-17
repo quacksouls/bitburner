@@ -335,6 +335,20 @@ export const corp_t = {
                  * The amount for our initial purchase.
                  */
                 INIT: 75,
+                /**
+                 * Thresholds for various rounds.
+                 */
+                round: {
+                    /**
+                     * Thresholds for round 1.
+                     */
+                    one: {
+                        /**
+                         * The amount to buy for this round.
+                         */
+                        N: 2445,
+                    },
+                },
             },
         },
         /**
@@ -349,6 +363,20 @@ export const corp_t = {
                  * The amount for our initial purchase.
                  */
                 INIT: 125,
+                /**
+                 * Thresholds for various rounds.
+                 */
+                round: {
+                    /**
+                     * Thresholds for round 1.
+                     */
+                    one: {
+                        /**
+                         * The amount to buy for this round.
+                         */
+                        N: 2675,
+                    },
+                },
             },
         },
         /**
@@ -363,6 +391,44 @@ export const corp_t = {
                  * The amount for our initial purchase.
                  */
                 INIT: 27e3,
+                /**
+                 * Thresholds for various rounds.
+                 */
+                round: {
+                    /**
+                     * Thresholds for round 1.
+                     */
+                    one: {
+                        /**
+                         * The amount to buy for this round.
+                         */
+                        N: 119400,
+                    },
+                },
+            },
+        },
+        /**
+         * Robots.
+         */
+        robot: {
+            /**
+             * Purchasing thresholds.
+             */
+            buy: {
+                /**
+                 * Thresholds for various rounds.
+                 */
+                round: {
+                    /**
+                     * Thresholds for round 1.
+                     */
+                    one: {
+                        /**
+                         * The amount to buy for this round.
+                         */
+                        N: 96,
+                    },
+                },
             },
         },
     },
