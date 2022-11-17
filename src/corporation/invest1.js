@@ -157,5 +157,9 @@ export async function main(ns) {
     if (round !== 1) {
         return;
     }
-    await hire_round(ns, "one");
+    const stage = ["one", "two", "three", "four", "five", "six"];
+    for (const s of stage) {
+        await hire_round(ns, s);
+        await ns.sleep(corp_t.TICK);
+    }
 }
