@@ -433,6 +433,17 @@ export const corp_t = {
          * For our initial setup, we want at least 2 levels of various upgrades.
          */
         INIT_LEVEL: 2,
+        /**
+         * Upgrade thresholds for subsequent rounds.
+         */
+        round: {
+            /**
+             * Round 1 of upgrade.  Level up various upgrades to this level.
+             */
+            one: {
+                LEVEL: 10,
+            },
+        },
     },
     /**
      * Various thresholds related to a warehouse.
@@ -444,5 +455,17 @@ export const corp_t = {
          * to this size.
          */
         INIT_UPGRADE_SIZE: 300,
+        /**
+         * Upgrade thresholds for subsequent rounds.
+         */
+        round: {
+            /**
+             * Round 1 of storage upgrade.  Expand the capacity of each
+             * warehouse to this number.
+             */
+            one: {
+                SIZE: 2e3,
+            },
+        },
     },
 };

@@ -63,6 +63,19 @@ export class Warehouse {
     }
 
     /**
+     * The size or capacity of a warehouse.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The storage size of the given warehouse.
+     */
+    capacity(div, ct) {
+        assert(Cutil.has_division(this.#ns, div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getWarehouse(div, ct).size;
+    }
+
+    /**
      * Enable Smart Supply for the warehouse of each division in each city.
      */
     enable_smart_supply() {

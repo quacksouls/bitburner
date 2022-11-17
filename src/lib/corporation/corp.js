@@ -143,6 +143,17 @@ export class Corporation {
     }
 
     /**
+     * The level of an upgrade that can be levelled.
+     *
+     * @param name The name of an upgrade that can be levelled.
+     * @return The level of the given upgrade.
+     */
+    level(name) {
+        assert(Cutil.is_valid_upgrade(name));
+        return this.#ns[corp.API].getUpgradeLevel(name);
+    }
+
+    /**
      * Level up an upgrade that can be levelled.  A level upgrade is not the
      * same as an unlock upgrade.
      *
