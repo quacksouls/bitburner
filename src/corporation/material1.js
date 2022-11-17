@@ -16,6 +16,7 @@
  */
 
 import { corp, corp_t } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
@@ -34,7 +35,6 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function material_buy(ns) {
-    const org = new Corporation(ns);
     const material = [
         corp.material.AI,
         corp.material.HARDWARE,
@@ -48,9 +48,17 @@ async function material_buy(ns) {
         corp_t.material.robot.buy.round.one.N,
     ];
     for (let i = 0; i < material.length; i++) {
-        const amt = ns.nFormat(amount[i], "0,00.00a");
-        log(ns, `Buying ${amt} units of ${material[i]}`);
-        await org.material_buy(material[i], amount[i]);
+        const org = new Corporation(ns);
+        for (const div of Cutil.all_divisions(ns)) {
+            for (const ct of cities.all) {
+                if (org.material_qty(div, ct, material[i]) < amount[i]) {
+                    const prefix = `${div}: ${ct}`;
+                    const amt = ns.nFormat(amount[i], "0,00.00a");
+                    log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
+                    await org.material_buy(div, ct, material[i], amount[i]);
+                }
+            }
+        }
     }
 }
 

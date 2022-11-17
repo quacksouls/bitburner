@@ -18,7 +18,6 @@
 import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { Player } from "/lib/player.js";
@@ -172,28 +171,28 @@ export class Corporation {
     }
 
     /**
-     * Purchase an amount of a material.  We buy this material for each division
-     * in each city.
+     * Purchase an amount of a material.  We buy this material for a division in
+     * a particular city.
      *
+     * @param div The name of a division.
+     * @param ct The name of a city.
      * @param name The name of the material to buy.
      * @param amt The amount to buy.
      */
-    async material_buy(name, amt) {
+    async material_buy(div, ct, name, amt) {
+        assert(Cutil.has_division(this.#ns, div));
+        assert(is_valid_city(ct));
         assert(Cutil.is_valid_material(name));
         assert(amt > 0);
         const rate = amt / corp_t.TICK_SECOND; // Amount per second.
-        for (const div of Cutil.all_divisions(this.#ns)) {
-            for (const ct of cities.all) {
-                let { qty } = this.#ns[corp.API].getMaterial(div, ct, name);
-                const target = qty + amt;
-                this.#ns[corp.API].buyMaterial(div, ct, name, rate);
-                while (qty < target) {
-                    await this.#ns.sleep(wait_t.MILLISECOND);
-                    qty = this.#ns[corp.API].getMaterial(div, ct, name).qty;
-                }
-                this.#ns[corp.API].buyMaterial(div, ct, name, 0);
-            }
+        let { qty } = this.#ns[corp.API].getMaterial(div, ct, name);
+        const target = qty + amt;
+        this.#ns[corp.API].buyMaterial(div, ct, name, rate);
+        while (qty < target) {
+            await this.#ns.sleep(wait_t.MILLISECOND);
+            qty = this.#ns[corp.API].getMaterial(div, ct, name).qty;
         }
+        this.#ns[corp.API].buyMaterial(div, ct, name, 0);
     }
 
     /**
@@ -215,5 +214,21 @@ export class Corporation {
             corp_t.sell.amount.MAX,
             corp_t.sell.price.MP
         );
+    }
+
+    /**
+     * The amount of a material currently held in a warehouse of a city.
+     *
+     * @param div The name of a division.
+     * @param ct The name of a city.
+     * @param name The name of the material.
+     * @return The amount of the given material currently held in the warehouse
+     *     of the particular division, in the given city.
+     */
+    material_qty(div, ct, name) {
+        assert(Cutil.has_division(this.#ns, div));
+        assert(is_valid_city(ct));
+        assert(Cutil.is_valid_material(name));
+        return this.#ns[corp.API].getMaterial(div, ct, name).qty;
     }
 }

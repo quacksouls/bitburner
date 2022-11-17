@@ -123,7 +123,6 @@ function initial_level_upgrade(ns) {
  * @param ns The Netscript API.
  */
 async function initial_material_buy(ns) {
-    const org = new Corporation(ns);
     const material = [
         corp.material.AI,
         corp.material.HARDWARE,
@@ -135,7 +134,14 @@ async function initial_material_buy(ns) {
         corp_t.material.land.buy.INIT,
     ];
     for (let i = 0; i < material.length; i++) {
-        await org.material_buy(material[i], amount[i]);
+        const org = new Corporation(ns);
+        for (const div of Cutil.all_divisions(ns)) {
+            for (const ct of cities.all) {
+                if (org.material_qty(div, ct, material[i]) < amount[i]) {
+                    await org.material_buy(div, ct, material[i], amount[i]);
+                }
+            }
+        }
     }
 }
 
