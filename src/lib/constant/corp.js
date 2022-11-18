@@ -366,6 +366,9 @@ export const corp_t = {
                          */
                         N: 2445,
                     },
+                    two: {
+                        N: 3750,
+                    },
                 },
             },
         },
@@ -373,6 +376,9 @@ export const corp_t = {
             buy: {
                 round: {
                     one: {
+                        N: 0,
+                    },
+                    two: {
                         N: 0,
                     },
                 },
@@ -384,6 +390,9 @@ export const corp_t = {
                     one: {
                         N: 0,
                     },
+                    two: {
+                        N: 0,
+                    },
                 },
             },
         },
@@ -393,6 +402,9 @@ export const corp_t = {
                     one: {
                         N: 0,
                     },
+                    two: {
+                        N: 0,
+                    },
                 },
             },
         },
@@ -400,6 +412,9 @@ export const corp_t = {
             buy: {
                 round: {
                     one: {
+                        N: 0,
+                    },
+                    two: {
                         N: 0,
                     },
                 },
@@ -412,6 +427,9 @@ export const corp_t = {
                     one: {
                         N: 2675,
                     },
+                    two: {
+                        N: 6500,
+                    },
                 },
             },
         },
@@ -422,6 +440,9 @@ export const corp_t = {
                     one: {
                         N: 119400,
                     },
+                    two: {
+                        N: 84e3,
+                    },
                 },
             },
         },
@@ -429,6 +450,9 @@ export const corp_t = {
             buy: {
                 round: {
                     one: {
+                        N: 0,
+                    },
+                    two: {
                         N: 0,
                     },
                 },
@@ -440,6 +464,9 @@ export const corp_t = {
                     one: {
                         N: 0,
                     },
+                    two: {
+                        N: 0,
+                    },
                 },
             },
         },
@@ -449,6 +476,9 @@ export const corp_t = {
                     one: {
                         N: 96,
                     },
+                    two: {
+                        N: 630,
+                    },
                 },
             },
         },
@@ -456,6 +486,9 @@ export const corp_t = {
             buy: {
                 round: {
                     one: {
+                        N: 0,
+                    },
+                    two: {
                         N: 0,
                     },
                 },
@@ -575,13 +608,7 @@ export const corp_t = {
             one: {
                 SIZE: 2e3,
             },
-            /**
-             * Round 2 of storage upgrade.
-             */
             two: {
-                /**
-                 * Expand the capacity of each warehouse to this number.
-                 */
                 SIZE: 3800,
             },
         },

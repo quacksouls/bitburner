@@ -46,6 +46,24 @@ async function round_one(ns) {
 }
 
 /**
+ * Round 2 in preparing our corporation.  Perform these tasks in order:
+ *
+ * (1) Upgrade the storage capacity of warehouses.
+ *
+ * @param ns The Netscript API.
+ */
+async function round_two(ns) {
+    const script = [
+        "/corporation/invest.js",
+        "/corporation/storage.js",
+        "/corporation/material.js",
+    ];
+    for (const s of script) {
+        await run_task(ns, s, "two");
+    }
+}
+
+/**
  * Execute a given script and wait for it to complete.
  *
  * @param ns The Netscript API.
@@ -83,4 +101,5 @@ export async function main(ns) {
     assert(Cutil.has_office_warehouse_api(ns));
     // Various rounds of preparation.
     await round_one(ns);
+    await round_two(ns);
 }
