@@ -27,8 +27,12 @@ import { assert } from "/lib/util.js";
  * @param r A string (i.e. word) representing the investment round.
  */
 async function investment_offer(ns, r) {
+    if (ns[corp.API].getInvestmentOffer().round !== Cutil.to_number(r)) {
+        return;
+    }
     // Need to wait for our corporation to make a certain amount of profit per
     // second, and have a certain amount of funds.
+    log(ns, `Round ${Cutil.to_number(r)} of investment`);
     const funds_tau = ns.nFormat(corp_t.funds.round[r].N, "$0,0.00a");
     const profit_tau = ns.nFormat(corp_t.profit.round[r].N, "$0,0.00a");
     log(ns, `Waiting for sufficient funds: ${funds_tau}`);
@@ -39,14 +43,10 @@ async function investment_offer(ns, r) {
     ) {
         await ns.sleep(corp_t.TICK);
     }
-    const { funds, round, shares } = ns[corp.API].getInvestmentOffer();
-    if (round !== Cutil.to_number(r)) {
-        return;
-    }
+    const { funds, shares } = ns[corp.API].getInvestmentOffer();
     ns[corp.API].acceptInvestmentOffer();
     const fundsf = ns.nFormat(funds, "$0,0.00a");
     const sharesf = ns.nFormat(shares, "0,0.00a");
-    log(ns, `Round ${round} of investment`);
     log(
         ns,
         `Received ${fundsf} in exchange for ${sharesf} shares of corporation`
