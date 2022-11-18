@@ -53,14 +53,18 @@ async function create_corp(ns) {
 function expand_city(ns, div) {
     const org = new Corporation(ns);
     const depo = new Warehouse(ns);
+    const new_office = [];
     cities.all.forEach((ct) => {
         if (!Cutil.has_division_office(ns, div, ct)) {
             org.expand_city(div, ct);
             depo.buy_warehouse(div, ct);
-            log(ns, `${div}: expanded to ${ct}`);
+            new_office.push(ct);
         }
         depo.warehouse_init_upgrade(div, ct);
     });
+    if (new_office.length > 0) {
+        log(ns, `${div}: expanded to ${new_office.join(", ")}`);
+    }
 }
 
 /**
