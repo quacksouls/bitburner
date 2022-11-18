@@ -18,6 +18,7 @@
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Cutil } from "/lib/corporation/util.js";
+import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
@@ -43,6 +44,8 @@ async function round_one(ns) {
     for (const s of script) {
         await run_task(ns, s, "one");
     }
+    log(ns, "Waiting for each office to be vivacious");
+    await Cutil.vivacious_office(ns);
 }
 
 /**
@@ -61,6 +64,8 @@ async function round_two(ns) {
     for (const s of script) {
         await run_task(ns, s, "two");
     }
+    log(ns, "Waiting for each office to be vivacious");
+    await Cutil.vivacious_office(ns);
 }
 
 /**
