@@ -22,7 +22,7 @@ import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
- * Round one in preparing our corporation.  Perform these tasks in order:
+ * Round 1 in preparing our corporation.  Perform these tasks in order:
  *
  * (1) Accept investment money.
  * (2) Hire new employees.
