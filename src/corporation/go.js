@@ -230,7 +230,6 @@ export async function main(ns) {
     await stage_one(ns);
     log(ns, "Waiting for each office to be vivacious");
     await Cutil.vivacious_office(ns);
-    log(ns, "Each office is vivacious");
     // Next script in the load chain.
     exec(ns, "/corporation/prep.js");
 }
