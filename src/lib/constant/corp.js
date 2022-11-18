@@ -358,7 +358,7 @@ export const corp_t = {
                  */
                 round: {
                     /**
-                     * Thresholds for round 1.
+                     * Threshold for round 1.
                      */
                     one: {
                         /**
@@ -369,82 +369,94 @@ export const corp_t = {
                 },
             },
         },
-        /**
-         * Hardware.
-         */
-        hardware: {
-            /**
-             * Purchasing thresholds.
-             */
+        chemical: {
             buy: {
-                /**
-                 * The amount for our initial purchase.
-                 */
-                INIT: 125,
-                /**
-                 * Thresholds for various rounds.
-                 */
                 round: {
-                    /**
-                     * Thresholds for round 1.
-                     */
                     one: {
-                        /**
-                         * The amount to buy for this round.
-                         */
+                        N: 0,
+                    },
+                },
+            },
+        },
+        drug: {
+            buy: {
+                round: {
+                    one: {
+                        N: 0,
+                    },
+                },
+            },
+        },
+        energy: {
+            buy: {
+                round: {
+                    one: {
+                        N: 0,
+                    },
+                },
+            },
+        },
+        food: {
+            buy: {
+                round: {
+                    one: {
+                        N: 0,
+                    },
+                },
+            },
+        },
+        hardware: {
+            buy: {
+                INIT: 125,
+                round: {
+                    one: {
                         N: 2675,
                     },
                 },
             },
         },
-        /**
-         * Real Estate.
-         */
         land: {
-            /**
-             * Purchasing thresholds.
-             */
             buy: {
-                /**
-                 * The amount for our initial purchase.
-                 */
                 INIT: 27e3,
-                /**
-                 * Thresholds for various rounds.
-                 */
                 round: {
-                    /**
-                     * Thresholds for round 1.
-                     */
                     one: {
-                        /**
-                         * The amount to buy for this round.
-                         */
                         N: 119400,
                     },
                 },
             },
         },
-        /**
-         * Robots.
-         */
-        robot: {
-            /**
-             * Purchasing thresholds.
-             */
+        metal: {
             buy: {
-                /**
-                 * Thresholds for various rounds.
-                 */
                 round: {
-                    /**
-                     * Thresholds for round 1.
-                     */
                     one: {
-                        /**
-                         * The amount to buy for this round.
-                         */
+                        N: 0,
+                    },
+                },
+            },
+        },
+        plant: {
+            buy: {
+                round: {
+                    one: {
+                        N: 0,
+                    },
+                },
+            },
+        },
+        robot: {
+            buy: {
+                round: {
+                    one: {
                         N: 96,
+                    },
+                },
+            },
+        },
+        water: {
+            buy: {
+                round: {
+                    one: {
+                        N: 0,
                     },
                 },
             },

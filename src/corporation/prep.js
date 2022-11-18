@@ -25,7 +25,10 @@ import { assert } from "/lib/util.js";
  * Round one in preparing our corporation.  Perform these tasks in order:
  *
  * (1) Accept investment money.
- * (2) Level up various upgrades.
+ * (2) Hire new employees.
+ * (3) Level up various upgrades.
+ * (4) Upgrade the storage capacity of warehouses.
+ * (5) Purchase materials.
  *
  * @param ns The Netscript API.
  */
@@ -35,6 +38,7 @@ async function round_one(ns) {
         "/corporation/hire.js",
         "/corporation/upgrade.js",
         "/corporation/storage.js",
+        "/corporation/material.js",
     ];
     for (const s of script) {
         await run_task(ns, s, "one");

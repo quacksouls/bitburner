@@ -20,7 +20,6 @@ import { cities } from "/lib/constant/location.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -33,50 +32,71 @@ import { assert } from "/lib/util.js";
  * (4) Real Estate.  We want an additional 119,400.
  *
  * @param ns The Netscript API.
+ * @param n A string representing the round number.  This is the same as the
+ *     investment round number.
  */
-async function material_buy(ns) {
+async function material_buy(ns, n) {
     const material = [
         corp.material.AI,
+        corp.material.CHEMICAL,
+        corp.material.DRUG,
+        corp.material.ENERGY,
+        corp.material.FOOD,
         corp.material.HARDWARE,
         corp.material.LAND,
+        corp.material.METAL,
+        corp.material.PLANT,
         corp.material.ROBOT,
+        corp.material.WATER,
     ];
     const amount = [
-        corp_t.material.ai.buy.round.one.N,
-        corp_t.material.hardware.buy.round.one.N,
-        corp_t.material.land.buy.round.one.N,
-        corp_t.material.robot.buy.round.one.N,
+        corp_t.material.ai.buy.round[n].N,
+        corp_t.material.chemical.buy.round[n].N,
+        corp_t.material.drug.buy.round[n].N,
+        corp_t.material.energy.buy.round[n].N,
+        corp_t.material.food.buy.round[n].N,
+        corp_t.material.hardware.buy.round[n].N,
+        corp_t.material.land.buy.round[n].N,
+        corp_t.material.metal.buy.round[n].N,
+        corp_t.material.plant.buy.round[n].N,
+        corp_t.material.robot.buy.round[n].N,
+        corp_t.material.water.buy.round[n].N,
     ];
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
         for (const div of Cutil.all_divisions(ns)) {
             for (const ct of cities.all) {
-                if (org.material_qty(div, ct, material[i]) < amount[i]) {
-                    const prefix = `${div}: ${ct}`;
-                    const amt = ns.nFormat(amount[i], "0,00.00a");
-                    log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
-                    await org.material_buy(div, ct, material[i], amount[i]);
+                const max = org.material_qty(div, ct, material[i]) + amount[i];
+                if (org.material_qty(div, ct, material[i]) >= max) {
+                    continue;
                 }
+                const prefix = `${div}: ${ct}`;
+                const amt = ns.nFormat(amount[i], "0,00.00a");
+                log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
+                await org.material_buy(div, ct, material[i], amount[i]);
             }
         }
     }
 }
 
 /**
- * Purchasing materials after the first round of investment.
+ * Purchasing some amounts of materials.  This script accepts a command line
+ * argument, i.e. a number representing the purchase round.  This round number
+ * corresponds to the number of times we have accepted investment money.  Pass
+ * in the round number as a word.  For example, if it is round 1, then pass in
+ * the string "one".
  *
- * Usage: corporation/material1.js
+ * Usage: corporation/material.js [roundNumber]
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
     // Make the log less verbose.
-    ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
-    // Sanity check.
-    assert(has_corporation_api(ns));
-    assert(Cutil.has_corp(ns));
-    assert(Cutil.has_office_warehouse_api(ns));
+    // Sanity checks.
+    assert(ns.args.length === 1);
+    const round_n = ns.args[0];
+    assert(Cutil.is_valid_round(round_n));
     // Manage our corporation.
-    await material_buy(ns);
+    await material_buy(ns, round_n);
 }
