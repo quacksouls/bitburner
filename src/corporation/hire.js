@@ -61,7 +61,7 @@ async function new_hire(ns, div, ct, role) {
  */
 async function round_one_hire(ns, n) {
     assert(n !== "");
-    log(ns, `Stage ${n} of hiring`);
+    log(ns, `Stage ${Cutil.to_number(n)} of hiring`);
     const office = new Office(ns);
     const current = corp_t.hire.stage[n].NOW;
     const role = corp_t.hire.stage[n].ROLE;
