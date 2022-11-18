@@ -243,5 +243,5 @@ export async function main(ns) {
     await stage_one(ns);
     await vivacious_office(ns);
     // Next script in the load chain.
-    exec(ns, "/corporation/invest1.js");
+    exec(ns, "/corporation/prep.js");
 }

@@ -117,6 +117,10 @@ export const corp = {
      */
     NAME: "Quacken Industries",
     /**
+     * The round of investment.
+     */
+    round: ["one", "two", "three", "four"],
+    /**
      * Unlock upgrades.  These are one-time unlockable upgrades and apply to the
      * entire corporation.  We cannot level these upgrades.  Data are taken from
      * this file:
@@ -212,20 +216,34 @@ export const corp_t = {
      */
     funds: {
         /**
-         * A very low funds threshold: $1b.
+         * Different rounds have different thresholds for the amount of funds we
+         * want.
          */
-        VERY_LOW: 1e9,
+        round: {
+            /**
+             * A very low funds threshold: $1b.
+             */
+            one: {
+                N: 1e9,
+            },
+            /**
+             * A low funds threshold: $2b.
+             */
+            two: {
+                N: 2e9,
+            },
+        },
     },
     /**
      * Hiring policies for various rounds of hiring.
      */
     hire: {
         /**
-         * The policy for each round of hiring.
+         * The policy for each stage of hiring.
          */
-        round: {
+        stage: {
             /**
-             * Round 1 of hiring for an office.  We currently have employees in
+             * Stage 1 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 1
@@ -248,7 +266,7 @@ export const corp_t = {
                 NOW: 0,
             },
             /**
-             * Round 2 of hiring for an office.  We currently have employees in
+             * Stage 2 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 1
@@ -262,7 +280,7 @@ export const corp_t = {
                 NOW: 1,
             },
             /**
-             * Round 3 of hiring for an office.  We currently have employees in
+             * Stage 3 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 2
@@ -276,7 +294,7 @@ export const corp_t = {
                 NOW: 1,
             },
             /**
-             * Round 4 of hiring for an office.  We currently have employees in
+             * Stage 4 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 2
@@ -290,7 +308,7 @@ export const corp_t = {
                 NOW: 1,
             },
             /**
-             * Round 5 of hiring for an office.  We currently have employees in
+             * Stage 5 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 2
@@ -304,7 +322,7 @@ export const corp_t = {
                 NOW: 1,
             },
             /**
-             * Round 6 of hiring for an office.  We currently have employees in
+             * Stage 6 of hiring for an office.  We currently have employees in
              * these roles:
              *
              * (1) Operations x 2
@@ -448,9 +466,22 @@ export const corp_t = {
      */
     profit: {
         /**
-         * A very low profit threshold: $200k per second.
+         * Different rounds have different rates of profits we aim to achieve.
          */
-        VERY_LOW: 2e5,
+        round: {
+            /**
+             * A very low profit threshold: $200k per second.
+             */
+            one: {
+                N: 2e5,
+            },
+            /**
+             * A low profit threshold: $300k per second.
+             */
+            two: {
+                N: 3e5,
+            },
+        },
     },
     /**
      * We need $150b to start a corporation.  Data taken from this file:
@@ -531,6 +562,15 @@ export const corp_t = {
              */
             one: {
                 SIZE: 2e3,
+            },
+            /**
+             * Round 2 of storage upgrade.
+             */
+            two: {
+                /**
+                 * Expand the capacity of each warehouse to this number.
+                 */
+                SIZE: 3800,
             },
         },
     },

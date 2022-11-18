@@ -183,6 +183,20 @@ export class Cutil {
     }
 
     /**
+     * Whether the given string represents a valid round number.  The round
+     * number corresponds to the number of times we have accepted investment
+     * money.  The round number should be a word representing the number.
+     *
+     * @param str A string representing the round number.
+     * @return True if the string represents a valid round number;
+     *     false otherwise.
+     */
+    static is_valid_round(str) {
+        const round = new Set(corp.round);
+        return round.has(str);
+    }
+
+    /**
      * Whether the given name refers to a valid unlock upgrade.
      *
      * @param upg A string representing the name of an unlock upgrade.
@@ -212,11 +226,29 @@ export class Cutil {
      * The profit per second during the current tick.
      *
      * @param ns The Netscript API.
-     * @return The profit of our corporation, expressed as per second during the
-     *     current tick.
+     * @return The profit of our corporation, expressed as per second during
+     *     the current tick.
      */
     static profit(ns) {
         const { expenses, revenue } = ns[corp.API].getCorporation();
         return revenue - expenses;
+    }
+
+    /**
+     * Convert a number in words to integer.
+     *
+     * @param str A word representing a number.  For example, "one" refers to
+     *     the integer 1.
+     * @return The integer equivalent of the given number.
+     */
+    static to_number(str) {
+        assert(str !== "");
+        const round = {
+            one: 1,
+            two: 2,
+            three: 3,
+            four: 4,
+        };
+        return round[str];
     }
 }

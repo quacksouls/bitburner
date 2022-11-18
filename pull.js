@@ -88,10 +88,10 @@ function dir_cct() {
 function dir_corporation() {
     const corp = [
         "corporation/go.js",
-        "corporation/invest1.js",
-        "corporation/material1.js",
-        "corporation/storage.js",
-        "corporation/upgrade1.js",
+        "corporation/hire.js",
+        "corporation/invest.js",
+        "corporation/prep.js",
+        "corporation/upgrade.js",
     ];
     return corp;
 }
