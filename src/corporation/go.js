@@ -197,23 +197,6 @@ async function stage_one(ns) {
 }
 
 /**
- * Waiting for each office to be vivacious.
- *
- * @param ns The Netscript API.
- */
-async function vivacious_office(ns) {
-    log(ns, "Waiting for each office to be vivacious");
-    const office = new Office(ns);
-    for (const div of Cutil.all_divisions(ns)) {
-        const vivacious = (c) => office.is_vivacious(div, c);
-        while (!cities.all.every(vivacious)) {
-            await ns.sleep(wait_t.SECOND);
-        }
-    }
-    log(ns, "Each office is vivacious");
-}
-
-/**
  * The inital creation of our corporation.  We also perform various tasks
  * related to the early management of the corporation.
  *
@@ -241,7 +224,9 @@ export async function main(ns) {
     }
     // Early management of our corporation.
     await stage_one(ns);
-    await vivacious_office(ns);
+    log(ns, "Waiting for each office to be vivacious");
+    await Cutil.vivacious_office(ns);
+    log(ns, "Each office is vivacious");
     // Next script in the load chain.
     exec(ns, "/corporation/prep.js");
 }

@@ -17,6 +17,9 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { corp } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
+import { wait_t } from "/lib/constant/time.js";
+import { Office } from "/lib/corporation/office.js";
 import { assert, is_valid_city } from "/lib/util.js";
 
 /**
@@ -250,5 +253,20 @@ export class Cutil {
             four: 4,
         };
         return round[str];
+    }
+
+    /**
+     * Waiting for each office to be vivacious.
+     *
+     * @param ns The Netscript API.
+     */
+    static async vivacious_office(ns) {
+        const office = new Office(ns);
+        for (const div of this.all_divisions(ns)) {
+            const vivacious = (c) => office.is_vivacious(div, c);
+            while (!cities.all.every(vivacious)) {
+                await ns.sleep(wait_t.SECOND);
+            }
+        }
     }
 }
