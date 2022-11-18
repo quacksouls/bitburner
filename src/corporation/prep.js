@@ -34,6 +34,7 @@ async function round_one(ns) {
         "/corporation/invest.js",
         "/corporation/hire.js",
         "/corporation/upgrade.js",
+        "/corporation/storage.js",
     ];
     for (const s of script) {
         await run_task(ns, s, "one");

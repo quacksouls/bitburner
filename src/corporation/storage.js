@@ -20,7 +20,6 @@ import { cities } from "/lib/constant/location.js";
 import { Warehouse } from "/lib/corporation/store.js";
 import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -95,9 +94,6 @@ export async function main(ns) {
     assert(ns.args.length === 1);
     const round_n = ns.args[0];
     assert(Cutil.is_valid_round(round_n));
-    assert(has_corporation_api(ns));
-    assert(Cutil.has_corp(ns));
-    assert(Cutil.has_office_warehouse_api(ns));
     // Upgrade the storage capacity of each warehouse.
     await level_up_storage(ns, round_n);
 }
