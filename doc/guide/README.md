@@ -13,3 +13,4 @@ available at these avenues:
 ## Table of contents
 
 1. [Introduction](intro.md)
+1. [Starting out](start.md)
