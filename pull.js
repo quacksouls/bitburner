@@ -90,7 +90,9 @@ function dir_corporation() {
         "corporation/go.js",
         "corporation/hire.js",
         "corporation/invest.js",
+        "corporation/material.js",
         "corporation/prep.js",
+        "corporation/storage.js",
         "corporation/upgrade.js",
     ];
     return corp;
