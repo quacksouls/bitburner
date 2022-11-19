@@ -8,6 +8,8 @@ enjoyment, you should write your own scripts to play the game.
 
 Below are various tips you might want to keep in mind while playing the game.
 
+1. _Do the tutorials._ Complete the in-game tutorial, followed by the
+   [online tutorial](https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html).
 1. _Read the API documentation._ Read or browse the
    [API documentation](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.md)
    to get an idea of what you can do.
