@@ -45,3 +45,5 @@ Below are various tips you might want to keep in mind while playing the game.
    you can use HTML injection to easily circumvent the manual game play early in
    the game. Or you can go the manual route and slog it out until you have
    access to the Singularity API.
+
+[[TOC](README.md "Table of Contents")] [[Next](start.md "Starting out")]

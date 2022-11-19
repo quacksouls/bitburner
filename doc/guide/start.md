@@ -98,3 +98,5 @@ more expensive than upgrading the Level. You do not need to max out the RAM and
 Cores of each node. Furthermore, do not worry about reaching the maximum Level
 for each node. A Level of 50 for each node is decent. A Level of 100 for each
 node is ideal.
+
+[[TOC](README.md "Table of Contents")] [[Previous](intro.md "Introduction")]
