@@ -77,8 +77,8 @@ async function round_two(ns) {
  */
 async function run_task(ns, script, arg) {
     const nthread = 1;
-    const pid = ns.exec(script, home, nthread, arg);
-    while (ns.isRunning(pid)) {
+    ns.exec(script, home, nthread, arg);
+    while (ns.isRunning(script, home, arg)) {
         await ns.sleep(wait_t.SECOND);
     }
 }
