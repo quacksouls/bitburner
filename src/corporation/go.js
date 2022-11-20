@@ -201,7 +201,7 @@ async function stage_one(ns) {
 }
 
 /**
- * The inital creation of our corporation.  We also perform various tasks
+ * The initial creation of our corporation.  We also perform various tasks
  * related to the early management of the corporation.
  *
  * Usage: run corporation/go.js
