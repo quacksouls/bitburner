@@ -277,18 +277,14 @@ async function round_one(ns) {
  *
  * @param ns The Netscript API.
  */
-// async function round_two(ns) {
-//     const script = [
-//         "/corporation/invest.js",
-//         "/corporation/storage.js",
-//         "/corporation/material.js",
-//     ];
-//     for (const s of script) {
-//         await run_task(ns, s, "two");
-//     }
-//     log(ns, "Waiting for each office to be vivacious");
-//     await Cutil.vivacious_office(ns);
-// }
+async function round_two(ns) {
+    await investment_offer(ns, "two");
+    await level_up_storage(ns, "two");
+    await material_buy(ns, "two");
+    log(ns, "Waiting for each office to be vivacious");
+    const org = new Corporation(ns);
+    await org.vivacious_office();
+}
 
 /**
  * Round 1 of miscellaneous upgrades.  Level up various upgrades to a desired
@@ -376,5 +372,5 @@ export async function main(ns) {
     assert(org.has_office_warehouse_api(ns));
     // Various rounds of preparation.
     await round_one(ns);
-    // await round_two(ns);
+    await round_two(ns);
 }
