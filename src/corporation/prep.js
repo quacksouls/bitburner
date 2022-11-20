@@ -291,21 +291,6 @@ async function round_one(ns) {
 // }
 
 /**
- * Execute a given script and wait for it to complete.
- *
- * @param ns The Netscript API.
- * @param script We want to execute this script.
- * @param arg Run the given script using this argument.
- */
-// async function run_task(ns, script, arg) {
-//     const nthread = 1;
-//     ns.exec(script, home, nthread, arg);
-//     while (ns.isRunning(script, home, arg)) {
-//         await ns.sleep(wait_t.SECOND);
-//     }
-// }
-
-/**
  * Round 1 of miscellaneous upgrades.  Level up various upgrades to a desired
  * level.
  *
