@@ -64,7 +64,7 @@ these two companies would train your stats (excluding the Hack stat) and earn
 you some extra money. Focus on the job for a few minutes to increase your stats
 by one or more points. Then click `Do something else simultaneously` to divide
 your attention between your job and a side hustle. You have the option of going
-to the Slums to commit crimes. This is risky, but yeilds decent reward early in
+to the Slums to commit crimes. This is risky, but yields decent reward early in
 the game.
 
 ## Crime
