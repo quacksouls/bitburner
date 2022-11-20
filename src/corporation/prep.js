@@ -273,7 +273,9 @@ async function round_one(ns) {
 /**
  * Round 2 in preparing our corporation.  Perform these tasks in order:
  *
- * (1) Upgrade the storage capacity of warehouses.
+ * (1) Accept investment money.
+ * (2) Upgrade the storage capacity of warehouses.
+ * (3) Purchase materials.
  *
  * @param ns The Netscript API.
  */
