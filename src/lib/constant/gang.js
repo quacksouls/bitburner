@@ -748,6 +748,7 @@ export const gangster_t = {
         "Francois l'Olonnais",
         // G
         "Gemma Teller Morrow",
+        "Gogo Yubari",
         "Grace O'Malley",
         // H
         "Harriet Tubman",
