@@ -14,3 +14,4 @@ available at these avenues:
 
 1. [Introduction](intro.md)
 1. [Starting out](start.md)
+1. [First script](script.md)

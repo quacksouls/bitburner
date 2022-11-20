@@ -100,3 +100,4 @@ for each node. A Level of 50 for each node is decent. A Level of 100 for each
 node is ideal.
 
 [[TOC](README.md "Table of Contents")] [[Previous](intro.md "Introduction")]
+[[Next](script.md "First script")]
