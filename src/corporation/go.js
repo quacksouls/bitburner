@@ -20,9 +20,6 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { Office } from "/lib/corporation/office.js";
-import { Warehouse } from "/lib/corporation/store.js";
-import { Cutil } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { exec } from "/lib/util.js";
@@ -34,7 +31,7 @@ import { exec } from "/lib/util.js";
  */
 async function create_corp(ns) {
     const org = new Corporation(ns);
-    if (Cutil.has_corp(ns)) {
+    if (org.has_corp()) {
         log(ns, "Manage a corporation");
         return;
     }
@@ -52,15 +49,14 @@ async function create_corp(ns) {
  */
 function expand_city(ns, div) {
     const org = new Corporation(ns);
-    const depo = new Warehouse(ns);
     const new_office = [];
     cities.all.forEach((ct) => {
-        if (!Cutil.has_division_office(ns, div, ct)) {
+        if (!org.has_division_office(div, ct)) {
             org.expand_city(div, ct);
-            depo.buy_warehouse(div, ct);
+            org.buy_warehouse(div, ct);
             new_office.push(ct);
         }
-        depo.warehouse_init_upgrade(div, ct);
+        org.warehouse_init_upgrade(div, ct);
     });
     if (new_office.length > 0) {
         log(ns, `${div}: expanded to ${new_office.join(", ")}`);
@@ -74,7 +70,7 @@ function expand_city(ns, div) {
  */
 function hire_advert(ns) {
     const org = new Corporation(ns);
-    Cutil.all_divisions(ns).forEach((div) => org.hire_advert(div));
+    org.all_divisions().forEach((div) => org.hire_advert(div));
 }
 
 /**
@@ -85,10 +81,10 @@ function hire_advert(ns) {
  * @param ns The Netscript API.
  */
 function initial_hire(ns) {
-    const office = new Office(ns);
-    Cutil.all_divisions(ns).forEach((div) => {
+    const org = new Corporation(ns);
+    org.all_divisions().forEach((div) => {
         cities.all.forEach((ct) => {
-            office.initial_hire(div, ct);
+            org.initial_hire(div, ct);
             log(
                 ns,
                 `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`
@@ -114,7 +110,7 @@ function initial_level_upgrade(ns) {
     for (let i = 0; i < corp_t.upgrade.INIT_LEVEL; i++) {
         upgrade.forEach((upg) => org.level_upgrade(upg));
     }
-    log(ns, `Level up the following upgrades: ${upgrade.join(", ")}`);
+    log(ns, `Level up these upgrades: ${upgrade.join(", ")}`);
 }
 
 /**
@@ -139,7 +135,7 @@ async function initial_material_buy(ns) {
     ];
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
-        for (const div of Cutil.all_divisions(ns)) {
+        for (const div of org.all_divisions()) {
             for (const ct of cities.all) {
                 if (org.material_qty(div, ct, material[i]) < amount[i]) {
                     await org.material_buy(div, ct, material[i], amount[i]);
@@ -156,7 +152,7 @@ async function initial_material_buy(ns) {
  */
 function initial_material_sell(ns) {
     const org = new Corporation(ns);
-    Cutil.all_divisions(ns).forEach((div) => {
+    org.all_divisions().forEach((div) => {
         cities.all.forEach((ct) => {
             org.material_initial_sell(div, ct, corp.material.FOOD);
             org.material_initial_sell(div, ct, corp.material.PLANT);
@@ -172,10 +168,9 @@ function initial_material_sell(ns) {
  */
 function smart_supply(ns) {
     const org = new Corporation(ns);
-    const depo = new Warehouse(ns);
-    if (!Cutil.has_unlock_upgrade(ns, corp.unlock.SMART)) {
+    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
         org.buy_unlock_upgrade(corp.unlock.SMART);
-        depo.enable_smart_supply();
+        org.enable_smart_supply();
     }
 }
 
@@ -186,12 +181,13 @@ function smart_supply(ns) {
  */
 async function stage_one(ns) {
     const org = new Corporation(ns);
-    if (Cutil.has_division(ns, corp.industry.AGRI)) {
+    const ind = corp.industry.AGRI;
+    if (org.has_division(ind)) {
         return;
     }
-    org.expand_industry(corp.industry.AGRI);
-    log(ns, `Created new division: ${corp.industry.AGRI}`);
-    expand_city(ns, corp.industry.AGRI);
+    org.expand_industry(ind);
+    log(ns, `Created new division: ${ind}`);
+    expand_city(ns, ind);
     smart_supply(ns);
     initial_hire(ns);
     hire_advert(ns);
@@ -222,14 +218,15 @@ export async function main(ns) {
     // corporation.  We want to automate as much of the game as possible.
     // Without the above APIs, quit the script as soon as possible.
     await create_corp(ns);
-    if (!Cutil.has_office_warehouse_api(ns)) {
+    const org = new Corporation(ns);
+    if (!org.has_office_warehouse_api()) {
         log(ns, "No access to Warehouse and/or Office APIs", colour.RED);
         return;
     }
     // Early management of our corporation.
     await stage_one(ns);
     log(ns, "Waiting for each office to be vivacious");
-    await Cutil.vivacious_office(ns);
+    await org.vivacious_office();
     // Next script in the load chain.
     exec(ns, "/corporation/prep.js");
 }

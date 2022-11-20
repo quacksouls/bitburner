@@ -88,12 +88,7 @@ function dir_cct() {
 function dir_corporation() {
     const corp = [
         "corporation/go.js",
-        "corporation/hire.js",
-        "corporation/invest.js",
-        "corporation/material.js",
         "corporation/prep.js",
-        "corporation/storage.js",
-        "corporation/upgrade.js",
     ];
     return corp;
 }
@@ -140,8 +135,6 @@ function dir_lib() {
         "lib/constant/work.js",
         "lib/constant/wse.js",
         "lib/corporation/corp.js",
-        "lib/corporation/office.js",
-        "lib/corporation/store.js",
         "lib/corporation/util.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
