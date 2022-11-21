@@ -173,21 +173,20 @@ This script requires 2.40GB of RAM to run for 1 thread(s)
 100.00MB | hack (fn)
 ```
 
-shows that the script `hack.js` requires 2.40GB RAM to run. When you were
-analyzing the server `n00dles`, you noticed that it has 4.00GB RAM so you can
-run the script using at most 1 thread. Furthermore, your analysis of
-`foodnstuff` shows that the server has 16.00GB RAM, which allows you to run the
-script using at most $\lfloor 16 / 2.4 \rfloor = 6$ threads. The more threads
-that are used to run your script, the better because the result of your script
-(e.g. the amount of money you steal) is multiplied by the number of threads.
-Running your script using 6 threads translates to multiplying the amount of
-money you steal by 6. Use the command `scp` to copy `hack.js` over to the above
-servers and use the above number of threads to run the script on the respective
-servers. As shown in the Terminal session below, your hack script should target
-`n00dles`. Early in the game, you should concentrate on hacking one target
-server. The server `n00dles` is always a good choice to target to raise your
-Hack stat and earn some money. Later on, you might want target a different
-server.
+shows that the script `hack.js` requires 2.4GB RAM to run. When you were
+analyzing the server `n00dles`, you noticed that it has 4GB RAM so you can run
+the script using at most 1 thread. Furthermore, your analysis of `foodnstuff`
+shows that the server has 16GB RAM, which allows you to run the script using at
+most $\lfloor 16 / 2.4 \rfloor = 6$ threads. The more threads that are used to
+run your script, the better because the result of your script (e.g. the amount
+of money you steal) is multiplied by the number of threads. Running your script
+using 6 threads translates to multiplying the amount of money you steal by 6.
+Use the command `scp` to copy `hack.js` over to the above servers and use the
+above number of threads to run the script on the respective servers. As shown in
+the Terminal session below, your hack script should target `n00dles`. Early in
+the game, you should concentrate on hacking one target server. The server
+`n00dles` is always a good choice to target to raise your Hack stat and earn
+some money. Later on, you might want target a different server.
 
 ```sh
 $ scp hack.js n00dles
