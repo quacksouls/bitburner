@@ -224,4 +224,53 @@ servers. Then gain root access to the above servers and use them to hack
 `n00dles`. Remember to first `scp` your script `hack.js` over to each server and
 run the script using as many threads as the server allows.
 
+## Upgrade `home`
+
+Your `home` server can also be used to hack `n00dles`. As shown in the following
+Terminal session:
+
+```sh
+$ free
+Total:     8.00GB
+Used:       0.00B (0.00%)
+Available: 8.00GB
+```
+
+you start the game with 8GB RAM. The passive income you generated from your
+Hacknet nodes, committing `Homicide` in The Slums, and from hacking `n00dles`
+should have now accumulated to $50m or more. It is time to upgrade the RAM of
+`home`. Click on the `City` tab to bring up the city map. Find the location of
+Alpha Enterprises, as shown in the image below, and click on the `T` icon to
+bring up the page of the company. You need approximately $46.146m to upgrade
+`home` to 128GB RAM, leaving you plenty of money to purchase the TOR router. The
+TOR router will come in handy later on when you need to purchase various
+programs to help you progress. For now, the following Terminal session:
+
+```sh
+$ free
+Total:     128.00GB
+Used:         0.00B (0.00%)
+Available: 128.00GB
+```
+
+shows that your `home` server now has 128GB RAM.
+
+![Alpha Enterprises](image/alpha-enterprises.png "Alpha Enterprises")
+
+Let's put those spare RAM to good use. To generate even more passive income,
+let's use `home` to hack `n00dles`. You already know that the script `hack.js`
+requires 2.4GB RAM to run, meaning that you can use
+$\lfloor 128 / 2.4 \rfloor = 53$ threads to run `hack.js` on `home` and target
+`n00dles`:
+
+```sh
+$ run hack.js -t 53 n00dles
+Running script with 53 thread(s), pid 5 and args: ["n00dles"].
+```
+
+While your script is hacking `n00dles`, go back to Rothman University and study
+the free computer science course to raise your Hack stat. You want at least 50
+Hack. The reason will be explained in the next section.
+
 [[TOC](README.md "Table of Contents")] [[Previous](start.md "Starting out")]
+[[Next](program.md "Programs and factions")]
