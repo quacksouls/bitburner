@@ -20,7 +20,7 @@
  * reputation gains within that faction.  Run this script using as high a number
  * of threads as possible to increase our reputation gains even further.
  *
- * Usage: run share.js
+ * Usage: run share.js -t [numThread]
  *
  * @param ns The Netscript API.
  */
