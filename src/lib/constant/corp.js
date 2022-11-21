@@ -68,6 +68,12 @@ export const corp = {
         UTIL: "Utilities",
     },
     /**
+     * A file to store the latest investment round we have completed.  Only
+     * store the integer that represents the latest investment round in which
+     * we accepted investment.
+     */
+    INVEST: "invest.txt",
+    /**
      * The roles to assign to employees.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts

@@ -16,7 +16,9 @@
  */
 
 import { corp, corp_t } from "/lib/constant/corp.js";
+import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
+import { base } from "/lib/constant/misc.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { to_number } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
@@ -120,7 +122,23 @@ async function hire_round_one_stage(ns, n) {
  * @param r A string (i.e. word) representing the investment round.
  */
 async function investment_offer(ns, r) {
-    if (ns[corp.API].getInvestmentOffer().round !== to_number(r)) {
+    // Determine the latest investment round wherein we accepted investment
+    // money.  Why not use the attribute below?
+    //
+    // ns[corp.API].getInvestmentOffer().round
+    //
+    // Corp is rather broken (buggy) at the moment in v2.1.  The value of the
+    // above attribute does not seem to persist after you save and quit the
+    // game.  Our fix is to use a text file to keep track of the investment
+    // round number.
+    let latest_round = -1;
+    if (ns.fileExists(corp.INVEST)) {
+        latest_round = parseInt(ns.read(corp.INVEST), base.DECIMAL);
+    } else {
+        ns.write(corp.INVEST, "0", io.WRITE);
+        latest_round = 0;
+    }
+    if (to_number(r) !== latest_round + 1) {
         return;
     }
     // Need to wait for our corporation to make a certain amount of profit per
@@ -145,6 +163,9 @@ async function investment_offer(ns, r) {
         ns,
         `Received ${fundsf} in exchange for ${sharesf} shares of corporation`
     );
+    // Keep track of the latest round of investment.
+    latest_round++;
+    ns.write(corp.INVEST, String(latest_round), io.WRITE);
 }
 
 /**
