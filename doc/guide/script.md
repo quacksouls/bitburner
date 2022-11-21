@@ -243,7 +243,7 @@ Alpha Enterprises, as shown in the image below, and click on the `T` icon to
 bring up the page of the company. You need approximately $46.146m to upgrade
 `home` to 128GB RAM, leaving you plenty of money to purchase the TOR router. The
 TOR router will come in handy later on when you need to purchase various
-programs to help you progress. For now, the following Terminal session:
+programs to help you progress. For the moment, the following Terminal session:
 
 ```sh
 $ free
