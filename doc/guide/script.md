@@ -256,9 +256,9 @@ shows that your `home` server now has 128GB RAM.
 
 ![Alpha Enterprises](image/alpha-enterprises.png "Alpha Enterprises")
 
-Let's put those spare RAM to good use. To generate even more passive income,
-let's use `home` to hack `n00dles`. You already know that the script `hack.js`
-requires 2.4GB RAM to run, meaning that you can use
+Let's put those spare RAM to good use. It is time to generate even more passive
+income by using `home` to hack `n00dles`. You already know that the script
+`hack.js` requires 2.4GB RAM to run, meaning that you can use
 $\lfloor 128 / 2.4 \rfloor = 53$ threads to run `hack.js` on `home` and target
 `n00dles`:
 
