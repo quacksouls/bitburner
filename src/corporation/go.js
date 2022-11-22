@@ -70,7 +70,7 @@ function expand_city(ns, div) {
  */
 function hire_advert(ns) {
     const org = new Corporation(ns);
-    org.all_divisions().forEach((div) => org.hire_advert(div));
+    org.hire_advert(corp.industry.AGRI);
 }
 
 /**
@@ -82,14 +82,10 @@ function hire_advert(ns) {
  */
 function initial_hire(ns) {
     const org = new Corporation(ns);
-    org.all_divisions().forEach((div) => {
-        cities.all.forEach((ct) => {
-            org.initial_hire(div, ct);
-            log(
-                ns,
-                `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`
-            );
-        });
+    const div = corp.industry.AGRI;
+    cities.all.forEach((ct) => {
+        org.initial_hire(div, ct);
+        log(ns, `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`);
     });
 }
 
@@ -98,7 +94,7 @@ function initial_hire(ns) {
  *
  * @param ns The Netscript API.
  */
-function initial_level_upgrade(ns) {
+async function initial_level_upgrade(ns) {
     const org = new Corporation(ns);
     const upgrade = [
         corp.upgrade.FOCUS,
@@ -108,7 +104,11 @@ function initial_level_upgrade(ns) {
         corp.upgrade.FACTORY,
     ];
     for (let i = 0; i < corp_t.upgrade.INIT_LEVEL; i++) {
-        upgrade.forEach((upg) => org.level_upgrade(upg));
+        for (const upg of upgrade) {
+            while (!org.level_upgrade(upg)) {
+                await ns.sleep(wait_t.SECOND);
+            }
+        }
     }
     log(ns, `Level up these upgrades: ${upgrade.join(", ")}`);
 }
@@ -133,13 +133,12 @@ async function initial_material_buy(ns) {
         corp_t.material.hardware.buy.INIT,
         corp_t.material.land.buy.INIT,
     ];
+    const div = corp.industry.AGRI;
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
-        for (const div of org.all_divisions()) {
-            for (const ct of cities.all) {
-                if (org.material_qty(div, ct, material[i]) < amount[i]) {
-                    await org.material_buy(div, ct, material[i], amount[i]);
-                }
+        for (const ct of cities.all) {
+            if (org.material_qty(div, ct, material[i]) < amount[i]) {
+                await org.material_buy(div, ct, material[i], amount[i]);
             }
         }
     }
@@ -152,11 +151,10 @@ async function initial_material_buy(ns) {
  */
 function initial_material_sell(ns) {
     const org = new Corporation(ns);
-    org.all_divisions().forEach((div) => {
-        cities.all.forEach((ct) => {
-            org.material_initial_sell(div, ct, corp.material.FOOD);
-            org.material_initial_sell(div, ct, corp.material.PLANT);
-        });
+    const div = corp.industry.AGRI;
+    cities.all.forEach((ct) => {
+        org.material_initial_sell(div, ct, corp.material.FOOD);
+        org.material_initial_sell(div, ct, corp.material.PLANT);
     });
 }
 
@@ -181,18 +179,18 @@ function smart_supply(ns) {
  */
 async function stage_one(ns) {
     const org = new Corporation(ns);
-    const ind = corp.industry.AGRI;
-    if (org.has_division(ind)) {
+    const div = corp.industry.AGRI;
+    if (org.has_division(div)) {
         return;
     }
-    org.expand_industry(ind);
-    log(ns, `Created new division: ${ind}`);
-    expand_city(ns, ind);
+    org.expand_industry(div);
+    log(ns, `Created new division: ${div}`);
+    expand_city(ns, div);
     smart_supply(ns);
     initial_hire(ns);
     hire_advert(ns);
     initial_material_sell(ns);
-    initial_level_upgrade(ns);
+    await initial_level_upgrade(ns);
     await initial_material_buy(ns);
 }
 
