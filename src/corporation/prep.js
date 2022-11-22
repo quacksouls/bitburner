@@ -19,6 +19,7 @@ import { corp, corp_t } from "/lib/constant/corp.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { to_number } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
@@ -53,7 +54,7 @@ async function hire_round_one(ns) {
     const stage = ["one", "two", "three", "four", "five", "six"];
     for (const s of stage) {
         await hire_round_one_stage(ns, s);
-        await ns.sleep(corp_t.TICK);
+        await ns.sleep(wait_t.SECOND);
     }
 }
 
