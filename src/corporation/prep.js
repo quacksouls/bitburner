@@ -180,7 +180,7 @@ async function level_up_storage(ns, n) {
     log(ns, `Round ${to_number(n)} of warehouse upgrade`);
     while (!all_warehouses_upgraded(ns, n)) {
         upgrade_warehouse(ns, n);
-        await ns.sleep(corp_t.TICK);
+        await ns.sleep(wait_t.SECOND);
     }
     const size = ns.nFormat(corp_t.warehouse.round[n].SIZE, "0,00.00a");
     log(ns, `New storage capacity of each warehouse: ${size}`);
