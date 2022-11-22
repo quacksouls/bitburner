@@ -78,15 +78,20 @@ $ scan-analyze 2
 ```
 
 to determine all servers that are at most two hops away from your home server.
-The result of the command `scan-analyze` is different for each player and each
-playthrough. Take note of the following servers: `n00dles` and `foodnstuff`.
-Each of these two servers requires a Hack level of 1 in order for you to gain
-root access to them. Furthermore, both servers do not require any port to be
-opened. All of the above means that you can immediately take control of both
-servers and hack them to steal money. You can use the command `analyze` to
-obtain various information about the requirements for gaining root access to a
-server. You should first connect to a target server, then run `analyze`. Let's
-connect to `n00dles` and `foodnstuff` and gain root access to each of them.
+The result of the command
+[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+is different for each player and each playthrough. Take note of the following
+servers: `n00dles` and `foodnstuff`. Each of these two servers requires a Hack
+level of 1 in order for you to gain root access to them. Furthermore, both
+servers do not require any port to be opened. All of the above means that you
+can immediately take control of both servers and hack them to steal money. You
+can use the command
+[`analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze)
+to obtain various information about the requirements for gaining root access to
+a server. You should first connect to a target server, then run
+[`analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze).
+Let's connect to `n00dles` and `foodnstuff` and gain root access to each of
+them.
 
 ```sh
 # Connect to the server n00dles.
@@ -181,12 +186,14 @@ most $\lfloor 16 / 2.4 \rfloor = 6$ threads. The more threads that are used to
 run your script, the better because the result of your script (e.g. the amount
 of money you steal) is multiplied by the number of threads. Running your script
 using 6 threads translates to multiplying the amount of money you steal by 6.
-Use the command `scp` to copy `hack.js` over to the above servers and use the
-above number of threads to run the script on the respective servers. As shown in
-the Terminal session below, your hack script should target `n00dles`. Early in
-the game, you should concentrate on hacking one target server. The server
-`n00dles` is always a good choice to target to raise your Hack stat and earn
-some money. Later on, you might want target a different server.
+Use the command
+[`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
+to copy `hack.js` over to the above servers and use the above number of threads
+to run the script on the respective servers. As shown in the Terminal session
+below, your hack script should target `n00dles`. Early in the game, you should
+concentrate on hacking one target server. The server `n00dles` is always a good
+choice to target to raise your Hack stat and earn some money. Later on, you
+might want target a different server.
 
 ```sh
 $ scp hack.js n00dles
@@ -214,14 +221,17 @@ of the running script. Refer to the image below.
 
 ![Script log](image/script-log.png "Script log")
 
-Use the command `scan-analyze` to help you find other servers that can be
-redirected to hack `n00dles`. For the moment, look for servers that do not
-require a port to be opened in order to run `NUKE.exe` on them. Consider the
-servers `sigma-cosmetics` and `joesguns` because they require a relatively low
-Hack stat. Wait until your Hack stat meets the Hack requirements of these
-servers. Then gain root access to the above servers and use them to hack
-`n00dles`. Remember to first `scp` your script `hack.js` over to each server and
-run the script using as many threads as the server allows.
+Use the command
+[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+to help you find other servers that can be redirected to hack `n00dles`. For the
+moment, look for servers that do not require a port to be opened in order to run
+`NUKE.exe` on them. Consider the servers `sigma-cosmetics` and `joesguns`
+because they require a relatively low Hack stat. Wait until your Hack stat meets
+the Hack requirements of these servers. Then gain root access to the above
+servers and use them to hack `n00dles`. Remember to first
+[`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
+your script `hack.js` over to each server and run the script using as many
+threads as the server allows.
 
 ## Upgrade `home`
 
