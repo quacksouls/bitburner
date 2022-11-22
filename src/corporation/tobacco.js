@@ -19,7 +19,7 @@ import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { new_hire, to_number } from "/lib/corporation/util.js";
+import { expand_city, new_hire, to_number } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
@@ -132,5 +132,8 @@ export async function main(ns) {
     assert(org.has_office_warehouse_api(ns));
     // Create and manage our Tobacco division.
     setup_division(ns);
+    const div = corp.industry.TOBACCO;
+    const new_office = await expand_city(ns, div);
+    log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
 }
