@@ -371,9 +371,14 @@ export const corp_t = {
                          * The amount to buy for this round.
                          */
                         N: 2445,
+                        /**
+                         * The target amount to have after the purchase.
+                         */
+                        TARGET: 2520,
                     },
                     two: {
                         N: 3750,
+                        TARGET: 6270,
                     },
                 },
             },
@@ -383,9 +388,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -395,9 +402,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -407,9 +416,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -419,9 +430,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -432,9 +445,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 2675,
+                        TARGET: 2800,
                     },
                     two: {
                         N: 6500,
+                        TARGET: 9300,
                     },
                 },
             },
@@ -445,9 +460,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 119400,
+                        TARGET: 146400,
                     },
                     two: {
                         N: 84e3,
+                        TARGET: 230400,
                     },
                 },
             },
@@ -457,9 +474,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -469,9 +488,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },
@@ -481,9 +502,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 96,
+                        TARGET: 96,
                     },
                     two: {
                         N: 630,
+                        TARGET: 726,
                     },
                 },
             },
@@ -493,9 +516,11 @@ export const corp_t = {
                 round: {
                     one: {
                         N: 0,
+                        TARGET: 0,
                     },
                     two: {
                         N: 0,
+                        TARGET: 0,
                     },
                 },
             },

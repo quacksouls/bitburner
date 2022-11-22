@@ -233,12 +233,26 @@ async function material_buy(ns, n) {
         corp_t.material.robot.buy.round[n].N,
         corp_t.material.water.buy.round[n].N,
     ];
+    const target = [
+        corp_t.material.ai.buy.round[n].TARGET,
+        corp_t.material.chemical.buy.round[n].TARGET,
+        corp_t.material.drug.buy.round[n].TARGET,
+        corp_t.material.energy.buy.round[n].TARGET,
+        corp_t.material.food.buy.round[n].TARGET,
+        corp_t.material.hardware.buy.round[n].TARGET,
+        corp_t.material.land.buy.round[n].TARGET,
+        corp_t.material.metal.buy.round[n].TARGET,
+        corp_t.material.plant.buy.round[n].TARGET,
+        corp_t.material.robot.buy.round[n].TARGET,
+        corp_t.material.water.buy.round[n].TARGET,
+    ];
+    assert(material.length === amount.length);
+    assert(material.length === target.length);
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
         for (const div of org.all_divisions()) {
             for (const ct of cities.all) {
-                const max = org.material_qty(div, ct, material[i]) + amount[i];
-                if (org.material_qty(div, ct, material[i]) >= max) {
+                if (org.material_qty(div, ct, material[i]) >= target[i]) {
                     continue;
                 }
                 const prefix = `${div}: ${ct}`;
