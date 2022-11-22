@@ -16,8 +16,33 @@
  */
 
 import { corp_t } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * Expand a division by opening offices in other cities.  After opening a new
+ * division office, we also purchase a warehouse for that office.
+ *
+ * @param ns The Netscript API.
+ * @param div We want to branch this division into other cities.
+ * @return An array of city names, where we have opened new division offices.
+ */
+export async function expand_city(ns, div) {
+    const org = new Corporation(ns);
+    const new_office = [];
+    for (const ct of cities.all) {
+        if (!org.has_division_office(div, ct)) {
+            org.expand_city(div, ct);
+            while (!org.buy_warehouse(div, ct)) {
+                await ns.sleep(wait_t.SECOND);
+            }
+            new_office.push(ct);
+        }
+    }
+    return new_office;
+}
 
 /**
  * Hire an employee for an office.  We want to hire an employee to fill a

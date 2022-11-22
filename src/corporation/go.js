@@ -20,6 +20,7 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
+import { expand_city } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { exec } from "/lib/util.js";
@@ -39,28 +40,6 @@ async function create_corp(ns) {
         await ns.sleep(wait_t.DEFAULT);
     }
     log(ns, "Create and manage a corporation");
-}
-
-/**
- * Expand a division by opening offices in other cities.
- *
- * @param ns The Netscript API.
- * @param div We want to branch this division into other cities.
- */
-function expand_city(ns, div) {
-    const org = new Corporation(ns);
-    const new_office = [];
-    cities.all.forEach((ct) => {
-        if (!org.has_division_office(div, ct)) {
-            org.expand_city(div, ct);
-            org.buy_warehouse(div, ct);
-            new_office.push(ct);
-        }
-        org.warehouse_init_upgrade(div, ct);
-    });
-    if (new_office.length > 0) {
-        log(ns, `${div}: expanded to ${new_office.join(", ")}`);
-    }
 }
 
 /**
@@ -185,7 +164,9 @@ async function stage_one(ns) {
     }
     org.expand_industry(div);
     log(ns, `Created new division: ${div}`);
-    expand_city(ns, div);
+    const new_office = await expand_city(ns, div);
+    log(ns, `${div}: expanded to ${new_office.join(", ")}`);
+    cities.all.forEach((ct) => org.warehouse_init_upgrade(div, ct));
     smart_supply(ns);
     initial_hire(ns);
     hire_advert(ns);
