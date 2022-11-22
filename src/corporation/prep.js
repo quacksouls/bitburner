@@ -24,7 +24,7 @@ import { Corporation } from "/lib/corporation/corp.js";
 import { new_hire, to_number } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Whether each warehouse has been upgraded for this round.
@@ -392,4 +392,6 @@ export async function main(ns) {
     // Various rounds of preparation.
     await round_one(ns);
     await round_two(ns);
+    // Next script in the load chain.
+    exec(ns, "/corporation/tobacco.js");
 }

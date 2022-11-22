@@ -598,6 +598,109 @@ export const corp_t = {
      */
     TICK_SECOND: 10,
     /**
+     * Various thresholds related to our Tobacco division.
+     */
+    tobacco: {
+        /**
+         * Only one city can be the developer city.
+         */
+        DEVELOPER_CITY: "Aevum",
+        Aevum: {
+            hire: {
+                stage: {
+                    /**
+                     * Stage 1 of hiring.  How many employees to hire for each
+                     * role.
+                     */
+                    one: {
+                        BUSINESS: 5,
+                        ENGINEER: 9,
+                        MANAGEMENT: 8,
+                        OPERATIONS: 8,
+                        RND: 0,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+        Chongqing: {
+            hire: {
+                stage: {
+                    one: {
+                        BUSINESS: 1,
+                        ENGINEER: 1,
+                        MANAGEMENT: 1,
+                        OPERATIONS: 1,
+                        RND: 5,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+        Ishima: {
+            hire: {
+                stage: {
+                    one: {
+                        BUSINESS: 1,
+                        ENGINEER: 1,
+                        MANAGEMENT: 1,
+                        OPERATIONS: 1,
+                        RND: 5,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+        "New Tokyo": {
+            hire: {
+                stage: {
+                    one: {
+                        BUSINESS: 1,
+                        ENGINEER: 1,
+                        MANAGEMENT: 1,
+                        OPERATIONS: 1,
+                        RND: 5,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+        "Sector-12": {
+            hire: {
+                stage: {
+                    one: {
+                        BUSINESS: 1,
+                        ENGINEER: 1,
+                        MANAGEMENT: 1,
+                        OPERATIONS: 1,
+                        RND: 5,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+        Volhaven: {
+            hire: {
+                stage: {
+                    one: {
+                        BUSINESS: 1,
+                        ENGINEER: 1,
+                        MANAGEMENT: 1,
+                        OPERATIONS: 1,
+                        RND: 5,
+                        TRAIN: 0,
+                        IDLE: 0,
+                    },
+                },
+            },
+        },
+    },
+    /**
      * Thresholds related to level upgrades.  These are distinct from unlock
      * upgrades.
      */

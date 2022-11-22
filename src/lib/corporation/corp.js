@@ -630,6 +630,20 @@ export class Corporation {
     }
 
     /**
+     * The number of employees in an office who are assigned to Idle.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Idle.
+     */
+    num_idle(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Unassigned;
+    }
+
+    /**
      * The number of employees in an office who are assigned to Management.
      *
      * @param div A string representing the name of a division.
@@ -655,6 +669,35 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Operations;
+    }
+
+    /**
+     * The number of employees in an office who are assigned to
+     * Research & Development.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Research & Development.
+     */
+    num_rnd(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.RandD;
+    }
+
+    /**
+     * The number of employees in an office who are assigned to Training.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @return The number of employees in the given office who have been
+     *     assigned to the role of Training.
+     */
+    num_training(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Training;
     }
 
     /**
