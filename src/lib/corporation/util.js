@@ -15,7 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { corp_t } from "/lib/constant/corp.js";
+import { Corporation } from "/lib/corporation/corp.js";
 import { assert } from "/lib/util.js";
+
+/**
+ * Hire an employee for an office.  We want to hire an employee to fill a
+ * particular role.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param ct A string representing the name of a city.
+ * @param role We want to hire for this role.
+ */
+export async function new_hire(ns, div, ct, role) {
+    const howmany = 1; // How many times to upgrade.
+    const org = new Corporation(ns);
+    if (org.is_at_capacity(div, ct)) {
+        while (!org.upgrade_office(div, ct, howmany)) {
+            await ns.sleep(corp_t.TICK);
+        }
+    }
+    while (!org.new_hire(div, ct, role)) {
+        await ns.sleep(corp_t.TICK);
+    }
+}
 
 /**
  * Convert a number in words to integer.

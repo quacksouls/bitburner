@@ -21,7 +21,7 @@ import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { to_number } from "/lib/corporation/util.js";
+import { new_hire, to_number } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
@@ -261,28 +261,6 @@ async function material_buy(ns, n) {
                 await org.material_buy(div, ct, material[i], amount[i]);
             }
         }
-    }
-}
-
-/**
- * Hire an employee for an office.  We want to hire an employee to fill a
- * particular role.
- *
- * @param ns The Netscript API.
- * @param div A string representing the name of a division.
- * @param ct A string representing the name of a city.
- * @param role We want to hire for this role.
- */
-async function new_hire(ns, div, ct, role) {
-    const howmany = 1; // How many times to upgrade.
-    const org = new Corporation(ns);
-    if (org.is_at_capacity(div, ct)) {
-        while (!org.upgrade_office(div, ct, howmany)) {
-            await ns.sleep(corp_t.TICK);
-        }
-    }
-    while (!org.new_hire(div, ct, role)) {
-        await ns.sleep(corp_t.TICK);
     }
 }
 
