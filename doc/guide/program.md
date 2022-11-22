@@ -19,9 +19,10 @@ can create two other programs: `BruteSSH.exe` and `AutoLink.exe`. The
 `BruteSSH.exe` program opens up the SSH port on a server, paving the way for the
 `NUKE.exe` program to take control of the server. The `AutoLink.exe` program can
 be used to directly connect to a server by point-and-click. Run the
-`scan-analyze` command to provide a list of nearby servers. If you have the
-`AutoLink.exe` program, you could simply click on a server name to connect to
-that server, instead of typing
+[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+command to provide a list of nearby servers. If you have the `AutoLink.exe`
+program, you could simply click on a server name to connect to that server,
+instead of typing
 
 ```sh
 $ connect [serverName]
@@ -31,11 +32,11 @@ at the Terminal.
 
 To create a program, click on the `Create Program` tab and choose a program that
 can be created. Some other programs are locked at the moment. These programs
-require higher Hack stat to unlock. Locate the `BruteSSH.exe` program and click
-on `Create program` to start working on that program. Let the game run for a few
-minutes while the program is being created. When the `BruteSSH.exe` program is
-completed, work on the `AutoLink.exe` program. Again, let the game run for about
-10 minutes or more for the program to be 100% complete.
+require a higher Hack stat to unlock. Locate the `BruteSSH.exe` program and
+click on `Create program` to start working on that program. Let the game run for
+a few minutes while the program is being created. When the `BruteSSH.exe`
+program is completed, work on the `AutoLink.exe` program. Again, let the game
+run for about 10 minutes or more for the program to be 100% complete.
 
 ![Create program](image/create-program.png "Create program")
 
@@ -58,11 +59,13 @@ AutoLink.exe - $1.000m - Enables direct connect via 'scan-analyze'.
 Formulas.exe - $5.000b - Unlock access to the formulas API.
 ```
 
-shows all programs (and their respective costs) you can purchase via the dark
-web. At the moment, the most important programs to buy are `BruteSSH.exe`,
-`FTPCrack.exe`, `relaySMTP.exe`, and `HTTPWorm.exe`. These four programs,
-together with `NUKE.exe`, would allow you to hack many more servers. Purchase
-the above four programs as follows:
+uses the
+[`buy`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#buy)
+command to show all programs (and their respective costs) you can purchase via
+the dark web. At the moment, the most important programs to buy are
+`BruteSSH.exe`, `FTPCrack.exe`, `relaySMTP.exe`, and `HTTPWorm.exe`. These four
+programs, together with `NUKE.exe`, would allow you to hack many more servers.
+Purchase the above four programs as follows:
 
 ```sh
 $ buy BruteSSH.exe; buy FTPCrack.exe; buy relaySMTP.exe; buy HTTPWorm.exe
@@ -78,12 +81,14 @@ wait until you have accumulated enough money to buy the above four programs.
 ## Factions
 
 The second important event is receiving an invitation from one of three
-early-game factions. These factions are CyberSec, Netburners, and Tian Di Hui.
-Depending on the levels of your combat stats and the amount of money you have,
-you might also receive an invitation from Slum Snakes. Joining a faction might
-prevent you from joining some other factions, but such a restriction is part of
-a small number of factions. The majority of factions does not limit you from
-being a member of another faction.
+early-game
+[factions](https://bitburner.readthedocs.io/en/latest/basicgameplay/factions.html).
+These factions are CyberSec, Netburners, and Tian Di Hui. Depending on the
+levels of your combat stats and the amount of money you have, you might also
+receive an invitation from Slum Snakes. Joining a faction might prevent you from
+joining some other factions, but such a restriction is part of a small number of
+factions. The majority of factions does not limit you from being a member of
+another faction.
 
 Let's join the faction CyberSec. You should have received a message from this
 faction, stating the conditions for how to join the faction. You can read the
@@ -102,14 +107,19 @@ $ cat csec-test.msg
 
 The message essentially says that you must pass a test from this faction by
 installing a backdoor on the faction's server, i.e. `CSEC`. The process is
-straightforward. Use `scan-analyze 3` to locate `CSEC`, connect to the server,
-open a port, gain root access, and install a backdoor. If you already have the
-`AutoLink.exe` program, clicking on the name of a server should immediately
-connect you to the server, instead of using the `connect` command. In the
-example below, the `CSEC` server is two hops away from your `home` server, the
-intermediate node being `hong-fang-tea`. Take a note of the network tree
-reported by `scan-analyze` for your playthrough. Connect to one or more
-intermediate servers on your way to `CSEC`.
+straightforward. Use
+[`scan-analyze 3`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+to locate `CSEC`, connect to the server, open a port, gain root access, and
+install a backdoor. If you already have the `AutoLink.exe` program, clicking on
+the name of a server should immediately connect you to the server, instead of
+using the
+[`connect`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#connect)
+command. In the example below, the `CSEC` server is two hops away from your
+`home` server, the intermediate node being `hong-fang-tea`. Take a note of the
+network tree reported by
+[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+for your playthrough. Connect to one or more intermediate servers on your way to
+`CSEC`.
 
 ```sh
 # All servers at most 3 hops from home.
@@ -172,7 +182,7 @@ Each faction has various
 [Augmentations](https://bitburner.readthedocs.io/en/latest/basicgameplay/augmentations.html),
 items that can be installed on your avatar to enhance various attributes. An
 enhancement is given in terms of a multiplier. For example, an Augmentation
-might add 1% to your Hack chance, making it more likely for a hack to be
+might add 1% to your hack chance, making it more likely for a hack to be
 successful. Augmentations can be unlocked by increasing your reputation within a
 faction. Click on the `Augments` button for more information about all
 Augmentations on offer from CyberSec. When you are ready to work for CyberSec,
@@ -211,8 +221,10 @@ Used:         0.00B (0.00%)
 Available: 512.00GB
 ```
 
-Use the function `ns.share()` to share your `home` server with CyberSec. Place
-this function inside an infinite loop as shown in the following script:
+Use the function
+[`ns.share()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.share.md)
+to share your `home` server with CyberSec. Place this function inside an
+infinite loop as shown in the following script:
 
 ```js
 /**
@@ -235,7 +247,7 @@ Save the above code in a file called `share.js`. Note the amount of RAM required
 to run the script:
 
 ```sh
-mem share.js
+$ mem share.js
 This script requires 4.00GB of RAM to run for 1 thread(s)
   2.40GB | share (fn)
   1.60GB | baseCost (misc)
@@ -245,7 +257,7 @@ In total, you can use $\lfloor 512 / 4 \rfloor = 128$ threads to run the script
 `share.js` on `home`:
 
 ```sh
-run share.js -t 128
+$ run share.js -t 128
 Running script with 128 thread(s), pid 4 and args: [].
 ```
 
