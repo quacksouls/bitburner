@@ -51,7 +51,7 @@ function all_warehouses_upgraded(ns, n) {
  * @param ns The Netscript API.
  */
 async function hire_round_one(ns) {
-    log(ns, `Round 1 of hiring`);
+    log(ns, "Round 1 of hiring");
     const stage = ["one", "two", "three", "four", "five", "six"];
     for (const s of stage) {
         await hire_round_one_stage(ns, s);
@@ -333,7 +333,7 @@ async function round_two(ns) {
  * @param ns The Netscript API.
  */
 async function upgrade_round_one(ns) {
-    log(ns, `Round 1 of levelling upgrades`);
+    log(ns, "Round 1 of levelling upgrades");
     const upg = [corp.upgrade.FACTORY, corp.upgrade.STORAGE];
     log(ns, `Level up these upgrades: ${upg.join(", ")}`);
     const lvl = corp_t.upgrade.round.one.LEVEL;
