@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { corp, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
@@ -54,7 +54,7 @@ async function hire(ns, n) {
                 continue;
             }
             const org = new Corporation(ns);
-            const obj = corp_t.tobacco[ct].hire.stage[n];
+            const obj = tobacco[ct].hire.stage[n];
             if (org.num_business(div, ct) < obj.BUSINESS) {
                 await new_hire(ns, div, ct, corp.job.BUSINESS);
             }
@@ -96,7 +96,7 @@ async function hire(ns, n) {
 function is_short_staffed(ns, ct, n) {
     const org = new Corporation(ns);
     const div = corp.industry.TOBACCO;
-    const obj = corp_t.tobacco[ct].hire.stage[n];
+    const obj = tobacco[ct].hire.stage[n];
     if (
         org.num_business(div, ct) < obj.BUSINESS
         || org.num_engineer(div, ct) < obj.ENGINEER
