@@ -683,7 +683,8 @@ export class Corporation {
     num_rnd(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.RandD;
+        const rnd = "Research & Development";
+        return this.#ns[corp.API].getOffice(div, ct).employeeJobs[rnd];
     }
 
     /**
