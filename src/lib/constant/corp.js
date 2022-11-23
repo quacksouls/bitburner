@@ -605,6 +605,9 @@ export const corp_t = {
          * Only one city can be the developer city.
          */
         DEVELOPER_CITY: "Aevum",
+        /**
+         * City offices of our Tobacco division.
+         */
         Aevum: {
             hire: {
                 stage: {
