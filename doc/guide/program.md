@@ -274,4 +274,74 @@ CyberSec.
 
 ![Share home with CyberSec](image/cybersec-share-home.png "Share home with CyberSec")
 
+## Augmentation
+
+An
+[Augmentation](https://bitburner.readthedocs.io/en/latest/basicgameplay/augmentations.html)
+is an implant that raises one or more of your stats. Currently, the only path to
+acquiring Augmentations is to join a faction and earn enough reputation within
+the faction such that you are allowed to purchase Augmentations from the
+faction. Different factions have different Augmentations. Joining one faction
+can prevent you from joining another faction, but such a membership restriction
+is limited to a small number of factions. You will find that the majority of
+factions do not prohibit you from being a member of any other faction.
+
+Early in the game, you should join an early-game faction. CyberSec is one such
+faction. Perform hacking contracts (or field work) to earn reputation within the
+faction and when possible purchase one or more of the faction's Augmentations.
+In the case of CyberSec, you can purchase these Augmentations:
+
+1. `NeuroFlux Governor - Level 1`
+1. `BitWire`
+1. `Synaptic Enhancement Implant`
+1. `Cranial Signal Processors - Gen I`
+1. `Cranial Signal Processors - Gen II`
+1. `Neurotrainer I`
+
+`NeuroFlux Governor` can be bought from any faction, not just CyberSec.
+Initially, the price multiplier is 1. Purchasing an Augmentation would raise the
+price multiplier by a certain value, hence increasing the cost of purchasing
+another Augmentation. As you buy more and more Augmentations, the price
+multiplier would be higher and higher and you must pay more for the next
+Augmentation. For example, after purchasing `NeuroFlux Governor - Level 1`, the
+price multiplier would rise to 1.9 or thereabout.
+
+Installing an Augmentation would raise or decrease one or more of your stat
+multipliers. The effect of a boost to stat multiplier depends on the
+Augmentations you install. Some Augmentations boost your hacking skills, others
+boost your other stats, while some boost the amount of money you gain from
+certain actions. The downside is a soft reset where you would lose most of your
+progress, including your stat and skill points. All of your stats would be reset
+to 1, your HP would be reset to 10, and your money would be reset to $1k (or
+another default value). However, after installing an Augmentation you would keep
+the following:
+
+1. Each Augmentation you have previously installed.
+1. All scripts on your home server.
+1. All upgrades you have made to your home server.
+1. Your account at the World Stock Exchange.
+1. Your access to the TIX APIs.
+
+Each Augmentation installed would result in a soft reset. Therefore it makes
+sense to purchase a bunch of Augmentations from a faction and then install those
+Augmentations all at once. Save up a few hundred million dollars and purchase
+the most expensive Augmentation from CyberSec. You might want to click the
+button `Sort by Cost` to help you choose the most expensive Augmentation. Buying
+one Augmentation would increase the price multiplier, but only for the less
+expensive Augmentations that you have not yet purchased. Repeat the purchasing
+strategy until you have purchased all Augmentations from CyberSec. Some
+Augmentations have pre-requisites. For example, the pre-requisite of
+`Cranial Signal Processors - Gen II` is `Cranial Signal Processors - Gen I`.
+Purchase all pre-requisites first before you are allowed to purchase the
+particular Augmentation. Note that `NeuroFlux Governor` can be levelled up
+infinitely. Use the money available to level up `NeuroFlux Governor` as high as
+you can. Use any left over money to upgrade your home server, either RAM or
+Cores or both. You would lose all money after installing the Augmentations, so
+you might as well spend the money now. Then install all Augmentations at once.
+The process to install Augmentations is as follows. Click on the `Augmentations`
+tab, review the changes to your stat multipliers, and click on
+`Install Augmentations`. Refer to the image below.
+
+![Install Augmentations](image/install-augmentations.png "Install Augmentations")
+
 [[TOC](README.md "Table of Contents")] [[Previous](script.md "First script")]
