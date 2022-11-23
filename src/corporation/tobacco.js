@@ -34,38 +34,44 @@ import { assert } from "/lib/util.js";
 async function hire(ns, n) {
     log(ns, `Round ${to_number(n)} of hiring`);
     const div = corp.industry.TOBACCO;
-    while (is_short_staffed(ns, n)) {
+    const done = {
+        Aevum: false,
+        Chongqing: false,
+        Ishima: false,
+        "New Tokyo": false,
+        "Sector-12": false,
+        Volhaven: false,
+    };
+    const is_done = (ct) => done[ct];
+    while (!cities.all.every(is_done)) {
         for (const ct of cities.all) {
+            if (done[ct]) {
+                continue;
+            }
             const org = new Corporation(ns);
             const obj = corp_t.tobacco[ct].hire.stage[n];
             if (org.num_business(div, ct) < obj.BUSINESS) {
                 await new_hire(ns, div, ct, corp.job.BUSINESS);
-                continue;
             }
             if (org.num_engineer(div, ct) < obj.ENGINEER) {
                 await new_hire(ns, div, ct, corp.job.ENGINEER);
-                continue;
             }
             if (org.num_management(div, ct) < obj.MANAGEMENT) {
                 await new_hire(ns, div, ct, corp.job.MANAGEMENT);
-                continue;
             }
             if (org.num_operations(div, ct) < obj.OPERATIONS) {
                 await new_hire(ns, div, ct, corp.job.OPERATIONS);
-                continue;
             }
             if (org.num_rnd(div, ct) < obj.RND) {
                 await new_hire(ns, div, ct, corp.job.RND);
-                continue;
             }
             if (org.num_training(div, ct) < obj.TRAIN) {
                 await new_hire(ns, div, ct, corp.job.TRAIN);
-                continue;
             }
             if (org.num_idle(div, ct) < obj.IDLE) {
                 await new_hire(ns, div, ct, corp.job.IDLE);
-                continue;
             }
+            done[ct] = !is_short_staffed(ns, ct, n);
             await ns.sleep(wait_t.SECOND);
         }
     }
@@ -75,27 +81,27 @@ async function hire(ns, n) {
  * Whether an office of our Tobacco division is short-staffed.
  *
  * @param ns The Netscript API.
+ * @param ct A string representing the name of a city.
  * @param n A string representing the hiring stage.  If it is stage 1 of hiring,
  *     pass in the word "one", and so on.
- * @return True if the given office is short-staffed; false otherwise.
+ * @return True if our Tobacco office in the given city is short-staffed;
+ *     false otherwise.
  *
  */
-function is_short_staffed(ns, n) {
+function is_short_staffed(ns, ct, n) {
     const org = new Corporation(ns);
     const div = corp.industry.TOBACCO;
-    for (const ct of cities.all) {
-        const obj = corp_t.tobacco[ct].hire.stage[n];
-        if (
-            org.num_business(div, ct) < obj.BUSINESS
-            || org.num_engineer(div, ct) < obj.ENGINEER
-            || org.num_management(div, ct) < obj.MANAGEMENT
-            || org.num_operations(div, ct) < obj.OPERATIONS
-            || org.num_rnd(div, ct) < obj.RND
-            || org.num_training(div, ct) < obj.TRAIN
-            || org.num_idle(div, ct) < obj.IDLE
-        ) {
-            return true;
-        }
+    const obj = corp_t.tobacco[ct].hire.stage[n];
+    if (
+        org.num_business(div, ct) < obj.BUSINESS
+        || org.num_engineer(div, ct) < obj.ENGINEER
+        || org.num_management(div, ct) < obj.MANAGEMENT
+        || org.num_operations(div, ct) < obj.OPERATIONS
+        || org.num_rnd(div, ct) < obj.RND
+        || org.num_training(div, ct) < obj.TRAIN
+        || org.num_idle(div, ct) < obj.IDLE
+    ) {
+        return true;
     }
     return false;
 }
