@@ -241,6 +241,15 @@ export const corp_t = {
         },
     },
     /**
+     * Various thresholds related to an office.
+     */
+    office: {
+        /**
+         * The initial number of employees to hire for an office.
+         */
+        INIT_HIRE: 3,
+    },
+    /**
      * Various profit thresholds.  Each value is a rate per second.  We use
      * these thresholds to help us make various decisions related to the
      * direction of our corporation.
@@ -625,15 +634,6 @@ export const agriculture = {
                 },
             },
         },
-    },
-    /**
-     * Various thresholds related to an office.
-     */
-    office: {
-        /**
-         * The initial number of employees to hire for an office.
-         */
-        INIT_HIRE: 3,
     },
     /**
      * Various thresholds related to a warehouse.

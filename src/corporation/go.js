@@ -66,7 +66,7 @@ function initial_hire(ns) {
         org.initial_hire(div, ct);
         log(
             ns,
-            `${div}: ${ct}: hired ${agriculture.office.INIT_HIRE} employees`
+            `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`
         );
     });
 }

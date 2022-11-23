@@ -36,11 +36,10 @@ import { assert, exec } from "/lib/util.js";
 function all_warehouses_upgraded(ns, n) {
     const target = agriculture.warehouse.round[n].SIZE;
     const org = new Corporation(ns);
-    for (const div of org.all_divisions()) {
-        const not_upgraded = (c) => org.warehouse_capacity(div, c) < target;
-        if (cities.all.some(not_upgraded)) {
-            return false;
-        }
+    const div = corp.industry.AGRI;
+    const not_upgraded = (c) => org.warehouse_capacity(div, c) < target;
+    if (cities.all.some(not_upgraded)) {
+        return false;
     }
     return true;
 }
@@ -80,40 +79,39 @@ async function hire_round_one_stage(ns, n) {
     const org = new Corporation(ns);
     const current = agriculture.hire.stage[n].NOW;
     const role = agriculture.hire.stage[n].ROLE;
-    for (const div of org.all_divisions()) {
-        for (const ct of cities.all) {
-            // Sanity check the current number of employees in the given role.
-            switch (role) {
-                case "Operations":
-                    if (org.num_operations(div, ct) > current) {
-                        continue;
-                    }
-                    break;
-                case "Engineer":
-                    if (org.num_engineer(div, ct) > current) {
-                        continue;
-                    }
-                    break;
-                case "Business":
-                    if (org.num_business(div, ct) > current) {
-                        continue;
-                    }
-                    break;
-                case "Management":
-                    if (org.num_management(div, ct) > current) {
-                        continue;
-                    }
-                    break;
-                default:
-                    // Should never reach here.
-                    assert(false);
-            }
-            // Hire an employee for the role.
-            await new_hire(ns, div, ct, role);
-            const prefix = `${div}: ${ct}`;
-            const msg = `hired 1 employee and assigned to ${role}`;
-            log(ns, `${prefix}: ${msg}`);
+    const div = corp.industry.AGRI;
+    for (const ct of cities.all) {
+        // Sanity check the current number of employees in the given role.
+        switch (role) {
+            case "Operations":
+                if (org.num_operations(div, ct) > current) {
+                    continue;
+                }
+                break;
+            case "Engineer":
+                if (org.num_engineer(div, ct) > current) {
+                    continue;
+                }
+                break;
+            case "Business":
+                if (org.num_business(div, ct) > current) {
+                    continue;
+                }
+                break;
+            case "Management":
+                if (org.num_management(div, ct) > current) {
+                    continue;
+                }
+                break;
+            default:
+                // Should never reach here.
+                assert(false);
         }
+        // Hire an employee for the role.
+        await new_hire(ns, div, ct, role);
+        const prefix = `${div}: ${ct}`;
+        const msg = `hired 1 employee and assigned to ${role}`;
+        log(ns, `${prefix}: ${msg}`);
     }
 }
 
@@ -248,18 +246,17 @@ async function material_buy(ns, n) {
     ];
     assert(material.length === amount.length);
     assert(material.length === target.length);
+    const div = corp.industry.AGRI;
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
-        for (const div of org.all_divisions()) {
-            for (const ct of cities.all) {
-                if (org.material_qty(div, ct, material[i]) >= target[i]) {
-                    continue;
-                }
-                const prefix = `${div}: ${ct}`;
-                const amt = ns.nFormat(amount[i], "0,00.00a");
-                log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
-                await org.material_buy(div, ct, material[i], amount[i]);
+        for (const ct of cities.all) {
+            if (org.material_qty(div, ct, material[i]) >= target[i]) {
+                continue;
             }
+            const prefix = `${div}: ${ct}`;
+            const amt = ns.nFormat(amount[i], "0,00.00a");
+            log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
+            await org.material_buy(div, ct, material[i], amount[i]);
         }
     }
 }
@@ -358,12 +355,11 @@ function upgrade_warehouse(ns, n) {
     const org = new Corporation(ns);
     const target = agriculture.warehouse.round[n].SIZE;
     const howmany = 1;
-    org.all_divisions().forEach((div) => {
-        cities.all.forEach((ct) => {
-            if (org.warehouse_capacity(div, ct) < target) {
-                org.upgrade_warehouse(div, ct, howmany);
-            }
-        });
+    const div = corp.industry.AGRI;
+    cities.all.forEach((ct) => {
+        if (org.warehouse_capacity(div, ct) < target) {
+            org.upgrade_warehouse(div, ct, howmany);
+        }
     });
 }
 
