@@ -64,10 +64,7 @@ function initial_hire(ns) {
     const div = corp.industry.AGRI;
     cities.all.forEach((ct) => {
         org.initial_hire(div, ct);
-        log(
-            ns,
-            `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`
-        );
+        log(ns, `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`);
     });
 }
 
