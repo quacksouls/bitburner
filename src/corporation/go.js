@@ -116,6 +116,7 @@ async function initial_material_buy(ns) {
         agriculture.material.land.buy.INIT,
     ];
     const div = corp.industry.AGRI;
+    log(ns, `Purchasing materials: ${material.join(", ")}`);
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
         for (const ct of cities.all) {
