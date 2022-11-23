@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -64,7 +64,10 @@ function initial_hire(ns) {
     const div = corp.industry.AGRI;
     cities.all.forEach((ct) => {
         org.initial_hire(div, ct);
-        log(ns, `${div}: ${ct}: hired ${corp_t.office.INIT_HIRE} employees`);
+        log(
+            ns,
+            `${div}: ${ct}: hired ${agriculture.office.INIT_HIRE} employees`
+        );
     });
 }
 
@@ -108,9 +111,9 @@ async function initial_material_buy(ns) {
         corp.material.LAND,
     ];
     const amount = [
-        corp_t.material.ai.buy.INIT,
-        corp_t.material.hardware.buy.INIT,
-        corp_t.material.land.buy.INIT,
+        agriculture.material.ai.buy.INIT,
+        agriculture.material.hardware.buy.INIT,
+        agriculture.material.land.buy.INIT,
     ];
     const div = corp.industry.AGRI;
     for (let i = 0; i < material.length; i++) {

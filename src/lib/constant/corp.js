@@ -241,6 +241,106 @@ export const corp_t = {
         },
     },
     /**
+     * Various profit thresholds.  Each value is a rate per second.  We use
+     * these thresholds to help us make various decisions related to the
+     * direction of our corporation.
+     */
+    profit: {
+        /**
+         * Different rounds have different rates of profits we aim to achieve.
+         */
+        round: {
+            /**
+             * A very low profit threshold: $200k per second.
+             */
+            one: {
+                N: 2e5,
+            },
+            /**
+             * A low profit threshold: $300k per second.
+             */
+            two: {
+                N: 3e5,
+            },
+        },
+    },
+    /**
+     * We need $150b to start a corporation.  Data taken from this file:
+     *
+     * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Corporation.ts
+     */
+    SEED_COST: 15e10,
+    /**
+     * Thresholds on various aspects of selling materials or products.
+     */
+    sell: {
+        /**
+         * The sell amount.
+         */
+        amount: {
+            /**
+             * Sell the maximum of whatever we have.
+             */
+            MAX: "MAX",
+        },
+        /**
+         * The sell price.
+         */
+        price: {
+            /**
+             * Sell at the market price.
+             */
+            MP: "MP",
+        },
+    },
+    /**
+     * Each tick in a corporation is 10 seconds, expressed in terms of
+     * milliseconds.
+     */
+    TICK: 1e4,
+    /**
+     * The same as TICK, but expressed in terms of seconds.
+     */
+    TICK_SECOND: 10,
+    /**
+     * Thresholds related to level upgrades.  These are distinct from unlock
+     * upgrades.
+     */
+    upgrade: {
+        /**
+         * For our initial setup, we want at least 2 levels of various upgrades.
+         */
+        INIT_LEVEL: 2,
+        /**
+         * Upgrade thresholds for subsequent rounds.
+         */
+        round: {
+            /**
+             * Round 1 of upgrade.  Level up various upgrades to this level.
+             */
+            one: {
+                LEVEL: 10,
+            },
+        },
+    },
+    /**
+     * Various thresholds related to a warehouse.
+     */
+    warehouse: {
+        /**
+         * The initial upgraded size of a warehouse.  When a warehouse is
+         * bought, it has a size of 100.  We want to upgrade our early warehouse
+         * to this size.
+         */
+        INIT_UPGRADE_SIZE: 300,
+    },
+};
+
+/**
+ * Various thresholds and constants related to our Agriculture division.
+ */
+export const agriculture = {
+    /**
      * Hiring policies for various rounds of hiring.
      */
     hire: {
@@ -534,89 +634,6 @@ export const corp_t = {
          * The initial number of employees to hire for an office.
          */
         INIT_HIRE: 3,
-    },
-    /**
-     * Various profit thresholds.  Each value is a rate per second.  We use
-     * these thresholds to help us make various decisions related to the
-     * direction of our corporation.
-     */
-    profit: {
-        /**
-         * Different rounds have different rates of profits we aim to achieve.
-         */
-        round: {
-            /**
-             * A very low profit threshold: $200k per second.
-             */
-            one: {
-                N: 2e5,
-            },
-            /**
-             * A low profit threshold: $300k per second.
-             */
-            two: {
-                N: 3e5,
-            },
-        },
-    },
-    /**
-     * We need $150b to start a corporation.  Data taken from this file:
-     *
-     * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Corporation.ts
-     */
-    SEED_COST: 15e10,
-    /**
-     * Thresholds on various aspects of selling materials or products.
-     */
-    sell: {
-        /**
-         * The sell amount.
-         */
-        amount: {
-            /**
-             * Sell the maximum of whatever we have.
-             */
-            MAX: "MAX",
-        },
-        /**
-         * The sell price.
-         */
-        price: {
-            /**
-             * Sell at the market price.
-             */
-            MP: "MP",
-        },
-    },
-    /**
-     * Each tick in a corporation is 10 seconds, expressed in terms of
-     * milliseconds.
-     */
-    TICK: 1e4,
-    /**
-     * The same as TICK, but expressed in terms of seconds.
-     */
-    TICK_SECOND: 10,
-    /**
-     * Thresholds related to level upgrades.  These are distinct from unlock
-     * upgrades.
-     */
-    upgrade: {
-        /**
-         * For our initial setup, we want at least 2 levels of various upgrades.
-         */
-        INIT_LEVEL: 2,
-        /**
-         * Upgrade thresholds for subsequent rounds.
-         */
-        round: {
-            /**
-             * Round 1 of upgrade.  Level up various upgrades to this level.
-             */
-            one: {
-                LEVEL: 10,
-            },
-        },
     },
     /**
      * Various thresholds related to a warehouse.

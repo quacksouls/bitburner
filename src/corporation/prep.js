@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
@@ -34,7 +34,7 @@ import { assert, exec } from "/lib/util.js";
  * @return True if each warehouse is upgraded to a given storage capacity.
  */
 function all_warehouses_upgraded(ns, n) {
-    const target = corp_t.warehouse.round[n].SIZE;
+    const target = agriculture.warehouse.round[n].SIZE;
     const org = new Corporation(ns);
     for (const div of org.all_divisions()) {
         const not_upgraded = (c) => org.warehouse_capacity(div, c) < target;
@@ -78,8 +78,8 @@ async function hire_round_one_stage(ns, n) {
     assert(n !== "");
     log(ns, `Stage ${to_number(n)} of hiring`);
     const org = new Corporation(ns);
-    const current = corp_t.hire.stage[n].NOW;
-    const role = corp_t.hire.stage[n].ROLE;
+    const current = agriculture.hire.stage[n].NOW;
+    const role = agriculture.hire.stage[n].ROLE;
     for (const div of org.all_divisions()) {
         for (const ct of cities.all) {
             // Sanity check the current number of employees in the given role.
@@ -182,7 +182,7 @@ async function level_up_storage(ns, n) {
         upgrade_warehouse(ns, n);
         await ns.sleep(wait_t.SECOND);
     }
-    const size = ns.nFormat(corp_t.warehouse.round[n].SIZE, "0,00.00a");
+    const size = ns.nFormat(agriculture.warehouse.round[n].SIZE, "0,00.00a");
     log(ns, `New storage capacity of each warehouse: ${size}`);
 }
 
@@ -221,30 +221,30 @@ async function material_buy(ns, n) {
         corp.material.WATER,
     ];
     const amount = [
-        corp_t.material.ai.buy.round[n].N,
-        corp_t.material.chemical.buy.round[n].N,
-        corp_t.material.drug.buy.round[n].N,
-        corp_t.material.energy.buy.round[n].N,
-        corp_t.material.food.buy.round[n].N,
-        corp_t.material.hardware.buy.round[n].N,
-        corp_t.material.land.buy.round[n].N,
-        corp_t.material.metal.buy.round[n].N,
-        corp_t.material.plant.buy.round[n].N,
-        corp_t.material.robot.buy.round[n].N,
-        corp_t.material.water.buy.round[n].N,
+        agriculture.material.ai.buy.round[n].N,
+        agriculture.material.chemical.buy.round[n].N,
+        agriculture.material.drug.buy.round[n].N,
+        agriculture.material.energy.buy.round[n].N,
+        agriculture.material.food.buy.round[n].N,
+        agriculture.material.hardware.buy.round[n].N,
+        agriculture.material.land.buy.round[n].N,
+        agriculture.material.metal.buy.round[n].N,
+        agriculture.material.plant.buy.round[n].N,
+        agriculture.material.robot.buy.round[n].N,
+        agriculture.material.water.buy.round[n].N,
     ];
     const target = [
-        corp_t.material.ai.buy.round[n].TARGET,
-        corp_t.material.chemical.buy.round[n].TARGET,
-        corp_t.material.drug.buy.round[n].TARGET,
-        corp_t.material.energy.buy.round[n].TARGET,
-        corp_t.material.food.buy.round[n].TARGET,
-        corp_t.material.hardware.buy.round[n].TARGET,
-        corp_t.material.land.buy.round[n].TARGET,
-        corp_t.material.metal.buy.round[n].TARGET,
-        corp_t.material.plant.buy.round[n].TARGET,
-        corp_t.material.robot.buy.round[n].TARGET,
-        corp_t.material.water.buy.round[n].TARGET,
+        agriculture.material.ai.buy.round[n].TARGET,
+        agriculture.material.chemical.buy.round[n].TARGET,
+        agriculture.material.drug.buy.round[n].TARGET,
+        agriculture.material.energy.buy.round[n].TARGET,
+        agriculture.material.food.buy.round[n].TARGET,
+        agriculture.material.hardware.buy.round[n].TARGET,
+        agriculture.material.land.buy.round[n].TARGET,
+        agriculture.material.metal.buy.round[n].TARGET,
+        agriculture.material.plant.buy.round[n].TARGET,
+        agriculture.material.robot.buy.round[n].TARGET,
+        agriculture.material.water.buy.round[n].TARGET,
     ];
     assert(material.length === amount.length);
     assert(material.length === target.length);
@@ -356,7 +356,7 @@ function upgrade_round_one_level_up(ns) {
  */
 function upgrade_warehouse(ns, n) {
     const org = new Corporation(ns);
-    const target = corp_t.warehouse.round[n].SIZE;
+    const target = agriculture.warehouse.round[n].SIZE;
     const howmany = 1;
     org.all_divisions().forEach((div) => {
         cities.all.forEach((ct) => {
