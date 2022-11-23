@@ -118,12 +118,12 @@ function is_short_staffed(ns, ct, n) {
  */
 function setup_division(ns) {
     const org = new Corporation(ns);
-    const ind = corp.industry.TOBACCO;
-    if (org.has_division(ind)) {
+    const div = corp.industry.TOBACCO;
+    if (org.has_division(div)) {
         return;
     }
-    org.expand_industry(ind);
-    log(ns, `Created new division: ${ind}`);
+    org.expand_industry(div);
+    log(ns, `Created new division: ${div}`);
 }
 
 /**
