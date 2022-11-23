@@ -20,7 +20,7 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { expand_city } from "/lib/corporation/util.js";
+import { expand_city, smart_supply } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { exec } from "/lib/util.js";
@@ -135,20 +135,6 @@ function initial_material_sell(ns) {
         org.material_initial_sell(div, ct, corp.material.FOOD);
         org.material_initial_sell(div, ct, corp.material.PLANT);
     });
-}
-
-/**
- * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
- * upgrade.  It applies to the entire corporation and cannot be levelled.
- *
- * @param ns The Netscript API.
- */
-function smart_supply(ns) {
-    const org = new Corporation(ns);
-    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
-        org.buy_unlock_upgrade(corp.unlock.SMART);
-        org.enable_smart_supply();
-    }
 }
 
 /**

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp_t } from "/lib/constant/corp.js";
+import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
@@ -64,6 +64,20 @@ export async function new_hire(ns, div, ct, role) {
     while (!org.new_hire(div, ct, role)) {
         await ns.sleep(corp_t.TICK);
     }
+}
+
+/**
+ * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
+ * upgrade.  It applies to the entire corporation and cannot be levelled.
+ *
+ * @param ns The Netscript API.
+ */
+export function smart_supply(ns) {
+    const org = new Corporation(ns);
+    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
+        org.buy_unlock_upgrade(corp.unlock.SMART);
+    }
+    org.enable_smart_supply();
 }
 
 /**
