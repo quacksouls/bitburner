@@ -407,6 +407,21 @@ export class Corporation {
     }
 
     /**
+     * Whether we have completed the development of a product.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a product.
+     * @return True if the given product has been completed; false otherwise.
+     */
+    is_product_complete(div, name) {
+        assert(this.has_product(div, name));
+        return (
+            this.#ns[corp.API].getProduct(div, name).developmentProgress
+            >= corp_t.MAX_PROGRESS
+        );
+    }
+
+    /**
      * Whether the given name represents a valid industry.
      *
      * @param name A string representing the name of an industry.

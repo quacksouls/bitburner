@@ -53,6 +53,21 @@ function create_product(ns, n) {
 }
 
 /**
+ * Wait for a product to be 100% complete.
+ *
+ * @param ns The Netscript API.
+ * @param name The name of the product.
+ */
+async function finishing_product(ns, name) {
+    const div = corp.industry.TOBACCO;
+    log(ns, `${div}: waiting for product to complete: ${name}`);
+    const org = new Corporation(ns);
+    while (!org.is_product_complete(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Hire a crop of employees for our Tobacco division.
  *
  * @param ns The Netscript API.
@@ -192,4 +207,5 @@ export async function main(ns) {
     await hire(ns, "one");
     create_product(ns, "one");
     await upgrade_round_one(ns);
+    await finishing_product(ns, tobacco.product.one.NAME);
 }

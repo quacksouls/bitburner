@@ -250,6 +250,12 @@ export const corp_t = {
         INIT_HIRE: 3,
     },
     /**
+     * The maximum percentage progress.  For example, if the development of a
+     * product has reached this progress threshold, then the product has
+     * completed its development.
+     */
+    MAX_PROGRESS: 100,
+    /**
      * Various profit thresholds.  Each value is a rate per second.  We use
      * these thresholds to help us make various decisions related to the
      * direction of our corporation.
