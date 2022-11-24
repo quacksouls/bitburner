@@ -144,15 +144,10 @@ async function investment_offer(ns, r) {
     // Need to wait for our corporation to make a certain amount of profit per
     // second, and have a certain amount of funds.
     log(ns, `Round ${to_number(r)} of investment`);
-    const funds_tau = ns.nFormat(corp_t.funds.round[r].N, "$0,0.00a");
     const profit_tau = ns.nFormat(corp_t.profit.round[r].N, "$0,0.00a");
-    log(ns, `Waiting for sufficient funds: ${funds_tau}`);
     log(ns, `Waiting for sufficient profit: ${profit_tau}/s`);
     const org = new Corporation(ns);
-    while (
-        org.funds() < corp_t.funds.round[r].N
-        || org.profit() < corp_t.profit.round[r].N
-    ) {
+    while (org.profit() < corp_t.profit.round[r].N) {
         await ns.sleep(corp_t.TICK);
     }
     const { funds, shares } = ns[corp.API].getInvestmentOffer();
