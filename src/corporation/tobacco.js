@@ -91,7 +91,6 @@ async function hire(ns, n) {
  *     pass in the word "one", and so on.
  * @return True if our Tobacco office in the given city is short-staffed;
  *     false otherwise.
- *
  */
 function is_short_staffed(ns, ct, n) {
     const org = new Corporation(ns);
