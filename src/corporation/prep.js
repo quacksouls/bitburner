@@ -273,9 +273,6 @@ async function round_one(ns) {
     await upgrade_round_one(ns);
     await level_up_storage(ns, "one");
     await material_buy(ns, "one");
-    log(ns, "Waiting for each office to be vivacious");
-    const org = new Corporation(ns);
-    await org.vivacious_office();
 }
 
 /**
@@ -291,9 +288,6 @@ async function round_two(ns) {
     await investment_offer(ns, "two");
     await level_up_storage(ns, "two");
     await material_buy(ns, "two");
-    log(ns, "Waiting for each office to be vivacious");
-    const org = new Corporation(ns);
-    await org.vivacious_office();
 }
 
 /**
@@ -383,6 +377,8 @@ export async function main(ns) {
     // Various rounds of preparation.
     await round_one(ns);
     await round_two(ns);
+    log(ns, "Waiting for each office to be vivacious");
+    await org.vivacious_office();
     // Next script in the load chain.
     exec(ns, "/corporation/tobacco.js");
 }
