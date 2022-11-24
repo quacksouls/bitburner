@@ -771,6 +771,27 @@ export class Corporation {
     }
 
     /**
+     * Sell a product that has been developed in a given division.  The amount
+     * to sell and the selling price are automatically determined.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @param name The name of the product.
+     */
+    product_sell(div, ct, name) {
+        assert(this.has_product(div, name));
+        assert(is_valid_city(ct));
+        this.#ns[corp.API].sellProduct(
+            div,
+            ct,
+            name,
+            corp_t.sell.amount.MAX,
+            corp_t.sell.price.MP,
+            bool.NOT
+        );
+    }
+
+    /**
      * The profit per second during the current tick.
      *
      * @return The profit of our corporation, expressed as per second during

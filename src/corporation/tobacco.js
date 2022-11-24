@@ -111,6 +111,19 @@ async function hire(ns, n) {
 }
 
 /**
+ * Sell a product we have developed in our Tobacco division.
+ *
+ * @param ns The Netscript API.
+ * @param name The name of the product.
+ */
+function sell_product(ns, name) {
+    const div = corp.industry.TOBACCO;
+    const org = new Corporation(ns);
+    log(ns, `${div}: selling product in all cities: ${name}`);
+    cities.all.forEach((ct) => org.product_sell(div, ct, name));
+}
+
+/**
  * Setup our Tobacco division.
  *
  * @param ns The Netscript API.
@@ -201,11 +214,13 @@ export async function main(ns) {
     // Create and manage our Tobacco division.
     setup_division(ns);
     const div = corp.industry.TOBACCO;
+    const product_one = tobacco.product.one.NAME;
     const new_office = await expand_city(ns, div);
     smart_supply(ns);
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
     create_product(ns, "one");
     await upgrade_round_one(ns);
-    await finishing_product(ns, tobacco.product.one.NAME);
+    await finishing_product(ns, product_one);
+    sell_product(ns, product_one);
 }
