@@ -143,11 +143,13 @@ function setup_division(ns) {
 }
 
 /**
- * Round 1 of levelling up various upgrades.
+ * Levelling up various upgrades.
  *
  * @param ns The Netscript API.
+ * @param n A string representing the upgrade round.  If it is round 1 of
+ *     upgrade, pass in the word "one", and so on.
  */
-async function upgrade_round_one(ns) {
+async function upgrade(ns, n) {
     const upg = [
         "DreamSense",
         "FocusWires",
@@ -156,14 +158,14 @@ async function upgrade_round_one(ns) {
         "Nuoptimal Nootropic Injector Implants",
         "Project Insight",
     ];
-    log(ns, `Round 1 of upgrades: ${upg.join(", ")}`);
-    const dream_lvl = tobacco.upgrade.round.one.DreamSense;
-    const focus_lvl = tobacco.upgrade.round.one.FocusWires;
-    const neural_lvl = tobacco.upgrade.round.one["Neural Accelerators"];
-    const speech_lvl = tobacco.upgrade.round.one["Speech Processor Implants"];
+    log(ns, `Round ${to_number(n)} of upgrades: ${upg.join(", ")}`);
+    const dream_lvl = tobacco.upgrade.round[n].DreamSense;
+    const focus_lvl = tobacco.upgrade.round[n].FocusWires;
+    const neural_lvl = tobacco.upgrade.round[n]["Neural Accelerators"];
+    const speech_lvl = tobacco.upgrade.round[n]["Speech Processor Implants"];
     // eslint-disable-next-line max-len
-    const injector_lvl = tobacco.upgrade.round.one["Nuoptimal Nootropic Injector Implants"];
-    const insight_lvl = tobacco.upgrade.round.one["Project Insight"];
+    const injector_lvl = tobacco.upgrade.round[n]["Nuoptimal Nootropic Injector Implants"];
+    const insight_lvl = tobacco.upgrade.round[n]["Project Insight"];
     const org = new Corporation(ns);
     for (;;) {
         // Have we levelled up enough?
@@ -223,7 +225,7 @@ export async function main(ns) {
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
     create_product(ns, "one");
-    await upgrade_round_one(ns);
+    await upgrade(ns, "one");
     await finishing_product(ns, "one");
     sell_product(ns, "one");
 }
