@@ -56,10 +56,12 @@ function create_product(ns, n) {
  * Wait for a product to be 100% complete.
  *
  * @param ns The Netscript API.
- * @param name The name of the product.
+ * @param n A string representing the product round.  If it is the product in
+ *     round 1, pass in the word "one", and so on.
  */
-async function finishing_product(ns, name) {
+async function finishing_product(ns, n) {
     const div = corp.industry.TOBACCO;
+    const name = tobacco.product[n].NAME;
     log(ns, `${div}: waiting for product to complete: ${name}`);
     const org = new Corporation(ns);
     while (!org.is_product_complete(div, name)) {
@@ -114,10 +116,12 @@ async function hire(ns, n) {
  * Sell a product we have developed in our Tobacco division.
  *
  * @param ns The Netscript API.
- * @param name The name of the product.
+ * @param n A string representing the product round.  If it is the product in
+ *     round 1, pass in the word "one", and so on.
  */
-function sell_product(ns, name) {
+function sell_product(ns, n) {
     const div = corp.industry.TOBACCO;
+    const name = tobacco.product[n].NAME;
     const org = new Corporation(ns);
     log(ns, `${div}: selling product in all cities: ${name}`);
     cities.all.forEach((ct) => org.product_sell(div, ct, name));
@@ -214,13 +218,12 @@ export async function main(ns) {
     // Create and manage our Tobacco division.
     setup_division(ns);
     const div = corp.industry.TOBACCO;
-    const product_one = tobacco.product.one.NAME;
     const new_office = await expand_city(ns, div);
     smart_supply(ns);
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
     create_product(ns, "one");
     await upgrade_round_one(ns);
-    await finishing_product(ns, product_one);
-    sell_product(ns, product_one);
+    await finishing_product(ns, "one");
+    sell_product(ns, "one");
 }
