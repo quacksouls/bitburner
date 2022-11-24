@@ -17,7 +17,6 @@
 
 import { corp, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
-import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
     expand_city,
@@ -62,75 +61,37 @@ function create_product(ns, n) {
 async function hire(ns, n) {
     log(ns, `Round ${to_number(n)} of hiring`);
     const div = corp.industry.TOBACCO;
-    const done = {
-        Aevum: false,
-        Chongqing: false,
-        Ishima: false,
-        "New Tokyo": false,
-        "Sector-12": false,
-        Volhaven: false,
-    };
-    const is_done = (ct) => done[ct];
-    while (!cities.all.every(is_done)) {
-        for (const ct of cities.all) {
-            if (done[ct]) {
-                continue;
-            }
-            const org = new Corporation(ns);
-            const obj = tobacco[ct].hire.stage[n];
-            if (org.num_business(div, ct) < obj.BUSINESS) {
-                await new_hire(ns, div, ct, corp.job.BUSINESS);
-            }
-            if (org.num_engineer(div, ct) < obj.ENGINEER) {
-                await new_hire(ns, div, ct, corp.job.ENGINEER);
-            }
-            if (org.num_management(div, ct) < obj.MANAGEMENT) {
-                await new_hire(ns, div, ct, corp.job.MANAGEMENT);
-            }
-            if (org.num_operations(div, ct) < obj.OPERATIONS) {
-                await new_hire(ns, div, ct, corp.job.OPERATIONS);
-            }
-            if (org.num_rnd(div, ct) < obj.RND) {
-                await new_hire(ns, div, ct, corp.job.RND);
-            }
-            if (org.num_training(div, ct) < obj.TRAIN) {
-                await new_hire(ns, div, ct, corp.job.TRAIN);
-            }
-            if (org.num_idle(div, ct) < obj.IDLE) {
-                await new_hire(ns, div, ct, corp.job.IDLE);
-            }
-            done[ct] = !is_short_staffed(ns, ct, n);
-            await ns.sleep(wait_t.SECOND);
+    for (const ct of cities.all) {
+        const org = new Corporation(ns);
+        const nbusiness = tobacco[ct].hire.stage[n].BUSINESS;
+        const nengineer = tobacco[ct].hire.stage[n].ENGINEER;
+        const nmanagement = tobacco[ct].hire.stage[n].MANAGEMENT;
+        const noperations = tobacco[ct].hire.stage[n].OPERATIONS;
+        const nrnd = tobacco[ct].hire.stage[n].RND;
+        const ntrain = tobacco[ct].hire.stage[n].TRAIN;
+        const nidle = tobacco[ct].hire.stage[n].IDLE;
+        for (let i = org.num_business(div, ct); i < nbusiness; i++) {
+            await new_hire(ns, div, ct, corp.job.BUSINESS);
+        }
+        for (let i = org.num_engineer(div, ct); i < nengineer; i++) {
+            await new_hire(ns, div, ct, corp.job.ENGINEER);
+        }
+        for (let i = org.num_management(div, ct); i < nmanagement; i++) {
+            await new_hire(ns, div, ct, corp.job.MANAGEMENT);
+        }
+        for (let i = org.num_operations(div, ct); i < noperations; i++) {
+            await new_hire(ns, div, ct, corp.job.OPERATIONS);
+        }
+        for (let i = org.num_rnd(div, ct); i < nrnd; i++) {
+            await new_hire(ns, div, ct, corp.job.RND);
+        }
+        for (let i = org.num_training(div, ct); i < ntrain; i++) {
+            await new_hire(ns, div, ct, corp.job.TRAIN);
+        }
+        for (let i = org.num_idle(div, ct); i < nidle; i++) {
+            await new_hire(ns, div, ct, corp.job.IDLE);
         }
     }
-}
-
-/**
- * Whether an office of our Tobacco division is short-staffed.
- *
- * @param ns The Netscript API.
- * @param ct A string representing the name of a city.
- * @param n A string representing the hiring stage.  If it is stage 1 of hiring,
- *     pass in the word "one", and so on.
- * @return True if our Tobacco office in the given city is short-staffed;
- *     false otherwise.
- */
-function is_short_staffed(ns, ct, n) {
-    const org = new Corporation(ns);
-    const div = corp.industry.TOBACCO;
-    const obj = tobacco[ct].hire.stage[n];
-    if (
-        org.num_business(div, ct) < obj.BUSINESS
-        || org.num_engineer(div, ct) < obj.ENGINEER
-        || org.num_management(div, ct) < obj.MANAGEMENT
-        || org.num_operations(div, ct) < obj.OPERATIONS
-        || org.num_rnd(div, ct) < obj.RND
-        || org.num_training(div, ct) < obj.TRAIN
-        || org.num_idle(div, ct) < obj.IDLE
-    ) {
-        return true;
-    }
-    return false;
 }
 
 /**
