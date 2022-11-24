@@ -345,3 +345,4 @@ tab, review the changes to your stat multipliers, and click on
 ![Install Augmentations](image/install-augmentations.png "Install Augmentations")
 
 [[TOC](README.md "Table of Contents")] [[Previous](script.md "First script")]
+[[Next](reboot1.md "After the first reboot")]

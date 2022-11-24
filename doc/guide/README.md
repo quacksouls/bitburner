@@ -16,3 +16,4 @@ available at these avenues:
 1. [Starting out](start.md)
 1. [First script](script.md)
 1. [Programs and factions](program.md)
+1. [After the first reboot](reboot1.md)
