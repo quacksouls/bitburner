@@ -17,6 +17,7 @@
 
 import { corp, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
+import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
     expand_city,
@@ -110,6 +111,64 @@ function setup_division(ns) {
 }
 
 /**
+ * Round 1 of levelling up various upgrades.
+ *
+ * @param ns The Netscript API.
+ */
+async function upgrade_round_one(ns) {
+    const upg = [
+        "DreamSense",
+        "FocusWires",
+        "Neural Accelerators",
+        "Speech Processor Implants",
+        "Nuoptimal Nootropic Injector Implants",
+        "Project Insight",
+    ];
+    log(ns, `Round 1 of upgrades: ${upg.join(", ")}`);
+    const dream_lvl = tobacco.upgrade.round.one.DreamSense;
+    const focus_lvl = tobacco.upgrade.round.one.FocusWires;
+    const neural_lvl = tobacco.upgrade.round.one["Neural Accelerators"];
+    const speech_lvl = tobacco.upgrade.round.one["Speech Processor Implants"];
+    // eslint-disable-next-line max-len
+    const injector_lvl = tobacco.upgrade.round.one["Nuoptimal Nootropic Injector Implants"];
+    const insight_lvl = tobacco.upgrade.round.one["Project Insight"];
+    const org = new Corporation(ns);
+    for (;;) {
+        // Have we levelled up enough?
+        if (
+            org.level(corp.upgrade.DREAM) >= dream_lvl
+            && org.level(corp.upgrade.FOCUS) >= focus_lvl
+            && org.level(corp.upgrade.NEURAL) >= neural_lvl
+            && org.level(corp.upgrade.SPEECH) >= speech_lvl
+            && org.level(corp.upgrade.INJECTOR) >= injector_lvl
+            && org.level(corp.upgrade.INSIGHT) >= insight_lvl
+        ) {
+            break;
+        }
+        // Level up various upgrades.
+        if (org.level(corp.upgrade.DREAM) < dream_lvl) {
+            org.level_upgrade(corp.upgrade.DREAM);
+        }
+        if (org.level(corp.upgrade.FOCUS) < focus_lvl) {
+            org.level_upgrade(corp.upgrade.FOCUS);
+        }
+        if (org.level(corp.upgrade.NEURAL) < neural_lvl) {
+            org.level_upgrade(corp.upgrade.NEURAL);
+        }
+        if (org.level(corp.upgrade.SPEECH) < speech_lvl) {
+            org.level_upgrade(corp.upgrade.SPEECH);
+        }
+        if (org.level(corp.upgrade.INJECTOR) < injector_lvl) {
+            org.level_upgrade(corp.upgrade.INJECTOR);
+        }
+        if (org.level(corp.upgrade.INSIGHT) < insight_lvl) {
+            org.level_upgrade(corp.upgrade.INSIGHT);
+        }
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Branch out into the Tobacco industry and develop a product.
  *
  * Usage: run corporation/tobacco.js
@@ -132,4 +191,5 @@ export async function main(ns) {
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
     create_product(ns, "one");
+    await upgrade_round_one(ns);
 }

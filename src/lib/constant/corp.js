@@ -778,4 +778,19 @@ export const tobacco = {
             INVEST_MARKETING: 1e9,
         },
     },
+    /**
+     * Various desired levels for each upgrade.
+     */
+    upgrade: {
+        round: {
+            one: {
+                DreamSense: 20,
+                FocusWires: 20,
+                "Neural Accelerators": 20,
+                "Speech Processor Implants": 20,
+                "Nuoptimal Nootropic Injector Implants": 20,
+                "Project Insight": 10,
+            },
+        },
+    },
 };
