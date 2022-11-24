@@ -178,6 +178,26 @@ export class Corporation {
     }
 
     /**
+     * Create a new product.
+     *
+     * @param div A string representing the name of a division of our
+     *     corporation.
+     * @param ct A string representing the name of a city.  We want to develop
+     *     our product in this city.
+     * @param name A string representing the name of our product.
+     * @param investd The amount to invest in the design of the product.
+     * @param investm The amount to invest in the marketing of the product.
+     */
+    create_product(div, ct, name, investd, investm) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        assert(name !== "");
+        assert(investd > 0);
+        assert(investm > 0);
+        this.#ns[corp.API].makeProduct(div, ct, name, investd, investm);
+    }
+
+    /**
      * Enable Smart Supply for the warehouse of each division in each city.
      */
     enable_smart_supply() {
@@ -290,6 +310,25 @@ export class Corporation {
             this.has_unlock_upgrade(corp.unlock.OFFICE)
             && this.has_unlock_upgrade(corp.unlock.WAREHOUSE)
         );
+    }
+
+    /**
+     * Whether a division has a particular product.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a product.
+     * @return True if the given division has the specified product;
+     *     false otherwise.
+     */
+    has_product(div, name) {
+        assert(this.has_division(div));
+        try {
+            const product = this.#ns[corp.API].getProduct(div, name);
+            assert(product.name === name);
+            return bool.HAS;
+        } catch {
+            return bool.NOT;
+        }
     }
 
     /**

@@ -30,6 +30,29 @@ import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Create a product.
+ *
+ * @param ns The Netscript API.
+ * @param n A string representing the creation round.  If it is round 1 of
+ *     product development, pass in the word "one", and so on.
+ */
+function create_product(ns, n) {
+    const name = tobacco.product[n].NAME;
+    const org = new Corporation(ns);
+    const div = corp.industry.TOBACCO;
+    if (!org.has_product(div, name)) {
+        log(ns, `Creating product ${to_number(n)}: ${name}`);
+        org.create_product(
+            div,
+            tobacco.DEVELOPER_CITY,
+            name,
+            tobacco.product[n].INVEST_DESIGN,
+            tobacco.product[n].INVEST_MARKETING
+        );
+    }
+}
+
+/**
  * Hire a crop of employees for our Tobacco division.
  *
  * @param ns The Netscript API.
@@ -147,4 +170,5 @@ export async function main(ns) {
     smart_supply(ns);
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await hire(ns, "one");
+    create_product(ns, "one");
 }

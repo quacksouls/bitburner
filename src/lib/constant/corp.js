@@ -768,4 +768,14 @@ export const tobacco = {
             },
         },
     },
+    /**
+     * The products that our Tobacco division makes.
+     */
+    product: {
+        one: {
+            NAME: "Cigarette",
+            INVEST_DESIGN: 1e9,
+            INVEST_MARKETING: 1e9,
+        },
+    },
 };
