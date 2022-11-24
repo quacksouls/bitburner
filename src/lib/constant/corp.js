@@ -684,7 +684,7 @@ export const tobacco = {
         hire: {
             stage: {
                 /**
-                 * Stage 1 of hiring.  How many employees to hire for each
+                 * Stage 1 of hiring.  The maximum number of employees in each
                  * role.
                  */
                 one: {
