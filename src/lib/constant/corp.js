@@ -707,9 +707,9 @@ export const tobacco = {
                 },
                 three: {
                     BUSINESS: 13, // +4
-                    ENGINEER: 17, // +4
+                    ENGINEER: 18, // +5
                     MANAGEMENT: 12, // +2
-                    OPERATIONS: 16, // +4
+                    OPERATIONS: 17, // +5
                     RND: 0,
                     TRAIN: 0,
                     IDLE: 0,
