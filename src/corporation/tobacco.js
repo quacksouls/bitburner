@@ -113,6 +113,22 @@ async function hire(ns, n) {
 }
 
 /**
+ * The product cycle.  This includes hiring, development, and selling.
+ *
+ * @param ns The Netscript API.
+ * @param n A string representing the product round.  If it is the product in
+ *     round 1, pass in the word "one", and so on.
+ */
+async function product_cycle(ns, n) {
+    log(ns, `Round ${to_number(n)} of product development`);
+    await hire(ns, n);
+    create_product(ns, n);
+    await upgrade(ns, n);
+    await finishing_product(ns, n);
+    sell_product(ns, n);
+}
+
+/**
  * Sell a product we have developed in our Tobacco division.
  *
  * @param ns The Netscript API.
@@ -223,9 +239,5 @@ export async function main(ns) {
     const new_office = await expand_city(ns, div);
     smart_supply(ns);
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
-    await hire(ns, "one");
-    create_product(ns, "one");
-    await upgrade(ns, "one");
-    await finishing_product(ns, "one");
-    sell_product(ns, "one");
+    await product_cycle(ns, "one");
 }
