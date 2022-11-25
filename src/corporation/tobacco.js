@@ -240,4 +240,6 @@ export async function main(ns) {
     smart_supply(ns);
     log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     await product_cycle(ns, "one");
+    await product_cycle(ns, "two");
+    await product_cycle(ns, "three");
 }
