@@ -922,20 +922,20 @@ export const tobacco = {
                 "Project Insight": 10,
             },
             two: {
-                DreamSense: 30, // +10
-                FocusWires: 30, // +10
-                "Neural Accelerators": 30, // +10
-                "Speech Processor Implants": 30, // +10
-                "Nuoptimal Nootropic Injector Implants": 30, // +10
-                "Project Insight": 20, // +10
+                DreamSense: 25, // +5
+                FocusWires: 25, // +5
+                "Neural Accelerators": 25, // +5
+                "Speech Processor Implants": 25, // +5
+                "Nuoptimal Nootropic Injector Implants": 25, // +5
+                "Project Insight": 15, // +5
             },
             three: {
-                DreamSense: 40, // +10
-                FocusWires: 40, // +10
-                "Neural Accelerators": 40, // +10
-                "Speech Processor Implants": 40, // +10
-                "Nuoptimal Nootropic Injector Implants": 40, // +10
-                "Project Insight": 30, // +10
+                DreamSense: 30, // +5
+                FocusWires: 30, // +5
+                "Neural Accelerators": 30, // +5
+                "Speech Processor Implants": 30, // +5
+                "Nuoptimal Nootropic Injector Implants": 30, // +5
+                "Project Insight": 20, // +5
             },
         },
     },
