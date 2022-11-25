@@ -173,6 +173,7 @@ async function upgrade(ns, n) {
         "Speech Processor Implants",
         "Nuoptimal Nootropic Injector Implants",
         "Project Insight",
+        "Wilson Analytics",
     ];
     log(ns, `Round ${to_number(n)} of upgrades: ${upg.join(", ")}`);
     const dream_lvl = tobacco.upgrade.round[n].DreamSense;
@@ -182,6 +183,7 @@ async function upgrade(ns, n) {
     // eslint-disable-next-line max-len
     const injector_lvl = tobacco.upgrade.round[n]["Nuoptimal Nootropic Injector Implants"];
     const insight_lvl = tobacco.upgrade.round[n]["Project Insight"];
+    const analytic_lvl = tobacco.upgrade.round[n]["Wilson Analytics"];
     const org = new Corporation(ns);
     for (;;) {
         // Have we levelled up enough?
@@ -192,6 +194,7 @@ async function upgrade(ns, n) {
             && org.level(corp.upgrade.SPEECH) >= speech_lvl
             && org.level(corp.upgrade.INJECTOR) >= injector_lvl
             && org.level(corp.upgrade.INSIGHT) >= insight_lvl
+            && org.level(corp.upgrade.ANALYTIC) >= analytic_lvl
         ) {
             break;
         }
@@ -213,6 +216,9 @@ async function upgrade(ns, n) {
         }
         if (org.level(corp.upgrade.INSIGHT) < insight_lvl) {
             org.level_upgrade(corp.upgrade.INSIGHT);
+        }
+        if (org.level(corp.upgrade.ANALYTIC) < analytic_lvl) {
+            org.level_upgrade(corp.upgrade.ANALYTIC);
         }
         await ns.sleep(wait_t.SECOND);
     }

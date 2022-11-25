@@ -920,6 +920,7 @@ export const tobacco = {
                 "Speech Processor Implants": 20,
                 "Nuoptimal Nootropic Injector Implants": 20,
                 "Project Insight": 10,
+                "Wilson Analytics": 0,
             },
             two: {
                 DreamSense: 25, // +5
@@ -928,6 +929,7 @@ export const tobacco = {
                 "Speech Processor Implants": 25, // +5
                 "Nuoptimal Nootropic Injector Implants": 25, // +5
                 "Project Insight": 15, // +5
+                "Wilson Analytics": 0, // +0
             },
             three: {
                 DreamSense: 30, // +5
@@ -936,6 +938,7 @@ export const tobacco = {
                 "Speech Processor Implants": 30, // +5
                 "Nuoptimal Nootropic Injector Implants": 30, // +5
                 "Project Insight": 20, // +5
+                "Wilson Analytics": 10, // +10
             },
         },
     },
