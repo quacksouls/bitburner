@@ -21,6 +21,7 @@ import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
     expand_city,
+    hire_advert,
     new_hire,
     smart_supply,
     to_number,
@@ -250,4 +251,5 @@ export async function main(ns) {
     await product_cycle(ns, "one");
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
+    await hire_advert(ns, div);
 }
