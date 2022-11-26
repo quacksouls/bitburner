@@ -20,7 +20,11 @@ import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { expand_city, smart_supply } from "/lib/corporation/util.js";
+import {
+    expand_city,
+    hire_advert,
+    smart_supply,
+} from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { exec } from "/lib/util.js";
@@ -40,16 +44,6 @@ async function create_corp(ns) {
         await ns.sleep(wait_t.DEFAULT);
     }
     log(ns, "Create and manage a corporation");
-}
-
-/**
- * Hire AdVert.inc to advertise for our company.
- *
- * @param ns The Netscript API.
- */
-function hire_advert(ns) {
-    const org = new Corporation(ns);
-    org.hire_advert(corp.industry.AGRI);
 }
 
 /**
@@ -156,7 +150,7 @@ async function stage_one(ns) {
     cities.all.forEach((ct) => org.warehouse_init_upgrade(div, ct));
     smart_supply(ns);
     initial_hire(ns);
-    hire_advert(ns);
+    await hire_advert(ns, div);
     initial_material_sell(ns);
     await initial_level_upgrade(ns);
     await initial_material_buy(ns);

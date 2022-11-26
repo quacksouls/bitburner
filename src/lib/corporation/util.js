@@ -45,6 +45,19 @@ export async function expand_city(ns, div) {
 }
 
 /**
+ * Hire AdVert.inc to advertise for a division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ */
+export async function hire_advert(ns, div) {
+    const org = new Corporation(ns);
+    while (!org.hire_advert(div)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Hire an employee for an office.  We want to hire an employee to fill a
  * particular role.
  *
