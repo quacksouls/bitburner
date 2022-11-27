@@ -94,7 +94,7 @@ the script.
 Why would you want to waste money to buy a server to do what can normally be
 done by means of a world server? An answer to this question can be summarized
 as: RAM. The servers you find in the game world usually have limited RAM. Some
-world servers have 0GB RAM; you cannot run scripts on that server. The maximum
+world servers have 0GB RAM; you cannot run scripts on those servers. The maximum
 amount of RAM a world server can have is $2^{11} = 2,048$ GB. Contrast that with
 the maximum of $2^{20} = 1,048,576$ GB (or approximately 1.049PB) of RAM a
 purchased server can have. A purchased server allows you to run your hack script
