@@ -73,8 +73,11 @@ game. Another option is to run the script on a different world server.
 
 ## Hack `n00dles`
 
-It is time to role-play as a botnet master. Let's find out which servers you can
-use to hack a target. At the Terminal, run the command
+It is time to role-play as a botnet master. Your objective is to pool the
+resources of as many world servers as possible to hack a common target. It is
+generally more effective to let a bunch of servers hack one common server, than
+to let each server hack a different target. Let's find out which servers you can
+use. At the Terminal, run the command
 
 ```sh
 $ scan-analyze 2
