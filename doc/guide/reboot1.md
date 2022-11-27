@@ -6,6 +6,8 @@ Augmentations installed so far. All scripts you have saved on your home server
 can still be found there. It is time to start again, but this time with slightly
 better stat multipliers.
 
+## Reboot income and Hack farming
+
 First things first. Let's restart your streams of passive income as per the
 section [Starting out](start.md). Use the starting amount of $1k to purchase a
 Hacknet node and let it generate passive income. While the Hacknet node is
@@ -26,6 +28,8 @@ redirect the compromised servers to hack another common target such as
 target a low-level server as a means of increasing your Hack stat and generate
 passive income. As your stat multipliers are still rather low, you might find it
 more profitable to target `n00dles`, rather than `foodnstuff` or `joesguns`.
+
+## Join Sector-12
 
 Third, let's join another faction. You have already purchased and installed all
 Augmentations from CyberSec. There is no need to join CyberSec again. You could
