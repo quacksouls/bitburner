@@ -60,5 +60,43 @@ The `CashRoot Starter Kit` is useful because after a soft reset the Augmentation
 would grant you $1m and the program `BruteSSH.exe`. It is worth waiting to
 unlock and buy `CashRoot Starter Kit` from Sector-12.
 
+## Purchased servers
+
+You have been using servers found on the network of the game world to hack
+servers on the same network. Now that you have a source of income, you can
+purchase new servers and run your scripts on those purchased servers to hack
+servers in the game world. While you are waiting to unlock all Augmentations
+from Sector-12, your goal for now should be to automate these tasks:
+
+1. Purchase as many servers as possible. You can purchase a maximum of 25
+   servers.
+1. Copy your script `hack.js` over to each purchased server. Then use the
+   purchased server to hack a common target.
+1. Your deploy script must ensure that any server you want to target is already
+   compromised. In particular, the deploy script must ensure the following:
+    - You have the Hack stat required by the target server.
+    - Open as many ports as required by the target server.
+    - Run `NUKE.exe` against the target to gain root access.
+    - Copy `hack.js` over to a purchased server.
+    - Run the script on the purchased server and direct it to hack the target.
+      Use as many threads as the RAM of the purchased server allows.
+
+Keep your deploy script separate from the `hack.js` script. You want your deploy
+script to handle all the logic necessary to compromise a target server.
+Furthermore, your deploy script should figure out how many threads can be used
+to run `hack.js` on a purchased server. Meanwhile your script `hack.js` should
+contain the bare minimum code required to hack, grow, or weaken a target server.
+The lower is the RAM required by `hack.js`, the more threads you can use to run
+the script.
+
+Why would you want to waste money to buy a server to do what can normally be
+done by means of a world server? An answer to this question can be summarized
+as: RAM. The servers you find in the game world usually have limited RAM. Some
+world servers have 0GB RAM; you cannot run scripts on that server. The maximum
+amount of RAM a world server can have is $2^{11} = 2,048$ GB. Contrast that with
+the maximum of $2^{20} = 1,048,576$ GB (or approximately 1.049PB) of RAM a
+purchased server can have. A purchased server allows you to run your hack script
+using an order of magnitude or more threads than any world server.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](program.md "Programs and factions")]
