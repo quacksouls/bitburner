@@ -19,13 +19,13 @@ Second, follow the section [First script](script.md). Deploy your hack script to
 the following servers: `n00dles`, `foodnstuff`, `sigma-cosmetics`, `joesguns`,
 and any other servers to which you can gain root access. You might need to
 commit crimes in The Slums to raise enough money to purchase the TOR router and
-purchase various port opener programs via the dark web. All of these compromised
-servers can be directed to hack `n00dles`. If you so choose, redirect the
-compromised servers to hack another common target such as `foodnstuff` or
-`joesguns`. Your objective is to use a bunch of world servers to target a
-low-level server as a means of increasing your Hack stat and generate passive
-income. As your stat multipliers are still rather low, you might find it more
-profitable to target `n00dles`, rather than `foodnstuff` or `joesguns`.
+purchase various port opener programs via the dark web. All of the above
+compromised servers can be directed to hack `n00dles`. If you so choose,
+redirect the compromised servers to hack another common target such as
+`foodnstuff` or `joesguns`. Your objective is to use a bunch of world servers to
+target a low-level server as a means of increasing your Hack stat and generate
+passive income. As your stat multipliers are still rather low, you might find it
+more profitable to target `n00dles`, rather than `foodnstuff` or `joesguns`.
 
 Third, let's join another faction. You have already purchased and installed all
 Augmentations from CyberSec. There is no need to join CyberSec again. You could
