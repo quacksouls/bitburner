@@ -53,7 +53,10 @@ export async function main(ns) {
 }
 ```
 
-Save the above code in a script called `hack.js`. To do so, click on the
+![Terminal](image/terminal.png "Terminal")
+
+Save the above code in a script called `hack.js`. As shown in the above image,
+click on the
 [Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 tab and type
 
