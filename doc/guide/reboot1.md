@@ -62,9 +62,11 @@ unlock and buy `CashRoot Starter Kit` from Sector-12.
 
 ## Purchased servers
 
-You have been using servers found on the network of the game world to hack
-servers on the same network. Now that you have a source of income, you can
-purchase new servers and run your scripts on those purchased servers to hack
+Purchased servers are like a boost to your role-play as a botnet master. You buy
+powerful servers and pool their resources to hack a common target. You have been
+using servers found on the network of the game world to hack servers on the same
+network. Now that you have various sources of income, you can purchase new
+servers and run your scripts on those purchased servers to hack one or more
 servers in the game world. While you are waiting to unlock all Augmentations
 from Sector-12, your goal for now should be to automate these tasks:
 
