@@ -150,7 +150,8 @@ from Sector-12, your goal for now should be to automate these tasks:
 1. Copy your script `hack.js` over to each purchased server. Then use the
    purchased server to hack a common target.
 1. Your deploy script must ensure that any server you want to target is already
-   compromised. In particular, the deploy script must ensure the following:
+   compromised. (The computer worm you wrote earlier is useful for compromising
+   world servers.) In particular, the deploy script must ensure the following:
     - You have the Hack stat required by the target server.
     - Open as many ports as required by the target server.
     - Run `NUKE.exe` against the target to gain root access.
