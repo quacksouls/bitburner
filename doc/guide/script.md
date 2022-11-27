@@ -73,8 +73,8 @@ game. Another option is to run the script on a different world server.
 
 ## Hack `n00dles`
 
-Let's find out which servers you can use to hack a target. At the Terminal, run
-the command
+It is time to role-play as a botnet master. Let's find out which servers you can
+use to hack a target. At the Terminal, run the command
 
 ```sh
 $ scan-analyze 2
