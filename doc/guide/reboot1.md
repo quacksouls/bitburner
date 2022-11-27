@@ -12,8 +12,8 @@ Hacknet node and let it generate passive income. While the Hacknet node is
 running in the background, you need to upgrade your Hack stat. The simplest way
 to do so is to take the course `Study Computer Science (free)` at Rothman
 University, stopping when you have at least 10 Hack. You also need to work at a
-company to supplement your passive income. Again apply at and work for
-FoodNStuff.
+company to supplement your passive income. Again, apply at and work for
+FoodNStuff (or Joe's Guns if you want).
 
 Second, follow the section [First script](script.md). Deploy your hack script to
 the following servers: `n00dles`, `foodnstuff`, `sigma-cosmetics`, `joesguns`,
