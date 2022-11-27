@@ -60,6 +60,81 @@ The `CashRoot Starter Kit` is useful because after a soft reset the Augmentation
 would grant you $1m and the program `BruteSSH.exe`. It is worth waiting to
 unlock and buy `CashRoot Starter Kit` from Sector-12.
 
+## Your first worm
+
+While waiting to unlock all Augmentations from Sector-12, set yourself the task
+of writing a script that scans all servers in the game world. When visiting a
+server, your script should automate the following tasks:
+
+1. _Have the necessary Hack stat._ Determine whether you have the minimum Hack
+   stat required by the server.
+1. _Open all ports._ Determine whether you have all programs necessary to open
+   all ports on the server. In case you have the necessary programs, use them to
+   open all ports on the server. You want access to the TOR router in order to
+   purchase port opener programs via the dark web. Your script might need to buy
+   a port opener program whenever you have sufficient funds.
+1. _Gain root access._ If you have the minimum Hack stat and have opened all
+   ports on the server, nuke the server to gain root access to it.
+1. _Ignore special servers._ Various servers in the game world are special. For
+   example, you might want to ignore purchased servers because these are servers
+   you have bought and already have root access. See below for detail on
+   purchased servers.
+
+Essentially, your objective is to create a computer worm that scans for world
+servers and attempts to gain root access to those servers. Two basic algorithms
+for scanning a network are
+[breadth-first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search)
+and
+[depth-first search (DFS)](https://en.wikipedia.org/wiki/Depth-first_search).
+The fundamental idea of BFS is to visit all neighbours of a server, then proceed
+to visit the neighbours of the neighbours. The queue data structure is commonly
+used in an implementation of BFS. Here is a description of the basic BFS
+algorithm, written as pseudocode:
+
+```js
+// Input: The starting node, called root. Start your scanning from this node.
+// Output: Array of all nodes of a network. Each node is reachable from root.
+
+1.  q := empty array
+2.  visit := empty set
+3.  add root to visit
+4.  add root to end of q // enqueue
+5.  while q is not empty
+6.      u := first element of q // dequeue
+7.      remove u from q
+8.      for each neighbour v of u
+9.          if v is not visited
+10.             add v to visit
+11.             add v to end of q // enqueue
+12. return elements of visit as an array
+```
+
+On the other hand, the idea of DFS is to follow a chain of nodes as deep as
+possible. When you cannot go any further, you backtrack and use the same
+principle to visit other chains of nodes. The stack data structure is commonly
+used in an implementation of DFS. The following is a description of the basic
+DFS algorithm, written as pseudocode:
+
+```js
+// Input: The starting node, called root. Start your scanning from this node.
+// Output: Array of all nodes of a network. Each node is reachable from root.
+
+1.  s := empty array
+2.  visit := empty set
+3.  add root to visit
+4.  add root to end of s // push root onto s
+5.  while s is not empty
+6.      u := last element of s // pop s
+7.      remove u from s
+8.      if u is not visited
+9.          add u to visit
+10.         for each neighbour v of u
+11.             add v to end of s // push v onto s
+12. return elements of visit as an array
+```
+
+Adapt BFS or DFS (or both) to create your computer worm.
+
 ## Purchased servers
 
 Purchased servers are like a boost to your role-play as a botnet master. You buy
