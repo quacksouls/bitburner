@@ -38,7 +38,6 @@ export async function main(ns) {
     // before doing anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
     // Continuously hack/grow/weaken the target server.
-    const time = 1; // One millisecond.
     for (;;) {
         const money = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
@@ -48,7 +47,6 @@ export async function main(ns) {
         } else {
             await ns.hack(target);
         }
-        await ns.sleep(time);
     }
 }
 ```
