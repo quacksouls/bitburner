@@ -106,6 +106,10 @@ export const corp = {
         WATER: "Water",
     },
     /**
+     * The name of our corporation.
+     */
+    NAME: "Quacken Industries",
+    /**
      * The positions to assign to employees.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts
@@ -118,10 +122,6 @@ export const corp = {
         "Research & Development",
         "Training",
     ],
-    /**
-     * The name of our corporation.
-     */
-    NAME: "Quacken Industries",
     /**
      * The round of investment.
      */
