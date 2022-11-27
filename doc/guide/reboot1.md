@@ -36,7 +36,7 @@ Augmentations from CyberSec. There is no need to join CyberSec again. You could
 join CyberSec again if you want to level up the `NeuroFlux Governor`
 Augmentation or perform hacking contracts to raise your Hack stat. However,
 other factions also allow you to level up `NeuroFlux Governor`. This time
-around, explore what the faction Sector-12 has on offer. The requirements to
+around, explore what the faction Sector-12 has to offer. The requirements to
 receive an invitation from Sector-12 are:
 
 1. Be in the city Sector-12. Do not travel to a different city.
