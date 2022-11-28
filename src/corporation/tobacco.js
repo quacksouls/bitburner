@@ -78,6 +78,27 @@ function create_product(ns, n) {
 }
 
 /**
+ * An enhanced product cycle.  In this cycle, we discontinue the product of
+ * lowest rating and develop a new product of higher rating.
+ *
+ * @param ns The Netscript API.
+ * @param n A string representing the product round.  If it is the product in
+ *     round 1, pass in the word "one", and so on.
+ */
+async function enhanced_product_cycle(ns, n) {
+    // We have 3 products developed.  At the moment, the maximum number of
+    // products we can have is 3.  To develop another product, we discontinue
+    // the product of lowest rating.
+    const org = new Corporation(ns);
+    const div = corp.industry.TOBACCO;
+    if (org.all_products(div).length === 3) {
+        const name = discontinue_product(ns, div);
+        log(ns, `${div}: discontinued a product: ${name}`);
+    }
+    await product_cycle(ns, n);
+}
+
+/**
  * Wait for a product to be 100% complete.
  *
  * @param ns The Netscript API.
@@ -293,12 +314,5 @@ export async function main(ns) {
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
     await research(ns);
-    // We have 3 products developed.  At the moment, the maximum number of
-    // products we can have is 3.  To develop another product, we discontinue
-    // the product of lowest rating.
-    if (org.all_products(div).length === 3) {
-        const name = discontinue_product(ns, div);
-        log(ns, `${div}: discontinued a product: ${name}`);
-    }
-    await product_cycle(ns, "four");
+    await enhanced_product_cycle(ns, "four");
 }
