@@ -793,9 +793,9 @@ export const tobacco = {
                 },
                 /**
                  * Do not hire any employees during stage 4, for this city as
-                 * well as other cities.  We want the number of employees at
-                 * cities other than the developer city to be at least 60
-                 * behind.
+                 * well as other cities.  From round 4 onward, we want the
+                 * number of employees at cities other than the developer city
+                 * to be at least 60 behind.
                  */
                 four: {
                     BUSINESS: 3, // +0
