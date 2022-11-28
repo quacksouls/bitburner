@@ -133,7 +133,13 @@ DFS algorithm, written as pseudocode:
 12. return elements of visit as an array
 ```
 
-Adapt BFS or DFS (or both) to create your computer worm. Here is an
+Adapt BFS or DFS (or both) to create your computer worm. Keep your worm script
+separate from the `hack.js` script. You want your worm script to: (a) handle all
+the logic necessary to compromise a target server; and (b) figure out how many
+threads can be used to run `hack.js` on a compromised server. Meanwhile your
+script `hack.js` should contain the bare minimum code required to hack, grow, or
+weaken a target server. The lower is the RAM required by `hack.js`, the more
+threads you can use to run the script. Here is an
 [example worm](script/worm.js), which depends on the hack script from the
 section [First script](script.md).
 
