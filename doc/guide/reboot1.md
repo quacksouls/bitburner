@@ -155,9 +155,21 @@ servers in the game world. While you are waiting to unlock all Augmentations
 from Sector-12, your goal for now should be to automate these tasks:
 
 1. Purchase as many servers as possible. You can purchase a maximum of 25
-   servers.
-1. Copy your script `hack.js` over to each purchased server. Then use the
-   purchased server to hack a common target.
+   servers. Let your worm script generate passive income in the background,
+   while you commit crimes in The Slums. Remember to upgrade your farm of
+   Hacknet nodes once in a while. Upgrading the Level of a Hacknet node is
+   generally less expensive than upgrading the node's RAM or Cores.
+1. Copy your script `hack.js` over to each purchased server. Pool the resources
+   of your purchased servers to hack a common target, preferably a low-level
+   server that requires somewhere between 10 and 50 Hack stat. The server
+   `joesguns` is a good first choice. As your purchased servers have more RAM,
+   you might want all your purchased servers to target one of these servers:
+   `nectar-net`, `hong-fang-tea`, `harakiri-sushi`, `neo-net`. When each of your
+   purchased servers has RAM in the range of terabyte or even petabyte, you
+   might want all purchased servers to target a higher level server. Another
+   option is to let each purchased server target a different world server, but
+   only do so when each purchased server has RAM in the realm of hundreds of
+   terabytes or beyond.
 1. Your deploy script must ensure that any server you want to target is already
    compromised. (The computer worm you wrote earlier is useful for compromising
    world servers.) In particular, the deploy script must ensure the following:
