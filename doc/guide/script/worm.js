@@ -102,7 +102,7 @@ function has_root_access(ns, host) {
 }
 
 /**
- * Scan all servers in the game world.
+ * Scan all servers in the game world.  Use breadth-first search.
  *
  * @param ns The Netscript API.
  * @return An array of hostnames.
