@@ -237,8 +237,7 @@ export class Corporation {
      * @param name A string representing the name of a product to discontinue.
      */
     discontinue_product(div, name) {
-        assert(this.has_division(div));
-        assert(this.has_product(name));
+        assert(this.has_product(div, name));
         this.#ns[corp.API].discontinueProduct(div, name);
     }
 
