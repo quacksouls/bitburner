@@ -769,6 +769,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                five: {
+                    BUSINESS: 19, // +2
+                    ENGINEER: 30, // +5
+                    MANAGEMENT: 24, // +5
+                    OPERATIONS: 29, // +5
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -817,6 +826,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                five: {
+                    BUSINESS: 4, // +1
+                    ENGINEER: 4, // +1
+                    MANAGEMENT: 4, // +1
+                    OPERATIONS: 4, // +1
+                    RND: 18, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -856,6 +874,15 @@ export const tobacco = {
                     MANAGEMENT: 3, // +0
                     OPERATIONS: 3, // +0
                     RND: 13, // +0
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                five: {
+                    BUSINESS: 4, // +1
+                    ENGINEER: 4, // +1
+                    MANAGEMENT: 4, // +1
+                    OPERATIONS: 4, // +1
+                    RND: 18, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -901,6 +928,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                five: {
+                    BUSINESS: 4, // +1
+                    ENGINEER: 4, // +1
+                    MANAGEMENT: 4, // +1
+                    OPERATIONS: 4, // +1
+                    RND: 18, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -940,6 +976,15 @@ export const tobacco = {
                     MANAGEMENT: 3, // +0
                     OPERATIONS: 3, // +0
                     RND: 13, // +0
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                five: {
+                    BUSINESS: 4, // +1
+                    ENGINEER: 4, // +1
+                    MANAGEMENT: 4, // +1
+                    OPERATIONS: 4, // +1
+                    RND: 18, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -985,6 +1030,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                five: {
+                    BUSINESS: 4, // +1
+                    ENGINEER: 4, // +1
+                    MANAGEMENT: 4, // +1
+                    OPERATIONS: 4, // +1
+                    RND: 18, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1017,6 +1071,15 @@ export const tobacco = {
             NAME: "Blunt",
             INVEST_DESIGN: 8e9, // Double the budget of previous product.
             INVEST_MARKETING: 8e9,
+        },
+        five: {
+            /**
+             * A long, thin cigar.  Larger than a cigarette, but thinner than a
+             * cigar.
+             */
+            NAME: "Cigarillo",
+            INVEST_DESIGN: 16e9, // Double the budget of previous product.
+            INVEST_MARKETING: 16e9,
         },
     },
     /**
@@ -1090,6 +1153,15 @@ export const tobacco = {
                 "Nuoptimal Nootropic Injector Implants": 31, // +1
                 "Project Insight": 21, // +1
                 "Wilson Analytics": 11, // +1
+            },
+            five: {
+                DreamSense: 32, // +1
+                FocusWires: 32, // +1
+                "Neural Accelerators": 32, // +1
+                "Speech Processor Implants": 32, // +1
+                "Nuoptimal Nootropic Injector Implants": 32, // +1
+                "Project Insight": 22, // +1
+                "Wilson Analytics": 11, // +0
             },
         },
     },
