@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, tobacco } from "/lib/constant/corp.js";
+import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
@@ -86,12 +86,12 @@ function create_product(ns, n) {
  *     round 1, pass in the word "one", and so on.
  */
 async function enhanced_product_cycle(ns, n) {
-    // We have 3 products developed.  At the moment, the maximum number of
-    // products we can have is 3.  To develop another product, we discontinue
-    // the product of lowest rating.
+    // If we have developed the maximum number of products, then we must
+    // discontinue a product to make room for a new product (possibly of higher
+    // rating).
     const org = new Corporation(ns);
     const div = corp.industry.TOBACCO;
-    if (org.all_products(div).length === 3) {
+    if (org.all_products(div).length === corp_t.product.INIT_TAU) {
         const name = discontinue_product(ns, div);
         log(ns, `${div}: discontinued a product: ${name}`);
     }

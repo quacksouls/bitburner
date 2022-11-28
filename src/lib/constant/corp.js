@@ -286,6 +286,17 @@ export const corp_t = {
      */
     MAX_PROGRESS: 100,
     /**
+     * Miscellaneous thresholds related to products.
+     */
+    product: {
+        /**
+         * Initially, we can develop at most this number of products.  To
+         * develop another product, we must discontinue a product to make room
+         * for a new product.
+         */
+        INIT_TAU: 3,
+    },
+    /**
      * Various profit thresholds.  Each value is a rate per second.  We use
      * these thresholds to help us make various decisions related to the
      * direction of our corporation.
