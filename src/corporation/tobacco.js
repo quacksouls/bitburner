@@ -96,6 +96,7 @@ async function enhanced_product_cycle(ns, n) {
         log(ns, `${div}: discontinued a product: ${name}`);
     }
     await product_cycle(ns, n);
+    await org.vivacious_office();
 }
 
 /**
