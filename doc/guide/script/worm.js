@@ -16,7 +16,8 @@
  */
 
 /**
- * Gain root access to as many world servers as we can.
+ * Gain root access to as many world servers as we can.  Use each compromised
+ * server to hack a common target.
  *
  * @param ns The Netscript API.
  * @param script Our hacking script.  Assumed to be located on home server.
