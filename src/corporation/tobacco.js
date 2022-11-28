@@ -20,6 +20,7 @@ import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
+    discontinue_product,
     expand_city,
     hire_advert,
     new_hire,
@@ -149,6 +150,7 @@ async function product_cycle(ns, n) {
     create_product(ns, n);
     await upgrade(ns, n);
     await finishing_product(ns, n);
+    await hire_advert(ns, corp.industry.TOBACCO);
     sell_product(ns, n);
 }
 
@@ -290,6 +292,13 @@ export async function main(ns) {
     await product_cycle(ns, "one");
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
-    await hire_advert(ns, div);
     await research(ns);
+    // We have 3 products developed.  At the moment, the maximum number of
+    // products we can have is 3.  To develop another product, we discontinue
+    // the product of lowest rating.
+    if (org.all_products(div).length === 3) {
+        const name = discontinue_product(ns, div);
+        log(ns, `${div}: discontinued a product: ${name}`);
+    }
+    await product_cycle(ns, "four");
 }

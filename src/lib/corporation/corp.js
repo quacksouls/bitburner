@@ -57,6 +57,18 @@ export class Corporation {
     }
 
     /**
+     * All products manufactured by a particular division.
+     *
+     * @param div A string representing the name of a division.
+     * @return An array of product names, each product being made by the given
+     *     division.
+     */
+    all_products(div) {
+        assert(this.has_division(div));
+        return this.#ns[corp.API].getDivision(div).products;
+    }
+
+    /**
      * The average stats for all employees in an office.
      *
      * @param div A string representing the name of a division.
@@ -215,6 +227,19 @@ export class Corporation {
         assert(investd > 0);
         assert(investm > 0);
         this.#ns[corp.API].makeProduct(div, ct, name, investd, investm);
+    }
+
+    /**
+     * Discontinue a product.
+     *
+     * @param div A string representing the name of a division of our
+     *     corporation.
+     * @param name A string representing the name of a product to discontinue.
+     */
+    discontinue_product(div, name) {
+        assert(this.has_division(div));
+        assert(this.has_product(name));
+        this.#ns[corp.API].discontinueProduct(div, name);
     }
 
     /**
@@ -828,6 +853,31 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         return this.#ns[corp.API].getOffice(div, ct).size;
+    }
+
+    /**
+     * The rating of a given product.  The rating is a weighted score of various
+     * attributes of a product.  The following attributes are taken into account
+     * when calculating the rating of a product:
+     *
+     * (1) Quality
+     * (2) Performance
+     * (3) Durability
+     * (4) Reliability
+     * (5) Aesthetics
+     * (6) Features
+     *
+     * Information taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/Product.ts
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a product.
+     * @return The rating of the given product.
+     */
+    product_rating(div, name) {
+        assert(this.has_product(div, name));
+        return this.#ns[corp.API].getProduct(div, name).rat;
     }
 
     /**

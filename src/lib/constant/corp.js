@@ -744,6 +744,20 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                /**
+                 * From stage 4 onward, we want the number of employees at Aevum
+                 * to be at least 60 ahead of other cities, within the same
+                 * division.
+                 */
+                four: {
+                    BUSINESS: 17, // +4
+                    ENGINEER: 25, // +7
+                    MANAGEMENT: 19, // +7
+                    OPERATIONS: 24, // +7
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -774,6 +788,21 @@ export const tobacco = {
                     MANAGEMENT: 3, // +1
                     OPERATIONS: 3, // +1
                     RND: 13, // +4
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                /**
+                 * Do not hire any employees during stage 4, for this city as
+                 * well as other cities.  We want the number of employees at
+                 * cities other than the developer city to be at least 60
+                 * behind.
+                 */
+                four: {
+                    BUSINESS: 3, // +0
+                    ENGINEER: 3, // +0
+                    MANAGEMENT: 3, // +0
+                    OPERATIONS: 3, // +0
+                    RND: 13, // +0
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -810,6 +839,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                four: {
+                    BUSINESS: 3, // +0
+                    ENGINEER: 3, // +0
+                    MANAGEMENT: 3, // +0
+                    OPERATIONS: 3, // +0
+                    RND: 13, // +0
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -840,6 +878,15 @@ export const tobacco = {
                     MANAGEMENT: 3, // +1
                     OPERATIONS: 3, // +1
                     RND: 13, // +4
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                four: {
+                    BUSINESS: 3, // +0
+                    ENGINEER: 3, // +0
+                    MANAGEMENT: 3, // +0
+                    OPERATIONS: 3, // +0
+                    RND: 13, // +0
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -876,6 +923,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                four: {
+                    BUSINESS: 3, // +0
+                    ENGINEER: 3, // +0
+                    MANAGEMENT: 3, // +0
+                    OPERATIONS: 3, // +0
+                    RND: 13, // +0
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -909,6 +965,15 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                four: {
+                    BUSINESS: 3, // +0
+                    ENGINEER: 3, // +0
+                    MANAGEMENT: 3, // +0
+                    OPERATIONS: 3, // +0
+                    RND: 13, // +0
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -933,6 +998,14 @@ export const tobacco = {
             NAME: "RYO",
             INVEST_DESIGN: 4e9, // Double the budget of previous product.
             INVEST_MARKETING: 4e9,
+        },
+        four: {
+            /**
+             * Blunt, a stubby version of cigar.
+             */
+            NAME: "Blunt",
+            INVEST_DESIGN: 8e9, // Double the budget of previous product.
+            INVEST_MARKETING: 8e9,
         },
     },
     /**
@@ -997,6 +1070,15 @@ export const tobacco = {
                 "Nuoptimal Nootropic Injector Implants": 30, // +5
                 "Project Insight": 20, // +5
                 "Wilson Analytics": 10, // +10
+            },
+            four: {
+                DreamSense: 31, // +1
+                FocusWires: 31, // +1
+                "Neural Accelerators": 31, // +1
+                "Speech Processor Implants": 31, // +1
+                "Nuoptimal Nootropic Injector Implants": 31, // +1
+                "Project Insight": 21, // +1
+                "Wilson Analytics": 11, // +1
             },
         },
     },

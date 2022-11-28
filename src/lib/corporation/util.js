@@ -22,6 +22,32 @@ import { Corporation } from "/lib/corporation/corp.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Discontinue a product.  We choose the product of lowest rating and
+ * discontinue that product.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division of our corporation.
+ * @return The name of the discontinued product.
+ */
+export function discontinue_product(ns, div) {
+    // Determine the product that has the lowest rating.
+    const org = new Corporation(ns);
+    let name = "";
+    let min_rating = Infinity;
+    org.all_products(div).forEach((p) => {
+        const rating = org.product_rating(div, p);
+        if (min_rating > rating) {
+            min_rating = rating;
+            name = p;
+        }
+    });
+    // Discontinue the product that has the lowest rating.
+    assert(name !== "");
+    org.discontinue_product(div, name);
+    return name;
+}
+
+/**
  * Expand a division by opening offices in other cities.  After opening a new
  * division office, we also purchase a warehouse for that office.
  *
