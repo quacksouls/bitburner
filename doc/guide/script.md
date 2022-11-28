@@ -67,10 +67,12 @@ $ nano hack.js
 
 to open a text editor. Copy and paste the content of the above script to the
 text editor. Click `Save` or type `Ctrl+S`, then locate and click the `X` button
-to close the file. Type `ls` at the Terminal and you should see the script
-`hack.js` you just created. You can run the script on your home server, but this
-would take up the valuable small amount of RAM your home server has early in the
-game. Another option is to run the script on a different world server.
+to close the file. Type `ls` at the
+[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+and you should see the script `hack.js` you just created. You can run the script
+on your home server, but this would take up the valuable small amount of RAM
+your home server has early in the game. Another option is to run the script on a
+different world server.
 
 ## Hack `n00dles`
 
@@ -78,7 +80,9 @@ It is time to role-play as a botnet master. Your objective is to pool the
 resources of as many world servers as possible to hack a common target. It is
 generally more effective to let a bunch of servers hack one common server, than
 to let each server hack a different target. Let's find out which servers you can
-use. At the Terminal, run the command
+use. At the
+[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html),
+run the command
 
 ```sh
 $ scan-analyze 2
@@ -196,11 +200,12 @@ using 6 threads translates to multiplying the amount of money you steal by 6.
 Use the command
 [`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
 to copy `hack.js` over to the above servers and use the above number of threads
-to run the script on the respective servers. As shown in the Terminal session
-below, your hack script should target `n00dles`. Early in the game, you should
-concentrate on hacking one target server. The server `n00dles` is always a good
-choice to target to raise your Hack stat and earn some money. Later on, you
-might want target a different server.
+to run the script on the respective servers. As shown in the
+[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+session below, your hack script should target `n00dles`. Early in the game, you
+should concentrate on hacking one target server. The server `n00dles` is always
+a good choice to target to raise your Hack stat and earn some money. Later on,
+you might want target a different server.
 
 ```sh
 $ scp hack.js n00dles
@@ -243,7 +248,8 @@ threads as the server allows.
 ## Upgrade `home`
 
 Your `home` server can also be used to hack `n00dles`. As shown in the following
-Terminal session:
+[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+session:
 
 ```sh
 $ free
@@ -260,7 +266,9 @@ Alpha Enterprises, as shown in the image below, and click on the `T` icon to
 bring up the page of the company. You need approximately $46.146m to upgrade
 `home` to 128GB RAM, leaving you plenty of money to purchase the TOR router. The
 TOR router will come in handy later on when you need to purchase various
-programs to help you progress. For the moment, the following Terminal session:
+programs to help you progress. For the moment, the following
+[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+session:
 
 ```sh
 $ free
