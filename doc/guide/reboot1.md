@@ -71,8 +71,9 @@ server, your script should automate the following tasks:
 1. _Open all ports._ Determine whether you have all programs necessary to open
    all ports on the server. In case you have the necessary programs, use them to
    open all ports on the server. You want access to the TOR router in order to
-   purchase port opener programs via the dark web. Your script might need to buy
-   a port opener program whenever you have sufficient funds.
+   purchase port opener programs via the dark web. At the moment, you do not
+   have access to the API that allows you to buy the TOR router and purchase
+   programs. The latter two tasks must be done manually.
 1. _Gain root access._ If you have the minimum Hack stat and have opened all
    ports on the server, nuke the server to gain root access to it.
 1. _Ignore special servers._ Various servers in the game world are special. For
