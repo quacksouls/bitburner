@@ -48,7 +48,7 @@ async function install_backdoor_on_server(ns, fac) {
     assert(player.hacking_skill() >= server.hacking_skill());
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
-        await server.gain_root_access();
+        server.gain_root_access();
         await ns.sleep(wait_t.SECOND);
     }
     assert(server.has_root_access());

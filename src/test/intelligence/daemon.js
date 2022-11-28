@@ -37,7 +37,7 @@ async function destroy(ns) {
     }
     while (!server.has_root_access()) {
         await ns.sleep(wait_t.DEFAULT);
-        await server.gain_root_access();
+        server.gain_root_access();
     }
     assert(player.hacking_skill() >= server.hacking_skill());
     assert(server.has_root_access());

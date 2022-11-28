@@ -262,8 +262,8 @@ async function update(ns, ram) {
             const target_server = new Server(ns, s);
             target = target.filter((t) => t !== target_server.hostname());
             // Let the purchased server attack the chosen target.
-            assert(await target_server.gain_root_access());
-            assert(await server.deploy(target_server.hostname()));
+            assert(target_server.gain_root_access());
+            assert(server.deploy(target_server.hostname()));
             i++;
         }
         await ns.sleep(wait_t.DEFAULT);

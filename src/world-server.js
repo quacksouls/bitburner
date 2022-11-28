@@ -62,18 +62,18 @@ function compromised_servers(ns, script, server) {
  * @param server Use this server to hack a target.
  * @param target Hack this server.
  */
-async function hack_a_server(ns, server, target) {
+function hack_a_server(ns, server, target) {
     const serv = new Server(ns, server);
     const targ = new Server(ns, target);
     // Ensure we have root access on both servers.
     if (!serv.has_root_access()) {
-        await serv.gain_root_access();
+        serv.gain_root_access();
     }
     if (!targ.has_root_access()) {
-        await targ.gain_root_access();
+        targ.gain_root_access();
     }
     // Copy our hack script over to a server.  Use the server to hack a target.
-    assert(await serv.deploy(targ.hostname()));
+    assert(serv.deploy(targ.hostname()));
 }
 
 /**
@@ -86,7 +86,7 @@ async function hack_a_server(ns, server, target) {
  *     (1) reject := An array of servers we can't hack at the moment.
  *     (2) hacked := An array of servers that have been hacked.
  */
-async function hack_servers(ns, target) {
+function hack_servers(ns, target) {
     // Sanity check.
     assert(target.length > 0);
     // Determine the maximum number of ports we can open on a server.
@@ -125,7 +125,7 @@ async function hack_servers(ns, target) {
             continue;
         }
         // Use the server to hack itself.
-        await hack_a_server(ns, s, s);
+        hack_a_server(ns, s, s);
         hacked_server.push(s);
         log(ns, `Compromised server: ${s}`);
     }
@@ -141,7 +141,7 @@ async function hack_servers(ns, target) {
  *     The implication is that each server is not bankrupt, i.e. can hold money.
  * @return An array of servers we cannot redirect at the moment.
  */
-async function redirect_bankrupt_server(ns, candidate, hacked_server) {
+function redirect_bankrupt_server(ns, candidate, hacked_server) {
     // Sanity checks.
     assert(candidate.length > 0);
     assert(hacked_server.length > 0);
@@ -160,7 +160,7 @@ async function redirect_bankrupt_server(ns, candidate, hacked_server) {
                 assert(!target.is_bankrupt());
                 hserver = hserver.filter((hs) => hs !== target.hostname());
                 // Redirect the bankrupt server to hack the target server.
-                await hack_a_server(ns, s, target.hostname());
+                hack_a_server(ns, s, target.hostname());
                 log(ns, `Compromised server: ${s}`);
                 continue;
             }
@@ -253,13 +253,13 @@ async function update(ns) {
     // Continuously try to gain root access to servers in the game world and
     // let each server hack itself.  Exclude all purchased servers.
     while (server.length > 0) {
-        const [reject, hacked] = await hack_servers(ns, server);
+        const [reject, hacked] = hack_servers(ns, server);
         hacked_server = [...new Set(hacked_server.concat(hacked))];
         assert(hacked_server.length > 0);
         // Redirect a bankrupt server to hack another target.
         server = reject;
         if (reject.length > 0) {
-            server = await redirect_bankrupt_server(ns, server, hacked_server);
+            server = redirect_bankrupt_server(ns, server, hacked_server);
         }
         await ns.sleep(wait_t.DEFAULT);
     }

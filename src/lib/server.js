@@ -149,7 +149,7 @@ export class Server {
      *     example, there is no free RAM on the server or we do not have root
      *     access on either servers.
      */
-    async deploy(target) {
+    deploy(target) {
         assert(target.length > 0);
         const targ = this.#ns.getServer(target);
         // No root access on either servers.
@@ -174,7 +174,7 @@ export class Server {
         }
         // Copy our script over to this server.  Use the server to hack the
         // target.
-        await this.#ns.scp(this.#script, this.hostname(), this.#home);
+        this.#ns.scp(this.#script, this.hostname(), this.#home);
         this.#ns.exec(this.#script, this.hostname(), nthread, targ.hostname);
         return bool.SUCCESS;
     }
@@ -185,29 +185,29 @@ export class Server {
      * @return true if the player has root access to this server;
      *     false if root access cannot be obtained.
      */
-    async gain_root_access() {
+    gain_root_access() {
         // Do we already have root access to this server?
         if (this.has_root_access()) {
             return true;
         }
         // Try to open all required ports and nuke the server.
         try {
-            await this.#ns.brutessh(this.hostname());
+            this.#ns.brutessh(this.hostname());
         } catch {}
         try {
-            await this.#ns.ftpcrack(this.hostname());
+            this.#ns.ftpcrack(this.hostname());
         } catch {}
         try {
-            await this.#ns.httpworm(this.hostname());
+            this.#ns.httpworm(this.hostname());
         } catch {}
         try {
-            await this.#ns.relaysmtp(this.hostname());
+            this.#ns.relaysmtp(this.hostname());
         } catch {}
         try {
-            await this.#ns.sqlinject(this.hostname());
+            this.#ns.sqlinject(this.hostname());
         } catch {}
         try {
-            await this.#ns.nuke(this.hostname());
+            this.#ns.nuke(this.hostname());
             return true;
         } catch {
             assert(!this.has_root_access());

@@ -77,13 +77,13 @@ function home_num_threads(ns) {
  * @param t A string representing the name of the current target.
  * @return The hostname of the (possibly new) server currently being targeted.
  */
-async function update(ns, t) {
+function update(ns, t) {
     // Ensure we have root access on the chosen target.
     const target = best_target(ns);
     assert(target !== "");
     const serv = new Server(ns, target);
     if (!serv.has_root_access()) {
-        await serv.gain_root_access();
+        serv.gain_root_access();
     }
     // No new target.  Hack the current target if it is not already being
     // targeted.
@@ -125,7 +125,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Periodically search for a better target.  Suspend this script, and kill
     // the spawned script, if we need to share our home server with a faction.
-    let target = await update(ns, "");
+    let target = update(ns, "");
     for (;;) {
         // Do we need to suspend the script?
         if (ns.fileExists(server.SHARE, home)) {
@@ -136,7 +136,7 @@ export async function main(ns) {
             continue;
         }
         // Find a better target.
-        target = await update(ns, target);
+        target = update(ns, target);
         await ns.sleep(wait_t.DEFAULT);
     }
 }

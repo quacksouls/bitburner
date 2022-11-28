@@ -97,7 +97,7 @@ function low_end(ns) {
  * @return An array of newly nuked servers.  We gained root access to these
  *     servers during this update.
  */
-async function nuke_servers(ns) {
+function nuke_servers(ns) {
     // A list of servers that were successfully nuked during this update.
     const nuked = [];
     // Gain root access to as many new servers as possible on the network.
@@ -110,7 +110,7 @@ async function nuke_servers(ns) {
         // Gain root access to the server.
         const serv = new Server(ns, s);
         assert(player.hacking_skill() >= serv.hacking_skill());
-        await serv.gain_root_access();
+        serv.gain_root_access();
         nuked.push(s);
         log(ns, `Compromised server: ${s}`);
     }
@@ -160,13 +160,13 @@ function skip_server(ns, s, script) {
  *
  * @param ns The Netscript API.
  */
-async function update(ns) {
+function update(ns) {
     // A list of servers that have been successfully nuked.
     const player = new Player(ns);
     const compromised = compromised_servers(ns, player.script());
     // Gain root access to new servers in the game world.  Exclude all purchased
     // servers.
-    const new_nuked = await nuke_servers(ns);
+    const new_nuked = nuke_servers(ns);
     if (new_nuked.length < 1) {
         return;
     }
@@ -179,7 +179,7 @@ async function update(ns) {
     for (const s of compromised.concat(new_nuked)) {
         const serv = new Server(ns, s);
         const i = n % lowend.length;
-        await serv.deploy(lowend[i]);
+        serv.deploy(lowend[i]);
         log(ns, `Redirect ${s} to hack low-end server: ${lowend[i]}`);
         n++;
     }
@@ -206,7 +206,7 @@ export async function main(ns) {
     // Continuously look for world servers to hack low-end servers.
     log(ns, "Hacking low-end servers");
     for (;;) {
-        await update(ns);
+        update(ns);
         await ns.sleep(wait_t.MINUTE);
     }
 }
