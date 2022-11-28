@@ -112,6 +112,26 @@ export class Corporation {
     }
 
     /**
+     * Purchase a research for a division.  The cost is in research points, not
+     * the corporation's funds.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a research to buy.
+     * @return True if the purchase was successful or we already have the
+     *     research; false otherwise.
+     */
+    buy_research(div, name) {
+        if (this.has_research(div, name)) {
+            return bool.HAS;
+        }
+        if (this.division_research(div) < this.research_cost(div, name)) {
+            return bool.FAILURE;
+        }
+        this.#ns[corp.API].research(div, name);
+        return this.has_research(div, name);
+    }
+
+    /**
      * Purchase an unlock upgrade.  This type of upgrade is a one-time
      * unlockable.  It applies to the entire corporation and cannot be levelled.
      *
@@ -195,6 +215,19 @@ export class Corporation {
         assert(investd > 0);
         assert(investm > 0);
         this.#ns[corp.API].makeProduct(div, ct, name, investd, investm);
+    }
+
+    /**
+     * The amount of scientific research accumulated within a division.
+     * Research points are required to purchase research.
+     *
+     * @param div A string representing the name of a division of our
+     *     corporation.
+     * @return The amount of scientific research of the given division.
+     */
+    division_research(div) {
+        assert(this.has_division(div));
+        return this.#ns[corp.API].getDivision(div).research;
     }
 
     /**
@@ -332,6 +365,19 @@ export class Corporation {
     }
 
     /**
+     * Whether we have a particular research unlocked.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a research.
+     * @return True if we already have the given research; false otherwise.
+     */
+    has_research(div, name) {
+        assert(this.has_division(div));
+        assert(this.is_valid_research(name));
+        return this.#ns[corp.API].hasResearched(div, name);
+    }
+
+    /**
      * Whether we have an unlockable upgrade.
      *
      * @param upg A string representing the name of an unlock upgrade.
@@ -447,6 +493,20 @@ export class Corporation {
         assert(name !== "");
         const material = new Set(Object.values(corp.material));
         return material.has(name);
+    }
+
+    /**
+     * Whether the given name represents a valid research.
+     *
+     * @param name A string representing the name of a research.
+     * @return True if the given name represents a valid research;
+     *     false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_research(name) {
+        assert(name !== "");
+        const research = new Set(Object.values(corp.research));
+        return research.has(name);
     }
 
     /**
@@ -800,6 +860,20 @@ export class Corporation {
     profit() {
         const { expenses, revenue } = this.#ns[corp.API].getCorporation();
         return revenue - expenses;
+    }
+
+    /**
+     * The cost in research points of a particular research.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a research to buy.
+     * @return The amount of research points required to unlock the given
+     *     research.
+     */
+    research_cost(div, name) {
+        assert(this.has_division(div));
+        assert(this.is_valid_research(name));
+        return this.#ns[corp.API].getResearchCost(div, name);
     }
 
     /**

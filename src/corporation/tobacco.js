@@ -31,6 +31,29 @@ import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Purchase a particular research.
+ *
+ * @param ns The Netscript API.
+ * @param name A string representing the name of a research we want to buy.
+ */
+async function buy_research(ns, name) {
+    const int = (x) => Math.floor(x);
+    const org = new Corporation(ns);
+    const div = corp.industry.TOBACCO;
+    if (org.has_research(div, name)) {
+        return;
+    }
+    log(ns, `${div}: buying research: ${name}`);
+    const n = tobacco.research.MULT;
+    while (int(org.division_research(div)) < n * org.research_cost(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    while (!org.buy_research(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Create a product.
  *
  * @param ns The Netscript API.
@@ -127,6 +150,22 @@ async function product_cycle(ns, n) {
     await upgrade(ns, n);
     await finishing_product(ns, n);
     sell_product(ns, n);
+}
+
+/**
+ * Purchase various research.
+ *
+ * @param ns The Netscript API.
+ */
+async function research(ns) {
+    const res = [
+        corp.research.RND_LAB,
+        corp.research.TA_I,
+        corp.research.TA_II,
+    ];
+    for (const r of res) {
+        await buy_research(ns, r);
+    }
 }
 
 /**
@@ -252,4 +291,5 @@ export async function main(ns) {
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
     await hire_advert(ns, div);
+    await research(ns);
 }

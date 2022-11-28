@@ -123,6 +123,36 @@ export const corp = {
         "Training",
     ],
     /**
+     * Various research that can be purchased.  Data taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/data/ResearchMetadata.ts
+     */
+    research: {
+        ASSEMBLER: "Self-Correcting Assemblers",
+        ASSIST: "sudo.Assist",
+        BREW: "AutoBrew",
+        BUY: "Bulk Purchasing",
+        CAPACITY_I: "uPgrade: Capacity.I",
+        CAPACITY_II: "uPgrade: Capacity.II",
+        DASHBOARD: "uPgrade: Dashboard",
+        DRONE: "Drones",
+        DRONE_ASSEMBLY: "Drones - Assembly",
+        DRONE_TRANSPORT: "Drones - Transport",
+        DRUG: "Automatic Drug Administration",
+        FULCRUM: "uPgrade: Fulcrum",
+        INJECT: "CPH4 Injections",
+        JOY: "JoyWire",
+        JUICE: "Go-Juice",
+        OVERCLOCK: "Overclock",
+        PARTY: "AutoPartyManager",
+        RND_LAB: "Hi-Tech R&D Laboratory",
+        RECRUIT: "HRBuddy-Recruitment",
+        STIMULATE: "Sti.mu",
+        TA_I: "Market-TA.I",
+        TA_II: "Market-TA.II",
+        TRAIN: "HRBuddy-Training",
+    },
+    /**
      * The round of investment.
      */
     round: ["one", "two", "three", "four"],
@@ -903,6 +933,34 @@ export const tobacco = {
             NAME: "RYO",
             INVEST_DESIGN: 4e9, // Double the budget of previous product.
             INVEST_MARKETING: 4e9,
+        },
+    },
+    /**
+     * Various constants and thresholds related to research.
+     */
+    research: {
+        /**
+         * Multiply the cost of a research by this amount.
+         */
+        MULT: 2,
+        round: {
+            /**
+             * In round 1 of research purchase, we want to buy
+             * "Hi-Tech R&D Laboratory", which costs 5e3 in research points.
+             * Wait until we have double that amount of research points.
+             */
+            one: {
+                TAU: 10e3,
+            },
+            /**
+             * In round 2 of research purchase, we want to buy "Market-TA.I"
+             * (costs 20e3 research points) and "Market-TA.II"
+             * (costs 50e3 research points) for a total of 70e3 research points.
+             * Wait until we have double that amount of research points.
+             */
+            two: {
+                TAU: 140e3,
+            },
         },
     },
     /**
