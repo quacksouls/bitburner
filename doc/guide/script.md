@@ -12,6 +12,7 @@ level is low enough and there is a decent amount of money on the server, hack
 the target and steal some of its money. The script is not meant to be efficient
 at generating money or increasing your Hack stat. Its purpose is to serve as a
 bare-bones script upon which you write your own possibly more efficient script.
+The full script can also be found [here](script/hack.js).
 
 ```js
 /**
