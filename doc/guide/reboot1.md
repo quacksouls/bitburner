@@ -133,7 +133,9 @@ DFS algorithm, written as pseudocode:
 12. return elements of visit as an array
 ```
 
-Adapt BFS or DFS (or both) to create your computer worm.
+Adapt BFS or DFS (or both) to create your computer worm. Here is an
+[example worm](script/worm.js), which depends on the hack script from the
+section [First script](script.md).
 
 ## Purchased servers
 
