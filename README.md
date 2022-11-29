@@ -23,7 +23,5 @@ Unless otherwise stated, all scripts are covered by the GNU GPLv3. See the file
 
 Before committing your code, do this:
 
-1. Run `npm run format`.
-1. Run `npm run lint`.
-1. Fix any formatting and/or linting errors reported by the linter and
-   formatter.
+1. Run `npm run clean`.
+1. Fix any formatting and/or linting errors.
