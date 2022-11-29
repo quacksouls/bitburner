@@ -89,13 +89,13 @@ async function enhanced_product_cycle(ns, n) {
     // If we have developed the maximum number of products, then we must
     // discontinue a product to make room for a new product (possibly of higher
     // rating).
-    const org = new Corporation(ns);
-    const div = corp.industry.TOBACCO;
-    if (org.all_products(div).length === corp_t.product.INIT_TAU) {
+    if (has_init_max_products(ns)) {
+        const div = corp.industry.TOBACCO;
         const name = discontinue_product(ns, div);
         log(ns, `${div}: discontinued a product: ${name}`);
     }
     await product_cycle(ns, n);
+    const org = new Corporation(ns);
     await org.vivacious_office();
 }
 
@@ -114,6 +114,21 @@ async function finishing_product(ns, n) {
     while (!org.is_product_complete(div, name)) {
         await ns.sleep(wait_t.SECOND);
     }
+}
+
+/**
+ * Whether we have reached the maximum number of products for our Tobacco
+ * division.  The product capacity of the division is assumed to be at the
+ * initial level.
+ *
+ * @param ns The Netscript API.
+ * @return True if our Tobacco division has the maximum number of products, at
+ *     the initial capacity; false otherwise.
+ */
+function has_init_max_products(ns) {
+    const org = new Corporation(ns);
+    const div = corp.industry.TOBACCO;
+    return org.all_products(div).length === corp_t.product.INIT_TAU;
 }
 
 /**
@@ -167,6 +182,9 @@ async function hire(ns, n) {
  *     round 1, pass in the word "one", and so on.
  */
 async function product_cycle(ns, n) {
+    if (has_init_max_products(ns)) {
+        return;
+    }
     log(ns, `Round ${to_number(n)} of product development`);
     await hire(ns, n);
     create_product(ns, n);
