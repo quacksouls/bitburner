@@ -16,12 +16,14 @@
  */
 
 import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
-import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
-import { base } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { new_hire, to_number } from "/lib/corporation/util.js";
+import {
+    investment_offer,
+    new_hire,
+    to_number,
+} from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert, exec } from "/lib/util.js";
@@ -113,54 +115,6 @@ async function hire_round_one_stage(ns, n) {
         const msg = `hired 1 employee and assigned to ${role}`;
         log(ns, `${prefix}: ${msg}`);
     }
-}
-
-/**
- * A round of investment offer.
- *
- * @param ns The Netscript API.
- * @param r A string (i.e. word) representing the investment round.
- */
-async function investment_offer(ns, r) {
-    // Determine the latest investment round wherein we accepted investment
-    // money.  Why not use the attribute below?
-    //
-    // ns[corp.API].getInvestmentOffer().round
-    //
-    // Corp is rather broken (buggy) at the moment in v2.1.  The value of the
-    // above attribute does not seem to persist after you save and quit the
-    // game.  Our fix is to use a text file to keep track of the investment
-    // round number.
-    let latest_round = -1;
-    if (ns.fileExists(corp.INVEST)) {
-        latest_round = parseInt(ns.read(corp.INVEST), base.DECIMAL);
-    } else {
-        ns.write(corp.INVEST, "0", io.WRITE);
-        latest_round = 0;
-    }
-    if (to_number(r) !== latest_round + 1) {
-        return;
-    }
-    // Need to wait for our corporation to make a certain amount of profit per
-    // second, and have a certain amount of funds.
-    log(ns, `Round ${to_number(r)} of investment`);
-    const profit_tau = ns.nFormat(corp_t.profit.round[r].N, "$0,0.00a");
-    log(ns, `Waiting for sufficient profit: ${profit_tau}/s`);
-    const org = new Corporation(ns);
-    while (org.profit() < corp_t.profit.round[r].N) {
-        await ns.sleep(corp_t.TICK);
-    }
-    const { funds, shares } = ns[corp.API].getInvestmentOffer();
-    ns[corp.API].acceptInvestmentOffer();
-    const fundsf = ns.nFormat(funds, "$0,0.00a");
-    const sharesf = ns.nFormat(shares, "0,0.00a");
-    log(
-        ns,
-        `Received ${fundsf} in exchange for ${sharesf} shares of corporation`
-    );
-    // Keep track of the latest round of investment.
-    latest_round++;
-    ns.write(corp.INVEST, String(latest_round), io.WRITE);
 }
 
 /**
