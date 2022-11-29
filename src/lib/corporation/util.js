@@ -159,6 +159,20 @@ export async function new_hire(ns, div, ct, role) {
 }
 
 /**
+ * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
+ * upgrade.  It applies to the entire corporation and cannot be levelled.
+ *
+ * @param ns The Netscript API.
+ */
+export function smart_supply(ns) {
+    const org = new Corporation(ns);
+    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
+        org.buy_unlock_upgrade(corp.unlock.SMART);
+    }
+    org.enable_smart_supply();
+}
+
+/**
  * A random Tobacco product name.  We should not currently have this product.
  *
  * @param ns The Netscript API.
@@ -173,20 +187,6 @@ export function tobacco_product_name(ns) {
         i = random_integer(low, high);
     }
     return tobacco.product[i];
-}
-
-/**
- * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
- * upgrade.  It applies to the entire corporation and cannot be levelled.
- *
- * @param ns The Netscript API.
- */
-export function smart_supply(ns) {
-    const org = new Corporation(ns);
-    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
-        org.buy_unlock_upgrade(corp.unlock.SMART);
-    }
-    org.enable_smart_supply();
 }
 
 /**
