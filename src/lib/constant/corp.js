@@ -322,6 +322,18 @@ export const corp_t = {
             two: {
                 N: 3e5,
             },
+            /**
+             * A mid profit threshold: $1m per second.
+             */
+            three: {
+                N: 1e6,
+            },
+            /**
+             * A mid profit threshold: $2m per second.
+             */
+            four: {
+                N: 2e6,
+            },
         },
     },
     /**
@@ -791,6 +803,33 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                seven: {
+                    BUSINESS: 23, // +2
+                    ENGINEER: 40, // +5
+                    MANAGEMENT: 34, // +5
+                    OPERATIONS: 39, // +5
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 25, // +2
+                    ENGINEER: 45, // +5
+                    MANAGEMENT: 39, // +5
+                    OPERATIONS: 44, // +5
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 27, // +2
+                    ENGINEER: 50, // +5
+                    MANAGEMENT: 44, // +5
+                    OPERATIONS: 49, // +5
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -857,6 +896,33 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                seven: {
+                    BUSINESS: 6, // +1
+                    ENGINEER: 6, // +1
+                    MANAGEMENT: 6, // +1
+                    OPERATIONS: 6, // +1
+                    RND: 28, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 7, // +1
+                    ENGINEER: 7, // +1
+                    MANAGEMENT: 7, // +1
+                    OPERATIONS: 7, // +1
+                    RND: 33, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 8, // +1
+                    ENGINEER: 8, // +1
+                    MANAGEMENT: 8, // +1
+                    OPERATIONS: 8, // +1
+                    RND: 38, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -914,6 +980,33 @@ export const tobacco = {
                     MANAGEMENT: 5, // +1
                     OPERATIONS: 5, // +1
                     RND: 23, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                seven: {
+                    BUSINESS: 6, // +1
+                    ENGINEER: 6, // +1
+                    MANAGEMENT: 6, // +1
+                    OPERATIONS: 6, // +1
+                    RND: 28, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 7, // +1
+                    ENGINEER: 7, // +1
+                    MANAGEMENT: 7, // +1
+                    OPERATIONS: 7, // +1
+                    RND: 33, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 8, // +1
+                    ENGINEER: 8, // +1
+                    MANAGEMENT: 8, // +1
+                    OPERATIONS: 8, // +1
+                    RND: 38, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -977,6 +1070,33 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                seven: {
+                    BUSINESS: 6, // +1
+                    ENGINEER: 6, // +1
+                    MANAGEMENT: 6, // +1
+                    OPERATIONS: 6, // +1
+                    RND: 28, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 7, // +1
+                    ENGINEER: 7, // +1
+                    MANAGEMENT: 7, // +1
+                    OPERATIONS: 7, // +1
+                    RND: 33, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 8, // +1
+                    ENGINEER: 8, // +1
+                    MANAGEMENT: 8, // +1
+                    OPERATIONS: 8, // +1
+                    RND: 38, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1037,6 +1157,33 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                seven: {
+                    BUSINESS: 6, // +1
+                    ENGINEER: 6, // +1
+                    MANAGEMENT: 6, // +1
+                    OPERATIONS: 6, // +1
+                    RND: 28, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 7, // +1
+                    ENGINEER: 7, // +1
+                    MANAGEMENT: 7, // +1
+                    OPERATIONS: 7, // +1
+                    RND: 33, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 8, // +1
+                    ENGINEER: 8, // +1
+                    MANAGEMENT: 8, // +1
+                    OPERATIONS: 8, // +1
+                    RND: 38, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1094,6 +1241,33 @@ export const tobacco = {
                     MANAGEMENT: 5, // +1
                     OPERATIONS: 5, // +1
                     RND: 23, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                seven: {
+                    BUSINESS: 6, // +1
+                    ENGINEER: 6, // +1
+                    MANAGEMENT: 6, // +1
+                    OPERATIONS: 6, // +1
+                    RND: 28, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                eight: {
+                    BUSINESS: 7, // +1
+                    ENGINEER: 7, // +1
+                    MANAGEMENT: 7, // +1
+                    OPERATIONS: 7, // +1
+                    RND: 33, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                nine: {
+                    BUSINESS: 8, // +1
+                    ENGINEER: 8, // +1
+                    MANAGEMENT: 8, // +1
+                    OPERATIONS: 8, // +1
+                    RND: 38, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -1214,6 +1388,33 @@ export const tobacco = {
                 "Nuoptimal Nootropic Injector Implants": 33, // +1
                 "Project Insight": 23, // +1
                 "Wilson Analytics": 11, // +0
+            },
+            seven: {
+                DreamSense: 34, // +1
+                FocusWires: 34, // +1
+                "Neural Accelerators": 34, // +1
+                "Speech Processor Implants": 34, // +1
+                "Nuoptimal Nootropic Injector Implants": 34, // +1
+                "Project Insight": 24, // +1
+                "Wilson Analytics": 11, // +0
+            },
+            eight: {
+                DreamSense: 35, // +1
+                FocusWires: 35, // +1
+                "Neural Accelerators": 35, // +1
+                "Speech Processor Implants": 35, // +1
+                "Nuoptimal Nootropic Injector Implants": 35, // +1
+                "Project Insight": 25, // +1
+                "Wilson Analytics": 11, // +0
+            },
+            nine: {
+                DreamSense: 36, // +1
+                FocusWires: 36, // +1
+                "Neural Accelerators": 36, // +1
+                "Speech Processor Implants": 36, // +1
+                "Nuoptimal Nootropic Injector Implants": 36, // +1
+                "Project Insight": 26, // +1
+                "Wilson Analytics": 12, // +1
             },
         },
     },

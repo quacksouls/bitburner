@@ -23,6 +23,7 @@ import {
     discontinue_product,
     expand_city,
     hire_advert,
+    investment_offer,
     new_hire,
     smart_supply,
     to_number,
@@ -334,4 +335,9 @@ export async function main(ns) {
     await enhanced_product_cycle(ns, "four");
     await enhanced_product_cycle(ns, "five");
     await enhanced_product_cycle(ns, "six");
+    await investment_offer(ns, "three");
+    await enhanced_product_cycle(ns, "seven");
+    await enhanced_product_cycle(ns, "eight");
+    await enhanced_product_cycle(ns, "nine");
+    await investment_offer(ns, "four");
 }
