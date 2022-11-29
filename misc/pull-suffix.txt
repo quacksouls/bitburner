@@ -1,0 +1,96 @@
+    ];
+    assert(filesystem.length > 0);
+    return filesystem;
+}
+
+/**
+ * A formatted name of the file where we want to save the downloaded file.  The
+ * terminal command "wget" behaves differently from the API function
+ * "ns.wget()".  The command "wget" is happy to create the required directory
+ * if we do any of the following:
+ *
+ * wget /URL/to/src/file.js src/file.js
+ * wget /URL/to/src/file.js /src/file.js
+ *
+ * The API function "ns.wget()" is happy with this
+ *
+ * await ns.wget("/URL/to/src/file.js", "/src/file.js", "home");
+ *
+ * but cannot handle this
+ *
+ * await ns.wget("/URL/to/src/file.js", "src/file.js", "home");
+ *
+ * That is, we must have the leading forward slash "/" character for the
+ * function to work properly.  Here are the relevant issues on github.com:
+ *
+ * https://github.com/danielyxie/bitburner/issues/1935
+ * https://github.com/danielyxie/bitburner/issues/2115
+ *
+ * @param f A file name.  Cannot be empty string.
+ * @return A possibly new file name with the leading forward slash "/"
+ *     character added.
+ */
+function target_name(f) {
+    assert(f.length > 0);
+    // Remove any leading forward slash "/" character.
+    let fname = f.toString();
+    const slash = "/";
+    if (f.startsWith(slash)) {
+        fname = f.substring(1, f.length);
+    }
+    // If the file should be at the root directory of the home server, then it
+    // is just a file name without any other parent directory.  Something like
+    // "file.js" would be saved to the root directory.  If the file has a
+    // parent directory under root, then it would be something like
+    // "src/file.js".  When we split the string according to "/", we should end
+    // up with an array of at least 2 elements.
+    const newf = fname.split(slash);
+    if (newf.length === 1) {
+        return fname;
+    }
+    assert(newf.length > 1);
+    return slash + fname;
+}
+
+/**
+ * Print the usage information.
+ *
+ * @param ns The Netscript API.
+ */
+function usage(ns) {
+    const msg = "Usage: run pull.js";
+    ns.tprint(msg);
+}
+
+/**
+ * Pull all files (on github.com) under the directory quacksouls/bitburner/src
+ * into the game.
+ *
+ * Usage: run pull.js
+ *
+ * @param ns The Netscript API.
+ */
+export async function main(ns) {
+    // Sanity check.
+    // The script does not accept any command line arguments.
+    if (ns.args.length > 0) {
+        usage(ns);
+        return;
+    }
+    // Pull files into our home server.
+    const home = "home";
+    // The base URL where files are found.
+    const github = "https://raw.githubusercontent.com/";
+    const quack = "quacksouls/bitburner/main/src/";
+    const prefix = github + quack;
+    // Pull files into home server.
+    for (const f of dir_structure()) {
+        const file = prefix + f;
+        const target = target_name(f);
+        const success = await ns.wget(file, target, home);
+        if (success) {
+            ns.tprint(file);
+        }
+    }
+    ns.tprint("Download complete.");
+}
