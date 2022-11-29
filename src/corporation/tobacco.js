@@ -332,12 +332,10 @@ export async function main(ns) {
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
     await research(ns);
-    await enhanced_product_cycle(ns, "four");
-    await enhanced_product_cycle(ns, "five");
-    await enhanced_product_cycle(ns, "six");
-    await enhanced_product_cycle(ns, "seven");
-    await enhanced_product_cycle(ns, "eight");
-    await enhanced_product_cycle(ns, "nine");
+    const round = ["four", "five", "six", "seven", "eight", "nine"];
+    for (const n of round) {
+        await enhanced_product_cycle(ns, n);
+    }
     // Time to take our corporation to public.
     while (!org.is_public()) {
         org.go_public();
