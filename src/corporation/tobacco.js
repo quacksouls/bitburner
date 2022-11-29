@@ -55,7 +55,7 @@ async function buy_research(ns, name) {
 }
 
 /**
- * Create a product.
+ * Create a Tobacco product.
  *
  * @param ns The Netscript API.
  * @param n A string representing the creation round.  If it is round 1 of
