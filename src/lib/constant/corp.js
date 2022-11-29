@@ -271,6 +271,10 @@ export const corp_t = {
         },
     },
     /**
+     * The fraction of our corporation's funds to be invested in a product.
+     */
+    INVEST_MULT: 0.01,
+    /**
      * Various thresholds related to an office.
      */
     office: {
@@ -1045,43 +1049,28 @@ export const tobacco = {
     /**
      * The products that our Tobacco division makes.
      */
-    product: {
-        one: {
-            NAME: "Cigarette",
-            INVEST_DESIGN: 1e9,
-            INVEST_MARKETING: 1e9,
-        },
-        two: {
-            NAME: "Cigar",
-            INVEST_DESIGN: 2e9, // Double the budget of previous product.
-            INVEST_MARKETING: 2e9,
-        },
-        three: {
-            /**
-             * Roll-Your-Own or hand-rolled cigars or cigarettes.
-             */
-            NAME: "RYO",
-            INVEST_DESIGN: 4e9, // Double the budget of previous product.
-            INVEST_MARKETING: 4e9,
-        },
-        four: {
-            /**
-             * Blunt, a stubby version of cigar.
-             */
-            NAME: "Blunt",
-            INVEST_DESIGN: 8e9, // Double the budget of previous product.
-            INVEST_MARKETING: 8e9,
-        },
-        five: {
-            /**
-             * A long, thin cigar.  Larger than a cigarette, but thinner than a
-             * cigar.
-             */
-            NAME: "Cigarillo",
-            INVEST_DESIGN: 16e9, // Double the budget of previous product.
-            INVEST_MARKETING: 16e9,
-        },
-    },
+    product: [
+        "Beedi",
+        "Blunt",
+        "Cigar",
+        "Cigarette",
+        "Cigarillo",
+        "Dokha",
+        "Gutka",
+        "Hookah",
+        "Iqmik",
+        "Kiseru",
+        "Kizami",
+        "Kretek",
+        "Mava",
+        "Muʽassel",
+        "Naswar",
+        "Pipe",
+        "Pouch",
+        "RYO",
+        "Snuff",
+        "Snus",
+    ],
     /**
      * Various constants and thresholds related to research.
      */

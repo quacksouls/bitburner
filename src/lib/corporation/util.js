@@ -15,13 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, corp_t } from "/lib/constant/corp.js";
+import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { log } from "/lib/io.js";
+import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 
 /**
@@ -155,6 +156,23 @@ export async function new_hire(ns, div, ct, role) {
     while (!org.new_hire(div, ct, role)) {
         await ns.sleep(corp_t.TICK);
     }
+}
+
+/**
+ * A random Tobacco product name.  We should not currently have this product.
+ *
+ * @param ns The Netscript API.
+ * @return A string representing the name of a Tobacco product.
+ */
+export function tobacco_product_name(ns) {
+    const low = 0;
+    const high = tobacco.product.length - 1;
+    const org = new Corporation(ns);
+    let i = random_integer(low, high);
+    while (org.has_product(corp.industry.TOBACCO, tobacco.product[i])) {
+        i = random_integer(low, high);
+    }
+    return tobacco.product[i];
 }
 
 /**

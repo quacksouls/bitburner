@@ -26,6 +26,7 @@ import {
     new_hire,
     smart_supply,
     to_number,
+    tobacco_product_name,
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
@@ -58,23 +59,22 @@ async function buy_research(ns, name) {
  * Create a Tobacco product.
  *
  * @param ns The Netscript API.
- * @param n A string representing the creation round.  If it is round 1 of
- *     product development, pass in the word "one", and so on.
+ * @return The name of the product under development.
  */
-function create_product(ns, n) {
-    const name = tobacco.product[n].NAME;
+function create_product(ns) {
+    const name = tobacco_product_name(ns);
     const org = new Corporation(ns);
     const div = corp.industry.TOBACCO;
-    if (!org.has_product(div, name)) {
-        log(ns, `Creating product ${to_number(n)}: ${name}`);
-        org.create_product(
-            div,
-            tobacco.DEVELOPER_CITY,
-            name,
-            tobacco.product[n].INVEST_DESIGN,
-            tobacco.product[n].INVEST_MARKETING
-        );
-    }
+    assert(!org.has_product(div, name));
+    log(ns, `Creating product: ${name}`);
+    org.create_product(
+        div,
+        tobacco.DEVELOPER_CITY,
+        name,
+        org.design_investment(),
+        org.marketing_investment()
+    );
+    return name;
 }
 
 /**
@@ -103,12 +103,11 @@ async function enhanced_product_cycle(ns, n) {
  * Wait for a product to be 100% complete.
  *
  * @param ns The Netscript API.
- * @param n A string representing the product round.  If it is the product in
- *     round 1, pass in the word "one", and so on.
+ * @param name A string representing the name of a product currently under
+ *     development.
  */
-async function finishing_product(ns, n) {
+async function finishing_product(ns, name) {
     const div = corp.industry.TOBACCO;
-    const name = tobacco.product[n].NAME;
     log(ns, `${div}: waiting for product to complete: ${name}`);
     const org = new Corporation(ns);
     while (!org.is_product_complete(div, name)) {
@@ -187,11 +186,11 @@ async function product_cycle(ns, n) {
     }
     log(ns, `Round ${to_number(n)} of product development`);
     await hire(ns, n);
-    create_product(ns, n);
+    const name = create_product(ns);
     await upgrade(ns, n);
-    await finishing_product(ns, n);
+    await finishing_product(ns, name);
     await hire_advert(ns, corp.industry.TOBACCO);
-    sell_product(ns, n);
+    sell_product(ns, name);
 }
 
 /**
@@ -214,12 +213,10 @@ async function research(ns) {
  * Sell a product we have developed in our Tobacco division.
  *
  * @param ns The Netscript API.
- * @param n A string representing the product round.  If it is the product in
- *     round 1, pass in the word "one", and so on.
+ * @param name A string representing the name of a product.
  */
-function sell_product(ns, n) {
+function sell_product(ns, name) {
     const div = corp.industry.TOBACCO;
-    const name = tobacco.product[n].NAME;
     const org = new Corporation(ns);
     log(ns, `${div}: selling product in all cities: ${name}`);
     cities.all.forEach((ct) => org.product_sell(div, ct, name));

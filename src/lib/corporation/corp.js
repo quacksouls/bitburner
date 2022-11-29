@@ -230,6 +230,17 @@ export class Corporation {
     }
 
     /**
+     * The amount of money to invest in the design of a product.
+     *
+     * @return How much money to invest in the design of a product.
+     */
+    design_investment() {
+        const amount = Math.floor(this.funds() * corp_t.INVEST_MULT);
+        assert(amount > 0);
+        return amount;
+    }
+
+    /**
      * Discontinue a product.
      *
      * @param div A string representing the name of a division of our
@@ -640,6 +651,17 @@ export class Corporation {
         }
         this.#ns[corp.API].levelUpgrade(name);
         return bool.SUCCESS;
+    }
+
+    /**
+     * The amount of money to invest in the marketing of a product.
+     *
+     * @return How much money to invest in the marketing of a product.
+     */
+    marketing_investment() {
+        const amount = Math.floor(this.funds() * corp_t.INVEST_MULT);
+        assert(amount > 0);
+        return amount;
     }
 
     /**
