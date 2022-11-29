@@ -275,6 +275,10 @@ export const corp_t = {
      */
     INVEST_MULT: 0.01,
     /**
+     * The number of shares to issue for our Initial Public Offering (IPO).
+     */
+    IPO: 0,
+    /**
      * Various thresholds related to an office.
      */
     office: {

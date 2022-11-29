@@ -335,6 +335,13 @@ export class Corporation {
     }
 
     /**
+     * Convert our corporation into publicly traded.
+     */
+    go_public() {
+        this.#ns[corp.API].goPublic(corp_t.IPO);
+    }
+
+    /**
      * Whether we have already created a corporation.
      *
      * @return True if we have already created a corporation; false otherwise.
@@ -518,6 +525,15 @@ export class Corporation {
             this.#ns[corp.API].getProduct(div, name).developmentProgress
             >= corp_t.MAX_PROGRESS
         );
+    }
+
+    /**
+     * Whether our corporation is publicly traded.
+     *
+     * @return True if our corporation is publicly traded; false otherwise.
+     */
+    is_public() {
+        return this.#ns[corp.API].getCorporation().public;
     }
 
     /**

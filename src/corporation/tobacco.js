@@ -341,4 +341,10 @@ export async function main(ns) {
     await enhanced_product_cycle(ns, "eight");
     await enhanced_product_cycle(ns, "nine");
     await investment_offer(ns, "four");
+    // We have gone through 4 rounds of investment offers.  It is time to take
+    // our corporation to public.
+    while (!org.is_public()) {
+        org.go_public();
+        await ns.sleep(wait_t.SECOND);
+    }
 }
