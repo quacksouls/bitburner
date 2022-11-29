@@ -191,6 +191,7 @@ async function product_cycle(ns, n) {
     await finishing_product(ns, name);
     await hire_advert(ns, corp.industry.TOBACCO);
     sell_product(ns, name);
+    await ns.sleep(corp_t.TICK);
 }
 
 /**
