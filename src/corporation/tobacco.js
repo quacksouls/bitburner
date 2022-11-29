@@ -332,4 +332,5 @@ export async function main(ns) {
     await research(ns);
     await enhanced_product_cycle(ns, "four");
     await enhanced_product_cycle(ns, "five");
+    await enhanced_product_cycle(ns, "six");
 }
