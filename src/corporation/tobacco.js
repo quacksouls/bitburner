@@ -222,6 +222,7 @@ function sell_product(ns, name) {
     const org = new Corporation(ns);
     log(ns, `${div}: selling product in all cities: ${name}`);
     cities.all.forEach((ct) => org.product_sell(div, ct, name));
+    org.enable_market_ta(div, name);
 }
 
 /**

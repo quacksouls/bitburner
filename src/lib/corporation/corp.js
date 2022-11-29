@@ -266,6 +266,24 @@ export class Corporation {
     }
 
     /**
+     * Use Market TA I and/or Market TA II to auto-set the selling price of a
+     * product that is manufactured by a particular division.
+     *
+     * @param div A string representing the name of a division of our
+     *     corporation.
+     * @param prod A string representing the name of a product.
+     */
+    enable_market_ta(div, prod) {
+        assert(this.has_product(div, prod));
+        if (this.has_research(div, corp.research.TA_I)) {
+            this.#ns[corp.API].setProductMarketTA1(div, prod, bool.ENABLE);
+        }
+        if (this.has_research(div, corp.research.TA_II)) {
+            this.#ns[corp.API].setProductMarketTA2(div, prod, bool.ENABLE);
+        }
+    }
+
+    /**
      * Enable Smart Supply for the warehouse of each division in each city.
      */
     enable_smart_supply() {
