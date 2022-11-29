@@ -326,7 +326,7 @@ export async function main(ns) {
     const div = corp.industry.TOBACCO;
     const new_office = await expand_city(ns, div);
     smart_supply(ns);
-    if (new_hire.length > 0) {
+    if (new_office.length > 0) {
         log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     }
     await product_cycle(ns, "one");
