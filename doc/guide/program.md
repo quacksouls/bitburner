@@ -235,6 +235,7 @@ infinite loop as shown in the following script:
  * of threads as possible to increase our reputation gains even further.
  *
  * Usage: run share.js -t [numThread]
+ * Example: run share.js -t 3
  *
  * @param ns The Netscript API.
  */
