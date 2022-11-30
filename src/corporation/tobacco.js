@@ -305,7 +305,7 @@ async function upgrade(ns, n) {
 }
 
 /**
- * Branch out into the Tobacco industry and develop a product.
+ * Branch out into the Tobacco industry and develop various products.
  *
  * Usage: run corporation/tobacco.js
  *
