@@ -193,6 +193,30 @@ export async function investment_offer(ns, r) {
 }
 
 /**
+ * Purchase various other unlock upgrades.
+ *
+ * @param ns The Netscript API.
+ * @return An array of the names of the unlock upgrades we have purcahsed.  An
+ *     empty array if we did not buy any unlock upgrades.
+ */
+export async function more_unlock_upgrade(ns) {
+    const org = new Corporation(ns);
+    const unlock_upgrade = [];
+    const unlock = [corp.unlock.ACCOUNT, corp.unlock.PPP];
+    for (const upg of unlock) {
+        if (org.has_unlock_upgrade(upg)) {
+            continue;
+        }
+        while (!org.has_unlock_upgrade(upg)) {
+            org.buy_unlock_upgrade(upg);
+            await ns.sleep(wait_t.SECOND);
+        }
+        unlock_upgrade.push(upg);
+    }
+    return unlock_upgrade;
+}
+
+/**
  * Hire an employee for an office.  We want to hire an employee to fill a
  * particular role.
  *

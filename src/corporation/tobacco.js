@@ -25,6 +25,7 @@ import {
     expand_city,
     finishing_product,
     hire_advert,
+    more_unlock_upgrade,
     new_hire,
     sell_product,
     smart_supply,
@@ -41,7 +42,11 @@ import { assert } from "/lib/util.js";
  */
 async function before_going_public(ns) {
     await more_research(ns);
-    await more_unlock_upgrade(ns);
+    const unlock_upg = await more_unlock_upgrade(ns);
+    if (unlock_upg.length > 0) {
+        const div = corp.industry.TOBACCO;
+        log(ns, `${div}: bought unlock upgrade(s): ${unlock_upg.join(", ")}`);
+    }
 }
 
 /**
@@ -188,24 +193,6 @@ async function more_research(ns) {
     ];
     for (const r of res) {
         await buy_research(ns, r);
-    }
-}
-
-/**
- * Purchase various other unlock upgrades.
- *
- * @param ns The Netscript API.
- */
-async function more_unlock_upgrade(ns) {
-    const org = new Corporation(ns);
-    const unlock = [corp.unlock.ACCOUNT, corp.unlock.PPP];
-    const div = corp.industry.TOBACCO;
-    for (const upg of unlock) {
-        log(ns, `${div}: buying unlock upgrade: ${upg}`);
-        while (!org.has_unlock_upgrade(upg)) {
-            org.buy_unlock_upgrade(upg);
-            await ns.sleep(wait_t.SECOND);
-        }
     }
 }
 
