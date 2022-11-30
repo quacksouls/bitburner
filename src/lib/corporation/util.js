@@ -116,6 +116,21 @@ export async function expand_city(ns, div) {
 }
 
 /**
+ * Wait for a product to be 100% complete.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param name A string representing the name of a product currently under
+ *     development.
+ */
+export async function finishing_product(ns, div, name) {
+    const org = new Corporation(ns);
+    while (!org.is_product_complete(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Hire AdVert.inc to advertise for a division.
  *
  * @param ns The Netscript API.
@@ -227,6 +242,20 @@ export function product_name(ns, div) {
         i = random_integer(low, high);
     }
     return product[i];
+}
+
+/**
+ * Sell a product we have developed in a division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param name A string representing the name of a product.
+ */
+export function sell_product(ns, div, name) {
+    const org = new Corporation(ns);
+    assert(org.is_product_complete(div, name));
+    cities.all.forEach((ct) => org.product_sell(div, ct, name));
+    org.enable_market_ta(div, name);
 }
 
 /**

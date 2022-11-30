@@ -23,8 +23,10 @@ import {
     create_product,
     discontinue_product,
     expand_city,
+    finishing_product,
     hire_advert,
     new_hire,
+    sell_product,
     smart_supply,
     to_number,
 } from "/lib/corporation/util.js";
@@ -85,22 +87,6 @@ async function enhanced_product_cycle(ns, n) {
     await product_cycle(ns, n);
     const org = new Corporation(ns);
     await org.vivacious_office();
-}
-
-/**
- * Wait for a product to be 100% complete.
- *
- * @param ns The Netscript API.
- * @param name A string representing the name of a product currently under
- *     development.
- */
-async function finishing_product(ns, name) {
-    const div = corp.industry.TOBACCO;
-    log(ns, `${div}: waiting for product to complete: ${name}`);
-    const org = new Corporation(ns);
-    while (!org.is_product_complete(div, name)) {
-        await ns.sleep(wait_t.SECOND);
-    }
 }
 
 /**
@@ -240,9 +226,11 @@ async function product_cycle(ns, n) {
     const name = create_product(ns, div);
     log(ns, `${div}: creating product: ${name}`);
     await upgrade(ns, n);
-    await finishing_product(ns, name);
+    log(ns, `${div}: waiting for product to complete: ${name}`);
+    await finishing_product(ns, div, name);
     await hire_advert(ns, div);
-    sell_product(ns, name);
+    log(ns, `${div}: selling product in all cities: ${name}`);
+    sell_product(ns, div, name);
     await ns.sleep(corp_t.TICK);
 }
 
@@ -260,20 +248,6 @@ async function research(ns) {
     for (const r of res) {
         await buy_research(ns, r);
     }
-}
-
-/**
- * Sell a product we have developed in our Tobacco division.
- *
- * @param ns The Netscript API.
- * @param name A string representing the name of a product.
- */
-function sell_product(ns, name) {
-    const div = corp.industry.TOBACCO;
-    const org = new Corporation(ns);
-    log(ns, `${div}: selling product in all cities: ${name}`);
-    cities.all.forEach((ct) => org.product_sell(div, ct, name));
-    org.enable_market_ta(div, name);
 }
 
 /**
