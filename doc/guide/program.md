@@ -195,6 +195,8 @@ passively earn reputation and Hack XP.
 
 ![Hacking contracts for CyberSec](image/cybersec-hacking-contracts.png "Perform hacking contracts for CyberSec")
 
+### Share
+
 As shown in the image above, you are earning less than 1 reputation point per
 second. You require approximately 18.75k reputation points to unlock all
 Augmentations from CyberSec. At this rate, earning those 18.75k reputation
