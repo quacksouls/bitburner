@@ -33,6 +33,16 @@ import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Everything we need to do before taking our corporation to public.
+ *
+ * @param ns The Netscript API.
+ */
+async function before_going_public(ns) {
+    await more_research(ns);
+    await more_unlock_upgrade(ns);
+}
+
+/**
  * Purchase a particular research.
  *
  * @param ns The Netscript API.
@@ -169,6 +179,54 @@ async function hire(ns, n) {
         }
         for (let i = org.num_idle(div, ct); i < nidle; i++) {
             await new_hire(ns, div, ct, corp.job.IDLE);
+        }
+    }
+}
+
+/**
+ * Purchase various other research.
+ *
+ * @param ns The Netscript API.
+ */
+async function more_research(ns) {
+    const res = [
+        // Employee research
+        corp.research.BREW,
+        corp.research.PARTY,
+        corp.research.DRUG,
+        corp.research.INJECT,
+        corp.research.JUICE,
+        corp.research.JOY,
+        corp.research.OVERCLOCK,
+        corp.research.STIMULATE,
+        // Division research
+        corp.research.DRONE,
+        corp.research.DRONE_ASSEMBLY,
+        corp.research.DRONE_TRANSPORT,
+        corp.research.ASSEMBLER,
+        corp.research.CAPACITY_I,
+        corp.research.CAPACITY_II,
+        corp.research.FULCRUM,
+    ];
+    for (const r of res) {
+        await buy_research(ns, r);
+    }
+}
+
+/**
+ * Purchase various other unlock upgrades.
+ *
+ * @param ns The Netscript API.
+ */
+async function more_unlock_upgrade(ns) {
+    const org = new Corporation(ns);
+    const unlock = [corp.unlock.ACCOUNT, corp.unlock.PPP];
+    const div = corp.industry.TOBACCO;
+    for (const upg of unlock) {
+        log(ns, `${div}: buying unlock upgrade: ${upg}`);
+        while (!org.has_unlock_upgrade(upg)) {
+            org.buy_unlock_upgrade(upg);
+            await ns.sleep(wait_t.SECOND);
         }
     }
 }
@@ -337,6 +395,7 @@ export async function main(ns) {
         await enhanced_product_cycle(ns, n);
     }
     // Time to take our corporation to public.
+    await before_going_public(ns);
     while (!org.is_public()) {
         org.go_public();
         await ns.sleep(wait_t.SECOND);
