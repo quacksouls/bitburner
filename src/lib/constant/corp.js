@@ -229,6 +229,10 @@ export const corp = {
  */
 export const corp_t = {
     /**
+     * The fraction of profit to issue as dividends.
+     */
+    DIVIDEND: 0.1,
+    /**
      * Thresholds on various aspects of employees.
      */
     employee: {

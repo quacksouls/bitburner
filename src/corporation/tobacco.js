@@ -126,6 +126,20 @@ async function finishing_product(ns, name) {
 }
 
 /**
+ * Take our corporation public and list it on the Stock Market.
+ *
+ * @param ns The Netscript API.
+ */
+async function go_public(ns) {
+    const org = new Corporation(ns);
+    while (!org.is_public()) {
+        org.go_public();
+        await ns.sleep(wait_t.SECOND);
+    }
+    org.issue_dividends();
+}
+
+/**
  * Whether we have reached the maximum number of products for our Tobacco
  * division.  The product capacity of the division is assumed to be at the
  * initial level.
@@ -396,8 +410,5 @@ export async function main(ns) {
     }
     // Time to take our corporation to public.
     await before_going_public(ns);
-    while (!org.is_public()) {
-        org.go_public();
-        await ns.sleep(wait_t.SECOND);
-    }
+    await go_public(ns);
 }

@@ -659,6 +659,14 @@ export class Corporation {
     }
 
     /**
+     * Issue dividends to shareholders.
+     */
+    issue_dividends() {
+        assert(this.is_public());
+        this.#ns[corp.API].issueDividends(corp_t.DIVIDEND);
+    }
+
+    /**
      * The level of an upgrade that can be levelled.
      *
      * @param name The name of an upgrade that can be levelled.
