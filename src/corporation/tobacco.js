@@ -33,7 +33,7 @@ import {
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { assert, exec } from "/lib/util.js";
 
 /**
  * Everything we need to do before taking our corporation to public.
@@ -337,4 +337,5 @@ export async function main(ns) {
     }
     // Some last minute house keeping.
     await before_going_public(ns);
+    exec(ns, "/corporation/janitor.js");
 }
