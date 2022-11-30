@@ -20,13 +20,13 @@ import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
+    create_product,
     discontinue_product,
     expand_city,
     hire_advert,
     new_hire,
     smart_supply,
     to_number,
-    product_name,
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
@@ -63,28 +63,6 @@ async function buy_research(ns, name) {
     while (!org.buy_research(div, name)) {
         await ns.sleep(wait_t.SECOND);
     }
-}
-
-/**
- * Create a Tobacco product.
- *
- * @param ns The Netscript API.
- * @return The name of the product under development.
- */
-function create_product(ns) {
-    const org = new Corporation(ns);
-    const div = corp.industry.TOBACCO;
-    const name = product_name(ns, div);
-    assert(!org.has_product(div, name));
-    log(ns, `Creating product: ${name}`);
-    org.create_product(
-        div,
-        tobacco.DEVELOPER_CITY,
-        name,
-        org.design_investment(),
-        org.marketing_investment()
-    );
-    return name;
 }
 
 /**
@@ -258,10 +236,12 @@ async function product_cycle(ns, n) {
     }
     log(ns, `Round ${to_number(n)} of product development`);
     await hire(ns, n);
-    const name = create_product(ns);
+    const div = corp.industry.TOBACCO;
+    const name = create_product(ns, div);
+    log(ns, `${div}: creating product: ${name}`);
     await upgrade(ns, n);
     await finishing_product(ns, name);
-    await hire_advert(ns, corp.industry.TOBACCO);
+    await hire_advert(ns, div);
     sell_product(ns, name);
     await ns.sleep(corp_t.TICK);
 }

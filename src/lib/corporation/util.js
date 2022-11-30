@@ -26,6 +26,47 @@ import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Create a product for a division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division of our corporation.
+ * @return The name of the product under development.
+ */
+export function create_product(ns, div) {
+    const org = new Corporation(ns);
+    assert(org.has_division(div));
+    const name = product_name(ns, div);
+    assert(!org.has_product(div, name));
+    org.create_product(
+        div,
+        developer_city(ns, div),
+        name,
+        org.design_investment(),
+        org.marketing_investment()
+    );
+    return name;
+}
+
+/**
+ * The developer city of a particular division.  This city is responsible for
+ * product development.
+ *
+ * @param div A string representing the name of a division of our corporation.
+ * @return The developer city of the given division.
+ */
+function developer_city(ns, div) {
+    const org = new Corporation(ns);
+    assert(org.has_division(div));
+    switch (div) {
+        case corp.industry.TOBACCO:
+            return tobacco.DEVELOPER_CITY;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
  * Discontinue a product.  We choose the product of lowest rating and
  * discontinue that product.
  *
