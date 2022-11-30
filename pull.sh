@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# Generate the script pull.js, which is used to download all scripts into our
+# game.
+
 # Output JavaScript code to this file.
 SCRIPT=pull.js && declare -r SCRIPT
 # This directory contains templates we need.
