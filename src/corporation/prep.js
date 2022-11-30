@@ -326,8 +326,8 @@ export async function main(ns) {
     // Sanity checks.
     const org = new Corporation(ns);
     assert(has_corporation_api(ns));
-    assert(org.has_corp(ns));
-    assert(org.has_office_warehouse_api(ns));
+    assert(org.has_corp());
+    assert(org.has_office_warehouse_api());
     // Various rounds of preparation.
     await round_one(ns);
     await round_two(ns);

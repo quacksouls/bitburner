@@ -390,8 +390,8 @@ export async function main(ns) {
     // Sanity checks.
     const org = new Corporation(ns);
     assert(has_corporation_api(ns));
-    assert(org.has_corp(ns));
-    assert(org.has_office_warehouse_api(ns));
+    assert(org.has_corp());
+    assert(org.has_office_warehouse_api());
     // Create and manage our Tobacco division.
     setup_division(ns);
     const div = corp.industry.TOBACCO;
