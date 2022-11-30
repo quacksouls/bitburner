@@ -40,6 +40,7 @@ import { assert } from "/lib/util.js";
 async function go_public(ns) {
     const org = new Corporation(ns);
     while (!org.is_public()) {
+        log(ns, "corporation is listed on Stock Exchange");
         org.go_public();
         await ns.sleep(wait_t.SECOND);
     }
