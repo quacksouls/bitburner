@@ -95,20 +95,6 @@ async function enhanced_product_cycle(ns, n) {
 }
 
 /**
- * Take our corporation public and list it on the Stock Market.
- *
- * @param ns The Netscript API.
- */
-async function go_public(ns) {
-    const org = new Corporation(ns);
-    while (!org.is_public()) {
-        org.go_public();
-        await ns.sleep(wait_t.SECOND);
-    }
-    org.issue_dividends();
-}
-
-/**
  * Whether we have reached the maximum number of products for our Tobacco
  * division.  The product capacity of the division is assumed to be at the
  * initial level.
@@ -349,7 +335,6 @@ export async function main(ns) {
     for (const n of round) {
         await enhanced_product_cycle(ns, n);
     }
-    // Time to take our corporation to public.
+    // Some last minute house keeping.
     await before_going_public(ns);
-    await go_public(ns);
 }

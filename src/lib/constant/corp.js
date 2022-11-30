@@ -307,6 +307,11 @@ export const corp_t = {
          * for a new product.
          */
         INIT_TAU: 3,
+        /**
+         * The maximum number of products that any division can manufacture.
+         * Must have purchased "uPgrade: Capacity.I" and "uPgrade: Capacity.II".
+         */
+        MAX: 5,
     },
     /**
      * Various profit thresholds.  Each value is a rate per second.  We use
@@ -387,6 +392,11 @@ export const corp_t = {
      * upgrades.
      */
     upgrade: {
+        /**
+         * The cost to level up an upgrade should be no more than this fraction
+         * of our profit.
+         */
+        COST_MULT: 0.5,
         /**
          * For our initial setup, we want at least 2 levels of various upgrades.
          */
@@ -838,6 +848,22 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 2 more employees in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 2, // +2
+                    ENGINEER: 4, // +4
+                    MANAGEMENT: 4, // +4
+                    OPERATIONS: 4, // +4
+                    RND: 0,
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -931,6 +957,22 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 5, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1015,6 +1057,22 @@ export const tobacco = {
                     MANAGEMENT: 8, // +1
                     OPERATIONS: 8, // +1
                     RND: 38, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 5, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },
@@ -1105,6 +1163,22 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 5, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1192,6 +1266,22 @@ export const tobacco = {
                     TRAIN: 0,
                     IDLE: 0,
                 },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 5, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
             },
         },
     },
@@ -1276,6 +1366,22 @@ export const tobacco = {
                     MANAGEMENT: 8, // +1
                     OPERATIONS: 8, // +1
                     RND: 38, // +5
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our corporation is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 5, // +5
                     TRAIN: 0,
                     IDLE: 0,
                 },

@@ -990,6 +990,17 @@ export class Corporation {
     }
 
     /**
+     * The cost to level up an upgrade.
+     *
+     * @param upg A string representing the name of an upgrade.
+     * @return The cost to level up the given upgrade.
+     */
+    upgrade_cost(upg) {
+        assert(this.is_valid_upgrade(upg));
+        return this.#ns[corp.API].getUpgradeLevelCost(upg);
+    }
+
+    /**
      * Upgrade the office of a division in a particular city.
      *
      * @param div A string representing the name of a division.

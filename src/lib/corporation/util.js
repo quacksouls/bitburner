@@ -144,6 +144,25 @@ export async function hire_advert(ns, div) {
 }
 
 /**
+ * Hire AdVert.inc to advertise for a division, but only do so if it does not
+ * cost too much.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ */
+export async function hire_advert_frugal(ns, div) {
+    const org = new Corporation(ns);
+    const max_funds = Math.floor(corp_t.upgrade.COST_MULT * org.profit());
+    const cost = Math.ceil(ns[corp.API].getHireAdVertCost(div));
+    if (cost >= max_funds) {
+        return;
+    }
+    while (!org.hire_advert(div)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * A round of investment offer.
  *
  * @param ns The Netscript API.
@@ -190,6 +209,28 @@ export async function investment_offer(ns, r) {
     // Keep track of the latest round of investment.
     latest_round++;
     ns.write(corp.INVEST, String(latest_round), io.WRITE);
+}
+
+/**
+ * Levelling up various upgrades, if it does not cost too much.
+ *
+ * @param ns The Netscript API.
+ * @return An array of the names of the upgrades we have levelled up.  An empty
+ *     array if we did not level up any upgrades.
+ */
+export function level_upgrade(ns) {
+    const org = new Corporation(ns);
+    const levelled_upg = [];
+    for (const upg of Object.values(corp.upgrade)) {
+        const max_funds = Math.floor(corp_t.upgrade.COST_MULT * org.profit());
+        const cost = Math.ceil(org.upgrade_cost(upg));
+        if (cost < max_funds) {
+            if (org.level_upgrade(upg)) {
+                levelled_upg.push(upg);
+            }
+        }
+    }
+    return levelled_upg;
 }
 
 /**
