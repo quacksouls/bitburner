@@ -26,7 +26,7 @@ import {
     new_hire,
     smart_supply,
     to_number,
-    tobacco_product_name,
+    product_name,
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
@@ -72,9 +72,9 @@ async function buy_research(ns, name) {
  * @return The name of the product under development.
  */
 function create_product(ns) {
-    const name = tobacco_product_name(ns);
     const org = new Corporation(ns);
     const div = corp.industry.TOBACCO;
+    const name = product_name(ns, div);
     assert(!org.has_product(div, name));
     log(ns, `Creating product: ${name}`);
     org.create_product(

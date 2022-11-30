@@ -159,6 +159,36 @@ export async function new_hire(ns, div, ct, role) {
 }
 
 /**
+ * A random product name.  We should not currently have this product.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @return A string representing the name of a product.
+ */
+export function product_name(ns, div) {
+    const support = [corp.industry.TOBACCO];
+    assert(support.includes(div));
+    const low = 0;
+    let high = low;
+    let product = [];
+    switch (div) {
+        case corp.industry.TOBACCO:
+            product = Array.from(tobacco.product);
+            high = product.length - 1;
+            break;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+    const org = new Corporation(ns);
+    let i = random_integer(low, high);
+    while (org.has_product(div, product[i])) {
+        i = random_integer(low, high);
+    }
+    return product[i];
+}
+
+/**
  * Purchase the Smart Supply unlock upgrade.  This is a one-time unlockable
  * upgrade.  It applies to the entire corporation and cannot be levelled.
  *
@@ -170,23 +200,6 @@ export function smart_supply(ns) {
         org.buy_unlock_upgrade(corp.unlock.SMART);
     }
     org.enable_smart_supply();
-}
-
-/**
- * A random Tobacco product name.  We should not currently have this product.
- *
- * @param ns The Netscript API.
- * @return A string representing the name of a Tobacco product.
- */
-export function tobacco_product_name(ns) {
-    const low = 0;
-    const high = tobacco.product.length - 1;
-    const org = new Corporation(ns);
-    let i = random_integer(low, high);
-    while (org.has_product(corp.industry.TOBACCO, tobacco.product[i])) {
-        i = random_integer(low, high);
-    }
-    return tobacco.product[i];
 }
 
 /**
