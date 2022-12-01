@@ -39,11 +39,8 @@ function all_warehouses_upgraded(ns, n) {
     const target = agriculture.warehouse.round[n].SIZE;
     const org = new Corporation(ns);
     const div = corp.industry.AGRI;
-    const not_upgraded = (c) => org.warehouse_capacity(div, c) < target;
-    if (cities.all.some(not_upgraded)) {
-        return false;
-    }
-    return true;
+    const is_upgraded = (c) => org.warehouse_capacity(div, c) >= target;
+    return cities.all.every(is_upgraded);
 }
 
 /**
