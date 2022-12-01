@@ -16,7 +16,9 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
+import {
+    agriculture, corp, corp_t, tobacco,
+} from "/lib/constant/corp.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
@@ -217,6 +219,16 @@ export async function hire_advert_frugal(ns, div) {
  */
 function hire_increment(div, ct) {
     switch (div) {
+        case corp.industry.AGRI:
+            return {
+                Business: agriculture[ct].hire.stage.n.BUSINESS,
+                Engineer: agriculture[ct].hire.stage.n.ENGINEER,
+                Management: agriculture[ct].hire.stage.n.MANAGEMENT,
+                Operations: agriculture[ct].hire.stage.n.OPERATIONS,
+                "Research & Development": agriculture[ct].hire.stage.n.RND,
+                Training: agriculture[ct].hire.stage.n.TRAIN,
+                Unassigned: agriculture[ct].hire.stage.n.IDLE,
+            };
         case corp.industry.TOBACCO:
             return {
                 Business: tobacco[ct].hire.stage.n.BUSINESS,
