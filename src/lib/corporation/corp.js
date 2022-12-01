@@ -392,6 +392,24 @@ export class Corporation {
     }
 
     /**
+     * Whether a division has enough research points to buy a particular
+     * research.  When buying a research, we try not to spend all research
+     * points on the research.  Rather, we reserve some research points so they
+     * are not all spent.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a research.
+     * @return True if the given division has enough research points to spend on
+     *     the particular research; false otherwise.
+     */
+    has_enough_research_points(div, name) {
+        const int = (x) => Math.floor(x);
+        const n = corp_t.RESEARCH_MULT;
+        const marked_up_cost = Math.ceil(n * this.research_cost(div, name));
+        return int(this.division_research(div)) >= marked_up_cost;
+    }
+
+    /**
      * Whether we have access to the Office and Warehouse APIs.  We have
      * permanent access to these APIs after we have destroyed BN3.3.
      *

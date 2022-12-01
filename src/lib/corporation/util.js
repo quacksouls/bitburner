@@ -33,13 +33,11 @@ import { assert } from "/lib/util.js";
  * @param name A string representing the name of a research we want to buy.
  */
 export async function buy_research(ns, div, name) {
-    const int = (x) => Math.floor(x);
     const org = new Corporation(ns);
     if (org.has_research(div, name)) {
         return;
     }
-    const n = corp_t.RESEARCH_MULT;
-    while (int(org.division_research(div)) < n * org.research_cost(div, name)) {
+    while (!org.has_enough_research_points(div, name)) {
         await ns.sleep(wait_t.SECOND);
     }
     while (!org.buy_research(div, name)) {
