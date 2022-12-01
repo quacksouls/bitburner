@@ -24,8 +24,8 @@ import {
     discontinue_product,
     finishing_product,
     hire_advert_frugal,
+    hireling,
     level_upgrade,
-    new_hire,
     sell_product,
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
@@ -105,21 +105,6 @@ function hire_increment(div, ct) {
             Training: tobacco[ct].hire.stage.n.TRAIN,
             Unassigned: tobacco[ct].hire.stage.n.IDLE,
         };
-    }
-}
-
-/**
- * Hire a bunch of employees for a particular role.
- *
- * @param ns The Netscript API.
- * @param div A string representing the name of a division.
- * @param ct A string representing the name of a city.
- * @param num Hire this many employees.
- * @param job Assign each new employee to this role.
- */
-async function hireling(ns, div, ct, num, job) {
-    for (let i = 0; i < num; i++) {
-        await new_hire(ns, div, ct, job);
     }
 }
 

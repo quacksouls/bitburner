@@ -163,6 +163,22 @@ export async function hire_advert_frugal(ns, div) {
 }
 
 /**
+ * Hire a bunch of employees for a particular role.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param ct A string representing the name of a city.
+ * @param num Hire this many employees.
+ * @param job Assign each new employee to this role.
+ */
+export async function hireling(ns, div, ct, num, job) {
+    assert(num >= 0);
+    for (let i = 0; i < num; i++) {
+        await new_hire(ns, div, ct, job);
+    }
+}
+
+/**
  * A round of investment offer.
  *
  * @param ns The Netscript API.
