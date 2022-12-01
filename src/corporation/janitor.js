@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
+import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
@@ -24,6 +24,7 @@ import {
     discontinue_product,
     finishing_product,
     hire_advert_frugal,
+    hire_increment,
     hireling,
     level_upgrade,
     sell_product,
@@ -75,36 +76,6 @@ async function hire(ns, div) {
         for (const role of Object.values(corp.job)) {
             await hireling(ns, div, ct, num[role], role);
         }
-    }
-}
-
-/**
- * The number of employees to hire for each role in a division.
- *
- * @param div A string representing the name of a division.
- * @param ct A string representing the name of a city.
- * @return An object as follows:
- *     {
- *         Business: Number, // Hire this many for Business role.
- *         Engineer: Number, // Hire this many for Engineer role.
- *         Management: Number, // Hire this many for Management role.
- *         Operations: Number, // Hire this many for Operations role.
- *         "Research & Development": Number, // Hire this many for R&D role.
- *         Training: Number, // Hire this many for Training role.
- *         Unassigned: Number, // Hire this many for Idle role.
- *     }
- */
-function hire_increment(div, ct) {
-    if (div === corp.industry.TOBACCO) {
-        return {
-            Business: tobacco[ct].hire.stage.n.BUSINESS,
-            Engineer: tobacco[ct].hire.stage.n.ENGINEER,
-            Management: tobacco[ct].hire.stage.n.MANAGEMENT,
-            Operations: tobacco[ct].hire.stage.n.OPERATIONS,
-            "Research & Development": tobacco[ct].hire.stage.n.RND,
-            Training: tobacco[ct].hire.stage.n.TRAIN,
-            Unassigned: tobacco[ct].hire.stage.n.IDLE,
-        };
     }
 }
 

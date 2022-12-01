@@ -163,6 +163,40 @@ export async function hire_advert_frugal(ns, div) {
 }
 
 /**
+ * The number of employees to hire for each role in a division.
+ *
+ * @param div A string representing the name of a division.
+ * @param ct A string representing the name of a city.
+ * @return An object as follows:
+ *     {
+ *         Business: Number, // Hire this many for Business role.
+ *         Engineer: Number, // Hire this many for Engineer role.
+ *         Management: Number, // Hire this many for Management role.
+ *         Operations: Number, // Hire this many for Operations role.
+ *         "Research & Development": Number, // Hire this many for R&D role.
+ *         Training: Number, // Hire this many for Training role.
+ *         Unassigned: Number, // Hire this many for Idle role.
+ *     }
+ */
+export function hire_increment(div, ct) {
+    switch (div) {
+        case corp.industry.TOBACCO:
+            return {
+                Business: tobacco[ct].hire.stage.n.BUSINESS,
+                Engineer: tobacco[ct].hire.stage.n.ENGINEER,
+                Management: tobacco[ct].hire.stage.n.MANAGEMENT,
+                Operations: tobacco[ct].hire.stage.n.OPERATIONS,
+                "Research & Development": tobacco[ct].hire.stage.n.RND,
+                Training: tobacco[ct].hire.stage.n.TRAIN,
+                Unassigned: tobacco[ct].hire.stage.n.IDLE,
+            };
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
  * Hire a bunch of employees for a particular role.
  *
  * @param ns The Netscript API.
