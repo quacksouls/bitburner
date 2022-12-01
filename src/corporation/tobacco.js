@@ -20,6 +20,7 @@ import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
+    buy_research,
     create_product,
     discontinue_product,
     expand_city,
@@ -46,29 +47,6 @@ async function before_going_public(ns) {
     if (unlock_upg.length > 0) {
         const div = corp.industry.TOBACCO;
         log(ns, `${div}: bought unlock upgrade(s): ${unlock_upg.join(", ")}`);
-    }
-}
-
-/**
- * Purchase a particular research.
- *
- * @param ns The Netscript API.
- * @param name A string representing the name of a research we want to buy.
- */
-async function buy_research(ns, name) {
-    const int = (x) => Math.floor(x);
-    const org = new Corporation(ns);
-    const div = corp.industry.TOBACCO;
-    if (org.has_research(div, name)) {
-        return;
-    }
-    log(ns, `${div}: buying research: ${name}`);
-    const n = tobacco.research.MULT;
-    while (int(org.division_research(div)) < n * org.research_cost(div, name)) {
-        await ns.sleep(wait_t.SECOND);
-    }
-    while (!org.buy_research(div, name)) {
-        await ns.sleep(wait_t.SECOND);
     }
 }
 
@@ -177,8 +155,10 @@ async function more_research(ns) {
         corp.research.CAPACITY_II,
         corp.research.FULCRUM,
     ];
+    const div = corp.industry.TOBACCO;
     for (const r of res) {
-        await buy_research(ns, r);
+        log(ns, `${div}: buying research: ${r}`);
+        await buy_research(ns, div, r);
     }
 }
 
@@ -218,8 +198,9 @@ async function research(ns) {
         corp.research.TA_I,
         corp.research.TA_II,
     ];
+    const div = corp.industry.TOBACCO;
     for (const r of res) {
-        await buy_research(ns, r);
+        await buy_research(ns, div, r);
     }
 }
 

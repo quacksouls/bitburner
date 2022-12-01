@@ -26,6 +26,28 @@ import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Purchase a particular research.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division of our corporation.
+ * @param name A string representing the name of a research we want to buy.
+ */
+export async function buy_research(ns, div, name) {
+    const int = (x) => Math.floor(x);
+    const org = new Corporation(ns);
+    if (org.has_research(div, name)) {
+        return;
+    }
+    const n = corp_t.RESEARCH_MULT;
+    while (int(org.division_research(div)) < n * org.research_cost(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+    while (!org.buy_research(div, name)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Create a product for a division.
  *
  * @param ns The Netscript API.

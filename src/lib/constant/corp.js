@@ -350,6 +350,10 @@ export const corp_t = {
         },
     },
     /**
+     * Multiply the cost of a research by this amount.
+     */
+    RESEARCH_MULT: 2,
+    /**
      * We need $150b to start a corporation.  Data taken from this file:
      *
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Corporation.ts
@@ -1417,10 +1421,6 @@ export const tobacco = {
      * Various constants and thresholds related to research.
      */
     research: {
-        /**
-         * Multiply the cost of a research by this amount.
-         */
-        MULT: 2,
         round: {
             /**
              * In round 1 of research purchase, we want to buy
