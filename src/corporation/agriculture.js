@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { corp } from "/lib/constant/corp.js";
+import { bool } from "/lib/constant/bool.js";
+import { agriculture, corp } from "/lib/constant/corp.js";
+import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { hire, buy_research } from "/lib/corporation/util.js";
@@ -54,6 +56,18 @@ async function research(ns, div, res) {
         if (!org.has_research(div, r)) {
             if (org.has_enough_research_points(div, r)) {
                 await buy_research(ns, div, r);
+                if (r === corp.research.TA_I || r === corp.research.TA_II) {
+                    cities.all.forEach((ct) => {
+                        agriculture.material.sold.forEach((mat) => {
+                            org.enable_market_ta(
+                                div,
+                                bool.NOT_PRODUCT,
+                                mat,
+                                ct
+                            );
+                        });
+                    });
+                }
             }
             return;
         }

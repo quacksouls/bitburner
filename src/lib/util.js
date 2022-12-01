@@ -188,6 +188,14 @@ export function is_bankrupt(ns, s) {
 }
 
 /**
+ * Whether a variable is boolean.
+ *
+ * @param x We want to determine whether this is a boolean.
+ * @return True if the given parameter is a boolean; false otherwise.
+ */
+export const is_boolean = (x) => typeof x === "boolean";
+
+/**
  * Whether a given string represents a valid city in the game world.
  *
  * @param c A city name, represented as a string.  Cannot be an empty string.

@@ -21,7 +21,7 @@ import { corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Player } from "/lib/player.js";
-import { assert, is_valid_city } from "/lib/util.js";
+import { assert, is_boolean, is_valid_city } from "/lib/util.js";
 
 /**
  * A class to manage a corporation.  We typically use the Corporation API by
@@ -275,8 +275,12 @@ export class Corporation {
      *     product.  Pass in true to enable Market TA for a product.  If false,
      *     then enable Market TA for a material.
      * @param name A string representing the name of a product or material.
+     * @param ct A string representing the name of a city.  Default is empty
+     *     string.  If isprod is false, then this parameter cannot be an empty
+     *     string.
      */
-    enable_market_ta(div, isprod, name) {
+    enable_market_ta(div, isprod, name, ct = "") {
+        assert(is_boolean(isprod));
         if (isprod) {
             assert(this.has_product(div, name));
             if (this.has_research(div, corp.research.TA_I)) {
@@ -285,6 +289,14 @@ export class Corporation {
             if (this.has_research(div, corp.research.TA_II)) {
                 this.#ns[corp.API].setProductMarketTA2(div, name, bool.ENABLE);
             }
+            return;
+        }
+        assert(this.has_material(div, ct, name));
+        if (this.has_research(div, corp.research.TA_I)) {
+            this.#ns[corp.API].setMaterialMarketTA1(div, ct, name, bool.ENABLE);
+        }
+        if (this.has_research(div, corp.research.TA_II)) {
+            this.#ns[corp.API].setMaterialMarketTA2(div, ct, name, bool.ENABLE);
         }
     }
 
@@ -412,6 +424,27 @@ export class Corporation {
         const n = corp_t.RESEARCH_MULT;
         const marked_up_cost = Math.ceil(n * this.research_cost(div, name));
         return int(this.division_research(div)) >= marked_up_cost;
+    }
+
+    /**
+     * Whether a division has a particular material.
+     *
+     * @param div A string representing the name of a division.
+     * @param ct A string representing the name of a city.
+     * @param name A string representing the name of a material.
+     * @return True if the given office of the division has the specified
+     *     material; false otherwise.
+     */
+    has_material(div, ct, name) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        try {
+            const mat = this.#ns[corp.API].getMaterial(div, ct, name);
+            assert(mat.name === name);
+            return bool.HAS;
+        } catch {
+            return bool.NOT;
+        }
     }
 
     /**
