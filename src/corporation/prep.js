@@ -330,6 +330,7 @@ export async function main(ns) {
     await round_two(ns);
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
-    // Next script in the load chain.
+    // Next scripts in the load chain.
+    exec(ns, "/corporation/agriculture.js");
     exec(ns, "/corporation/tobacco.js");
 }

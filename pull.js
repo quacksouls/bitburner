@@ -75,6 +75,7 @@ function dir_structure() {
         "chain/misc.js",
         "chain/money.js",
         "chain/study.js",
+        "corporation/agriculture.js",
         "corporation/go.js",
         "corporation/janitor.js",
         "corporation/prep.js",

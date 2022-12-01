@@ -435,6 +435,106 @@ export const corp_t = {
  */
 export const agriculture = {
     /**
+     * City offices of our Agriculture division.
+     */
+    Aevum: {
+        hire: {
+            stage: {
+                /**
+                 * The n-th stage of hiring.  This is the general stage, where
+                 * our division is in maintenance mode.  Each number is an
+                 * increment of the current number of employees in the
+                 * particular role.  For example, we want 1 more employee in
+                 * the Business role.
+                 */
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    Chongqing: {
+        hire: {
+            stage: {
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    Ishima: {
+        hire: {
+            stage: {
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    "New Tokyo": {
+        hire: {
+            stage: {
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    "Sector-12": {
+        hire: {
+            stage: {
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    Volhaven: {
+        hire: {
+            stage: {
+                n: {
+                    BUSINESS: 1, // +1
+                    ENGINEER: 1, // +1
+                    MANAGEMENT: 1, // +1
+                    OPERATIONS: 1, // +1
+                    RND: 2, // +2
+                    TRAIN: 0,
+                    IDLE: 0,
+                },
+            },
+        },
+    },
+    /**
      * Hiring policies for various rounds of hiring.
      */
     hire: {
