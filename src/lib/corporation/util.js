@@ -131,7 +131,8 @@ export async function finishing_product(ns, div, name) {
 }
 
 /**
- * Hire a crop of employees for a division.
+ * Hire a crop of employees for a division.  Use this function when a division
+ * is in maintenance mode.
  *
  * @param ns The Netscript API.
  * @param div A string representing the name of a division.
