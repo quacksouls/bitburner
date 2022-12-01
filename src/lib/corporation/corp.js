@@ -267,19 +267,24 @@ export class Corporation {
 
     /**
      * Use Market TA I and/or Market TA II to auto-set the selling price of a
-     * product that is manufactured by a particular division.
+     * product or material that is manufactured by a particular division.
      *
      * @param div A string representing the name of a division of our
      *     corporation.
-     * @param prod A string representing the name of a product.
+     * @param isprod A boolean signifying whether to enable Market TA for a
+     *     product.  Pass in true to enable Market TA for a product.  If false,
+     *     then enable Market TA for a material.
+     * @param name A string representing the name of a product or material.
      */
-    enable_market_ta(div, prod) {
-        assert(this.has_product(div, prod));
-        if (this.has_research(div, corp.research.TA_I)) {
-            this.#ns[corp.API].setProductMarketTA1(div, prod, bool.ENABLE);
-        }
-        if (this.has_research(div, corp.research.TA_II)) {
-            this.#ns[corp.API].setProductMarketTA2(div, prod, bool.ENABLE);
+    enable_market_ta(div, isprod, name) {
+        if (isprod) {
+            assert(this.has_product(div, name));
+            if (this.has_research(div, corp.research.TA_I)) {
+                this.#ns[corp.API].setProductMarketTA1(div, name, bool.ENABLE);
+            }
+            if (this.has_research(div, corp.research.TA_II)) {
+                this.#ns[corp.API].setProductMarketTA2(div, name, bool.ENABLE);
+            }
         }
     }
 

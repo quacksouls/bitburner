@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
@@ -406,7 +407,7 @@ export function sell_product(ns, div, name) {
     const org = new Corporation(ns);
     assert(org.is_product_complete(div, name));
     cities.all.forEach((ct) => org.product_sell(div, ct, name));
-    org.enable_market_ta(div, name);
+    org.enable_market_ta(div, bool.IS_PRODUCT, name);
 }
 
 /**

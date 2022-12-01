@@ -59,6 +59,11 @@ export const bool = {
     HAS: true,
     NOT: false,
     /**
+     * Whether or not this relates to a product.
+     */
+    IS_PRODUCT: true,
+    NOT_PRODUCT: false,
+    /**
      * Whether or not it is time for something to occur.
      */
     IS_TIME: true,
