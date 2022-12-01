@@ -127,8 +127,9 @@ function initial_material_sell(ns) {
     const org = new Corporation(ns);
     const div = corp.industry.AGRI;
     cities.all.forEach((ct) => {
-        org.material_initial_sell(div, ct, corp.material.FOOD);
-        org.material_initial_sell(div, ct, corp.material.PLANT);
+        agriculture.material.sold.forEach((mat) => {
+            org.material_initial_sell(div, ct, mat);
+        });
     });
 }
 

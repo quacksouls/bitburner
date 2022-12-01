@@ -642,7 +642,11 @@ export const agriculture = {
      */
     material: {
         /**
-         * AI Cores.
+         * All materials sold by the Agriculture division.
+         */
+        sold: [corp.material.FOOD, corp.material.PLANT],
+        /**
+         * All materials bought by the Agriculture division.
          */
         ai: {
             /**
