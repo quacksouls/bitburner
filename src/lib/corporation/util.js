@@ -131,6 +131,21 @@ export async function finishing_product(ns, div, name) {
 }
 
 /**
+ * Hire a crop of employees for a division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ */
+export async function hire(ns, div) {
+    for (const ct of cities.all) {
+        const num = hire_increment(div, ct);
+        for (const role of Object.values(corp.job)) {
+            await hireling(ns, div, ct, num[role], role);
+        }
+    }
+}
+
+/**
  * Hire AdVert.inc to advertise for a division.
  *
  * @param ns The Netscript API.
@@ -178,7 +193,7 @@ export async function hire_advert_frugal(ns, div) {
  *         Unassigned: Number, // Hire this many for Idle role.
  *     }
  */
-export function hire_increment(div, ct) {
+function hire_increment(div, ct) {
     switch (div) {
         case corp.industry.TOBACCO:
             return {
@@ -205,7 +220,7 @@ export function hire_increment(div, ct) {
  * @param num Hire this many employees.
  * @param job Assign each new employee to this role.
  */
-export async function hireling(ns, div, ct, num, job) {
+async function hireling(ns, div, ct, num, job) {
     assert(num >= 0);
     for (let i = 0; i < num; i++) {
         await new_hire(ns, div, ct, job);

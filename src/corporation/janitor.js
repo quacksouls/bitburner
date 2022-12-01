@@ -16,7 +16,6 @@
  */
 
 import { corp, corp_t } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
@@ -24,8 +23,7 @@ import {
     discontinue_product,
     finishing_product,
     hire_advert_frugal,
-    hire_increment,
-    hireling,
+    hire,
     level_upgrade,
     sell_product,
 } from "/lib/corporation/util.js";
@@ -64,22 +62,6 @@ function has_max_products(ns, div) {
 }
 
 /**
- * Hire a crop of employees for a division.
- *
- * @param ns The Netscript API.
- * @param div A string representing the name of a division.
- */
-async function hire(ns, div) {
-    log(ns, `${div}: hiring a crop of employees`);
-    for (const ct of cities.all) {
-        const num = hire_increment(div, ct);
-        for (const role of Object.values(corp.job)) {
-            await hireling(ns, div, ct, num[role], role);
-        }
-    }
-}
-
-/**
  * The product cycle.  This includes hiring, development, and selling.
  *
  * @param ns The Netscript API.
@@ -90,6 +72,7 @@ async function product_cycle(ns, div) {
         return;
     }
     log(ns, `${div}: a round of product development`);
+    log(ns, `${div}: hiring a crop of employees`);
     await hire(ns, div);
     const name = create_product(ns, div);
     log(ns, `${div}: creating product: ${name}`);
