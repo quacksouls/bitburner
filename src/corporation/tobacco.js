@@ -62,12 +62,13 @@ async function enhanced_product_cycle(ns, n) {
     // If we have developed the maximum number of products, then we must
     // discontinue a product to make room for a new product (possibly of higher
     // rating).
+    const div = corp.industry.TOBACCO;
     if (has_init_max_products(ns)) {
-        const div = corp.industry.TOBACCO;
         const name = discontinue_product(ns, div);
         log(ns, `${div}: discontinued a product: ${name}`);
     }
     await product_cycle(ns, n);
+    log(ns, `${div}: waiting for each office to be vivacious`);
     const org = new Corporation(ns);
     await org.vivacious_office();
 }
