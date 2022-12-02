@@ -53,8 +53,9 @@ Below are various tips you might want to keep in mind while playing the game.
    you can use HTML injection to easily circumvent the manual game play early in
    the game. Or you can go the manual route and slog it out until you have
    access to the Singularity API.
-1. The game can be played [online](https://danielyxie.github.io/bitburner/) and
-   via [Steam](https://store.steampowered.com/app/1812820/Bitburner/). You can
+1. _One save file, multiple platforms._ The game can be played
+   [online](https://danielyxie.github.io/bitburner/) and via
+   [Steam](https://store.steampowered.com/app/1812820/Bitburner/). You can
    export your save file from the Steam version and import the save file into
    the online version, and vice versa. This feature is useful whenever you need
    to test something without the risk of messing up your main game. For example,
