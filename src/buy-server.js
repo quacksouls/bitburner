@@ -286,7 +286,7 @@ export async function main(ns) {
     ns.disableLog("getServerUsedRam");
     ns.disableLog("scan");
     ns.disableLog("sleep");
-    // Continuously try to purchase servers.
+    // Continuously try to purchase more powerful servers.
     for (;;) {
         await buy_servers(ns);
         await ns.sleep(wait_t.MINUTE);
