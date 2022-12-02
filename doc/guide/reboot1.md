@@ -197,10 +197,8 @@ servers in the game world. While you are waiting to unlock all Augmentations
 from Sector-12, your goal for now should be to automate these tasks:
 
 1. Purchase as many servers as possible. You can purchase a maximum of 25
-   servers. Let your worm script generate passive income in the background,
-   while you commit crimes in The Slums. Remember to upgrade your farm of
-   Hacknet nodes once in a while. Upgrading the Level of a Hacknet node is
-   generally less expensive than upgrading the node's RAM or Cores.
+   servers. Let your worm and Hacknet scripts generate passive income in the
+   background, while you commit crimes in The Slums.
 1. Copy your script `hack.js` over to each purchased server. Pool the resources
    of your purchased servers to hack a common target, preferably a low-level
    server that requires somewhere between 10 and 50 Hack stat. The server
