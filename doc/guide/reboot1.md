@@ -84,7 +84,7 @@ the script should automate the following tasks:
     - Purchase another Hacknet node if you have sufficient funds. Do not wait
       for sufficient funds to purchase a node. If you do not currently have
       enough money to buy a new node, move on to the next task.
-    - Upgrade each node by 1 Level. It is OK if you cannot level up each node.
+    - Upgrade each node by 1 Level. It is OK if you cannot level up all nodes.
       Upgrade by 1 Level any node that you can. If your funds do not allow you
       to upgrade the Level of a node, move on.
 
