@@ -99,7 +99,7 @@ the script from burning through all your money in a short amount of time. For
 example, suppose your script attempts to upgrade the Level (of each Hacknet
 node) every minute. Then you might want the script to try to upgrade the RAM
 and/or Cores of each node every 10 minutes (or a longer time interval). Here is
-an example [Hacket script](script/hnet.js).
+an example [Hacknet script](script/hnet.js).
 
 ## Your first worm
 
