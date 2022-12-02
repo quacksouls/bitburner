@@ -60,11 +60,53 @@ The `CashRoot Starter Kit` is useful because after a soft reset the Augmentation
 would grant you $1m and the program `BruteSSH.exe`. It is worth waiting to
 unlock and buy `CashRoot Starter Kit` from Sector-12.
 
+## Automate Hacknet
+
+If you have not already done so, join the faction Sector-12. Perform hacking
+contracts for the faction to raise your reputation within the faction. Share
+your `home` server with the faction to boost the amount of reputation points you
+earn per second; refer to the subsection "Share" of
+[Programs and factions](program.md). As you passively farm reputation points to
+unlock all Augmentations from Sector-12, think about various tasks that you can
+automate. For example, you already have access to most functions in the
+[Hacknet API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.hacknet.md).
+Why not write a script to automate the buying and upgrading of your farm of
+Hacknet nodes?
+
+Your Hacknet script does not need to be fancy at the moment. At the very least,
+the script should automate the following tasks:
+
+1. Purchase a small number of Hacknet nodes to setup your farm. Buy from 1 to 3
+   nodes to start your farm, depending on your funds.
+1. Setup a loop that occasionally performs the following tasks. The loop
+   performs the listed tasks, then sleep for a minute or more. A shorter sleep
+   interval would quickly burn through your limited money.
+    - Purchase another Hacknet node if you have sufficient funds. Do not wait
+      for sufficient funds to purchase a node. If you do not currently have
+      enough money to buy a new node, move on to the next task.
+    - Upgrade each node by 1 Level. It is OK if you cannot level up each node.
+      Upgrade by 1 Level any node that you can. If your funds do not allow you
+      to upgrade the Level of a node, move on.
+
+For now, your Hacknet script does not need to do anything beyond the above
+tasks. Why not upgrade the RAM and/or Cores of each node, too? Cores and RAM are
+generally more expensive to upgrade than the Level of a node. Doubling the RAM
+of a node or adding another Core to the node can have a higher return than
+adding another Level to the node. By all means, have your script upgrade the RAM
+and/or Cores as well. You might want a longer upgrade interval for RAM and/or
+Cores than the interval for Level. The longer upgrade interval helps to prevent
+the script from burning through all your money in a short amount of time. For
+example, suppose your script attempts to upgrade the Level (of each Hacknet
+node) every minute. Then you might want the script to try to upgrade the RAM
+and/or Cores of each node every 10 minutes (or a longer time interval). Here is
+an example [Hacket script](script/hnet.js).
+
 ## Your first worm
 
-While waiting to unlock all Augmentations from Sector-12, set yourself the task
-of writing a script that scans all servers in the game world. When visiting a
-server, your script should automate the following tasks:
+The next task you want to automate is nuking a server and use that server to
+hack a target. While waiting to unlock all Augmentations from Sector-12, set
+yourself the task of writing a script that scans all servers in the game world.
+When visiting a server, your script should automate the following tasks:
 
 1. _Have the necessary Hack stat._ Determine whether you have the minimum Hack
    stat required by the server.
