@@ -122,5 +122,5 @@ export async function main(ns) {
         await research(ns, div, res);
         await ns.sleep(5 * wait_t.MINUTE);
     }
-    log(ns, `${div}: research unit fully developed`);
+    log(ns, `${div}: all research units fully developed`);
 }
