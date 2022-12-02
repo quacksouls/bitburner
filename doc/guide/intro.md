@@ -21,7 +21,15 @@ Below are various tips you might want to keep in mind while playing the game.
    functionalities that modern JavaScript has to offer.
 1. _Checking on your progress._ Save the game and exit. Load the game the next
    day to check on your progress. You do not need to have the game running 24
-   hours a day.
+   hours a day. If you are not in the habit of leaving your game running 24/7,
+   you might need to write your scripts to take care of the case where you
+   reload your game. Depending on your in-game settings, reloading your game
+   might or might not reload any scripts that were running prior to the game
+   exit. Setting the game to reload scripts following a game reload means that
+   each script would be re-run like it was running the first time, i.e. starting
+   from the `main()` function. It might be easier to write your scripts with the
+   assumption that your game would be running 24/7, but not everyone is able to
+   leave their computer running 24/7.
 1. _Separation of concern._ Unless you know what you are doing, avoid the urge
    to have a library file that contains all your classes and utility functions.
    To help you easily maintain and expand your library of code, have each class
