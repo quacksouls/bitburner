@@ -26,6 +26,7 @@ import {
     expand_city,
     finishing_product,
     hire_advert,
+    investment_offer,
     more_unlock_upgrade,
     new_hire,
     sell_product,
@@ -312,6 +313,7 @@ export async function main(ns) {
     await product_cycle(ns, "one");
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
+    await investment_offer(ns, "three");
     await research(ns);
     const round = ["four", "five", "six", "seven", "eight", "nine"];
     for (const n of round) {
