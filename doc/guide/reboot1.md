@@ -194,8 +194,8 @@ target. You have been using servers found on the network of the game world to
 hack servers on the same network. Now that you have various sources of income,
 you can purchase new servers and run your scripts on those purchased servers to
 hack one or more servers in the game world. While you are waiting to unlock all
-Augmentations from Sector-12, your goal for now should be to automate these
-tasks:
+Augmentations from Sector-12, your goal should be to write a pserv script that
+automates these tasks:
 
 1. Purchase as many servers as possible. You can purchase a maximum of 25
    servers. Let your worm and Hacknet scripts generate passive income in the
