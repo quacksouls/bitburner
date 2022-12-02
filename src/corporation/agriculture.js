@@ -55,6 +55,7 @@ async function research(ns, div, res) {
     for (const r of res) {
         if (!org.has_research(div, r)) {
             if (org.has_enough_research_points(div, r)) {
+                log(ns, `${div}: buying research: ${r}`);
                 await buy_research(ns, div, r);
                 if (r === corp.research.TA_I || r === corp.research.TA_II) {
                     cities.all.forEach((ct) => {
