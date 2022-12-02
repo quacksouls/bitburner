@@ -188,13 +188,14 @@ section [First script](script.md).
 
 ## Purchased servers
 
-Purchased servers are like a boost to your role-play as a botnet master. You buy
-powerful servers and pool their resources to hack a common target. You have been
-using servers found on the network of the game world to hack servers on the same
-network. Now that you have various sources of income, you can purchase new
-servers and run your scripts on those purchased servers to hack one or more
-servers in the game world. While you are waiting to unlock all Augmentations
-from Sector-12, your goal for now should be to automate these tasks:
+Purchased servers (or pserv) are like a boost to your role-play as a botnet
+master. You buy powerful servers and pool their resources to hack a common
+target. You have been using servers found on the network of the game world to
+hack servers on the same network. Now that you have various sources of income,
+you can purchase new servers and run your scripts on those purchased servers to
+hack one or more servers in the game world. While you are waiting to unlock all
+Augmentations from Sector-12, your goal for now should be to automate these
+tasks:
 
 1. Purchase as many servers as possible. You can purchase a maximum of 25
    servers. Let your worm and Hacknet scripts generate passive income in the
@@ -209,24 +210,30 @@ from Sector-12, your goal for now should be to automate these tasks:
    might want all purchased servers to target a higher level server. Another
    option is to let each purchased server target a different world server, but
    only do so when each purchased server has RAM in the realm of hundreds of
-   terabytes or beyond.
-1. Your deploy script must ensure that any server you want to target is already
-   compromised. (The computer worm you wrote earlier is useful for compromising
-   world servers.) In particular, the deploy script must ensure the following:
-    - You have the Hack stat required by the target server.
-    - Open as many ports as required by the target server.
-    - Run `NUKE.exe` against the target to gain root access.
-    - Copy `hack.js` over to a purchased server.
+   terabytes or beyond. The above strategies are by no means optimal, but are
+   simple ideas on how to implement your first pserv script.
+1. Your pserv script must ensure that any server you want to target is already
+   compromised. The computer worm you wrote earlier is useful for compromising
+   world servers. Your pserv script should not be searching for world servers to
+   compromise, but rather piggybacking on the work of the worm script. In
+   particular, the pserv script must ensure the following:
+    - The target server is not a purchased server.
+    - You have root access to the target server.
+    - The target server is not bankrupt. A server is said to be bankrupt if the
+      maximum amount of money it can hold is zero. Hacking a bankrupt server
+      would not gain you any money, but instead raises your Hack XP.
+    - Copy the script `hack.js` over to a purchased server.
     - Run the script on the purchased server and direct it to hack the target.
       Use as many threads as the RAM of the purchased server allows.
 
-Keep your deploy script separate from the `hack.js` script. You want your deploy
-script to handle all the logic necessary to compromise a target server.
-Furthermore, your deploy script should figure out how many threads can be used
-to run `hack.js` on a purchased server. Meanwhile your script `hack.js` should
-contain the bare minimum code required to hack, grow, or weaken a target server.
-The lower is the RAM required by `hack.js`, the more threads you can use to run
-the script.
+Keep your pserv script separate from the `hack.js` script. You want your pserv
+script to handle all the logic necessary to choose a target server and deploy
+your hack script against the target. Furthermore, your pserv script should
+figure out how many threads can be used to run `hack.js` on a purchased server.
+Meanwhile your script `hack.js` should contain the bare minimum code required to
+hack, grow, or weaken a target server. The lower is the RAM required by
+`hack.js`, the more threads you can use to run the script. Here is an example
+[pserv script](script/pserv.js) that relies on the `hack.js` script.
 
 Why would you want to waste money to buy a server to do what can normally be
 done by means of a world server? An answer to this question can be summarized
