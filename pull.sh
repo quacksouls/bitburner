@@ -20,8 +20,6 @@
 
 # Output JavaScript code to this file.
 SCRIPT=pull.js && declare -r SCRIPT
-# This directory contains templates we need.
-MISC=misc && declare -r MISC
 
 # Prefix, i.e. everything before the tree structure of script files.
 cat << EOF > "$SCRIPT"
