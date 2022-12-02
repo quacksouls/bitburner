@@ -49,7 +49,7 @@ async function buy_servers(ns) {
     // source of passive income and Hack XP.
     let ram = pserv_ram(ns, pserv.MIN);
     if (ram <= default_ram) {
-        // Try to purchase servers, each with the default amount of ram.
+        // Try to purchase servers, each with the default amount of RAM.
         await stage_one(ns);
         return;
     }
@@ -69,7 +69,7 @@ async function buy_servers(ns) {
  * Whether we have the maximum number of purchased servers.
  *
  * @param ns The Netscript API.
- * @return true if we already have the maximum number of purchased servers;
+ * @return True if we already have the maximum number of purchased servers;
  *     false otherwise.
  */
 function has_max_pserv(ns) {
