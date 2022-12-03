@@ -35,6 +35,9 @@ together with the requirements for receiving faction invitations.
    Hacknet nodes then the Level of all 3 nodes should add up to at least 100.
    One node can be at Level 50, another node can be at Level 30, and the third
    node can be at Level 21. A similar comment applies to the RAM and Cores.
+1. _Shadows of Anarchy._ The only way to receive an invitation is to
+   successfully infiltrate a company. You do not need to join this faction to
+   progress in the game.
 1. _Tian Di Hui._ You must be located in any one of these cities: Chongqing, New
    Tokyo, or Ishima. You must have at least $1m and at least 50 Hack. The
    faction has various Augmentations that boost your reputation gain within a
