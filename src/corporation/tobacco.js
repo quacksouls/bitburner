@@ -221,7 +221,7 @@ async function research(ns) {
                 await buy_research(ns, div, r);
             }
         }
-        await ns.sleep(5 * wait_t.MINUTE);
+        await ns.sleep(10 * wait_t.MINUTE);
     }
 }
 

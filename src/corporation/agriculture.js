@@ -121,7 +121,7 @@ export async function main(ns) {
             break;
         }
         await research(ns, div, res);
-        await ns.sleep(5 * wait_t.MINUTE);
+        await ns.sleep(10 * wait_t.MINUTE);
     }
     log(ns, `${div}: all research units fully developed`);
 }
