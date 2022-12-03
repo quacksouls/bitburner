@@ -278,6 +278,10 @@ CyberSec.
 
 ![Share home with CyberSec](image/cybersec-share-home.png "Share home with CyberSec")
 
+> **Problem.** Write a script that launches the [share script](script/share.js)
+> on your `home` server. The launcher should use as many threads to run the
+> share script as the RAM of `home` allows.
+
 ## Augmentation
 
 An
