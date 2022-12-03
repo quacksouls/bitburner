@@ -201,8 +201,27 @@ async function research(ns) {
         corp.research.TA_II,
     ];
     const div = corp.industry.TOBACCO;
-    for (const r of res) {
-        await buy_research(ns, div, r);
+    const org = new Corporation(ns);
+    const has_research = (x) => org.has_research(div, x);
+    const city = cities.all.filter((ct) => ct !== tobacco.DEVELOPER_CITY);
+    for (;;) {
+        // Do we have all the required research yet?
+        if (res.every(has_research)) {
+            return;
+        }
+        // Expand the research unit of each city other than the developer city.
+        for (const ct of city) {
+            await new_hire(ns, div, ct, corp.job.RND);
+            await ns.sleep(wait_t.MINUTE);
+        }
+        // Buy whichever research we can.
+        for (const r of res) {
+            if (org.has_enough_research_points(div, r)) {
+                log(ns, `${div}: buying research: ${r}`);
+                await buy_research(ns, div, r);
+            }
+        }
+        await ns.sleep(5 * wait_t.MINUTE);
     }
 }
 
