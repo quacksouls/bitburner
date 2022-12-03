@@ -69,8 +69,9 @@ function choose_best_server(ns) {
  */
 function compromised_servers(ns) {
     // Scan all servers in the game world.  Use breadth-first search.
-    const q = ["home"];
-    const visit = new Set(["home"]);
+    const home = "home";
+    const q = [home];
+    const visit = new Set([home]);
     const is_bankrupt = (s) => ns.getServer(s).moneyMax === 0;
     while (q.length > 0) {
         const u = q.shift();
@@ -84,6 +85,7 @@ function compromised_servers(ns) {
                 q.push(z);
             });
     }
+    visit.delete(home);
     return [...visit];
 }
 

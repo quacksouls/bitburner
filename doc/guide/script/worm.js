@@ -108,8 +108,9 @@ function has_root_access(ns, host) {
  * @return An array of hostnames.
  */
 function network(ns) {
-    const q = ["home"];
-    const visit = new Set(["home"]);
+    const home = "home";
+    const q = [home];
+    const visit = new Set([home]);
     while (q.length > 0) {
         const u = q.shift();
         for (const v of ns.scan(u)) {
@@ -119,6 +120,7 @@ function network(ns) {
             }
         }
     }
+    visit.delete(home);
     return [...visit];
 }
 
