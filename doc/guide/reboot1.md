@@ -189,6 +189,9 @@ threads you can use to run the script. Here is an
 [example worm](script/worm.js), which depends on the hack script from the
 section [First script](script.md).
 
+> **Problem.** Rewrite your worm script to use a recursive version of
+> depth-first search.
+
 ## Purchased servers
 
 Purchased servers (or pserv) are like a boost to your role-play as a botnet
