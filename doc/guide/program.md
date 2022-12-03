@@ -246,8 +246,9 @@ export async function main(ns) {
 }
 ```
 
-Save the above code in a file called `share.js`. Note the amount of RAM required
-to run the script:
+Save the above code in a file called `share.js`. The above code is also availabe
+in the [share script](script/share.js). Note the amount of RAM required to run
+the script:
 
 ```sh
 $ mem share.js
