@@ -101,6 +101,9 @@ node) every minute. Then you might want the script to try to upgrade the RAM
 and/or Cores of each node every 10 minutes (or a longer time interval). Here is
 an example [Hacknet script](script/hnet.js).
 
+> **Problem.** Add code to the [Hacknet script](script/hnet.js) to upgrade the
+> RAM and Cores of your Hacknet farm.
+
 ## Your first worm
 
 The next task you want to automate is nuking a server and use that server to
