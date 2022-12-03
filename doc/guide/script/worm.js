@@ -113,12 +113,12 @@ function network(ns) {
     const visit = new Set([home]);
     while (q.length > 0) {
         const u = q.shift();
-        for (const v of ns.scan(u)) {
-            if (!visit.has(v)) {
-                visit.add(v);
-                q.push(v);
-            }
-        }
+        ns.scan(u)
+            .filter((v) => !visit.has(v))
+            .forEach((x) => {
+                visit.add(x);
+                q.push(x);
+            });
     }
     visit.delete(home);
     return [...visit];
