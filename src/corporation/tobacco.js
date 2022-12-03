@@ -195,15 +195,13 @@ async function product_cycle(ns, n) {
  * @param ns The Netscript API.
  */
 async function research(ns) {
-    const res = [
-        corp.research.RND_LAB,
-        corp.research.TA_I,
-        corp.research.TA_II,
-    ];
+    const lab = corp.research.RND_LAB;
+    const res = [lab, corp.research.TA_I, corp.research.TA_II];
     const div = corp.industry.TOBACCO;
     const org = new Corporation(ns);
     const has_research = (x) => org.has_research(div, x);
     const city = cities.all.filter((ct) => ct !== tobacco.DEVELOPER_CITY);
+    const wait_interval = 10 * wait_t.MINUTE;
     for (;;) {
         // Do we have all the required research yet?
         if (res.every(has_research)) {
@@ -214,14 +212,24 @@ async function research(ns) {
             await new_hire(ns, div, ct, corp.job.RND);
             await ns.sleep(wait_t.MINUTE);
         }
-        // Buy whichever research we can.
-        for (const r of res) {
+        // We must first buy/setup a research facility.
+        if (!org.has_research(div, lab)) {
+            if (org.has_enough_research_points(div, lab)) {
+                log(ns, `${div}: buying research: ${lab}`);
+                await buy_research(ns, div, lab);
+            }
+            await ns.sleep(wait_interval);
+            continue;
+        }
+        // Next, buy the Market TA research.
+        const candidate = res.filter((r) => !org.has_research(div, r));
+        for (const r of candidate) {
             if (org.has_enough_research_points(div, r)) {
                 log(ns, `${div}: buying research: ${r}`);
                 await buy_research(ns, div, r);
             }
         }
-        await ns.sleep(10 * wait_t.MINUTE);
+        await ns.sleep(wait_interval);
     }
 }
 
