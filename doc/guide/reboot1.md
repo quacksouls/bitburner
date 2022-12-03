@@ -261,5 +261,13 @@ using an order of magnitude or more threads than any world server.
 > that can be refactored and moved to `util.js`. You do not want to duplicate
 > the same block of code or functionality across multiple scripts.
 
+## Second soft reset
+
+Farm enough reputation points to unlock all Augmentations from Sector-12. You
+might need to save up enough money to purchase all such Augmentations, excluding
+`NeuroFlux Governor`. Use any left over money you have to upgrade the RAM of
+your `home` server. Spend the rest on upgrading `NeuroFlux Governor` as high as
+you can. Install the Augmentations to initiate your second soft reset.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](program.md "Programs and factions")]
