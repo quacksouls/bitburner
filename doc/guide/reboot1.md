@@ -271,3 +271,4 @@ you can. Install the Augmentations to initiate your second soft reset.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](program.md "Programs and factions")]
+[[Next](faction.md "Faction progression")]
