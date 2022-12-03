@@ -247,5 +247,16 @@ the maximum of $2^{20} = 1,048,576$ GB (or approximately 1.049PB) of RAM a
 purchased server can have. A purchased server allows you to run your hack script
 using an order of magnitude or more threads than any world server.
 
+> **Problem 1.** Both of the [pserv](script/pserv.js) and [worm](script/worm.js)
+> scripts need to scan the network of world servers. Refactor the relevant code
+> from each script into a utility function called `network()` and store the
+> function `network()` in a file, e.g. named `util.js`. Import the function
+> `network()` into each of the pserv and worm scripts, and rewrite those scripts
+> as necessary.
+>
+> **Problem 2.** Read through all your scripts so far to find blocks of code
+> that can be refactored and moved to `util.js`. You do not want to duplicate
+> the same block of code or functionality across multiple scripts.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](program.md "Programs and factions")]
