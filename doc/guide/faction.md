@@ -18,7 +18,9 @@ CyberSec, Tian Di Hui, and BitRunners. Then join The Syndicate, followed by
 Bachman & Associates. Focus on raising enough reputation points and money to buy
 Augmentations that increase your faction and company reputation multipliers.
 Finally, join the remaining factions. Below is a breakdown of all factions,
-together with the requirements for receiving faction invitations.
+together with the requirements for receiving faction invitations. The list of
+Augmentations offered by each faction can be
+[found here](../../data/augmentation/).
 
 ## Early game factions
 
