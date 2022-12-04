@@ -20,14 +20,14 @@
 %%
 \State $i \gets 3$\Comment{Trial division by odd integers.}
 \While{$i \leq \sqrt{n}$}
-  \If{$i > \sqrt{k}$}
-    \State \Return $k$
-  \EndIf
   \While{$k \bmod i = 0$ \And $k > 1$}
     \State $k \gets k / i$
     \State $p \gets i$
   \EndWhile
   \State $i \gets i + 2$
 \EndWhile
+\If{$k > 1$}
+  \State $p \gets k$
+\EndIf
 \State \Return $p$
 \end{algorithmic}

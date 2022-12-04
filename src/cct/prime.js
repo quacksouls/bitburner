@@ -41,9 +41,6 @@ function max_prime_factor(n) {
     let i = 3;
     const max = Math.ceil(Math.sqrt(n));
     while (i <= max) {
-        if (i > Math.sqrt(k)) {
-            return k;
-        }
         // The number i is an odd integer.  If i is a factor of k, then i is the
         // highest prime factor of n so far.
         while (k % i === 0 && k > 1) {
@@ -52,6 +49,7 @@ function max_prime_factor(n) {
         }
         i += 2;
     }
+    p = k > 1 ? k : p;
     return p;
 }
 
