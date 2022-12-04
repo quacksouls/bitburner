@@ -19,22 +19,25 @@ not discuss manual trading on the Stock Market.
 
 ![World Stock Exchange](image/stock-market.png "World Stock Exchange")
 
-Automatic trading on the Stock Market requires a huge initial cost. First, you
-must spend $200m to purchase an account on the WSE. The account gives you access
-to manual trading, i.e. you must point and click to trade a stock. For an extra
-$5b, you can purchase access to the Trade Information eXchange (TIX) API, which
-allows you to automate various aspects of your trading on the Stock Market.
-Spend another $25b to purchase access to the 4S Market Data TIX API. An extra
-$1b would buy you access to the 4S Market Data. Every transaction you make
-through 4S incurs a commission fee of $100k. In total, expect to pay $31.2b up
-front to have access to all APIs and data relevant to the Stock Market. Your
-access to the APIs and data is permanent and do not reset after installing an
-Augmentation. Despite the huge initial cost, in the long run trading on the
-Stock Market can reward you with much more passive income than the combination
-of your Hacknet and server hacking. Every time you trade on the Stock Market,
-ensure you leave some money in reserve in case you need money to purchase
-servers or upgrade your Hacknet nodes. Refrain from spending all your money
-gambling on the Stock Market.
+Use the
+[Stock Market API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.tix.md)
+to automate your trading. Note that the namespace of the API is
+`ns.stock.functionName()`, not `ns.TIX.functionName()`. Automatic trading on the
+Stock Market requires a huge initial cost. First, you must spend $200m to
+purchase an account on the WSE. The account gives you access to manual trading,
+i.e. you must point and click to trade a stock. For an extra $5b, you can
+purchase access to the Trade Information eXchange (TIX) API, which allows you to
+automate various aspects of your trading on the Stock Market. Spend another $25b
+to purchase access to the 4S Market Data TIX API. An extra $1b would buy you
+access to the 4S Market Data. Every transaction you make through 4S incurs a
+commission fee of $100k. In total, expect to pay $31.2b up front to have access
+to all APIs and data relevant to the Stock Market. Your access to the APIs and
+data is permanent and do not reset after installing an Augmentation. Despite the
+huge initial cost, in the long run trading on the Stock Market can reward you
+with much more passive income than the combination of your Hacknet and server
+hacking. Every time you trade on the Stock Market, ensure you leave some money
+in reserve in case you need money to purchase servers or upgrade your Hacknet
+nodes. Refrain from spending all your money gambling on the Stock Market.
 
 > **Problem.** Obtain access to all WSE APIs and data. Write a trade bot to
 > automate your trading on the Stock Market. For your first trade bot, buy a
@@ -50,7 +53,9 @@ CCT to spawn on a random world server. Correctly solving a CCT would grant you a
 random reward. The reward can be faction reputation, company reputation, or
 money. Early in the game, the money you gain from a CCT is immensely useful to
 help you upgrade the `home` server, purchase servers, or buy programs via the
-dark web. Here is a list of CCT problems:
+dark web. Use the CCT API to help you automate various aspects of this game
+mechanic. The namespace of the API is `ns.codingcontract.functionName()`, not
+`ns.CodingContract.functionName()`. Here is a list of CCT problems:
 
 1. _Find Largest Prime Factor._ Determine the largest prime factor of an
    integer. The problem boils down to obtaining the
