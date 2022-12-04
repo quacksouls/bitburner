@@ -361,7 +361,7 @@ export async function main(ns) {
     await product_cycle(ns, "three");
     await investment_offer(ns, "three");
     await research(ns);
-    const round = ["four", "five", "six", "seven", "eight", "nine"];
+    const round = ["four", "five", "six"];
     for (const n of round) {
         await enhanced_product_cycle(ns, n);
     }
