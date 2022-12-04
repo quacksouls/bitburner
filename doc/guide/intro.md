@@ -43,8 +43,8 @@ Below are various tips you might want to keep in mind while playing the game.
    the class. You want a balance between the code size of your class and total
    RAM cost used by the class. Another option is to create a file of utility
    functions and import any functions you need early in the game when the RAM of
-   your home server is low. When the RAM of your home server is high enough, use
-   your library classes.
+   your `home` server is low. When the RAM of your `home` server is high enough,
+   use your library classes.
 1. _Automate everything._ The Singularity API is key to automating most aspects
    of the game. Note that every aspect of the game play can be automated. Some
    portions of the game play is more easily automated than others. Early in the
