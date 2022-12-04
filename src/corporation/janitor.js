@@ -149,6 +149,6 @@ export async function main(ns) {
     await go_public(ns);
     for (;;) {
         await update(ns, corp.industry.TOBACCO);
-        await ns.sleep(5 * wait_t.MINUTE);
+        await ns.sleep(10 * wait_t.MINUTE);
     }
 }
