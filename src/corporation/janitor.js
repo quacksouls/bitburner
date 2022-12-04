@@ -90,6 +90,33 @@ async function product_cycle(ns, div) {
 }
 
 /**
+ * Make the log less verbose.
+ *
+ * @param ns The Netscript API.
+ */
+function quiet_log(ns) {
+    ns.disableLog("sleep");
+}
+
+/**
+ * Various sanity checks.  We want these conditions to hold before proceeding to
+ * maintain the corporation.
+ *
+ * @param ns The Netscript API.
+ */
+function sanity_checks(ns) {
+    const org = new Corporation(ns);
+    const division = [corp.industry.TOBACCO];
+    assert(has_corporation_api(ns));
+    assert(org.has_corp());
+    assert(org.has_office_warehouse_api());
+    division.forEach((div) => {
+        assert(org.has_research(div, corp.research.CAPACITY_I));
+        assert(org.has_research(div, corp.research.CAPACITY_II));
+    });
+}
+
+/**
  * The maintenance loop.  We constantly maintain the various divisions of our
  * corporation.
  *
@@ -119,20 +146,11 @@ async function update(ns, div) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("sleep");
-    // Sanity checks.
-    const org = new Corporation(ns);
-    const division = [corp.industry.TOBACCO];
-    assert(has_corporation_api(ns));
-    assert(org.has_corp());
-    assert(org.has_office_warehouse_api());
-    division.forEach((div) => {
-        assert(org.has_research(div, corp.research.CAPACITY_I));
-        assert(org.has_research(div, corp.research.CAPACITY_II));
-    });
+    quiet_log(ns);
+    sanity_checks(ns);
     // Maintain our corporation.
     await go_public(ns);
+    const division = [corp.industry.TOBACCO];
     for (;;) {
         for (const div of division) {
             await update(ns, div);
