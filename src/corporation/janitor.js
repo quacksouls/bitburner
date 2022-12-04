@@ -106,14 +106,11 @@ function quiet_log(ns) {
  */
 function sanity_checks(ns) {
     const org = new Corporation(ns);
-    const division = [corp.industry.TOBACCO];
     assert(has_corporation_api(ns));
     assert(org.has_corp());
     assert(org.has_office_warehouse_api());
-    division.forEach((div) => {
-        assert(org.has_research(div, corp.research.CAPACITY_I));
-        assert(org.has_research(div, corp.research.CAPACITY_II));
-    });
+    assert(org.has_research(corp.industry.TOBACCO, corp.research.CAPACITY_I));
+    assert(org.has_research(corp.industry.TOBACCO, corp.research.CAPACITY_II));
 }
 
 /**
@@ -150,11 +147,8 @@ export async function main(ns) {
     sanity_checks(ns);
     // Maintain our corporation.
     await go_public(ns);
-    const division = [corp.industry.TOBACCO];
     for (;;) {
-        for (const div of division) {
-            await update(ns, div);
-        }
+        await update(ns, corp.industry.TOBACCO);
         await ns.sleep(5 * wait_t.MINUTE);
     }
 }
