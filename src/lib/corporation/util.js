@@ -26,7 +26,7 @@ import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { log } from "/lib/io.js";
 import { random_integer } from "/lib/random.js";
-import { assert } from "/lib/util.js";
+import { assert, is_boolean } from "/lib/util.js";
 
 /**
  * Purchase both "Market-TA.I" and "Market-TA.II".
@@ -182,12 +182,15 @@ export async function finishing_product(ns, div, name) {
  *
  * @param ns The Netscript API.
  * @param div A string representing the name of a division.
+ * @param wait A boolean signifying whether we want to wait to accumulate enough
+ *     money to hire employees.  If set to false, then we abort the hiring
+ *     process if we do not have sufficient funds to hire an employee.
  */
-export async function hire(ns, div) {
+export async function hire(ns, div, wait) {
     for (const ct of cities.all) {
         const num = hire_increment(div, ct);
         for (const role of Object.values(corp.job)) {
-            await hireling(ns, div, ct, num[role], role);
+            await hireling(ns, div, ct, num[role], role, wait);
         }
     }
 }
@@ -276,11 +279,15 @@ function hire_increment(div, ct) {
  * @param ct A string representing the name of a city.
  * @param num Hire this many employees.
  * @param job Assign each new employee to this role.
+ * @param wait A boolean signifying whether we want to wait to accumulate enough
+ *     money to hire an employee.  If set to false, then we abort the hiring
+ *     process if we do not have sufficient funds to hire an employee.
  */
-async function hireling(ns, div, ct, num, job) {
+async function hireling(ns, div, ct, num, job, wait) {
     assert(num >= 0);
+    assert(is_boolean(wait));
     for (let i = 0; i < num; i++) {
-        await new_hire(ns, div, ct, job);
+        await new_hire(ns, div, ct, job, wait);
     }
 }
 
@@ -387,17 +394,28 @@ export async function more_unlock_upgrade(ns) {
  * @param div A string representing the name of a division.
  * @param ct A string representing the name of a city.
  * @param role We want to hire for this role.
+ * @param wait A boolean signifying whether we want to wait to accumulate enough
+ *     money to hire an employee.  If set to false, then we abort the hiring
+ *     process if we do not have sufficient funds to hire an employee.
  */
-export async function new_hire(ns, div, ct, role) {
+export async function new_hire(ns, div, ct, role, wait) {
+    assert(is_boolean(wait));
     const howmany = 1; // How many times to upgrade.
     const org = new Corporation(ns);
+    let success = false;
     if (org.is_at_capacity(div, ct)) {
-        while (!org.upgrade_office(div, ct, howmany)) {
-            await ns.sleep(corp_t.TICK);
+        success = org.upgrade_office(div, ct, howmany);
+        if (!success && wait) {
+            while (!org.upgrade_office(div, ct, howmany)) {
+                await ns.sleep(corp_t.TICK);
+            }
         }
     }
-    while (!org.new_hire(div, ct, role)) {
-        await ns.sleep(corp_t.TICK);
+    success = org.new_hire(div, ct, role);
+    if (!success && wait) {
+        while (!org.new_hire(div, ct, role)) {
+            await ns.sleep(corp_t.TICK);
+        }
     }
 }
 

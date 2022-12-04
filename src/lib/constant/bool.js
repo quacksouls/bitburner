@@ -144,6 +144,11 @@ export const bool = {
     VISIT: true,
     NO_VISIT: false,
     /**
+     * Whether we should wait for a condition to be met.
+     */
+    WAIT: true,
+    NO_WAIT: false,
+    /**
      * Whether we are (or should be) engaged in territory warfare.
      */
     WAR: true,

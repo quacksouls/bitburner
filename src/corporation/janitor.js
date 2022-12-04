@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t } from "/lib/constant/corp.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
@@ -73,7 +74,7 @@ async function product_cycle(ns, div) {
     }
     log(ns, `${div}: a round of product development`);
     log(ns, `${div}: hiring a crop of employees`);
-    await hire(ns, div);
+    await hire(ns, div, bool.WAIT);
     const name = create_product(ns, div);
     log(ns, `${div}: creating product: ${name}`);
     const upg = level_upgrade(ns);

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -109,25 +110,25 @@ async function hire(ns, n) {
         const ntrain = tobacco[ct].hire.stage[n].TRAIN;
         const nidle = tobacco[ct].hire.stage[n].IDLE;
         for (let i = org.num_business(div, ct); i < nbusiness; i++) {
-            await new_hire(ns, div, ct, corp.job.BUSINESS);
+            await new_hire(ns, div, ct, corp.job.BUSINESS, bool.WAIT);
         }
         for (let i = org.num_engineer(div, ct); i < nengineer; i++) {
-            await new_hire(ns, div, ct, corp.job.ENGINEER);
+            await new_hire(ns, div, ct, corp.job.ENGINEER, bool.WAIT);
         }
         for (let i = org.num_management(div, ct); i < nmanagement; i++) {
-            await new_hire(ns, div, ct, corp.job.MANAGEMENT);
+            await new_hire(ns, div, ct, corp.job.MANAGEMENT, bool.WAIT);
         }
         for (let i = org.num_operations(div, ct); i < noperations; i++) {
-            await new_hire(ns, div, ct, corp.job.OPERATIONS);
+            await new_hire(ns, div, ct, corp.job.OPERATIONS, bool.WAIT);
         }
         for (let i = org.num_rnd(div, ct); i < nrnd; i++) {
-            await new_hire(ns, div, ct, corp.job.RND);
+            await new_hire(ns, div, ct, corp.job.RND, bool.WAIT);
         }
         for (let i = org.num_training(div, ct); i < ntrain; i++) {
-            await new_hire(ns, div, ct, corp.job.TRAIN);
+            await new_hire(ns, div, ct, corp.job.TRAIN, bool.WAIT);
         }
         for (let i = org.num_idle(div, ct); i < nidle; i++) {
-            await new_hire(ns, div, ct, corp.job.IDLE);
+            await new_hire(ns, div, ct, corp.job.IDLE, bool.WAIT);
         }
     }
 }
@@ -209,7 +210,7 @@ async function research(ns) {
         }
         // Expand the research unit of each city other than the developer city.
         for (const ct of city) {
-            await new_hire(ns, div, ct, corp.job.RND);
+            await new_hire(ns, div, ct, corp.job.RND, bool.WAIT);
             await ns.sleep(wait_t.MINUTE);
         }
         // We must first buy/setup a research facility.
