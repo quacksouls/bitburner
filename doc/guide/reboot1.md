@@ -189,8 +189,12 @@ threads you can use to run the script. Here is an
 [example worm](script/worm.js), which depends on the hack script from the
 section [First script](script.md).
 
-> **Problem.** Rewrite your worm script to use a recursive version of
+> **Problem 1.** Rewrite your worm script to use a recursive version of
 > depth-first search.
+>
+> **Problem 2.** Write a script to kill all scripts running on a world server.
+> Exclude your `home` server as well as purchased servers. You might find such a
+> script useful whenever you need to change the common target for your worm.
 
 ## Purchased servers
 
