@@ -1,3 +1,5 @@
+# Augmentations
+
 Various data on each Augmentation, including the following:
 
 1. The Augmentation name.
@@ -6,7 +8,7 @@ Various data on each Augmentation, including the following:
 1. The stat multiplier.
 1. The faction that offers the Augmentation.
 
-The data is due to
+The file `augmentation.ods` is an updated version of the spreadsheet due to
 
 https://www.reddit.com/user/super_aardvark/
 
