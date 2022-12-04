@@ -36,13 +36,15 @@ import { assert } from "/lib/util.js";
  * @param ns The Netscript API.
  * @param div A string representing the name of a division.
  * @param res An array of names of research we care about.
- * @return True if we have all the given research; false otherwise.
+ * @return True if we have all research available to be purchased;
+ *     false otherwise.
  */
 function has_all_research(ns, div, res) {
     assert(res.length > 0);
     const org = new Corporation(ns);
+    const available_res = res.filter((r) => org.is_research_available(div, r));
     const has_research = (x) => org.has_research(div, x);
-    return res.every(has_research);
+    return available_res.every(has_research);
 }
 
 /**
@@ -69,7 +71,7 @@ async function research(ns, div, res) {
     // Purchase other research we care about.
     const org = new Corporation(ns);
     for (const r of res) {
-        if (!org.has_research(div, r)) {
+        if (!org.has_research(div, r) && org.is_research_available(div, r)) {
             if (org.has_enough_research_points(div, r)) {
                 log(ns, `${div}: buying research: ${r}`);
                 await buy_research(ns, div, r);

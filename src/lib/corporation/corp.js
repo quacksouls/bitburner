@@ -593,6 +593,25 @@ export class Corporation {
     }
 
     /**
+     * Whether a particular research is available to a division.
+     *
+     * @param div A string representing the name of a division.
+     * @param name A string representing the name of a research.
+     * @return True if the given research is available to the division;
+     *     false otherwise.
+     */
+    is_research_available(div, name) {
+        assert(this.has_division(div));
+        assert(this.is_valid_research(name));
+        try {
+            this.research_cost(div, name);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    /**
      * Whether the given name represents a valid industry.
      *
      * @param name A string representing the name of an industry.
