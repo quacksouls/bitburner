@@ -29,6 +29,29 @@ import { random_integer } from "/lib/random.js";
 import { assert } from "/lib/util.js";
 
 /**
+ * Purchase both "Market-TA.I" and "Market-TA.II".
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @return True if we already have both research in the given division or we
+ *     have successfully bought both research for the division; false otherwise.
+ */
+export function buy_market_ta(ns, div) {
+    const res = [corp.research.TA_I, corp.research.TA_II];
+    const org = new Corporation(ns);
+    const has_research = (r) => org.has_research(div, r);
+    if (res.every(has_research)) {
+        return bool.HAS;
+    }
+    res.forEach((r) => {
+        if (org.has_enough_research_points(div, r)) {
+            org.buy_research(div, r);
+        }
+    });
+    return res.every(has_research);
+}
+
+/**
  * Purchase a particular research.
  *
  * @param ns The Netscript API.
@@ -420,6 +443,27 @@ export function sell_product(ns, div, name) {
     assert(org.is_product_complete(div, name));
     cities.all.forEach((ct) => org.product_sell(div, ct, name));
     org.enable_market_ta(div, bool.IS_PRODUCT, name);
+}
+
+/**
+ * Setup a research lab within a division.  We need a research lab for a
+ * division before can acquire other research for the division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @return True if we already have a research lab in the given division or we
+ *     have successfully setup a research lab for the division; false otherwise.
+ */
+export function setup_research_lab(ns, div) {
+    const res = corp.research.RND_LAB;
+    const org = new Corporation(ns);
+    if (org.has_research(div, res)) {
+        return bool.HAS;
+    }
+    if (org.has_enough_research_points(div, res)) {
+        return org.buy_research(div, res);
+    }
+    return bool.NOT;
 }
 
 /**

@@ -20,7 +20,12 @@ import { agriculture, corp } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
-import { hire, buy_research } from "/lib/corporation/util.js";
+import {
+    hire,
+    buy_market_ta,
+    buy_research,
+    setup_research_lab,
+} from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
@@ -50,28 +55,46 @@ function has_all_research(ns, div, res) {
 async function research(ns, div, res) {
     log(ns, `${div}: expand the research unit of each office`);
     await hire(ns, div);
-    // Purchase one research we do not have.
+    // We must setup a research lab for the division before we are able to buy
+    // other useful research.
+    if (!setup_research_lab(ns, div)) {
+        log(ns, `${div}: unable to setup research lab`);
+        return;
+    }
+    setup_market_ta(ns, div);
+    if (!buy_market_ta(ns, div)) {
+        log(ns, `${div}: cannot buy research: Market-TA.I, Market-TA.II`);
+        return;
+    }
+    // Purchase other research we care about.
     const org = new Corporation(ns);
     for (const r of res) {
         if (!org.has_research(div, r)) {
             if (org.has_enough_research_points(div, r)) {
                 log(ns, `${div}: buying research: ${r}`);
                 await buy_research(ns, div, r);
-                if (r === corp.research.TA_I || r === corp.research.TA_II) {
-                    cities.all.forEach((ct) => {
-                        agriculture.material.sold.forEach((mat) => {
-                            org.enable_market_ta(
-                                div,
-                                bool.NOT_PRODUCT,
-                                mat,
-                                ct
-                            );
-                        });
-                    });
-                }
             }
-            return;
         }
+    }
+}
+
+/**
+ * Enable both versions of Market TA for all materials sold by the given
+ * division.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ */
+function setup_market_ta(ns, div) {
+    const org = new Corporation(ns);
+    const res = [corp.research.TA_I, corp.research.TA_II];
+    const has_research = (r) => org.has_research(div, r);
+    if (res.some(has_research)) {
+        cities.all.forEach((ct) => {
+            agriculture.material.sold.forEach((mat) => {
+                org.enable_market_ta(div, bool.NOT_PRODUCT, mat, ct);
+            });
+        });
     }
 }
 
@@ -93,7 +116,11 @@ export async function main(ns) {
     // The research we care about.
     const res = [
         // Top priority.
+        // The research corp.research.RND_LAB should be handled by the function
+        // setup_research_lab().
         corp.research.RND_LAB,
+        // The next 2 research should be handled by the function
+        // buy_market_ta().
         corp.research.TA_I,
         corp.research.TA_II,
         // Employee research.
