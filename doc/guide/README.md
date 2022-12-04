@@ -18,3 +18,4 @@ available at these avenues:
 1. [Programs and factions](program.md)
 1. [After the first reboot](reboot1.md)
 1. [Faction progression](faction.md)
+1. [Stocks and contracts](stock.md)
