@@ -66,5 +66,35 @@ Below are various tips you might want to keep in mind while playing the game.
    the browser to be constantly in focus. Do not minimize the browser that is
    running the online version of the game and ensure that the browser is not
    behind any other application windows.
+1. _Functional code._ Write functional JavaScript code wherever you can. If you
+   are not familiar with JavaScript, you might find this
+   [online book](https://eloquentjavascript.net/) useful to help you learn the
+   language. Functional JavaScript, or functional programming, might seem weird
+   at first for anyone who is accustomed to procedural and/or object-oriented
+   programming. Various tutorials are available online to help you get started
+   on functional JavaScript. See for example
+   [this tutorial](https://opensource.com/article/17/6/functional-javascript)
+   and [this blog](https://jrsinclair.com/).
+1. _Tools of the trade._ As your library of scripts grow, you would benefit from
+   using various tools to help you code and sanitize your scripts. First, use a
+   formatter to automatically help you format your code in a consistent manner.
+   You might find [Prettier](https://prettier.io/) useful for this purpose.
+   Second, use a linter to sanitize your code and fix common errors.
+   [ESLint](https://eslint.org/) is recommended. Third, you cannot use a
+   JavaScript formatter or linter from within the in-game text editor. You would
+   have to use an external text editor that allows you to integrate a formatter
+   and linter. Try [Visual Studio Code](https://code.visualstudio.com/) because
+   it allows you to integrate Prettier and ESLint. For those who prefer a
+   command line driven approach, setup
+   [npm](<https://en.wikipedia.org/wiki/Npm_(software)>) and use it to install
+   Prettier and ESLint. So you use an external text editor to write/edit your
+   scripts. You now face the problem of how to sync your scripts between your
+   computer and the game. A simple solution is to copy from your external text
+   editor and paste the code into the in-game text editor. Another option is to
+   use an online code hosting provider such as [GitHub](https://github.com/).
+   Save your scripts to GitHub and from the Terminal of the game use the command
+   `wget` to download a script into your game. Ask on the
+   [Bitburner server of Discord](https://discord.com/invite/TFc3hKD) for more
+   options.
 
 [[TOC](README.md "Table of Contents")] [[Next](start.md "Starting out")]
