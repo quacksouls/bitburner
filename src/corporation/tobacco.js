@@ -26,6 +26,8 @@ import {
     discontinue_product,
     expand_city,
     finishing_product,
+    has_all_research,
+    hire,
     hire_advert,
     investment_offer,
     more_unlock_upgrade,
@@ -97,7 +99,7 @@ function has_init_max_products(ns) {
  * @param n A string representing the hiring stage.  If it is stage 1 of hiring,
  *     pass in the word "one", and so on.
  */
-async function hire(ns, n) {
+async function hire_employees(ns, n) {
     log(ns, `Round ${to_number(n)} of hiring`);
     const div = corp.industry.TOBACCO;
     for (const ct of cities.all) {
@@ -159,9 +161,25 @@ async function more_research(ns) {
         corp.research.FULCRUM,
     ];
     const div = corp.industry.TOBACCO;
-    for (const r of res) {
-        log(ns, `${div}: buying research: ${r}`);
-        await buy_research(ns, div, r);
+    const org = new Corporation(ns);
+    for (;;) {
+        if (has_all_research(ns, div, res)) {
+            return;
+        }
+        log(ns, `${div}: expand the research unit of each office`);
+        await hire(ns, div, bool.NO_WAIT);
+        for (const r of res) {
+            if (
+                !org.has_research(div, r)
+                && org.is_research_available(div, r)
+            ) {
+                if (org.has_enough_research_points(div, r)) {
+                    log(ns, `${div}: buying research: ${r}`);
+                    await buy_research(ns, div, r);
+                }
+            }
+        }
+        await ns.sleep(5 * wait_t.MINUTE);
     }
 }
 
@@ -177,7 +195,7 @@ async function product_cycle(ns, n) {
         return;
     }
     log(ns, `Round ${to_number(n)} of product development`);
-    await hire(ns, n);
+    await hire_employees(ns, n);
     const div = corp.industry.TOBACCO;
     const name = create_product(ns, div);
     log(ns, `${div}: creating product: ${name}`);
