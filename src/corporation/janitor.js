@@ -74,7 +74,7 @@ async function product_cycle(ns, div) {
     }
     log(ns, `${div}: a round of product development`);
     log(ns, `${div}: hiring a crop of employees`);
-    await hire(ns, div, bool.WAIT);
+    await hire(ns, div, bool.NO_WAIT);
     const name = create_product(ns, div);
     log(ns, `${div}: creating product: ${name}`);
     const upg = level_upgrade(ns);
