@@ -177,6 +177,23 @@ export async function finishing_product(ns, div, name) {
 }
 
 /**
+ * Whether a division has all research it needs.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param res An array of names of research we care about.
+ * @return True if we have all research available to be purchased;
+ *     false otherwise.
+ */
+export function has_all_research(ns, div, res) {
+    assert(res.length > 0);
+    const org = new Corporation(ns);
+    const available_res = res.filter((r) => org.is_research_available(div, r));
+    const has_research = (x) => org.has_research(div, x);
+    return available_res.every(has_research);
+}
+
+/**
  * Hire a crop of employees for a division.  Use this function when a division
  * is in maintenance mode.
  *

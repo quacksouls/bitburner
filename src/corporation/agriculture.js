@@ -24,28 +24,12 @@ import {
     hire,
     buy_market_ta,
     buy_research,
+    has_all_research,
     setup_research_lab,
 } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
-
-/**
- * Whether a division has all research it needs.
- *
- * @param ns The Netscript API.
- * @param div A string representing the name of a division.
- * @param res An array of names of research we care about.
- * @return True if we have all research available to be purchased;
- *     false otherwise.
- */
-function has_all_research(ns, div, res) {
-    assert(res.length > 0);
-    const org = new Corporation(ns);
-    const available_res = res.filter((r) => org.is_research_available(div, r));
-    const has_research = (x) => org.has_research(div, x);
-    return available_res.every(has_research);
-}
 
 /**
  * Develop the research unit in each office.
