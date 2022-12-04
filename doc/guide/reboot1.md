@@ -70,8 +70,9 @@ earn per second; refer to the subsection "Share" of
 unlock all Augmentations from Sector-12, think about various tasks that you can
 automate. For example, you already have access to most functions in the
 [Hacknet API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.hacknet.md).
-Why not write a script to automate the buying and upgrading of your farm of
-Hacknet nodes?
+(The namespace of the API is `ns.hacknet.functionName()`, not
+`ns.Hacknet.functionName()`.) Why not write a script to automate the buying and
+upgrading of your farm of Hacknet nodes?
 
 Your Hacknet script does not need to be fancy at the moment. At the very least,
 the script should automate the following tasks:
