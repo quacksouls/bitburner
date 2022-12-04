@@ -54,7 +54,7 @@ function has_all_research(ns, div, res) {
  */
 async function research(ns, div, res) {
     log(ns, `${div}: expand the research unit of each office`);
-    await hire(ns, div);
+    await hire(ns, div, bool.NO_WAIT);
     // We must setup a research lab for the division before we are able to buy
     // other useful research.
     if (!setup_research_lab(ns, div)) {
