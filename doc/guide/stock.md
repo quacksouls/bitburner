@@ -53,8 +53,10 @@ CCT to spawn on a random world server. Correctly solving a CCT would grant you a
 random reward. The reward can be faction reputation, company reputation, or
 money. Early in the game, the money you gain from a CCT is immensely useful to
 help you upgrade the `home` server, purchase servers, or buy programs via the
-dark web. Use the CCT API to help you automate various aspects of this game
-mechanic. The namespace of the API is `ns.codingcontract.functionName()`, not
+dark web. Use the
+[CCT API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.codingcontract.md)
+to help you automate various aspects of this game mechanic. The namespace of the
+API is `ns.codingcontract.functionName()`, not
 `ns.CodingContract.functionName()`. Here is a list of CCT problems:
 
 1. _Find Largest Prime Factor._ Determine the largest prime factor of an
