@@ -29,7 +29,7 @@ import {
 } from "/lib/util.js";
 
 /**
- * Gain root access to a server, copy our hack scripts over to the server, and
+ * Gain root access to a server, copy our hack script over to the server, and
  * use the server to hack a target.
  *
  * @param ns The Netscript API.
@@ -159,7 +159,7 @@ function redirect_bankrupt_server(ns, candidate, hacked_server) {
  *     server is too high and we should skip over this server.  In case
  *     h < r and h + m >= r, we are willing to wait for our Hack stat to
  *     increase by an extra m points.
- * @return true if we are to skip over the given server; false otherwise.
+ * @return True if we are to skip over the given server; false otherwise.
  */
 function skip_server(ns, server, script, margin) {
     const serv = new Server(ns, server);
@@ -201,7 +201,7 @@ function skip_server(ns, server, script, margin) {
  * @param ns The Netscript API.
  * @param margin The Hack stat margin.
  * @param server The target server.
- * @return true if we are willing to tolerate the margin; false otherwise.
+ * @return True if we are willing to tolerate the margin; false otherwise.
  */
 function tolerate_margin(ns, margin, server) {
     const serv = new Server(ns, server);
