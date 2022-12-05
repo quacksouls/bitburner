@@ -24,35 +24,9 @@ import { Server } from "/lib/server.js";
 import {
     assert,
     choose_best_server,
+    compromised_servers,
     filter_bankrupt_servers,
-    filter_pserv,
 } from "/lib/util.js";
-
-/**
- * Determine which servers in the game world have been compromised.  We
- * exclude all purchased servers.  A server in the game world is said to be
- * compromised provided that:
- *
- * (1) We have root access to the server.
- * (2) Our hack scripts are currently running on the server.
- *
- * @param ns The Netscript API.
- * @param script A hack script.  We want to check whether a server is running
- *     this script.
- * @param server An array of server names.
- * @return An array of servers that have been compromised.
- */
-function compromised_servers(ns, script, server) {
-    assert(server.length > 0);
-    const compromised = [];
-    for (const s of filter_pserv(ns, server)) {
-        const serv = new Server(ns, s);
-        if (serv.has_root_access() && serv.is_running_script(script)) {
-            compromised.push(s);
-        }
-    }
-    return compromised;
-}
 
 /**
  * Gain root access to a server, copy our hack scripts over to the server, and
