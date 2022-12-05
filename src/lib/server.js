@@ -277,6 +277,15 @@ export class Server {
     }
 
     /**
+     * Whether we have purchased this server.
+     *
+     * @return True if this is a purchased server; false otherwise.
+     */
+    is_pserv() {
+        return this.#ns.getServer(this.hostname()).purchasedByPlayer;
+    }
+
+    /**
      * Whether this server is currently running a script.
      *
      * @param s Check to see if this script is currently running on the
