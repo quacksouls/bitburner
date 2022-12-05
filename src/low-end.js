@@ -176,13 +176,13 @@ function update(ns) {
     compromised.forEach((s) => ns.killall(s));
     const lowend = low_end(ns);
     let n = 0;
-    for (const s of compromised.concat(new_nuked)) {
+    compromised.concat(new_nuked).forEach((s) => {
         const serv = new Server(ns, s);
         const i = n % lowend.length;
         serv.deploy(lowend[i]);
         log(ns, `Redirect ${s} to hack low-end server: ${lowend[i]}`);
         n++;
-    }
+    });
 }
 
 /**
