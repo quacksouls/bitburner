@@ -106,6 +106,27 @@ export function cleanup(ns) {
 }
 
 /**
+ * Determine which servers in the game world have been compromised.  We
+ * exclude all purchased servers.  A server in the game world is said to be
+ * compromised provided that:
+ *
+ * (1) We have root access to the server.
+ * (2) Our hack script is currently running on the server.
+ *
+ * @param ns The Netscript API.
+ * @param s A hack script.  We want to check whether a server is running
+ *     this script.
+ * @param candiate An array of world servers to check.
+ * @return An array of servers that have been compromised.
+ */
+export function compromised_servers(ns, s, candidate) {
+    assert(candidate.length > 0);
+    return filter_pserv(ns, candidate)
+        .filter((serv) => ns.hasRootAccess(serv))
+        .filter((host) => ns.scriptRunning(s, host));
+}
+
+/**
  * Execute a script on the home server and using 1 thread.
  *
  * @param ns The Netscript API.

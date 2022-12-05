@@ -25,26 +25,12 @@ import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
-
-/**
- * Determine which servers in the game world have been compromised.  We
- * exclude all purchased servers.  A server in the game world is said to be
- * compromised provided that:
- *
- * (1) We have root access to the server.
- * (2) Our hack script is currently running on the server.
- *
- * @param ns The Netscript API.
- * @param script A hack script.  We want to check whether a server is running
- *     this script.
- * @return An array of servers that have been compromised.
- */
-function compromised_servers(ns, script) {
-    return filter_pserv(ns, network(ns))
-        .filter((s) => ns.hasRootAccess(s))
-        .filter((host) => ns.scriptRunning(script, host));
-}
+import {
+    assert,
+    compromised_servers,
+    filter_bankrupt_servers,
+    filter_pserv,
+} from "/lib/util.js";
 
 /**
  * Whether a server is nuked.
@@ -163,7 +149,7 @@ function skip_server(ns, s, script) {
 function update(ns) {
     // A list of servers that have been successfully nuked.
     const player = new Player(ns);
-    const compromised = compromised_servers(ns, player.script());
+    const compromised = compromised_servers(ns, player.script(), network(ns));
     // Gain root access to new servers in the game world.  Exclude all purchased
     // servers.
     const new_nuked = nuke_servers(ns);
