@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { money_reserve } from "/lib/constant/misc.js";
 import { pserv } from "/lib/constant/pserv.js";
@@ -41,8 +42,10 @@ async function await_prerequisites(ns) {
         await ns.sleep(wait_t.DEFAULT);
     }
     // Our farm of purchased servers must meet certain minimum requirements.
-    while (!has_minimum_pserv(ns)) {
-        await ns.sleep(wait_t.DEFAULT);
+    if (player.bitnode() !== bitnode.Hacktocracy) {
+        while (!has_minimum_pserv(ns)) {
+            await ns.sleep(wait_t.DEFAULT);
+        }
     }
     // Wait until we have a large amount of money before trading on the Stock
     // Market.  Gambling on the Stock Market requires huge wealth.
@@ -276,11 +279,15 @@ export async function main(ns) {
     await purchase_api_access(ns);
     // Continuously trade on the Stock Market.
     log(ns, "Trading on the Stock Market");
+    const player = new Player(ns);
     for (;;) {
         // Iterate over each stock.  Decide whether to buy or sell.
         for (const stk of ns.stock.getSymbols()) {
             sell_stock(ns, stk);
-            if (!has_minimum_pserv(ns)) {
+            if (
+                player.bitnode() !== bitnode.Hacktocracy
+                && !has_minimum_pserv(ns)
+            ) {
                 continue;
             }
             if (skip_buy(ns)) {
