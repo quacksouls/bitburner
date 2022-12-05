@@ -42,20 +42,8 @@ import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
  */
 function compromised_servers(ns, script) {
     return filter_pserv(ns, network(ns))
-        .filter((s) => has_root_access(ns, s))
-        .filter((t) => is_running_script(ns, t, script));
-}
-
-/**
- * Whether we have root access to a server.
- *
- * @param ns The Netscript API.
- * @param s The hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
- */
-function has_root_access(ns, s) {
-    const serv = new Server(ns, s);
-    return serv.has_root_access();
+        .filter((s) => ns.hasRootAccess(s))
+        .filter((host) => ns.scriptRunning(script, host));
 }
 
 /**
@@ -69,19 +57,6 @@ function is_nuked(ns, s) {
     const serv = new Server(ns, s);
     serv.gain_root_access();
     return serv.has_root_access();
-}
-
-/**
- * Whether a server is currently running a script.
- *
- * @param ns The Netscript API.
- * @param s The hostname of a world server.
- * @param script The name of a script.
- * @return True if the given server is running the script; false otherwise.
- */
-function is_running_script(ns, s, script) {
-    const serv = new Server(ns, s);
-    return serv.is_running_script(script);
 }
 
 /**
