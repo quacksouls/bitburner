@@ -321,30 +321,19 @@ export class Graph {
  *     servers are excluded.
  */
 export function network(ns) {
-    // We scan the world network from a node, which is assumed to be our home
-    // server.  We refer to our home server as the root of the tree.
-    const root = home;
-    // A set of all servers we can visit at the moment.
-    let server = new Set();
-    // A stack of servers to visit.  We start from our home server.
-    const stack = new Array(root);
-    // Use depth-first search to navigate all servers we can visit.
-    while (stack.length > 0) {
-        const s = stack.pop();
-        // Have we visited the server s yet?
-        if (!server.has(s)) {
-            // The server s is now visited.
-            server.add(s);
-            // Add all neighbours of s to the stack.  Take care to exclude the
-            // purchased servers.
-            stack.push(...filter_pserv(ns, ns.scan(s)));
-        }
+    const q = [home];
+    const visit = new Set([home]);
+    while (q.length > 0) {
+        const u = q.shift();
+        ns.scan(u)
+            .filter((v) => !visit.has(v))
+            .forEach((x) => {
+                visit.add(x);
+                q.push(x);
+            });
     }
-    // Convert the set of servers to an array of servers.
-    server = [...server];
-    // Remove the root node from our array.  We want all servers that are
-    // connected either directly or indirectly to the root node.
-    return server.filter((s) => root !== s);
+    visit.delete(home);
+    return filter_pserv(ns, [...visit]);
 }
 
 /**
