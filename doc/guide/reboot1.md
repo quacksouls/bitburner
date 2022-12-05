@@ -196,6 +196,42 @@ section [First script](script.md).
 > **Problem 2.** Write a script to kill all scripts running on a world server.
 > Exclude your `home` server as well as purchased servers. You might find such a
 > script useful whenever you need to change the common target for your worm.
+>
+> **Problem 3.** If your worm targets `n00dles` or a low-level server of similar
+> Hack stat requirement, you might not be generating as high income as you want.
+> On the other hand, if your worm targets a server that can hold the highest
+> amount of money (choosing from all compromised servers), you might find that
+> it takes too long for the script to generate money. Servers that can hold a
+> larger amount of money than `n00dles` usually require a higher Hack stat and
+> have higher security levels than `n00dles`. A rule of thumb, due to
+> [`xsinx#1018`](https://github.com/xxxsinx/bitburner) on the
+> [Bitburner server](https://discord.com/invite/TFc3hKD) of Discord, is to rate
+> (or assign a hack desirability score to) all servers. A world server not
+> compromised receives a score of zero because you cannot steal money from a
+> server to which you do not have root access. If a compromised server requires
+> more than half of your current Hack stat, then the server receives a hack
+> desirability score of zero as well. You are now left with compromised servers
+> that have Hack stat requirements at most half of your Hack stat. The hack
+> desirability score of each such server is defined as the maximum amount of
+> money the server can hold divided by the minimum security level of the server.
+> The hack desirability score of a server $s$ is encapsulated in the following
+> weight formula
+
+```math
+w(s)
+=
+\begin{cases}
+0, & \text{if $s$ is not compromised}, \\[4pt]
+0, & \text{if $h_s > h / 2$}, \\[4pt]
+money_{max} / security_{min}, & \text{otherwise}.
+\end{cases}
+```
+
+> Here $h_s$ is the server's Hack stat requirement, $h$ is your current Hack
+> stat, $money_{max}$ is the maximum amount of money the server can hold, and
+> $security_{min}$ is the smallest security level to which the server can be
+> weakened. Use the above rule of thumb to direct your worm to hack a common
+> target server.
 
 ## Purchased servers
 
