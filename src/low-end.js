@@ -41,14 +41,47 @@ import { assert, filter_bankrupt_servers, filter_pserv } from "/lib/util.js";
  * @return An array of servers that have been compromised.
  */
 function compromised_servers(ns, script) {
-    const compromised = [];
-    for (const s of filter_pserv(ns, network(ns))) {
-        const serv = new Server(ns, s);
-        if (serv.has_root_access() && serv.is_running_script(script)) {
-            compromised.push(s);
-        }
-    }
-    return compromised;
+    return filter_pserv(ns, network(ns))
+        .filter((s) => has_root_access(ns, s))
+        .filter((t) => is_running_script(ns, t, script));
+}
+
+/**
+ * Whether we have root access to a server.
+ *
+ * @param ns The Netscript API.
+ * @param s The hostname of a world server.
+ * @return True if we have root access to the given server; false otherwise.
+ */
+function has_root_access(ns, s) {
+    const serv = new Server(ns, s);
+    return serv.has_root_access();
+}
+
+/**
+ * Whether a server is nuked.
+ *
+ * @param ns The Netscript API.
+ * @param s The hostname of a world server.
+ * @return True if we have nuked the given server; false otherwise.
+ */
+function is_nuked(ns, s) {
+    const serv = new Server(ns, s);
+    serv.gain_root_access();
+    return serv.has_root_access();
+}
+
+/**
+ * Whether a server is currently running a script.
+ *
+ * @param ns The Netscript API.
+ * @param s The hostname of a world server.
+ * @param script The name of a script.
+ * @return True if the given server is running the script; false otherwise.
+ */
+function is_running_script(ns, s, script) {
+    const serv = new Server(ns, s);
+    return serv.is_running_script(script);
 }
 
 /**
@@ -98,21 +131,13 @@ function low_end(ns) {
  *     servers during this update.
  */
 function nuke_servers(ns) {
-    // A list of servers that were successfully nuked during this update.
-    const nuked = [];
-    // Gain root access to as many new servers as possible on the network.
+    // An array of servers that were successfully nuked during this update.
     const player = new Player(ns);
-    for (const s of filter_pserv(ns, network(ns))) {
-        // Should we skip this server?
-        if (skip_server(ns, s, player.script())) {
-            continue;
-        }
-        // Gain root access to the server.
-        const serv = new Server(ns, s);
-        assert(player.hacking_skill() >= serv.hacking_skill());
-        serv.gain_root_access();
-        nuked.push(s);
-        log(ns, `Compromised server: ${s}`);
+    const nuked = filter_pserv(ns, network(ns))
+        .filter((s) => !skip_server(ns, s, player.script()))
+        .filter((t) => is_nuked(ns, t));
+    if (nuked.length > 0) {
+        log(ns, `Compromised server(s): ${nuked.join(", ")}`);
     }
     return nuked;
 }
