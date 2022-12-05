@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
@@ -30,7 +31,12 @@ import { assert, exec } from "/lib/util.js";
  */
 async function reboot(ns) {
     const target = "low-end.js";
-    const script = ["hnet-farm.js", target, "buy-server.js", "/cct/solver.js"];
+    const script = [target, "buy-server.js", "/cct/solver.js"];
+    // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is no
+    // point in setting up a farm of Hacknet nodes.
+    if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
+        script.unshift("hnet-farm.js");
+    }
     script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home
     // server.

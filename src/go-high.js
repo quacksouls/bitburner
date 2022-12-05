@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { home, home_t } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
@@ -34,12 +35,16 @@ function reboot(ns) {
     }
     const script = [
         extra,
-        "hnet-farm.js",
         "buy-server.js",
         "trade-bot.js",
         "/cct/solver.js",
         "hram.js",
     ];
+    // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is no
+    // point in setting up a farm of Hacknet nodes.
+    if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
+        script.unshift("hnet-farm.js");
+    }
     script.forEach((s) => exec(ns, s));
 }
 
