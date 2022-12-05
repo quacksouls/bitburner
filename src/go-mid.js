@@ -31,11 +31,12 @@ import { assert, exec } from "/lib/util.js";
  */
 async function reboot(ns) {
     const target = "low-end.js";
-    const script = [target, "buy-server.js", "/cct/solver.js"];
+    const script = [target, "/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is no
     // point in setting up a farm of Hacknet nodes.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         script.unshift("hnet-farm.js");
+        script.unshift("buy-server.js");
     }
     script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home

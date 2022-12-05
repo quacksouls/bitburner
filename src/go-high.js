@@ -33,17 +33,12 @@ function reboot(ns) {
     if (ns.getServerMaxRam(home) > home_t.RAM_HIGH) {
         extra = "world-server.js";
     }
-    const script = [
-        extra,
-        "buy-server.js",
-        "trade-bot.js",
-        "/cct/solver.js",
-        "hram.js",
-    ];
+    const script = [extra, "trade-bot.js", "/cct/solver.js", "hram.js"];
     // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is no
     // point in setting up a farm of Hacknet nodes.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         script.unshift("hnet-farm.js");
+        script.unshift("buy-server.js");
     }
     script.forEach((s) => exec(ns, s));
 }
