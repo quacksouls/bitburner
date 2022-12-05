@@ -16,7 +16,6 @@ affected by whether you have access to the Singularity API.
    this to destroy BN4.1, BN4.2, and BN4.3. The game play can be automated in
    BN4.x by running the script `go.js`.
 1. If you do not have access to the Singularity API, then most of your game play
-   would be manual. The script `go.js` launches various other scripts to help
-   you generate passive income, but that is as far as automation goes. Read the
-   script `go.js` to help you figure out which other scripts you need to
-   manually launch to complete your playthrough.
+   would be manual. [This guide](../doc/guide/README.md) helps you in your
+   manual playthrough. Read the script `go.js` to help you figure out which
+   scripts you need to manually launch to complete your playthrough.
