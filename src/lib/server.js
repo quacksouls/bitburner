@@ -96,7 +96,7 @@ export class Server {
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
-        if (this.hostname() === this.#home) {
+        if (this.is_home()) {
             // Reserve an amount of RAM, depending on the maximum RAM on the
             // home server.
             this.#ram_reserve = this.#reserve_ram();
@@ -265,6 +265,15 @@ export class Server {
      */
     is_bankrupt() {
         return Math.floor(this.money_max()) === 0;
+    }
+
+    /**
+     * Whether this is our home server.
+     *
+     * @return True if this server is our home server; false otherwise.
+     */
+    is_home() {
+        return this.hostname() === this.#home;
     }
 
     /**
