@@ -124,7 +124,7 @@ function nuke_servers(ns) {
  * @param ns The Netscript API.
  * @param s Should we skip this server?
  * @param script The name of our hacking script.
- * @return true if we are to skip over the given server; false otherwise.
+ * @return True if we are to skip over the given server; false otherwise.
  */
 function skip_server(ns, s, script) {
     const serv = new Server(ns, s);
