@@ -2,7 +2,9 @@
 
 Your Hacknet farm and server hacking can quickly generate a large amount of
 passive income. In this section, you will explore two game mechanics that can
-provide a huge sum of money in a relatively short amount of time.
+provide a huge sum of money in a relatively short amount of time. The third
+topic discussed in this section will help you to automate a particular aspect of
+the game.
 
 ## Stock Market
 
@@ -152,6 +154,126 @@ API is `ns.codingcontract.functionName()`, not
 >
 > **Problem 2.** Write a script to help you find CCTs on world servers. Launch
 > the appropriate solution script to solve a particular CCT that you find.
+
+## Path to a server
+
+Browsing through the section [Faction progression](faction.md) and you see that
+various factions require you to install a backdoor on their respective servers.
+You do not yet have access to the Singularity API, meaning that you must
+manually connect to a target server to install a backdoor. If you have the
+program `AutoLink.exe`, you can use it together with the command `scan-analyze`
+to help you connect to a target server. However, some servers are buried deep
+inside the network of world servers such that you must use a chain of
+`scan-analyze` commands to help you locate a target server. The process is
+time-consuming. Let's find a way to automate the task of connecting to any world
+server.
+
+The problem can be described as follows. You are at your `home` server. You want
+to find a path that allows you to connect to a target server. While you are at
+it, you might as well find a shortest path to the target server. You can
+certainly use the searching algorithms described in the section
+[After the first reboot](reboot1.md) to help you locate a path to a target
+server. However, note that breadth-first search and depth-first search by
+themselves do not always produce a shortest path.
+[Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) is
+a common technique to find a shortest path in a network. Dijkstra's algorithm is
+similar to breath-first search. The algorithm keeps track of the distance from
+the source node $s$ (e.g. your `home` server) to any node visited so far. When
+visiting each neighbour $v$ of a node $u$, Dijkstra's algorithm compares the
+previously calculated distance $d_v$ from $s$ to $v$, with the distance
+$d_u + 1$ from $s$ to $u$ then to $v$. If the value of $d_u + 1$ is less than
+$d_v$, then you have found a shorter path from $s$ to $v$. The procedure is
+described in pseudocode below.
+
+```js
+// Dijkstra's algorithm to find a shortest path from a source node to each node
+// in a network.  Assume the network is connected, i.e. each node in the network
+// can be reached from the source node.
+//
+// INPUT: The starting node s, called source or root.  Start your scanning from
+//     this node.
+// OUTPUT: An array [d, p] as follows:
+//     d := A map of the shortest number of nodes in a path to a target node.
+//         Each path starts from the given source node.  For example, d[i] gives
+//         the shortest number of nodes in a path from the source node to node i.
+//     p := A map of the node preceding a given node, in a shortest path.  For
+//         example, p[i] gives a node that directly connects to node i, where
+//         p[i] precedes i.
+//
+d := empty map
+p := empty map
+// Initialization.
+d[i] := infinity for each node i in the network
+p[i] := null for each node i in the network
+q := array of all nodes in the network
+d[s] := 0    // The distance from the source node to itself is zero.
+p[s] := null // Start from s so there are no nodes before s.
+add s to the end of q
+// Search for shortest paths from the source node to other nodes.
+while q is not empty
+    u := node from q such that d[u] is minimal
+    remove u from q
+    neigh := all neighbours v of u such that v is in q
+    for each v in neigh
+        t := d[u] + 1
+        // Found a shorter path to v.
+        if t < d[v]
+            d[v] := t
+            p[v] := u
+return [d, p]
+```
+
+Suppose you have implemented one of the above algorithms to find a (shortest)
+path from your `home` server to a target server. You still require a way to make
+the game connect you to the target server. From the Terminal, use the command
+
+```sh
+$ connect [server]
+```
+
+to connect to a neighbour server. If you know a path of servers that lead to the
+target server, chain a bunch of these `connect` commands at the Terminal. Your
+script might print this chain of `connect` commands, you copy and paste the
+commands to the Terminal, and press the `Enter` key to bring you to the target
+server. There is a way to automate this process by simulating Terminal input.
+
+The
+[official documentation](https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html)
+has the template code shown below to help you simulate Terminal input.
+
+```js
+// Simulate Terminal input.
+const input = globalThis["document"].getElementById("terminal-input");
+// Replace "command" with your chain of Terminal commands.  For example:
+//
+// input.value = "connect n00dles; analyze";
+input.value = command;
+const handler = Object.keys(input)[1];
+input[handler].onChange({
+    target: input,
+});
+input[handler].onKeyDown({
+    key: "Enter",
+    preventDefault: () => null,
+});
+```
+
+Note the line `input.value = command;`. You replace `command` with a string that
+contains a chain of Terminal commands. Have your script format a path to a
+target server as a chain of Terminal commands. Save the chain of commands as a
+string, insert this string at the appropriate place in the above template code,
+and run your script. Here is an [example script](script/terminal.js).
+
+> **Problem 1.** Use the above code template to create a script that connects to
+> a neighbour server of `home`.
+>
+> **Problem 2.** Extend the breath-first (or depth-first) search algorithm to
+> create a path from `home` to any target server. Format the path as a chain of
+> Terminal commands and use the above code template to help you connect to the
+> target server.
+>
+> **Problem 3.** Modify your script from the previous exercise to use Dijkstra's
+> algorithm.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](faction.md "Faction progression")]
