@@ -200,27 +200,27 @@ described in pseudocode below.
 //         example, p[i] gives a node that directly connects to node i, where
 //         p[i] precedes i.
 //
-d := empty map
-p := empty map
-// Initialization.
-d[i] := infinity for each node i in the network
-p[i] := null for each node i in the network
-q := array of all nodes in the network
-d[s] := 0    // The distance from the source node to itself is zero.
-p[s] := null // Start from s so there are no nodes before s.
-add s to the end of q
-// Search for shortest paths from the source node to other nodes.
-while q is not empty
-    u := node from q such that d[u] is minimal
-    remove u from q
-    neigh := all neighbours v of u such that v is in q
-    for each v in neigh
-        t := d[u] + 1
-        // Found a shorter path to v.
-        if t < d[v]
-            d[v] := t
-            p[v] := u
-return [d, p]
+1.  d := empty map
+2.  p := empty map
+3.  // Initialization.
+4.  d[i] := infinity for each node i in the network
+5.  p[i] := null for each node i in the network
+6.  q := array of all nodes in the network
+7.  d[s] := 0    // The distance from the source node to itself is zero.
+8.  p[s] := null // Start from s so there are no nodes before s.
+9.  add s to the end of q
+10. // Search for shortest paths from the source node to other nodes.
+11. while q is not empty
+12.    u := node from q such that d[u] is minimal
+13.    remove u from q
+14.    neigh := all neighbours v of u such that v is in q
+15.    for each v in neigh
+16.        t := d[u] + 1
+17.        // Found a shorter path to v.
+18.        if t < d[v]
+19.            d[v] := t
+20.            p[v] := u
+21. return [d, p]
 ```
 
 Suppose you have implemented one of the above algorithms to find a (shortest)
