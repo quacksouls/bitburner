@@ -1,4 +1,4 @@
-# Stocks and contracts
+# Miscellaneous topics
 
 Your Hacknet farm and server hacking can quickly generate a large amount of
 passive income. In this section, you will explore two game mechanics that can

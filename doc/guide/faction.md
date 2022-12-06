@@ -228,4 +228,4 @@ relatively easy to receive an invitation from any of these three factions.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot1.md "After the first reboot")]
-[[Next](stock.md "Stocks and contracts")]
+[[Next](misc.md "Miscellaneous topics")]
