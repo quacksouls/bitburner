@@ -152,24 +152,16 @@ export class Server {
     deploy(target) {
         assert(target.length > 0);
         const targ = this.#ns.getServer(target);
-        // No root access on either servers.
-        if (!this.has_root_access()) {
-            this.#ns.tprint(`No root access on ${this.hostname()}`);
-            return bool.FAILURE;
-        }
-        if (!targ.hasAdminRights) {
-            this.#ns.tprint(`No root access on ${targ.hostname}`);
-            return bool.FAILURE;
-        }
-        // Hack script not found on our home server.
-        if (!this.#ns.fileExists(this.#script, this.#home)) {
-            this.#ns.tprint(`Hack script not found on server ${this.#home}`);
+        if (
+            !this.has_root_access()
+            || !targ.hasAdminRights
+            || !this.#ns.fileExists(this.#script, this.#home)
+        ) {
             return bool.FAILURE;
         }
         // No free RAM on server to run our hack script.
         const nthread = this.num_threads(this.#script);
         if (nthread < 1) {
-            this.#ns.tprint(`No free RAM on server ${this.hostname()}`);
             return bool.FAILURE;
         }
         // Copy our script over to this server.  Use the server to hack the
