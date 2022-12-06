@@ -147,7 +147,11 @@ API is `ns.codingcontract.functionName()`, not
    [Vigenère cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) and the
    given keyword to encode the string.
 
-> **Problem.** Write a script to help you find CCT on world servers.
+> **Problem 1.** Write a script to solve each CCT. You might want to write one
+> script to solve a specific CCT, rather than a script that can solve all CCTs.
+>
+> **Problem 2.** Write a script to help you find CCTs on world servers. Launch
+> the appropriate solution script to solve a particular CCT that you find.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](faction.md "Faction progression")]
