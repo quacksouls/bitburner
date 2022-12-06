@@ -17,14 +17,39 @@
 
 import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
+import { assert } from "/lib/util.js";
 
 /**
- * Determine a shortest path from our home server to a target server.  Must
- * provide the target server from the command line.  The script will print a
- * chain of commands that allows us to connect to the target server.
+ * Connect to a given target server.
  *
- * Usage: run shortest-path.js [targetServer]
- * Example: run shortest-path.js run4theh111z
+ * @param path An array of hostnames along the path that connects to a target
+ *     server.  The target server is the last element of this array.
+ */
+function connect(path) {
+    // A chain of Terminal commands that connect to the target server.
+    assert(path.length > 0);
+    const cmd = `connect ${path.filter((s) => s !== home).join("; connect ")}`;
+    // Template code from the official documentation of Bitburner:
+    //
+    // https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
+    const input = globalThis.document.getElementById("terminal-input");
+    input.value = cmd;
+    const handler = Object.keys(input)[1];
+    input[handler].onChange({
+        target: input,
+    });
+    input[handler].onKeyDown({
+        key: "Enter",
+        preventDefault: () => null,
+    });
+}
+
+/**
+ * Connect to a target server.  This script accepts a command line argument,
+ * i.e. the hostname of the server to which we want to connect.
+ *
+ * Usage: run connect.js [targetServer]
+ * Example: run connect.js run4theh111z
  *
  * @param ns The Netscript API.
  */
@@ -43,12 +68,10 @@ export async function main(ns) {
         return;
     }
     // Find shortest path.
-    let path = shortest_path(ns, home, target);
+    const path = shortest_path(ns, home, target);
     if (path.length < 1) {
         ns.tprint(`Target server must be reachable from ${home}.`);
         return;
     }
-    // Print commands to connect to target server.
-    path = path.filter((s) => s !== home);
-    ns.tprint(`connect ${path.join("; connect ")}`);
+    connect(path);
 }
