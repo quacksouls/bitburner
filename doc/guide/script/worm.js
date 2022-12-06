@@ -153,20 +153,14 @@ function num_threads(ns, script, host) {
  * @return True if the given server is to be skipped over; false otherwise.
  */
 function skip(ns, script, host) {
-    if (host === "home") {
-        return true;
-    }
-    if (ns.getServer(host).purchasedByPlayer) {
-        return true;
-    }
-    if (ns.scriptRunning(script, host)) {
-        return true;
-    }
-    if (num_threads(ns, script, host) < 1) {
-        return true;
-    }
     const required_lvl = ns.getServer(host).requiredHackingSkill;
-    if (ns.getHackingLevel() < required_lvl) {
+    if (
+        host === "home"
+        || ns.getServer(host).purchasedByPlayer
+        || ns.scriptRunning(script, host)
+        || num_threads(ns, script, host) < 1
+        || ns.getHackingLevel() < required_lvl
+    ) {
         return true;
     }
     return false;
