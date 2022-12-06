@@ -116,7 +116,7 @@ export function cleanup(ns) {
  * @param ns The Netscript API.
  * @param s A hack script.  We want to check whether a server is running
  *     this script.
- * @param candiate An array of world servers to check.
+ * @param candidate An array of world servers to check.
  * @return An array of servers that have been compromised.
  */
 export function compromised_servers(ns, s, candidate) {
