@@ -19,26 +19,26 @@
  * Buy servers, each having as high an amount of RAM as we can afford.
  *
  * @param ns The Netscript API.
- * @param pserv An object representing various properties of purchased servers.
  */
-async function buy_servers(ns, pserv) {
+async function buy_servers(ns) {
     // We want to purchase the default minimum number of servers.  We wait until
     // we have enough money to purchase each of the remaining servers.
-    let ram = pserv_ram(ns, pserv);
+    const pserv = pserv_object();
+    let ram = pserv_ram(ns);
     if (ram <= pserv.DEFAULT_RAM) {
         // Try to purchase servers, each with the default amount of RAM.
-        await stage_one(ns, pserv);
+        await stage_one(ns);
         return;
     }
     // Here we assume we already have purchased servers, each with the default
     // amount of RAM.  Now try to purchase servers, each with a higher amount
     // of RAM than the default amount.  We wait to accumulate enough money to
     // purchase the maximum number of servers.
-    ram = pserv_ram(ns, pserv);
+    ram = pserv_ram(ns);
     if (ram <= pserv.DEFAULT_RAM) {
         return;
     }
-    await next_stage(ns, pserv, ram);
+    await next_stage(ns, ram);
 }
 
 /**
@@ -156,27 +156,27 @@ const has_no_pserv = (ns) => ns.getPurchasedServers().length < 1;
  * servers to higher RAM.
  *
  * @param ns The Netscript API.
- * @param pserv An object representing various properties of purchased servers.
  * @param ram The amount of RAM for each purchased server.
  */
-async function next_stage(ns, pserv, ram) {
+async function next_stage(ns, ram) {
     // If we have zero purchased servers, then buy servers with the given
     // amount of RAM.
     if (has_no_pserv(ns)) {
-        await update(ns, pserv, ram);
+        await update(ns, ram);
         return;
     }
     // Assume we have at least 1 purchased server.
+    const pserv = pserv_object();
     if (ns.getServer(pserv.PREFIX).maxRam < ram) {
         // If each purchased server has less than the given amount of RAM, then
         // delete the servers and purchase servers with the given amount of RAM.
         delete_all_pserv(ns);
-        await update(ns, pserv, ram);
+        await update(ns, ram);
     } else if (ns.getServer(pserv.PREFIX).maxRam === ram) {
         // The current purchased servers have the same amount of RAM as our
         // target RAM.  Continue purchasing more servers with the current
         // amount of RAM.
-        await update(ns, pserv, ram);
+        await update(ns, ram);
     }
 }
 
@@ -201,106 +201,10 @@ function num_threads(ns, script, host) {
 }
 
 /**
- * The possible amount of RAM for each purchased server.
- *
- * @param ns The Netscript API.
- * @param pserv An object representing various properties of purchased servers.
- * @return The amount of RAM for each purchased server.  Return 0 if we cannot
- *     afford the minimum number of purchased servers.
+ * An object that represents various properties of our purchased servers.
  */
-function pserv_ram(ns, pserv) {
-    // The possible amount of RAM for a purchased server.  We want the lowest
-    // value to be the default amount of RAM.  Sort the array of RAM in
-    // descending order.
-    const ram = Array.from(pserv.valid_ram)
-        .filter((r) => r >= pserv.DEFAULT_RAM)
-        .sort((a, b) => b - a);
-    // Let's see whether we can purchase servers, each having the given amount
-    // of RAM.  Start with the highest amount of RAM.  See if we can buy at
-    // least the minimum number of servers, each with the given amount of RAM.
-    // If not, then decrease the amount of RAM and repeat the above process.
-    let psram = 0;
-    for (const r of ram) {
-        const cost = pserv.MIN_SERVER * ns.getPurchasedServerCost(r);
-        if (has_funds(ns, cost)) {
-            psram = r;
-            break;
-        }
-    }
-    return psram;
-}
-
-/**
- * This is the early stage, where it is assumed we are starting the game or
- * have just installed a bunch of Augmentations.  Each purchased server should
- * have a small amount of RAM, enough to run our hacking script using at least
- * 2 threads.
- *
- * @param ns The Netscript API.
- * @param pserv An object representing various properties of purchased servers.
- */
-async function stage_one(ns, pserv) {
-    if (has_max_pserv(ns)) {
-        return;
-    }
-    // If we have zero purchased servers, then start with purchased servers
-    // that have the default amount of RAM.
-    if (has_no_pserv(ns)) {
-        await update(ns, pserv, pserv.DEFAULT_RAM);
-        return;
-    }
-    // Assume we have at least 1 purchased server.  Skip the stage if a current
-    // purchased server has more than the default amount of RAM.
-    if (pserv.DEFAULT_RAM < ns.getServer(pserv.PREFIX).maxRam) {
-        return;
-    }
-    await update(ns, pserv, pserv.DEFAULT_RAM);
-}
-
-/**
- * Purchase the maximum number of servers and run our hack script on those
- * servers.  We direct our purchased servers to hack a common target.
- *
- * @param ns The Netscript API.
- * @param pserv An object representing various properties of purchased servers.
- * @param ram The amount of RAM for each purchased server.  Must be a positive
- *     integer and a power of 2.
- */
-async function update(ns, pserv, ram) {
-    // Choose a target against which all purchased servers would attack.
-    const target = choose_best_server(ns);
-    // Continuously try to purchase a new server until we have reached the
-    // maximum number of servers we can buy.
-    let i = ns.getPurchasedServers().length;
-    while (i < ns.getPurchasedServerLimit()) {
-        const cost = ns.getPurchasedServerCost(ram);
-        if (has_funds(ns, cost)) {
-            const hostname = ns.purchaseServer(pserv.PREFIX, ram);
-            deploy(ns, pserv.SCRIPT, hostname, target);
-            i++;
-        }
-        await ns.sleep(pserv.TICK);
-    }
-}
-
-/**
- * Continuously try to purchase servers and use those to hack world servers.
- * If our funds are sufficient, try to upgrade to servers with higher amounts
- * of RAM.
- *
- * Usage: run pserv.js
- *
- * @param ns The Netscript API.
- */
-export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("getServerUsedRam");
-    ns.disableLog("scan");
-    ns.disableLog("sleep");
-    // An object to represent various properties of our purchased servers.
-    const pserv = {
+function pserv_object() {
+    return {
         /**
          * The default amount of RAM (in GB) for each purchased server.
          */
@@ -332,9 +236,110 @@ export async function main(ns) {
             131072, 262144, 524288, 1048576,
         ],
     };
+}
+
+/**
+ * The possible amount of RAM for each purchased server.
+ *
+ * @param ns The Netscript API.
+ * @return The amount of RAM for each purchased server.  Return 0 if we cannot
+ *     afford the minimum number of purchased servers.
+ */
+function pserv_ram(ns) {
+    // The possible amount of RAM for a purchased server.  We want the lowest
+    // value to be the default amount of RAM.  Sort the array of RAM in
+    // descending order.
+    const pserv = pserv_object();
+    const ram = Array.from(pserv.valid_ram)
+        .filter((r) => r >= pserv.DEFAULT_RAM)
+        .sort((a, b) => b - a);
+    // Let's see whether we can purchase servers, each having the given amount
+    // of RAM.  Start with the highest amount of RAM.  See if we can buy at
+    // least the minimum number of servers, each with the given amount of RAM.
+    // If not, then decrease the amount of RAM and repeat the above process.
+    let psram = 0;
+    for (const r of ram) {
+        const cost = pserv.MIN_SERVER * ns.getPurchasedServerCost(r);
+        if (has_funds(ns, cost)) {
+            psram = r;
+            break;
+        }
+    }
+    return psram;
+}
+
+/**
+ * This is the early stage, where it is assumed we are starting the game or
+ * have just installed a bunch of Augmentations.  Each purchased server should
+ * have a small amount of RAM, enough to run our hacking script using at least
+ * 2 threads.
+ *
+ * @param ns The Netscript API.
+ */
+async function stage_one(ns) {
+    if (has_max_pserv(ns)) {
+        return;
+    }
+    // If we have zero purchased servers, then start with purchased servers
+    // that have the default amount of RAM.
+    const pserv = pserv_object();
+    if (has_no_pserv(ns)) {
+        await update(ns, pserv.DEFAULT_RAM);
+        return;
+    }
+    // Assume we have at least 1 purchased server.  Skip the stage if a current
+    // purchased server has more than the default amount of RAM.
+    if (pserv.DEFAULT_RAM < ns.getServer(pserv.PREFIX).maxRam) {
+        return;
+    }
+    await update(ns, pserv.DEFAULT_RAM);
+}
+
+/**
+ * Purchase the maximum number of servers and run our hack script on those
+ * servers.  We direct our purchased servers to hack a common target.
+ *
+ * @param ns The Netscript API.
+ * @param ram The amount of RAM for each purchased server.  Must be a positive
+ *     integer and a power of 2.
+ */
+async function update(ns, ram) {
+    // Choose a target against which all purchased servers would attack.
+    const target = choose_best_server(ns);
+    // Continuously try to purchase a new server until we have reached the
+    // maximum number of servers we can buy.
+    let i = ns.getPurchasedServers().length;
+    const pserv = pserv_object();
+    while (i < ns.getPurchasedServerLimit()) {
+        const cost = ns.getPurchasedServerCost(ram);
+        if (has_funds(ns, cost)) {
+            const hostname = ns.purchaseServer(pserv.PREFIX, ram);
+            deploy(ns, pserv.SCRIPT, hostname, target);
+            i++;
+        }
+        await ns.sleep(pserv.TICK);
+    }
+}
+
+/**
+ * Continuously try to purchase servers and use those to hack world servers.
+ * If our funds are sufficient, try to upgrade to servers with higher amounts
+ * of RAM.
+ *
+ * Usage: run pserv.js
+ *
+ * @param ns The Netscript API.
+ */
+export async function main(ns) {
+    // Make the log less verbose.
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
     // Continuously try to purchase more powerful servers.
     for (;;) {
-        await buy_servers(ns, pserv);
-        await ns.sleep(pserv.TICK);
+        await buy_servers(ns);
+        await ns.sleep(pserv_object().TICK);
     }
 }
