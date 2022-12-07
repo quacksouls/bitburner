@@ -29,6 +29,7 @@ import {
     choose_targets,
     filter_bankrupt_servers,
     is_bankrupt,
+    server_of_max_weight,
 } from "/lib/util.js";
 
 /**
@@ -241,7 +242,7 @@ async function update(ns, ram) {
     // Choose a static target against which all purchased servers would attack.
     // Depending on the amount of RAM on our home server, we would direct all
     // purchased servers to attack one target.
-    const static_target = choose_best_server(ns, renew_targets(ns, target));
+    const static_target = server_of_max_weight(ns, renew_targets(ns, target));
     while (i < psv.limit()) {
         // Do we have enough money to buy a new server?
         if (player.money() > psv.cost(server_ram)) {
