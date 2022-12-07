@@ -111,8 +111,7 @@ function network(ns) {
     const q = [home];
     const visit = new Set([home]);
     while (q.length > 0) {
-        const u = q.shift();
-        ns.scan(u)
+        ns.scan(q.shift())
             .filter((v) => !visit.has(v))
             .forEach((x) => {
                 visit.add(x);
