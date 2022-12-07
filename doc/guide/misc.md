@@ -229,7 +229,7 @@ path from your `home` server to a target server. You still require a way to make
 the game connect you to the target server. From the Terminal, use the command
 
 ```sh
-$ connect [server]
+$ connect [serverName]
 ```
 
 to connect to a neighbour server. If you know a path of servers that lead to the
