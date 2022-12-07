@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// NOTE: Import only constants into this file.
 // Miscellaneous helper functions.
 
 import { corp } from "/lib/constant/corp.js";
@@ -26,7 +27,6 @@ import { script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
-import { network } from "/lib/network.js";
 
 /**
  * A function for assertion.
@@ -295,22 +295,25 @@ export function is_valid_program(name) {
  * Gain root access to as many world servers as we can.
  *
  * @param ns The Netscript API.
+ * @param candidate An array of server hostnames.  We want to nuke each of these
+ *     servers.
  * @return An array of hostnames of servers.  We have root access to each
  *     server.
  */
-export function nuke_servers(ns) {
-    return network(ns).filter((host) => gain_root_access(ns, host));
+export function nuke_servers(ns, candidate) {
+    return Array.from(candidate).filter((host) => gain_root_access(ns, host));
 }
 
 /**
  * A server that has the greatest hack desirability score.
  *
  * @param ns The Netscript API.
+ * @param candidate Choose from among this array of hostnames.
  * @return Hostname of the server to target.
  */
-export function server_of_max_weight(ns) {
+export function server_of_max_weight(ns, candidate) {
     const desirable_server = (s, t) => (weight(ns, s) < weight(ns, t) ? t : s);
-    return nuke_servers(ns).reduce(desirable_server);
+    return nuke_servers(ns, candidate).reduce(desirable_server);
 }
 
 /**

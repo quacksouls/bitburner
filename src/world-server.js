@@ -79,7 +79,7 @@ function shush(ns) {
  * @param ns The Netscript API.
  */
 async function update(ns) {
-    const target = server_of_max_weight(ns);
+    const target = server_of_max_weight(ns, network(ns));
     if (!is_new_target(ns, target)) {
         return;
     }
@@ -88,7 +88,7 @@ async function update(ns) {
     compromised_servers(ns, player.script(), network(ns)).forEach((s) => {
         ns.killall(s);
     });
-    nuke_servers(ns).forEach((s) => deploy(ns, s, target));
+    nuke_servers(ns, network(ns)).forEach((s) => deploy(ns, s, target));
 }
 
 /**
