@@ -20,9 +20,9 @@ import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import {
     assert,
-    choose_best_server,
     choose_targets,
     filter_bankrupt_servers,
+    server_of_max_weight,
 } from "/lib/util.js";
 
 /**
@@ -39,7 +39,7 @@ export async function main(ns) {
     // hack script.
     const player = new Player(ns);
     let target = [];
-    for (const s of player.pserv()) {
+    player.pserv().forEach((s) => {
         // Determine the target servers to hack.  There are always at least 2
         // targets because at least 2 servers in the game world require only
         // 1 Hack stat and zero opened ports.
@@ -55,11 +55,11 @@ export async function main(ns) {
         if (!server.is_running_script(player.script())) {
             // Choose the best target server that is not bankrupt.  Run our
             // hack script against this target server.
-            const t = choose_best_server(ns, target);
+            const t = server_of_max_weight(ns, target);
             target = target.filter((r) => r !== t);
             const target_server = new Server(ns, t);
             assert(target_server.gain_root_access());
             assert(server.deploy(target_server.hostname()));
         }
-    }
+    });
 }
