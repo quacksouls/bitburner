@@ -51,14 +51,9 @@ export function assert(cond) {
  */
 export function choose_best_server(ns, candidate) {
     assert(candidate.length > 0);
-    let best = ns.getServer(candidate[0]);
-    for (const s of candidate) {
-        const serv = ns.getServer(s);
-        if (best.requiredHackingSkill < serv.requiredHackingSkill) {
-            best = serv;
-        }
-    }
-    return best.hostname;
+    const hack_skill = (s) => ns.getServer(s).requiredHackingSkill;
+    const better_server = (s, t) => (hack_skill(s) < hack_skill(t) ? t : s);
+    return candidate.reduce(better_server);
 }
 
 /**
