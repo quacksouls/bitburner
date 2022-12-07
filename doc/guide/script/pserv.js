@@ -244,22 +244,17 @@ function pserv_ram(ns) {
     // value to be the default amount of RAM.  Sort the array of RAM in
     // descending order.
     const pserv = pserv_object();
-    const ram = Array.from(pserv.valid_ram)
+    let ram = Array.from(pserv.valid_ram)
         .filter((r) => r >= pserv.DEFAULT_RAM)
         .sort((a, b) => b - a);
     // Let's see whether we can purchase servers, each having the given amount
     // of RAM.  Start with the highest amount of RAM.  See if we can buy at
     // least the minimum number of servers, each with the given amount of RAM.
     // If not, then decrease the amount of RAM and repeat the above process.
-    let psram = 0;
-    for (const r of ram) {
-        const cost = pserv.MIN_SERVER * ns.getPurchasedServerCost(r);
-        if (has_funds(ns, cost)) {
-            psram = r;
-            break;
-        }
-    }
-    return psram;
+    const cost = (r) => pserv.MIN_SERVER * ns.getPurchasedServerCost(r);
+    const can_afford = (r) => has_funds(ns, cost(r));
+    ram = ram.filter(can_afford);
+    return ram.length > 0 ? ram[0] : 0;
 }
 
 /**
