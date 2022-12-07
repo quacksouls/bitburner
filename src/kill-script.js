@@ -44,8 +44,9 @@ export async function main(ns) {
         player.pserv().forEach((s) => ns.killall(s));
     } else if (stype === "world") {
         // Kill all scripts on world servers where we have root access.
-        const server = network(ns).filter((s) => ns.hasRootAccess(s));
-        server.forEach((s) => ns.killall(s));
+        network(ns)
+            .filter((s) => ns.hasRootAccess(s))
+            .forEach((s) => ns.killall(s));
     } else {
         ns.tprint(error_msg);
     }
