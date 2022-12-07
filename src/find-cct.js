@@ -17,6 +17,7 @@
 
 import { cct } from "/lib/constant/cct.js";
 import { home } from "/lib/constant/server.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 
 /**
@@ -28,17 +29,14 @@ import { network } from "/lib/network.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const server = network(ns);
-    server.push(home);
-    for (const host of server) {
-        const file = ns.ls(host, cct.SUFFIX);
-        if (file.length < 1) {
-            continue;
-        }
-        // Print the name of the coding contract, together with its type.
-        for (const f of file) {
-            const type = ns.codingcontract.getContractType(f, host);
-            ns.tprint(`${host}: ${f}, ${type}`);
-        }
-    }
+    network(ns)
+        .concat([home])
+        .filter((s) => ns.ls(s, cct.SUFFIX).length > 0)
+        .forEach((host) => {
+            // Print the name of the coding contract, together with its type.
+            ns.ls(host, cct.SUFFIX).forEach((f) => {
+                const type = ns.codingcontract.getContractType(f, host);
+                log(ns, `${host}: ${f}, ${type}`);
+            });
+        });
 }
