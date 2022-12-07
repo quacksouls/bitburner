@@ -115,13 +115,15 @@ When visiting a server, your script should automate the following tasks:
 1. _Have the necessary Hack stat._ Determine whether you have the minimum Hack
    stat required by the server.
 1. _Open all ports._ Determine whether you have all programs necessary to open
-   all ports on the server. In case you have the necessary programs, use them to
-   open all ports on the server. You want access to the TOR router in order to
-   purchase port opener programs via the dark web. At the moment, you do not
-   have access to the API that allows you to buy the TOR router and purchase
-   programs. The latter two tasks must be done manually.
+   all ports on the server. You do not have to open all available ports, only
+   the minimum number of ports required to enable you to nuke the server. In
+   case you have the necessary programs, use them to open the required number of
+   ports on the server. You want access to the TOR router in order to purchase
+   port opener programs via the dark web. At the moment, you do not have access
+   to the API that allows you to buy the TOR router and purchase programs. The
+   latter two tasks must be done manually.
 1. _Gain root access._ If you have the minimum Hack stat and have opened all
-   ports on the server, nuke the server to gain root access to it.
+   required ports on the server, nuke the server to gain root access to it.
 1. _Ignore special servers._ Various servers in the game world are special. For
    example, you might want to ignore purchased servers because these are servers
    you have bought and already have root access. See below for detail on
