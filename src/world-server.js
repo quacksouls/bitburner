@@ -21,7 +21,7 @@ import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { assert, compromised_servers } from "/lib/util.js";
+import { assert, compromised_servers, nuke_servers } from "/lib/util.js";
 
 /**
  * A server that has the greatest hack desirability score.
@@ -49,19 +49,6 @@ function deploy(ns, host, target) {
 }
 
 /**
- * Attempt to gain root access to a given server.
- *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
- */
-function gain_root_access(ns, host) {
-    const serv = new Server(ns, host);
-    serv.gain_root_access();
-    return serv.has_root_access();
-}
-
-/**
  * Whether a given server is different from the server we are targetting.
  *
  * @param ns The Netscript API.
@@ -77,17 +64,6 @@ function is_new_target(ns, host) {
     const { filename, args } = ns.ps(compromised[0])[0];
     assert(player.script() === filename);
     return host !== args[0];
-}
-
-/**
- * Gain root access to as many world servers as we can.
- *
- * @param ns The Netscript API.
- * @return An array of hostnames of servers.  We have root access to each
- *     server.
- */
-function nuke_servers(ns) {
-    return network(ns).filter((host) => gain_root_access(ns, host));
 }
 
 /**

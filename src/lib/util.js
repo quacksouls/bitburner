@@ -26,6 +26,7 @@ import { script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
+import { network } from "/lib/network.js";
 
 /**
  * A function for assertion.
@@ -164,6 +165,41 @@ export function filter_pserv(ns, serv) {
 }
 
 /**
+ * Attempt to gain root access to a given server.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a world server.
+ * @return True if we have root access to the given server; false otherwise.
+ */
+function gain_root_access(ns, host) {
+    if (ns.getServer(host).hasAdminRights) {
+        return true;
+    }
+    // Try to open all required ports and nuke the server.
+    try {
+        ns.brutessh(host);
+    } catch {}
+    try {
+        ns.ftpcrack(host);
+    } catch {}
+    try {
+        ns.httpworm(host);
+    } catch {}
+    try {
+        ns.relaysmtp(host);
+    } catch {}
+    try {
+        ns.sqlinject(host);
+    } catch {}
+    try {
+        ns.nuke(host);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+/**
  * Tell the script "hram.js" to resume whatever it was doing.
  *
  * @param ns The Netscript API.
@@ -253,6 +289,17 @@ export function is_valid_program(name) {
     assert(name.length > 0);
     const prog = all_programs();
     return prog.has(name);
+}
+
+/**
+ * Gain root access to as many world servers as we can.
+ *
+ * @param ns The Netscript API.
+ * @return An array of hostnames of servers.  We have root access to each
+ *     server.
+ */
+export function nuke_servers(ns) {
+    return network(ns).filter((host) => gain_root_access(ns, host));
 }
 
 /**
