@@ -192,14 +192,18 @@ threads you can use to run the script. Here is an
 [example worm](script/worm.js), which depends on the hack script from the
 section [First script](script.md).
 
-> **Problem 1.** Rewrite your worm script to use a recursive version of
+> **Problem 1.** Use breath-first search to implement a worm script. Your worm
+> should deploy your hack script to a nuked server. The worm should ignore all
+> purchased servers.
+>
+> **Problem 2.** Rewrite your worm script to use a recursive version of
 > depth-first search.
 >
-> **Problem 2.** Write a script to kill all scripts running on a world server.
+> **Problem 3.** Write a script to kill all scripts running on a world server.
 > Exclude your `home` server as well as purchased servers. You might find such a
 > script useful whenever you need to change the common target for your worm.
 >
-> **Problem 3.** If your worm targets `n00dles` or a low-level server of similar
+> **Problem 4.** If your worm targets `n00dles` or a low-level server of similar
 > Hack stat requirement, you might not be generating as high income as you want.
 > On the other hand, if your worm targets a server that can hold the highest
 > amount of money (choosing from all compromised servers), you might find that
