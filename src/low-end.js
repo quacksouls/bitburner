@@ -93,9 +93,8 @@ function low_end(ns) {
  */
 function nuke_servers(ns) {
     // An array of servers that were successfully nuked during this update.
-    const player = new Player(ns);
     const nuked = filter_pserv(ns, network(ns))
-        .filter((s) => !skip_server(ns, s, player.script()))
+        .filter((s) => !skip_server(ns, s))
         .filter((t) => is_nuked(ns, t));
     if (nuked.length > 0) {
         log(ns, `Compromised server(s): ${nuked.join(", ")}`);
@@ -109,32 +108,17 @@ function nuke_servers(ns) {
  *
  * @param ns The Netscript API.
  * @param s Should we skip this server?
- * @param script The name of our hacking script.
  * @return True if we are to skip over the given server; false otherwise.
  */
-function skip_server(ns, s, script) {
+function skip_server(ns, s) {
     const serv = new Server(ns, s);
     const player = new Player(ns);
-    // Determine the maximum number of ports we can open on a server.
-    const nport = player.num_ports();
-    assert(nport >= 0);
-    // Skip over a server that requires more ports than we can open.
-    if (serv.num_ports_required() > nport) {
-        return bool.SKIP;
-    }
-    // If our hack script is already running on the server, then skip the
-    // server.
-    if (serv.is_running_script(script)) {
-        return bool.SKIP;
-    }
-    // Determine how many threads we can run our script on a server.  If we
-    // can't run our script on the server, then we skip the server.
-    const nthread = serv.num_threads(script);
-    if (nthread < 1) {
-        return bool.SKIP;
-    }
-    // Skip over a server if its hacking skill requirement is too high.
-    if (player.hacking_skill() < serv.hacking_skill()) {
+    if (
+        serv.num_ports_required() > player.num_ports()
+        || serv.is_running_script(player.script())
+        || serv.num_threads(player.script()) < 1
+        || player.hacking_skill() < serv.hacking_skill()
+    ) {
         return bool.SKIP;
     }
     return bool.NO_SKIP;
