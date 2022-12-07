@@ -313,9 +313,13 @@ RAM your `home` server has, the more RAM you can share with a faction to further
 boost the rate at which you earn reputation points. However, do note that there
 is a point of diminishing return. There is a point at which sharing more RAM
 with a faction would result in a tiny (or even negligible) boost to the rate at
-which you earn reputation points. For the moment, let your game run until you
-have earned the required reputation points to unlock all Augmentations from
-CyberSec.
+which you earn reputation points. For maximum benefit from the function
+[`ns.share()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.share.md),
+focus on a faction work while you are sharing your `home` server with the
+faction. The function can figure out which faction you are actively working for,
+because you are allowed to focus on one task at a time. For now, focus on your
+work for CyberSec. Let your game run until you have earned the required
+reputation points to unlock all Augmentations from CyberSec.
 
 ![Share home with CyberSec](image/cybersec-share-home.png "Share home with CyberSec")
 
