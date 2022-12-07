@@ -135,29 +135,16 @@ function pserv_ram(ns, minserv) {
     // The possible amount of RAM for a purchased server.  We want the lowest
     // value to be the default amount of RAM.
     const psv = new PurchasedServer(ns);
-    const default_ram = psv.default_ram();
-    let ram = [default_ram];
-    for (const r of psv.valid_ram()) {
-        if (r > default_ram) {
-            ram.push(r);
-        }
-    }
+    let ram = psv.valid_ram().filter((r) => r >= psv.default_ram());
     ram = MyArray.sort_descending(ram);
     // Let's see whether we can purchase servers, each having the given amount
     // of RAM.  Start with the highest amount of RAM.  See if we can buy at
     // least minserv servers, each with the given amount of RAM.  If not, then
     // decrease the amount of RAM and repeat the above process.
     const player = new Player(ns);
-    let psram = 0;
-    for (const r of ram) {
-        const cost = minserv * psv.cost(r);
-        if (cost > player.money()) {
-            continue;
-        }
-        psram = r;
-        break;
-    }
-    return psram;
+    const can_afford = (r) => minserv * psv.cost(r) < player.money();
+    ram = ram.filter(can_afford);
+    return ram.length > 0 ? ram[0] : 0;
 }
 
 /**
