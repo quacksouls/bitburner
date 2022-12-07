@@ -119,15 +119,13 @@ export async function main(ns) {
     await setup_farm(ns, seed_node);
     // Add increasingly more nodes to the farm.  Also upgrade the nodes.
     for (;;) {
-        if (money.length > 0) {
-            if (has_funds(ns, money[0])) {
-                await setup_farm(ns, node[0]);
-                // Ensure our Hacknet farm has at least the given number of
-                // nodes before moving on to the next money/node thresholds.
-                if (ns.hacknet.numNodes() >= node[0]) {
-                    money.shift();
-                    node.shift();
-                }
+        if (money.length > 0 && has_funds(ns, money[0])) {
+            await setup_farm(ns, node[0]);
+            // Ensure our Hacknet farm has at least the given number of
+            // nodes before moving on to the next money/node thresholds.
+            if (ns.hacknet.numNodes() >= node[0]) {
+                money.shift();
+                node.shift();
             }
         }
         await upgrade(ns);
