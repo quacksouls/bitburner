@@ -44,11 +44,8 @@ async function expand_farm(ns, n) {
  * @return An array of node IDs.  An empty array if we have zero nodes.
  */
 function hacknet_nodes(ns) {
-    const nNode = ns.hacknet.numNodes();
-    if (nNode < 1) {
-        return [];
-    }
-    return MyArray.sequence(nNode);
+    const n = ns.hacknet.numNodes();
+    return n < 1 ? [] : MyArray.sequence(n);
 }
 
 /**
