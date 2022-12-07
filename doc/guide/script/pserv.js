@@ -113,11 +113,8 @@ function delete_all_pserv(ns) {
  */
 function deploy(ns, script, host, target) {
     const home = "home";
-    if (!ns.fileExists(script, home)) {
-        return;
-    }
     const nthread = num_threads(ns, script, host);
-    if (nthread < 1) {
+    if (!ns.fileExists(script, home) || nthread < 1) {
         return;
     }
     ns.scp(script, host, home);
