@@ -223,7 +223,7 @@ export async function hram_suspend(ns) {
  *
  * @param ns The Netscript API.
  * @param s Test this server for bankruptcy.
- * @return true if the server is bankrupt; false otherwise.
+ * @return True if the server is bankrupt; false otherwise.
  */
 export function is_bankrupt(ns, s) {
     return ns.getServer(s).moneyMax === 0;
@@ -241,7 +241,7 @@ export const is_boolean = (x) => typeof x === "boolean";
  * Whether a given string represents a valid city in the game world.
  *
  * @param c A city name, represented as a string.  Cannot be an empty string.
- * @return true if the given string represents a city in the game world;
+ * @return True if the given string represents a city in the game world;
  *     false otherwise.
  */
 export function is_valid_city(c) {
@@ -254,7 +254,7 @@ export function is_valid_city(c) {
  * Whether the given name represents a valid faction.
  *
  * @param fac A string representing the name of a faction.
- * @return true if the given name represents a valid faction;
+ * @return True if the given name represents a valid faction;
  *     false otherwise.
  */
 export function is_valid_faction(fac) {
@@ -267,7 +267,7 @@ export function is_valid_faction(fac) {
  * Whether the given name represents a valid program.
  *
  * @param name A string representing the name of a program.
- * @return true if the given name refers to a valid program;
+ * @return True if the given name refers to a valid program;
  *     false otherwise.
  */
 export function is_valid_program(name) {
