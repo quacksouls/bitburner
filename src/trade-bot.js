@@ -75,7 +75,7 @@ function buy_stock(ns, stk) {
  * Whether we have access to Stock Market data and APIs.
  *
  * @param ns The Netscript API.
- * @return true if we have access to all Stock Market data and APIs;
+ * @return True if we have access to all Stock Market data and APIs;
  *     false otherwise.
  */
 function has_api_access(ns) {
@@ -100,7 +100,7 @@ function has_api_access(ns) {
  * reserve whenever we trade on the Stock Market.
  *
  * @param ns The Netscript API.
- * @return true if we have enough money to buy stocks; false otherwise.
+ * @return True if we have enough money to buy stocks; false otherwise.
  */
 function has_funds(ns) {
     const player = new Player(ns);
@@ -115,7 +115,7 @@ function has_funds(ns) {
  * (2) Our farm must have the maximum number of purchased server.
  *
  * @param ns The Netscript API.
- * @return true if we have a minimum running purchased server farm;
+ * @return True if we have a minimum running purchased server farm;
  *     false otherwise.
  */
 function has_minimum_pserv(ns) {
@@ -138,7 +138,7 @@ function has_minimum_pserv(ns) {
  *
  * @param ns The Netscript API.
  * @param stk Is there any profit in selling all shares of this stock?
- * @return true if we can make a profit by selling all our shares of this
+ * @return True if we can make a profit by selling all our shares of this
  *     stock; false otherwise.
  */
 function is_profitable(ns, stk) {
@@ -154,7 +154,7 @@ function is_profitable(ns, stk) {
  * of money before we start dabbling on the Stock Market.
  *
  * @param ns The Netscript API.
- * @return true if our funds is at least the money threshold; false otherwise.
+ * @return True if our funds is at least the money threshold; false otherwise.
  */
 function meet_money_threshold(ns) {
     const player = new Player(ns);
@@ -220,10 +220,8 @@ function sell_stock(ns, stk) {
         return;
     }
     // Sell all shares of the stock if the forecast is below the threshold.
-    if (ns.stock.getForecast(stk) < forecast.SELL) {
-        if (is_profitable(ns, stk)) {
-            ns.stock.sellStock(stk, nlong);
-        }
+    if (ns.stock.getForecast(stk) < forecast.SELL && is_profitable(ns, stk)) {
+        ns.stock.sellStock(stk, nlong);
     }
 }
 
@@ -234,7 +232,7 @@ function sell_stock(ns, stk) {
  * of money for various purposes.
  *
  * @param ns The Netscript API.
- * @return true if the trade bot should skip buying shares during this tick;
+ * @return True if the trade bot should skip buying shares during this tick;
  *     false otherwise.
  */
 function skip_buy(ns) {
@@ -246,20 +244,14 @@ function skip_buy(ns) {
  *
  * @param ns The Netscript API.
  * @param stk Do we want to skip over this stock?
- * @return true if we are to skip this stock; false otherwise.
+ * @return True if we are to skip this stock; false otherwise.
  */
 function skip_stock(ns, stk) {
-    // Skip if there is a low chance of increase in the next tick.
-    if (ns.stock.getForecast(stk) < forecast.BUY) {
-        return bool.SKIP;
-    }
-    // Skip if the stock is too volatile.
-    if (ns.stock.getVolatility(stk) > forecast.VOLATILITY) {
-        return bool.SKIP;
-    }
-    // Skip if we cannot afford to purchase any shares of the stock.
-    const nshare = num_shares(ns, stk);
-    if (nshare < 1) {
+    if (
+        ns.stock.getForecast(stk) < forecast.BUY
+        || ns.stock.getVolatility(stk) > forecast.VOLATILITY
+        || num_shares(ns, stk) < 1
+    ) {
         return bool.SKIP;
     }
     return bool.NO_SKIP;
