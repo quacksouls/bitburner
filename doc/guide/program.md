@@ -189,22 +189,63 @@ Augmentations on offer from CyberSec. When you are ready to work for CyberSec,
 click the `Back` button. One way to increase your reputation is by completing
 hacking contracts for the faction. Click on the `Hacking Contracts` button to
 start working for CyberSec. This would earn you reputation within CyberSec as
-well as Hack XP. Let the game run for an hour or more. You can also click on
-`Do something else simultaneously` to work on a side project, while you
-passively earn reputation and Hack XP.
+well as Hack XP. Let the game run for an hour or more. You can also click on the
+button `Do something else simultaneously` to work on a side project, while you
+earn Hack XP and a reduced rate of reputation.
 
 ![Hacking contracts for CyberSec](image/cybersec-hacking-contracts.png "Perform hacking contracts for CyberSec")
 
+## Reputation
+
+Each faction and company offers various types of work. Faction work is divided
+into three categories: hacking contracts, field work, and security work. Note
+that some factions offer all or a combination of these three types of work.
+Company work is divided into five categories: business job, software job, IT
+job, security job, or miscellaneous job. A miscellaneous job is part-time work,
+a position either as a waiter or general employee. Some companies offer one or a
+combination of these types of work.
+
+The above image shows the rate at which you are earning reputation within
+CyberSec. Reputation can be earned within a faction as well as within a company.
+You can earn reputation in one of two ways: passive and active. Upon joining a
+faction or company, you immediately start to earn reputation, albeit rather
+slowly. This is passive reputation. To increase the rate at which you earn
+reputation, work for the faction or company. You are actively working for a
+faction or company when you are focused on a job. How do you know you are
+focused on a task? You are focused on a faction task when you see a focus screen
+like in the above image. The image below shows a screen that illustrates that
+you are focused on a company task.
+
+![Working for MegaCorp](image/company-work.png "Working for MegaCorp")
+
+Both images above show a button that says `Do something else simultaneously`.
+Click on that button and your focus would be taken away from the task, and you
+should see something like the left or right panel of the following image. (The
+left panel shows your unfocused work for the faction Slum Snakes, not CyberSec.)
+You are still actively earning reputation, but your earning rate is lowered
+because you are being penalized for not focusing on the task. One of the
+factions has an Augmentation that removes the penalty for not focusing on a
+task; see the section [Faction progression](faction.md).
+
+![Unfocused work](image/unfocus-work.png "Unfocused work")
+
+You can only focus on one task at a time. Suppose you click the button
+`Do something else simultaneously`, then you go to The Slums and commit a crime.
+Your focus would be taken away from the faction/company work. A screen would
+popup to show that are currently focusing on a crime. Now you are back to
+passively earning faction or company reputation.
+
 ### Share
 
-As shown in the image above, you are earning less than 1 reputation point per
-second. You require approximately 18.75k reputation points to unlock all
-Augmentations from CyberSec. At this rate, earning those 18.75k reputation
-points would require more than 5.61 hours of waiting time. One way of boosting
-the rate at which you earn reputation points is by sharing your `home` server
-with a faction. You should now have enough money to upgrade `home` to 512GB RAM.
-Let's share all available RAM on `home` with CyberSec. First, you must kill all
-programs that are running on `home`:
+As shown in one of the images from the subsection [Factions](#factions), you are
+earning less than 1 reputation point per second within CyberSec. You require
+approximately 18.75k reputation points to unlock all Augmentations from
+CyberSec. At this rate, earning those 18.75k reputation points would require
+more than 5.61 hours of waiting time. One way of boosting the rate at which you
+earn reputation points is by sharing your `home` server with a faction. You
+should now have enough money to upgrade `home` to 512GB RAM. Let's share all
+available RAM on `home` with CyberSec. First, you must kill all programs that
+are running on `home`:
 
 ```sh
 # Print out information about all scripts running on home server.
