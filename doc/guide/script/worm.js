@@ -40,15 +40,14 @@ function compromise(ns, script, target) {
  * @param target Use our hack script to hack this target server.
  */
 function deploy(ns, script, host, target) {
-    if (!has_root_access(ns, host) || !has_root_access(ns, target)) {
-        return;
-    }
     const home = "home";
-    if (!ns.fileExists(script, home)) {
-        return;
-    }
     const nthread = num_threads(ns, script, host);
-    if (nthread < 1) {
+    if (
+        !has_root_access(ns, host)
+        || !has_root_access(ns, target)
+        || !ns.fileExists(script, home)
+        || nthread < 1
+    ) {
         return;
     }
     ns.scp(script, host, home);
