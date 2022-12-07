@@ -103,6 +103,18 @@ function nuke_servers(ns) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
+}
+
+/**
  * Whether we should skip the server.  A server might be skipped over for
  * various reasons.
  *
@@ -168,11 +180,7 @@ function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerUsedRam");
-    ns.disableLog("scan");
-    ns.disableLog("sleep");
+    shush(ns);
     // Continuously look for world servers to hack low-end servers.
     log(ns, "Hacking low-end servers");
     for (;;) {
