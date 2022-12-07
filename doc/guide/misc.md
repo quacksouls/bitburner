@@ -41,11 +41,20 @@ hacking. Every time you trade on the Stock Market, ensure you leave some money
 in reserve in case you need money to purchase servers or upgrade your Hacknet
 nodes. Refrain from spending all your money gambling on the Stock Market.
 
-> **Problem.** Obtain access to all WSE APIs and data. Write a trade bot to
+> **Problem 1.** Obtain access to all WSE APIs and data. Write a trade bot to
 > automate your trading on the Stock Market. For your first trade bot, buy a
 > certain number of shares of a stock if you have sufficient funds. Make sure
 > not to use all your money to buy shares. Furthermore, sell all shares of a
 > stock provided that you can make a profit from the sale.
+>
+> **Problem 2.** The functions
+> [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md),
+> [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md),
+> and
+> [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md)
+> each has an option that allows you to affect the Stock Market. Modify your
+> worm script from the section [After the first reboot](reboot1.md) to take
+> advantage of this option.
 
 ## Coding Contracts
 
