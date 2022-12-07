@@ -45,14 +45,15 @@ export async function main(ns) {
     // before doing anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
     // Continuously hack/grow/weaken the target server.
+    const opt = { stock: true }; // Affects the Stock Market.
     for (;;) {
         const money = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
-            await ns.weaken(target);
+            await ns.weaken(target, opt);
         } else if (money < money_threshold) {
-            await ns.grow(target);
+            await ns.grow(target, opt);
         } else {
-            await ns.hack(target);
+            await ns.hack(target, opt);
         }
     }
 }
