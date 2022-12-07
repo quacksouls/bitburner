@@ -21,42 +21,7 @@ import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
-import { assert, choose_targets, filter_bankrupt_servers } from "/lib/util.js";
-
-/**
- * Choose the "best" world server to hack.  The definition of "best" is
- * subjective.  However, for our purposes the best target is the server that
- * meet these criteria:
- *
- * (1) The server having the highest Hack stat requirement not exceeding our
- *     Hack stat.
- * (2) We can open all ports on the given server.
- * (3) The server is not bankrupt.
- * (4) Is not a purchased server.
- *
- * If multiple servers meet the above criteria, then we choose the server that
- * has the highest maximum money.
- *
- * @param ns The Netscript API.
- * @return The best server to target.
- */
-function best_target(ns) {
-    const target = choose_targets(ns, filter_bankrupt_servers(ns, network(ns)));
-    if (target.length === 1) {
-        return target[0];
-    }
-    // If we have multiple best targets, choose the target having the highest
-    // maximum money.
-    let host = "";
-    let max_money = -Infinity;
-    target.forEach((s) => {
-        if (ns.getServerMaxMoney(s) > max_money) {
-            max_money = ns.getServerMaxMoney(s);
-            host = s;
-        }
-    });
-    return host;
-}
+import { assert, server_of_max_weight } from "/lib/util.js";
 
 /**
  * The number of threads we can use to run a script on our home server.
@@ -92,12 +57,9 @@ function shush(ns) {
  */
 function update(ns, t) {
     // Ensure we have root access on the chosen target.
-    const target = best_target(ns);
-    assert(target !== "");
+    const target = server_of_max_weight(ns, network(ns));
     const serv = new Server(ns, target);
-    if (!serv.has_root_access()) {
-        serv.gain_root_access();
-    }
+    assert(serv.has_root_access());
     // No new target.  Hack the current target if it is not already being
     // targeted.
     if (t === target) {
