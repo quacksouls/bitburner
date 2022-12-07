@@ -269,6 +269,19 @@ function pserv_ram(ns) {
 }
 
 /**
+ * Silence various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
+}
+
+/**
  * This is the early stage, where it is assumed we are starting the game or
  * have just installed a bunch of Augmentations.  Each purchased server should
  * have a small amount of RAM, enough to run our hacking script using at least
@@ -331,12 +344,7 @@ async function update(ns, ram) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("getServerUsedRam");
-    ns.disableLog("scan");
-    ns.disableLog("sleep");
+    shush(ns);
     // Continuously try to purchase more powerful servers.
     for (;;) {
         await buy_servers(ns);
