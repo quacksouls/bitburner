@@ -159,12 +159,13 @@ API is `ns.codingcontract.functionName()`, not
 
 Browsing through the section [Faction progression](faction.md) and you see that
 various factions require you to install a backdoor on their respective servers.
-You do not yet have access to the Singularity API, meaning that you must
-manually connect to a target server to install a backdoor. If you have the
-program `AutoLink.exe`, you can use it together with the command `scan-analyze`
-to help you connect to a target server. However, some servers are buried deep
-inside the network of world servers such that you must use a chain of
-`scan-analyze` commands to help you locate a target server. The process is
+You do not yet have access to the
+[Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md),
+meaning that you must manually connect to a target server to install a backdoor.
+If you have the program `AutoLink.exe`, you can use it together with the command
+`scan-analyze` to help you connect to a target server. However, some servers are
+buried deep inside the network of world servers such that you must use a chain
+of `scan-analyze` commands to help you locate a target server. The process is
 time-consuming. Let's find a way to automate the task of connecting to any world
 server.
 
