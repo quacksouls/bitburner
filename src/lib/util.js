@@ -74,21 +74,11 @@ export function choose_targets(ns, candidate) {
     const port_opener = program.filter((p) => ns.fileExists(p, home));
     const nport = port_opener.length;
     // Find a bunch of target servers to hack.
-    const target = [];
-    for (const s of candidate) {
-        const serv = ns.getServer(s);
-        // Do we have the minimum hacking skill required?
-        if (ns.getHackingLevel() < serv.requiredHackingSkill) {
-            continue;
-        }
-        // Can we open all required ports?
-        if (serv.numOpenPortsRequired > nport) {
-            continue;
-        }
-        // We have found a target server.
-        target.push(s);
-    }
-    return target;
+    const required_hack = (s) => ns.getServer(s).requiredHackingSkill;
+    const can_nuke = (s) => nport >= ns.getServer(s).numOpenPortsRequired;
+    return candidate
+        .filter((s) => ns.getHackingLevel() >= required_hack(s))
+        .filter((t) => can_nuke(t));
 }
 
 /**
