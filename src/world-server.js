@@ -21,18 +21,12 @@ import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import { assert, compromised_servers, nuke_servers } from "/lib/util.js";
-
-/**
- * A server that has the greatest hack desirability score.
- *
- * @param ns The Netscript API.
- * @return Hostname of the server to target.
- */
-function choose_target_server(ns) {
-    const desirable_server = (s, t) => (weight(ns, s) < weight(ns, t) ? t : s);
-    return nuke_servers(ns).reduce(desirable_server);
-}
+import {
+    assert,
+    compromised_servers,
+    nuke_servers,
+    server_of_max_weight,
+} from "/lib/util.js";
 
 /**
  * Deploy our hack script to a nuked server.  Use the server to hack the given
@@ -85,7 +79,7 @@ function shush(ns) {
  * @param ns The Netscript API.
  */
 async function update(ns) {
-    const target = choose_target_server(ns);
+    const target = server_of_max_weight(ns);
     if (!is_new_target(ns, target)) {
         return;
     }
@@ -95,30 +89,6 @@ async function update(ns) {
         ns.killall(s);
     });
     nuke_servers(ns).forEach((s) => deploy(ns, s, target));
-}
-
-/**
- * The weight, or hack desirability, of a server.  Higher weight is better.
- *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return A non-negative number representing the hack desirability of the given
- *     server.
- */
-function weight(ns, host) {
-    const serv = new Server(ns, host);
-    const player = new Player(ns);
-    const threshold = player.hacking_skill() / 2;
-    if (
-        serv.is_home()
-        || serv.is_pserv()
-        || !serv.has_root_access()
-        || serv.hacking_skill() > threshold
-    ) {
-        return 0;
-    }
-    assert(serv.security_min() > 0);
-    return serv.money_max() / serv.security_min();
 }
 
 /**

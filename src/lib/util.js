@@ -303,6 +303,17 @@ export function nuke_servers(ns) {
 }
 
 /**
+ * A server that has the greatest hack desirability score.
+ *
+ * @param ns The Netscript API.
+ * @return Hostname of the server to target.
+ */
+export function server_of_max_weight(ns) {
+    const desirable_server = (s, t) => (weight(ns, s) < weight(ns, t) ? t : s);
+    return nuke_servers(ns).reduce(desirable_server);
+}
+
+/**
  * Tell the trade bot to resume its transactions.  It can now buy and sell
  * shares of stocks.
  *
@@ -325,4 +336,27 @@ export async function trade_bot_stop_buy(ns) {
     const fname = wse.STOP_BUY;
     const data = "Trade bot stop buy.";
     await ns.write(fname, data, io.WRITE);
+}
+
+/**
+ * The weight, or hack desirability, of a server.  Higher weight is better.
+ *
+ * @param ns The Netscript API.
+ * @param host The hostname of a server.
+ * @return A non-negative number representing the hack desirability of the given
+ *     server.
+ */
+function weight(ns, host) {
+    const serv = ns.getServer(host);
+    const threshold = ns.getHackingLevel() / 2;
+    if (
+        host === home
+        || serv.purchasedByPlayer
+        || !serv.hasAdminRights
+        || serv.requiredHackingSkill > threshold
+    ) {
+        return 0;
+    }
+    assert(serv.minDifficulty > 0);
+    return serv.moneyMax / serv.minDifficulty;
 }
