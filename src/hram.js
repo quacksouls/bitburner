@@ -71,6 +71,19 @@ function home_num_threads(ns) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMaxMoney");
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
+}
+
+/**
  * Constantly update the target to hack.
  *
  * @param ns The Netscript API.
@@ -117,12 +130,7 @@ function update(ns, t) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMaxMoney");
-    ns.disableLog("getServerUsedRam");
-    ns.disableLog("scan");
-    ns.disableLog("sleep");
+    shush(ns);
     // Periodically search for a better target.  Suspend this script, and kill
     // the spawned script, if we need to share our home server with a faction.
     let target = update(ns, "");
