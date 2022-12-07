@@ -32,8 +32,10 @@ import { assert, exec } from "/lib/util.js";
 async function reboot(ns) {
     const target = "low-end.js";
     const script = [target, "/cct/solver.js"];
-    // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is no
-    // point in setting up a farm of Hacknet nodes.
+    // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
+    // in setting up a farm of purchased servers.
+    // TODO: Run script to buy Hacknet servers depending on whether we have
+    // Source-File 9.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         script.unshift("hnet-farm.js");
         script.unshift("buy-server.js");

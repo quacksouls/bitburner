@@ -32,10 +32,10 @@ import { assert, exec } from "/lib/util.js";
 async function reboot(ns) {
     // Execute a script, let it run for a while, kill the script, and run
     // another script.  Assume we do not have enough RAM to let multiple
-    // scripts running at the same time. In "BitNode-9: Hacktocracy", we cannot
-    // purchase servers so there is no point in setting up a farm of Hacknet
-    // nodes.
+    // scripts running at the same time.
     const script = ["low-end.js"];
+    // TODO: Run script to buy Hacknet servers depending on whether we have
+    // Source-File 9.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         script.push("hnet-farm.js");
     }
