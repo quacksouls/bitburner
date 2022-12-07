@@ -32,7 +32,7 @@ function connect(path) {
     // Template code from the official documentation of Bitburner:
     //
     // https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
-    const input = globalThis.document.getElementById("terminal-input");
+    const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
     input.value = cmd;
     const handler = Object.keys(input)[1];
     input[handler].onChange({
