@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/lib/constant/bool.js";
 import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { wait_t } from "/lib/constant/time.js";
@@ -107,7 +108,7 @@ async function hire_round_one_stage(ns, n) {
                 assert(false);
         }
         // Hire an employee for the role.
-        await new_hire(ns, div, ct, role);
+        await new_hire(ns, div, ct, role, bool.WAIT);
         const prefix = `${div}: ${ct}`;
         const msg = `hired 1 employee and assigned to ${role}`;
         log(ns, `${prefix}: ${msg}`);
