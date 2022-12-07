@@ -49,15 +49,9 @@ async function buy_servers(ns) {
  * @return The best server to hack.
  */
 function choose_best_server(ns) {
-    const candidate = compromised_servers(ns);
-    let best = ns.getServer(candidate[0]);
-    candidate.forEach((s) => {
-        const serv = ns.getServer(s);
-        if (best.requiredHackingSkill < serv.requiredHackingSkill) {
-            best = serv;
-        }
-    });
-    return best.hostname;
+    const hack_skill = (s) => ns.getServer(s).requiredHackingSkill;
+    const best_server = (s, t) => (hack_skill(s) < hack_skill(t) ? t : s);
+    return compromised_servers(ns).reduce(best_server);
 }
 
 /**
