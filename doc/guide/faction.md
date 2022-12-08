@@ -229,3 +229,6 @@ relatively easy to receive an invitation from any of these three factions.
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot1.md "After the first reboot")]
 [[Next](misc.md "Miscellaneous topics")]
+
+![CC BY-NC-SA 4.0](image/cc.png "CC BY-NC-SA 4.0") \
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
