@@ -61,25 +61,19 @@ function choose_best_server(ns) {
  * @param ns The Netscript API.
  * @return An array of hostnames, each representing a compromised server.
  */
-function compromised_servers(ns) {
-    // Scan all servers in the game world.  Use breadth-first search.
-    const home = "home";
-    const q = [home];
-    const visit = new Set([home]);
+function compromised_servers(ns, root = "home", visit = new Set()) {
+    // Scan all servers in the game world.  Use a recursive version of
+    // depth-first search.
     const is_bankrupt = (s) => ns.getServer(s).moneyMax === 0;
-    while (q.length > 0) {
-        const u = q.shift();
-        ns.scan(u)
-            .filter((v) => ns.getServer(v).hasAdminRights)
-            .filter((w) => !ns.getServer(w).purchasedByPlayer)
-            .filter((x) => !is_bankrupt(x))
-            .filter((y) => !visit.has(y))
-            .forEach((z) => {
-                visit.add(z);
-                q.push(z);
-            });
-    }
-    visit.delete(home);
+    ns.scan(root)
+        .filter((s) => ns.getServer(s).hasAdminRights)
+        .filter((s) => !ns.getServer(s).purchasedByPlayer)
+        .filter((s) => !is_bankrupt(s))
+        .filter((s) => !visit.has(s))
+        .forEach((s) => {
+            visit.add(s);
+            compromised_servers(ns, s, visit);
+        });
     return [...visit];
 }
 
