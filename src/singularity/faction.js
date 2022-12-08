@@ -180,11 +180,8 @@ function join_next(ns, fac) {
     assert(is_valid_faction(fac));
     // We have a gang within the given faction.  Must be in a gang in order to
     // get information about our gang.
-    if (ns.gang.inGang()) {
-        const gang_fac = ns.gang.getGangInformation().faction;
-        if (gang_fac === fac) {
-            return bool.NO_JOIN;
-        }
+    if (ns.gang.inGang() && ns.gang.getGangInformation().faction === fac) {
+        return bool.NO_JOIN;
     }
     if (
         bitnode.Hacktocracy === ns.getPlayer().bitNodeN
