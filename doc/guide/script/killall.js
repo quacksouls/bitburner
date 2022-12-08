@@ -16,24 +16,23 @@
  */
 
 /**
- * Scan all servers in the game world.  Use breadth-first search.
+ * Scan all world servers, excluding purchased servers.  Use a recursive version
+ * of depth-first search.
  *
  * @param ns The Netscript API.
- * @return An array of hostnames, excluding our home server.
+ * @param root Start our scan from this node.  Default is our home server.
+ * @param visit Set of nodes we have visited so far.  Default is empty set.
+ * @return Array of world servers, excluding our home server.
  */
-function network(ns) {
-    const home = "home";
-    const q = [home];
-    const visit = new Set([home]);
-    while (q.length > 0) {
-        ns.scan(q.shift())
-            .filter((v) => !visit.has(v))
-            .forEach((x) => {
-                visit.add(x);
-                q.push(x);
-            });
-    }
-    visit.delete(home);
+function network(ns, root = "home", visit = new Set()) {
+    const is_pserv = (s) => ns.getServer(s).purchasedByPlayer;
+    ns.scan(root)
+        .filter((s) => !visit.has(s))
+        .filter((s) => !is_pserv(s))
+        .forEach((s) => {
+            visit.add(s);
+            network(ns, s, visit);
+        });
     return [...visit];
 }
 
@@ -46,7 +45,6 @@ function network(ns) {
  */
 export async function main(ns) {
     network(ns)
-        .filter((s) => !ns.getServer(s).purchasedByPlayer)
         .filter((s) => ns.getServer(s).hasAdminRights)
         .forEach((s) => ns.killall(s));
 }
