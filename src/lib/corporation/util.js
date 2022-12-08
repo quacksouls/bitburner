@@ -22,6 +22,7 @@ import {
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
 import { base } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import { log } from "/lib/io.js";
@@ -69,6 +70,16 @@ export async function buy_research(ns, div, name) {
     while (!org.buy_research(div, name)) {
         await ns.sleep(wait_t.SECOND);
     }
+}
+
+/**
+ * Remove files created by our corporation scripts.
+ *
+ * @param ns The Netscript API.
+ */
+export function corp_cleanup(ns) {
+    const junk = [corp.INVEST];
+    junk.forEach((f) => ns.rm(f, home));
 }
 
 /**

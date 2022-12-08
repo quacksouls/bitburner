@@ -19,6 +19,7 @@ import { bool } from "/lib/constant/bool.js";
 import { augment } from "/lib/constant/faction.js";
 import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { corp_cleanup } from "/lib/corporation/util.js";
 import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
@@ -48,6 +49,7 @@ async function destroy(ns) {
     join_all_factions(ns);
     // Now hack the target server.
     cleanup(ns);
+    corp_cleanup(ns);
     connect_to(ns, player.home(), serv.hostname());
     await ns.singularity.installBackdoor();
 }

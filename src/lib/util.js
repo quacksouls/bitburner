@@ -18,7 +18,6 @@
 // NOTE: Import only constants into this file.
 // Miscellaneous helper functions.
 
-import { corp } from "/lib/constant/corp.js";
 import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { io } from "/lib/constant/io.js";
@@ -87,7 +86,7 @@ export function choose_targets(ns, candidate) {
  * @param ns The Netscript API.
  */
 export function cleanup(ns) {
-    const junk = [corp.INVEST, server.HRAM, server.SHARE, wse.STOP_BUY];
+    const junk = [server.HRAM, server.SHARE, wse.STOP_BUY];
     junk.forEach((f) => ns.rm(f, home));
 }
 
