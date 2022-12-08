@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { factions } from "/lib/constant/faction.js";
 import { home } from "/lib/constant/server.js";
@@ -184,6 +185,12 @@ function join_next(ns, fac) {
         if (gang_fac === fac) {
             return bool.NO_JOIN;
         }
+    }
+    if (
+        bitnode.Hacktocracy === ns.getPlayer().bitNodeN
+        && fac === "Netburners"
+    ) {
+        return bool.NO_JOIN;
     }
     // See whether we have all Augmentations from the given faction.
     const owned_aug = owned_augment(ns);
