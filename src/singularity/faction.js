@@ -173,7 +173,7 @@ function choose_faction(ns) {
  *
  * @param ns The Netscript API.
  * @param fac The name of the faction to consider.
- * @return true if the given faction should be joined next; false otherwise.
+ * @return True if the given faction should be joined next; false otherwise.
  */
 function join_next(ns, fac) {
     assert(is_valid_faction(fac));
