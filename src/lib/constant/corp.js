@@ -72,7 +72,7 @@ export const corp = {
      * store the integer that represents the latest investment round in which
      * we accepted investment.
      */
-    INVEST: "invest.txt",
+    INVEST: "/corporation/invest.txt",
     /**
      * The roles to assign to employees.  Data taken from this file:
      *
