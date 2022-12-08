@@ -28,7 +28,7 @@ import {
     level_upgrade,
     sell_product,
 } from "/lib/corporation/util.js";
-import { log } from "/lib/io.js";
+import { create_file, log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert } from "/lib/util.js";
 
@@ -146,6 +146,7 @@ export async function main(ns) {
     quiet_log(ns);
     sanity_checks(ns);
     // Maintain our corporation.
+    create_file(ns, corp.JANI, ns.getScriptName());
     await go_public(ns);
     for (;;) {
         await update(ns, corp.industry.TOBACCO);

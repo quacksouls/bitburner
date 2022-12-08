@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
+import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
@@ -36,7 +37,7 @@ import {
     smart_supply,
     to_number,
 } from "/lib/corporation/util.js";
-import { log } from "/lib/io.js";
+import { create_file, log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert, exec } from "/lib/util.js";
 
@@ -349,6 +350,7 @@ export async function main(ns) {
     assert(org.has_corp());
     assert(org.has_office_warehouse_api());
     // Create and manage our Tobacco division.
+    create_file(ns, corp.TOBA, ns.getScriptName());
     setup_division(ns);
     const div = corp.industry.TOBACCO;
     const new_office = await expand_city(ns, div);
@@ -368,4 +370,5 @@ export async function main(ns) {
     // Some last minute house keeping.
     await before_going_public(ns);
     exec(ns, "/corporation/janitor.js");
+    ns.rm(corp.TOBA, home);
 }

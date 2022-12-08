@@ -18,6 +18,7 @@
 import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
 import { colour } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
@@ -134,6 +135,33 @@ function initial_material_sell(ns) {
 }
 
 /**
+ * Probably resume from where we left off before a soft reset.
+ *
+ * @param ns The Netscript API.
+ * @return True if we resume from where we left off; false otherwise.
+ */
+function resume(ns) {
+    let is_resume = false;
+    if (ns.fileExists(corp.PREP, home)) {
+        exec(ns, "/corporation/prep.js");
+        is_resume = true;
+    }
+    if (ns.fileExists(corp.AGRI, home)) {
+        exec(ns, "/corporation/agriculture.js");
+        is_resume = true;
+    }
+    if (ns.fileExists(corp.TOBA, home)) {
+        exec(ns, "/corporation/tobacco.js");
+        is_resume = true;
+    }
+    if (ns.fileExists(corp.JANI, home)) {
+        exec(ns, "/corporation/janitor.js");
+        is_resume = true;
+    }
+    return is_resume;
+}
+
+/**
  * The initial setup of our corporation.  First, we branch into agriculture.
  *
  * @param ns The Netscript API.
@@ -172,6 +200,9 @@ export async function main(ns) {
     // Sanity check.
     if (!has_corporation_api(ns)) {
         log(ns, "No access to Corporation API", colour.RED);
+        return;
+    }
+    if (resume(ns)) {
         return;
     }
     // Create our corporation.  If we do not have access to the Office and

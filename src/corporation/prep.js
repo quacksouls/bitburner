@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
 import { cities } from "/lib/constant/location.js";
+import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { Corporation } from "/lib/corporation/corp.js";
 import {
@@ -25,7 +26,7 @@ import {
     new_hire,
     to_number,
 } from "/lib/corporation/util.js";
-import { log } from "/lib/io.js";
+import { create_file, log } from "/lib/io.js";
 import { has_corporation_api } from "/lib/source.js";
 import { assert, exec } from "/lib/util.js";
 
@@ -327,6 +328,7 @@ export async function main(ns) {
     assert(org.has_corp());
     assert(org.has_office_warehouse_api());
     // Various rounds of preparation.
+    create_file(ns, corp.PREP, ns.getScriptName());
     await round_one(ns);
     await round_two(ns);
     log(ns, "Waiting for each office to be vivacious");
@@ -334,4 +336,5 @@ export async function main(ns) {
     // Next scripts in the load chain.
     exec(ns, "/corporation/agriculture.js");
     exec(ns, "/corporation/tobacco.js");
+    ns.rm(corp.PREP, home);
 }

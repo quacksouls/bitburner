@@ -78,7 +78,7 @@ export async function buy_research(ns, div, name) {
  * @param ns The Netscript API.
  */
 export function corp_cleanup(ns) {
-    const junk = [corp.INVEST];
+    const junk = [corp.AGRI, corp.INVEST, corp.JANI, corp.PREP, corp.TOBA];
     junk.forEach((f) => ns.rm(f, home));
 }
 

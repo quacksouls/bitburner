@@ -22,6 +22,17 @@
  */
 export const corp = {
     /**
+     * This file means that we should reload the script
+     *
+     * /corporation/agriculture.js
+     *
+     * after a soft reset.  In some cases, we do not want to start everything
+     * all over again from the script
+     *
+     * /corporation/go.js
+     */
+    AGRI: "/corporation/agriculture.txt",
+    /**
      * The name of the Corporation API.  We use this to circumvent the namespace
      * RAM cost.
      */
@@ -74,6 +85,17 @@ export const corp = {
      */
     INVEST: "/corporation/invest.txt",
     /**
+     * This file means that we should reload the script
+     *
+     * /corporation/janitor.js
+     *
+     * after a soft reset.  In some cases, we do not want to start everything
+     * all over again from the script
+     *
+     * /corporation/go.js
+     */
+    JANI: "/corporation/janitor.txt",
+    /**
      * The roles to assign to employees.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/EmployeePositions.ts
@@ -123,6 +145,17 @@ export const corp = {
         "Training",
     ],
     /**
+     * This file means that we should reload the script
+     *
+     * /corporation/prep.js
+     *
+     * after a soft reset.  In some cases, we do not want to start everything
+     * all over again from the script
+     *
+     * /corporation/go.js
+     */
+    PREP: "/corporation/prep.txt",
+    /**
      * Various research that can be purchased.  Data taken from this file:
      *
      * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Corporation/data/ResearchMetadata.ts
@@ -156,6 +189,17 @@ export const corp = {
      * The round of investment.
      */
     round: ["one", "two", "three", "four"],
+    /**
+     * This file means that we should reload the script
+     *
+     * /corporation/tobacco.js
+     *
+     * after a soft reset.  In some cases, we do not want to start everything
+     * all over again from the script
+     *
+     * /corporation/go.js
+     */
+    TOBA: "/corporation/tobacco.txt",
     /**
      * Unlock upgrades.  These are one-time unlockable upgrades and apply to the
      * entire corporation.  We cannot level these upgrades.  Data are taken from

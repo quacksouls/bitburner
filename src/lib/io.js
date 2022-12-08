@@ -15,10 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { io } from "/lib/constant/io.js";
 import { colour } from "/lib/constant/misc.js";
 import { assert } from "/lib/util.js";
 
 // Miscellaneous functions for input/output.
+
+/**
+ * Create a text file.  We typically use a text file to communicate with various
+ * scripts.
+ *
+ * @param ns The Netscript API.
+ * @param fname Full path of the file name.
+ * @param data Write this data to the text file.
+ */
+export function create_file(ns, fname, data) {
+    assert(fname !== "");
+    assert(data !== "");
+    ns.write(fname, data, io.WRITE);
+}
 
 /**
  * Print a log to the Terminal.
