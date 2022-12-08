@@ -25,10 +25,9 @@
  * @return Array of world servers, excluding our home server.
  */
 function network(ns, root = "home", visit = new Set()) {
-    const is_pserv = (s) => ns.getServer(s).purchasedByPlayer;
     ns.scan(root)
         .filter((s) => !visit.has(s))
-        .filter((s) => !is_pserv(s))
+        .filter((s) => !ns.getServer(s).purchasedByPlayer)
         .forEach((s) => {
             visit.add(s);
             network(ns, s, visit);
