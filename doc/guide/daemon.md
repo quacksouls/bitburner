@@ -43,10 +43,12 @@ Augmentations and you must work your way up again by raising your money and
 stats. Raise your Hack stat and money. While waiting, browse through the
 [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md)
 to get an idea of which tasks you can now automate via scripts. Solve a couple
-of Coding Contracts to earn money. Join factions and buy their Augmentations.
-Raise your stats, especially your Hack, and money. Join Daedalus and raise your
-reputation high enough to allow you to purchase TRP. Install TRP, then hack the
-`w0r1d_d43m0n` server to break BN4.1.
+of
+[Coding Contracts](https://bitburner.readthedocs.io/en/latest/basicgameplay/codingcontracts.html)
+to earn money. Join factions and buy their Augmentations. Raise your stats,
+especially your Hack, and money. Join Daedalus and raise your reputation high
+enough to allow you to purchase TRP. Install TRP, then hack the `w0r1d_d43m0n`
+server to break BN4.1.
 
 ## Destroy the daemon
 
