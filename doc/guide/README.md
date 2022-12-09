@@ -19,6 +19,7 @@ available at these avenues:
 1. [After the first reboot](reboot1.md)
 1. [Faction progression](faction.md)
 1. [Miscellaneous topics](misc.md)
+1. [Find the daemon](daemon.md)
 
 ## License
 
