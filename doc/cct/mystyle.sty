@@ -46,6 +46,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{datetime2}
+\usepackage{enumerate}
 \usepackage[bottom]{footmisc}
 \usepackage{xspace}
 
@@ -73,7 +74,13 @@
 %%
 \renewcommand{\And}{\textbf{and}\xspace}
 \newcommand{\code}[1]{{\sf {#1}}}  %% small code snippet
+\newcommand{\Continue}{\textbf{continue}\xspace}
+\newcommand{\False}{\code{false}}
+\newcommand{\Index}{\code{index}}
+\newcommand{\Jump}{\code{jump}}
 \newcommand{\Prime}{\code{prime}}
+\newcommand{\Reduce}{\code{reduce}}
+\newcommand{\True}{\code{true}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Cross-reference various objects.
@@ -92,6 +99,14 @@
 %% Set theory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% The cardinality of a set.  The cardinality is the number of
+%% elements in a set.
+%%
+%% #1 := A set.
+\newcommand{\Cardinality}[1]{%%
+  \left| {#1} \right|%%
+}
+%%
 \newcommand{\Set}[1]{\left\{#1\right\}}
 %%
 %% A set of the first n primes.
@@ -115,6 +130,16 @@
 \newcommand{\Array}[2]{%%
   \left[%%
     \TupleD{{#1}_1}{{#1}_2}{\dots}{{#1}_{#2}}%%
+  \right]%%
+}
+%%
+%% An array of 2 values.
+%%
+%% #1 := The first value.
+%% #2 := The second value.
+\newcommand{\ArrayB}[2]{%%
+  \left[%%
+    \TupleB{#1}{#2}%%
   \right]%%
 }
 %%
@@ -210,6 +235,33 @@
 \newcommand{\Todo}[1]{%%
   {\color{red} {#1}}%%
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Custom environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Pack together the items of an enumeration.  Remove extraneous
+%% vertical spacing between items.  Use lower-case alphabetic
+%% characters for enumeration.
+\newenvironment{packedenum}{
+\setlength{\parskip}{-5pt}
+\begin{enumerate}[(a)]
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{2pt}
+  \setlength{\parsep}{0pt}
+}{
+  \end{enumerate}
+  \vspace{-6pt}
+}
+%%
+%%
+%% Enumeration via numerals.
+\newenvironment{packedenumeral}{
+\begin{enumerate}[(1)]
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{2pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Metadata in PDF document.

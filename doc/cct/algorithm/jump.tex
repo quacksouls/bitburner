@@ -1,0 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require A nonempty array $A$ of nonnegative integers.
+%%
+%% Output.
+\Ensure $1$ if starting from the first array cell we can reach the
+last array cell; $0$ otherwise.
+%%
+%% Algorithm body.
+%%
+%% Initialization.
+\State $d \gets -1$\Comment{The jump distance.}
+\State $i \gets 0$\Comment{Index of an element in $A$.}
+\State $\Jump \gets $ empty array\Comment{Each element is an array $\ArrayB{d}{i}$.}
+\State $\Reduce \gets \False$\Comment{Whether to reduce the jump distance.}
+\While{$i < \Cardinality{A}$}
+  %%
+  %% Reduce the jumping distance?
+  \If{$\Reduce$}\Comment{Do we reduce the jump distance?}
+    \State $k \gets $ last index of $\Jump$
+    \State $\Jump[k][0] \gets \Jump[k][0] - 1$\Comment{Reduce jump distance by $1$.}
+    \State $\Reduce \gets \False$
+  \Else
+    \State $d \gets A[i]$
+    \State push $\ArrayB{d}{i}$ onto the end of $\Jump$
+  \EndIf
+  %%
+  %% Are we at the last array cell?
+  \If{$i$ is last index of $A$}\Comment{Are we at the last array cell?}
+    \State \Return $1$
+  \EndIf
+  %%
+  %% Zero jump distance.
+  \State $\ArrayB{d}{i} \gets $ last element of $\Jump$
+  \If{$d = 0$}
+    %% Does the first array cell have zero as the jump distance?
+    \If{$i = 0$}
+      \State \Return $0$
+    \EndIf
+    %% Backtrack and reduce jump distance.
+    \State remove last element of $\Jump$\Comment{Backtrack and reduce jump distance.}
+    \State $\Reduce \gets \True$
+    \State \Continue
+  \EndIf
+  %%
+  %% Can we jump the given distance?
+  \If{$i + d < \Cardinality{A}$}\Comment{Can we jump by $d$ positions?}
+    \State $i \gets i + d$
+  \Else
+    \State $\Reduce \gets \True$
+  \EndIf
+\EndWhile
+\end{algorithmic}

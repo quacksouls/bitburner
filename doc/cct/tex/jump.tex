@@ -1,3 +1,63 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Array jumping game}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Problem}
+
+An array has integer elements.  The integer of a cell represents the
+number of positions we can jump to the right from the cell.  Starting
+from the cell at index $0$, determine whether we are able to reach the
+last cell of the array.  Our answer must be either $1$ (meaning true)
+or $0$ (meaning false).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+The problem statement does not say anything about whether the integers
+are negative, positive, or zero.  If an array element is a negative
+integer, does that mean we jump backward?  Let's make various
+assumptions to simplify the problem:
+
+\begin{packedenumeral}
+\item Each integer in the array is nonnegative.
+\item We start from the zeroth index of the array.
+\item Each jump must be to the right, increasing the array index.
+\item If an array element is zero, we cannot jump.
+\end{packedenumeral}
+
+A simple approach to this problem is of a greedy nature.  Start from
+the first element of the array and jump the maximum distance we can to
+reach a different array cell.  We have $2$ cases:
+
+\begin{packedenumeral}
+\item We are not yet at the last cell of the array.
+
+\item We are at the last cell of the array.
+\end{packedenumeral}
+
+If we are at the last cell of the array, then we are done.  Otherwise
+jump the maximum distance we can to reach a different array cell.
+
+Suppose we are at an array cell that allows us to jump a maximum
+distance of $d \geq 0$.  Suppose $d = 0$.  If the cell is the first
+cell of the array, then we cannot reach the end of the array.
+Otherwise backtrack to the cell we came from and decrease the element
+of that cell by $1$, effectively reducing the maximum jump distance
+allowed by the cell.  Suppose $d > 0$.  Either we can jump the given
+maximum distance or we cannot.  If we can jump the given maximum
+distance, then we do so to reach a different cell.  Otherwise we
+backtrack and decrement as per above.  Our discussion is summarized in
+\Algorithm{alg:jump:array_jumping_game}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/jump.tex}
+\caption{%%
+  Greedy array jump.
+}
+\label{alg:jump:array_jumping_game}
+\end{algorithm}
