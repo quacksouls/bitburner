@@ -1,10 +1,10 @@
 # Find the daemon
 
 You should have joined the faction Daedalus and purchased the Augmentation
-`The Red Pill`. Install the Augmentation to soft reset and a new server called
-`w0r1d_d43m0n` would appear. This is the very last server to which you should
-gain root access. You must satisfy the following requirements to gain root
-access to `w0r1d_d43m0n`:
+`The Red Pill` (or TRP). Install the Augmentation to soft reset and a new server
+called `w0r1d_d43m0n` would appear. This is the very last server to which you
+should gain root access. You must satisfy the following requirements to gain
+root access to `w0r1d_d43m0n`:
 
 1. Have at least 3000 Hack.
 1. Open 5 ports on the server.
@@ -43,8 +43,8 @@ Hack stat and money. While waiting, browse through the Singularity API to get an
 idea of which tasks you can now automate via scripts. Solve a couple of Coding
 Contracts to earn money. Join factions and buy their Augmentations. Raise your
 stats, especially your Hack, and money. Join Daedalus and raise your reputation
-high enough to allow you to purchase `The Red Pill` (TRP) Augmentation. Install
-the Augmentation, then hack the `w0r1d_d43m0n` server to break BN4.1.
+high enough to allow you to purchase TRP. Install TRP, then hack the
+`w0r1d_d43m0n` server to break BN4.1.
 
 ## Destroy the daemon
 
