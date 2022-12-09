@@ -30,55 +30,46 @@ import { assert } from "/lib/util.js";
  *     cell; 0 otherwise.
  */
 function end_reachable(array) {
-    // Sanity check.
     assert(MyArray.all_nonnegative(array));
-    // Use a greedy method to try to reach the last array cell.
-    let i = 0; // Current array index.
-    const index = []; // Index of intermediary cells.
-    const jump = []; // Jump length of array cell index[i].
+    const can_jump = (i, d) => i + d < array.length;
+    let d = -1; // The jump distance.
+    let i = 0; // Current index in array.
+    const d_idx = 0; // Index of d in array [d, i].
+    const jump = []; // Each element is an array [d, i].
     let reduce_distance = false;
-    let d; // The jump distance.
     while (i < array.length) {
         // Do we need to reduce the jump distance?
         if (reduce_distance) {
             // Decrease by 1 the jump distance.
-            d = jump.pop();
-            jump.push(d - 1);
+            const k = last_index(jump);
+            jump[k][d_idx]--;
             reduce_distance = false;
         } else {
             // Current maximum jump distance.
             d = array[i];
-            index.push(i);
-            jump.push(d);
+            jump.push([d, i]);
         }
-        assert(index.length === jump.length);
         // Are we at the last array cell?
         if (is_last_cell(i, array)) {
             return bool.REACHABLE;
         }
         // Zero jump distance.
-        d = jump[jump.length - 1];
-        i = index[index.length - 1];
+        [d, i] = jump[last_index(jump)];
         if (d === 0) {
             // Does the first array cell have zero as the jump distance?
             if (i === 0) {
                 return bool.NOT_REACHABLE;
             }
             // Backtrack and reduce jump distance.
-            index.pop();
             jump.pop();
             reduce_distance = true;
             continue;
         }
         // Can we jump the given distance?
-        if (i + d < array.length) {
+        if (can_jump(i, d)) {
             i += d;
-            continue;
-        }
-        // We cannot jump the given distance.
-        if (i + d >= array.length) {
+        } else {
             reduce_distance = true;
-            continue;
         }
     }
 }
@@ -88,14 +79,24 @@ function end_reachable(array) {
  *
  * @param i Index of the current array cell.
  * @param array An array of integers.  Cannot be an empty array.
- * @return true if i is the last index of the array;
+ * @return True if i is the last index of the array;
  *     false otherwise.
  */
 function is_last_cell(i, array) {
-    assert(array.length > 0);
     assert(i >= 0);
     assert(i < array.length);
-    return i === array.length - 1;
+    return i === last_index(array);
+}
+
+/**
+ * The last index of an array.
+ *
+ * @param array A nonempty array.
+ * @return The last index of the given array.
+ */
+function last_index(array) {
+    assert(array.length > 0);
+    return array.length - 1;
 }
 
 /**
