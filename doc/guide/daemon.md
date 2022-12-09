@@ -36,16 +36,16 @@ to gain access to the
 The API allows you to automate most actions in the game that you have been
 performing manually. After entering BN4.1, most of your progress would be reset
 but you would now have Level 1 of `Source-File 1: Source Genesis`. Your money
-would be reset to $1k, each of your stats is now at 1, your home server has 32GB
-RAM instead of the previous default of 8GB RAM, and you keep all your scripts.
-The effect is as if you started the game all over again without Augmentations
-and you must work your way up again by raising your money and stats. Raise your
-Hack stat and money. While waiting, browse through the Singularity API to get an
-idea of which tasks you can now automate via scripts. Solve a couple of Coding
-Contracts to earn money. Join factions and buy their Augmentations. Raise your
-stats, especially your Hack, and money. Join Daedalus and raise your reputation
-high enough to allow you to purchase TRP. Install TRP, then hack the
-`w0r1d_d43m0n` server to break BN4.1.
+would be reset to $1k, each of your stats would be at 1, your `home` server
+would have 32GB RAM instead of the previous default of 8GB RAM, and you keep all
+your scripts. The effect is as if you started the game all over again without
+Augmentations and you must work your way up again by raising your money and
+stats. Raise your Hack stat and money. While waiting, browse through the
+Singularity API to get an idea of which tasks you can now automate via scripts.
+Solve a couple of Coding Contracts to earn money. Join factions and buy their
+Augmentations. Raise your stats, especially your Hack, and money. Join Daedalus
+and raise your reputation high enough to allow you to purchase TRP. Install TRP,
+then hack the `w0r1d_d43m0n` server to break BN4.1.
 
 ## Destroy the daemon
 
