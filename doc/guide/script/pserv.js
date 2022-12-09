@@ -56,7 +56,8 @@ function choose_best_server(ns) {
 
 /**
  * All servers in the game world that have been compromised.  Exclude all
- * purchased servers and bankrupt servers.
+ * purchased servers, bankrupt servers, and servers that require more Hack than
+ * we have.
  *
  * @param ns The Netscript API.
  * @return An array of hostnames, each representing a compromised server.
@@ -65,10 +66,13 @@ function compromised_servers(ns, root = "home", visit = new Set()) {
     // Scan all servers in the game world.  Use a recursive version of
     // depth-first search.
     const is_bankrupt = (s) => ns.getServer(s).moneyMax === 0;
+    const required_lvl = (s) => ns.getServer(s).requiredHackingSkill;
+    const can_hack = (s) => ns.getHackingLevel() >= required_lvl(s);
     ns.scan(root)
         .filter((s) => ns.getServer(s).hasAdminRights)
         .filter((s) => !ns.getServer(s).purchasedByPlayer)
         .filter((s) => !is_bankrupt(s))
+        .filter((s) => can_hack(s))
         .filter((s) => !visit.has(s))
         .forEach((s) => {
             visit.add(s);
