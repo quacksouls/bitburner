@@ -22,9 +22,10 @@ hacking a server, how much money you can make from various activities, the
 amount of XP you gain from certain tasks, etc. You have been playing in a
 BitNode called `BitNode-1: Source Genesis`, abbreviated as BN1. You have now
 completed level 1 of BN1, shortened as BN1.1. Your reward is an increase of 16%
-in all your multipliers and you get to start with 32GB RAM after entering a new
-BitNode. If you want, you can enter BN1 again to play through BN1.2 and complete
-it to increase all your multipliers by 24%. Details on all BitNodes can be
+in all your multipliers and your `home` server now starts with 32GB RAM after
+entering a new BitNode. If you want, you can enter BN1 again to play through
+BN1.2 and complete it to increase all your multipliers by 24%. Details on all
+BitNodes can be
 [found here](https://bitburner.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html).
 
 ## What's next?
