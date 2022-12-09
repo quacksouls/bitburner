@@ -58,12 +58,14 @@ server to break BN4.1.
 Here are some ways to destroy a BitNode:
 
 1. In some BitNodes, the only way is to purchase TRP from Daedalus, then
-   manually hack (or install a backdoor on) the `w0r1d_d43m0n` server.
+   manually hack (or install a backdoor on) the `w0r1d_d43m0n` server. You must
+   first connect to `w0r1d_d43m0n`, then manually hack or backdoor.
 1. If you have access to the
    [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md),
    you can use the function
    [`ns.singularity.installBackdoor()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.installbackdoor.md)
-   to destroy `w0r1d_d43m0n` via a script.
+   to destroy `w0r1d_d43m0n` via a script. Similar to the previous method, you
+   must first connect to `w0r1d_d43m0n` for the backdoor function to work.
 1. After unlocking the ability to create a gang, you can purchase TRP from the
    faction in which you created your gang. This can only be done in
    `BitNode-2: Rise of the Underworld`. In other BitNodes, you cannot buy TRP
