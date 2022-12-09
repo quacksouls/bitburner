@@ -43,4 +43,42 @@ export const hnet_t = {
      * with this many seed nodes.
      */
     SEED_NODE: 3,
+    /**
+     * The server thresholds.  We can have at most 20 Hacknet servers.  At
+     * certain money thresholds, we should have the corresponding number of
+     * servers.
+     */
+    SERVER: [5, 10, 15, 20],
+    /**
+     * Thresholds related to Hacknet servers.
+     */
+    server: {
+        /**
+         * The maximum amount of cache a Hacknet server can have.  Data taken
+         * from this file:
+         *
+         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Hacknet/data/Constants.ts
+         */
+        MAX_CACHE: 15,
+        /**
+         * The maximum number of Cores a Hacknet server can have.  Data taken
+         * from this file:
+         *
+         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Hacknet/data/Constants.ts
+         */
+        MAX_CORE: 128,
+        /**
+         * The maximum Level of a Hacknet server.  Data taken from this file:
+         *
+         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Hacknet/data/Constants.ts
+         */
+        MAX_LEVEL: 300,
+        /**
+         * The maximum amount of RAM of a Hacknet server.  Data taken from this
+         * file:
+         *
+         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Hacknet/data/Constants.ts
+         */
+        MAX_RAM: 8192,
+    },
 };

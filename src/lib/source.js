@@ -84,6 +84,32 @@ export function has_gang_api(ns) {
 }
 
 /**
+ * Whether we have access to the Hacknet server API.  We have access to Hacknet
+ * servers and the relevant API provided that:
+ *
+ * (1) We are in BitNode-9: Hacktocracy; or
+ * (2) We have destroyed at least BN9.1.
+ *
+ * @param ns The Netscript API.
+ * @return True if we have access to Hacknet servers and the relevant API;
+ *     false otherwise.
+ */
+export function has_hacknet_server_api(ns) {
+    if (bitnode.Hacktocracy === ns.getPlayer().bitNodeN) {
+        return bool.HAS;
+    }
+    // Use the Singularity API to help us find out.
+    if (has_singularity_api(ns)) {
+        for (const sf of ns.singularity.getOwnedSourceFiles()) {
+            if (sf.n === bitnode.Hacktocracy) {
+                return bool.HAS;
+            }
+        }
+    }
+    return bool.NOT;
+}
+
+/**
  * Whether we have access to the Singularity API.
  *
  * @param ns The Netscript API.
