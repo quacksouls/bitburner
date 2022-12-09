@@ -307,6 +307,13 @@ using an order of magnitude or more threads than any world server.
 > **Problem 2.** Read through all your scripts so far to find blocks of code
 > that can be refactored and moved to `util.js`. You do not want to duplicate
 > the same block of code or functionality across multiple scripts.
+>
+> **Problem 3.** Write a pserv script to purchase servers. Direct all your
+> purchased servers to hack the server of highest hacking requirement to which
+> you have root access.
+>
+> **Problem 4.** Rewrite your pserv script to use the weight function from the
+> subsection [Your first worm](#your-first-worm).
 
 ## Second soft reset
 
