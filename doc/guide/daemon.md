@@ -40,7 +40,10 @@ would be reset to $1k, each of your stats would be at 1, your `home` server
 would have 32GB RAM instead of the previous default of 8GB RAM, and you keep all
 your scripts. The effect is as if you started the game all over again without
 Augmentations and you must work your way up again by raising your money and
-stats. Raise your Hack stat and money. While waiting, browse through the
+stats.
+
+In BN4.1, raise your Hack stat and money. While waiting for your Hack stat and
+money to increase, browse through the
 [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md)
 to get an idea of which tasks you can now automate via scripts. Solve a couple
 of
