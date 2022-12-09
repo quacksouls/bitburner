@@ -53,8 +53,7 @@ nodes. Refrain from spending all your money gambling on the Stock Market.
 > and
 > [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md)
 > each has an option that allows you to affect the Stock Market. Modify your
-> worm script from the section [After the first reboot](reboot1.md) to take
-> advantage of this option.
+> hack script to affect the Stock Market.
 
 ## Coding Contracts
 
