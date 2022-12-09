@@ -41,11 +41,12 @@ would have 32GB RAM instead of the previous default of 8GB RAM, and you keep all
 your scripts. The effect is as if you started the game all over again without
 Augmentations and you must work your way up again by raising your money and
 stats. Raise your Hack stat and money. While waiting, browse through the
-Singularity API to get an idea of which tasks you can now automate via scripts.
-Solve a couple of Coding Contracts to earn money. Join factions and buy their
-Augmentations. Raise your stats, especially your Hack, and money. Join Daedalus
-and raise your reputation high enough to allow you to purchase TRP. Install TRP,
-then hack the `w0r1d_d43m0n` server to break BN4.1.
+[Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md)
+to get an idea of which tasks you can now automate via scripts. Solve a couple
+of Coding Contracts to earn money. Join factions and buy their Augmentations.
+Raise your stats, especially your Hack, and money. Join Daedalus and raise your
+reputation high enough to allow you to purchase TRP. Install TRP, then hack the
+`w0r1d_d43m0n` server to break BN4.1.
 
 ## Destroy the daemon
 
