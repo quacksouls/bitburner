@@ -93,7 +93,8 @@ Below are various tips you might want to keep in mind while playing the game.
    editor and paste the code into the in-game text editor. Another option is to
    use an online code hosting provider such as [GitHub](https://github.com/).
    Save your scripts to GitHub and from the Terminal of the game use the command
-   `wget` to download a script into your game. Ask on the
+   [`wget`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#wget)
+   to download a script into your game. Ask on the
    [Bitburner server of Discord](https://discord.com/invite/TFc3hKD) for more
    options.
 
