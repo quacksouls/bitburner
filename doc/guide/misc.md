@@ -181,7 +181,7 @@ The problem can be described as follows. You are at your `home` server. You want
 to find a path that allows you to connect to a target server. While you are at
 it, you might as well find a shortest path to the target server. You can
 certainly use the searching algorithms described in the section
-[After the first reboot](reboot1.md) to help you locate a path to a target
+[After the first reboot](reboot.md) to help you locate a path to a target
 server. However, note that breadth-first search and depth-first search by
 themselves do not always produce a shortest path.
 [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) is

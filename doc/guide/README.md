@@ -16,7 +16,7 @@ available at these avenues:
 1. [Starting out](start.md)
 1. [First script](script.md)
 1. [Programs and factions](program.md)
-1. [After the first reboot](reboot1.md)
+1. [After the first reboot](reboot.md)
 1. [Faction progression](faction.md)
 1. [Miscellaneous topics](misc.md)
 1. [Find the daemon](daemon.md)

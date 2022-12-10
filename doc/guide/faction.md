@@ -227,7 +227,7 @@ relatively easy to receive an invitation from any of these three factions.
    least $75b. Each of your Hack and combat stats must be at least 850.
 
 [[TOC](README.md "Table of Contents")]
-[[Previous](reboot1.md "After the first reboot")]
+[[Previous](reboot.md "After the first reboot")]
 [[Next](misc.md "Miscellaneous topics")]
 
 ![CC BY-NC-SA 4.0](image/cc.png "CC BY-NC-SA 4.0") \
