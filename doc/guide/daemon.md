@@ -74,7 +74,8 @@ different BitNode.
    destroyed BN4.1 and you now move to BN1.x. Write a script that uses a few
    Singularity functions and you would notice that the script costs a huge
    amount of RAM, possibly several 100GB. Destroy all 3 levels of BN4 to ensure
-   the RAM cost of each Singularity function is at its minimum.
+   the RAM cost of each Singularity function is at its minimum. Refer to the
+   section [BitNode-4: The Singularity](singularity.md) for more detail.
 1. `BitNode-5: Artificial Intelligence`. This BitNode unlocks a new stat called
    [Intelligence](https://bitburner.readthedocs.io/en/latest/advancedgameplay/intelligence.html).
    The stat is permanent. Its value persists across soft reset and across
