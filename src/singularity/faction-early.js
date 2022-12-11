@@ -132,6 +132,29 @@ async function netburners(ns) {
 }
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(fac === "CyberSec" || fac === "Netburners" || fac === "Tian Di Hui");
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join the early game faction Tian Di Hui.  Requirements for receiving an
  * invitation:
  *
@@ -181,20 +204,10 @@ async function tian_di_hui(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "CyberSec"
-            || faction === "Netburners"
-            || faction === "Tian Di Hui"
-    );
+    sanity_check(faction);
     switch (faction) {
         case "CyberSec":
             await cyberSec(ns);

@@ -83,6 +83,32 @@ async function hacking_group(ns, fac) {
 }
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(
+        fac === "BitRunners" || fac === "NiteSec" || fac === "The Black Hand"
+    );
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.donateToFaction");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join a hacking group.  The hacking groups are: BitRunners, NiteSec,
  * The Black Hand.  This script accepts a command line argument, i.e. the name
  * of a faction.
@@ -93,21 +119,10 @@ async function hacking_group(ns, fac) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.donateToFaction");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "BitRunners"
-            || faction === "NiteSec"
-            || faction === "The Black Hand"
-    );
+    sanity_check(faction);
     await hacking_group(ns, faction);
     // The next script in the load chain.
     exec(ns, "/chain/home.js");

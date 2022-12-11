@@ -103,6 +103,40 @@ async function megacorporation(ns, company, fac, rep) {
 }
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(
+        fac === "Bachman & Associates"
+            || fac === "Blade Industries"
+            || fac === "Clarke Incorporated"
+            || fac === "ECorp"
+            || fac === "Four Sigma"
+            || fac === "Fulcrum Secret Technologies"
+            || fac === "KuaiGong International"
+            || fac === "MegaCorp"
+            || fac === "NWO"
+            || fac === "OmniTek Incorporated"
+    );
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join a megacorporation faction.  The megacorporation factions are:
  * Bachman & Associates, Blade Industries, Clarke Incorporated, ECorp,
  * Four Sigma, Fulcrum Secret Technologies, KuaiGong International, MegaCorp,
@@ -115,27 +149,10 @@ async function megacorporation(ns, company, fac, rep) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "Bachman & Associates"
-            || faction === "Blade Industries"
-            || faction === "Clarke Incorporated"
-            || faction === "ECorp"
-            || faction === "Four Sigma"
-            || faction === "Fulcrum Secret Technologies"
-            || faction === "KuaiGong International"
-            || faction === "MegaCorp"
-            || faction === "NWO"
-            || faction === "OmniTek Incorporated"
-    );
+    sanity_check(faction);
     // Since version 2.0, we need at least 400k company reputation to join the
     // corresponding company faction.  See
     //

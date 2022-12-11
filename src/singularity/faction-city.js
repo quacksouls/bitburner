@@ -72,6 +72,36 @@ async function city_faction(ns, city) {
 }
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(
+        fac === "Aevum"
+            || fac === "Chongqing"
+            || fac === "Ishima"
+            || fac === "New Tokyo"
+            || fac === "Sector-12"
+            || fac === "Volhaven"
+    );
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join a city faction.  The city factions are: Aevum, Chongqing, Ishima,
  * New Tokyo, Sector-12, Volhaven.  This script accepts a command line
  * argument, i.e. the name of a faction.
@@ -82,23 +112,10 @@ async function city_faction(ns, city) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "Aevum"
-            || faction === "Chongqing"
-            || faction === "Ishima"
-            || faction === "New Tokyo"
-            || faction === "Sector-12"
-            || faction === "Volhaven"
-    );
+    sanity_check(faction);
     await city_faction(ns, faction);
     // The next script in the load chain.
     exec(ns, "/chain/home.js");

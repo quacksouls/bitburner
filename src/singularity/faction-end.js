@@ -101,6 +101,31 @@ async function illuminati(ns) {
 }
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(
+        fac === "Daedalus" || fac === "Illuminati" || fac === "The Covenant"
+    );
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join the endgame faction The Covenant.  The requirements for receiving an
  * invitation:
  *
@@ -143,20 +168,10 @@ async function the_covenant(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "Daedalus"
-            || faction === "Illuminati"
-            || faction === "The Covenant"
-    );
+    sanity_check(faction);
     switch (faction) {
         case "Daedalus":
             await daedalus(ns);

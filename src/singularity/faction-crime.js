@@ -33,6 +33,36 @@ import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
 import { assert, exec } from "/lib/util.js";
 
 /**
+ * Various sanity checks of a parameter.
+ *
+ * @param fac Sanity check this parameter.
+ */
+function sanity_check(fac) {
+    assert(
+        fac === "Silhouette"
+            || fac === "Slum Snakes"
+            || fac === "The Syndicate"
+            || fac === "Speakers for the Dead"
+            || fac === "Tetrads"
+            || fac === "The Dark Army"
+    );
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Join the Silhouette criminal organization.  The requirements for receiving
  * an invitation:
  *
@@ -257,23 +287,10 @@ async function the_syndicate(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("scan");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
+    shush(ns);
     // Join the appropriate faction.
     const faction = ns.args[0];
-    assert(
-        faction === "Silhouette"
-            || faction === "Slum Snakes"
-            || faction === "The Syndicate"
-            || faction === "Speakers for the Dead"
-            || faction === "Tetrads"
-            || faction === "The Dark Army"
-    );
+    sanity_check(faction);
     ns.singularity.goToLocation("The Slums"); // Increase Intelligence XP.
     switch (faction) {
         case "Silhouette":
