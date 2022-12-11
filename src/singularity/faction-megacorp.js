@@ -19,14 +19,13 @@ import { bool } from "/lib/constant/bool.js";
 import { faction_req, faction_t } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { choose_field, work_for_company } from "/lib/singularity/work.js";
-import { assert, exec } from "/lib/util.js";
+import { assert, exec, has_required_hack } from "/lib/util.js";
 
 /**
  * Install a backdoor on a megacorporation server.  Since version 2.0 of the
@@ -41,11 +40,10 @@ import { assert, exec } from "/lib/util.js";
 async function install_backdoor_on_server(ns, fac) {
     // Ensure we have the required Hack stat.
     const server = new Server(ns, faction_req[fac].backdoor);
-    const player = new Player(ns);
-    if (player.hacking_skill() < server.hacking_skill()) {
+    if (!has_required_hack(ns, server.hostname())) {
         await raise_hack(ns, server.hacking_skill());
     }
-    assert(player.hacking_skill() >= server.hacking_skill());
+    assert(has_required_hack(ns, server.hostname()));
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();

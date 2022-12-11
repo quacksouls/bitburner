@@ -19,7 +19,6 @@ import { bool } from "/lib/constant/bool.js";
 import { faction_req } from "/lib/constant/faction.js";
 import { wait_t } from "/lib/constant/time.js";
 import { job_area } from "/lib/constant/work.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
 import { purchase_augment } from "/lib/singularity/augment.js";
 import {
@@ -29,7 +28,7 @@ import {
 } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack_until } from "/lib/singularity/study.js";
-import { assert, exec } from "/lib/util.js";
+import { assert, exec, has_required_hack } from "/lib/util.js";
 
 /**
  * Join a hacking group.  The requirement for receiving an invitation is to
@@ -53,15 +52,14 @@ async function hacking_group(ns, fac) {
     const target_fac = "Sector-12";
     await visit_city(ns, target_fac);
     // Ensure we have the required Hack stat.
-    const player = new Player(ns);
     const server = new Server(ns, faction_req[fac].backdoor);
-    if (player.hacking_skill() < server.hacking_skill()) {
+    if (!has_required_hack(ns, server.hostname())) {
         await raise_hack_until(ns, server.hacking_skill(), target_fac);
     }
-    if (player.hacking_skill() < server.hacking_skill()) {
+    if (!has_required_hack(ns, server.hostname())) {
         await raise_hack(ns, server.hacking_skill());
     }
-    assert(player.hacking_skill() >= server.hacking_skill());
+    assert(has_required_hack(ns, server.hostname()));
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();

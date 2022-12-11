@@ -28,7 +28,7 @@ import { join_faction, work_for_faction } from "/lib/singularity/faction.js";
 import { install_backdoor, visit_city } from "/lib/singularity/network.js";
 import { raise_hack } from "/lib/singularity/study.js";
 import { work } from "/lib/singularity/work.js";
-import { assert, exec } from "/lib/util.js";
+import { assert, exec, has_required_hack } from "/lib/util.js";
 
 /**
  * Join the CyberSec faction.  The requirement for receiving an invitation is
@@ -49,12 +49,11 @@ async function cyberSec(ns) {
     await visit_city(ns, "Sector-12");
     // Ensure we have the required Hack stat.
     const fac = "CyberSec";
-    const player = new Player(ns);
     const server = new Server(ns, faction_req[fac].backdoor);
-    if (player.hacking_skill() < server.hacking_skill()) {
+    if (!has_required_hack(ns, server.hostname())) {
         await raise_hack(ns, server.hacking_skill());
     }
-    assert(player.hacking_skill() >= server.hacking_skill());
+    assert(has_required_hack(ns, server.hostname()));
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();
@@ -95,10 +94,11 @@ async function netburners(ns) {
     // Ensure we have at least the required Hack stat.
     const fac = "Netburners";
     const player = new Player(ns);
-    if (player.hacking_skill() < faction_req[fac].hack) {
-        await raise_hack(ns, faction_req[fac].hack);
+    const required_lvl = faction_req[fac].hack;
+    if (player.hacking_skill() < required_lvl) {
+        await raise_hack(ns, required_lvl);
     }
-    assert(player.hacking_skill() >= faction_req[fac].hack);
+    assert(player.hacking_skill() >= required_lvl);
     // Join the faction, provided we are currently not a member.
     const joined_faction = player.faction();
     if (!joined_faction.includes(fac)) {
@@ -168,10 +168,11 @@ async function tian_di_hui(ns) {
     // Ensure we have at least the required Hack stat.
     const fac = "Tian Di Hui";
     const player = new Player(ns);
-    if (player.hacking_skill() < faction_req[fac].hack) {
-        await raise_hack(ns, faction_req[fac].hack);
+    const required_lvl = faction_req[fac].hack;
+    if (player.hacking_skill() < required_lvl) {
+        await raise_hack(ns, required_lvl);
     }
-    assert(player.hacking_skill() >= faction_req[fac].hack);
+    assert(player.hacking_skill() >= required_lvl);
     // Travel to Ishima and wait for our income to be at least $1m.
     await visit_city(ns, faction_req[fac].city);
     if (player.money() < faction_req[fac].money) {

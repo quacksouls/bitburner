@@ -184,6 +184,18 @@ function gain_root_access(ns, host) {
 }
 
 /**
+ * Whether we have the minimum Hack stat required by a server.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a world server.
+ * @return True if our Hack stat meets the required hacking level of the given
+ *     server; false otherwise.
+ */
+export function has_required_hack(ns, host) {
+    return ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(host);
+}
+
+/**
  * Tell the script "hram.js" to resume whatever it was doing.
  *
  * @param ns The Netscript API.
