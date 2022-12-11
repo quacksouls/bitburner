@@ -298,11 +298,10 @@ function upgrade_warehouse(ns, n) {
     const target = agriculture.warehouse.round[n].SIZE;
     const howmany = 1;
     const div = corp.industry.AGRI;
-    cities.all.forEach((ct) => {
-        if (org.warehouse_capacity(div, ct) < target) {
-            org.upgrade_warehouse(div, ct, howmany);
-        }
-    });
+    const is_under_capacity = (ct) => org.warehouse_capacity(div, ct) < target;
+    cities.all
+        .filter((ct) => is_under_capacity(ct))
+        .forEach((ct) => org.upgrade_warehouse(div, ct, howmany));
 }
 
 /**
