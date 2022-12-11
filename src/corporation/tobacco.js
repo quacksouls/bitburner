@@ -358,10 +358,11 @@ export async function main(ns) {
     if (new_office.length > 0) {
         log(ns, `${div}: expanded to these cities: ${new_office.join(", ")}`);
     }
+    await investment_offer(ns, "three");
     await product_cycle(ns, "one");
     await product_cycle(ns, "two");
     await product_cycle(ns, "three");
-    await investment_offer(ns, "three");
+    await investment_offer(ns, "four");
     await research(ns);
     const round = ["four", "five", "six"];
     for (const n of round) {
