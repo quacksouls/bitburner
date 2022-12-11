@@ -20,6 +20,7 @@ available at these avenues:
 1. [Faction progression](faction.md)
 1. [Miscellaneous topics](misc.md)
 1. [Find the daemon](daemon.md)
+1. [BitNode-4: The Singularity](singularity.md)
 
 ## License
 
