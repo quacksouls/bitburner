@@ -46,12 +46,16 @@ async function buy_servers(ns) {
  * requires the highest hacking skill.
  *
  * @param ns The Netscript API.
- * @return The best server to hack.
+ * @return The best server to hack.  Empty string if no target available.
  */
 function choose_best_server(ns) {
+    const candidate = compromised_servers(ns);
+    if (candidate.length < 1) {
+        return "";
+    }
     const hack_skill = (s) => ns.getServer(s).requiredHackingSkill;
     const best_server = (s, t) => (hack_skill(s) < hack_skill(t) ? t : s);
-    return compromised_servers(ns).reduce(best_server);
+    return candidate.reduce(best_server);
 }
 
 /**
@@ -305,11 +309,15 @@ async function stage_one(ns) {
  */
 async function update(ns, ram) {
     // Choose a target against which all purchased servers would attack.
-    const target = choose_best_server(ns);
+    let target = "";
+    const pserv = pserv_object();
+    while (target === "") {
+        target = choose_best_server(ns);
+        await ns.sleep(pserv.TICK);
+    }
     // Continuously try to purchase a new server until we have reached the
     // maximum number of servers we can buy.
     let i = ns.getPurchasedServers().length;
-    const pserv = pserv_object();
     while (i < ns.getPurchasedServerLimit()) {
         const cost = ns.getPurchasedServerCost(ram);
         if (has_funds(ns, cost)) {
