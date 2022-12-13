@@ -61,9 +61,33 @@ nodes. Refrain from spending all your money gambling on the Stock Market.
 (or CCT) are programming problems. Every 10 minutes there is 25% chance for a
 CCT to spawn on a random world server. Correctly solving a CCT would grant you a
 random reward. The reward can be faction reputation, company reputation, or
-money. Early in the game, the money you gain from a CCT is immensely useful to
-help you upgrade the `home` server, purchase servers, or buy programs via the
-dark web. Use the
+money. Rewards are random and decided at creation time, but generally follow
+these rules:
+
+-   _Money._ A CCT would reward only money if you are not working for a company
+    and you are not a member of any faction. Early in the game, the money you
+    gain from a CCT is immensely useful to help you upgrade the `home` server,
+    purchase servers, or buy programs via the dark web. To ensure that all
+    generated CCTs reward money, do not work for any company (quit any job as
+    necessary) and refrain from joining any faction.
+-   _Faction reputation._ A CCT can reward you with reputation within a faction
+    to which you belong. If you hold membership in multiple factions, there is a
+    chance that your reputation reward would be split evenly among all factions
+    to which you belong. When grinding reputation for a specific faction, ensure
+    that you join only that particular faction and you have quit your job at any
+    company you are working for. Unlike companies, you cannot quit your
+    membership of a faction, and must either soft reset or use `b1t_flum3.exe`
+    to quit your membership of any faction.
+-   _Company reputation._ A CCT can reward you with reputation within a company
+    for which you work. Unlike faction reputation, company reputation is always
+    rewarded for one specific company. You can be an employee of multiple
+    companies. However, if a CCT reward you with company reputation, then the
+    total reputation points would be for one and only one specific company. When
+    grinding reputation within a particular company, ensure you are an employee
+    of that specific company and not hold a job at another company, and do not
+    join any faction.
+
+Use the
 [CCT API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.codingcontract.md)
 to help you automate various aspects of this game mechanic. The namespace of the
 API is `ns.codingcontract.functionName()`, not
