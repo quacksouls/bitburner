@@ -179,6 +179,7 @@ one hour and divide by 60 minutes.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](singularity.md "BitNode-4: The Singularity")]
+[[Next](gang.md "BitNode-2: Rise of the Underworld")]
 
 ![CC BY-NC-SA 4.0](image/cc.png "CC BY-NC-SA 4.0") \
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
