@@ -65,10 +65,10 @@ unlock and buy `CashRoot Starter Kit` from Sector-12.
 If you have not already done so, join the faction Sector-12. Perform hacking
 contracts for the faction to raise your reputation within the faction. Share
 your `home` server with the faction to boost the amount of reputation points you
-earn per second; refer to the subsection "Share" of
-[Programs and factions](program.md). As you passively farm reputation points to
-unlock all Augmentations from Sector-12, think about various tasks that you can
-automate. For example, you already have access to most functions in the
+earn per second; refer to the subsection [Share](program.md#share). As you
+passively farm reputation points to unlock all Augmentations from Sector-12,
+think about various tasks that you can automate. For example, you already have
+access to most functions in the
 [Hacknet API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.hacknet.md).
 (The namespace of the API is `ns.hacknet.functionName()`, not
 `ns.Hacknet.functionName()`.) Why not write a script to automate the buying and
