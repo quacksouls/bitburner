@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
@@ -33,12 +32,7 @@ async function reboot(ns) {
     // Execute a script, let it run for a while, kill the script, and run
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
-    const script = ["low-end.js"];
-    // TODO: Run script to buy Hacknet servers depending on whether we have
-    // Source-File 9.
-    if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-        script.push("hnet-farm.js");
-    }
+    const script = ["hnet-farm.js", "low-end.js"];
     for (const s of script) {
         exec(ns, s);
         await ns.sleep(wait_t.DEFAULT);

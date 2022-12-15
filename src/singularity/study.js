@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
 import { bool } from "/lib/constant/bool.js";
 import { all_programs } from "/lib/constant/exe.js";
 import { home, home_t } from "/lib/constant/server.js";
@@ -35,12 +34,7 @@ import { assert, exec } from "/lib/util.js";
  */
 async function bootstrap(ns) {
     if (ns.getServer(home).maxRam < home_t.RAM_MID) {
-        const script = ["low-end.js"];
-        // In "BitNode-9: Hacktocracy", we cannot purchase servers so there is
-        // no point in setting up a farm of Hacknet nodes.
-        if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-            script.unshift("hnet-farm.js");
-        }
+        const script = ["low-end.js", "hnet-farm.js"];
         for (const s of script) {
             assert(!ns.isRunning(s, home));
             exec(ns, s);
