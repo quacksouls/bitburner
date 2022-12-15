@@ -130,6 +130,25 @@ function is_upgrade_core_ram_cache(ns, idx) {
 }
 
 /**
+ * The money and node/server thresholds.  We use the money threshold to gauge
+ * how many nodes/servers we should have at a particular stage.
+ *
+ * @param ns The Netscript API.
+ * @return An array [money, node] as follows:
+ *     (1) money := An array of money thresholds.  Higher money threshold means
+ *         we can afford more nodes or servers.
+ *     (2) node := An array of node or server thresholds.
+ */
+function money_node_thresholds(ns) {
+    const money = Array.from(hnet_t.MONEY);
+    let node = Array.from(hnet_t.NODE);
+    if (has_hacknet_server_api(ns)) {
+        node = Array.from(hnet_t.SERVER);
+    }
+    return [money, node];
+}
+
+/**
  * The Level of a Hacknet node or server.
  *
  * @param ns The Netscript API.
@@ -179,25 +198,6 @@ async function setup_farm(ns, n) {
 function shush(ns) {
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
-}
-
-/**
- * The money and node/server thresholds.  We use the money threshold to gauge
- * how many nodes/servers we should have at a particular stage.
- *
- * @param ns The Netscript API.
- * @return An array [money, node] as follows:
- *     (1) money := An array of money thresholds.  Higher money threshold means
- *         we can afford more nodes or servers.
- *     (2) node := An array of node or server thresholds.
- */
-function money_node_thresholds(ns) {
-    const money = Array.from(hnet_t.MONEY);
-    let node = Array.from(hnet_t.NODE);
-    if (has_hacknet_server_api(ns)) {
-        node = Array.from(hnet_t.SERVER);
-    }
-    return [money, node];
 }
 
 /**
