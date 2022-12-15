@@ -113,6 +113,15 @@ function has_root_access(ns, host) {
 }
 
 /**
+ * Kill all scripts on all world servers where we have root access.
+ *
+ * @param ns The Netscript API.
+ */
+function kill_scripts(ns) {
+    nuke_servers(ns).forEach((host) => ns.killall(host));
+}
+
+/**
  * Scan all servers in the game world.  Use a recursive version of
  * depth-first search.
  *
@@ -220,8 +229,13 @@ export async function main(ns) {
     const second = 1000;
     const minute = 60 * second;
     const script = "hack.js";
+    let target = "";
     for (;;) {
-        const target = best_target(ns);
+        const new_target = best_target(ns);
+        if (target !== new_target) {
+            kill_scripts(ns);
+            target = new_target;
+        }
         compromise(ns, script, target);
         await ns.sleep(minute);
     }
