@@ -71,9 +71,9 @@ function has_funds(ns, cost) {
  */
 function has_max_level(ns, idx) {
     if (has_hacknet_server_api(ns)) {
-        return node_level(idx) === hnet_t.server.MAX_LEVEL;
+        return node_level(ns, idx) === hnet_t.server.MAX_LEVEL;
     }
-    return node_level(idx) === hnet_t.MAX_LEVEL;
+    return node_level(ns, idx) === hnet_t.MAX_LEVEL;
 }
 
 /**
