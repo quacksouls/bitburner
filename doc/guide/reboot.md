@@ -222,7 +222,7 @@ section [First script](script.md).
 > desirability score of each such server is defined as the maximum amount of
 > money the server can hold divided by the minimum security level of the server.
 > The hack desirability score of a server $s$ is encapsulated in the following
-> weight formula
+> weight formula:
 
 ```math
 w(s)
