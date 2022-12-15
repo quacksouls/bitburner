@@ -54,6 +54,14 @@ nodes. Refrain from spending all your money gambling on the Stock Market.
 > [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md)
 > each has an option that allows you to affect the Stock Market. Modify your
 > hack script to affect the Stock Market.
+>
+> **Problem 3.** Using the modified hack script from the previous exercise,
+> every time the script hack/grow/weaken a world server the action would
+> somewhat affect the stock of the company/organization that owns the server.
+> Use this to your advantage by having each purchased server target a different
+> world server. Use the weight function from the subsection
+> [Your first worm](reboot.md#your-first-worm) to help you choose a bunch of
+> world servers for your pserv farm to target.
 
 ## Coding Contracts
 
