@@ -54,6 +54,14 @@ export async function main(ns) {
 }
 ```
 
+Each of the functions
+[`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md)
+and
+[`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md)
+increases the security level of the target server. For this reason, the script
+constantly monitors the security level of the target and weaken the security
+level as necessary.
+
 ![Terminal](image/terminal.png "Terminal")
 
 Save the above code in a script called `hack.js`. As shown in the above image,
