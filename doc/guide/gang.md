@@ -140,7 +140,18 @@ increase respect as well, but not by as many as the latter 2 tasks.
 
 ## Lower penalty
 
-The penalty $p$ is defined as the ratio of your wanted level over your respect.
+The penalty $p$ is defined as the ratio of your wanted level over your respect:
+
+```math
+penalty
+=
+\frac{
+   wanted\_level
+}{
+   total\_respect
+}.
+```
+
 Multiply $p$ by 100 to see that the penalty expresses the wanted level as a
 percentage of your respect. Tasks that your gang members engage in would take
 $p$ percent longer as compared to when your wanted level is zero. Note that the
