@@ -23,7 +23,6 @@ import {
     assert,
     can_run_script,
     gain_root_access,
-    has_root_access,
     num_threads,
 } from "/lib/util.js";
 
@@ -43,9 +42,6 @@ function buffer_time() {
  * @return True if we have root access to the given server; false otherwise.
  */
 function gain_admin_access(ns, host) {
-    if (has_root_access(ns, host)) {
-        return bool.HAS;
-    }
     if (gain_root_access(ns, host)) {
         const file = [hgw.script.GROW, hgw.script.HACK, hgw.script.WEAKEN];
         assert(ns.scp(file, host, home));
