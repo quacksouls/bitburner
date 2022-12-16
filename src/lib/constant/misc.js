@@ -45,6 +45,38 @@ export const colour = {
 };
 
 /**
+ * Various constants in the model of hack/grow/weaken (HGW).
+ */
+export const hgw = {
+    /**
+     * Various actions in the HGW model.
+     */
+    action: {
+        GROW: "grow",
+        HACK: "hack",
+        WEAKEN: "weaken",
+    },
+    /**
+     * Various scripts in the HGW model.
+     */
+    script: {
+        /**
+         * The grow script.  Use this script to grow money on a server.
+         */
+        GROW: "/hgw/grow.js",
+        /**
+         * The hack script.  Use this script to hack a server.
+         */
+        HACK: "/hgw/hack.js",
+        /**
+         * The weaken script.  Use this script to lower the security of a
+         * server.
+         */
+        WEAKEN: "/hgw/weaken.js",
+    },
+};
+
+/**
  * Always have this amount of money in reserve.  When engaging in any
  * purchasing activities, we do not want to spend all our money.  We spend only
  * if doing so would leave us with at least this amount of money left over.

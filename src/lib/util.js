@@ -40,6 +40,19 @@ export function assert(cond) {
 }
 
 /**
+ * Whether we can run a script on a given server.
+ *
+ * @param ns The Netscript API.
+ * @param s A script to run.  Assumed to exist on our home server as well
+ *     as the target host.
+ * @param host The target host.
+ * @return True if the given target server can run the script; false otherwise.
+ */
+export function can_run_script(ns, s, host) {
+    return num_threads(ns, s, host) > 0;
+}
+
+/**
  * Determine the best server to hack.  The definition of "best" is subjective.
  * However, at the moment the "best" server is the one that requires the
  * highest hacking skill.
@@ -155,8 +168,8 @@ export function filter_pserv(ns, serv) {
  * @param host Hostname of a world server.
  * @return True if we have root access to the given server; false otherwise.
  */
-function gain_root_access(ns, host) {
-    if (ns.getServer(host).hasAdminRights) {
+export function gain_root_access(ns, host) {
+    if (has_root_access(ns, host)) {
         return true;
     }
     // Try to open all required ports and nuke the server.
@@ -193,6 +206,18 @@ function gain_root_access(ns, host) {
  */
 export function has_required_hack(ns, host) {
     return ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(host);
+}
+
+/**
+ * Whether we have root access to a server.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a world server.
+ * @return True if we have have root access to the given server;
+ *     false otherwise.
+ */
+export function has_root_access(ns, host) {
+    return ns.getServer(host).hasAdminRights;
 }
 
 /**
@@ -298,6 +323,25 @@ export function is_valid_program(name) {
  */
 export function nuke_servers(ns, candidate) {
     return Array.from(candidate).filter((host) => gain_root_access(ns, host));
+}
+
+/**
+ * The maximum number of threads that can be used to run our script on a given
+ * server.
+ *
+ * @param ns The Netscript API.
+ * @param s A script.  Assumed to be located on home server.
+ * @param host Hostname of a world server.
+ * @return The maximum number of threads to run our script on the given server.
+ */
+export function num_threads(ns, s, host) {
+    const script_ram = ns.getScriptRam(s, home);
+    const { maxRam, ramUsed } = ns.getServer(host);
+    const server_ram = maxRam - ramUsed;
+    if (server_ram < 1) {
+        return 0;
+    }
+    return Math.floor(server_ram / script_ram);
 }
 
 /**
