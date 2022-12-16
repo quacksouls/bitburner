@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { hgw } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import {
     assert,
@@ -48,6 +49,32 @@ function gain_admin_access(ns, host) {
         return bool.HAS;
     }
     return bool.NOT;
+}
+
+/**
+ * Whether a server's money is at its maximum.
+ *
+ * @param ns The Netscript API.
+ * @param host The hostname of a server.
+ * @return True if the amount of money on the given server is at its maximum;
+ *     false otherwise.
+ */
+function has_max_money(ns, host) {
+    return ns.getServerMoneyAvailable(host) >= ns.getServerMaxMoney(host);
+}
+
+/**
+ * Whether a server's security level is at its minimum.
+ *
+ * @param ns The Netscript API.
+ * @param host The hostname of a server.
+ * @return True if the security level of the given server is at its minimum;
+ *     false otherwise.
+ */
+function has_min_security(ns, host) {
+    return (
+        ns.getServerSecurityLevel(host) <= ns.getServerMinSecurityLevel(host)
+    );
 }
 
 /**
@@ -147,16 +174,19 @@ function waiting_time(ns, host, action) {
  */
 export async function main(ns) {
     const target = ns.args[0];
-    const min_security = ns.getServerMinSecurityLevel(target);
-    const max_money = ns.getServerMaxMoney(target);
-    assert(max_money > 0);
+    assert(ns.getServerMaxMoney(target) > 0);
     for (;;) {
         const botnet = nuke_servers(ns);
-        if (ns.getServerSecurityLevel(target) > min_security) {
+        if (!has_min_security(ns, target)) {
             await hgw_action(ns, target, botnet, hgw.action.WEAKEN);
         }
-        if (ns.getServerMoneyAvailable(target) < max_money) {
+        if (!has_max_money(ns, target)) {
             await hgw_action(ns, target, botnet, hgw.action.GROW);
         }
+        if (has_min_security(ns, target) && has_max_money(ns, target)) {
+            break;
+        }
+        await ns.sleep(1);
     }
+    log(ns, `${target} is at minimum security and maximum money`);
 }
