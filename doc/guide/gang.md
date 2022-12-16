@@ -237,8 +237,8 @@ Defense, focus on acquiring the remaining items to boost various stats.
 ## Gang power
 
 Your gang's power affects your chance of winning a clash against a rival gang.
-The higher is your gang power, the higher is your chance of winning a clash. The
-best task for increasing your gang's power is territory warfare. This
+The higher is your gang's power, the higher is your chance of winning a clash.
+The best task for increasing your gang's power is territory warfare. This
 member-based task is not the same as the slider in the user interface that
 allows your whole gang to engage in territory warfare. An unfortunate source of
 confusion, I know. Refer to the image below. You can have the slider be off
