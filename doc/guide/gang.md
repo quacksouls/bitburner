@@ -138,6 +138,9 @@ gangsters. The best tasks for increasing respect are terrorism (if you are in a
 criminal gang) and cyberterrorism (if you are in a hacking gang). Other tasks
 increase respect as well, but not by as many as the latter 2 tasks.
 
+The amount of respect your gang has can affect the price of equipment. Higher
+respect translates to higher discount in the equipment shop.
+
 ## Lower penalty
 
 The penalty $p$ is defined as the ratio of your wanted level over your respect:
@@ -181,10 +184,20 @@ income.
 Ascension is a way to permanently boost a gangster's stat multipliers. However,
 the costs include:
 
-1. Reset the gangster's progress and stats.
-1. The gangster loses all non-Augmentation equipment.
+1. Reset the gangster's progress and stats. This is usually not a downside
+   because the boosted stat multipliers can help the ascendeded member to
+   quickly level up again.
+1. The gangster loses all non-Augmentation equipment. This might or might not be
+   a problem, depending on your current funds and the percentage discount you
+   get in the equipment shop. Higher respect means you get a higher discount in
+   the equipment shop.
 1. The gangster loses all respect points they have accumulated. The respect
-   points gained by this gangster would be deducted from your total respect.
+   points gained by this gangster would be deducted from your total respect. The
+   lost respect points would most certainly result in a decrease of the discount
+   you get in the equipment shop. Furthermore, the lost respect points can
+   increase your penalty. Refer to the penalty formula above. Your wanted level
+   might stay the same after an ascension. However, since you lost a chunk of
+   respect points following the ascension, the penalty increases.
 
 After an ascension, a gangster would start with higher stat multipliers than
 previously and would usually be able to quickly retrain their stats. You need to
@@ -202,39 +215,47 @@ Augmentations provide another means to permanently boost the stat multipliers of
 your gang members. Another benefit of Augmentations is that a gangster retains
 the Augmentation boosts even if the gangster ascends. Augmentations can be
 expensive early in your gang's existence, but the prices decrease as your gang
-members become more powerful. Prioritize the purchase of Augmentations over
-other equipment. In general, try to first purchase an Augmentation that raises
-Defense. Higher defense translates to a lower probability of death during a
-clash against a rival gang.
+becomes more powerful and your respect grows. Prioritize the purchase of
+Augmentations over other equipment. In general, try to first purchase an
+Augmentation that raises Defense. Higher defense translates to a lower
+probability of death during a clash against a rival gang.
 
 ## Equipment
 
 Equipment are accessories that can be purchased and equipped on a gangster.
-These are weapons, armour, vehicles, and rootkits. Your gangster loses all
-equipment after an ascension. You should prioritize the purchasing of equipment
-that increases a gangster's Defense. A higher Defense stat means a lower
-probability of death while your gang clashes against a rival gang. All armour
-pieces raise Defense, but not all weapons raise Defense. Once a gangster has
-most or all items (Augmentations and equipment) that raise their defense, focus
-on acquiring the remaining items to boost various stats.
+These are weapons, armour, vehicles, and rootkits. These are also known as
+non-Augmentation equipment to distinguish them from Augmentation equipment. Your
+gangster loses all equipment after an ascension. You should prioritize the
+purchasing of equipment that increases a gangster's Defense. A higher Defense
+stat means a lower probability of death while your gang clashes against a rival
+gang. All armour pieces raise Defense, but not all weapons raise Defense. Once a
+gangster has most or all items (Augmentations and equipment) that raise their
+Defense, focus on acquiring the remaining items to boost various stats.
 
 ## Gang power
 
 Your gang's power affects your chance of winning a clash against a rival gang.
 The higher is your gang power, the higher is your chance of winning a clash. The
-best task for increasing your gang's power is territory warfare. This task is
-not the same as the slider in the user interface that allows your whole gang to
-engage in territory warfare. Refer to the image below. You can have the slider
-be off while assigning one or more gang members to territory warfare. Doing so
-would increase your gang's power, but does not affect the percentage of
+best task for increasing your gang's power is territory warfare. This
+member-based task is not the same as the slider in the user interface that
+allows your whole gang to engage in territory warfare. An unfortunate source of
+confusion, I know. Refer to the image below. You can have the slider be off
+while assigning one or more gang members to the task of territory warfare. Doing
+so would increase your gang's power, but does not affect the percentage of
 territory that your gang controls. To increase your share of territory, have the
 territory warfare slider be switched on.
 
 ![Gang territory warfare](image/gang-tw.png "Gang territory warfare")
 
+Your gang's power also affects the price you pay in the equipment shop. Like
+respect, higher power translates to a higher discount in the shop. The best
+combination is high respect and high power to significantly raise the discount
+you get in the shop.
+
 ## Territory warfare
 
-Territory warfare is the only means of enlarging your turf. The tasks that earn
+Territory warfare, both the member-based task and the gang-wide state, is the
+only means of increasing your power and enlarging your turf. The tasks that earn
 the most money are those that scale with your territory. Trafficking illegal
 arms and human trafficking are two such tasks. The more territory your gang
 controls, the more money you would earn from the above tasks. To allow your
