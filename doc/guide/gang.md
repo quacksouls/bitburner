@@ -9,7 +9,9 @@ translates to higher profit potential. Gaining more territory requires you to
 wage turf war against rival gangs. Properly managed, your gang can be one of
 your best sources of passive income. Note that the namespace of the
 [Gang API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.gang.md)
-is `ns.gang.functionName()`, instead of `ns.Gang.functionName()`.
+is `ns.gang.functionName()`, instead of `ns.Gang.functionName()`. Completing
+BN2.3 would reward you with 42% increase of multipliers that affect your crime
+success rate, the amount of money you gain from crimes, and Charisma.
 
 Start a gang as early in a BitNode as possible. Join one of the criminal (or
 hacking) factions and create a gang within that faction. Your occupation would
