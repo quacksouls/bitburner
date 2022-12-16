@@ -138,6 +138,31 @@ function nuke_servers(ns) {
 }
 
 /**
+ * Prepare a server for hacking.  Our objective is to get a server to maximum
+ * money and minimum security.  The target server should not be bankrupt, i.e.
+ * must be able to hold some positive amount of money.
+ *
+ * @param ns The Netscript API.
+ * @param host Prepare this server for hacking.
+ */
+async function prep(ns, host) {
+    for (;;) {
+        const botnet = nuke_servers(ns);
+        if (!has_min_security(ns, host)) {
+            await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
+        }
+        if (!has_max_money(ns, host)) {
+            await hgw_action(ns, host, botnet, hgw.action.GROW);
+        }
+        if (has_min_security(ns, host) && has_max_money(ns, host)) {
+            break;
+        }
+        await ns.sleep(1);
+    }
+    log(ns, `${host} is at minimum security and maximum money`);
+}
+
+/**
  * The amount of time in milliseconds we must wait for an HGW action to
  * complete.
  *
@@ -163,30 +188,17 @@ function waiting_time(ns, host, action) {
 }
 
 /**
- * Prepare a server for hacking.  Our objective is to get a server to maximum
- * money and minimum security.  The target server should not be bankrupt, i.e.
- * must be able to hold some positive amount of money.
+ * A proto-batcher.  Each of the hack, grow, and weaken functions is separated
+ * into its own script.  When we need a particular HGW action, we launch the
+ * appropriate script against a target server.  We pool the resources of all
+ * world servers, excluding our home server and purchased servers.
  *
- * Usage: run hgw/prep.js [targetServer]
- * Example: run hgw/prep.js n00dles
+ * Usage: run hgw/go.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const target = ns.args[0];
+    const target = "joesguns";
     assert(ns.getServerMaxMoney(target) > 0);
-    for (;;) {
-        const botnet = nuke_servers(ns);
-        if (!has_min_security(ns, target)) {
-            await hgw_action(ns, target, botnet, hgw.action.WEAKEN);
-        }
-        if (!has_max_money(ns, target)) {
-            await hgw_action(ns, target, botnet, hgw.action.GROW);
-        }
-        if (has_min_security(ns, target) && has_max_money(ns, target)) {
-            break;
-        }
-        await ns.sleep(1);
-    }
-    log(ns, `${target} is at minimum security and maximum money`);
+    await prep(ns, target);
 }
