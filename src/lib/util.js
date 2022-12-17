@@ -22,7 +22,7 @@ import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
-import { script } from "/lib/constant/misc.js";
+import { hgw, script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
@@ -197,6 +197,32 @@ export function gain_root_access(ns, host) {
 }
 
 /**
+ * Whether a server's money is at its maximum.
+ *
+ * @param ns The Netscript API.
+ * @param host The hostname of a server.
+ * @return True if the amount of money on the given server is at its maximum;
+ *     false otherwise.
+ */
+export function has_max_money(ns, host) {
+    const { moneyAvailable, moneyMax } = ns.getServer(host);
+    return moneyAvailable >= moneyMax;
+}
+
+/**
+ * Whether a server's security level is at its minimum.
+ *
+ * @param ns The Netscript API.
+ * @param host The hostname of a server.
+ * @return True if the security level of the given server is at its minimum;
+ *     false otherwise.
+ */
+export function has_min_security(ns, host) {
+    const { hackDifficulty, minDifficulty } = ns.getServer(host);
+    return hackDifficulty <= minDifficulty;
+}
+
+/**
  * Whether we have the minimum Hack stat required by a server.
  *
  * @param ns The Netscript API.
@@ -218,6 +244,81 @@ export function has_required_hack(ns, host) {
  */
 export function has_root_access(ns, host) {
     return ns.getServer(host).hasAdminRights;
+}
+
+/**
+ * Perform an HGW action against a target server.
+ *
+ * @param ns The Netscript API.
+ * @param host Perform an HGW action against this server.  Cannot be our home
+ *     server.
+ * @param botnet An array of world servers to which we have root access.  Use
+ *     these servers to perform an HGW action against the given target.  Cannot
+ *     be empty array.
+ * @param action The action we want to perform against the given target server.
+ *     Supported actions are:
+ *     (1) "grow" := Grow money on the target server.
+ *     (2) "weaken" := Weaken the security level of the target server.
+ */
+export async function hgw_action(ns, host, botnet, action) {
+    assert(host !== "");
+    assert(host !== home);
+    assert(botnet.length > 0);
+    const time = hgw_wait_time(ns, host, action);
+    const s = hgw_script(action);
+    botnet
+        .filter((serv) => can_run_script(ns, s, serv))
+        .forEach((serv) => {
+            const nthread = num_threads(ns, s, serv);
+            ns.exec(s, serv, nthread, host);
+        });
+    await ns.sleep(time);
+}
+
+/**
+ * The HGW script to use for a given HGW action.
+ *
+ * @param action The action we want to perform against a target server.
+ *     Supported actions are:
+ *     (1) "grow" := Grow money on the target server.
+ *     (2) "weaken" := Weaken the security level of the target server.
+ * @return The HGW script corresponding to the given action.
+ */
+function hgw_script(action) {
+    switch (action) {
+        case hgw.action.GROW:
+            return hgw.script.GROW;
+        case hgw.action.WEAKEN:
+            return hgw.script.WEAKEN;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
+ * The amount of time in milliseconds we must wait for an HGW action to
+ * complete.
+ *
+ * @param ns The Netscript API.
+ * @param host Perform an HGW action against this server.
+ * @param action The action we want to perform against the given target server.
+ *     Supported actions are:
+ *     (1) "grow" := Grow money on the target server.
+ *     (2) "weaken" := Weaken the security level of the target server.
+ * @return The amount of time required for the given action to complete on the
+ *     target server.
+ */
+function hgw_wait_time(ns, host, action) {
+    switch (action) {
+        case hgw.action.GROW:
+            return ns.getGrowTime(host) + hgw.BUFFER_TIME;
+        case hgw.action.WEAKEN:
+            return ns.getWeakenTime(host) + hgw.BUFFER_TIME;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
 }
 
 /**
@@ -354,6 +455,17 @@ export function num_threads(ns, s, host) {
 export function server_of_max_weight(ns, candidate) {
     const desirable_server = (s, t) => (weight(ns, s) < weight(ns, t) ? t : s);
     return nuke_servers(ns, candidate).reduce(desirable_server);
+}
+
+/**
+ * Convert a given amount of time in milliseconds to seconds.
+ *
+ * @param t An amount of time in milliseconds.
+ * @return The same amount of time but given in seconds.
+ */
+export function to_second(t) {
+    assert(t >= 0);
+    return t / wait_t.SECOND;
 }
 
 /**

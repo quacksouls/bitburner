@@ -57,6 +57,11 @@ export const hgw = {
         WEAKEN: "weaken",
     },
     /**
+     * Wait this extra amount of time in milliseconds when we perform an HGW
+     * action.
+     */
+    BUFFER_TIME: 100,
+    /**
      * Various scripts in the HGW model.
      */
     script: {
@@ -73,6 +78,28 @@ export const hgw = {
          * server.
          */
         WEAKEN: "/hgw/weaken.js",
+    },
+    /**
+     * Various strategies for preparing a server.
+     */
+    strategy: {
+        /**
+         * Grow first, followed by weaken.  Repeat in a loop.
+         */
+        GW: "gw",
+        /**
+         * Get a server to maximum money first.  Then repeatedly weaken the
+         * server.
+         */
+        MGW: "mgw",
+        /**
+         * Get a server to minimum security first.  Then apply the strategy GW.
+         */
+        MWG: "mwg",
+        /**
+         * Weaken first, followed by grow.  Repeat in a loop.
+         */
+        WG: "wg",
     },
 };
 
