@@ -155,6 +155,9 @@ export async function main(ns) {
     const [strategy, target] = ns.args;
     assert(!is_bankrupt(ns, target));
     const { time, hack } = await prep(ns, strategy, target);
-    const duration = ns.nFormat(to_second(time), "00:00:00");
-    log(ns, `${target}: ${strategy}: time = ${duration}, Hack XP = ${hack}`);
+    const second = to_second(time);
+    const rate = hack / second;
+    const duration = ns.nFormat(second, "00:00:00");
+    const data = `time = ${duration}, Hack XP = ${hack}, Hack rate = ${rate}`;
+    log(ns, `${target}: ${strategy}: ${data}`);
 }
