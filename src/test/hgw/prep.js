@@ -83,12 +83,54 @@ function nuke_servers(ns) {
  */
 async function prep(ns, strategy, host) {
     switch (strategy) {
+        case hgw.strategy.GW:
+            return prep_gw(ns, host);
         case hgw.strategy.WG:
             return prep_wg(ns, host);
         default:
             // Should never reach here.
             assert(false);
     }
+}
+
+/**
+ * Prepare a server for hacking.  We use the following strategy.
+ *
+ * (1) Grow
+ * (2) Weaken
+ *
+ * Apply the above strategy in a loop.  Repeat until the target server has
+ * minimum security and maximum money.
+ *
+ * @param ns The Netscript API.
+ * @param host Prep this server.
+ * @return An object as follows:
+ *     (1) time := The amount of time (in milliseconds) required for the target
+ *         server to be prepped.
+ *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
+ *     (3) hack_stat := Our current Hack stat.
+ */
+async function prep_gw(ns, host) {
+    const time_before = Date.now();
+    const hack_before = ns.getPlayer().exp.hacking;
+    for (;;) {
+        const botnet = nuke_servers(ns);
+        if (!has_max_money(ns, host)) {
+            await hgw_action(ns, host, botnet, hgw.action.GROW);
+        }
+        if (!has_min_security(ns, host)) {
+            await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
+        }
+        if (has_min_security(ns, host) && has_max_money(ns, host)) {
+            break;
+        }
+        await ns.sleep(0);
+    }
+    return {
+        time: Date.now() - time_before,
+        hack_xp: ns.getPlayer().exp.hacking - hack_before,
+        hack_stat: ns.getPlayer().skills.hacking,
+    };
 }
 
 /**
@@ -156,10 +198,14 @@ async function prep_wg(ns, host) {
 export async function main(ns) {
     const [strategy, target] = ns.args;
     assert(!is_bankrupt(ns, target));
-    const { time, hack } = await prep(ns, strategy, target);
+    let { time, hack_xp, hack_stat } = await prep(ns, strategy, target);
     const second = to_second(time);
-    const rate = hack / second;
+    let rate = hack_xp / second;
     const duration = ns.nFormat(second, "00:00:00");
-    const data = `time = ${duration}, Hack XP = ${hack}, Hack rate = ${rate}`;
+    time = `time = ${duration}`;
+    hack_stat = `Hack stat = ${hack_stat}`;
+    hack_xp = `Hack XP = ${hack_xp}`;
+    rate = `XP/s = ${rate}`;
+    const data = `${time}, ${hack_stat}, ${hack_xp}, ${rate}`;
     log(ns, `${target}: ${strategy}: ${data}`);
 }
