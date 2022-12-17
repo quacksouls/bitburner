@@ -85,6 +85,8 @@ async function prep(ns, strategy, host) {
     switch (strategy) {
         case hgw.strategy.GW:
             return prep_gw(ns, host);
+        case hgw.strategy.MWG:
+            return prep_mwg(ns, host);
         case hgw.strategy.WG:
             return prep_wg(ns, host);
         default:
@@ -126,6 +128,34 @@ async function prep_gw(ns, host) {
         }
         await ns.sleep(0);
     }
+    return {
+        time: Date.now() - time_before,
+        hack_xp: ns.getPlayer().exp.hacking - hack_before,
+        hack_stat: ns.getPlayer().skills.hacking,
+    };
+}
+
+/**
+ * Prepare a server for hacking.  Weaken a server to its minimum security level,
+ * then apply the strategy gw.
+ *
+ * @param ns The Netscript API.
+ * @param host Prep this server.
+ * @return An object as follows:
+ *     (1) time := The amount of time (in milliseconds) required for the target
+ *         server to be prepped.
+ *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
+ *     (3) hack_stat := Our current Hack stat.
+ */
+async function prep_mwg(ns, host) {
+    const time_before = Date.now();
+    const hack_before = ns.getPlayer().exp.hacking;
+    while (!has_min_security(ns, host)) {
+        const botnet = nuke_servers(ns);
+        await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
+        await ns.sleep(0);
+    }
+    await prep_gw(ns, host);
     return {
         time: Date.now() - time_before,
         hack_xp: ns.getPlayer().exp.hacking - hack_before,
