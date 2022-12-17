@@ -27,7 +27,6 @@ import {
     has_min_security,
     hgw_action,
     is_bankrupt,
-    to_second,
 } from "/lib/util.js";
 
 /**
@@ -76,6 +75,10 @@ function nuke_servers(ns) {
  *     (4) "mgw" := Grow a server to maximum money first.  Then repeatedly
  *         weaken the server.
  * @param host Prepare this server for hacking.
+ * @return An object as follows:
+ *     (1) time := The amount of time (in milliseconds) required for the target
+ *         server to be prepped.
+ *     (2) hack := The amount of Hack XP we gained from the prepping.
  */
 async function prep(ns, strategy, host) {
     switch (strategy) {
@@ -98,11 +101,14 @@ async function prep(ns, strategy, host) {
  *
  * @param ns The Netscript API.
  * @param host Prep this server.
- * @return The amount of time (in seconds) required for the target server to be
- *     prepped.
+ * @return An object as follows:
+ *     (1) time := The amount of time (in milliseconds) required for the target
+ *         server to be prepped.
+ *     (2) hack := The amount of Hack XP we gained from the prepping.
  */
 async function prep_wg(ns, host) {
-    const before = Date.now();
+    const time_before = Date.now();
+    const hack_before = ns.getPlayer().exp.hacking;
     for (;;) {
         const botnet = nuke_servers(ns);
         if (!has_min_security(ns, host)) {
@@ -116,7 +122,10 @@ async function prep_wg(ns, host) {
         }
         await ns.sleep(0);
     }
-    return to_second(Date.now() - before);
+    return {
+        time: Date.now() - time_before,
+        hack: ns.getPlayer().exp.hacking - hack_before,
+    };
 }
 
 /**
@@ -144,6 +153,7 @@ async function prep_wg(ns, host) {
 export async function main(ns) {
     const [strategy, target] = ns.args;
     assert(!is_bankrupt(ns, target));
-    const time = await prep(ns, strategy, target);
-    log(ns, `${target}: ${strategy}: ${time}`);
+    const { time, hack } = await prep(ns, strategy, target);
+    const duration = ns.nFormat(time, "00:00:00");
+    log(ns, `${target}: ${strategy}: time = ${duration}, Hack XP = ${hack}`);
 }
