@@ -105,7 +105,8 @@ async function prep(ns, strategy, host) {
  * @return An object as follows:
  *     (1) time := The amount of time (in milliseconds) required for the target
  *         server to be prepped.
- *     (2) hack := The amount of Hack XP we gained from the prepping.
+ *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
+ *     (3) hack_stat := Our current Hack stat.
  */
 async function prep_wg(ns, host) {
     const time_before = Date.now();
@@ -125,7 +126,8 @@ async function prep_wg(ns, host) {
     }
     return {
         time: Date.now() - time_before,
-        hack: ns.getPlayer().exp.hacking - hack_before,
+        hack_xp: ns.getPlayer().exp.hacking - hack_before,
+        hack_stat: ns.getPlayer().skills.hacking,
     };
 }
 
