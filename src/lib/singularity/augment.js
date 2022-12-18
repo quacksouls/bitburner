@@ -327,7 +327,9 @@ async function purchase_aug(ns, aug, fac, raise_money) {
     let success = false;
     const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
     while (!success) {
-        assert(!has_augment(ns, aug));
+        if (has_augment(ns, aug)) {
+            break;
+        }
         if (ns.getServerMoneyAvailable(home) < cost) {
             if (raise_money) {
                 if (ns.getHackingLevel() < work_hack_lvl) {
