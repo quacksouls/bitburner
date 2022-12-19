@@ -160,7 +160,7 @@ function hgw_wait_time(ns, host, action) {
  * @return An array of hostnames of servers.  We have root access to each
  *     server.
  */
-function nuke_servers(ns) {
+export function nuke_servers(ns) {
     return network(ns).filter((host) => gain_admin_access(ns, host));
 }
 

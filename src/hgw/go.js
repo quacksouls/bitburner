@@ -15,176 +15,73 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
 import { hgw } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
-import {
-    assert,
-    can_run_script,
-    gain_root_access,
-    num_threads,
-} from "/lib/util.js";
+import { hgw_action, nuke_servers, prep_mwg } from "/lib/hgw.js";
+import { assert, can_run_script, num_threads } from "/lib/util.js";
 
 /**
- * Wait this extra amount of time in milliseconds.
- */
-function buffer_time() {
-    return 100;
-}
-
-/**
- * Attempt to gain root access to a given server.  After gaining root access, we
- * copy our HGW scripts over to the server.
+ * Choose the servers from our botnet to use for hacking.  The servers are
+ * chosen such that the total number of threads they offer allow us to steal a
+ * certain percentage of a target's money.  Essentially, the problem is this.
+ * We know we need n threads to steal a fraction of a target's money.  Choose
+ * servers from among our botnet that would allow us to hack using n threads or
+ * thereabout.
  *
  * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param host Hack this server.
+ * @return An array of hostnames.  The servers provide at most the required
+ *     number of threads needed to hack a fraction of a server's money.
  */
-function gain_admin_access(ns, host) {
-    if (gain_root_access(ns, host)) {
-        const file = [hgw.script.GROW, hgw.script.HACK, hgw.script.WEAKEN];
-        assert(ns.scp(file, host, home));
-        return bool.HAS;
-    }
-    return bool.NOT;
-}
-
-/**
- * Whether a server's money is at its maximum.
- *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return True if the amount of money on the given server is at its maximum;
- *     false otherwise.
- */
-function has_max_money(ns, host) {
-    return ns.getServerMoneyAvailable(host) >= ns.getServerMaxMoney(host);
-}
-
-/**
- * Whether a server's security level is at its minimum.
- *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return True if the security level of the given server is at its minimum;
- *     false otherwise.
- */
-function has_min_security(ns, host) {
-    return (
-        ns.getServerSecurityLevel(host) <= ns.getServerMinSecurityLevel(host)
-    );
-}
-
-/**
- * Perform an HGW action against a target server.
- *
- * @param ns The Netscript API.
- * @param host Perform an HGW action against this server.
- * @param botnet An array of world servers to which we have root access.  Use
- *     these servers to weaken the given target.
- * @param action The action we want to perform against the given target server.
- *     Possibilities are:
- *     (1) "grow" := Grow money on the target server.
- *     (2) "weaken" := Weaken the security level of the target server.
- */
-async function hgw_action(ns, host, botnet, action) {
-    assert(host !== "");
-    assert(host !== home);
-    assert(botnet.length > 0);
-    assert(action === hgw.action.GROW || action === hgw.action.WEAKEN);
-    const time = waiting_time(ns, host, action);
-    const script = hgw_script(action);
-    botnet
-        .filter((s) => can_run_script(ns, script, s))
-        .forEach((s) => {
-            const nthread = num_threads(ns, script, s);
-            ns.exec(script, s, nthread, host);
+function assemble_botnet(ns, host) {
+    const s = hgw.script.HACK;
+    const nthread = (serv) => num_threads(ns, s, serv);
+    const descending = (a, b) => nthread(b) - nthread(a);
+    const money = target_money(ns, host);
+    const threads = ns.hackAnalyzeThreads(host, money);
+    const botnet = [];
+    let n = 0;
+    nuke_servers(ns)
+        .filter((serv) => can_run_script(ns, s, serv))
+        .sort(descending)
+        .forEach((serv) => {
+            const k = nthread(serv);
+            if (n + k <= threads) {
+                botnet.push(serv);
+                n += k;
+            }
         });
-    await ns.sleep(time);
+    assert(botnet.length > 0);
+    return botnet;
 }
 
 /**
- * The HGW script to use for a given HGW action.
- *
- * @param action The action we want to perform against the given target server.
- *     Possibilities are:
- *     (1) "grow" := Grow money on the target server.
- *     (2) "weaken" := Weaken the security level of the target server.
- * @return The HGW script corresponding to the given action.
- */
-function hgw_script(action) {
-    switch (action) {
-        case hgw.action.GROW:
-            return hgw.script.GROW;
-        case hgw.action.WEAKEN:
-            return hgw.script.WEAKEN;
-        default:
-            // Should never reach here.
-            assert(false);
-    }
-}
-
-/**
- * Gain root access to as many world servers as we can.
+ * Continuously hack a server.  Steal a certain percentage of the server's
+ * money, then weaken/grow the server until it is at minimum security level and
+ * maximum money.  Rinse and repeat.
  *
  * @param ns The Netscript API.
- * @return An array of hostnames of servers.  We have root access to each
- *     server.
+ * @param host Hack this server.
  */
-function nuke_servers(ns) {
-    return network(ns).filter((host) => gain_admin_access(ns, host));
-}
-
-/**
- * Prepare a server for hacking.  Our objective is to get a server to maximum
- * money and minimum security.  The target server should not be bankrupt, i.e.
- * must be able to hold some positive amount of money.
- *
- * @param ns The Netscript API.
- * @param host Prepare this server for hacking.
- */
-async function prep(ns, host) {
+async function hack(ns, host) {
     for (;;) {
-        const botnet = nuke_servers(ns);
-        if (!has_min_security(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
-        }
-        if (!has_max_money(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.GROW);
-        }
-        if (has_min_security(ns, host) && has_max_money(ns, host)) {
-            break;
-        }
-        await ns.sleep(1);
+        await prep_mwg(ns, host);
+        const botnet = assemble_botnet(ns, host);
+        await hgw_action(ns, host, botnet, hgw.action.HACK);
+        await ns.sleep(0);
     }
-    log(ns, `${host} is at minimum security and maximum money`);
 }
 
 /**
- * The amount of time in milliseconds we must wait for an HGW action to
- * complete.
+ * The amount of money to steal from a server.  We should refrain from emptying
+ * a server of all of its money.  Instead, our objective should be to steal a
+ * fraction of a server's money.
  *
  * @param ns The Netscript API.
- * @param host Perform an HGW action against this server.
- * @param action The action we want to perform against the given target server.
- *     Possibilities are:
- *     (1) "grow" := Grow money on the target server.
- *     (2) "weaken" := Weaken the security level of the target server.
- * @return The amount of time required for the given action to complete on the
- *     target server.
+ * @param host Steal money from this server.
+ * @return The amount of money to steal from the given server.
  */
-function waiting_time(ns, host, action) {
-    switch (action) {
-        case hgw.action.GROW:
-            return ns.getGrowTime(host) + buffer_time();
-        case hgw.action.WEAKEN:
-            return ns.getWeakenTime(host) + buffer_time();
-        default:
-            // Should never reach here.
-            assert(false);
-    }
+function target_money(ns, host) {
+    return Math.floor(hgw.MONEY_PERCENT * ns.getServer(host).moneyMax);
 }
 
 /**
@@ -198,7 +95,7 @@ function waiting_time(ns, host, action) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const target = "joesguns";
+    const target = "n00dles";
     assert(ns.getServerMaxMoney(target) > 0);
-    await prep(ns, target);
+    await hack(ns, target);
 }

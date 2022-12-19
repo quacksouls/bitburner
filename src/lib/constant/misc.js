@@ -62,6 +62,11 @@ export const hgw = {
      */
     BUFFER_TIME: 100,
     /**
+     * The fraction amount of money to steal from a server.  If it is 0.5, then
+     * we steal 50% of the server's money.
+     */
+    MONEY_PERCENT: 0.5,
+    /**
      * Various scripts in the HGW model.
      */
     script: {
