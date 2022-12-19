@@ -16,7 +16,7 @@
  */
 
 import { program as popen } from "/lib/constant/exe.js";
-import { tor_cost, work_hack_lvl } from "/lib/constant/misc.js";
+import { darkweb, work_hack_lvl } from "/lib/constant/misc.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { Player } from "/lib/player.js";
@@ -122,7 +122,7 @@ async function buy_tor_router(ns, wrk) {
             continue;
         }
         if (wrk) {
-            await work(ns, tor_cost);
+            await work(ns, darkweb.tor.COST);
         }
         await ns.sleep(wait_t.SECOND);
     }

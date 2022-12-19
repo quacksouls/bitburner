@@ -45,6 +45,23 @@ export const colour = {
 };
 
 /**
+ * Various constants related to the dark web.
+ */
+export const darkweb = {
+    /**
+     * The Tor router.
+     */
+    tor: {
+        /**
+         * Cost of the Tor router.  Data from this file:
+         *
+         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Constants.ts
+         */
+        COST: 200e3,
+    },
+};
+
+/**
  * Various constants in the model of hack/grow/weaken (HGW).
  */
 export const hgw = {
@@ -119,13 +136,6 @@ export const money_reserve = 50e6;
  * The hack script.  This script is used for hacking a server.
  */
 export const script = "hack.js";
-
-/**
- * The cost of the TOR router.  Data from the file
- *
- * https://github.com/danielyxie/bitburner/blob/dev/src/Constants.ts
- */
-export const tor_cost = 200e3;
 
 /**
  * The minimum required Hack stat to enable a player to work at most companies.
