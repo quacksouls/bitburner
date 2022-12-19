@@ -49,6 +49,17 @@ export const colour = {
  */
 export const darkweb = {
     /**
+     * Constants related to various programs that can be purchased via the dark
+     * web.  The cost data are taken from this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/DarkWeb/DarkWebItems.ts
+     */
+    program: {
+        brutessh: {
+            COST: 500e3,
+        },
+    },
+    /**
      * The Tor router.
      */
     tor: {
