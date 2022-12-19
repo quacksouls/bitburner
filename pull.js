@@ -127,6 +127,7 @@ function dir_structure() {
         "lib/corporation/util.js",
         "lib/gang/gangster.js",
         "lib/gang/util.js",
+        "lib/hgw.js",
         "lib/io.js",
         "lib/money.js",
         "lib/network.js",

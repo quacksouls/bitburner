@@ -15,48 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
 import { hgw } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
 import {
-    assert,
-    gain_root_access,
-    has_max_money,
-    has_min_security,
-    hgw_action,
-    is_bankrupt,
-    to_second,
-} from "/lib/util.js";
-
-/**
- * Attempt to gain root access to a given server.  After gaining root access, we
- * copy our HGW scripts over to the server.
- *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
- */
-function gain_admin_access(ns, host) {
-    if (gain_root_access(ns, host)) {
-        const file = [hgw.script.GROW, hgw.script.WEAKEN];
-        ns.scp(file, host, home);
-        return bool.HAS;
-    }
-    return bool.NOT;
-}
-
-/**
- * Gain root access to as many world servers as we can.
- *
- * @param ns The Netscript API.
- * @return An array of hostnames of servers.  We have root access to each
- *     server.
- */
-function nuke_servers(ns) {
-    return network(ns).filter((host) => gain_admin_access(ns, host));
-}
+    prep_gw, prep_mgw, prep_mwg, prep_wg,
+} from "/lib/hgw.js";
+import { log } from "/lib/io.js";
+import { assert, is_bankrupt, to_second } from "/lib/util.js";
 
 /**
  * Prepare a server for hacking.  Our objective is to get a server to maximum
@@ -84,13 +48,13 @@ function nuke_servers(ns) {
 async function prep(ns, strategy, host) {
     switch (strategy) {
         case hgw.strategy.GW:
-            return prep_gw(ns, host);
+            return prep_grow_weaken(ns, host);
         case hgw.strategy.MGW:
-            return prep_mgw(ns, host);
+            return prep_max_grow_weaken(ns, host);
         case hgw.strategy.MWG:
-            return prep_mwg(ns, host);
+            return prep_min_weaken_grow(ns, host);
         case hgw.strategy.WG:
-            return prep_wg(ns, host);
+            return prep_weaken_grow(ns, host);
         default:
             // Should never reach here.
             assert(false);
@@ -114,22 +78,10 @@ async function prep(ns, strategy, host) {
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
  *     (3) hack_stat := Our current Hack stat.
  */
-async function prep_gw(ns, host) {
+async function prep_grow_weaken(ns, host) {
     const time_before = Date.now();
     const hack_before = ns.getPlayer().exp.hacking;
-    for (;;) {
-        const botnet = nuke_servers(ns);
-        if (!has_max_money(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.GROW);
-        }
-        if (!has_min_security(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
-        }
-        if (has_min_security(ns, host) && has_max_money(ns, host)) {
-            break;
-        }
-        await ns.sleep(0);
-    }
+    await prep_gw(ns, host);
     return {
         time: Date.now() - time_before,
         hack_xp: ns.getPlayer().exp.hacking - hack_before,
@@ -149,19 +101,10 @@ async function prep_gw(ns, host) {
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
  *     (3) hack_stat := Our current Hack stat.
  */
-async function prep_mgw(ns, host) {
+async function prep_max_grow_weaken(ns, host) {
     const time_before = Date.now();
     const hack_before = ns.getPlayer().exp.hacking;
-    while (!has_max_money(ns, host)) {
-        const botnet = nuke_servers(ns);
-        await hgw_action(ns, host, botnet, hgw.action.GROW);
-        await ns.sleep(0);
-    }
-    while (!has_min_security(ns, host)) {
-        const botnet = nuke_servers(ns);
-        await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
-        await ns.sleep(0);
-    }
+    await prep_mgw(ns, host);
     return {
         time: Date.now() - time_before,
         hack_xp: ns.getPlayer().exp.hacking - hack_before,
@@ -181,15 +124,10 @@ async function prep_mgw(ns, host) {
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
  *     (3) hack_stat := Our current Hack stat.
  */
-async function prep_mwg(ns, host) {
+async function prep_min_weaken_grow(ns, host) {
     const time_before = Date.now();
     const hack_before = ns.getPlayer().exp.hacking;
-    while (!has_min_security(ns, host)) {
-        const botnet = nuke_servers(ns);
-        await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
-        await ns.sleep(0);
-    }
-    await prep_gw(ns, host);
+    await prep_mwg(ns, host);
     return {
         time: Date.now() - time_before,
         hack_xp: ns.getPlayer().exp.hacking - hack_before,
@@ -214,22 +152,10 @@ async function prep_mwg(ns, host) {
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
  *     (3) hack_stat := Our current Hack stat.
  */
-async function prep_wg(ns, host) {
+async function prep_weaken_grow(ns, host) {
     const time_before = Date.now();
     const hack_before = ns.getPlayer().exp.hacking;
-    for (;;) {
-        const botnet = nuke_servers(ns);
-        if (!has_min_security(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
-        }
-        if (!has_max_money(ns, host)) {
-            await hgw_action(ns, host, botnet, hgw.action.GROW);
-        }
-        if (has_min_security(ns, host) && has_max_money(ns, host)) {
-            break;
-        }
-        await ns.sleep(0);
-    }
+    await prep_wg(ns, host);
     return {
         time: Date.now() - time_before,
         hack_xp: ns.getPlayer().exp.hacking - hack_before,
