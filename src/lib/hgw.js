@@ -29,6 +29,46 @@ import {
 // Utility functions in the model of hack/grow/weaken or HGW.
 
 /**
+ * Choose the servers from our botnet to use for hacking.  The servers are
+ * chosen such that the total number of threads they offer allow us to steal a
+ * certain percentage of a target's money.  Essentially, the problem is this.
+ * We know we need n threads to steal a fraction of a target's money.  Choose
+ * servers from among our botnet that would allow us to hack using n threads or
+ * thereabout.  This is an instance of the money changing problem.  Use a greedy
+ * approach by considering the server on which we can run a script using the
+ * most number of threads.  Work our way down to the server on which we can run
+ * using the least number of threads.
+ *
+ * @param ns The Netscript API.
+ * @param host Hack this server.
+ * @param frac The fraction of money to steal.  Must be between 0 and 1.
+ * @return An array of hostnames.  The servers provide at most the required
+ *     number of threads needed to hack a fraction of a server's money.
+ */
+export function assemble_botnet(ns, host, frac) {
+    const s = hgw.script.HACK;
+    const nthread = (serv) => num_threads(ns, s, serv);
+    const descending = (a, b) => nthread(b) - nthread(a);
+    const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
+    const money = target_money(ns, host, frac);
+    const threads = ns.hackAnalyzeThreads(host, money);
+    const botnet = [];
+    let n = 0;
+    nuke_servers(ns)
+        .filter(has_ram_to_run_script)
+        .sort(descending)
+        .forEach((serv) => {
+            const k = nthread(serv);
+            if (n + k <= threads) {
+                botnet.push(serv);
+                n += k;
+            }
+        });
+    assert(botnet.length > 0);
+    return botnet;
+}
+
+/**
  * Attempt to gain root access to a given server.  After gaining root access, we
  * copy our HGW scripts over to the server.
  *
@@ -254,4 +294,18 @@ export async function prep_wg(ns, host) {
         }
         await ns.sleep(0);
     }
+}
+
+/**
+ * The amount of money to steal from a server.  We should refrain from emptying
+ * a server of all of its money.  Instead, our objective should be to steal a
+ * fraction of a server's money.
+ *
+ * @param ns The Netscript API.
+ * @param host Steal money from this server.
+ * @param frac The fraction of money to steal.
+ * @return The amount of money to steal from the given server.
+ */
+function target_money(ns, host, frac) {
+    return Math.floor(frac * ns.getServer(host).moneyMax);
 }
