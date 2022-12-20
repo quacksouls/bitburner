@@ -132,12 +132,11 @@ export async function hgw_action(ns, host, botnet, action) {
     assert(botnet.length > 0);
     const time = hgw_wait_time(ns, host, action);
     const s = hgw_script(action);
-    botnet
-        .filter((serv) => can_run_script(ns, s, serv))
-        .forEach((serv) => {
-            const nthread = num_threads(ns, s, serv);
-            ns.exec(s, serv, nthread, host);
-        });
+    const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
+    botnet.filter(has_ram_to_run_script).forEach((serv) => {
+        const nthread = num_threads(ns, s, serv);
+        ns.exec(s, serv, nthread, host);
+    });
     await ns.sleep(time);
 }
 
