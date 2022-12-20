@@ -58,6 +58,9 @@ export const darkweb = {
         brutessh: {
             COST: 500e3,
         },
+        ftpcrack: {
+            COST: 1.5e6,
+        },
     },
     /**
      * The Tor router.

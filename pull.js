@@ -172,6 +172,7 @@ function dir_structure() {
         "test/crime/crime-int.js",
         "test/crime/crime.js",
         "test/hgw/brutessh.js",
+        "test/hgw/ftpcrack.js",
         "test/hgw/prep.js",
         "test/intelligence/augment-buy.js",
         "test/intelligence/augment-install.js",
