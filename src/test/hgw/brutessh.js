@@ -29,7 +29,10 @@ import {
  * certain percentage of a target's money.  Essentially, the problem is this.
  * We know we need n threads to steal a fraction of a target's money.  Choose
  * servers from among our botnet that would allow us to hack using n threads or
- * thereabout.
+ * thereabout.  This is an instance of the money changing problem.  Use a greedy
+ * approach by considering the server on which we can run a script using the
+ * most number of threads.  Work our way down to the server on which we can run
+ * using the least number of threads.
  *
  * @param ns The Netscript API.
  * @param host Hack this server.
