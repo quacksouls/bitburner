@@ -41,12 +41,13 @@ function assemble_botnet(ns, host, percent) {
     const s = hgw.script.HACK;
     const nthread = (serv) => num_threads(ns, s, serv);
     const descending = (a, b) => nthread(b) - nthread(a);
+    const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const money = target_money(ns, host, percent);
     const threads = ns.hackAnalyzeThreads(host, money);
     const botnet = [];
     let n = 0;
     nuke_servers(ns)
-        .filter((serv) => can_run_script(ns, s, serv))
+        .filter(has_ram_to_run_script)
         .sort(descending)
         .forEach((serv) => {
             const k = nthread(serv);
