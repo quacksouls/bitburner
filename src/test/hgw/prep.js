@@ -180,6 +180,9 @@ async function prep_weaken_grow(ns, host) {
  * Pass one of the above strings as an argument to this script.  The script also
  * accepts the hostname of the server to target.
  *
+ * (1) strategy := One of the above HGW strategies.
+ * (2) targetServer := Hostname of server to target.
+ *
  * Usage: run test/hgw/prep.js [strategy] [targetServer]
  * Example: run test/hgw/prep.js wg n00dles
  *
