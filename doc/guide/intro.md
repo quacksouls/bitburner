@@ -73,8 +73,9 @@ Below are various tips you might want to keep in mind while playing the game.
    at first for anyone who is accustomed to procedural and/or object-oriented
    programming. Various tutorials are available online to help you get started
    on functional JavaScript. See for example
-   [this tutorial](https://opensource.com/article/17/6/functional-javascript)
-   and [this blog](https://jrsinclair.com/).
+   [this tutorial](https://opensource.com/article/17/6/functional-javascript),
+   [this book](https://github.com/getify/Functional-Light-JS), or
+   [this blog](https://jrsinclair.com/).
 1. _Tools of the trade._ As your library of scripts grow, you would benefit from
    using various tools to help you code and sanitize your scripts. First, use a
    formatter to automatically help you format your code in a consistent manner.
