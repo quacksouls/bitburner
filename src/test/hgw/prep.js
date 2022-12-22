@@ -76,16 +76,17 @@ async function prep(ns, strategy, host) {
  *     (1) time := The amount of time (in milliseconds) required for the target
  *         server to be prepped.
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
- *     (3) hack_stat := Our current Hack stat.
+ *     (3) hack_stat := The number of Hack levels gained.
  */
 async function prep_grow_weaken(ns, host) {
     const time_before = Date.now();
-    const hack_before = ns.getPlayer().exp.hacking;
+    const hack_xp_before = ns.getPlayer().exp.hacking;
+    const hack_before = ns.getPlayer().skills.hacking;
     await prep_gw(ns, host);
     return {
         time: Date.now() - time_before,
-        hack_xp: ns.getPlayer().exp.hacking - hack_before,
-        hack_stat: ns.getPlayer().skills.hacking,
+        hack_xp: ns.getPlayer().exp.hacking - hack_xp_before,
+        hack_stat: ns.getPlayer().skills.hacking - hack_before,
     };
 }
 
@@ -99,16 +100,17 @@ async function prep_grow_weaken(ns, host) {
  *     (1) time := The amount of time (in milliseconds) required for the target
  *         server to be prepped.
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
- *     (3) hack_stat := Our current Hack stat.
+ *     (3) hack_stat := The number of Hack levels gained.
  */
 async function prep_max_grow_weaken(ns, host) {
     const time_before = Date.now();
-    const hack_before = ns.getPlayer().exp.hacking;
+    const hack_xp_before = ns.getPlayer().exp.hacking;
+    const hack_before = ns.getPlayer().skills.hacking;
     await prep_mgw(ns, host);
     return {
         time: Date.now() - time_before,
-        hack_xp: ns.getPlayer().exp.hacking - hack_before,
-        hack_stat: ns.getPlayer().skills.hacking,
+        hack_xp: ns.getPlayer().exp.hacking - hack_xp_before,
+        hack_stat: ns.getPlayer().skills.hacking - hack_before,
     };
 }
 
@@ -122,16 +124,17 @@ async function prep_max_grow_weaken(ns, host) {
  *     (1) time := The amount of time (in milliseconds) required for the target
  *         server to be prepped.
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
- *     (3) hack_stat := Our current Hack stat.
+ *     (3) hack_stat := The number of Hack levels gained.
  */
 async function prep_min_weaken_grow(ns, host) {
     const time_before = Date.now();
-    const hack_before = ns.getPlayer().exp.hacking;
+    const hack_xp_before = ns.getPlayer().exp.hacking;
+    const hack_before = ns.getPlayer().skills.hacking;
     await prep_mwg(ns, host);
     return {
         time: Date.now() - time_before,
-        hack_xp: ns.getPlayer().exp.hacking - hack_before,
-        hack_stat: ns.getPlayer().skills.hacking,
+        hack_xp: ns.getPlayer().exp.hacking - hack_xp_before,
+        hack_stat: ns.getPlayer().skills.hacking - hack_before,
     };
 }
 
@@ -150,16 +153,17 @@ async function prep_min_weaken_grow(ns, host) {
  *     (1) time := The amount of time (in milliseconds) required for the target
  *         server to be prepped.
  *     (2) hack_xp := The amount of Hack XP we gained from the prepping.
- *     (3) hack_stat := Our current Hack stat.
+ *     (3) hack_stat := The number of Hack levels gained.
  */
 async function prep_weaken_grow(ns, host) {
     const time_before = Date.now();
-    const hack_before = ns.getPlayer().exp.hacking;
+    const hack_xp_before = ns.getPlayer().exp.hacking;
+    const hack_before = ns.getPlayer().skills.hacking;
     await prep_wg(ns, host);
     return {
         time: Date.now() - time_before,
-        hack_xp: ns.getPlayer().exp.hacking - hack_before,
-        hack_stat: ns.getPlayer().skills.hacking,
+        hack_xp: ns.getPlayer().exp.hacking - hack_xp_before,
+        hack_stat: ns.getPlayer().skills.hacking - hack_before,
     };
 }
 
