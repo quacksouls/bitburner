@@ -1,5 +1,7 @@
 # What is this?
 
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 This guide will help you in your first journey through the game
 [Bitburner](https://github.com/bitburner-official/bitburner-src). The game can
 be played [online](https://danielyxie.github.io/bitburner/) or through
