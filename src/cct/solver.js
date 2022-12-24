@@ -16,7 +16,9 @@
  */
 
 import { cct } from "/lib/constant/cct.js";
+import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
 
@@ -144,15 +146,9 @@ function solve(ns, fname, host) {
         ns.exec(script, home, nthread, fname, host);
         return;
     }
-    // prettier-ignore
-    const err_msg = `${host
-    }: ${
-        fname
-    }: No free RAM to run ${
-        script
-    } on server ${
-        home}`;
-    ns.print(err_msg);
+    const pre = `${host}: ${fname}`;
+    const msg = `No free RAM to run ${script} on ${home}`;
+    log(ns, `${pre}: ${msg}`, colour.RED);
 }
 
 /**
