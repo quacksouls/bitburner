@@ -16,11 +16,11 @@
  */
 
 import { cct } from "/lib/constant/cct.js";
-import { colour } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
-import { log } from "/lib/io.js";
+import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import { Server } from "/lib/server.js";
+import { assert } from "/lib/util.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?
@@ -36,12 +36,25 @@ function can_run_script(ns, script) {
 }
 
 /**
+ * Whether a server has Coding Contracts.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a server.
+ * @return True if the given server has Coding Contracts; false otherwise.
+ */
+function has_cct(ns, host) {
+    return ns.ls(host, cct.SUFFIX).length > 0;
+}
+
+/**
  * Solve a coding contract.
  *
  * @param ns The Netscript API.
  * @param fname The file name of the coding contract.
  * @param host The hostname of the server on which the coding contract is
  *     located.
+ * @return True if we successfully launched a script to solve the given CCT;
+ *     false otherwise.
  */
 function solve(ns, fname, host) {
     const nthread = 1;
@@ -139,16 +152,32 @@ function solve(ns, fname, host) {
     // No script to run, possibly because there are no coding contracts on any
     // of the world servers.
     if (script.length < 1) {
-        return;
+        return true;
     }
     // Run the appropriate script to solve the coding contract.
     if (can_run_script(ns, script)) {
         ns.exec(script, home, nthread, fname, host);
-        return;
+        return true;
     }
-    const pre = `${host}: ${fname}`;
-    const msg = `No free RAM to run ${script} on ${home}`;
-    log(ns, `${pre}: ${msg}`, colour.RED);
+    // const pre = `${host}: ${fname}`;
+    // const msg = `No free RAM to run ${script} on ${home}`;
+    // log(ns, `${pre}: ${msg}`, colour.RED);
+    return false;
+}
+
+/**
+ * Solve all CCTs found on a world server.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a server where CCTs are found.
+ * @return True if we successfully launched scripts to solve all CCTs on the
+ *     given server; false otherwise.
+ */
+function solve_all(ns, host) {
+    assert(host !== "");
+    const file = ns.ls(host, cct.SUFFIX);
+    const is_solved = (f) => solve(ns, f, host);
+    return file.every(is_solved);
 }
 
 /**
@@ -169,15 +198,12 @@ export async function main(ns) {
     server.push(home);
     // Continuously search for coding contracts.  Solve a coding contract,
     // provided we have a solution script.
+    const unsolved = (serv) => !solve_all(ns, serv);
     for (;;) {
-        for (const s of server) {
-            const file = ns.ls(s, cct.SUFFIX);
-            // No coding contracts on this server.
-            if (file.length < 1) {
-                continue;
-            }
-            // Solve all coding contracts on this server.
-            file.forEach((f) => solve(ns, f, s));
+        let host = server.filter((s) => has_cct(ns, s));
+        while (host.length > 0) {
+            host = host.filter(unsolved);
+            await ns.sleep(wait_t.DEFAULT);
         }
         await ns.sleep(cct.UPDATE_TIME);
     }
