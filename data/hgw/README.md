@@ -144,3 +144,32 @@ the following process:
 The above table shows that we can steal between 50% and 70% of money on a
 prepped `n00dles` and be able to purchase both `BruteSSH.exe` and `FTPCrack.exe`
 in less than 27 minutes.
+
+## Prep `foodnstuff`, `joesguns`, and `sigma-cosmetics`
+
+We used the save file `joesguns.json`, which starts us with the following stats.
+
+1. 78 Hack.
+1. Default values in other stats.
+1. Have both of `BruteSSH.exe` and `FTPCrack.exe`, which were manually
+   purchased.
+1. No Augmentation installed.
+1. The `home` server has 64GB RAM.
+
+We used the script `/test/hgw/prep.js` to prep `foodnstuff`, `joesguns`, and
+`sigma-cosmetics`.
+
+| Server            | Strategy |    Time | Hack |   Hack XP |      XP/s |
+| ----------------- | -------- | ------: | ---: | --------: | --------: |
+| `foodnstuff`      | GW       | 1:35:49 |  116 |  222552.0 | 38.709348 |
+| `foodnstuff`      | MGW      | 8:05:30 |  166 | 1082412.0 | 37.157822 |
+| `foodnstuff`      | MWG      | 1:36:32 |  117 |  224238.0 | 38.712999 |
+| `foodnstuff`      | WG       | 1:36:34 |  117 |  224238.0 | 38.704573 |
+| `joesguns`        | GW       | 0:37:20 |   82 |   71655.0 | 31.983157 |
+| `joesguns`        | MGW      | 4:38:50 |  116 |  221287.5 | 13.227278 |
+| `joesguns`        | MWG      | 0:37:53 |   83 |   73762.5 | 32.447181 |
+| `joesguns`        | WG       | 0:37:53 |   83 |   73762.5 | 32.445825 |
+| `sigma-cosmetics` | GW       | 0:56:42 |   95 |  111276.0 | 32.709822 |
+| `sigma-cosmetics` | MGW      | 7:45:17 |  138 |  445104.0 | 15.943993 |
+| `sigma-cosmetics` | MWG      | 0:57:24 |   95 |  112962.0 | 32.801595 |
+| `sigma-cosmetics` | WG       | 0:57:24 |   95 |  112962.0 | 32.796719 |
