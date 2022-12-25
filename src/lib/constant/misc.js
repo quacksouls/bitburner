@@ -63,6 +63,10 @@ export const darkweb = {
             COST: 1.5e6,
             NAME: "FTPCrack.exe",
         },
+        relaysmtp: {
+            COST: 5e6,
+            NAME: "relaySMTP.exe",
+        },
     },
     /**
      * The Tor router.
