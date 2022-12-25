@@ -47,6 +47,17 @@ function has_cct(ns, host) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getServerUsedRam");
+    ns.disableLog("scan");
+    ns.disableLog("sleep");
+}
+
+/**
  * Solve a coding contract.
  *
  * @param ns The Netscript API.
@@ -189,11 +200,7 @@ function solve_all(ns, host) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("getServerUsedRam");
-    ns.disableLog("scan");
-    ns.disableLog("sleep");
-
+    shush(ns);
     const server = network(ns);
     server.push(home);
     // Continuously search for coding contracts.  Solve a coding contract,
