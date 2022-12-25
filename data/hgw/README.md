@@ -31,7 +31,13 @@ Unless otherwise stated, we start with the following stats:
 
 The amount of time required to prep a server. Time is in the format `h:mm:ss`.
 We used the save file `fresh.json` and the script `/test/hgw/prep.js`. Floating
-point numbers are rounded to 6 decimal places.
+point numbers are rounded to 6 decimal places. The general process is as
+follows:
+
+1. Use a particular strategy to prep `n00dles`.
+1. Print the data to the terminal.
+1. Reload the save file `fresh.json` and prep `n00dles` by means of a different
+   strategy.
 
 | Server    | Strategy |    Time | Hack |    Hack XP |     XP/s |
 | --------- | -------- | ------: | ---: | ---------: | -------: |
@@ -62,7 +68,13 @@ our goal is given in the `Time` column as the format `h:mm:ss`. The number of
 Hack levels we gained in the process is listed in the `Hack` column. The column
 `Hack XP` lists the total amount of Hack XP we gained. Finally, the column
 `XP/s` gives the rate (per second) at which we gained Hack XP. Floating point
-numbers are rounded to 6 decimal places.
+numbers are rounded to 6 decimal places. The general process is as follows:
+
+1. Use the above steps until we have steal enough money to purchase
+   `BruteSSH.exe`.
+1. Print the data to the terminal.
+1. Reload the save file `fresh.json` and use the above steps, but steal a
+   different percentage of money.
 
 | Fraction |    Time | Hack |     Hack XP |     XP/s |
 | -------: | ------: | ---: | ----------: | -------: |
@@ -87,6 +99,10 @@ following stats. We used the script `/test/hgw/ftpcrack.js`.
    the `BruteSSH.exe` program.
 1. The `home` server has 64GB RAM.
 
+Use the same general process as per the above sections. Gather data for a
+particular strategy, then reload the save file `brutessh.json` and use a
+different strategy to gather data.
+
 ### Prep
 
 | Server    | Strategy |    Time | Hack |    Hack XP |     XP/s |
@@ -98,7 +114,10 @@ following stats. We used the script `/test/hgw/ftpcrack.js`.
 
 ### Raise money
 
-Hack `n00dles` to raise enough money to buy `FTPCrack.exe`.
+Hack `n00dles` to raise enough money to buy `FTPCrack.exe`. Use the same general
+process as per the above sections. Gather data for a particular percentage of
+money to steal, then reload the save file `brutessh.json` and use a different
+percentage to gather data.
 
 | Fraction |    Time | Hack |     Hack XP |     XP/s |
 | -------: | ------: | ---: | ----------: | -------: |
@@ -127,6 +146,9 @@ the following process:
 1. Hack enough money to buy the Tor router and `BruteSSH.exe`.
 1. Manually purchase the Tor router and `BruteSSH.exe`.
 1. Then hack enough money to buy `FTPCrack.exe`.
+1. The only variable is the fraction of money to steal. Gather data for a
+   particular fraction, then reload the save file `sshftp.json` and gather data
+   for a different fraction.
 
 | Fraction | Time (B) | Time (F) | Time (sum) | Hack B/F/sum | Hack XP (B) |  Hack XP (F) | XP/s (B) | XP/s (F) |
 | -------: | -------: | -------: | ---------: | -----------: | ----------: | -----------: | -------: | -------: |
@@ -157,7 +179,12 @@ We used the save file `joesguns.json`, which starts us with the following stats.
 1. The `home` server has 64GB RAM.
 
 We used the script `/test/hgw/prep.js` to prep `foodnstuff`, `joesguns`, and
-`sigma-cosmetics`.
+`sigma-cosmetics`. The general process is as follows:
+
+1. Use the given script to prep a certain server by means of a particular
+   strategy.
+1. Print the data to the terminal.
+1. Reload the save file `joesguns.json` and change the server and/or strategy.
 
 | Server            | Strategy |    Time | Hack |   Hack XP |      XP/s |
 | ----------------- | -------- | ------: | ---: | --------: | --------: |
