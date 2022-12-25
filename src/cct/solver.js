@@ -36,11 +36,11 @@ function can_run_script(ns, script) {
 }
 
 /**
- * Whether a server has Coding Contracts.
+ * Whether a server has Coding Contracts (CCTs).
  *
  * @param ns The Netscript API.
  * @param host Hostname of a server.
- * @return True if the given server has Coding Contracts; false otherwise.
+ * @return True if the given server has CCTs; false otherwise.
  */
 function has_cct(ns, host) {
     return ns.ls(host, cct.SUFFIX).length > 0;
@@ -58,20 +58,18 @@ function shush(ns) {
 }
 
 /**
- * Solve a coding contract.
+ * Solve a Coding Contract (CCT).
  *
  * @param ns The Netscript API.
- * @param fname The file name of the coding contract.
- * @param host The hostname of the server on which the coding contract is
- *     located.
+ * @param fname The file name of the CCT.
+ * @param host The hostname of the server on which the CCT is located.
  * @return True if we successfully launched a script to solve the given CCT;
  *     false otherwise.
  */
 function solve(ns, fname, host) {
     const nthread = 1;
     const type = ns.codingcontract.getContractType(fname, host);
-    // Determine the type of the coding contract and set the appropriate
-    // solution script.
+    // Determine the type of the CCT and set the appropriate solution script.
     let script = "";
     const prefix = "/cct/";
     switch (type) {
@@ -160,12 +158,12 @@ function solve(ns, fname, host) {
             script = "";
             break;
     }
-    // No script to run, possibly because there are no coding contracts on any
-    // of the world servers.
+    // No script to run, possibly because there are no CCTs on any of the world
+    // servers.
     if (script.length < 1) {
         return true;
     }
-    // Run the appropriate script to solve the coding contract.
+    // Run the appropriate script to solve the CCT.
     if (can_run_script(ns, script)) {
         ns.exec(script, home, nthread, fname, host);
         return true;
@@ -177,7 +175,7 @@ function solve(ns, fname, host) {
 }
 
 /**
- * Solve all CCTs found on a world server.
+ * Solve all Coding Contracts (CCTs) found on a world server.
  *
  * @param ns The Netscript API.
  * @param host Hostname of a server where CCTs are found.
@@ -192,8 +190,8 @@ function solve_all(ns, host) {
 }
 
 /**
- * Find coding contracts on world servers.  This script essentially searches
- * the network of world servers to find coding contracts.
+ * Find Coding Contracts (CCTs) on world servers.  This script essentially
+ * searches the network of world servers to find CCTs.
  *
  * Usage: run cct/solver.js
  *
@@ -203,8 +201,8 @@ export async function main(ns) {
     shush(ns);
     const server = network(ns);
     server.push(home);
-    // Continuously search for coding contracts.  Solve a coding contract,
-    // provided we have a solution script.
+    // Continuously search for CCTs.  Solve a CCT, provided we have a solution
+    // script.
     const unsolved = (serv) => !solve_all(ns, serv);
     for (;;) {
         let host = server.filter((s) => has_cct(ns, s));
