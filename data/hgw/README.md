@@ -169,7 +169,7 @@ in less than 27 minutes.
 
 ## Prep `foodnstuff`, `joesguns`, and `sigma-cosmetics`
 
-We used the save file `joesguns.json`, which starts us with the following stats.
+We used the save file `fjs.json`, which starts us with the following stats.
 
 1. 78 Hack.
 1. Default values in other stats.
@@ -184,7 +184,7 @@ We used the script `/test/hgw/prep.js` to prep `foodnstuff`, `joesguns`, and
 1. Use the given script to prep a certain server by means of a particular
    strategy.
 1. Print the data to the terminal.
-1. Reload the save file `joesguns.json` and change the server and/or strategy.
+1. Reload the save file `fjs.json` and change the server and/or strategy.
 
 | Server            | Strategy |    Time | Hack |   Hack XP |      XP/s |
 | ----------------- | -------- | ------: | ---: | --------: | --------: |
