@@ -63,9 +63,17 @@ export const darkweb = {
             COST: 1.5e6,
             NAME: "FTPCrack.exe",
         },
+        httpworm: {
+            COST: 30e6,
+            NAME: "HTTPWorm.exe",
+        },
         relaysmtp: {
             COST: 5e6,
             NAME: "relaySMTP.exe",
+        },
+        sqlinject: {
+            COST: 250e6,
+            NAME: "SQLInject.exe",
         },
     },
     /**
