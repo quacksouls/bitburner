@@ -265,6 +265,18 @@ export async function hram_suspend(ns) {
 }
 
 /**
+ * Let our sleeves commit crimes to raise money.
+ *
+ * @param ns The Netscript API.
+ */
+export async function init_sleeves(ns) {
+    const pid = exec(ns, "/sleeve/money.js");
+    while (ns.isRunning(pid)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+}
+
+/**
  * Whether a server is bankrupt.  A server is bankrupt if the maximum amount
  * of money it can hold is zero.
  *

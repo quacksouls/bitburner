@@ -15,10 +15,75 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
+import { darkweb } from "/lib/constant/misc.js";
+import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
-import { buy_all_programs } from "/lib/singularity/program.js";
-import { has_gang_api } from "/lib/source.js";
+import { has_program } from "/lib/util.js";
+
+/**
+ * Purchase port opener programs via the dark web.
+ *
+ * @param ns The Netscript API.
+ */
+function buy_programs(ns) {
+    if (!has_tor_router(ns)) {
+        return;
+    }
+    const unbought = (p) => !has_program(ns, p);
+    const buy = (p) => ns.singularity.purchaseProgram(p);
+    popen()
+        .filter(unbought)
+        .forEach((p) => {
+            if (buy(p)) {
+                log(ns, `Purchased program: ${p}`);
+            }
+        });
+}
+
+/**
+ * Whether we have all port opener programs.
+ *
+ * @param ns The Netscript API.
+ * @return True if we have all port opener programs; false otherwise.
+ */
+function has_all_popen(ns) {
+    const has = (p) => has_program(ns, p);
+    return popen().every(has);
+}
+
+/**
+ * Whether we have the TOR router.
+ *
+ * @param ns The Netscript API.
+ * @return True if we have the TOR router; false otherwisel
+ */
+function has_tor_router(ns) {
+    return ns.singularity.purchaseTor();
+}
+
+/**
+ * The port opener programs.
+ */
+function popen() {
+    // Ordered in increasing cost.
+    return [
+        darkweb.program.brutessh.NAME,
+        darkweb.program.ftpcrack.NAME,
+        darkweb.program.relaysmtp.NAME,
+        darkweb.program.httpworm.NAME,
+        darkweb.program.sqlinject.NAME,
+    ];
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("sleep");
+}
 
 /**
  * Purchase programs via the dark web.  We use any money available to us, most
@@ -29,12 +94,12 @@ import { has_gang_api } from "/lib/source.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("sleep");
+    shush(ns);
     // Purchase programs via the dark web.
-    if (has_gang_api(ns)) {
-        log(ns, "Buy programs via dark web");
-        await buy_all_programs(ns, bool.NO_VISIT, bool.NO_WORK);
+    log(ns, "Buying programs via the dark web");
+    while (!has_all_popen(ns)) {
+        buy_programs(ns);
+        await ns.sleep(wait_t.DEFAULT);
     }
+    log(ns, "Purchased all port opener programs");
 }

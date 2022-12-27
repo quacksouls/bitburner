@@ -107,6 +107,20 @@ export const hgw = {
      */
     BUFFER_TIME: 100,
     /**
+     * The fraction of money to steal from a server.
+     */
+    hack: {
+        joesguns: {
+            FRACTION: 0.6,
+        },
+        n00dles: {
+            FRACTION: 0.5,
+        },
+        phantasy: {
+            FRACTION: 0.5,
+        },
+    },
+    /**
      * The fraction amount of money to steal from a server.  If it is 0.5, then
      * we steal 50% of the server's money.
      */

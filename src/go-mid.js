@@ -20,7 +20,7 @@ import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+import { assert, exec, init_sleeves } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -30,7 +30,7 @@ import { assert, exec } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "low-end.js";
+    const target = "/hgw/go.js";
     const script = [target, "hnet-farm.js", "/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
@@ -44,6 +44,8 @@ async function reboot(ns) {
     // server.
     await ns.sleep(wait_t.MINUTE);
     script.filter((s) => s !== target).forEach((t) => assert(ns.kill(t, home)));
+    exec(ns, "/gang/program.js");
+    await init_sleeves(ns);
 }
 
 /**
@@ -65,7 +67,7 @@ async function reboot(ns) {
  */
 export async function main(ns) {
     log(ns, "Home server is mid-end. Bootstrap with some scripts.");
-    await reboot(ns);
     assert(has_singularity_api(ns));
-    exec(ns, "/chain/study.js");
+    await reboot(ns);
+    exec(ns, "/chain/money.js");
 }

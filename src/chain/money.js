@@ -30,7 +30,11 @@ import { exec, hram_resume, hram_suspend } from "/lib/util.js";
 export async function main(ns) {
     // Try to free up some RAM on home server so we can run the scripts below.
     await hram_suspend(ns);
-    while (ns.isRunning("/singularity/study.js", home)) {
+    while (
+        ns.isRunning("go-low.js", home)
+        || ns.isRunning("go-mid.js", home)
+        || ns.isRunning("go-high.js", home)
+    ) {
         await ns.sleep(wait_t.SECOND);
     }
     // Assume our home server has limited RAM.  The server cannot run multiple

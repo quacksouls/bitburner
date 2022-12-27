@@ -16,10 +16,9 @@
  */
 
 import { bitnode } from "/lib/constant/bn.js";
-import { home, home_t } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+import { assert, exec, init_sleeves } from "/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -28,13 +27,10 @@ import { assert, exec } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  */
-function reboot(ns) {
-    let extra = "low-end.js";
-    if (ns.getServerMaxRam(home) > home_t.RAM_HIGH) {
-        extra = "world-server.js";
-    }
+async function reboot(ns) {
     const script = [
-        extra,
+        "/hgw/go.js",
+        "/gang/program.js",
         "hnet-farm.js",
         "trade-bot.js",
         "/cct/solver.js",
@@ -46,6 +42,7 @@ function reboot(ns) {
         script.unshift("buy-server.js");
     }
     script.forEach((s) => exec(ns, s));
+    await init_sleeves(ns);
 }
 
 /**
@@ -67,7 +64,7 @@ function reboot(ns) {
  */
 export async function main(ns) {
     log(ns, "Home server is high-end. Bootstrap with all scripts.");
-    reboot(ns);
     assert(has_singularity_api(ns));
-    exec(ns, "/chain/study.js");
+    await reboot(ns);
+    exec(ns, "/chain/money.js");
 }

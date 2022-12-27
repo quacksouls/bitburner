@@ -15,11 +15,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { darkweb } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+import {
+    assert, exec, has_program, init_sleeves,
+} from "/lib/util.js";
+
+/**
+ * Launch scripts to purchase port opener programs.
+ *
+ * @param ns The Netscript API.
+ */
+async function init_popen(ns) {
+    const pida = exec(ns, "/gang/program.js");
+    const pidb = exec(ns, "/hgw/go.js");
+    while (
+        !has_program(ns, darkweb.program.brutessh.NAME)
+        || !has_program(ns, darkweb.program.ftpcrack.NAME)
+    ) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    ns.kill(pida);
+    ns.kill(pidb);
+}
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -38,6 +59,8 @@ async function reboot(ns) {
         await ns.sleep(wait_t.DEFAULT);
         assert(ns.kill(s, home));
     }
+    await init_sleeves(ns);
+    await init_popen(ns);
 }
 
 /**
@@ -66,7 +89,7 @@ export async function main(ns) {
         ns,
         "Home server is low-end. Bootstrap with a small number of scripts."
     );
-    await reboot(ns);
     assert(has_singularity_api(ns));
-    exec(ns, "/chain/study.js");
+    await reboot(ns);
+    exec(ns, "/chain/money.js");
 }

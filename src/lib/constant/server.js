@@ -91,14 +91,26 @@ export const home_t = {
  */
 export const server = {
     /**
+     * The server joesguns.
+     */
+    JOES: "joesguns",
+    /**
      * The name of a text file.  The file contains the hostname of the server we
      * are currently targetting.  We use our home RAM to hack the target.
      */
     HRAM: "hram.txt",
     /**
+     * The server n00dles.
+     */
+    NOODLES: "n00dles",
+    /**
      * The darkweb server, accessible after purchasing the Tor router.
      */
     ONION: "darkweb",
+    /**
+     * The server phantasy.
+     */
+    PHANTASY: "phantasy",
     /**
      * The name of a text file.  If a file with the given name appears on our
      * home server, then it means one of the following:
