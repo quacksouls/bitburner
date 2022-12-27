@@ -22,7 +22,7 @@ import { all_programs, program } from "/lib/constant/exe.js";
 import { factions } from "/lib/constant/faction.js";
 import { io } from "/lib/constant/io.js";
 import { cities } from "/lib/constant/location.js";
-import { script } from "/lib/constant/misc.js";
+import { darkweb, script } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { wse } from "/lib/constant/wse.js";
@@ -194,6 +194,22 @@ export function gain_root_access(ns, host) {
     } catch {
         return false;
     }
+}
+
+/**
+ * Whether we have all port opener programs.
+ *
+ * @param ns The Netscript API.
+ * @return True if we have all port opener programs; false otherwise.
+ */
+export function has_all_popen(ns) {
+    return (
+        has_program(ns, darkweb.program.brutessh.NAME)
+        && has_program(ns, darkweb.program.ftpcrack.NAME)
+        && has_program(ns, darkweb.program.relaysmtp.NAME)
+        && has_program(ns, darkweb.program.httpworm.NAME)
+        && has_program(ns, darkweb.program.sqlinject.NAME)
+    );
 }
 
 /**

@@ -20,7 +20,7 @@ import { darkweb, hgw } from "/lib/constant/misc.js";
 import { server } from "/lib/constant/server.js";
 import { assemble_botnet, hgw_action, prep_gw } from "/lib/hgw.js";
 import { log } from "/lib/io.js";
-import { assert, has_program } from "/lib/util.js";
+import { assert, has_all_popen, has_program } from "/lib/util.js";
 
 /**
  * Whether to abandon the server joesguns.
@@ -78,11 +78,7 @@ function choose_noodles(ns) {
  * @return True if we are to prep and hack phantasy; false otherwise.
  */
 function choose_phantasy(ns) {
-    assert(has_program(ns, darkweb.program.brutessh.NAME));
-    assert(has_program(ns, darkweb.program.ftpcrack.NAME));
-    assert(has_program(ns, darkweb.program.relaysmtp.NAME));
-    assert(has_program(ns, darkweb.program.httpworm.NAME));
-    assert(has_program(ns, darkweb.program.sqlinject.NAME));
+    assert(has_all_popen(ns));
     return true;
 }
 
