@@ -157,8 +157,8 @@ export function filter_bankrupt_servers(ns, candidate) {
  * @return An array of servers, but minus the purchased servers.
  */
 export function filter_pserv(ns, serv) {
-    const pserv = ns.getPurchasedServers();
-    return serv.filter((s) => !pserv.includes(s));
+    const not_pserv = (s) => !ns.getServer(s).purchasedByPlayer;
+    return serv.filter(not_pserv);
 }
 
 /**
