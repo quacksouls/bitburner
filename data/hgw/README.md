@@ -221,3 +221,28 @@ Use the script `/test/hgw/smtp.js` and the save file `fresh.json`.
 |      0.8 |  0:10:33 |  0:09:53 |  0:37:48 |    0:58:14 |   35/39/85/159 | 1108.800000 | 3789.225000 | 73201.875000 | 1.750622 | 6.387253 | 32.273526 |
 |      0.9 |  0:10:33 |  0:09:53 |  0:37:48 |    0:58:14 |   35/39/85/159 | 1108.800000 | 3766.950000 | 73353.750000 | 1.750682 | 6.351236 | 32.346475 |
 |      1.0 |  0:10:33 |  0:09:52 |  0:37:48 |    0:58:13 |   35/39/85/159 | 1108.800000 | 3811.500000 | 73657.500000 | 1.750580 | 6.434182 | 32.474389 |
+
+## Hack `joesguns`
+
+Same as above, but we want to raise enough money to purchase both `HTTPWorm.exe`
+and `SQLInject.exe`. Use the save file `joesguns.json` and the script
+`/test/hgw/joesguns.js`. The save file starts us with the following:
+
+1. 160 Hack and base level in all other stats.
+1. The programs `BruteSSH.exe`, `FTPCrack.exe`, and `relaySMTP.exe` all manually
+   purchased.
+1. No installed Augmentations.
+1. The `home` server has 64GB RAM.
+
+| Fraction |    Time | Hack |       Hack XP |      XP/s |
+| -------: | ------: | ---: | ------------: | --------: |
+|      0.1 | 1:32:43 |   61 | 439927.500000 | 79.085630 |
+|      0.2 | 0:51:47 |   45 | 238166.250000 | 76.651598 |
+|      0.3 | 0:38:10 |   37 | 173146.875000 | 75.596388 |
+|      0.4 | 0:44:19 |   42 | 213781.875000 | 80.385898 |
+|      0.5 | 0:41:13 |   41 | 198508.125000 | 80.264228 |
+|      0.6 | 0:35:00 |   37 | 166826.250000 | 79.430367 |
+|      0.7 | 0:45:19 |   43 | 220044.375000 | 80.920682 |
+|      0.8 | 0:40:26 |   41 | 200246.250000 | 82.526768 |
+|      0.9 | 0:37:29 |   39 | 184715.625000 | 82.148445 |
+|      1.0 | 0:43:17 |   43 | 217468.125000 | 83.754236 |
