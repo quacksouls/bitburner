@@ -197,6 +197,17 @@ export function gain_root_access(ns, host) {
 }
 
 /**
+ * Whether we have a particular program.
+ *
+ * @param ns The Netscript API.
+ * @param prog Do we have this program?
+ * @return True if we have the given program; false otherwise.
+ */
+export function has_program(ns, prog) {
+    return ns.fileExists(prog, home);
+}
+
+/**
  * Whether we have the minimum Hack stat required by a server.
  *
  * @param ns The Netscript API.

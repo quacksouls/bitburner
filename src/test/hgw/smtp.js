@@ -19,7 +19,7 @@ import { darkweb, hgw } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { assemble_botnet, hgw_action, prep_gw } from "/lib/hgw.js";
 import { log } from "/lib/io.js";
-import { assert, to_second } from "/lib/util.js";
+import { assert, has_program, to_second } from "/lib/util.js";
 
 /**
  * The server to target, depending on which program we want to buy.
@@ -72,17 +72,6 @@ async function hack(ns, frac, prog) {
         await hgw_action(ns, host, botnet, hgw.action.HACK);
         await ns.sleep(0);
     }
-}
-
-/**
- * Whether we have a particular program.
- *
- * @param ns The Netscript API.
- * @param prog Do we have this program?
- * @return True if we have the given program; false otherwise.
- */
-function has_program(ns, prog) {
-    return ns.fileExists(prog, home);
 }
 
 /**
