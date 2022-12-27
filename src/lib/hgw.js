@@ -18,6 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { hgw } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { network } from "/lib/network.js";
 import {
     assert,
@@ -133,11 +134,13 @@ export async function hgw_action(ns, host, botnet, action) {
     const time = hgw_wait_time(ns, host, action);
     const s = hgw_script(action);
     const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
-    botnet.filter(has_ram_to_run_script).forEach((serv) => {
-        const nthread = num_threads(ns, s, serv);
-        ns.exec(s, serv, nthread, host);
-    });
+    const nthread = (serv) => num_threads(ns, s, serv);
+    const run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     await ns.sleep(time);
+    while (!is_action_done(ns, pid)) {
+        await ns.sleep(wait_t.SECOND);
+    }
 }
 
 /**
@@ -181,15 +184,29 @@ function hgw_script(action) {
 function hgw_wait_time(ns, host, action) {
     switch (action) {
         case hgw.action.GROW:
-            return ns.getGrowTime(host) + hgw.BUFFER_TIME;
+            return ns.getGrowTime(host);
         case hgw.action.HACK:
-            return ns.getHackTime(host) + hgw.BUFFER_TIME;
+            return ns.getHackTime(host);
         case hgw.action.WEAKEN:
-            return ns.getWeakenTime(host) + hgw.BUFFER_TIME;
+            return ns.getWeakenTime(host);
         default:
             // Should never reach here.
             assert(false);
     }
+}
+
+/**
+ * Whether an HGW action is completed.
+ *
+ * @param ns The Netscript API.
+ * @param pid An array of PIDs.
+ * @return True if all processes having the given PIDs are done;
+ *     false otherwise.
+ */
+function is_action_done(ns, pid) {
+    assert(pid.length > 0);
+    const is_done = (i) => !ns.isRunning(i);
+    return pid.every(is_done);
 }
 
 /**
