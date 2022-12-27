@@ -20,6 +20,19 @@ import { buy_all_programs } from "/lib/singularity/program.js";
 import { exec } from "/lib/util.js";
 
 /**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("singularity.applyToCompany");
+    ns.disableLog("singularity.workForCompany");
+    ns.disableLog("sleep");
+}
+
+/**
  * Purchase various programs from the dark web.
  *
  * Usage: run singularity/program.js
@@ -27,13 +40,7 @@ import { exec } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Suppress various log messages.
-    ns.disableLog("getHackingLevel");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("singularity.applyToCompany");
-    ns.disableLog("singularity.workForCompany");
-    ns.disableLog("sleep");
-
+    shush(ns);
     await buy_all_programs(ns, bool.VISIT, bool.WORK);
     exec(ns, "/chain/faction.js");
 }
