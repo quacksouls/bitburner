@@ -16,8 +16,25 @@
  */
 
 import { bool } from "/lib/constant/bool.js";
-import { buy_all_programs } from "/lib/singularity/program.js";
-import { exec } from "/lib/util.js";
+import { crimes } from "/lib/constant/crime.js";
+import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
+import { exec, has_all_popen } from "/lib/util.js";
+
+/**
+ * Commit crime to raise money for purchasing port opener programs.  Stop as
+ * soon as we have bought all port opener programs.
+ *
+ * @param ns The Netscript API.
+ */
+async function commit_crime(ns) {
+    log(ns, `Commit crime to raise money: ${crimes.KILL}`);
+    ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
+    while (!has_all_popen(ns)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    ns.singularity.stopAction();
+}
 
 /**
  * Suppress various log messages.
@@ -41,6 +58,6 @@ function shush(ns) {
  */
 export async function main(ns) {
     shush(ns);
-    await buy_all_programs(ns, bool.VISIT, bool.WORK);
+    await commit_crime(ns);
     exec(ns, "/chain/faction.js");
 }
