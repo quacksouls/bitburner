@@ -48,12 +48,9 @@ export async function main(ns) {
     const script = "/cct/solver.js";
     if (!ns.isRunning(script, home)) {
         log(ns, "Solve Coding Contracts to raise some money");
-        const ntry = 3;
-        for (let i = 0; i < ntry; i++) {
-            pid = exec(ns, script);
-            await ns.sleep(wait_t.DEFAULT);
-            ns.kill(pid);
-        }
+        pid = exec(ns, script);
+        await ns.sleep(10 * wait_t.SECOND);
+        ns.kill(pid);
     }
     // Now launch the main script for raising money.
     exec(ns, "/singularity/money.js");
