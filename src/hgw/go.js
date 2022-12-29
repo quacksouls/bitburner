@@ -79,7 +79,8 @@ function choose_noodles(ns) {
  */
 function choose_phantasy(ns) {
     assert(has_all_popen(ns));
-    return true;
+    const cutoff = Math.floor(ns.getHackingLevel() / 2);
+    return cutoff >= ns.getServerRequiredHackingLevel(server.PHANTASY);
 }
 
 /**
