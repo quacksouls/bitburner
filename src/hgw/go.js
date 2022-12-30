@@ -87,6 +87,7 @@ function choose_phantasy(ns) {
  * Choose the target server to prep and hack.
  *
  * @param ns The Netscript API.
+ * @return The server to target.
  */
 function choose_target(ns) {
     if (choose_noodles(ns)) {
