@@ -156,7 +156,7 @@ export async function hgw_hack(ns, host, botnet) {
     assert(host !== "");
     assert(host !== home);
     assert(botnet.length > 0);
-    const time = hgw_wait_time(ns, host, hgw.script.HACK);
+    const time = hgw_wait_time(ns, host, hgw.action.HACK);
     const s = hgw_script(hgw.script.HACK);
     const has_ram_to_run_script = (obj) => can_run_script(ns, s, obj.host);
     const run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
