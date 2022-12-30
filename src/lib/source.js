@@ -25,7 +25,7 @@ import { assert } from "/lib/util.js";
  * Whether we have access to the Artificial Intelligence (AI) API.
  *
  * @param ns The Netscript API.
- * @return true if we have access to the AI API; false otherwise.
+ * @return True if we have access to the AI API; false otherwise.
  */
 export function has_ai_api(ns) {
     try {
@@ -42,7 +42,7 @@ export function has_ai_api(ns) {
  * Whether we have access to the Corporation API.
  *
  * @param ns The Netscript API.
- * @return true if we have access to the Corporation API; false otherwise.
+ * @return True if we have access to the Corporation API; false otherwise.
  */
 export function has_corporation_api(ns) {
     // Are we in BitNode-3: Corporatocracy?
@@ -64,7 +64,7 @@ export function has_corporation_api(ns) {
  * Whether we have access to the Gang API.
  *
  * @param ns The Netscript API.
- * @return true if we have access to the Gang API; false otherwise.
+ * @return True if we have access to the Gang API; false otherwise.
  */
 export function has_gang_api(ns) {
     // Are we in BitNode-2: Rise of the Underworld?
@@ -113,7 +113,7 @@ export function has_hacknet_server_api(ns) {
  * Whether we have access to the Singularity API.
  *
  * @param ns The Netscript API.
- * @return true if we have access to the Singularity API; false otherwise.
+ * @return True if we have access to the Singularity API; false otherwise.
  */
 export function has_singularity_api(ns) {
     try {
@@ -130,7 +130,7 @@ export function has_singularity_api(ns) {
  * Whether we have access to the Sleeve API.
  *
  * @param ns The Netscript API.
- * @return true if we have access to the Sleeve API; false otherwise.
+ * @return True if we have access to the Sleeve API; false otherwise.
  */
 export function has_sleeve_api(ns) {
     // Are we in BitNode 10: Digital Carbon?
