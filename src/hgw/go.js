@@ -101,6 +101,7 @@ function choose_target(ns) {
     if (choose_phantasy(ns)) {
         return server.PHANTASY;
     }
+    return server.NOODLES;
 }
 
 /**
