@@ -78,7 +78,9 @@ function choose_noodles(ns) {
  * @return True if we are to prep and hack phantasy; false otherwise.
  */
 function choose_phantasy(ns) {
-    assert(has_all_popen(ns));
+    if (!has_all_popen(ns)) {
+        return bool.NOT;
+    }
     const cutoff = Math.floor(ns.getHackingLevel() / 2);
     return cutoff >= ns.getServerRequiredHackingLevel(server.PHANTASY);
 }
@@ -96,8 +98,9 @@ function choose_target(ns) {
     if (choose_joesguns(ns)) {
         return server.JOES;
     }
-    assert(choose_phantasy(ns));
-    return server.PHANTASY;
+    if (choose_phantasy(ns)) {
+        return server.PHANTASY;
+    }
 }
 
 /**
