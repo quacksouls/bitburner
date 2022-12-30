@@ -396,6 +396,28 @@ export function server_of_max_weight(ns, candidate) {
 }
 
 /**
+ * A hackish way to implement shell scripting in Bitburner.  Emulate terminal
+ * input.
+ *
+ * @param cmd Run this command from the terminal.
+ */
+export function shell(cmd) {
+    // Template code from the official documentation of Bitburner:
+    //
+    // https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
+    const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
+    input.value = cmd;
+    const handler = Object.keys(input)[1];
+    input[handler].onChange({
+        target: input,
+    });
+    input[handler].onKeyDown({
+        key: "Enter",
+        preventDefault: () => null,
+    });
+}
+
+/**
  * Convert a given amount of time in milliseconds to seconds.
  *
  * @param t An amount of time in milliseconds.

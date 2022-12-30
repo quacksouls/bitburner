@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { network, shortest_path } from "/lib/network.js";
-import { assert } from "/lib/util.js";
+import { assert, shell } from "/lib/util.js";
 
 /**
  * Connect to a given target server.
@@ -29,19 +29,7 @@ function connect(path) {
     // A chain of Terminal commands that connect to the target server.
     assert(path.length > 0);
     const cmd = `connect ${path.filter((s) => s !== home).join("; connect ")}`;
-    // Template code from the official documentation of Bitburner:
-    //
-    // https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
-    const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
-    input.value = cmd;
-    const handler = Object.keys(input)[1];
-    input[handler].onChange({
-        target: input,
-    });
-    input[handler].onKeyDown({
-        key: "Enter",
-        preventDefault: () => null,
-    });
+    shell(cmd);
 }
 
 /**
