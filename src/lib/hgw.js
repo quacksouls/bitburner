@@ -35,16 +35,14 @@ import {
  * certain percentage of a target's money.  Essentially, the problem is this.
  * We know we need n threads to steal a fraction of a target's money.  Choose
  * servers from among our botnet that would allow us to hack using n threads or
- * thereabout.  This is an instance of the money changing problem.  Use a greedy
- * approach by considering the server on which we can run a script using the
- * most number of threads.  Work our way down to the server on which we can run
- * using the least number of threads.
+ * thereabout.
  *
  * @param ns The Netscript API.
  * @param host Hack this server.
  * @param frac The fraction of money to steal.  Must be between 0 and 1.
- * @return An array of hostnames.  The servers provide at most the required
- *     number of threads needed to hack a fraction of a server's money.
+ * @return An array of objects {host, thread} as follows:
+ *     (1) host := Hostname of a server where we are to run our hack script.
+ *     (2) thread := The number of threads to use on the given server.
  */
 export function assemble_botnet(ns, host, frac) {
     const s = hgw.script.HACK;
@@ -52,18 +50,20 @@ export function assemble_botnet(ns, host, frac) {
     const descending = (a, b) => nthread(b) - nthread(a);
     const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const money = target_money(ns, host, frac);
-    const threads = ns.hackAnalyzeThreads(host, money);
+    const max_threads = ns.hackAnalyzeThreads(host, money);
     const botnet = [];
     let n = 0;
     nuke_servers(ns)
         .filter(has_ram_to_run_script)
         .sort(descending)
         .forEach((serv) => {
-            const k = nthread(serv);
-            if (n + k <= threads) {
-                botnet.push(serv);
-                n += k;
+            if (n >= max_threads) {
+                return;
             }
+            const k = threads_to_use(ns, serv, n, max_threads);
+            botnet.push({ host: serv, thread: k });
+            n += k;
+            assert(n <= max_threads);
         });
     assert(botnet.length > 0);
     return botnet;
@@ -124,8 +124,7 @@ export function has_min_security(ns, host) {
  * @param action The action we want to perform against the given target server.
  *     Supported actions are:
  *     (1) "grow" := Grow money on the target server.
- *     (2) "hack" := Steal money from the target server.
- *     (3) "weaken" := Weaken the security level of the target server.
+ *     (2) "weaken" := Weaken the security level of the target server.
  */
 export async function hgw_action(ns, host, botnet, action) {
     assert(host !== "");
@@ -136,6 +135,31 @@ export async function hgw_action(ns, host, botnet, action) {
     const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const nthread = (serv) => num_threads(ns, s, serv);
     const run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    const pid = botnet.filter(has_ram_to_run_script).map(run_script);
+    await ns.sleep(time);
+    while (!is_action_done(ns, pid)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
+ * Perform the hack HGW action against a target server.
+ *
+ * @param ns The Netscript API.
+ * @param host Perform the hack HGW action against this server.  Cannot be our
+ *     home server.
+ * @param botnet An array of objects {host: hostname, thread: num_threads} of
+ *     world servers to which we have root access.  Use these servers to hack
+ *     the given target.  Cannot be empty array.
+ */
+export async function hgw_hack(ns, host, botnet) {
+    assert(host !== "");
+    assert(host !== home);
+    assert(botnet.length > 0);
+    const time = hgw_wait_time(ns, host, hgw.script.HACK);
+    const s = hgw_script(hgw.script.HACK);
+    const has_ram_to_run_script = (obj) => can_run_script(ns, s, obj.host);
+    const run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     await ns.sleep(time);
     while (!is_action_done(ns, pid)) {
@@ -324,4 +348,28 @@ export async function prep_wg(ns, host) {
  */
 function target_money(ns, host, frac) {
     return Math.floor(frac * ns.getServer(host).moneyMax);
+}
+
+/**
+ * The number of threads to use on a given server.
+ *
+ * @param ns The Netscript API.
+ * @param host Hostname of a server.
+ * @param current The current total number of threads.
+ * @param max The overall maximum number of threads we should use.
+ * @return The number of threads to use on the given server to run our hack
+ *     script.
+ */
+function threads_to_use(ns, host, current, max) {
+    assert(current >= 0);
+    assert(max > 0);
+    const k = num_threads(ns, hgw.script.HACK, host);
+    if (current + k <= max) {
+        return k;
+    }
+    assert(current + k > max);
+    const j = max - current;
+    assert(j > 0 && j < k);
+    assert(current + j <= max);
+    return j;
 }

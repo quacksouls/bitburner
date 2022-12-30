@@ -18,7 +18,7 @@
 import { bool } from "/lib/constant/bool.js";
 import { darkweb, hgw } from "/lib/constant/misc.js";
 import { server } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_action, prep_gw } from "/lib/hgw.js";
+import { assemble_botnet, hgw_hack, prep_gw } from "/lib/hgw.js";
 import { log } from "/lib/io.js";
 import { assert, has_all_popen, has_program } from "/lib/util.js";
 
@@ -116,7 +116,7 @@ async function hack(ns, host) {
     for (;;) {
         await prep_gw(ns, host);
         const botnet = assemble_botnet(ns, host, hgw.hack[host].FRACTION);
-        await hgw_action(ns, host, botnet, hgw.action.HACK);
+        await hgw_hack(ns, host, botnet);
         if (next_host(ns, host)) {
             return;
         }

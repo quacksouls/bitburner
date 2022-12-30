@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb, hgw } from "/lib/constant/misc.js";
+import { darkweb } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_action, prep_mwg } from "/lib/hgw.js";
+import { assemble_botnet, hgw_hack, prep_mwg } from "/lib/hgw.js";
 import { log } from "/lib/io.js";
 import { assert, to_second } from "/lib/util.js";
 
@@ -36,7 +36,7 @@ async function hack(ns, host, frac) {
     while (!enough_money()) {
         await prep_mwg(ns, host);
         const botnet = assemble_botnet(ns, host, frac);
-        await hgw_action(ns, host, botnet, hgw.action.HACK);
+        await hgw_hack(ns, host, botnet);
         await ns.sleep(0);
     }
 }
