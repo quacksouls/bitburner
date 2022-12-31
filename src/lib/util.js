@@ -420,6 +420,17 @@ export function shell(cmd) {
 }
 
 /**
+ * Convert a given amount of time in milliseconds to minutes.
+ *
+ * @param t An amount of time in milliseconds.
+ * @return The same amount of time but given in minutes.
+ */
+export function to_minute(t) {
+    assert(t >= 0);
+    return t / wait_t.MINUTE;
+}
+
+/**
  * Convert a given amount of time in milliseconds to seconds.
  *
  * @param t An amount of time in milliseconds.

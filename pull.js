@@ -193,6 +193,7 @@ function dir_structure() {
         "test/intelligence/tor.js",
         "test/intelligence/travel.js",
         "test/intelligence/util.js",
+        "test/karma/go.js",
         "trade-bot.js",
         "world-server.js",
     ];

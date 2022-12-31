@@ -32,6 +32,10 @@ export const cc_t = {
      */
     COST_MULT: 3,
     /**
+     * The maximum number of sleeves we can have.
+     */
+    MAX_SLEEVE: 8,
+    /**
      * The maximum value at which a sleeve is fully synchronized with the
      * player's consciousness.
      */
