@@ -45,7 +45,7 @@ export function has_mug_threshold(ns) {
     const all_cc = all_sleeves(ns);
     assert(is_valid_index(ns, all_cc));
     for (const i of all_cc) {
-        const stat = ns.sleeve.getSleeveStats(i);
+        const stat = ns.sleeve.getSleeve(i).skills;
         if (
             stat.agility < cc_t.MUG
             || stat.defense < cc_t.MUG
@@ -70,7 +70,7 @@ export function has_shoplift_threshold(ns) {
     const all_cc = all_sleeves(ns);
     assert(is_valid_index(ns, all_cc));
     for (const i of all_cc) {
-        const stat = ns.sleeve.getSleeveStats(i);
+        const stat = ns.sleeve.getSleeve(i).skills;
         if (stat.agility < cc_t.SHOP || stat.dexterity < cc_t.SHOP) {
             return bool.NOT;
         }

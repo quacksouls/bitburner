@@ -47,7 +47,7 @@ export class Sleeve {
      */
     agility(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).agility;
+        return this.#ns.sleeve.getSleeve(idx).skills.agility;
     }
 
     /**
@@ -114,7 +114,7 @@ export class Sleeve {
      */
     defense(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).defense;
+        return this.#ns.sleeve.getSleeve(idx).skills.defense;
     }
 
     /**
@@ -125,7 +125,7 @@ export class Sleeve {
      */
     dexterity(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).dexterity;
+        return this.#ns.sleeve.getSleeve(idx).skills.dexterity;
     }
 
     /**
@@ -224,7 +224,7 @@ export class Sleeve {
      */
     is_in_shock(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).shock > cc_t.MIN_SHOCK;
+        return this.#ns.sleeve.getSleeve(idx).shock > cc_t.MIN_SHOCK;
     }
 
     /**
@@ -236,7 +236,7 @@ export class Sleeve {
      */
     is_in_sync(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).sync >= cc_t.MAX_SYNC;
+        return this.#ns.sleeve.getSleeve(idx).sync >= cc_t.MAX_SYNC;
     }
 
     /**
@@ -291,7 +291,7 @@ export class Sleeve {
      */
     strength(idx) {
         assert(this.#is_valid_index([idx]));
-        return this.#ns.sleeve.getSleeveStats(idx).strength;
+        return this.#ns.sleeve.getSleeve(idx).skills.strength;
     }
 
     /**
