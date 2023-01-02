@@ -113,7 +113,6 @@ function choose_target(ns) {
  * @param host Hack this server.
  */
 async function hack(ns, host) {
-    log(ns, `Prep and hack ${host}`);
     for (;;) {
         await prep_gw(ns, host);
         const botnet = assemble_botnet(ns, host, hgw.hack[host].FRACTION);
@@ -160,9 +159,14 @@ function next_host(ns, host) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    let prev_host = "";
     for (;;) {
         const host = choose_target(ns);
         assert(ns.getServerMaxMoney(host) > 0);
+        if (host !== prev_host) {
+            log(ns, `Prep and hack ${host}`);
+            prev_host = host;
+        }
         await hack(ns, host);
         await ns.sleep(0);
     }
