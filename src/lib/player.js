@@ -165,7 +165,7 @@ export class Player {
      * @return true if we have purchased the TOR router; false otherwise.
      */
     has_tor() {
-        return this.#ns.getPlayer().tor;
+        return this.#ns.hasTorRouter();
     }
 
     /**
