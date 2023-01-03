@@ -136,6 +136,9 @@ export async function hgw_action(ns, host, botnet, action) {
     const nthread = (serv) => num_threads(ns, s, serv);
     const run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
+    if (pid.length === 0) {
+        return;
+    }
     await ns.sleep(time);
     while (!is_action_done(ns, pid)) {
         await ns.sleep(wait_t.SECOND);
