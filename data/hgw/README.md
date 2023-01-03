@@ -70,7 +70,7 @@ Hack levels we gained in the process is listed in the `Hack` column. The column
 `XP/s` gives the rate (per second) at which we gained Hack XP. Floating point
 numbers are rounded to 6 decimal places. The general process is as follows:
 
-1. Use the above steps until we have steal enough money to purchase
+1. Use the above steps until we have stolen enough money to purchase
    `BruteSSH.exe`.
 1. Print the data to the terminal.
 1. Reload the save file `fresh.json` and use the above steps, but steal a
