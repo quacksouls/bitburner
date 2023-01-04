@@ -193,9 +193,10 @@ threads you can use to run the script. Here is an
 section [First script](script.md).
 
 > **Problem 1.** Use breath-first search to implement a worm script. Your worm
-> should deploy your hack script to a nuked server. The worm should ignore all
-> purchased servers for now. Later on, you might want to write a script that
-> specifically manages your purchased servers.
+> should deploy your hack script to a nuked server. All servers nuked by your
+> worm should run your hack script against a common target. The worm should
+> ignore all purchased servers for now. Later on, you might want to write a
+> script that specifically manages your purchased servers.
 >
 > **Problem 2.** Rewrite your worm script to use a recursive version of
 > depth-first search.
