@@ -110,6 +110,10 @@ export async function main(ns) {
             success = ns.singularity.upgradeHomeRam();
         }
         // Reboot to take advantage of the newly upgraded home server.
+        const s = "/hgw/go.js";
+        if (ns.isRunning(s, home)) {
+            ns.kill(s, home);
+        }
         exec(ns, "go.js");
         return;
     }
