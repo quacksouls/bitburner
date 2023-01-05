@@ -10,7 +10,8 @@ following:
 1. `Source-File 4: The Singularity level 3`. We require this Source-File to help
    us automate the gathering of data.
 1. `Source-File 10: Digital Carbon`. The number `N` in `sleeveN.json` tells us
-   the number of sleeves we have.
+   the number of sleeves we have. If `N` has the value 0, then we do not have
+   `Source-File 10`.
 
 The general process for data gathering is:
 
