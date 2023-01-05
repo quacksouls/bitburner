@@ -25,7 +25,8 @@ The general process for data gathering is:
 
 The stats, karma, and money data in the table below have been averaged over the
 number of minutes required to reach -54,000 or lower. Each number has been
-rounded to 6 decimal places and should be read as a rate per minute.
+rounded to 6 decimal places and should be read as a rate per minute. Time is in
+the format `hh:mm:ss`.
 
 | Sleeve |     Time |    Agility |    Defense |  Dexterity |       Karma |          Money |   Strength |
 | -----: | -------: | ---------: | ---------: | ---------: | ----------: | -------------: | ---------: |
