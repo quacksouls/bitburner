@@ -282,7 +282,7 @@ export class Server {
      *
      * @param s Check to see if this script is currently running on the
      *     server.
-     * @return true if the given script is running on the server;
+     * @return True if the given script is running on the server;
      *     false otherwise.
      */
     is_running_script(s) {
