@@ -76,6 +76,8 @@ numbers are rounded to 6 decimal places. The general process is as follows:
 1. Reload the save file `fresh.json` and use the above steps, but steal a
    different percentage of money.
 
+> 📝 Obtain data again.
+
 | Fraction |    Time | Hack |     Hack XP |     XP/s |
 | -------: | ------: | ---: | ----------: | -------: |
 |      0.1 | 0:28:36 |   59 | 2917.200000 | 1.700271 |
@@ -119,6 +121,8 @@ process as per the above sections. Gather data for a particular percentage of
 money to steal, then reload the save file `brutessh.json` and use a different
 percentage to gather data.
 
+> 📝 Obtain data again.
+
 | Fraction |    Time | Hack |     Hack XP |     XP/s |
 | -------: | ------: | ---: | ----------: | -------: |
 |      0.1 | 0:24:07 |   82 | 6494.400000 | 4.488564 |
@@ -149,6 +153,8 @@ the following process:
 1. The only variable is the fraction of money to steal. Gather data for a
    particular fraction, then reload the save file `sshftp.json` and gather data
    for a different fraction.
+
+> 📝 Obtain data again.
 
 | Fraction | Time (B) | Time (F) | Time (sum) | Hack B/F/sum | Hack XP (B) |  Hack XP (F) | XP/s (B) | XP/s (F) |
 | -------: | -------: | -------: | ---------: | -----------: | ----------: | -----------: | -------: | -------: |
@@ -209,6 +215,8 @@ relevant when we want to raise money to buy `relaySMTP.exe`. We use the fraction
 of 0.5 whenever we raise money to purchase `BruteSSH.exe` and `FTPCrack.exe`.
 Use the script `/test/hgw/smtp.js` and the save file `fresh.json`.
 
+> 📝 Obtain data again.
+
 | Fraction | Time (B) | Time (F) | Time (R) | Time (sum) | Hack B/F/R/sum | Hack XP (B) | Hack XP (F) |  Hack XP (R) | XP/s (B) | XP/s (F) |  XP/s (R) |
 | -------: | -------: | -------: | -------: | ---------: | -------------: | ----------: | ----------: | -----------: | -------: | -------: | --------: |
 |      0.1 |  0:10:33 |  0:09:54 |  0:37:48 |    0:58:15 |   35/39/85/159 | 1108.800000 | 3766.950000 | 71850.000000 | 1.750702 | 6.343514 | 31.683945 |
@@ -233,6 +241,8 @@ and `SQLInject.exe`. Use the save file `joesguns.json` and the script
    purchased.
 1. No installed Augmentations.
 1. The `home` server has 64GB RAM.
+
+> 📝 Obtain data again.
 
 | Fraction |    Time | Hack |       Hack XP |      XP/s |
 | -------: | ------: | ---: | ------------: | --------: |
