@@ -87,11 +87,11 @@ function money_fraction(ns, frac, prog) {
     let fraction = 0;
     switch (prog) {
         case "ssh":
-            fraction = 0.5;
+            fraction = 0.7;
             break;
         case "ftp":
             assert(has_program(ns, "BruteSSH.exe"));
-            fraction = 0.5;
+            fraction = 0.7;
             break;
         case "smtp":
             assert(has_program(ns, "BruteSSH.exe"));
