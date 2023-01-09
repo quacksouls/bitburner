@@ -242,3 +242,24 @@ and `SQLInject.exe`. Use the save file `joesguns.json` and the script
 |      0.8 | 0:41:18 |   41 | 200392.500000 | 80.857093 |
 |      0.9 | 0:38:15 |   39 | 184833.750000 | 80.527582 |
 |      1.0 | 0:40:59 |   41 | 200548.125000 | 81.560397 |
+
+## Prep `phantasy`
+
+Prep the server `phantasy` to minimum security level and maximum money. The save
+file `phantasy.json` gives us these stats:
+
+1. 64GB RAM on `home`.
+1. 196 Hack.
+1. Default levels in all other stats.
+1. The following programs all manually purchased: `BruteSSH.exe`,
+   `FTPCrack.exe`, `HTTPWorm.exe`, `relaySMTP.exe`, and `SQLInject.exe`.
+1. No Augmentations installed.
+
+Use the script `/test/hgw/prep.js` to prep `phantasy`.
+
+| Server     | Strategy |    Time | Hack |       Hack XP |      XP/s |
+| ---------- | -------- | ------: | ---: | ------------: | --------: |
+| `phantasy` | GW       | 0:29:02 |    8 |  66096.000000 | 37.946494 |
+| `phantasy` | MGW      | 2:18:48 |   13 | 121176.000000 | 14.550530 |
+| `phantasy` | MWG      | 0:27:32 |    9 |  77112.000000 | 46.689186 |
+| `phantasy` | WG       | 0:27:32 |    9 |  77112.000000 | 46.683816 |
