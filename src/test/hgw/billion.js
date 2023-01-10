@@ -16,7 +16,9 @@
  */
 
 import { home, server } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_hack, prep_wg } from "/lib/hgw.js";
+import {
+    assemble_botnet, hgw_hack, prep_gw, prep_wg,
+} from "/lib/hgw.js";
 import { log } from "/lib/io.js";
 import { assert, to_second } from "/lib/util.js";
 
@@ -30,14 +32,12 @@ import { assert, to_second } from "/lib/util.js";
  * @param frac The fraction of money to steal.
  */
 async function hack(ns, host, frac) {
-    // The total amount of money required to upgrade home RAM from 8GB up to and
-    // including 2TB.  The amount is rounded to the nearest dollar.
-    const total_cost = 4647404277;
+    const max = 1e9;
     const money_init = ns.getServerMoneyAvailable(home);
     const money_raised = () => ns.getServerMoneyAvailable(home) - money_init;
-    const has_enough_money = () => money_raised() >= total_cost;
+    const has_enough_money = () => money_raised() >= max;
     while (!has_enough_money()) {
-        await prep_wg(ns, host);
+        await prep_server(ns, host);
         const botnet = assemble_botnet(ns, host, frac);
         await hgw_hack(ns, host, botnet);
         await ns.sleep(0);
@@ -45,20 +45,40 @@ async function hack(ns, host, frac) {
 }
 
 /**
- * Use a proto-batcher to determine how long it takes to raise enough money to
- * upgrade home RAM to 2TB in BN1.  This script accepts one command line
- * argument:
+ * Prep a target server.
  *
- * (1) fraction := The fraction of money to steal from phantasy.
+ * @param ns The Netscript API.
+ * @param host Hostname of the server to prep.
+ */
+async function prep_server(ns, host) {
+    switch (host) {
+        case server.JOES:
+            await prep_gw(ns, host);
+            break;
+        case server.PHANTASY:
+            await prep_wg(ns, host);
+            break;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
+ * Use a proto-batcher to determine how long it takes to raise $1b.  This script
+ * accepts two command line arguments:
  *
- * Usage: run test/hgw/phantasy.js [fraction]
- * Example: run test/hgw/phantasy.js 0.2
+ * (1) serverName := Hostname of server to hack.
+ * (2) fraction := The fraction of money to steal from the target server.
+ *
+ * Usage: run test/hgw/billion.js [serverName] [fraction]
+ * Example: run test/hgw/billion.js joesguns 0.2
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const target = server.PHANTASY;
-    const frac = parseFloat(ns.args[0]);
+    const [target, fr] = ns.args;
+    const frac = parseFloat(fr);
     assert(ns.getServerMaxMoney(target) > 0);
     assert(frac > 0 && frac <= 1);
     // Data prior to hacking.
