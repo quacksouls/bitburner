@@ -18,7 +18,9 @@
 import { bool } from "/lib/constant/bool.js";
 import { darkweb, hgw } from "/lib/constant/misc.js";
 import { server } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_hack, prep_gw } from "/lib/hgw.js";
+import {
+    assemble_botnet, hgw_hack, prep_gw, prep_wg,
+} from "/lib/hgw.js";
 import { log } from "/lib/io.js";
 import { assert, has_all_popen, has_program } from "/lib/util.js";
 
@@ -114,7 +116,7 @@ function choose_target(ns) {
  */
 async function hack(ns, host) {
     for (;;) {
-        await prep_gw(ns, host);
+        await prep_server(ns, host);
         const botnet = assemble_botnet(ns, host, hgw.hack[host].FRACTION);
         await hgw_hack(ns, host, botnet);
         if (next_host(ns, host)) {
@@ -140,6 +142,28 @@ function next_host(ns, host) {
             return abandon_joesguns(ns);
         case server.PHANTASY:
             return bool.NOT;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
+ * Prep a server.  Weaken the server to its minimum security level and grow the
+ * server to its maximum amount of money.
+ *
+ * @param ns The Netscript API.
+ * @param host Prep this server.
+ */
+async function prep_server(ns, host) {
+    switch (host) {
+        case server.NOODLES:
+        case server.JOES:
+            await prep_gw(ns, host);
+            break;
+        case server.PHANTASY:
+            await prep_wg(ns, host);
+            break;
         default:
             // Should never reach here.
             assert(false);
