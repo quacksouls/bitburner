@@ -246,7 +246,7 @@ export async function hire_advert(ns, div) {
 export async function hire_advert_frugal(ns, div) {
     const org = new Corporation(ns);
     const max_funds = Math.floor(corp_t.upgrade.COST_MULT * org.profit());
-    const cost = Math.ceil(ns[corp.API].getHireAdVertCost(div));
+    const cost = Math.ceil(ns.corporation.getHireAdVertCost(div));
     if (cost >= max_funds) {
         return;
     }
@@ -330,7 +330,7 @@ export async function investment_offer(ns, r) {
     // Determine the latest investment round wherein we accepted investment
     // money.  Why not use the attribute below?
     //
-    // ns[corp.API].getInvestmentOffer().round
+    // ns.corporation.getInvestmentOffer().round
     //
     // Corp is rather broken (buggy) at the moment in v2.1.  The value of the
     // above attribute does not seem to persist after you save and quit the
@@ -355,8 +355,8 @@ export async function investment_offer(ns, r) {
     while (org.profit() < corp_t.profit.round[r].N) {
         await ns.sleep(corp_t.TICK);
     }
-    const { funds, shares } = ns[corp.API].getInvestmentOffer();
-    ns[corp.API].acceptInvestmentOffer();
+    const { funds, shares } = ns.corporation.getInvestmentOffer();
+    ns.corporation.acceptInvestmentOffer();
     const fundsf = ns.nFormat(funds, "$0,0.00a");
     const sharesf = ns.nFormat(shares, "0,0.00a");
     log(

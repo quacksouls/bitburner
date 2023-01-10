@@ -53,7 +53,9 @@ export class Corporation {
      *     corporation.
      */
     all_divisions() {
-        return this.#ns[corp.API].getCorporation().divisions.map((d) => d.name);
+        return this.#ns.corporation
+            .getCorporation()
+            .divisions.map((d) => d.name);
     }
 
     /**
@@ -65,7 +67,7 @@ export class Corporation {
      */
     all_products(div) {
         assert(this.has_division(div));
-        return this.#ns[corp.API].getDivision(div).products;
+        return this.#ns.corporation.getDivision(div).products;
     }
 
     /**
@@ -89,7 +91,7 @@ export class Corporation {
     avg_employee_stats(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const employee = this.#ns[corp.API].getOffice(div, ct).employees;
+        const employee = this.#ns.corporation.getOffice(div, ct).employees;
         assert(employee.length > 0);
         // Default is average of 0 in each attribute.
         const { attribute } = corp.employee;
@@ -114,7 +116,7 @@ export class Corporation {
         // x_{i+1} := The current data point.
         // i := Index of the current data point; zero-based.
         for (let i = 0; i < employee.length; i++) {
-            const stat = this.#ns[corp.API].getEmployee(div, ct, employee[i]);
+            const stat = this.#ns.corporation.getEmployee(div, ct, employee[i]);
             attribute.forEach((a) => {
                 const b = abbreviate(a);
                 avg_stat[a] = (stat[b] + i * avg_stat[a]) / (i + 1);
@@ -139,7 +141,7 @@ export class Corporation {
         if (this.division_research(div) < this.research_cost(div, name)) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].research(div, name);
+        this.#ns.corporation.research(div, name);
         return this.has_research(div, name);
     }
 
@@ -156,11 +158,11 @@ export class Corporation {
         if (this.has_unlock_upgrade(upg)) {
             return bool.SUCCESS;
         }
-        const cost = this.#ns[corp.API].getUnlockUpgradeCost(upg);
+        const cost = this.#ns.corporation.getUnlockUpgradeCost(upg);
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].unlockUpgrade(upg);
+        this.#ns.corporation.unlockUpgrade(upg);
         return this.has_unlock_upgrade(upg);
     }
 
@@ -174,11 +176,11 @@ export class Corporation {
     buy_warehouse(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const cost = this.#ns[corp.API].getPurchaseWarehouseCost();
+        const cost = this.#ns.corporation.getPurchaseWarehouseCost();
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].purchaseWarehouse(div, ct);
+        this.#ns.corporation.purchaseWarehouse(div, ct);
         return bool.SUCCESS;
     }
 
@@ -199,14 +201,17 @@ export class Corporation {
         // otherwise take out a loan.
         if (bitnode.Corporatocracy === player.bitnode()) {
             const self_fund = player.money() >= corp_t.SEED_COST;
-            return this.#ns[corp.API].createCorporation(corp.NAME, self_fund);
+            return this.#ns.corporation.createCorporation(corp.NAME, self_fund);
         }
         // We are in a BitNode other than BN3.  Must use our own money to start
         // a corporation.  There is no option to take out a loan.
         if (player.money() < corp_t.SEED_COST) {
             return bool.FAILURE;
         }
-        return this.#ns[corp.API].createCorporation(corp.NAME, bool.SELF_FUND);
+        return this.#ns.corporation.createCorporation(
+            corp.NAME,
+            bool.SELF_FUND
+        );
     }
 
     /**
@@ -226,7 +231,7 @@ export class Corporation {
         assert(name !== "");
         assert(investd > 0);
         assert(investm > 0);
-        this.#ns[corp.API].makeProduct(div, ct, name, investd, investm);
+        this.#ns.corporation.makeProduct(div, ct, name, investd, investm);
     }
 
     /**
@@ -249,7 +254,7 @@ export class Corporation {
      */
     discontinue_product(div, name) {
         assert(this.has_product(div, name));
-        this.#ns[corp.API].discontinueProduct(div, name);
+        this.#ns.corporation.discontinueProduct(div, name);
     }
 
     /**
@@ -262,7 +267,7 @@ export class Corporation {
      */
     division_research(div) {
         assert(this.has_division(div));
-        return this.#ns[corp.API].getDivision(div).research;
+        return this.#ns.corporation.getDivision(div).research;
     }
 
     /**
@@ -284,19 +289,37 @@ export class Corporation {
         if (isprod) {
             assert(this.has_product(div, name));
             if (this.has_research(div, corp.research.TA_I)) {
-                this.#ns[corp.API].setProductMarketTA1(div, name, bool.ENABLE);
+                this.#ns.corporation.setProductMarketTA1(
+                    div,
+                    name,
+                    bool.ENABLE
+                );
             }
             if (this.has_research(div, corp.research.TA_II)) {
-                this.#ns[corp.API].setProductMarketTA2(div, name, bool.ENABLE);
+                this.#ns.corporation.setProductMarketTA2(
+                    div,
+                    name,
+                    bool.ENABLE
+                );
             }
             return;
         }
         assert(this.has_material(div, ct, name));
         if (this.has_research(div, corp.research.TA_I)) {
-            this.#ns[corp.API].setMaterialMarketTA1(div, ct, name, bool.ENABLE);
+            this.#ns.corporation.setMaterialMarketTA1(
+                div,
+                ct,
+                name,
+                bool.ENABLE
+            );
         }
         if (this.has_research(div, corp.research.TA_II)) {
-            this.#ns[corp.API].setMaterialMarketTA2(div, ct, name, bool.ENABLE);
+            this.#ns.corporation.setMaterialMarketTA2(
+                div,
+                ct,
+                name,
+                bool.ENABLE
+            );
         }
     }
 
@@ -306,7 +329,7 @@ export class Corporation {
     enable_smart_supply() {
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
-                this.#ns[corp.API].setSmartSupply(div, ct, bool.ENABLE);
+                this.#ns.corporation.setSmartSupply(div, ct, bool.ENABLE);
             });
         });
     }
@@ -326,7 +349,7 @@ export class Corporation {
         if (this.has_division_office(div, ct)) {
             return bool.SUCCESS;
         }
-        this.#ns[corp.API].expandCity(div, ct);
+        this.#ns.corporation.expandCity(div, ct);
         return this.has_division_office(div, ct);
     }
 
@@ -338,7 +361,7 @@ export class Corporation {
     expand_industry(ind) {
         assert(this.is_valid_industry(ind));
         if (!this.has_division(ind)) {
-            this.#ns[corp.API].expandIndustry(ind, ind);
+            this.#ns.corporation.expandIndustry(ind, ind);
         }
     }
 
@@ -348,14 +371,14 @@ export class Corporation {
      * @return The amount of funds our corporation has.
      */
     funds() {
-        return this.#ns[corp.API].getCorporation().funds;
+        return this.#ns.corporation.getCorporation().funds;
     }
 
     /**
      * Convert our corporation into publicly traded.
      */
     go_public() {
-        this.#ns[corp.API].goPublic(corp_t.IPO);
+        this.#ns.corporation.goPublic(corp_t.IPO);
     }
 
     /**
@@ -365,7 +388,7 @@ export class Corporation {
      */
     has_corp() {
         try {
-            assert(this.#ns[corp.API].getCorporation().name === corp.NAME);
+            assert(this.#ns.corporation.getCorporation().name === corp.NAME);
             return bool.HAS;
         } catch {
             return bool.NOT;
@@ -381,7 +404,7 @@ export class Corporation {
      *     false otherwise.
      */
     has_division(div) {
-        for (const d of this.#ns[corp.API].getCorporation().divisions) {
+        for (const d of this.#ns.corporation.getCorporation().divisions) {
             assert(d.type === d.name);
             if (d.type === div) {
                 return bool.HAS;
@@ -401,7 +424,7 @@ export class Corporation {
     has_division_office(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        for (const d of this.#ns[corp.API].getCorporation().divisions) {
+        for (const d of this.#ns.corporation.getCorporation().divisions) {
             if (d.name === div) {
                 return d.cities.includes(ct);
             }
@@ -439,7 +462,7 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         try {
-            const mat = this.#ns[corp.API].getMaterial(div, ct, name);
+            const mat = this.#ns.corporation.getMaterial(div, ct, name);
             assert(mat.name === name);
             return bool.HAS;
         } catch {
@@ -472,7 +495,7 @@ export class Corporation {
     has_product(div, name) {
         assert(this.has_division(div));
         try {
-            const product = this.#ns[corp.API].getProduct(div, name);
+            const product = this.#ns.corporation.getProduct(div, name);
             assert(product.name === name);
             return bool.HAS;
         } catch {
@@ -490,7 +513,7 @@ export class Corporation {
     has_research(div, name) {
         assert(this.has_division(div));
         assert(this.is_valid_research(name));
-        return this.#ns[corp.API].hasResearched(div, name);
+        return this.#ns.corporation.hasResearched(div, name);
     }
 
     /**
@@ -502,7 +525,7 @@ export class Corporation {
      */
     has_unlock_upgrade(upg) {
         assert(this.is_valid_unlock_upgrade(upg));
-        return this.#ns[corp.API].hasUnlockUpgrade(upg);
+        return this.#ns.corporation.hasUnlockUpgrade(upg);
     }
 
     /**
@@ -516,7 +539,7 @@ export class Corporation {
     hire(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const worker = this.#ns[corp.API].hireEmployee(div, ct);
+        const worker = this.#ns.corporation.hireEmployee(div, ct);
         return worker !== undefined ? worker.name : "";
     }
 
@@ -528,9 +551,9 @@ export class Corporation {
      */
     hire_advert(div) {
         assert(this.has_division(div));
-        const cost = this.#ns[corp.API].getHireAdVertCost(div);
+        const cost = this.#ns.corporation.getHireAdVertCost(div);
         if (this.funds() > cost) {
-            this.#ns[corp.API].hireAdVert(div);
+            this.#ns.corporation.hireAdVert(div);
             return bool.SUCCESS;
         }
         return bool.FAILURE;
@@ -548,7 +571,7 @@ export class Corporation {
         for (let i = this.num_employees(div, ct); i < max; i++) {
             const name = this.hire(div, ct);
             if (name !== "") {
-                this.#ns[corp.API].assignJob(div, ct, name, corp.position[i]);
+                this.#ns.corporation.assignJob(div, ct, name, corp.position[i]);
             }
         }
     }
@@ -564,7 +587,7 @@ export class Corporation {
     is_at_capacity(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const { employees, size } = this.#ns[corp.API].getOffice(div, ct);
+        const { employees, size } = this.#ns.corporation.getOffice(div, ct);
         return employees.length === size;
     }
 
@@ -578,7 +601,7 @@ export class Corporation {
     is_product_complete(div, name) {
         assert(this.has_product(div, name));
         return (
-            this.#ns[corp.API].getProduct(div, name).developmentProgress
+            this.#ns.corporation.getProduct(div, name).developmentProgress
             >= corp_t.MAX_PROGRESS
         );
     }
@@ -589,7 +612,7 @@ export class Corporation {
      * @return True if our corporation is publicly traded; false otherwise.
      */
     is_public() {
-        return this.#ns[corp.API].getCorporation().public;
+        return this.#ns.corporation.getCorporation().public;
     }
 
     /**
@@ -738,7 +761,7 @@ export class Corporation {
      */
     issue_dividends() {
         assert(this.is_public());
-        this.#ns[corp.API].issueDividends(corp_t.DIVIDEND);
+        this.#ns.corporation.issueDividends(corp_t.DIVIDEND);
     }
 
     /**
@@ -749,7 +772,7 @@ export class Corporation {
      */
     level(name) {
         assert(this.is_valid_upgrade(name));
-        return this.#ns[corp.API].getUpgradeLevel(name);
+        return this.#ns.corporation.getUpgradeLevel(name);
     }
 
     /**
@@ -762,11 +785,11 @@ export class Corporation {
      */
     level_upgrade(name) {
         assert(this.is_valid_upgrade(name));
-        const cost = this.#ns[corp.API].getUpgradeLevelCost(name);
+        const cost = this.#ns.corporation.getUpgradeLevelCost(name);
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].levelUpgrade(name);
+        this.#ns.corporation.levelUpgrade(name);
         return bool.SUCCESS;
     }
 
@@ -796,14 +819,14 @@ export class Corporation {
         assert(this.is_valid_material(name));
         assert(amt > 0);
         const rate = amt / corp_t.TICK_SECOND; // Amount per second.
-        let { qty } = this.#ns[corp.API].getMaterial(div, ct, name);
+        let { qty } = this.#ns.corporation.getMaterial(div, ct, name);
         const target = qty + amt;
-        this.#ns[corp.API].buyMaterial(div, ct, name, rate);
+        this.#ns.corporation.buyMaterial(div, ct, name, rate);
         while (qty < target) {
             await this.#ns.sleep(wait_t.MILLISECOND);
-            qty = this.#ns[corp.API].getMaterial(div, ct, name).qty;
+            qty = this.#ns.corporation.getMaterial(div, ct, name).qty;
         }
-        this.#ns[corp.API].buyMaterial(div, ct, name, 0);
+        this.#ns.corporation.buyMaterial(div, ct, name, 0);
     }
 
     /**
@@ -818,7 +841,7 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(this.is_valid_material(name));
-        this.#ns[corp.API].sellMaterial(
+        this.#ns.corporation.sellMaterial(
             div,
             ct,
             name,
@@ -840,7 +863,7 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(this.is_valid_material(name));
-        return this.#ns[corp.API].getMaterial(div, ct, name).qty;
+        return this.#ns.corporation.getMaterial(div, ct, name).qty;
     }
 
     /**
@@ -859,7 +882,7 @@ export class Corporation {
         if (name === "") {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].assignJob(div, ct, name, role);
+        this.#ns.corporation.assignJob(div, ct, name, role);
         return bool.SUCCESS;
     }
 
@@ -873,7 +896,7 @@ export class Corporation {
     num_employees(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employees.length;
+        return this.#ns.corporation.getOffice(div, ct).employees.length;
     }
 
     /**
@@ -888,7 +911,7 @@ export class Corporation {
     num_business(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Business;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Business;
     }
 
     /**
@@ -903,7 +926,7 @@ export class Corporation {
     num_engineer(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Engineer;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Engineer;
     }
 
     /**
@@ -917,7 +940,7 @@ export class Corporation {
     num_idle(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Unassigned;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Unassigned;
     }
 
     /**
@@ -931,7 +954,7 @@ export class Corporation {
     num_management(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Management;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Management;
     }
 
     /**
@@ -945,7 +968,7 @@ export class Corporation {
     num_operations(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Operations;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Operations;
     }
 
     /**
@@ -961,7 +984,7 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         const rnd = "Research & Development";
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs[rnd];
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs[rnd];
     }
 
     /**
@@ -975,7 +998,7 @@ export class Corporation {
     num_training(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).employeeJobs.Training;
+        return this.#ns.corporation.getOffice(div, ct).employeeJobs.Training;
     }
 
     /**
@@ -990,7 +1013,7 @@ export class Corporation {
     office_capacity(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getOffice(div, ct).size;
+        return this.#ns.corporation.getOffice(div, ct).size;
     }
 
     /**
@@ -1015,7 +1038,7 @@ export class Corporation {
      */
     product_rating(div, name) {
         assert(this.has_product(div, name));
-        return this.#ns[corp.API].getProduct(div, name).rat;
+        return this.#ns.corporation.getProduct(div, name).rat;
     }
 
     /**
@@ -1029,7 +1052,7 @@ export class Corporation {
     product_sell(div, ct, name) {
         assert(this.has_product(div, name));
         assert(is_valid_city(ct));
-        this.#ns[corp.API].sellProduct(
+        this.#ns.corporation.sellProduct(
             div,
             ct,
             name,
@@ -1046,7 +1069,7 @@ export class Corporation {
      *     the current tick.
      */
     profit() {
-        const { expenses, revenue } = this.#ns[corp.API].getCorporation();
+        const { expenses, revenue } = this.#ns.corporation.getCorporation();
         return revenue - expenses;
     }
 
@@ -1061,7 +1084,7 @@ export class Corporation {
     research_cost(div, name) {
         assert(this.has_division(div));
         assert(this.is_valid_research(name));
-        return this.#ns[corp.API].getResearchCost(div, name);
+        return this.#ns.corporation.getResearchCost(div, name);
     }
 
     /**
@@ -1072,7 +1095,7 @@ export class Corporation {
      */
     upgrade_cost(upg) {
         assert(this.is_valid_upgrade(upg));
-        return this.#ns[corp.API].getUpgradeLevelCost(upg);
+        return this.#ns.corporation.getUpgradeLevelCost(upg);
     }
 
     /**
@@ -1087,11 +1110,11 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(n >= 1);
-        const cost = this.#ns[corp.API].getOfficeSizeUpgradeCost(div, ct, n);
+        const cost = this.#ns.corporation.getOfficeSizeUpgradeCost(div, ct, n);
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].upgradeOfficeSize(div, ct, n);
+        this.#ns.corporation.upgradeOfficeSize(div, ct, n);
         return bool.SUCCESS;
     }
 
@@ -1107,11 +1130,11 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(n >= 1);
-        const cost = this.#ns[corp.API].getUpgradeWarehouseCost(div, ct, n);
+        const cost = this.#ns.corporation.getUpgradeWarehouseCost(div, ct, n);
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns[corp.API].upgradeWarehouse(div, ct, n);
+        this.#ns.corporation.upgradeWarehouse(div, ct, n);
         return bool.SUCCESS;
     }
 
@@ -1137,7 +1160,7 @@ export class Corporation {
     warehouse_capacity(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns[corp.API].getWarehouse(div, ct).size;
+        return this.#ns.corporation.getWarehouse(div, ct).size;
     }
 
     /**
@@ -1151,7 +1174,7 @@ export class Corporation {
         assert(is_valid_city(ct));
         const howmany = 1;
         while (
-            this.#ns[corp.API].getWarehouse(div, ct).size
+            this.#ns.corporation.getWarehouse(div, ct).size
             < corp_t.warehouse.INIT_UPGRADE_SIZE
         ) {
             this.upgrade_warehouse(div, ct, howmany);
