@@ -404,13 +404,8 @@ export class Corporation {
      *     false otherwise.
      */
     has_division(div) {
-        for (const d of this.#ns.corporation.getCorporation().divisions) {
-            assert(d.type === d.name);
-            if (d.type === div) {
-                return bool.HAS;
-            }
-        }
-        return bool.NOT;
+        const has_div = (d) => d === div;
+        return this.#ns.corporation.getCorporation().divisions.some(has_div);
     }
 
     /**
