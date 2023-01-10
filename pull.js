@@ -174,6 +174,7 @@ function dir_structure() {
         "test/hgw/brutessh.js",
         "test/hgw/ftpcrack.js",
         "test/hgw/joesguns.js",
+        "test/hgw/phantasy.js",
         "test/hgw/prep.js",
         "test/hgw/smtp.js",
         "test/hgw/sshftp.js",
