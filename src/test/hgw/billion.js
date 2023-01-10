@@ -52,11 +52,17 @@ async function hack(ns, host, frac) {
  */
 async function prep_server(ns, host) {
     switch (host) {
+        case server.FOOD:
+            await prep_gw(ns, host);
+            break;
         case server.JOES:
             await prep_gw(ns, host);
             break;
         case server.PHANTASY:
             await prep_wg(ns, host);
+            break;
+        case server.SIGMA:
+            await prep_gw(ns, host);
             break;
         default:
             // Should never reach here.

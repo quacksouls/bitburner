@@ -91,6 +91,10 @@ export const home_t = {
  */
 export const server = {
     /**
+     * The server foodnstuff.
+     */
+    FOOD: "foodnstuff",
+    /**
      * The server joesguns.
      */
     JOES: "joesguns",
@@ -125,6 +129,10 @@ export const server = {
      * The name of the script for sharing our home server with a faction.
      */
     SHARE_SCRIPT: "share.js",
+    /**
+     * The server sigma-cosmetics.
+     */
+    SIGMA: "sigma-cosmetics",
     /**
      * The w0r1d_d43m0n server.
      */
