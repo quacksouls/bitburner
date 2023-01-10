@@ -53,9 +53,7 @@ export class Corporation {
      *     corporation.
      */
     all_divisions() {
-        return this.#ns.corporation
-            .getCorporation()
-            .divisions.map((d) => d.name);
+        return this.#ns.corporation.getCorporation().divisions;
     }
 
     /**
