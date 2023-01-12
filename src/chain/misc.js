@@ -58,7 +58,7 @@ export async function main(ns) {
         "/gang/dead-speakers.js",
     ];
     const script = [
-        "/corporation/go.js",
+        // "/corporation/go.js", // FIXME: update to use v2.2 API
         "/singularity/daemon.js",
         "/singularity/int-farm.js",
         "/sleeve/cc.js",
