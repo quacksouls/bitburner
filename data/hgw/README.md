@@ -263,3 +263,32 @@ Use the script `/test/hgw/prep.js` to prep `phantasy`.
 | `phantasy` | MGW      | 2:18:48 |   13 | 121176.000000 | 14.550530 |
 | `phantasy` | MWG      | 0:27:32 |    9 |  77112.000000 | 46.689186 |
 | `phantasy` | WG       | 0:27:32 |    9 |  77112.000000 | 46.683816 |
+
+## Hack $1b
+
+Hack various servers to steal $1b. Use the save file `phantasy.json`, which
+gives us these stats:
+
+1. 64GB RAM on `home`.
+1. 196 Hack.
+1. Default levels in all other stats.
+1. The following programs all manually purchased: `BruteSSH.exe`,
+   `FTPCrack.exe`, `HTTPWorm.exe`, `relaySMTP.exe`, and `SQLInject.exe`.
+1. No Augmentations installed.
+
+Use the script `/test/hgw/billion.js` to prep and hack various servers.
+
+### `foodnstuff`
+
+| Fraction |    Time | Hack |        Hack XP |       XP/s |
+| -------: | ------: | ---: | -------------: | ---------: |
+|      0.1 | 4:24:49 |   86 | 3290976.000000 | 207.126187 |
+|      0.2 | 4:01:20 |   85 | 3202449.000000 | 221.167546 |
+|      0.3 | 2:50:25 |   74 | 2203683.000000 | 215.510984 |
+|      0.4 | 3:17:00 |   79 | 2632306.500000 | 222.695032 |
+|      0.5 | 2:52:17 |   75 | 2281581.000000 | 220.723151 |
+|      0.6 | 3:09:48 |   79 | 2562078.000000 | 224.983133 |
+|      0.7 | 2:57:43 |   77 | 2388174.000000 | 223.966495 |
+|      0.8 | 3:16:38 |   80 | 2683816.500000 | 227.488924 |
+|      0.9 | 3:04:45 |   78 | 2508858.000000 | 226.319600 |
+|      1.0 | 3:21:56 |   81 | 2775217.500000 | 229.063333 |
