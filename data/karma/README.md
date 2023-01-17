@@ -38,3 +38,10 @@ the format `hh:mm:ss`.
 |      6 | 05:44:51 | 126.835345 | 126.835345 | 126.835345 | -157.009448 | 1551132.338154 | 126.835345 |
 |      7 | 05:15:27 | 128.510005 | 128.510005 | 128.510005 | -171.428571 | 1569389.902714 | 128.510005 |
 |      8 | 04:45:51 | 130.282132 | 130.282132 | 130.282132 | -189.507368 | 1599437.493790 | 130.282132 |
+
+> Note: The combat stats gain when using 1 sleeve is worst than without sleeves
+> at all. We used the development branch of Bitburner v2.2.2 at
+>
+> https://bitburner-official.github.io/bitburner-src/
+>
+> whereas the data for other sleeve numbers were obtained with v2.2.1.
