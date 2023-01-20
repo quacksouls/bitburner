@@ -1,3 +1,67 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Array jumping game II}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Problem}
+
+An array has integer elements.  The integer of a cell represents the
+number of positions we can jump to the right from the cell.  Starting
+from the cell at index $0$, determine the minimum number of jumps
+necessary to reach the last cell of the array.  Return $0$ if it is
+impossible to reach the last array cell.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Solution}
+
+This is similar to Array Jumping Game
+from \Section{sec:array_jumping_game}.  The only difference is that
+we must determine the smallest number of jumps to reach the end of the
+array.  In fact, the solution presented here also solves Array Jumping
+Game.  As with Array Jumping Game, we make various assumptions to
+simplify the problem:
+
+\begin{packedenumeral}
+\item Each integer in the array is nonnegative.
+\item We start from the zeroth index of the array.
+\item Each jump must be to the right, increasing the array index.
+\item If an array element is zero, we cannot jump.
+\end{packedenumeral}
+
+We interpret the array as a directed graph.  The minimum jump length
+is found by computing the shortest path from the first cell to the
+last cell.  Here is how to represent the array as a directed graph.
+Each node of the graph is an array cell, the node ID being the
+corresponding cell index.  Given two nodes $i$ and $j$, we have a
+directed edge $\Pair{i}{j}$ provided we can jump from cell $i$ to cell
+$j$.  If the array has $n$ cells, the maximum index value is $n - 1$.
+We use Dijkstra's algorithm to find a shortest path from the source
+node $s = 0$ to the target node $t = n - 1$.  The procedure is
+summarized in \Algorithm{alg:jump2:array_jumping_game_II}.
+
+\begin{algorithm}[!htbp]
+\input{algorithm/jump2.tex}
+\caption{%%
+  Dijkstra's algorithm to find a shortest path in a directed graph.
+}
+\label{alg:jump2:array_jumping_game_II}
+\end{algorithm}
+
+Consider the maps $d$ and $p$ as output by
+\Algorithm{alg:jump2:array_jumping_game_II}.  We have the following
+cases:
+%%
+\begin{packedenumeral}
+\item The target node $t$ is not in $d$.  There is no way to reach $t$
+  from $s$.
+\item Start from the target node $t$ and use $p$ to work backward to
+  find a shortest path from $s$ to $t$.  If by backtracking we do not
+  end up at $s$, then there are no paths from $s$ to $t$.
+\item We start from $t$ and use $p$ to help us backtrack to $s$.  If
+  $k$ is the number of nodes in our backtracking, including both $s$
+  and $t$, the minimum number of jumps is $k - 1$.
+\end{packedenumeral}

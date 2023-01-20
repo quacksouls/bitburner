@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithmic}[1]
+%%
+%% Input.
+\Require A directed graph $G$.  A starting node $s$, where we begin
+our exploration.
+%%
+%% Output.
+\Ensure An array $\ArrayB{d}{p}$.  Here, $d$ is a map of the shortest
+number of nodes in a path to a target node.  Each path starts from the
+given source node $s$.  For example, $d[i]$ gives the shortest number
+of nodes in a path from $s$ to node $i$.  The map $p$ gives the node
+preceding a given node, in a shortest path.  For example, $p[i]$ gives
+a node that directly connects to node $i$, where $p[i]$ precedes $i$.
+%%
+%% Algorithm body.
+%%
+%% Initialization.
+\State $d \gets$ empty map\Comment{Or dictionary or hash table.}
+\State $p \gets$ empty map
+\State $d[i] \gets \infty$ for each node $i$ in $G$\Comment{$\infty$ here means a very large number.}
+\State $p[i] \gets \Null$ for each node $i$ in $G$
+\State $q \gets$ array of all nodes in $G$
+\State $d[s] \gets 0$\Comment{Distance from $s$ to itself is $0$.}
+\State $p[s] \gets \Null$\Comment{Start from $s$ so no nodes before $s$.}
+\State add $s$ to end of $q$
+%% Search for shortest paths from the source node to other nodes.
+\While{$q$ is not empty}\Comment{Search for shortest paths to other nodes.}
+  \State $u \gets$ node from $q$ such that $d[u]$ is minimal
+  \State remove $u$ from $q$
+  \State $N \gets $ array of all neighbours $v$ of $u$ such that $v \in q$
+  \For{each $v \in N$}
+    \State $t \gets d[u] + 1$
+    \If{$t < d[v]$}\Comment{Found a shorter path to $v$.}
+      \State $d[v] \gets t$
+      \State $p[v] \gets u$
+    \EndIf
+  \EndFor
+\EndWhile
+\State \Return $\ArrayB{d}{p}$
+\end{algorithmic}
