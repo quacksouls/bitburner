@@ -308,9 +308,10 @@ async function update(ns, ram) {
     const nthread = 1;
     const frac = pserv.DEFAULT_MONEY_FRAC;
     while (i < psv.limit()) {
-        if (has_funds()) {
+        const serv = new Server(ns, home);
+        if (has_funds() && serv.num_threads(script) > 0) {
+            // Purchase a server.  Choose the best target server.
             const hostname = psv.purchase(pserv.PREFIX, server_ram);
-            // Choose the best target server.
             const host = candidate[k];
             assert(!is_bankrupt(ns, host));
             const target = new Server(ns, host);
