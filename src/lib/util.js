@@ -474,7 +474,7 @@ export async function trade_bot_stop_buy(ns) {
  * @return A non-negative number representing the hack desirability of the given
  *     server.
  */
-function weight(ns, host) {
+export function weight(ns, host) {
     const serv = ns.getServer(host);
     const threshold = ns.getHackingLevel() / 2;
     if (

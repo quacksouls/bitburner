@@ -180,7 +180,7 @@ export async function hgw_hack(ns, host, botnet) {
  *     (3) "weaken" := Weaken the security level of the target server.
  * @return The HGW script corresponding to the given action.
  */
-function hgw_script(action) {
+export function hgw_script(action) {
     switch (action) {
         case hgw.action.GROW:
             return hgw.script.GROW;
@@ -208,7 +208,7 @@ function hgw_script(action) {
  * @return The amount of time required for the given action to complete on the
  *     target server.
  */
-function hgw_wait_time(ns, host, action) {
+export function hgw_wait_time(ns, host, action) {
     switch (action) {
         case hgw.action.GROW:
             return ns.getGrowTime(host);
@@ -349,7 +349,7 @@ export async function prep_wg(ns, host) {
  * @param frac The fraction of money to steal.
  * @return The amount of money to steal from the given server.
  */
-function target_money(ns, host, frac) {
+export function target_money(ns, host, frac) {
     return Math.floor(frac * ns.getServer(host).moneyMax);
 }
 

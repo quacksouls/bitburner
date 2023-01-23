@@ -15,9 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home, server } from "/lib/constant/server.js";
+
 // A bunch of constant values related to purchased servers.
 
 export const pserv = {
+    /**
+     * The default fraction of money to steal from a world server.
+     */
+    DEFAULT_MONEY_FRAC: 0.5,
+    /**
+     * The default amount of RAM for each purchased server.  We assume each
+     * purchased server would use a proto-batcher to prep and hack a world
+     * server.
+     */
+    DEFAULT_RAM_HGW: 1024,
+    /**
+     * Purchased servers should not hack any of these targets.
+     */
+    exclude: [home, server.JOES],
     /**
      * The minimum amount of RAM each purchased server should have to be
      * considered high-end.
@@ -28,6 +44,12 @@ export const pserv = {
      * purchased servers as an early source of income and Hack XP.
      */
     MIN: 13,
+    /**
+     * By default, we buy this many servers to kickstart our farm of
+     * purchased servers.  Each purchased server is assumed to use a
+     * proto-batcher to prep and hack a world server.
+     */
+    MIN_HGW: 1,
     /**
      * The prefix for the name of each purchased server.  The very first
      * purchased server is always named "pserv".  Any subsequent purchased
