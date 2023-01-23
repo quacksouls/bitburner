@@ -233,7 +233,7 @@ async function update(ns, ram) {
     const candidate = find_candidates(ns);
     let k = 0;
     const has_funds = () => player.money() > psv.cost(server_ram);
-    const script = "/hgw/pbatch.js";
+    const script = pserv.PBATCH;
     const nthread = 1;
     const frac = pserv.DEFAULT_MONEY_FRAC;
     while (i < psv.limit()) {

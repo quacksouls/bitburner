@@ -51,6 +51,10 @@ export const pserv = {
      */
     MIN_HGW: 1,
     /**
+     * A script that implements a proto-batcher for purchased servers.
+     */
+    PBATCH: "/hgw/pbatch.js",
+    /**
      * The prefix for the name of each purchased server.  The very first
      * purchased server is always named "pserv".  Any subsequent purchased
      * server is named as pserv-n, where n is a non-negative integer.
