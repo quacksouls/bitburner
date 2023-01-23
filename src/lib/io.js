@@ -36,13 +36,13 @@ export function create_file(ns, fname, data) {
 }
 
 /**
- * Print a log to the Terminal.
+ * Print a log to the terminal.
  *
  * @param ns The Netscript API.
- * @param msg Print this message to the Terminal.
+ * @param msg Print this message to the terminal.
  * @param clr Use this colour to print the given message.  Must be a string
  *     representation of a Unicode escape sequence.  Default is empty string,
- *     which means we use the default colour theme of the Terminal.
+ *     which means we use the default colour theme of the terminal.
  */
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
@@ -52,11 +52,11 @@ export function log(ns, msg, clr = "") {
 
 /**
  * Convert a RAM amount in the game to a value suitable for display in the
- * Terminal.
+ * terminal.
  *
  * @param ns The Netscript API.
  * @param n An amount of RAM as returned by a function in the game.
- * @return An amount of RAM suitable to be displayed in the Terminal.
+ * @return An amount of RAM suitable to be displayed in the terminal.
  */
 export function format_ram(ns, n) {
     assert(n > 0);
