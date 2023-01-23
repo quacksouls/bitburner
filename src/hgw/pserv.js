@@ -195,6 +195,39 @@ function pserv_ram(ns, minserv) {
 }
 
 /**
+ * Reboot our proto-batchers after (possibly) reloading the game.
+ *
+ * @param ns The Netscript API.
+ */
+function reboot(ns) {
+    // We do not have any purchased servers.
+    const purchased_server = ns.getPurchasedServers();
+    if (purchased_server.length < 1) {
+        return;
+    }
+    // Kill proto-batcher scripts.  Kill all scripts on purchased servers.
+    kill_batchers(ns);
+    purchased_server.forEach((phost) => ns.killall(phost));
+    // Launch a proto-batcher script for each purchased server.
+    const candidate = find_candidates(ns);
+    const script = pserv.PBATCH;
+    const nthread = 1;
+    const frac = pserv.DEFAULT_MONEY_FRAC;
+    let k = 0;
+    purchased_server.forEach((phost) => {
+        const host = candidate[k];
+        assert(!is_bankrupt(ns, host));
+        const target = new Server(ns, host);
+        assert(target.gain_root_access());
+        ns.exec(script, home, nthread, phost, target.hostname(), frac);
+        k++;
+        if (k >= candidate.length) {
+            k = 0;
+        }
+    });
+}
+
+/**
  * Suppress various log messages.
  *
  * @param ns The Netscript API.
@@ -302,6 +335,7 @@ async function update(ns, ram) {
  */
 export async function main(ns) {
     shush(ns);
+    reboot(ns);
     // Continuously try to purchase more powerful servers.
     for (;;) {
         await buy_servers(ns);
