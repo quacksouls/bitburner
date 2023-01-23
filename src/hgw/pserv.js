@@ -92,6 +92,39 @@ function has_max_pserv(ns) {
 }
 
 /**
+ * Kill all proto-batcher scripts.
+ *
+ * @param ns The Netscript API.
+ */
+function kill_batchers(ns) {
+    // Array of hostnames of purchased servers.
+    const purchased_server = ns.getPurchasedServers();
+    if (purchased_server.length < 1) {
+        return;
+    }
+    // Array of hostnames of world servers.
+    let target = network(ns);
+    assert(target.length > 0);
+    // Fraction of money to steal from a server.
+    const frac = pserv.DEFAULT_MONEY_FRAC;
+    const s = pserv.PBATCH;
+
+    // Which world server is the given purchased server targeting?
+    const find_target = (phost, candidate) => {
+        for (const host of candidate) {
+            if (ns.isRunning(s, home, phost, host, frac)) {
+                return host;
+            }
+        }
+    };
+    purchased_server.forEach((phost) => {
+        const host = find_target(phost, target);
+        ns.kill(s, home, phost, host, frac);
+        target = target.filter((t) => t !== host);
+    });
+}
+
+/**
  * Purchase servers that have more than the default amount of RAM.  Call this
  * function multiple times with different arguments to upgrade our purchased
  * servers to higher RAM.
@@ -119,6 +152,7 @@ async function next_stage(ns, ram) {
         // If each purchased server has less than the given amount of RAM, then
         // delete the servers and purchase servers with the given amount of RAM.
         ns.print(msg);
+        kill_batchers(ns);
         psv.kill_all();
         await update(ns, ram);
     } else if (server.ram_max() === ram) {
