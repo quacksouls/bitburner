@@ -119,6 +119,9 @@ function kill_batchers(ns) {
     };
     purchased_server.forEach((phost) => {
         const host = find_target(phost, target);
+        if (host === undefined) {
+            return;
+        }
         ns.kill(s, home, phost, host, frac);
         target = target.filter((t) => t !== host);
     });
