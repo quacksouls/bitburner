@@ -34,7 +34,7 @@ async function reboot(ns) {
         "hnet-farm.js",
         "trade-bot.js",
         "/cct/solver.js",
-        "hram.js",
+        // "hram.js",
     ];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.

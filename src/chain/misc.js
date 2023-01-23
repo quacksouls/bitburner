@@ -17,7 +17,7 @@
 
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
-import { exec, hram_resume, hram_suspend } from "/lib/util.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Start a load chain to run various scripts.
@@ -30,7 +30,7 @@ export async function main(ns) {
     // Suppress some log messages.
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the scripts below.
-    await hram_suspend(ns);
+    // await hram_suspend(ns);
     while (ns.isRunning("/singularity/money.js", home)) {
         await ns.sleep(wait_t.SECOND);
     }
@@ -82,5 +82,5 @@ export async function main(ns) {
         await ns.sleep(wait_t.SECOND);
     }
     exec(ns, "/singularity/program.js");
-    hram_resume(ns);
+    // hram_resume(ns);
 }
