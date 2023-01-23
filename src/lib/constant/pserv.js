@@ -33,7 +33,7 @@ export const pserv = {
     /**
      * Purchased servers should not hack any of these targets.
      */
-    exclude: [home, server.JOES],
+    exclude: [home, server.JOES, server.PHANTASY],
     /**
      * The minimum amount of RAM each purchased server should have to be
      * considered high-end.
