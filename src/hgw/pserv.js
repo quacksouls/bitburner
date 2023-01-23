@@ -19,6 +19,7 @@ import { MyArray } from "/lib/array.js";
 import { pserv } from "/lib/constant/pserv.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
+import { log } from "/lib/io.js";
 import { network } from "/lib/network.js";
 import { Player } from "/lib/player.js";
 import { PurchasedServer } from "/lib/pserv.js";
@@ -337,6 +338,7 @@ async function update(ns, ram) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
+    log(ns, "Proto-batcher for purchased servers.");
     shush(ns);
     reboot(ns);
     // Continuously try to purchase more powerful servers.
