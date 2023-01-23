@@ -338,7 +338,7 @@ async function update(ns, ram) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    log(ns, "Proto-batcher for purchased servers.");
+    log(ns, "Proto-batcher for purchased servers");
     shush(ns);
     reboot(ns);
     // Continuously try to purchase more powerful servers.
