@@ -37,7 +37,8 @@ async function reboot(ns) {
     // TODO: Run script to buy Hacknet servers depending on whether we have
     // Source-File 9.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-        script.unshift("buy-server.js");
+        // script.unshift("buy-server.js");
+        script.unshift("/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home
