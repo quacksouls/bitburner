@@ -76,7 +76,7 @@ $ nano hack.js
 to open a text editor. Copy and paste the content of the above script to the
 text editor. Click <kbd>Save</kbd> or type <kbd>Ctrl</kbd> + <kbd>S</kbd>, then
 locate and click the <kbd>X</kbd> button to close the file. Type `ls` at the
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 and you should see the script `hack.js` you just created. You can run the script
 on your home server, but this would take up the valuable small amount of RAM
 your home server has early in the game. Another option is to run the script on a
@@ -89,7 +89,7 @@ resources of as many world servers as possible to hack a common target. It is
 generally more effective to let a bunch of servers hack one common server, than
 to let each server hack a different target. Let's find out which servers you can
 use. At the
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html),
+[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html),
 run the command
 
 ```sh
@@ -209,7 +209,7 @@ Use the command
 [`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
 to copy `hack.js` over to the above servers and use the above number of threads
 to run the script on the respective servers. As shown in the
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session below, your hack script should target `n00dles`. Early in the game, you
 should concentrate on hacking one target server. The server `n00dles` is always
 a good choice to target to raise your Hack stat and earn some money. Later on,
@@ -256,7 +256,7 @@ threads as the server allows.
 ## Upgrade `home`
 
 Your `home` server can also be used to hack `n00dles`. As shown in the following
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session:
 
 ```sh
@@ -275,7 +275,7 @@ the location of Alpha Enterprises, as shown in the image below, and click on the
 upgrade `home` to 128GB RAM, leaving you plenty of money to purchase the TOR
 router. The TOR router will come in handy later on when you need to purchase
 various programs to help you progress. For the moment, the following
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session:
 
 ```sh
