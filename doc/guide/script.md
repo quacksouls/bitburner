@@ -59,7 +59,7 @@ Each of the functions
 and
 [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md)
 increases the security level of the target server. For this reason, the script
-constantly monitors the security level of the target and weaken the security
+constantly monitors the security level of the target and weakens the security
 level as necessary.
 
 ![Terminal](image/terminal.png "Terminal")
