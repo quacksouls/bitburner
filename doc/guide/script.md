@@ -66,7 +66,7 @@ level as necessary.
 
 Save the above code in a script called `hack.js`. As shown in the above image,
 click on the
-[Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[<kbd>Terminal</kbd>](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 tab and type
 
 ```sh
@@ -74,8 +74,8 @@ $ nano hack.js
 ```
 
 to open a text editor. Copy and paste the content of the above script to the
-text editor. Click `Save` or type `Ctrl+S`, then locate and click the `X` button
-to close the file. Type `ls` at the
+text editor. Click <kbd>Save</kbd> or type <kbd>Ctrl</kbd> + <kbd>S</kbd>, then
+locate and click the <kbd>X</kbd> button to close the file. Type `ls` at the
 [Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 and you should see the script `hack.js` you just created. You can run the script
 on your home server, but this would take up the valuable small amount of RAM
@@ -234,10 +234,10 @@ $ home
 Connected to home
 ```
 
-To check on the progress of your script, click on the `Active Scripts` tab and
-locate the name of a server where your script is running. Then click on the name
-of a script that is running on that server. Click the button `LOG` to view a log
-of the running script. Refer to the image below.
+To check on the progress of your script, click on the <kbd>Active Scripts</kbd>
+tab and locate the name of a server where your script is running. Then click on
+the name of a script that is running on that server. Click the button
+<kbd>LOG</kbd> to view a log of the running script. Refer to the image below.
 
 ![Script log](image/script-log.png "Script log")
 
@@ -267,14 +267,14 @@ Available: 8.00GB
 ```
 
 you start the game with 8GB RAM. The passive income you generated from your
-Hacknet nodes, committing `Homicide` in The Slums, and from hacking `n00dles`
-should have now accumulated to $50m or more. It is time to upgrade the RAM of
-`home`. Click on the `City` tab to bring up the city map. Find the location of
-Alpha Enterprises, as shown in the image below, and click on the `T` icon to
-bring up the page of the company. You need approximately $46.146m to upgrade
-`home` to 128GB RAM, leaving you plenty of money to purchase the TOR router. The
-TOR router will come in handy later on when you need to purchase various
-programs to help you progress. For the moment, the following
+Hacknet nodes, committing <kbd>Homicide</kbd> in The Slums, and from hacking
+`n00dles` should have now accumulated to $50m or more. It is time to upgrade the
+RAM of `home`. Click on the <kbd>City</kbd> tab to bring up the city map. Find
+the location of Alpha Enterprises, as shown in the image below, and click on the
+`T` icon to bring up the page of the company. You need approximately $46.146m to
+upgrade `home` to 128GB RAM, leaving you plenty of money to purchase the TOR
+router. The TOR router will come in handy later on when you need to purchase
+various programs to help you progress. For the moment, the following
 [Terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session:
 
