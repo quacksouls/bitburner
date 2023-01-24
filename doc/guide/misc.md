@@ -89,7 +89,7 @@ these rules:
 -   _Company reputation._ A CCT can reward you with reputation within a company
     for which you work. Unlike faction reputation, company reputation is always
     rewarded for one specific company. You can be an employee of multiple
-    companies. However, if a CCT reward you with company reputation, then the
+    companies. However, if a CCT rewards you with company reputation, then the
     total reputation points would be for one and only one specific company. When
     grinding reputation within a particular company, ensure you are an employee
     of that specific company and not hold a job at another company, and do not
@@ -155,7 +155,7 @@ API is `ns.codingcontract.functionName()`, not
 1. _Shortest Path in a Grid._ Construct a shortest path from the top-left square
    of a grid to the bottom-right square.
 1. _Sanitize Parentheses in Expression._ Remove the minimum number of
-   parentheses so that the parentheses in the resulting expression is balanced.
+   parentheses so that the parentheses in the resulting expression are balanced.
    Multiple solutions are possible.
 1. _Find All Valid Math Expressions._ Given a string of decimal digits and a
    target number, determine all valid mathematical expressions, each of which
@@ -266,26 +266,26 @@ described in pseudocode below.
 
 Suppose you have implemented one of the above algorithms to find a (shortest)
 path from your `home` server to a target server. You still require a way to make
-the game connect you to the target server. From the Terminal, use the command
+the game connect you to the target server. From the terminal, use the command
 
 ```sh
 $ connect [serverName]
 ```
 
 to connect to a neighbour server. If you know a path of servers that lead to the
-target server, chain a bunch of these `connect` commands at the Terminal. Your
+target server, chain a bunch of these `connect` commands at the terminal. Your
 script might print this chain of `connect` commands, you copy and paste the
-commands to the Terminal, and press the `Enter` key to bring you to the target
-server. There is a way to automate this process by simulating Terminal input.
+commands to the terminal, and press the `Enter` key to bring you to the target
+server. There is a way to automate this process by simulating terminal input.
 
 The
 [official documentation](https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html)
-has the template code shown below to help you simulate Terminal input.
+has the template code shown below to help you simulate terminal input.
 
 ```js
-// Simulate Terminal input.
+// Simulate terminal input.
 const input = globalThis["document"].getElementById("terminal-input");
-// Replace "command" with your chain of Terminal commands.  For example:
+// Replace "command" with your chain of terminal commands.  For example:
 //
 // input.value = "connect n00dles; analyze";
 input.value = command;
@@ -300,8 +300,8 @@ input[handler].onKeyDown({
 ```
 
 Note the line `input.value = command;`. You replace `command` with a string that
-contains a chain of Terminal commands. Have your script format a path to a
-target server as a chain of Terminal commands. Save the chain of commands as a
+contains a chain of terminal commands. Have your script format a path to a
+target server as a chain of terminal commands. Save the chain of commands as a
 string, insert this string at the appropriate place in the above template code,
 and run your script. Here is an [example script](script/terminal.js).
 
@@ -310,7 +310,7 @@ and run your script. Here is an [example script](script/terminal.js).
 >
 > **Problem 2.** Extend the breath-first (or depth-first) search algorithm to
 > create a path from `home` to any target server. Format the path as a chain of
-> Terminal commands and use the above code template to help you connect to the
+> terminal commands and use the above code template to help you connect to the
 > target server.
 >
 > **Problem 3.** Modify your script from the previous exercise to use Dijkstra's
