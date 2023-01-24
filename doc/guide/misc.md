@@ -275,8 +275,9 @@ $ connect [serverName]
 to connect to a neighbour server. If you know a path of servers that lead to the
 target server, chain a bunch of these `connect` commands at the terminal. Your
 script might print this chain of `connect` commands, you copy and paste the
-commands to the terminal, and press the `Enter` key to bring you to the target
-server. There is a way to automate this process by simulating terminal input.
+commands to the terminal, and press the <kbd>Enter</kbd> key to bring you to the
+target server. There is a way to automate this process by simulating terminal
+input.
 
 The
 [official documentation](https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html)
