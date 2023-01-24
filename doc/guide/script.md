@@ -78,9 +78,9 @@ text editor. Click <kbd>Save</kbd> or type <kbd>Ctrl</kbd> + <kbd>S</kbd>, then
 locate and click the <kbd>X</kbd> button to close the file. Type `ls` at the
 [terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
 and you should see the script `hack.js` you just created. You can run the script
-on your home server, but this would take up the valuable small amount of RAM
-your home server has early in the game. Another option is to run the script on a
-different world server.
+on your `home` server, but this would take up the valuable small amount of RAM
+your `home` server has early in the game. Another option is to run the script on
+a different world server.
 
 ## Hack `n00dles`
 
@@ -96,7 +96,7 @@ run the command
 $ scan-analyze 2
 ```
 
-to determine all servers that are at most two hops away from your home server.
+to determine all servers that are at most two hops away from your `home` server.
 The result of the command
 [`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 is different for each player and each playthrough. Take note of the following
