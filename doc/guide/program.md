@@ -30,13 +30,14 @@ $ connect [serverName]
 
 at the Terminal.
 
-To create a program, click on the `Create Program` tab and choose a program that
-can be created. Some other programs are locked at the moment. These programs
-require a higher Hack stat to unlock. Locate the `BruteSSH.exe` program and
-click on `Create program` to start working on that program. Let the game run for
-a few minutes while the program is being created. When the `BruteSSH.exe`
-program is completed, work on the `AutoLink.exe` program. Again, let the game
-run for about 10 minutes or more for the program to be 100% complete.
+To create a program, click on the <kbd>Create Program</kbd> tab and choose a
+program that can be created. Some other programs are locked at the moment. These
+programs require a higher Hack stat to unlock. Locate the `BruteSSH.exe` program
+and click on <kbd>Create program</kbd> to start working on that program. Let the
+game run for a few minutes while the program is being created. When the
+`BruteSSH.exe` program is completed, work on the `AutoLink.exe` program. Again,
+let the game run for about 10 minutes or more for the program to be 100%
+complete.
 
 ![Create program](image/create-program.png "Create program")
 
@@ -173,8 +174,9 @@ Connected to home
 ```
 
 Wait a while to receive an invitation from the faction CyberSec. Click on the
-`Factions` tab, locate the name of CyberSec, and click `Join!`. Click on
-`Details` for further information about CyberSec. Refer to the image below.
+<kbd>Factions</kbd> tab, locate the name of CyberSec, and click
+<kbd>Join!</kbd>. Click on <kbd>Details</kbd> for further information about
+CyberSec. Refer to the image below.
 
 ![Join CyberSec](image/cybersec.png "Join CyberSec")
 
@@ -184,14 +186,15 @@ items that can be installed on your avatar to enhance various attributes. An
 enhancement is given in terms of a multiplier. For example, an Augmentation
 might add 1% to your hack chance, making it more likely for a hack to be
 successful. Augmentations can be unlocked by increasing your reputation within a
-faction. Click on the `Augments` button for more information about all
+faction. Click on the <kbd>Augments</kbd> button for more information about all
 Augmentations on offer from CyberSec. When you are ready to work for CyberSec,
-click the `Back` button. One way to increase your reputation is by completing
-hacking contracts for the faction. Click on the `Hacking Contracts` button to
-start working for CyberSec. This would earn you reputation within CyberSec as
-well as Hack XP. Let the game run for an hour or more. You can also click on the
-button `Do something else simultaneously` to work on a side project, while you
-earn Hack XP and a reduced rate of reputation.
+click the <kbd>Back</kbd> button. One way to increase your reputation is by
+completing hacking contracts for the faction. Click on the <kbd>Hacking
+Contracts</kbd> button to start working for CyberSec. This would earn you
+reputation within CyberSec as well as Hack XP. Let the game run for an hour or
+more. You can also click on the button <kbd>Do something else
+simultaneously</kbd> to work on a side project, while you earn Hack XP and a
+reduced rate of reputation.
 
 ![Hacking contracts for CyberSec](image/cybersec-hacking-contracts.png "Perform hacking contracts for CyberSec")
 
@@ -218,21 +221,21 @@ you are focused on a company task.
 
 ![Working for MegaCorp](image/company-work.png "Working for MegaCorp")
 
-Both images above show a button that says `Do something else simultaneously`.
-Click on that button and your focus would be taken away from the task, and you
-should see something like the left or right panel of the following image. (The
-left panel shows your unfocused work for the faction Slum Snakes, not CyberSec.)
-You are still actively earning reputation, but your earning rate is lowered
-because you are being penalized for not focusing on the task. One of the
-factions has an Augmentation that removes the penalty for not focusing on a
-task; see the section [Faction progression](faction.md).
+Both images above show a button that says <kbd>Do something else
+simultaneously</kbd>. Click on that button and your focus would be taken away
+from the task, and you should see something like the left or right panel of the
+following image. (The left panel shows your unfocused work for the faction Slum
+Snakes, not CyberSec.) You are still actively earning reputation, but your
+earning rate is lowered because you are being penalized for not focusing on the
+task. One of the factions has an Augmentation that removes the penalty for not
+focusing on a task; see the section [Faction progression](faction.md).
 
 ![Unfocused work](image/unfocus-work.png "Unfocused work")
 
-You can only focus on one task at a time. Suppose you click the button
-`Do something else simultaneously`, then you go to The Slums and commit a crime.
-Your focus would be taken away from the faction/company work. A screen would
-popup to show that are currently focusing on a crime. Now you are back to
+You can only focus on one task at a time. Suppose you click the button <kbd>Do
+something else simultaneously</kbd>, then you go to The Slums and commit a
+crime. Your focus would be taken away from the faction/company work. A screen
+would popup to show that are currently focusing on a crime. Now you are back to
 passively earning faction or company reputation.
 
 ### Share
@@ -379,21 +382,21 @@ Each Augmentation installed would result in a soft reset. Therefore it makes
 sense to purchase a bunch of Augmentations from a faction and then install those
 Augmentations all at once. Save up a few hundred million dollars and purchase
 the most expensive Augmentation from CyberSec. You might want to click the
-button `Sort by Cost` to help you choose the most expensive Augmentation. Buying
-one Augmentation would increase the price multiplier, but only for the less
-expensive Augmentations that you have not yet purchased. Repeat the purchasing
-strategy until you have purchased all Augmentations from CyberSec. Some
-Augmentations have pre-requisites. For example, the pre-requisite of
-`Cranial Signal Processors - Gen II` is `Cranial Signal Processors - Gen I`.
+button <kbd>Sort by Cost</kbd> to help you choose the most expensive
+Augmentation. Buying one Augmentation would increase the price multiplier, but
+only for the less expensive Augmentations that you have not yet purchased.
+Repeat the purchasing strategy until you have purchased all Augmentations from
+CyberSec. Some Augmentations have pre-requisites. For example, the pre-requisite
+of `Cranial Signal Processors - Gen II` is `Cranial Signal Processors - Gen I`.
 Purchase all pre-requisites first before you are allowed to purchase the
 particular Augmentation. Note that `NeuroFlux Governor` can be levelled up
 infinitely. Use the money available to level up `NeuroFlux Governor` as high as
 you can. Use any left over money to upgrade your home server, either RAM or
 Cores or both. You would lose all money after installing the Augmentations, so
 you might as well spend the money now. Then install all Augmentations at once.
-The process to install Augmentations is as follows. Click on the `Augmentations`
-tab, review the changes to your stat multipliers, and click on
-`Install Augmentations`. Refer to the image below.
+The process to install Augmentations is as follows. Click on the
+<kbd>Augmentations</kbd> tab, review the changes to your stat multipliers, and
+click on <kbd>Install Augmentations</kbd>. Refer to the image below.
 
 ![Install Augmentations](image/install-augmentations.png "Install Augmentations")
 
