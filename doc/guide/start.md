@@ -32,10 +32,10 @@ your Hack stat.
 ## Study
 
 To raise your Hack stat, click on the City tab and locate Rothman University on
-the city map. Refer to the image below. Choose the option
-`Study Computer Science (free)` to start gaining Hack XP. Focus on studying for
-ten or more minutes to raise your Hack stat to about 10 or higher. When you have
-10 Hack or more, stop taking the course to focus on another task.
+the city map. Refer to the image below. Choose the option <kbd>Study Computer
+Science (free)</kbd> to start gaining Hack XP. Focus on studying for ten or more
+minutes to raise your Hack stat to about 10 or higher. When you have 10 Hack or
+more, stop taking the course to focus on another task.
 
 ![Rothman University](image/rothman-university.png "Rothman University")
 
@@ -58,34 +58,35 @@ a company, a means of earning a large sum of money early in the game.
 
 Currently, the following companies have open jobs that suit your low stats:
 FoodNStuff and Joe's Guns. Locate FoodNStuff on the city map and choose the
-option `Apply to be an Employee` and click the button `Work` to start your job.
-Instead of FoodNStuff, you might want to work at Joe's Guns. Working at any of
-these two companies would train your stats (excluding the Hack stat) and earn
-you some extra money. Focus on the job for a few minutes to increase your stats
-by one or more points. Then click `Do something else simultaneously` to divide
-your attention between your job and a side hustle. You have the option of going
-to The Slums to commit crimes. This is risky, but yields decent reward early in
-the game.
+option <kbd>Apply to be an Employee</kbd> and click the button <kbd>Work</kbd>
+to start your job. Instead of FoodNStuff, you might want to work at Joe's Guns.
+Working at any of these two companies would train your stats (excluding the Hack
+stat) and earn you some extra money. Focus on the job for a few minutes to
+increase your stats by one or more points. Then click <kbd>Do something else
+simultaneously</kbd> to divide your attention between your job and a side
+hustle. You have the option of going to The Slums to commit crimes. This is
+risky, but yields decent reward early in the game.
 
 ## Crime
 
 Every city has an area called The Slums. Refer to the image below. Early in the
 game, committing crimes in The Slums is one of the best options to increase your
 combat stats and earn money. Your combat stats are Strength, Defense, Dexterity,
-and Agility. Among all crimes available in The Slums, on average `Homicide` is
-the best crime for raising money. Start off with `Shoplift` for a few minutes to
-train your Agility and Dexterity. Then move on to `Mug someone` for a few
-minutes to train all your combat stats at once. The higher are your combat
-stats, the higher is your chance of success when committing `Homicide`. Aim to
-have at least 10 points in each combat stat prior to committing `Homicide`. You
-only gain money if you successfully committed a crime. On the other hand, you
-earn stat XP regardless of whether you fail or succeed. A disadvantage of
-`Homicide` is that it does not raise your Hack stat. However, one of the main
-reasons for committing `Homicide` is that on average you earn approximately
-$1.087m per minute, an earning rate exceeding that of any other crime. Continue
-committing `Homicide` until you have earned several millions of dollars,
-preferably enough to purchase a few more Hacknet nodes and increase the Level of
-each node to about 10.
+and Agility. Among all crimes available in The Slums, on average
+<kbd>Homicide</kbd> is the best crime for raising money. Start off with
+<kbd>Shoplift</kbd> for a few minutes to train your Agility and Dexterity. Then
+move on to <kbd>Mug someone</kbd> for a few minutes to train all your combat
+stats at once. The higher are your combat stats, the higher is your chance of
+success when committing <kbd>Homicide</kbd>. Aim to have at least 10 points in
+each combat stat prior to committing <kbd>Homicide</kbd>. You only gain money if
+you successfully committed a crime. On the other hand, you earn stat XP
+regardless of whether you fail or succeed. A disadvantage of <kbd>Homicide</kbd>
+is that it does not raise your Hack stat. However, one of the main reasons for
+committing `Homicide` is that on average you earn approximately $1.087m per
+minute, an earning rate exceeding that of any other crime. Continue committing
+`Homicide` until you have earned several millions of dollars, preferably enough
+to purchase a few more Hacknet nodes and increase the Level of each node to
+about 10.
 
 ![The Slums](image/slums.png "The Slums")
 
