@@ -2,7 +2,7 @@
 
 You have installed your first batch of Augmentations, bought from CyberSec. Most
 of your progress has been reset, but you get to keep the effects of all
-Augmentations installed so far. All scripts you have saved on your home server
+Augmentations installed so far. All scripts you have saved on your `home` server
 can still be found there. It is time to start again, but this time with slightly
 better stat multipliers.
 
