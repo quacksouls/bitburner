@@ -88,11 +88,11 @@ each combat stat prior to committing <kbd>Homicide</kbd>. You only gain money if
 you successfully committed a crime. On the other hand, you earn stat XP
 regardless of whether you fail or succeed. A disadvantage of <kbd>Homicide</kbd>
 is that it does not raise your Hack stat. However, one of the main reasons for
-committing `Homicide` is that on average you earn approximately $1.087m per
-minute, an earning rate exceeding that of any other crime. Continue committing
-`Homicide` until you have earned several millions of dollars, preferably enough
-to purchase a few more Hacknet nodes and increase the Level of each node to
-about 10.
+committing <kbd>Homicide</kbd> is that on average you earn approximately $1.087m
+per minute, an earning rate exceeding that of any other crime. Continue
+committing <kbd>Homicide</kbd> until you have earned several millions of
+dollars, preferably enough to purchase a few more Hacknet nodes and increase the
+Level of each node to about 10.
 
 ![The Slums](image/slums.png "The Slums")
 
