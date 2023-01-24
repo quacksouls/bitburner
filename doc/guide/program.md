@@ -201,12 +201,23 @@ reduced rate of reputation.
 ## Reputation
 
 Each faction and company offers various types of work. Faction work is divided
-into three categories: hacking contracts, field work, and security work. Note
-that some factions offer all or a combination of these three types of work.
-Company work is divided into five categories: business job, software job, IT
-job, security job, or miscellaneous job. A miscellaneous job is part-time work,
-a position either as a waiter or general employee. Some companies offer one or a
-combination of these types of work.
+into three categories:
+
+1. Hacking contracts
+1. Field work
+1. Security work
+
+Note that some factions offer all or a combination of these three types of work.
+Company work is divided into five categories:
+
+1. Business job
+1. Software job
+1. IT job
+1. Security job
+1. Miscellaneous job
+
+A miscellaneous job is part-time work, a position either as a waiter or general
+employee. Some companies offer one or a combination of these types of work.
 
 The above image shows the rate at which you are earning reputation within
 CyberSec. Reputation can be earned within a faction as well as within a company.
