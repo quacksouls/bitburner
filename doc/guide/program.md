@@ -81,8 +81,8 @@ wait until you have accumulated enough money to buy the above four programs.
 
 ## Factions
 
-The second important event is receiving an invitation from one of three
-early-game
+The second important event after having at least 50 Hack is receiving an
+invitation from one of three early-game
 [factions](https://bitburner.readthedocs.io/en/latest/basicgameplay/factions.html).
 These factions are CyberSec, Netburners, and Tian Di Hui. Depending on the
 levels of your combat stats and the amount of money you have, you might also
