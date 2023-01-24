@@ -28,7 +28,7 @@ instead of typing
 $ connect [serverName]
 ```
 
-at the Terminal.
+at the terminal.
 
 To create a program, click on the <kbd>Create Program</kbd> tab and choose a
 program that can be created. Some other programs are locked at the moment. These
@@ -44,7 +44,7 @@ complete.
 A drawback of creating a program is the amount of time you must wait for the
 program to be 100% complete. The process can be expedited by purchasing programs
 via the dark web. You should have already bought the TOR router, which grants
-you access to the dark web. The following Terminal session:
+you access to the dark web. The following terminal session:
 
 ```sh
 $ buy -l
@@ -235,7 +235,7 @@ focusing on a task; see the section [Faction progression](faction.md).
 You can only focus on one task at a time. Suppose you click the button <kbd>Do
 something else simultaneously</kbd>, then you go to The Slums and commit a
 crime. Your focus would be taken away from the faction/company work. A screen
-would popup to show that are currently focusing on a crime. Now you are back to
+would popup to show you are currently focusing on a crime. Now you are back to
 passively earning faction or company reputation.
 
 ### Share
