@@ -89,7 +89,7 @@ The following factions have Augmentations that boost your hack-related stats.
    server to be able to nuke it. This faction has an Augmentation that allows
    you to start with the programs `FTPCrack.exe` and `relaySMTP.exe` after a
    soft reset. The server `run4theh111z` is not shown if you run `scan-analyze`
-   from your home server. It is buried deep inside the network. Finding the
+   from your `home` server. It is buried deep inside the network. Finding the
    `run4theh111z` server is an example of the shortest path problem in a network
    setting. In particular, you want to find a shortest path from your `home`
    server to the `run4theh111z` server.
