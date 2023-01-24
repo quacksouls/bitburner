@@ -93,7 +93,7 @@ another faction.
 
 Let's join the faction CyberSec. You should have received a message from this
 faction, stating the conditions for how to join the faction. You can read the
-message from your home server:
+message from your `home` server:
 
 ```sh
 # Return to your home server if you are not there already.
@@ -373,8 +373,8 @@ another default value). However, after installing an Augmentation you would keep
 the following:
 
 1. Each Augmentation you have previously installed.
-1. All scripts on your home server.
-1. All upgrades you have made to your home server.
+1. All scripts on your `home` server.
+1. All upgrades you have made to your `home` server.
 1. Your account at the World Stock Exchange.
 1. Your access to the TIX APIs.
 
@@ -391,7 +391,7 @@ of `Cranial Signal Processors - Gen II` is `Cranial Signal Processors - Gen I`.
 Purchase all pre-requisites first before you are allowed to purchase the
 particular Augmentation. Note that `NeuroFlux Governor` can be levelled up
 infinitely. Use the money available to level up `NeuroFlux Governor` as high as
-you can. Use any left over money to upgrade your home server, either RAM or
+you can. Use any left over money to upgrade your `home` server, either RAM or
 Cores or both. You would lose all money after installing the Augmentations, so
 you might as well spend the money now. Then install all Augmentations at once.
 The process to install Augmentations is as follows. Click on the
