@@ -9,7 +9,7 @@ root access to `w0r1d_d43m0n`:
 1. Have at least 3000 Hack.
 1. Open 5 ports on the server.
 
-Obtain root access to `w0r1d_d43m0n`, then manually hack it from the Terminal:
+Obtain root access to `w0r1d_d43m0n`, then manually hack it from the terminal:
 
 ```sh
 $ hack
