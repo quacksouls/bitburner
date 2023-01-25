@@ -150,7 +150,7 @@ async function update(ns) {
 }
 
 /**
- * Mange our sleeves.
+ * Manage our sleeves.
  *
  * Usage: run sleeve/cc.js
  *
