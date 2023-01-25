@@ -31,7 +31,7 @@ async function reboot(ns) {
     const script = [
         "/hgw/go.js",
         "/gang/program.js",
-        "hnet-farm.js",
+        // "hnet-farm.js",
         "trade-bot.js",
         "/cct/solver.js",
         // "hram.js",
