@@ -49,15 +49,20 @@ worker scripts. Write a manager script whose tasks include:
    hold. The prepping procedure runs the `grow.js` and `weaken.js` worker
    scripts in a loop until such a time as the target server is at its minimum
    security level and holds the maximum amount of money possible. The loop
-   either runs: (1) `grow.js` followed by `weaken.js`; or (2) `weaken.js`
-   followed by `grow.js`. The order in which the loop runs `grow.js` and
-   `weaken.js` might affect the time required for the target server to be
-   prepped. For example, [experimental data](../../data/hgw/README.md) shows
-   that the prepping loop for `n00dles` and `joesguns` should be `grow.js`
-   followed by `weaken.js`, whereas the prepping loop for `phantasy` should be
-   `weaken.js` followed by `grow.js`. Direct all servers in your botnet to prep
-   a target server. Each server in the botnet should use all of its available
-   RAM to run a worker script.
+   either runs:
+
+    - `grow.js` followed by `weaken.js`; or
+    - `weaken.js` followed by `grow.js`.
+
+    The order in which the loop runs `grow.js` and `weaken.js` might affect the
+    time required for the target server to be prepped. For example,
+    [experimental data](../../data/hgw/README.md) shows that the prepping loop
+    for `n00dles` and `joesguns` should be `grow.js` followed by `weaken.js`,
+    whereas the prepping loop for `phantasy` should be `weaken.js` followed by
+    `grow.js`. Direct all servers in your botnet to prep a target server. Each
+    server in the botnet should use all of its available RAM to run a worker
+    script.
+
 1. Steal money from the target server. Unlike the prepping stage, during the
    hacking stage you should refrain from using all servers in your botnet to run
    the `hack.js` worker script against the target server. The reason is simple.
