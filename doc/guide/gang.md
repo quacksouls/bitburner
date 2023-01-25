@@ -262,8 +262,8 @@ the most money are those that scale with your territory. Trafficking illegal
 arms and human trafficking are two such tasks. The more territory your gang
 controls, the more money you would earn from the above tasks. To allow your
 whole gang to engage in territory warfare, in the user interface locate the
-slider that says `Engage in Territory Warfare` and set it to on. Alternatively,
-use the function
+slider that says <kbd>Engage in Territory Warfare</kbd> and set it to on.
+Alternatively, use the function
 [`ns.gang.setTerritoryWarfare()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.gang.setterritorywarfare.md).
 
 Early in your gang's existence, concentrate on these objectives:
