@@ -731,13 +731,9 @@ function threads_to_use(ns, host, current, max) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    let prev_host = "";
     for (;;) {
         const host = choose_target(ns);
         assert(ns.getServerMaxMoney(host) > 0);
-        if (host !== prev_host) {
-            prev_host = host;
-        }
         await hack(ns, host);
         await ns.sleep(0);
     }
