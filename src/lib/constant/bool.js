@@ -59,6 +59,11 @@ export const bool = {
     HAS: true,
     NOT: false,
     /**
+     * Whether or not we are prepping a server.
+     */
+    IS_PREP: true,
+    NOT_PREP: false,
+    /**
      * Whether or not this relates to a product.
      */
     IS_PRODUCT: true,

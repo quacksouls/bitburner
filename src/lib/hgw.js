@@ -30,21 +30,29 @@ import {
 // Utility functions in the model of hack/grow/weaken or HGW.
 
 /**
- * Choose the servers from our botnet to use for hacking.  The servers are
- * chosen such that the total number of threads they offer allow us to steal a
- * certain percentage of a target's money.  Essentially, the problem is this.
- * We know we need n threads to steal a fraction of a target's money.  Choose
- * servers from among our botnet that would allow us to hack using n threads or
- * thereabout.
+ * Choose the servers from our botnet to use for hacking or otherwise.  The
+ * servers are chosen such that the total number of threads they offer allow us
+ * to steal a certain percentage of a target's money.  Essentially, the problem
+ * is this.  We know we need n threads to steal a fraction of a target's money.
+ * Choose servers from among our botnet that would allow us to hack using n
+ * threads or thereabout.
  *
  * @param ns The Netscript API.
  * @param host Hack this server.
  * @param frac The fraction of money to steal.  Must be between 0 and 1.
+ * @param is_prep Are we prepping a world server?  If is_prep is true, the
+ *     function will ignore the parameters host and frac.
  * @return An array of objects {host, thread} as follows:
+ *
  *     (1) host := Hostname of a server where we are to run our hack script.
  *     (2) thread := The number of threads to use on the given server.
+ *
+ *     If is_prep is true, then return an array of hostnames of world servers.
  */
-export function assemble_botnet(ns, host, frac) {
+export function assemble_botnet(ns, host, frac, is_prep) {
+    if (is_prep) {
+        return nuke_servers(ns);
+    }
     const s = hgw.script.HACK;
     const nthread = (serv) => num_threads(ns, s, serv);
     const descending = (a, b) => nthread(b) - nthread(a);
@@ -130,40 +138,20 @@ export async function hgw_action(ns, host, botnet, action) {
     assert(host !== "");
     assert(host !== home);
     assert(botnet.length > 0);
+
     const time = hgw_wait_time(ns, host, action);
     const s = hgw_script(action);
-    const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
+    let has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const nthread = (serv) => num_threads(ns, s, serv);
-    const run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    let run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    if (action === hgw.action.HACK) {
+        has_ram_to_run_script = (obj) => can_run_script(ns, s, obj.host);
+        run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
+    }
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     if (pid.length === 0) {
         return;
     }
-    await ns.sleep(time);
-    while (!is_action_done(ns, pid)) {
-        await ns.sleep(wait_t.SECOND);
-    }
-}
-
-/**
- * Perform the hack HGW action against a target server.
- *
- * @param ns The Netscript API.
- * @param host Perform the hack HGW action against this server.  Cannot be our
- *     home server.
- * @param botnet An array of objects {host: hostname, thread: num_threads} of
- *     world servers to which we have root access.  Use these servers to hack
- *     the given target.  Cannot be empty array.
- */
-export async function hgw_hack(ns, host, botnet) {
-    assert(host !== "");
-    assert(host !== home);
-    assert(botnet.length > 0);
-    const time = hgw_wait_time(ns, host, hgw.action.HACK);
-    const s = hgw_script(hgw.action.HACK);
-    const has_ram_to_run_script = (obj) => can_run_script(ns, s, obj.host);
-    const run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
-    const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     await ns.sleep(time);
     while (!is_action_done(ns, pid)) {
         await ns.sleep(wait_t.SECOND);
@@ -261,7 +249,7 @@ export function nuke_servers(ns) {
  */
 export async function prep_gw(ns, host) {
     for (;;) {
-        const botnet = nuke_servers(ns);
+        const botnet = assemble_botnet(ns, host, 0, bool.IS_PREP);
         if (!has_max_money(ns, host)) {
             await hgw_action(ns, host, botnet, hgw.action.GROW);
         }
@@ -284,12 +272,12 @@ export async function prep_gw(ns, host) {
  */
 export async function prep_mgw(ns, host) {
     while (!has_max_money(ns, host)) {
-        const botnet = nuke_servers(ns);
+        const botnet = assemble_botnet(ns, host, 0, bool.IS_PREP);
         await hgw_action(ns, host, botnet, hgw.action.GROW);
         await ns.sleep(0);
     }
     while (!has_min_security(ns, host)) {
-        const botnet = nuke_servers(ns);
+        const botnet = assemble_botnet(ns, host, 0, bool.IS_PREP);
         await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
         await ns.sleep(0);
     }
@@ -304,7 +292,7 @@ export async function prep_mgw(ns, host) {
  */
 export async function prep_mwg(ns, host) {
     while (!has_min_security(ns, host)) {
-        const botnet = nuke_servers(ns);
+        const botnet = assemble_botnet(ns, host, 0, bool.IS_PREP);
         await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
         await ns.sleep(0);
     }
@@ -325,7 +313,7 @@ export async function prep_mwg(ns, host) {
  */
 export async function prep_wg(ns, host) {
     for (;;) {
-        const botnet = nuke_servers(ns);
+        const botnet = assemble_botnet(ns, host, 0, bool.IS_PREP);
         if (!has_min_security(ns, host)) {
             await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
         }
