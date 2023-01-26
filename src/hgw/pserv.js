@@ -301,7 +301,12 @@ async function update(ns, ram) {
     const player = new Player(ns);
     let i = player.pserv().length;
     // Each purchased server targets a different world server.
-    const candidate = find_candidates(ns);
+    const candidate = find_candidates(ns).filter(
+        (host) => !is_bankrupt(ns, host)
+    );
+    if (candidate.length === 0) {
+        return;
+    }
     let k = 0;
     const has_funds = () => player.money() > psv.cost(server_ram);
     const script = pserv.PBATCH;
@@ -313,17 +318,14 @@ async function update(ns, ram) {
             // Purchase a server.  Choose the best target server.
             const hostname = psv.purchase(pserv.PREFIX, server_ram);
             const host = candidate[k];
-            assert(!is_bankrupt(ns, host));
             const target = new Server(ns, host);
             // Let the purchased server attack the chosen target.
             assert(target.gain_root_access());
             ns.exec(script, home, nthread, hostname, target.hostname(), frac);
             i++;
             k++;
-            // Break out of the loop if each candidate is targetted by a
-            // purchased server.
             if (k >= candidate.length) {
-                break;
+                k = 0;
             }
         }
         await ns.sleep(wait_t.DEFAULT);
