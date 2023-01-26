@@ -320,8 +320,10 @@ async function update(ns, ram) {
             ns.exec(script, home, nthread, hostname, target.hostname(), frac);
             i++;
             k++;
+            // Break out of the loop if each candidate is targetted by a
+            // purchased server.
             if (k >= candidate.length) {
-                k = 0;
+                break;
             }
         }
         await ns.sleep(wait_t.DEFAULT);
