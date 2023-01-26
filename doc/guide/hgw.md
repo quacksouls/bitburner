@@ -31,7 +31,7 @@ worker scripts. Write a manager script whose tasks include:
 1. Determine which common server your botnet should target. One way to help you
    determine which common server to target is to use the server rater described
    in the subsection [Your first worm](reboot.md#your-first-worm). This approach
-   might not be a good idea depending on which server your botnet is targetting.
+   might not be a good idea depending on which server your botnet is targeting.
    Each world server generally has limited RAM. The collective RAM of all world
    servers is too small to be used to target a server that has a high Hack
    requirement and/or high security. You might want to follow a rule of thumb
