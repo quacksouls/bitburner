@@ -55,13 +55,13 @@ worker scripts. Write a manager script whose tasks include:
     - `weaken.js` followed by `grow.js`.
 
     The order in which the loop runs `grow.js` and `weaken.js` might affect the
-    time required for the target server to be prepped again. For example,
-    [experimental data](../../data/hgw/README.md) shows that the prepping loop
-    for `n00dles` and `joesguns` should be `grow.js` followed by `weaken.js`,
-    whereas the prepping loop for `phantasy` should be `weaken.js` followed by
-    `grow.js`. Direct all servers in your botnet to prep a target server. Each
-    server in the botnet should use all of its available RAM to run a worker
-    script.
+    time required for the target server to be at minimum security level and
+    maximum money. For example, [experimental data](../../data/hgw/README.md)
+    shows that the prepping loop for `n00dles` and `joesguns` should be
+    `grow.js` followed by `weaken.js`, whereas the prepping loop for `phantasy`
+    should be `weaken.js` followed by `grow.js`. Direct all servers in your
+    botnet to prep a target server. Each server in the botnet should use all of
+    its available RAM to run a worker script.
 
 1. Steal money from the target server. Unlike the prepping stage, during the
    hacking stage you should refrain from using all servers in your botnet to run
