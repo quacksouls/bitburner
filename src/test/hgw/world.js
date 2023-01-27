@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { base } from "/lib/constant/misc.js";
 import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
@@ -66,16 +67,19 @@ function money(ns) {
  *
  * (1) strategy := The strategy to use.  Either "naive" or "proto".
  * (2) host := Hostname of the target server.
+ * (3) amount := The amount of money we want to raise.
  *
- * Usage: run test/hgw/world.js [strategy] [host]
- * Example: run test/hgw/world.js naive n00dles
+ * Usage: run test/hgw/world.js [strategy] [host] [amount]
+ * Example: run test/hgw/world.js naive n00dles 10e6
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const [strat, host] = ns.args;
+    const [strat, host, amount] = ns.args;
     assert(strat === "naive" || strat === "proto");
     assert(ns.getServerMaxMoney(host) > 0);
+    const max_money = parseInt(amount, base.DECIMAL);
+    assert(max_money > 0);
 
     // Data prior to hacking.
     let time = Date.now();
@@ -83,8 +87,7 @@ export async function main(ns) {
     let hack_stat = ns.getPlayer().skills.hacking;
 
     // Gather data.
-    const amount = 10e6;
-    await hack(ns, strat, host, amount);
+    await hack(ns, strat, host, max_money);
 
     // Data after hacking.
     time = to_second(Date.now() - time);
