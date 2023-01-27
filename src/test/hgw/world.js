@@ -95,7 +95,7 @@ export async function main(ns) {
     hack_xp = ns.getPlayer().exp.hacking - hack_xp;
     const xp_rate = hack_xp / time;
     hack_stat = ns.getPlayer().skills.hacking - hack_stat;
-    const money_rate = amount / time;
+    const money_rate = max_money / time;
     const stat = `${hack_stat}, ${hack_xp}, ${xp_rate}, ${money_rate}`;
     log(ns, `${host}: ${time_fmt}, ${stat}`);
 }
