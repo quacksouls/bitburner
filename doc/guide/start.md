@@ -31,11 +31,11 @@ your Hack stat.
 
 ## Study
 
-To raise your Hack stat, click on the City tab and locate Rothman University on
-the city map. Refer to the image below. Choose the option <kbd>Study Computer
-Science (free)</kbd> to start gaining Hack XP. Focus on studying for ten or more
-minutes to raise your Hack stat to about 10 or higher. When you have 10 Hack or
-more, stop taking the course to focus on another task.
+To raise your Hack stat, click on the <kbd>City</kbd> tab and locate Rothman
+University on the city map. Refer to the image below. Choose the option
+<kbd>Study Computer Science (free)</kbd> to start gaining Hack XP. Focus on
+studying for ten or more minutes to raise your Hack stat to about 10 or higher.
+When you have 10 Hack or more, stop taking the course to focus on another task.
 
 ![Rothman University](image/rothman-university.png "Rothman University")
 
