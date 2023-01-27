@@ -67,8 +67,8 @@ function money(ns) {
  * (1) strategy := The strategy to use.  Either "naive" or "proto".
  * (2) host := Hostname of the target server.
  *
- * Usage: run test/hgw/compare.js [strategy] [host]
- * Example: run test/hgw/compare.js naive n00dles
+ * Usage: run test/hgw/world.js [strategy] [host]
+ * Example: run test/hgw/world.js naive n00dles
  *
  * @param ns The Netscript API.
  */
@@ -90,7 +90,9 @@ export async function main(ns) {
     time = to_second(Date.now() - time);
     const time_fmt = ns.nFormat(time, "00:00:00");
     hack_xp = ns.getPlayer().exp.hacking - hack_xp;
-    const hack_rate = hack_xp / time;
+    const xp_rate = hack_xp / time;
     hack_stat = ns.getPlayer().skills.hacking - hack_stat;
-    log(ns, `${host}: ${time_fmt}, ${hack_stat}, ${hack_xp}, ${hack_rate}`);
+    const money_rate = amount / time;
+    const stat = `${hack_stat}, ${hack_xp}, ${xp_rate}, ${money_rate}`;
+    log(ns, `${host}: ${time_fmt}, ${stat}`);
 }
