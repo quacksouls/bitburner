@@ -20,6 +20,23 @@
  *********************************************************************** */
 
 /**
+ * Various constants related to the dark web.
+ */
+const darkweb = {
+    /**
+     * Constants related to various programs that can be purchased via the dark
+     * web.
+     */
+    program: {
+        brutessh: "BruteSSH.exe",
+        ftpcrack: "FTPCrack.exe",
+        httpworm: "HTTPWorm.exe",
+        relaysmtp: "relaySMTP.exe",
+        sqlinject: "SQLInject.exe",
+    },
+};
+
+/**
  * Various constants in the model of hack/grow/weaken (HGW).
  */
 const hgw = {
@@ -150,6 +167,27 @@ function can_run_script(ns, s, host) {
 }
 
 /**
+ * Determine the fraction of money to steal from a prepped server.
+ *
+ * @param ns The Netscript API.
+ * @param target Hostname of the server to hack.
+ * @return The fraction of money to steal from the target server.
+ */
+function choose_fraction(ns, target) {
+    switch (target) {
+        case server.NOODLES:
+            return fraction_noodles(ns);
+        case server.JOES:
+            return fraction_joesguns(ns);
+        case server.PHANTASY:
+            return fraction_phantasy(ns);
+        default:
+            // Should never reach here.
+            assert(false);
+    }
+}
+
+/**
  * Exclude the purchased servers.
  *
  * @param ns The Netscript API.
@@ -161,6 +199,56 @@ function filter_pserv(ns, serv) {
     const not_purchased = (s) => !ns.getServer(s).purchasedByPlayer;
     const not_pserv = (s) => is_home(s) || not_purchased(s);
     return serv.filter(not_pserv);
+}
+
+/**
+ * The fraction of money to steal from joesguns.
+ *
+ * @param ns The Netscript API.
+ */
+function fraction_joesguns(ns) {
+    assert(
+        has_program(ns, darkweb.program.brutessh)
+            && has_program(ns, darkweb.program.ftpcrack)
+            && has_program(ns, darkweb.program.relaysmtp)
+    );
+    return 0.6;
+}
+
+/**
+ * The fraction of money to steal from n00dles.
+ *
+ * @param ns The Netscript API.
+ */
+function fraction_noodles(ns) {
+    if (
+        !has_program(ns, darkweb.program.brutessh)
+        && !has_program(ns, darkweb.program.ftpcrack)
+    ) {
+        return 0.5;
+    }
+    if (
+        has_program(ns, darkweb.program.brutessh)
+        || has_program(ns, darkweb.program.ftpcrack)
+    ) {
+        return 0.7;
+    }
+}
+
+/**
+ * The fraction of money to steal from phantasy.
+ *
+ * @param ns The Netscript API.
+ */
+function fraction_phantasy(ns) {
+    assert(
+        has_program(ns, darkweb.program.brutessh)
+            && has_program(ns, darkweb.program.ftpcrack)
+            && has_program(ns, darkweb.program.relaysmtp)
+            && has_program(ns, darkweb.program.httpworm)
+            && has_program(ns, darkweb.program.sqlinject)
+    );
+    return 1;
 }
 
 /**
@@ -225,7 +313,7 @@ function gain_root_access(ns, host) {
  */
 async function hack(ns, host) {
     const not_prep = false;
-    const frac = 0.5;
+    const frac = choose_fraction(ns, host);
     for (;;) {
         await prep_server(ns, host);
         const botnet = assemble_botnet(ns, host, frac, not_prep);
@@ -258,6 +346,17 @@ function has_max_money(ns, host) {
 function has_min_security(ns, host) {
     const { hackDifficulty, minDifficulty } = ns.getServer(host);
     return hackDifficulty <= minDifficulty;
+}
+
+/**
+ * Whether we have a particular program.
+ *
+ * @param ns The Netscript API.
+ * @param prog Do we have this program?
+ * @return True if we have the given program; false otherwise.
+ */
+function has_program(ns, prog) {
+    return ns.fileExists(prog, server.HOME);
 }
 
 /**
