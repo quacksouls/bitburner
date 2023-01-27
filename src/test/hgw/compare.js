@@ -83,7 +83,7 @@ export async function main(ns) {
     let hack_stat = ns.getPlayer().skills.hacking;
 
     // Gather data.
-    const amount = 1e6;
+    const amount = 10e6;
     await hack(ns, strat, host, amount);
 
     // Data after hacking.
