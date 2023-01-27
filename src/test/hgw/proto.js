@@ -657,8 +657,8 @@ function threads_to_use(ns, host, current, max) {
  *
  * (1) target := Hostname of server to target.
  *
- * Usage: run test/hgw/hgw.js [target]
- * Example: run test/hgw/hgw.js n00dles
+ * Usage: run test/hgw/proto.js [target]
+ * Example: run test/hgw/proto.js n00dles
  *
  * @param ns The Netscript API.
  */
