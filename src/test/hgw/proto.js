@@ -210,7 +210,6 @@ function fraction_joesguns(ns) {
     assert(
         has_program(ns, darkweb.program.brutessh)
             && has_program(ns, darkweb.program.ftpcrack)
-            && has_program(ns, darkweb.program.relaysmtp)
     );
     return 0.6;
 }
