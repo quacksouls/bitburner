@@ -55,13 +55,14 @@ function money(ns) {
  * Various sanity checks.
  *
  * @param ns The Netscript API.
- * @param host Hostname of the purchased server to use.
+ * @param psram The amount of RAM for a purchased server.
  * @param target Hostname of the server to target.
  * @param frac The fraction of money to steal from the target server.
  * @param amount The target amount of money to steal.
  */
-function sanity_checks(ns, host, target, frac, amount) {
-    assert(host === "ps500GB" || host === "ps1TB");
+function sanity_checks(ns, psram, target, frac, amount) {
+    const valid_ram = [32, 64, 128, 256];
+    assert(valid_ram.includes(psram));
     assert(target !== "");
     assert(ns.getServerMaxMoney(target) > 0);
     assert(frac > 0 && frac <= 1);
@@ -85,26 +86,34 @@ function shush(ns) {
  * Use a proto-batcher on a purchased server to target a world server. This
  * script accepts the following command line arguments:
  *
- * (1) host := Hostname of the purchased server to use.  Accepted values are:
+ * (1) ram := The amount of RAM for a purchased server.  Accepted values are:
  *
- *     * "ps500GB" := A purchased server having 500GB RAM.
- *     * "ps1TB" := A purchased server having 1TB RAM.
+ *     * 32 := A purchased server having 32GB RAM.
+ *     * 64 := A purchased server having 64GB RAM.
+ *     * 128 := A purchased server having 128GB RAM.
+ *     * 256 := A purchased server having 256GB RAM.
  *
  * (2) target := Hostname of the server to target.
  * (3) frac := The fraction of money to steal from the target server.
  * (4) amount := The target amount of money to steal.
  *
- * Usage: run test/hgw/pserv.js [host] [target] [frac] [amount]
- * Example: run test/hgw/pserv.js ps500GB n00dles 0.5 10e6
+ * Usage: run test/hgw/pserv.js [ram] [target] [frac] [amount]
+ * Example: run test/hgw/pserv.js 128 n00dles 0.5 10e6
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const [host, target, frac, amount] = ns.args;
+    const [ram, target, frac, amount] = ns.args;
+    const psram = parseInt(ram, base.DECIMAL);
     const fr = parseFloat(frac);
     const target_money = parseInt(amount, base.DECIMAL);
-    sanity_checks(ns, host, target, fr, target_money);
+    sanity_checks(ns, psram, target, fr, target_money);
     shush(ns);
+
+    // Purchase a server having the given amount of RAM.
+    const cost = ns.getPurchasedServerCost(psram);
+    assert(cost <= money());
+    const host = ns.purchaseServer("pserv", psram);
 
     // Data prior to hacking.
     let time = Date.now();
