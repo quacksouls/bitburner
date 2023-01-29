@@ -100,7 +100,7 @@ export class PservHGW {
         const time = hgw_wait_time(this.#ns, host, hgw.action.HACK);
         const s = hgw_script(hgw.action.HACK);
         assert(can_run_script(this.#ns, s, this.#phost));
-        const max_server_threads = () => num_threads(this.#ns, s, this.#phost);
+        const max_server_threads = num_threads(this.#ns, s, this.#phost);
         let nthread = max_threads;
         if (max_threads > max_server_threads) {
             nthread = max_server_threads;
