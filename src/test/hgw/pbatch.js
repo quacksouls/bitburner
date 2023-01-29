@@ -49,7 +49,7 @@ async function hack(ns, host, target, frac) {
  *     most 1.
  */
 function sanity_checks(ns, host, target, frac) {
-    assert(host === "ps500GB" || host === "ps1TB");
+    assert(host !== "");
     assert(target !== "");
     assert(frac > 0 && frac <= 1);
     assert(ns.getServerMaxMoney(target) > 0);
