@@ -66,7 +66,7 @@ function sanity_checks(ns, host, target, frac) {
  * (3) frac := The fraction of money to steal.
  *
  * Usage: run test/hgw/pbatch.js [host] [target] [frac]
- * Example: run test/hgw/pbatch.js ps500GB n00dles 0.5
+ * Example: run test/hgw/pbatch.js pserv n00dles 0.5
  *
  * @param ns The Netscript API.
  */
