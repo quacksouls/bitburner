@@ -18,19 +18,20 @@ scripts used:
 
 Here are the abbreviations used for port opener programs:
 
-1. B := `BruteSSH.exe`
-1. F := `FTPCrack.exe`
-1. H := `HTTPWorm.exe`
-1. R := `relaySMTP.exe`
-1. S := `SQLInject.exe`
+1. B -- `BruteSSH.exe`
+1. F -- `FTPCrack.exe`
+1. H -- `HTTPWorm.exe`
+1. R -- `relaySMTP.exe`
+1. S -- `SQLInject.exe`
 
 Here are explanation of the headers in the data tables below:
 
-1. time := The amount of time in `h:mm:ss` required to steal $10m.
-1. Hack := The number of Hack levels gained.
-1. XP := The amount of Hack XP gained.
-1. XP/s := The amount of Hack XP gained per second.
-1. $/s := The amount of money gained per second.
+1. time -- The amount of time in `h:mm:ss` required to steal a specific amount
+   of money.
+1. Hack -- The number of Hack levels gained.
+1. XP -- The amount of Hack XP gained.
+1. XP/s -- The amount of Hack XP gained per second.
+1. $/s -- The amount of money gained per second.
 
 The save files used:
 
