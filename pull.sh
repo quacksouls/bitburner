@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (C) 2022 Duck McSouls
+# Copyright (C) 2022--2023 Duck McSouls
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ SCRIPT=pull.js && declare -r SCRIPT
 # Prefix, i.e. everything before the tree structure of script files.
 cat << EOF > "$SCRIPT"
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
