@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,8 +179,10 @@ function dir_structure() {
         "test/hgw/ftpcrack.js",
         "test/hgw/joesguns.js",
         "test/hgw/naive.js",
+        "test/hgw/pbatch.js",
         "test/hgw/prep.js",
         "test/hgw/proto.js",
+        "test/hgw/pserv.js",
         "test/hgw/smtp.js",
         "test/hgw/sshftp.js",
         "test/hgw/world.js",
