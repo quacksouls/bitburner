@@ -112,7 +112,7 @@ export async function main(ns) {
 
     // Purchase a server having the given amount of RAM.
     const cost = ns.getPurchasedServerCost(psram);
-    assert(cost <= money());
+    assert(cost <= money(ns));
     const host = ns.purchaseServer("pserv", psram);
 
     // Data prior to hacking.
