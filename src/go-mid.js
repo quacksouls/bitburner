@@ -30,7 +30,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "/hgw/go.js";
+    const target = "world-server.js";
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];
     const script = [target, "/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
@@ -39,7 +39,7 @@ async function reboot(ns) {
     // Source-File 9.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         // script.unshift("buy-server.js");
-        script.unshift("/hgw/pserv.js");
+        // script.unshift("/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home

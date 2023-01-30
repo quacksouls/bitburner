@@ -16,7 +16,6 @@
  */
 
 import { darkweb } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_singularity_api } from "/lib/source.js";
@@ -31,7 +30,7 @@ import {
  */
 async function init_popen(ns) {
     const pida = exec(ns, "/gang/program.js");
-    const pidb = exec(ns, "/hgw/go.js");
+    const pidb = exec(ns, "world-server.js");
     while (
         !has_program(ns, darkweb.program.brutessh.NAME)
         || !has_program(ns, darkweb.program.ftpcrack.NAME)
@@ -54,12 +53,11 @@ async function reboot(ns) {
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
     // const script = ["hnet-farm.js", "low-end.js"];
-    const script = ["low-end.js"];
-    for (const s of script) {
-        exec(ns, s);
-        await ns.sleep(wait_t.DEFAULT);
-        assert(ns.kill(s, home));
-    }
+    // for (const s of script) {
+    //     exec(ns, s);
+    //     await ns.sleep(wait_t.DEFAULT);
+    //     assert(ns.kill(s, home));
+    // }
     await init_sleeves(ns);
     await init_popen(ns);
 }

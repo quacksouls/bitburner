@@ -29,7 +29,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "/hgw/go.js",
+        "world-server.js",
         "/gang/program.js",
         // "hnet-farm.js",
         "trade-bot.js",
@@ -40,7 +40,7 @@ async function reboot(ns) {
     // in setting up a farm of purchased servers.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         // script.unshift("buy-server.js");
-        script.unshift("/hgw/pserv.js");
+        // script.unshift("/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     await init_sleeves(ns);
