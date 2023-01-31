@@ -13,9 +13,22 @@ servers. Use the save file `pserv.json`, which grants us the following:
 Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to prep a target server
 and hack a specific amount of money from the target. We note the time required
 to steal the target amount of money as well as various other Hack-related
-statistics gained in the process.
+statistics gained in the process. Here are explanation of the headers in the
+data tables below:
+
+1. fraction -- The fraction of money to steal from a prepped server. Multiply
+   this value by 100 to get the percentage value.
+1. time -- The amount of time in `h:mm:ss` required to steal a specific amount
+   of money.
+1. Hack -- The number of Hack levels gained.
+1. XP -- The amount of Hack XP gained.
+1. XP/s -- The amount of Hack XP gained per second.
+1. $/s -- The amount of money gained per second.
 
 ## `n00dles` $10m
+
+The objective is to time how long it takes to steal $10m from `n00dles`. Use
+pserv with varying amounts of RAM.
 
 | RAM (GB) | Fraction |    Time | Hack |           XP |     XP/s |         $/s |
 | -------: | -------: | ------: | ---: | -----------: | -------: | ----------: |
