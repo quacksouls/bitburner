@@ -45,14 +45,16 @@ Below are various tips you might want to keep in mind while playing the game.
    functions and import any functions you need early in the game when the RAM of
    your `home` server is low. When the RAM of your `home` server is high enough,
    use your library classes.
-1. _Automate everything._ The Singularity API is key to automating most aspects
-   of the game. Note that every aspect of the game play can be automated. Some
-   portions of the game play is more easily automated than others. Early in the
-   game, you do not have access to various APIs to help you easily automate your
-   game play. With a little bit of knowledge in JavaScript and web development,
-   you can use HTML injection to easily circumvent the manual game play early in
-   the game. Or you can go the manual route and slog it out until you have
-   access to the Singularity API.
+1. _Automate everything._ The
+   [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md)
+   is key to automating most aspects of the game. Note that every aspect of the
+   game play can be automated. Some portions of the game play is more easily
+   automated than others. Early in the game, you do not have access to various
+   APIs to help you easily automate your game play. With a little bit of
+   knowledge in JavaScript and web development, you can use HTML injection to
+   easily circumvent the manual game play early in the game. Or you can go the
+   manual route and slog it out until you have access to the
+   [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md).
 1. _One save file, multiple platforms._ The game can be played
    [online](https://danielyxie.github.io/bitburner/) and via
    [Steam](https://store.steampowered.com/app/1812820/Bitburner/). You can
