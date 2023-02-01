@@ -21,6 +21,8 @@
  *
  * Remove all our scripts from the home server, except for this script.
  *
+ * Usage: run clean.js
+ *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
