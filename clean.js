@@ -27,8 +27,7 @@
  */
 export async function main(ns) {
     const suffix = [".js", ".script"];
-    const remove = (file) => ns.rm(file);
-    suffix.forEach((pattern) => {
-        ns.ls("home", pattern).forEach(remove);
-    });
+    const rm_file = (file) => ns.rm(file);
+    const rm_all_files = (pattern) => ns.ls("home", pattern).forEach(rm_file);
+    suffix.forEach(rm_all_files);
 }
