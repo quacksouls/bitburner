@@ -5,7 +5,7 @@ When your Hack stat is at least 50, two important events occur.
 1. _Programs._ First, you can create various programs to assist with certain
    aspects of your hacking.
 1. _Factions._ Second, you would receive invitations from various early-game
-   [factions](https://bitburner.readthedocs.io/en/latest/basicgameplay/factions.html).
+   [factions](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/factions.html).
 
 ## Programs
 
@@ -19,7 +19,7 @@ can create two other programs: `BruteSSH.exe` and `AutoLink.exe`. The
 `BruteSSH.exe` program opens up the SSH port on a server, paving the way for the
 `NUKE.exe` program to take control of the server. The `AutoLink.exe` program can
 be used to directly connect to a server by point-and-click. Run the
-[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+[`scan-analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 command to provide a list of nearby servers. If you have the `AutoLink.exe`
 program, you could simply click on a server name to connect to that server,
 instead of typing
@@ -61,7 +61,7 @@ Formulas.exe - $5.000b - Unlock access to the formulas API.
 ```
 
 uses the
-[`buy`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#buy)
+[`buy`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#buy)
 command to show all programs (and their respective costs) you can purchase via
 the dark web. At the moment, the most important programs to buy are
 `BruteSSH.exe`, `FTPCrack.exe`, `relaySMTP.exe`, and `HTTPWorm.exe`. These four
@@ -83,7 +83,7 @@ wait until you have accumulated enough money to buy the above four programs.
 
 The second important event after having at least 50 Hack is receiving an
 invitation from one of three early-game
-[factions](https://bitburner.readthedocs.io/en/latest/basicgameplay/factions.html).
+[factions](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/factions.html).
 These factions are CyberSec, Netburners, and Tian Di Hui. Depending on the
 levels of your combat stats and the amount of money you have, you might also
 receive an invitation from Slum Snakes. Joining a faction might prevent you from
@@ -109,16 +109,16 @@ $ cat csec-test.msg
 The message essentially says that you must pass a test from this faction by
 installing a backdoor on the faction's server, i.e. `CSEC`. The process is
 straightforward. Use
-[`scan-analyze 3`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+[`scan-analyze 3`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 to locate `CSEC`, connect to the server, open a port, gain root access, and
 install a backdoor. If you already have the `AutoLink.exe` program, clicking on
 the name of a server should immediately connect you to the server, instead of
 using the
-[`connect`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#connect)
+[`connect`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#connect)
 command. In the example below, the `CSEC` server is two hops away from your
 `home` server, the intermediate node being `hong-fang-tea`. Take a note of the
 network tree reported by
-[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+[`scan-analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 for your playthrough. Connect to one or more intermediate servers on your way to
 `CSEC`.
 
@@ -181,7 +181,7 @@ CyberSec. Refer to the image below.
 ![Join CyberSec](image/cybersec.png "Join CyberSec")
 
 Each faction has various
-[Augmentations](https://bitburner.readthedocs.io/en/latest/basicgameplay/augmentations.html),
+[Augmentations](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/augmentations.html),
 items that can be installed on your avatar to enhance various attributes. An
 enhancement is given in terms of a multiplier. For example, an Augmentation
 might add 1% to your hack chance, making it more likely for a hack to be
@@ -344,7 +344,7 @@ reputation points to unlock all Augmentations from CyberSec.
 ## Augmentation
 
 An
-[Augmentation](https://bitburner.readthedocs.io/en/latest/basicgameplay/augmentations.html)
+[Augmentation](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/augmentations.html)
 is an implant that raises one or more of your stats. Currently, the only path to
 acquiring Augmentations is to join a faction and earn enough reputation within
 the faction such that you are allowed to purchase Augmentations from the

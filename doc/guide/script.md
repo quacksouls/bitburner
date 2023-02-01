@@ -1,7 +1,7 @@
 # First script
 
 You should now start writing a script to hack a
-[server](https://bitburner.readthedocs.io/en/latest/basicgameplay/servers.html)
+[server](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/servers.html)
 and steal money from that server. Hacking a server provides an additional source
 of passive income. The following is a general purpose script to hack a server.
 It continuously probes a target server to determine the target's security level
@@ -66,7 +66,7 @@ level as necessary.
 
 Save the above code in a script called `hack.js`. As shown in the above image,
 click on the
-[<kbd>Terminal</kbd>](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[<kbd>Terminal</kbd>](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html)
 tab and type
 
 ```sh
@@ -76,7 +76,7 @@ $ nano hack.js
 to open a text editor. Copy and paste the content of the above script to the
 text editor. Click <kbd>Save</kbd> or type <kbd>Ctrl</kbd> + <kbd>S</kbd>, then
 locate and click the <kbd>X</kbd> button to close the file. Type `ls` at the
-[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html)
 and you should see the script `hack.js` you just created. You can run the script
 on your `home` server, but this would take up the valuable small amount of RAM
 your `home` server has early in the game. Another option is to run the script on
@@ -89,7 +89,7 @@ resources of as many world servers as possible to hack a common target. It is
 generally more effective to let a bunch of servers hack one common server, than
 to let each server hack a different target. Let's find out which servers you can
 use. At the
-[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html),
+[terminal](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html),
 run the command
 
 ```sh
@@ -98,17 +98,17 @@ $ scan-analyze 2
 
 to determine all servers that are at most two hops away from your `home` server.
 The result of the command
-[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+[`scan-analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 is different for each player and each playthrough. Take note of the following
 servers: `n00dles` and `foodnstuff`. Each of these two servers requires a Hack
 level of 1 in order for you to gain root access to them. Furthermore, both
 servers do not require any port to be opened. All of the above means that you
 can immediately take control of both servers and hack them to steal money. You
 can use the command
-[`analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze)
+[`analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze)
 to obtain various information about the requirements for gaining root access to
 a server. You should first connect to a target server, then run
-[`analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze).
+[`analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#analyze).
 Let's connect to `n00dles` and `foodnstuff` and gain root access to each of
 them.
 
@@ -206,10 +206,10 @@ run your script, the better because the result of your script (e.g. the amount
 of money you steal) is multiplied by the number of threads. Running your script
 using 6 threads translates to multiplying the amount of money you steal by 6.
 Use the command
-[`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
+[`scp`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
 to copy `hack.js` over to the above servers and use the above number of threads
 to run the script on the respective servers. As shown in the
-[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session below, your hack script should target `n00dles`. Early in the game, you
 should concentrate on hacking one target server. The server `n00dles` is always
 a good choice to target to raise your Hack stat and earn some money. Later on,
@@ -242,21 +242,21 @@ the name of a script that is running on that server. Click the button
 ![Script log](image/script-log.png "Script log")
 
 Use the command
-[`scan-analyze`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
+[`scan-analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 to help you find other servers that can be redirected to hack `n00dles`. For the
 moment, look for servers that do not require a port to be opened in order to run
 `NUKE.exe` on them. Consider the servers `sigma-cosmetics` and `joesguns`
 because they require a relatively low Hack stat. Wait until your Hack stat meets
 the Hack requirements of these servers. Then gain root access to the above
 servers and use them to hack `n00dles`. Remember to first
-[`scp`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
+[`scp`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scp)
 your script `hack.js` over to each server and run the script using as many
 threads as the server allows.
 
 ## Upgrade `home`
 
 Your `home` server can also be used to hack `n00dles`. As shown in the following
-[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session:
 
 ```sh
@@ -275,7 +275,7 @@ the location of Alpha Enterprises, as shown in the image below, and click on the
 upgrade `home` to 128GB RAM, leaving you plenty of money to purchase the TOR
 router. The TOR router will come in handy later on when you need to purchase
 various programs to help you progress. For the moment, the following
-[terminal](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html)
+[terminal](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html)
 session:
 
 ```sh

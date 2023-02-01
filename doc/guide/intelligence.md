@@ -1,6 +1,6 @@
 # BitNode-5: Artificial Intelligence
 
-[Intelligence](https://bitburner.readthedocs.io/en/latest/advancedgameplay/intelligence.html)
+[Intelligence](https://bitburner-official.readthedocs.io/en/latest/advancedgameplay/intelligence.html)
 is a stat that is acquired as soon as you enter BN5.1. The stat remains with
 your character provided that you destroy at least BN5.1. If you enter BN5.1,
 then use the program `b1t_flum3.exe` to enter another BitNode without first
@@ -41,7 +41,7 @@ which you are focused.
    [`ns.singularity.universityCourse()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.universitycourse.md).
 1. 📝 Manual hacking from the Terminal. How many Intelligence XP per hack? Does
    the XP vary depending on the server you are hacking? Use the command
-   [`hack`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#hack)
+   [`hack`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#hack)
    and possibly simulate Terminal input.
 1. 📝 BladeBurner actions. Elaborate on this.
 1. Joining a faction gives you 7.5 Intelligence XP. No focus required. Use the

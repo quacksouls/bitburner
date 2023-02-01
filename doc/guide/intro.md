@@ -9,7 +9,7 @@ enjoyment, you should write your own scripts to play the game.
 Below are various tips you might want to keep in mind while playing the game.
 
 1. _Do the tutorials._ Complete the in-game tutorial, followed by the
-   [online tutorial](https://bitburner.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html).
+   [online tutorial](https://bitburner-official.readthedocs.io/en/latest/guidesandtips/gettingstartedguideforbeginnerprogrammers.html).
 1. _Read the API documentation._ Read or browse the
    [API documentation](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.md)
    to get an idea of what you can do.
@@ -94,7 +94,7 @@ Below are various tips you might want to keep in mind while playing the game.
    editor and paste the code into the in-game text editor. Another option is to
    use an online code hosting provider such as [GitHub](https://github.com/).
    Save your scripts to GitHub and from the Terminal of the game use the command
-   [`wget`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#wget)
+   [`wget`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#wget)
    to download a script into your game. Ask on the
    [Bitburner server of Discord](https://discord.com/invite/TFc3hKD) for more
    options.

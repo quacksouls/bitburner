@@ -9,7 +9,7 @@ the game.
 ## Stock Market
 
 The
-[Stock Market](https://bitburner.readthedocs.io/en/latest/basicgameplay/stockmarket.html)
+[Stock Market](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/stockmarket.html)
 can be a good source of passive income. Depending on how you use it, the Stock
 Market can be your personal bank where profits you earn are like interest on
 your deposit. To start trading on the Stock Market, you must have an account on
@@ -65,7 +65,7 @@ nodes. Refrain from spending all your money gambling on the Stock Market.
 
 ## Coding Contracts
 
-[Coding Contracts](https://bitburner.readthedocs.io/en/latest/basicgameplay/codingcontracts.html)
+[Coding Contracts](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/codingcontracts.html)
 (or CCT) are programming problems. Every 10 minutes there is 25% chance for a
 CCT to spawn on a random world server. Correctly solving a CCT would grant you a
 random reward. The reward can be faction reputation, company reputation, or
@@ -280,7 +280,7 @@ target server. There is a way to automate this process by simulating terminal
 input.
 
 The
-[official documentation](https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html)
+[official documentation](https://bitburner-official.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html)
 has the template code shown below to help you simulate terminal input.
 
 ```js

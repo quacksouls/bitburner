@@ -31,7 +31,7 @@ function connect(ns, target) {
     const command = `connect ${walk.join("; connect ")}`;
     // Template code from the official documentation of Bitburner:
     //
-    // https://bitburner.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
+    // https://bitburner-official.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
     const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
     input.value = command;
     const handler = Object.keys(input)[1];

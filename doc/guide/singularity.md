@@ -82,7 +82,7 @@ aspects of the game that you can now automate.
     ```
 
     Running the command
-    [`backdoor`](https://bitburner.readthedocs.io/en/latest/basicgameplay/terminal.html#backdoor)
+    [`backdoor`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#backdoor)
     from the Terminal also works. For a scripted destruction, use the function
     [`ns.singularity.destroyW0r1dD43m0n()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.destroyw0r1dd43m0n.md).
     This function requires two arguments:

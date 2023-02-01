@@ -26,7 +26,7 @@ in all your multipliers and your `home` server now starts with 32GB RAM after
 entering a new BitNode. If you want, you can enter BN1 again to play through
 BN1.2 and complete it to increase all your multipliers by 24%. Details on all
 BitNodes can be
-[found here](https://bitburner.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html).
+[found here](https://bitburner-official.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html).
 
 ## What's next?
 
@@ -47,7 +47,7 @@ money to increase, browse through the
 [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md)
 to get an idea of which tasks you can now automate via scripts. Solve a couple
 of
-[Coding Contracts](https://bitburner.readthedocs.io/en/latest/basicgameplay/codingcontracts.html)
+[Coding Contracts](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/codingcontracts.html)
 to earn money. Join factions and buy their Augmentations. Raise your stats,
 especially your Hack, and money. Join Daedalus and raise your reputation high
 enough to allow you to purchase TRP. Install TRP, then hack the `w0r1d_d43m0n`
@@ -59,7 +59,7 @@ BitNodes that have Source-Files that permanently increase some of your stats by
 various multipliers. For example, destroy BN1.2 to increase all of your stat
 multipliers by 24% and then destroy BN1.3 to increase all of your stat
 multipliers by 28%. Refer to
-[this page](https://bitburner.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html)
+[this page](https://bitburner-official.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html)
 for recommendation on which BitNodes to destroy. Below is a recommended order,
 assuming that you destroy the same BitNode three times before moving to a
 different BitNode.
@@ -77,7 +77,7 @@ different BitNode.
    the RAM cost of each Singularity function is at its minimum. Refer to the
    section [BitNode-4: The Singularity](singularity.md) for more detail.
 1. `BitNode-5: Artificial Intelligence`. This BitNode unlocks a new stat called
-   [Intelligence](https://bitburner.readthedocs.io/en/latest/advancedgameplay/intelligence.html).
+   [Intelligence](https://bitburner-official.readthedocs.io/en/latest/advancedgameplay/intelligence.html).
    The stat is permanent. Its value persists across soft reset and across
    BitNodes. Your Intelligence stat can only increase or stagnate, but never
    reset to 0. Intelligence boosts various game actions such as hacking,
