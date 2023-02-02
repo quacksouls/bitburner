@@ -27,7 +27,7 @@ import { assert } from "/lib/util.js";
  *
  * @param ns The Netscript API.
  * @param script We want to run this script on our home server.
- * @return true if enough free RAM is available to execute the script;
+ * @return True if enough free RAM is available to execute the script;
  *     false otherwise.
  */
 function can_run_script(ns, script) {
