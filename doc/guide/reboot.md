@@ -137,8 +137,9 @@ and
 [depth-first search (DFS)](https://en.wikipedia.org/wiki/Depth-first_search).
 The fundamental idea of BFS is to visit all neighbours of a server, then proceed
 to visit the neighbours of the neighbours. The queue data structure is commonly
-used in an implementation of BFS. Here is a description of the basic BFS
-algorithm, written as pseudocode:
+used in an implementation of BFS. Below is a description of the basic BFS
+algorithm, written as pseudocode. The symbol `:=` means "assign". A line of
+pseudocode like `a := 42` is read as: "Assign the number 42 to `a`".
 
 ```js
 // Input: The starting node, called root. Start your scanning from this node.
