@@ -2,7 +2,10 @@
 
 Bitburner is a programming game. You can get through the game with a minimum
 amount of programming and by using other players' scripts. For maximum
-enjoyment, you should write your own scripts to play the game.
+enjoyment, you should write your own scripts to play the game. Are you new to
+programming or do you want to refresh your programming knowledge? The tutorial
+[Learn you some JavaScript for fun](https://github.com/quacksouls/lyf) uses
+Bitburner to help you learn basic programming skills you need to play the game.
 
 ## Tips
 
