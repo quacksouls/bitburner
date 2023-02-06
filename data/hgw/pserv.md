@@ -5,10 +5,15 @@ servers. Use the save file `pserv.json`, which grants us the following:
 
 1. Starts in BN1.1.
 1. 20 Hack and default values in other stats.
-1. Start with $224.3m.
+1. Start with $29.812b.
 1. Installed the Augmentation `CashRoot Starter Kit` which allows us to start
-   with `BruteSSH.exe`.
-1. Manually purchased the TOR router and the `FTPCrack.exe` program.
+   with the program `BruteSSH.exe`.
+1. Manually purchased the TOR router and the program `FTPCrack.exe`.
+
+For extra money, run the scripts `/cct/solver.js` and `nuke.js`. Can take a
+while for your money to increase because you are relying on money from solving
+Coding Contracts. The save file `pserv.json` has money obtained from legitimate
+means, instead of cheating in the money.
 
 Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to prep a target server
 and hack a specific amount of money from the target. We note the time required
