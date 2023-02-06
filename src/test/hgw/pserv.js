@@ -61,7 +61,10 @@ function money(ns) {
  * @param amount The target amount of money to steal.
  */
 function sanity_checks(ns, psram, target, frac, amount) {
-    const valid_ram = [32, 64, 128, 256, 512, 1024, 2048];
+    const valid_ram = [
+        32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
+        131072, 262144, 524288,
+    ];
     assert(valid_ram.includes(psram));
     assert(target !== "");
     assert(ns.getServerMaxMoney(target) > 0);
@@ -95,6 +98,14 @@ function shush(ns) {
  *     * 512 := A purchased server having 512GB RAM.
  *     * 1024 := A purchased server having 1024GB RAM.
  *     * 2048 := A purchased server having 2048GB RAM.
+ *     * 4096 := A purchased server having 4096GB RAM.
+ *     * 8192 := A purchased server having 8192GB RAM.
+ *     * 16384 := A purchased server having 16384GB RAM.
+ *     * 32768 := A purchased server having 32768GB RAM.
+ *     * 65536 := A purchased server having 65536GB RAM.
+ *     * 131072 := A purchased server having 131072GB RAM.
+ *     * 262144 := A purchased server having 262144GB RAM.
+ *     * 524288 := A purchased server having 524288GB RAM.
  *
  * (2) target := Hostname of the server to target.
  * (3) frac := The fraction of money to steal from the target server.
