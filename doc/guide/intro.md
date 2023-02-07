@@ -7,11 +7,10 @@ repositories of scripts to play the game:
 1. alainbryden -- https://github.com/alainbryden/bitburner-scripts
 1. xxxsinx -- https://github.com/xxxsinx/bitburner
 
-For maximum enjoyment, you should write your own scripts to play the game. Are
-you new to programming or do you want to refresh your programming knowledge? The
-tutorial [Learn you some JavaScript for fun](https://github.com/quacksouls/lyf)
-uses Bitburner to help you learn basic programming skills you need to play the
-game.
+Are you new to programming or do you want to refresh your programming knowledge?
+The tutorial
+[Learn you some JavaScript for fun](https://github.com/quacksouls/lyf) uses
+Bitburner to help you learn basic programming skills you need to play the game.
 
 ## Tips
 
