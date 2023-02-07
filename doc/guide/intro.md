@@ -9,7 +9,7 @@ repositories of scripts to play the game:
 
 Are you new to programming or do you want to refresh your programming knowledge?
 The tutorial
-[Learn you some JavaScript for fun](https://github.com/quacksouls/lyf) uses
+[_Learn you some JavaScript for fun_](https://github.com/quacksouls/lyf) uses
 Bitburner to help you learn basic programming skills you need to play the game.
 
 ## Tips
