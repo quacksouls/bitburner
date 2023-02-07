@@ -4,8 +4,8 @@ Bitburner is a programming game. You can get through the game with a minimum
 amount of programming and by using other players' scripts. Here are some popular
 repositories of scripts to play the game:
 
-1. alainbryden -- https://github.com/alainbryden/bitburner-scripts
-1. xxxsinx -- https://github.com/xxxsinx/bitburner
+1. [alainbryden](https://github.com/alainbryden/bitburner-scripts)
+1. [xxxsinx](https://github.com/xxxsinx/bitburner)
 
 Are you new to programming or do you want to refresh your programming knowledge?
 The tutorial
