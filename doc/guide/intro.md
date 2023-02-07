@@ -29,9 +29,9 @@ objective, you write JavaScript programs that accomplish the following:
 
 The above captures the essence of the gameplay loop.
 
-Bitburner is also a sandbox game. While the game presents you with some basic
-objectives to fulfil, you are free to make up your own goals. Play the game in
-any way you want.
+Finally, Bitburner is a sandbox game. While the game presents you with some
+basic objectives to fulfil, you are free to make up your own goals. Play the
+game in any way you want.
 
 ## Tips
 
