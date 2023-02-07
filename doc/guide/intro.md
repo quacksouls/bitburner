@@ -21,7 +21,7 @@ objective, you write JavaScript programs that accomplish the following:
    your income.
 1. Increase your money. You need money and a massive amount of it to purchase
    equipment that allows you to make even more money.
-1. Purchase equipment that boosts the rate at which your stats and money
+1. Purchase equipment that boost the rate at which your stats and money
    increase. These stats-enhancing equipment generally grant a temporary boost.
 1. Complete specific goals that reward you with permanent boosts to your stats
    or permanently grant you ways to make more money.
