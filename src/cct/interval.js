@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ function merge(interval) {
  *
  * @param intA An interval, represented as an array [x, y] of two elements.
  * @param intB Another interval.
- * @return true if the given intervals should be merged; false otherwise.
+ * @return True if the given intervals should be merged; false otherwise.
  */
 function merge_interval(intA, intB) {
     const start = 0;
@@ -85,7 +85,7 @@ function merge_interval(intA, intB) {
  * Whether each interval is valid.
  *
  * @param array An array of intervals.  Cannot be an empty array.
- * @return true if each interval is valid; false otherwise.
+ * @return True if each interval is valid; false otherwise.
  */
 function valid_interval(array) {
     assert(array.length > 0);
