@@ -12,6 +12,27 @@ The tutorial
 [_Learn you some JavaScript for fun_](https://github.com/quacksouls/lyf) uses
 Bitburner to help you learn basic programming skills you need to play the game.
 
+Bitburner is also an
+[incremental game](https://en.wikipedia.org/wiki/Incremental_game). Your overall
+objective can be summarized as: make the numbers go up rapidly. To fulfil the
+objective, you write JavaScript programs that accomplish the following:
+
+1. Increase your stats. Your stats directly affect how fast you can increase
+   your income.
+1. Increase your money. You need money and a massive amount of it to purchase
+   equipment that allows you to make even more money.
+1. Purchase equipment that boosts the rate at which your stats and money
+   increase. These stats-enhancing equipment generally grant a temporary boost.
+1. Complete specific goals that reward you with permanent boosts to your stats
+   or permanently grant you ways to make more money.
+1. Rinse and repeat the above.
+
+The above captures the essence of the gameplay loop.
+
+Bitburner is also a sandbox game. While the game presents you with some basic
+objectives to fulfil, you are free to make up your own goals. Play the game in
+any way you want.
+
 ## Tips
 
 Below are various tips you might want to keep in mind while playing the game.
