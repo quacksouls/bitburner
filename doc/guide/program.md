@@ -223,7 +223,7 @@ your reputation within a company to fulfil one of two objectives:
 
 Raising your reputation within a faction would satisfy one of two criteria that
 govern whether you can purchase items from the faction's shop. Apart from the
-faction requirement, most items in a faction's shop cost a massive amount of
+reputation requirement, most items in a faction's shop cost a massive amount of
 money.
 
 Each faction and company offers various types of work. Faction work is divided
