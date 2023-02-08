@@ -1,18 +1,27 @@
 # First script
 
-You should now start writing a script to hack a
-[server](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/servers.html)
-and steal money from that server. Hacking a server provides an additional source
-of passive income. The following is a general purpose script to hack a server.
-It continuously probes a target server to determine the target's security level
-and the amount of money on the target. If the target's security level is too
-high, the script weakens the target. If the target has too little money, let the
-server grow and increase the amount of money. In case the target's security
-level is low enough and there is a decent amount of money on the server, hack
-the target and steal some of its money. The script is not meant to be efficient
-at generating money or increasing your Hack stat. Its purpose is to serve as a
-bare-bones script upon which you write your own possibly more efficient script.
-The full script can also be found [here](script/hack.js).
+The overall theme of Bitburner is hacking. You write JavaScript programs, also
+called _scripts_, to perform various kinds of hacking. The form of hacking you
+will encounter again and again is stealing money from a server. This chapter
+shows you how to write an early hacking script. You will also learn how to use
+the script to hack various
+[servers](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/servers.html)
+found in the game world.
+
+## `hack.js`
+
+Hacking a server provides a source of passive income, in addition to other
+sources of income covered in the chapter [_Starting out_](start.md). Below is a
+general-purpose script to hack a server. It continuously probes a target server
+to determine the target's security level and the amount of money on the target.
+If the target's security level is too high, the script weakens the target. If
+the target has too little money, let the server grow and increase the amount of
+money. In case the target's security level is low enough and there is a decent
+amount of money on the server, hack the target and steal some of its money. The
+script is not meant to be efficient at generating money or increasing your Hack
+stat. Its purpose is to serve as a bare-bones script upon which you write your
+own possibly more efficient script. The full script can also be found
+[here](script/hack.js).
 
 ```js
 /**
