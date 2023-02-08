@@ -311,7 +311,7 @@ Running script with 53 thread(s), pid 5 and args: ["n00dles"].
 
 While your script is hacking `n00dles`, go back to Rothman University and study
 the free computer science course to raise your Hack stat. You want at least 50
-Hack. The reason will be explained in the next section.
+Hack. The reason will be explained in the next chapter.
 
 [[TOC](README.md "Table of Contents")] [[Previous](start.md "Starting out")]
 [[Next](program.md "Programs and factions")]
