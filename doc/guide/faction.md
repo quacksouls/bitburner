@@ -24,6 +24,9 @@ Augmentations offered by each faction can be
 
 ## Early game factions
 
+These are among some of the factions you would most likely encounter early in
+the game.
+
 1. _CyberSec._ The faction does not require you to be located in any particular
    city. Stay put in the city Sector-12. To receive an invitation from the
    faction, you must install a backdoor on the `CSEC` server. The server
