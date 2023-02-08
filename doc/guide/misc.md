@@ -1,10 +1,9 @@
 # Miscellaneous topics
 
 Your Hacknet farm and server hacking can quickly generate a large amount of
-passive income. In this section, you will explore two game mechanics that can
-provide a huge sum of money in a relatively short amount of time. The third
-topic discussed in this section will help you to automate a particular aspect of
-the game.
+passive income. In this chapter, you will explore two game mechanics that can
+provide a huge sum of money in a relatively short amount of time. Finally, the
+chapter will help you to automate a particular aspect of the game.
 
 ## Stock Market
 
