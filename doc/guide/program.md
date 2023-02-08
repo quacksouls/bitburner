@@ -93,7 +93,7 @@ invitation from one of three early-game
 You join a faction primarily for the following purposes:
 
 1. Raise your reputation within the faction. Reputation is important because it
-   allows you to purchase items in the faction's shop.
+   unlocks items in the faction's shop.
 1. Buy one or more equipment that temporarily boost your stats. Stat-boosting
    items allow you to generate even more money or rapidly raise your stats.
 
