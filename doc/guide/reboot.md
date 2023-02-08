@@ -3,13 +3,13 @@
 You have installed your first batch of Augmentations, bought from CyberSec. Most
 of your progress has been reset, but you get to keep the effects of all
 Augmentations installed so far. All scripts you have saved on your `home` server
-can still be found there. It is time to start again, but this time with slightly
-better stat multipliers.
+can still be found there. Let's start again, but this time with slightly better
+stat multipliers.
 
 ## Reboot income and Hack farming
 
 First things first. Let's restart your streams of passive income as per the
-section [Starting out](start.md). Use the starting amount of $1k to purchase a
+chapter [_Starting out_](start.md). Use the starting amount of $1k to purchase a
 Hacknet node and let it generate passive income. While the Hacknet node is
 running in the background, you need to upgrade your Hack stat. The simplest way
 to do so is to take the course <kbd>Study Computer Science (free)</kbd> at
@@ -17,12 +17,12 @@ Rothman University, stopping when you have at least 10 Hack. You also need to
 work at a company to supplement your passive income. Again, apply at and work
 for FoodNStuff (or Joe's Guns if you want).
 
-Second, follow the section [First script](script.md). Deploy your hack script to
-the following servers: `n00dles`, `foodnstuff`, `sigma-cosmetics`, `joesguns`,
-and any other servers to which you can gain root access. You might need to
-commit crimes in The Slums to raise enough money to purchase the TOR router and
-purchase various port opener programs via the dark web. All of the above
-compromised servers can be directed to hack `n00dles`. If you so choose,
+Second, follow the chapter [_First script_](script.md). Deploy your hack script
+to the following servers: `n00dles`, `foodnstuff`, `sigma-cosmetics`,
+`joesguns`, and any other servers to which you can gain root access. You might
+need to commit crimes in The Slums to raise enough money to purchase the TOR
+router and purchase various port opener programs via the dark web. All of the
+above compromised servers can be directed to hack `n00dles`. If you so choose,
 redirect the compromised servers to hack another common target such as
 `foodnstuff` or `joesguns`. Your objective is to use a bunch of world servers to
 target a low-level server as a means of increasing your Hack stat and generate
@@ -62,13 +62,13 @@ unlock and buy `CashRoot Starter Kit` from Sector-12.
 
 ## Automate Hacknet
 
-If you have not already done so, join the faction Sector-12. Perform hacking
-contracts for the faction to raise your reputation within the faction. Share
-your `home` server with the faction to boost the amount of reputation points you
-earn per second; refer to the subsection [Share](program.md#share). As you
-passively farm reputation points to unlock all Augmentations from Sector-12,
-think about various tasks that you can automate. For example, you already have
-access to most functions in the
+Fourth, let's automate your farm of Hacknet nodes. If you have not already done
+so, join the faction Sector-12. Perform hacking contracts for the faction to
+raise your reputation within the faction. Share your `home` server with the
+faction to boost the amount of reputation points you earn per second; refer to
+the section [_Share_](program.md#share). As you passively farm reputation points
+to unlock all Augmentations from Sector-12, think about various tasks that you
+can automate. For example, you already have access to most functions in the
 [Hacknet API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.hacknet.md).
 (The namespace of the API is `ns.hacknet.functionName()`, not
 `ns.Hacknet.functionName()`.) Why not write a script to automate the buying and
@@ -107,10 +107,11 @@ an example [Hacknet script](script/hnet.js).
 
 ## Your first worm
 
-The next task you want to automate is nuking a server and use that server to
-hack a target. While waiting to unlock all Augmentations from Sector-12, set
-yourself the task of writing a script that scans all servers in the game world.
-When visiting a server, your script should automate the following tasks:
+Another fertile ground for automation is the nuking of servers and deploying
+your hacking scripts on those servers. While waiting to unlock all Augmentations
+from Sector-12, set yourself the task of writing a script that scans all servers
+in the game world. When visiting a server, your script should automate the
+following tasks:
 
 1. _Have the necessary Hack stat._ Determine whether you have the minimum Hack
    stat required by the server.
