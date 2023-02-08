@@ -1,5 +1,7 @@
 # Hack, grow, weaken (HGW)
 
+> 📝 Work in progress. Subject to change.
+
 A hack/grow/weaken (or HGW) algorithm uses a separate script for each of the
 [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md),
 [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md),
