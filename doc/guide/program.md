@@ -376,13 +376,19 @@ reputation points to unlock all Augmentations from CyberSec.
 
 An
 [Augmentation](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/augmentations.html)
-is an implant that raises one or more of your stats. Currently, the only path to
-acquiring Augmentations is to join a faction and earn enough reputation within
-the faction such that you are allowed to purchase Augmentations from the
-faction. Different factions have different Augmentations. Joining one faction
-can prevent you from joining another faction, but such a membership restriction
-is limited to a small number of factions. You will find that the majority of
-factions do not prohibit you from being a member of any other faction.
+is an implant that has one of three effects:
+
+1. A percentage boost to one or more of your stats.
+1. Grants you an item that helps with your hacking or exploration of the game.
+1. Triggers an event in the game.
+
+Currently, the only path to acquiring Augmentations is to join a faction and
+earn enough reputation within the faction to unlock one or more of the faction's
+Augmentations. Different factions have different Augmentations. Joining one
+faction can prevent you from joining another faction, but such a membership
+restriction is limited to a small number of factions. You will find that the
+majority of factions do not prohibit you from being a member of any other
+faction.
 
 Early in the game, you should join an early-game faction. CyberSec is one such
 faction. Perform hacking contracts (or field work) to earn reputation within the
