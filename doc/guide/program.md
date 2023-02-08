@@ -7,18 +7,24 @@ When your Hack stat is at least 50, two important events occur.
 1. _Factions._ Second, you would receive invitations from various early-game
    [factions](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/factions.html).
 
+This chapter shows you ways to obtain various programs to help with your hacking
+as well as exploration of the game. You will learn about factions and why they
+are important in the game.
+
 ## Programs
 
-Programs are important as they help you to gain root access on various servers.
-Some programs are designed to open various ports on a server, others allow you
-to take control of a server and run scripts on the server, while others help you
-to analyze and determine which servers to hack. You started the game with the
-`NUKE.exe` program, which allows you to gain root access on a server provided
-that a certain number of ports are open on that server. From 50 Hack onward, you
-can create two other programs: `BruteSSH.exe` and `AutoLink.exe`. The
-`BruteSSH.exe` program opens up the SSH port on a server, paving the way for the
-`NUKE.exe` program to take control of the server. The `AutoLink.exe` program can
-be used to directly connect to a server by point-and-click. Run the
+Programs are important as they help you to gain root access to various servers.
+Some programs are designed to open various ports on a server. Other programs
+allow you to take control of a server and run scripts on the server. Finally,
+some programs help you to analyze and determine which servers to hack.
+
+You started the game with the `NUKE.exe` program, which allows you to gain root
+access on a server provided that a certain number of ports are open on that
+server. From 50 Hack onward, you can create two other programs: `BruteSSH.exe`
+and `AutoLink.exe`. The `BruteSSH.exe` program opens up the SSH port on a
+server, paving the way for the `NUKE.exe` program to take control of the server.
+The `AutoLink.exe` program can be used to directly connect to a server by
+point-and-click. Run the
 [`scan-analyze`](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/terminal.html#scan-analyze)
 command to provide a list of nearby servers. If you have the `AutoLink.exe`
 program, you could simply click on a server name to connect to that server,
@@ -84,12 +90,19 @@ wait until you have accumulated enough money to buy the above four programs.
 The second important event after having at least 50 Hack is receiving an
 invitation from one of three early-game
 [factions](https://bitburner-official.readthedocs.io/en/latest/basicgameplay/factions.html).
-These factions are CyberSec, Netburners, and Tian Di Hui. Depending on the
-levels of your combat stats and the amount of money you have, you might also
-receive an invitation from Slum Snakes. Joining a faction might prevent you from
-joining some other factions, but such a restriction is part of a small number of
-factions. The majority of factions does not limit you from being a member of
-another faction.
+You join a faction primarily for the following purposes:
+
+1. Raise your reputation within the faction. Reputation is important because it
+   allows you to purchase items in the faction's shop.
+1. Buy one or more equipment that temporarily boost your stats. Stat-boosting
+   items allow you to generate even more money or rapidly raise your stats.
+
+At 50 Hack, you should receive an invitation from one of these factions:
+CyberSec, Netburners, Tian Di Hui. Depending on the levels of your combat stats
+and the amount of money you have, you might also receive an invitation from Slum
+Snakes. Joining a faction might prevent you from joining some other factions,
+but such a restriction is part of a small number of factions. The majority of
+factions does not limit you from being a member of another faction.
 
 Let's join the faction CyberSec. You should have received a message from this
 faction, stating the conditions for how to join the faction. You can read the
@@ -200,6 +213,19 @@ reduced rate of reputation.
 
 ## Reputation
 
+Reputation can be earned by working for a company or faction. You want to raise
+your reputation within a company to fulfil one of two objectives:
+
+1. Be able to apply for a promotion to a job that pays better and/or allows you
+   to earn more stat XP per second.
+1. To receive an invitation from a specific faction. Most companies have their
+   own respective factions.
+
+Raising your reputation within a faction would satisfy one of two criteria that
+govern whether you can purchase items from the faction's shop. Apart from the
+faction requirement, most items in a faction's shop cost a massive amount of
+money.
+
 Each faction and company offers various types of work. Faction work is divided
 into three categories:
 
@@ -239,7 +265,7 @@ following image. (The left panel shows your unfocused work for the faction Slum
 Snakes, not CyberSec.) You are still actively earning reputation, but your
 earning rate is lowered because you are being penalized for not focusing on the
 task. One of the factions has an Augmentation that removes the penalty for not
-focusing on a task; see the section [Faction progression](faction.md).
+focusing on a task; see the chapter [_Faction progression_](faction.md).
 
 ![Unfocused work](image/unfocus-work.png "Unfocused work")
 
@@ -249,9 +275,14 @@ crime. Your focus would be taken away from the faction/company work. A screen
 would popup to show you are currently focusing on a crime. Now you are back to
 passively earning faction or company reputation.
 
-### Share
+## Share
 
-As shown in one of the images from the subsection [Factions](#factions), you are
+Sharing your `home` server with a faction can boost the rate at which you gain
+reputation within the faction. The more RAM your `home` server has, the more you
+can share with a faction, and the higher is the rate at which you gain
+reputation within the faction.
+
+As shown in one of the images from the section [_Factions_](#factions), you are
 earning less than 1 reputation point per second within CyberSec. You require
 approximately 18.75k reputation points to unlock all Augmentations from
 CyberSec. At this rate, earning those 18.75k reputation points would require
