@@ -1,10 +1,10 @@
 # BitNode-2: Rise of the Underworld
 
 The theme of this BitNode is crime. Committing a crime is significantly more
-profitable, in fact 300% more profitable, as compared to other BitNodes. The
-BitNode introduces a mechanic that allows you to create a gang. The primary
-source of income for your gang is committing various crimes. The most profitable
-crimes scale off the percentage of territory your gang controls. More territory
+profitable, in fact 300% more profitable, as compared to BN1. The BitNode
+introduces a mechanic that allows you to create a gang. The primary source of
+income for your gang is committing various crimes. The most profitable crimes
+scale off the percentage of territory your gang controls. More territory
 translates to higher profit potential. Gaining more territory requires you to
 wage turf war against rival gangs. Properly managed, your gang can be one of
 your best sources of passive income. Note that the namespace of the
