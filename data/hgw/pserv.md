@@ -1,6 +1,6 @@
-# Proto-batcher and pserv
+# Sequential batcher and pserv
 
-A proto-batcher that uses a purchased server instead of the RAM of world
+A sequential batcher that uses a purchased server instead of the RAM of world
 servers. Use the save file `pserv.json`, which grants us the following:
 
 1. Starts in BN1.1.
@@ -32,8 +32,8 @@ data tables below:
 
 ## `n00dles` $10m
 
-The objective is to time how long it takes to steal $10m from `n00dles`. Use
-pserv with varying amounts of RAM.
+Time how long it takes to steal $10m from `n00dles`. Use pserv with varying
+amounts of RAM.
 
 | RAM (GB) | Fraction |    Time | Hack |           XP |     XP/s |         $/s |
 | -------: | -------: | ------: | ---: | -----------: | -------: | ----------: |
