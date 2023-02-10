@@ -22,7 +22,7 @@ import { log } from "/lib/io.js";
 import { assert, to_second } from "/lib/util.js";
 
 /**
- * Use a proto-batcher to hack a common server.
+ * Use a sequential batcher to hack a common server.
  *
  * @param ns The Netscript API.
  * @param host Hostname of the purchased server to use.
@@ -86,7 +86,7 @@ function shush(ns) {
 }
 
 /**
- * Use a proto-batcher on a purchased server to target a world server. This
+ * Use a sequential batcher on a purchased server to target a world server. This
  * script accepts the following command line arguments:
  *
  * (1) ram := The amount of RAM for a purchased server.  Accepted values are:
