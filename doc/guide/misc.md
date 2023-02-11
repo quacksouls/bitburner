@@ -196,9 +196,9 @@ API is `ns.codingcontract.functionName()`, not
 
 ## Path to a server
 
-Browsing through the section [Faction progression](faction.md) and you see that
-various factions require you to install a backdoor on their respective servers.
-You do not yet have access to the
+Browsing through the chapter [_Faction progression_](faction.md) and you see
+that various factions require you to install a backdoor on their respective
+servers. You do not yet have access to the
 [Singularity API](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.singularity.md),
 meaning that you must manually connect to a target server to install a backdoor.
 If you have the program `AutoLink.exe`, you can use it together with the command
@@ -211,8 +211,8 @@ server.
 The problem can be described as follows. You are at your `home` server. You want
 to find a path that allows you to connect to a target server. While you are at
 it, you might as well find a shortest path to the target server. You can
-certainly use the searching algorithms described in the section
-[After the first reboot](reboot.md) to help you locate a path to a target
+certainly use the searching algorithms described in the chapter
+[_After the first reboot_](reboot.md) to help you locate a path to a target
 server. However, note that breadth-first search and depth-first search by
 themselves do not always produce a shortest path.
 [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) is
