@@ -81,7 +81,7 @@ these rules:
     to which you belong. If you hold membership in multiple factions, there is a
     chance that your reputation reward would be split evenly among all factions
     to which you belong. When grinding reputation for a specific faction, ensure
-    that you join only that particular faction and you have quit your job at any
+    you join only that particular faction and you have quit your job at any
     company you are working for. Unlike companies, you cannot quit your
     membership of a faction, and must either soft reset or use `b1t_flum3.exe`
     to quit your membership of any faction.
