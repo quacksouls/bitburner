@@ -79,17 +79,17 @@ async function lower_karma(ns, nsleeve) {
 }
 
 /**
- * Various stats of the player.
+ * Various stat XP of the player.
  *
  * @param ns The Netscript API.
  * @return An object as follows:
  *     {
- *         agility: // The player's agility.
- *         defense: // The player's defense.
- *         dexterity: // The player's dexterity.
+ *         agility: // The player's agility XP.
+ *         defense: // The player's defense XP.
+ *         dexterity: // The player's dexterity XP.
  *         karma: // The player's karma.
  *         money: // The player's money.
- *         strength: // The player's strength.
+ *         strength: // The player's strength XP.
  *     }
  */
 function player_stat(ns) {
