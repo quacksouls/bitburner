@@ -159,6 +159,9 @@ async function update(ns) {
  * Pool the resources of world servers into a botnet.  Use the botnet to hack a
  * common target.  We exclude purchased servers.
  *
+ * This script relies on the basic hacking script.  It is not an implementation
+ * of a proto-batcher nor a sequential batcher.
+ *
  * Usage: run world-server.js
  *
  * @param ns The Netscript API.
