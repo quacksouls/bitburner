@@ -55,10 +55,10 @@ function sanity_checks(host, frac) {
 }
 
 /**
- * A proto-batcher for purchased servers.  Each of the hack, grow, and weaken
- * functions is separated into its own script.  When we need a particular HGW
- * action, we launch the appropriate script against a target server.  The script
- * accepts the following command line arguments.
+ * A sequential batcher for purchased servers.  Each of the hack, grow, and
+ * weaken functions is separated into its own script.  When we need a particular
+ * HGW action, we launch the appropriate script against a target server.  The
+ * script accepts the following command line arguments.
  *
  * (1) host := Hostname of the purchased server to use.
  * (2) target := Hostname of the server to target.

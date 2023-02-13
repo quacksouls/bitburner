@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,12 +46,12 @@ export const pserv = {
     MIN: 13,
     /**
      * By default, we buy this many servers to kickstart our farm of
-     * purchased servers.  Each purchased server is assumed to use a
-     * proto-batcher to prep and hack a world server.
+     * purchased servers.  Each purchased server is assumed to use some
+     * kind of batcher to prep and hack a world server.
      */
     MIN_HGW: 1,
     /**
-     * A script that implements a proto-batcher for purchased servers.
+     * A script that implements a sequential batcher for purchased servers.
      */
     PBATCH: "/hgw/pbatch.js",
     /**

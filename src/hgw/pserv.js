@@ -333,6 +333,8 @@ async function update(ns, ram) {
 }
 
 /**
+ * A sequential batcher that uses purchased servers.
+ *
  * Continuously try to purchase servers and use those to hack world servers.
  * If our funds are sufficient, try to upgrade to servers with higher amounts
  * of RAM.  Each purchased server uses HGW algorithms to prep and hack world
@@ -343,7 +345,7 @@ async function update(ns, ram) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    log(ns, "Proto-batcher for purchased servers");
+    log(ns, "Sequential batcher for purchased servers");
     shush(ns);
     reboot(ns);
     // Continuously try to purchase more powerful servers.
