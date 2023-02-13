@@ -23,17 +23,17 @@ export const pserv = {
     /**
      * The default fraction of money to steal from a world server.
      */
-    DEFAULT_MONEY_FRAC: 0.5,
+    DEFAULT_MONEY_FRAC: 0.9,
     /**
      * The default amount of RAM for each purchased server.  We assume each
-     * purchased server would use a proto-batcher to prep and hack a world
+     * purchased server would use some kind of batcher to prep and hack a world
      * server.
      */
     DEFAULT_RAM_HGW: 1024,
     /**
      * Purchased servers should not hack any of these targets.
      */
-    exclude: [home, server.JOES, server.NOODLES, server.PHANTASY],
+    exclude: [home, server.NOODLES],
     /**
      * The minimum amount of RAM each purchased server should have to be
      * considered high-end.
