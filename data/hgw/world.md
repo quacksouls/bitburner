@@ -1,6 +1,6 @@
-# HGW proto-batcher vs general-purpose `hack.js`
+# Sequential batcher vs general-purpose `hack.js`
 
-A comparison of an HGW proto-batcher and the general-purpose
+A comparison of a sequential batcher and the general-purpose
 [`hack.js`](../../doc/guide/script/hack.js) script. Here are the specific
 scripts used:
 
@@ -9,12 +9,12 @@ scripts used:
 1. [`naive.js`](../../src/test/hgw/naive.js) -- This script uses the naive
    strategy of running the hack/grow/weaken functions in a loop. It pools the
    resources of world servers to hack a common target.
-1. [`proto.js`](../../src/test/hgw/proto.js) -- This script uses a
-   proto-batcher, where each of the hack/grow/weaken functions is separated into
-   a worker script. It pools the resources of world servers to steal a fraction
-   of a prepped target's money. The specific fraction stolen depends on the
-   target server. After stealing a fraction of a prepped target's money, the
-   script preps the target again. The cycle is prep, hack, prep, hack, etc.
+1. [`proto.js`](../../src/test/hgw/proto.js) -- This script uses a sequential
+   batcher, where each of the hack/grow/weaken functions is separated into a
+   worker script. It pools the resources of world servers to steal a fraction of
+   a prepped target's money. The specific fraction stolen depends on the target
+   server. After stealing a fraction of a prepped target's money, the script
+   preps the target again. The cycle is prep, hack, prep, hack, etc.
 
 Here are the abbreviations used for port opener programs:
 

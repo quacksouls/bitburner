@@ -648,11 +648,11 @@ function threads_to_use(ns, host, current, max) {
 }
 
 /**
- * Use a proto-batcher to hack a common target.  Each of the hack, grow, and
- * weaken functions is separated into its own script.  When we need a particular
- * HGW action, we launch the appropriate script against a target server.  We
- * pool the resources of all world servers, excluding our home server and
- * purchased servers.  This script accepts a command line argument:
+ * Use a sequential batcher to hack a common target.  Each of the hack, grow,
+ * and weaken functions is separated into its own script.  When we need a
+ * particular HGW action, we launch the appropriate script against a target
+ * server.  We pool the resources of all world servers, excluding our home
+ * server and purchased servers.  This script accepts a command line argument:
  *
  * (1) target := Hostname of server to target.
  *
