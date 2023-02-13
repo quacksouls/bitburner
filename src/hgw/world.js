@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -182,7 +182,7 @@ async function prep_server(ns, host) {
  * appropriate script against a target server.  We pool the resources of all
  * world servers, excluding our home server and purchased servers.
  *
- * Usage: run hgw/go.js
+ * Usage: run hgw/world.js
  *
  * @param ns The Netscript API.
  */
