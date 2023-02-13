@@ -29,7 +29,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "world-server.js",
+        "world.js",
         "/gang/program.js",
         // "hnet-farm.js",
         "trade-bot.js",

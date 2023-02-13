@@ -30,7 +30,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "world-server.js";
+    const target = "world.js";
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];
     const script = [target, "/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
