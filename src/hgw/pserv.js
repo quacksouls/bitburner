@@ -36,11 +36,11 @@ import {
 async function buy_servers(ns) {
     const psv = new PurchasedServer(ns);
     const default_ram = pserv.DEFAULT_RAM_HGW;
-    // By default, we want to purchase pserv.MIN servers.  As for the remaining
-    // servers that make up the number to reach the maximum number of purchased
-    // servers, we wait until we have enough money to purchase each of them.
-    // The constant pserv.MIN should be a small number so we can bootstrap a
-    // source of passive income and Hack XP.
+    // By default, we want to purchase pserv.MIN_HGW servers.  As for the
+    // remaining servers that make up the number to reach the maximum number of
+    // purchased servers, we wait until we have enough money to purchase each of
+    // them.  The constant pserv.MIN_HGW should be a small number so we can
+    // bootstrap a source of passive income and Hack XP.
     let ram = pserv_ram(ns, pserv.MIN_HGW);
     if (ram <= default_ram) {
         // Try to purchase servers, each with the default amount of RAM.
@@ -93,7 +93,7 @@ function has_max_pserv(ns) {
 }
 
 /**
- * Kill all proto-batcher scripts.
+ * Kill all sequential batcher scripts.
  *
  * @param ns The Netscript API.
  */
@@ -199,7 +199,7 @@ function pserv_ram(ns, minserv) {
 }
 
 /**
- * Reboot our proto-batchers after (possibly) reloading the game.
+ * Reboot our sequential batchers after (possibly) reloading the game.
  *
  * @param ns The Netscript API.
  */
@@ -209,10 +209,10 @@ function reboot(ns) {
     if (purchased_server.length < 1) {
         return;
     }
-    // Kill proto-batcher scripts.  Kill all scripts on purchased servers.
+    // Kill all sequential batcher scripts and all scripts on purchased servers.
     kill_batchers(ns);
     purchased_server.forEach((phost) => ns.killall(phost));
-    // Launch a proto-batcher script for each purchased server.
+    // Launch a sequential batcher script for each purchased server.
     const candidate = find_candidates(ns);
     const script = pserv.PBATCH;
     const nthread = 1;
@@ -284,8 +284,8 @@ async function stage_one(ns) {
 }
 
 /**
- * Purchase the maximum number of servers and run our proto-batcher on those
- * servers.  The function chooses the "best" targets to hack.
+ * Purchase the maximum number of servers and run our sequential batcher on
+ * those servers.  The function chooses the "best" targets to hack.
  *
  * @param ns The Netscript API.
  * @param ram The amount of RAM for each purchased server.  Must be a positive
