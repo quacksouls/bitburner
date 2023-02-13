@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "world.js",
+        "/hgw/world.js",
         "/gang/program.js",
         // "hnet-farm.js",
         "trade-bot.js",

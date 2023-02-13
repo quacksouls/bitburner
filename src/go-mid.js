@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "world.js";
+    const target = "/hgw/world.js";
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];
     const script = [target, "/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point

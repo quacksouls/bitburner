@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import {
  */
 async function init_popen(ns) {
     const pida = exec(ns, "/gang/program.js");
-    const pidb = exec(ns, "world.js");
+    const pidb = exec(ns, "/hgw/world.js");
     while (
         !has_program(ns, darkweb.program.brutessh.NAME)
         || !has_program(ns, darkweb.program.ftpcrack.NAME)
