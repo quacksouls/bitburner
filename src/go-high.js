@@ -40,7 +40,7 @@ async function reboot(ns) {
     // in setting up a farm of purchased servers.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         // script.unshift("buy-server.js");
-        // script.unshift("/hgw/pserv.js");
+        script.unshift("/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     await init_sleeves(ns);

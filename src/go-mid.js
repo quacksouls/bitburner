@@ -39,7 +39,7 @@ async function reboot(ns) {
     // Source-File 9.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         // script.unshift("buy-server.js");
-        // script.unshift("/hgw/pserv.js");
+        script.unshift("/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     // Wait a while and then kill a script to free up some RAM on the home
