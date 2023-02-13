@@ -176,12 +176,11 @@ async function prep_server(ns, host) {
 }
 
 /**
- * A proto-batcher.  Each of the hack, grow, and weaken functions is separated
+ * A sequential batcher that pools the resources of world servers to target a
+ * common server.  Each of the hack, grow, and weaken functions is separated
  * into its own script.  When we need a particular HGW action, we launch the
  * appropriate script against a target server.  We pool the resources of all
  * world servers, excluding our home server and purchased servers.
- *
- * Our purpose is to raise money.
  *
  * Usage: run hgw/go.js
  *
