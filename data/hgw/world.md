@@ -88,6 +88,39 @@ of money as well as various other Hack-related statistics gained in the process.
 | `joesguns` | `bfrh.json`     | B/F/R/H   |    0:06:30 |    0:04:09 |          7 |          6 | 27508.125000 |  21650.625000 |  70.584692 |  86.787183 | 128297.897454 | 200426.507608 |
 | `phantasy` | `bfrhs.json`    | B/F/R/H/S |    0:19:51 |    0:31:12 |         10 |         22 | 38583.000000 |  98066.250000 |  32.403193 |  52.374123 |  41991.541224 |  26703.439083 |
 
+## Comparison, `n00dles`
+
+Use various techniques to steal $100m from `n00dles`. Use the save file
+`pserv.json`, which grants us the following:
+
+1. Starts in BN1.1.
+1. 20 Hack and default values in other stats.
+1. Start with $29.812b.
+1. Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+   with the program `BruteSSH.exe`.
+1. Manually purchased the TOR router and the program `FTPCrack.exe`.
+
+Here are the techniques used:
+
+1. naive -- The naive algorithm, where we run the hack/grow/weaken functions in
+   a loop. Manually purchase the remaining port opener programs. Use the script
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `naive n00dles 100e6` to the script.
+1. wbatcher -- A sequential batcher that pools the resources of world servers to
+   hack a common target. Manually purchase the remaining port opener programs.
+   Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
+   data. Pass the command line argument `proto n00dles 100e6` to the script.
+1. pbatcher -- A sequential batcher that uses a purchased server to hack a
+   common target. Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to
+   gather relevant data. Pass the command line argument `524288 n00dles 1 100e6`
+   to the script.
+
+| Technique |    Time | Hack |          Hack XP |         XP/s |          $/s |
+| --------- | ------: | ---: | ---------------: | -----------: | -----------: |
+| naive     | 0:41:57 |  185 |    318238.800000 |   126.447060 | 39733.388960 |
+| wbatcher  | 2:59:45 |  179 |    267302.475000 |    24.784510 |  9272.083925 |
+| pbatcher  | 0:53:28 |  373 | 114730918.500000 | 35758.584734 | 31167.348089 |
+
 ## Comparison, `joesguns`
 
 Use various techniques to steal $1b from `joesguns`. Use the save file
