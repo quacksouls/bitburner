@@ -10,10 +10,11 @@ servers. Use the save file `pserv.json`, which grants us the following:
    with the program `BruteSSH.exe`.
 1. Manually purchased the TOR router and the program `FTPCrack.exe`.
 
-For extra money, run the scripts `/cct/solver.js` and `nuke.js`. Can take a
-while for your money to increase because you are relying on money from solving
-Coding Contracts. The save file `pserv.json` has money obtained from legitimate
-means, instead of cheating in the money.
+For extra money, run the scripts [`/cct/solver.js`](../../src/cct/solver.js) and
+[`/test/hgw/nuke.js`](../../src/test/hgw/nuke.js). Can take a while for your
+money to increase because you are relying on money from solving Coding
+Contracts. The save file `pserv.json` has money obtained from legitimate means,
+instead of cheating in the money.
 
 Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to prep a target server
 and hack a specific amount of money from the target. We note the time required
