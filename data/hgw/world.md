@@ -104,11 +104,12 @@ Here are the techniques used:
 
 1. naive -- The naive algorithm, where we run the hack/grow/weaken functions in
    a loop. Manually purchase the remaining port opener programs. Use the script
-   [`world.js`](../../src/test/hgw/world.js) to gather relevant data.
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `naive joesguns 1e9` to the script.
 1. wbatcher -- A sequential batcher that pools the resources of world servers to
    hack a common target. Manually purchase the remaining port opener programs.
    Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
-   data.
+   data. Pass the command line argument `proto joesguns 1e9` to the script.
 1. pbatcher -- A sequential batcher that uses a purchased server to hack a
    common target. Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to
    gather relevant data. Pass the command line argument
