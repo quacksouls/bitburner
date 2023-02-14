@@ -179,6 +179,7 @@ function dir_structure() {
         "test/hgw/ftpcrack.js",
         "test/hgw/joesguns.js",
         "test/hgw/naive.js",
+        "test/hgw/nuke.js",
         "test/hgw/pbatch.js",
         "test/hgw/prep.js",
         "test/hgw/proto.js",
