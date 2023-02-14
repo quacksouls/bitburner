@@ -9,12 +9,13 @@ and
 [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md)
 functions. You create the following worker scripts:
 
-1. [`hack.js`](script/hgw/hack.js) -- Should only have the function
-   [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md).
-1. [`grow.js`](script/hgw/grow.js) -- Should only have the function
-   [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md).
-1. [`weaken.js`](script/hgw/weaken.js) -- Should only have the function
-   [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md).
+<!-- prettier-ignore -->
+- [`hack.js`](script/hgw/hack.js) -- Should only have the function
+  [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md).
+- [`grow.js`](script/hgw/grow.js) -- Should only have the function
+  [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md).
+- [`weaken.js`](script/hgw/weaken.js) -- Should only have the function
+  [`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md).
 
 Each worker script should only have one of the dedicated HGW functions so as to
 maximize RAM usage. How you use the worker scripts is a different matter.
