@@ -64,8 +64,8 @@ function update(ns, target) {
  *
  * (1) target := Hostname of the server to target.
  *
- * Usage: run test/hgw/world-server.js [target]
- * Example: run test/hgw/world-server.js n00dles
+ * Usage: run test/hgw/naive.js [target]
+ * Example: run test/hgw/naive.js n00dles
  *
  * @param ns The Netscript API.
  */
