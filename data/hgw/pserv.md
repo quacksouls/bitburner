@@ -3,12 +3,13 @@
 A sequential batcher that uses a purchased server instead of the RAM of world
 servers. Use the save file `pserv.json`, which grants us the following:
 
-1. Starts in BN1.1.
-1. 20 Hack and default values in other stats.
-1. Start with $29.812b.
-1. Installed the Augmentation `CashRoot Starter Kit` which allows us to start
-   with the program `BruteSSH.exe`.
-1. Manually purchased the TOR router and the program `FTPCrack.exe`.
+<!-- prettier-ignore -->
+- Starts in BN1.1.
+- 20 Hack and default values in other stats.
+- Start with $29.812b.
+- Installed the Augmentation `CashRoot Starter Kit` which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
 
 For extra money, run the scripts [`/cct/solver.js`](../../src/cct/solver.js) and
 [`/test/hgw/nuke.js`](../../src/test/hgw/nuke.js). Can take a while for your
@@ -22,14 +23,15 @@ to steal the target amount of money as well as various other Hack-related
 statistics gained in the process. Here are explanation of the headers in the
 data tables below:
 
-1. fraction -- The fraction of money to steal from a prepped server. Multiply
-   this value by 100 to get the percentage value.
-1. time -- The amount of time in `h:mm:ss` required to steal a specific amount
-   of money.
-1. Hack -- The number of Hack levels gained.
-1. XP -- The amount of Hack XP gained.
-1. XP/s -- The amount of Hack XP gained per second.
-1. $/s -- The amount of money gained per second.
+<!-- prettier-ignore -->
+- fraction -- The fraction of money to steal from a prepped server. Multiply
+  this value by 100 to get the percentage value.
+- time -- The amount of time in `h:mm:ss` required to steal a specific amount
+  of money.
+- Hack -- The number of Hack levels gained.
+- XP -- The amount of Hack XP gained.
+- XP/s -- The amount of Hack XP gained per second.
+- $/s -- The amount of money gained per second.
 
 ## `n00dles` $10m
 
