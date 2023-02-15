@@ -6,7 +6,8 @@ servers. Use the save file `pserv.json`, which grants us the following:
 <!-- prettier-ignore -->
 - Starts in BN1.1.
 - 20 Hack and default values in other stats.
-- Start with $29.812b.
+- Start with $29.812b. The money allows us to puchase a server with at most
+  524,288GB RAM.
 - Installed the Augmentation `CashRoot Starter Kit` which allows us to start
   with the program `BruteSSH.exe`.
 - Manually purchased the TOR router and the program `FTPCrack.exe`.
