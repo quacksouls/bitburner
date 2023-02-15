@@ -7,13 +7,14 @@ assign all our sleeves to commit homicide as well (if we have any sleeves at
 all). The save files `sleeveN.json` start us at BN1.3 and grant us the
 following:
 
-1. Default stats.
-1. `Source-File 1: Source Genesis level 3`
-1. `Source-File 4: The Singularity level 3`. We require this Source-File to help
-   us automate the gathering of data.
-1. `Source-File 10: Digital Carbon`. The number `N` in `sleeveN.json` tells us
-   the number of sleeves we have. If `N` has the value 0, then we do not have
-   `Source-File 10`.
+<!-- prettier-ignore -->
+- Default stats.
+- `Source-File 1: Source Genesis level 3`
+- `Source-File 4: The Singularity level 3`. We require this Source-File to help
+  us automate the gathering of data.
+- `Source-File 10: Digital Carbon`. The number `N` in `sleeveN.json` tells us
+  the number of sleeves we have. If `N` has the value 0, then we do not have
+  `Source-File 10`.
 
 The general process for data gathering is:
 
