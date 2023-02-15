@@ -1,5 +1,7 @@
 # Karma
 
+> Bitburner v2.2.1
+
 Data on using sleeves to help us lower our karma. While we commit homicide, we
 assign all our sleeves to commit homicide as well (if we have any sleeves at
 all). The save files `sleeveN.json` start us at BN1.3 and grant us the
