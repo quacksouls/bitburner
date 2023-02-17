@@ -30,9 +30,9 @@ Unless otherwise stated, we start with the following stats:
 ## Prep `n00dles`
 
 The amount of time required to prep a server. Time is in the format `h:mm:ss`.
-We used the save file `fresh.json` and the script `/test/hgw/prep.js`. Floating
-point numbers are rounded to 6 decimal places. The general process is as
-follows:
+We used the save file `fresh.json` and the script
+[`/test/hgw/prep.js`](../../src/test/hgw/prep.js). Floating point numbers are
+rounded to 6 decimal places. The general process is as follows:
 
 1. Use a particular strategy to prep `n00dles`.
 1. Print the data to the terminal.
@@ -50,7 +50,8 @@ follows:
 
 How long it takes to hack enough money to purchase the `BruteSSH.exe` program.
 This includes the cost of buying the Tor router. We used the save file
-`fresh.json` and the script `/test/hgw/brutessh.js`. Here is the strategy:
+`fresh.json` and the script
+[`/test/hgw/brutessh.js`](../../src/test/hgw/brutessh.js). Here is the strategy:
 
 1. Prep the server `n00dles` to minimum security level and maximum money. First,
    weaken the server to minimum security level. Then apply the HGW actions grow
@@ -92,7 +93,8 @@ numbers are rounded to 6 decimal places. The general process is as follows:
 ## Has `BruteSSH.exe`, buy `FTPCrack.exe`
 
 We used the save file `brutessh.json`, which allows us to start with the
-following stats. We used the script `/test/hgw/ftpcrack.js`.
+following stats. We used the script
+[`/test/hgw/ftpcrack.js`](../../src/test/hgw/ftpcrack.js).
 
 1. Default starting stats in BN1.1.
 1. Installed the Augmentation `CashRoot Starter Kit` so we start with $1m and
@@ -137,11 +139,11 @@ percentage to gather data.
 How long it takes to purchase both of the `BruteSSH.exe` and `FTPCrack.exe`
 programs. We used the save file `sshftp.json`, which allows us to start at base
 stat in BN1.1, without any installed Augmentations. We used the script
-`/test/hgw/sshftp.js`. We prep, then hack money from `n00dles`. The above data
-suggest we should steal 50% of money from the target server because the
-percentage results in the shortest time required to acquire both `BruteSSH.exe`
-and `FTPCrack.exe`. This is generally true, as shown by the table below. We use
-the following process:
+[`/test/hgw/sshftp.js`](../../src/test/hgw/sshftp.js). We prep, then hack money
+from `n00dles`. The above data suggest we should steal 50% of money from the
+target server because the percentage results in the shortest time required to
+acquire both `BruteSSH.exe` and `FTPCrack.exe`. This is generally true, as shown
+by the table below. We use the following process:
 
 1. Hack enough money to buy the Tor router and `BruteSSH.exe`.
 1. Manually purchase the Tor router and `BruteSSH.exe`.
@@ -174,8 +176,9 @@ We used the save file `fjs.json`, which starts us with the following stats.
 1. No Augmentation installed.
 1. The `home` server has 64GB RAM.
 
-We used the script `/test/hgw/prep.js` to prep `foodnstuff`, `joesguns`, and
-`sigma-cosmetics`. The general process is as follows:
+We used the script [`/test/hgw/prep.js`](../../src/test/hgw/prep.js) to prep
+`foodnstuff`, `joesguns`, and `sigma-cosmetics`. The general process is as
+follows:
 
 1. Use the given script to prep a certain server by means of a particular
    strategy.
@@ -203,7 +206,8 @@ Same as the above, but we want to raise money to purchase `BruteSSH.exe`,
 `FTPCrack.exe`, and `relaySMTP.exe`. The fraction of money to steal is only
 relevant when we want to raise money to buy `relaySMTP.exe`. We use the fraction
 of 0.5 whenever we raise money to purchase `BruteSSH.exe` and `FTPCrack.exe`.
-Use the script `/test/hgw/smtp.js` and the save file `fresh.json`.
+Use the script [`/test/hgw/smtp.js`](../../src/test/hgw/smtp.js) and the save
+file `fresh.json`.
 
 | Fraction | Time (B) | Time (F) | Time (R) | Time (sum) | Hack B/F/R/sum | Hack XP (B) | Hack XP (F) |  Hack XP (R) | XP/s (B) | XP/s (F) |  XP/s (R) |
 | -------: | -------: | -------: | -------: | ---------: | -------------: | ----------: | ----------: | -----------: | -------: | -------: | --------: |
@@ -222,7 +226,8 @@ Use the script `/test/hgw/smtp.js` and the save file `fresh.json`.
 
 Same as above, but we want to raise enough money to purchase both `HTTPWorm.exe`
 and `SQLInject.exe`. Use the save file `joesguns.json` and the script
-`/test/hgw/joesguns.js`. The save file starts us with the following:
+[`/test/hgw/joesguns.js`](../../src/test/hgw/joesguns.js). The save file starts
+us with the following:
 
 1. 160 Hack and base level in all other stats.
 1. The programs `BruteSSH.exe`, `FTPCrack.exe`, and `relaySMTP.exe` all manually
@@ -255,7 +260,8 @@ file `phantasy.json` gives us these stats:
    `FTPCrack.exe`, `HTTPWorm.exe`, `relaySMTP.exe`, and `SQLInject.exe`.
 1. No Augmentations installed.
 
-Use the script `/test/hgw/prep.js` to prep `phantasy`.
+Use the script [`/test/hgw/prep.js`](../../src/test/hgw/prep.js) to prep
+`phantasy`.
 
 | Server     | Strategy |    Time | Hack |       Hack XP |      XP/s |
 | ---------- | -------- | ------: | ---: | ------------: | --------: |
@@ -276,7 +282,8 @@ gives us these stats:
    `FTPCrack.exe`, `HTTPWorm.exe`, `relaySMTP.exe`, and `SQLInject.exe`.
 1. No Augmentations installed.
 
-Use the script `/test/hgw/billion.js` to prep and hack various servers.
+Use the script [`/test/hgw/billion.js`](../../src/test/hgw/billion.js) to prep
+and hack various servers.
 
 ### `foodnstuff`
 
