@@ -71,8 +71,9 @@ async function prep_server(ns, host) {
 }
 
 /**
- * Use a proto-batcher to determine how long it takes to raise $1b.  This script
- * accepts two command line arguments:
+ * Use a sequential batcher to determine how long it takes to raise $1b.  The
+ * batcher pools the resources of world servers to hack a common target. This
+ * script accepts two command line arguments:
  *
  * (1) serverName := Hostname of server to hack.
  * (2) fraction := The fraction of money to steal from the target server.
