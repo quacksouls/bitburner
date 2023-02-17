@@ -18,20 +18,22 @@ scripts used:
 
 Here are the abbreviations used for port opener programs:
 
-1. B -- `BruteSSH.exe`
-1. F -- `FTPCrack.exe`
-1. H -- `HTTPWorm.exe`
-1. R -- `relaySMTP.exe`
-1. S -- `SQLInject.exe`
+<!-- prettier-ignore -->
+- B -- `BruteSSH.exe`
+- F -- `FTPCrack.exe`
+- H -- `HTTPWorm.exe`
+- R -- `relaySMTP.exe`
+- S -- `SQLInject.exe`
 
 Here are explanation of the headers in the data tables below:
 
-1. time -- The amount of time in `h:mm:ss` required to steal a specific amount
-   of money.
-1. Hack -- The number of Hack levels gained.
-1. XP -- The amount of Hack XP gained.
-1. XP/s -- The amount of Hack XP gained per second.
-1. $/s -- The amount of money gained per second.
+<!-- prettier-ignore -->
+- time -- The amount of time in `h:mm:ss` required to steal a specific amount
+  of money.
+- Hack -- The number of Hack levels gained.
+- XP -- The amount of Hack XP gained.
+- XP/s -- The amount of Hack XP gained per second.
+- $/s -- The amount of money gained per second.
 
 The save files used:
 
@@ -93,12 +95,13 @@ of money as well as various other Hack-related statistics gained in the process.
 Use various techniques to steal $100m from `n00dles`. Use the save file
 `pserv.json`, which grants us the following:
 
-1. Starts in BN1.1.
-1. 20 Hack and default values in other stats.
-1. Start with $29.812b.
-1. Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
-   with the program `BruteSSH.exe`.
-1. Manually purchased the TOR router and the program `FTPCrack.exe`.
+<!-- prettier-ignore -->
+- Starts in BN1.1.
+- 20 Hack and default values in other stats.
+- Start with $29.812b.
+- Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
 
 Here are the techniques used:
 
@@ -126,12 +129,13 @@ Here are the techniques used:
 Use various techniques to steal $1b from `joesguns`. Use the save file
 `pserv.json`, which grants us the following:
 
-1. Starts in BN1.1.
-1. 20 Hack and default values in other stats.
-1. Start with $29.812b.
-1. Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
-   with the program `BruteSSH.exe`.
-1. Manually purchased the TOR router and the program `FTPCrack.exe`.
+<!-- prettier-ignore -->
+- Starts in BN1.1.
+- 20 Hack and default values in other stats.
+- Start with $29.812b.
+- Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
 
 Here are the techniques used:
 
