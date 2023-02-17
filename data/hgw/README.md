@@ -27,6 +27,12 @@ Unless otherwise stated, we start with the following stats:
 1. No port openers.
 1. The `home` server has 64GB RAM.
 
+<!-- prettier-ignore -->
+> See also:
+>
+> - [_Sequential batcher and pserv_](pserv.md)
+> - [_Sequential batcher vs general-purpose `hack.js`_](world.md)
+
 ## Prep `n00dles`
 
 The amount of time required to prep a server. Time is in the format `h:mm:ss`.
