@@ -282,3 +282,32 @@ amounts of RAM.
 |   524288 |      0.8 | 0:31:17 |  367 |  94404382.500000 | 50293.533585 | 532745.750287 |
 |   524288 |      0.9 | 0:29:02 |  362 |  80921542.500000 | 46456.012586 | 574087.086715 |
 |   524288 |      1.0 | 0:35:40 |  360 |  76429207.500000 | 35722.461917 | 467392.808133 |
+
+## `phantasy` $10b
+
+Time how long it takes to steal $10b from `phantasy`. Use the save file
+`pserv200.json`, which grants us the following:
+
+<!-- prettier-ignore -->
+- Starts in BN1.1.
+- 200 Hack and default values in other stats. Why 200 Hack? The server
+  `phantasy` requires at least 100 Hack. We use the rule of thumb that any
+  server we hack should require no more than half of our Hack level.
+- Start with $32.84b. The money allows us to puchase a server with at most
+  524,288GB RAM.
+- Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
+
+| RAM (GB) | Fraction |     Time | Hack |               XP |         XP/s |            $/s |
+| -------: | -------: | -------: | ---: | ---------------: | -----------: | -------------: |
+|   524288 |      0.1 | 10:02:01 |  260 | 916808265.000000 | 25381.916185 |  276850.865699 |
+|   524288 |      0.2 |  5:26:50 |  237 | 453039153.750000 | 23102.403735 |  509942.761985 |
+|   524288 |      0.3 |  3:54:49 |  224 | 302045276.250000 | 21438.021236 |  709761.844381 |
+|   524288 |      0.4 |  3:09:28 |  215 | 226549449.000000 | 19927.974907 |  879630.252701 |
+|   524288 |      0.5 |  2:40:45 |  208 | 183407469.750000 | 19016.374023 | 1036837.488062 |
+|   524288 |      0.6 |  2:21:52 |  202 | 151051862.250000 | 17746.509221 | 1174861.994836 |
+|   524288 |      0.7 |  2:08:09 |  197 | 129479791.500000 | 16839.206582 | 1300527.780184 |
+|   524288 |      0.8 |  2:00:23 |  193 | 113301740.250000 | 15686.797783 | 1384515.167018 |
+|   524288 |      0.9 |  1:59:59 |  190 | 102518424.000000 | 14241.553915 | 1389170.195854 |
+|   524288 |      1.0 |  2:39:09 |  186 |  91734144.750000 |  9606.520614 | 1047213.187681 |
