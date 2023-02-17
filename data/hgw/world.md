@@ -157,3 +157,37 @@ Here are the techniques used:
 | naive     | 1:26:07 |  218 |   881761.875000 |   170.649012 | 193531.855731 |
 | wbatcher  | 1:02:13 |  211 |   712683.750000 |   190.903637 | 267865.848497 |
 | pbatcher  | 0:29:01 |  362 | 80921542.500000 | 46482.350600 | 574412.562633 |
+
+## Comparison, `phantasy`
+
+Use various techniques to steal $10b from `phantasy`. Use the save file
+`pserv200.json`, which grants us the following:
+
+<!-- prettier-ignore -->
+- Starts in BN1.1.
+- 200 Hack and default values in other stats.
+- Start with $32.84b.
+- Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
+
+Here are the techniques used:
+
+1. naive -- The naive algorithm, where we run the hack/grow/weaken functions in
+   a loop. Manually purchase the remaining port opener programs. Use the script
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `naive phantasy 10e9` to the script.
+1. wbatcher -- A sequential batcher that pools the resources of world servers to
+   hack a common target. Manually purchase the remaining port opener programs.
+   Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
+   data. Pass the command line argument `proto phantasy 10e9` to the script.
+1. pbatcher -- A sequential batcher that uses a purchased server to hack a
+   common target. Use the script [`pserv.js`](../../src/test/hgw/pserv.js) to
+   gather relevant data. Pass the command line argument
+   `524288 phantasy 0.9 10e9` to the script.
+
+| Technique |    Time | Hack |          Hack XP |         XP/s |            $/s |
+| --------- | ------: | ---: | ---------------: | -----------: | -------------: |
+| naive     | 2:52:05 |   37 |    588172.500000 |    56.966185 |  968528.536870 |
+| wbatcher  | 5:02:15 |   58 |   1410423.750000 |    77.774242 |  551424.649696 |
+| pbatcher  | 1:59:56 |  190 | 102518399.250000 | 14246.379394 | 1389641.225208 |
