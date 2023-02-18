@@ -70,15 +70,8 @@ export async function main(ns) {
     // to perform tasks that require focus.  The script
     // "/singularity/program.js" also requires focus.  We can only focus on one
     // task at a time.
-    let is_running = true;
-    while (is_running) {
-        is_running = false;
-        for (const s of gang_script) {
-            if (ns.scriptRunning(s, home)) {
-                is_running = true;
-                break;
-            }
-        }
+    const script_running = (s) => ns.scriptRunning(s, home);
+    while (gang_script.some(script_running)) {
         await ns.sleep(wait_t.SECOND);
     }
     exec(ns, "/singularity/program.js");
