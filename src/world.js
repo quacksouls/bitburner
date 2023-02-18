@@ -15,82 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
 import { server } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
-import { darkweb } from "/lib/constant/misc.js";
 import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
 import { Server } from "/lib/server.js";
-import {
-    assert,
-    compromised_servers,
-    has_all_popen,
-    has_program,
-    nuke_servers,
-} from "/lib/util.js";
+import { nuke_servers } from "/lib/util.js";
 
 /**
- * Whether to target the server joesguns.
+ * Choose the target server to hack.  Always choose n00dles because the naive
+ * algorithm (against n00dles) can generate money quicker than a sequential
+ * batcher.  Data here
  *
- * @param ns The Netscript API.
- * @return True if we are to hack joesguns; false otherwise.
- */
-function choose_joesguns(ns) {
-    assert(has_program(ns, darkweb.program.brutessh.NAME));
-    assert(has_program(ns, darkweb.program.ftpcrack.NAME));
-    return (
-        !has_program(ns, darkweb.program.relaysmtp.NAME)
-        || !has_program(ns, darkweb.program.httpworm.NAME)
-        || !has_program(ns, darkweb.program.sqlinject.NAME)
-    );
-}
-
-/**
- * Whether to target the server n00dles.
+ * https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
  *
- * @param ns The Netscript API.
- * @return True if we are to hack n00dles; false otherwise.
- */
-function choose_noodles(ns) {
-    return (
-        !has_program(ns, darkweb.program.brutessh.NAME)
-        || !has_program(ns, darkweb.program.ftpcrack.NAME)
-    );
-}
-
-/**
- * Whether to target the server phantasy.
- *
- * @param ns The Netscript API.
- * @return True if we are to hack phantasy; false otherwise.
- */
-function choose_phantasy(ns) {
-    if (!has_all_popen(ns)) {
-        return bool.NOT;
-    }
-    const cutoff = Math.floor(ns.getHackingLevel() / 2);
-    return cutoff >= ns.getServerRequiredHackingLevel(server.PHANTASY);
-}
-
-/**
- * Choose the target server to hack.
- *
- * @param ns The Netscript API.
  * @return Hostname of the server to target.
  */
-function choose_target(ns) {
-    if (choose_noodles(ns)) {
-        return server.NOODLES;
-    }
-    if (choose_joesguns(ns)) {
-        return server.JOES;
-    }
-    if (choose_phantasy(ns)) {
-        return server.PHANTASY;
-    }
-    return server.JOES;
+function choose_target() {
+    return server.NOODLES;
 }
 
 /**
@@ -105,24 +47,6 @@ function choose_target(ns) {
 function deploy(ns, host, target) {
     const serv = new Server(ns, host);
     serv.deploy(target);
-}
-
-/**
- * Whether a given server is different from the server we are targetting.
- *
- * @param ns The Netscript API.
- * @param host Hostname of a possibly new target.
- * @return True if the given server is our new target.
- */
-function is_new_target(ns, host) {
-    const player = new Player(ns);
-    const compromised = compromised_servers(ns, player.script(), network(ns));
-    if (compromised.length === 0) {
-        return bool.NEW;
-    }
-    const { filename, args } = ns.ps(compromised[0])[0];
-    assert(player.script() === filename);
-    return host !== args[0];
 }
 
 /**
@@ -145,19 +69,14 @@ function shush(ns) {
  */
 async function update(ns) {
     const target = choose_target(ns);
-    if (!is_new_target(ns, target)) {
-        return;
-    }
-    log(ns, `Redirect botnet to hack ${target}`);
-    const player = new Player(ns);
-    const kill_scripts = (host) => ns.killall(host);
-    compromised_servers(ns, player.script(), network(ns)).forEach(kill_scripts);
-    nuke_servers(ns, network(ns)).forEach((s) => deploy(ns, s, target));
+    log(ns, `Direct botnet to hack ${target}`);
+    nuke_servers(ns, network(ns)).forEach((host) => deploy(ns, host, target));
 }
 
 /**
- * Pool the resources of world servers into a botnet.  Use the botnet to hack a
- * common target.  We exclude purchased servers.
+ * The naive hacking algorithm.  We pool the resources of world servers into a
+ * botnet.  Use the botnet to hack a common target.  We exclude purchased
+ * servers.
  *
  * This script relies on the basic hacking script.  It is not an implementation
  * of a proto-batcher nor a sequential batcher.
