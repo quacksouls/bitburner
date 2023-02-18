@@ -21,8 +21,8 @@ The general process for data gathering is:
 1. Load a save file.
 1. Use `b1t_flum3.exe` to enter the BitVerse and enter BN1.3 again. Doing so
    would remove any bonus time we have.
-1. Use the script `/test/karma/go.js` to commit homicide and assign `N` sleeves
-   to commit homicide as well.
+1. Use the script [`/test/karma/go.js`](../../src/test/karma/go.js) to commit
+   homicide and assign `N` sleeves to commit homicide as well.
 1. Wait for the script to end, at which point the script would print data to the
    terminal. The script ends as soon as we have -54,000 karma or lower.
 
