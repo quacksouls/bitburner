@@ -202,7 +202,8 @@ section [First script](script.md).
 > script that specifically manages your purchased servers. The purpose of this
 > exercise is to gain some experience in writing a manager script. There are
 > better techniques for hacking a world server that can generate more money than
-> the basic script `hack.js`.
+> the basic script `hack.js`. See the chapter
+> [_Hack, grow, weaken (HGW)_](hgw.md) for more details.
 >
 > **Problem 2.** Rewrite your worm script to use a recursive version of
 > depth-first search.
