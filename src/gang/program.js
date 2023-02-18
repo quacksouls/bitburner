@@ -55,7 +55,7 @@ function has_all_popen(ns) {
  * Whether we have the TOR router.
  *
  * @param ns The Netscript API.
- * @return True if we have the TOR router; false otherwisel
+ * @return True if we have the TOR router; false otherwise.
  */
 function has_tor_router(ns) {
     return ns.singularity.purchaseTor();
