@@ -24,7 +24,7 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 ## World servers
 
 The first task you might want to do is replace the general-purpose hack script
-from the section [First script](script.md) with a script that uses the HGW
+from the chapter [_First script_](script.md) with a script that uses the HGW
 worker scripts. Write a manager script whose tasks include:
 
 1. Gain root access to as many world servers as possible. The compromised
