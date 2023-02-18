@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { hgw } from "/lib/constant/misc.js";
 import { home, server } from "/lib/constant/server.js";
 import {
-    assemble_botnet, hgw_hack, prep_gw, prep_wg,
+    assemble_botnet, hgw_action, prep_gw, prep_wg,
 } from "/lib/hgw.js";
 import { log } from "/lib/io.js";
 import { assert, to_second } from "/lib/util.js";
@@ -39,7 +40,7 @@ async function hack(ns, host, frac) {
     while (!has_enough_money()) {
         await prep_server(ns, host);
         const botnet = assemble_botnet(ns, host, frac);
-        await hgw_hack(ns, host, botnet);
+        await hgw_action(ns, host, botnet, hgw.action.HACK);
         await ns.sleep(0);
     }
 }
