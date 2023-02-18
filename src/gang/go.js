@@ -16,9 +16,9 @@
  */
 
 import { colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
 import { log } from "/lib/io.js";
 import { has_gang_api } from "/lib/source.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Decide which criminal faction to join.  Our goal is to create a gang within
@@ -85,8 +85,7 @@ export async function main(ns) {
         "/gang/program.js",
         "/gang/slum-snakes.js",
     ];
-    const nthread = 1;
-    script.forEach((s) => ns.exec(s, home, nthread));
+    script.forEach((s) => exec(ns, s));
     // If we want, we can create a criminal gang within Speakers for the Dead.
     // Note that it can take a very long time to satisfy all requirements for
     // joining this faction and setting up a gang within that faction.
