@@ -30,7 +30,7 @@ import {
  */
 async function init_popen(ns) {
     const pida = exec(ns, "/gang/program.js");
-    const pidb = exec(ns, "/hgw/world.js");
+    const pidb = exec(ns, "world.js");
     while (
         !has_program(ns, darkweb.program.brutessh.NAME)
         || !has_program(ns, darkweb.program.ftpcrack.NAME)
