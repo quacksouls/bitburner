@@ -74,16 +74,16 @@ the following tasks:
     target server. Each server in the botnet should use all of its available RAM
     to run a worker script.
 
-1. _Hack._ Steal money from the target server. Unlike the prepping stage, during
-   the hacking stage you should refrain from using all servers in your botnet to
-   run the [`hack.js`](script/hgw/hack.js) worker script against the target
-   server. The reason is simple. The more money you hack from a server, the
-   longer it would take to prep the server again. You want to hack a fraction of
-   the (prepped) target's money such that the subsequent prepping time is as low
-   as possible, but at the same time you want to steal as much money as possible
-   within a given time frame. Which fraction of money should you hack in order
-   to satisfy the above 2 objectives?
-   [Experimental data](../../data/hgw/README.md) shows that you should steal 70%
+1. _Hack._ Steal money from the prepped server. Unlike the prepping stage,
+   during the hacking stage you should refrain from using all servers in your
+   botnet to run the [`hack.js`](script/hgw/hack.js) worker script against the
+   target server. The reason is simple. The more money you hack from a server,
+   the longer it would take to prep the server again. You want to hack a
+   fraction of the (prepped) target's money such that the subsequent prepping
+   time is as low as possible, but at the same time you want to steal as much
+   money as possible within a given time frame. Which fraction of money should
+   you hack in order to satisfy the above two objectives?
+   [Experimental data](../../data/hgw/README.md) show that you should steal 70%
    of money from a prepped `n00dles`, steal 60% of money from a prepped
    `joesguns`, and aim to steal 100% of money from a prepped `phantasy`. On the
    other hand, you might want to steal 50% of money from any prepped server.
