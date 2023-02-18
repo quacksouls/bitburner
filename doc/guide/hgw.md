@@ -55,7 +55,8 @@ the following tasks:
    procedure runs the [`grow.js`](script/hgw/grow.js) and
    [`weaken.js`](script/hgw/weaken.js) worker scripts in a loop until such a
    time as the target server is at its minimum security level and holds the
-   maximum amount of money possible. The loop either runs:
+   maximum amount of money possible, i.e. the target is prepped. The loop either
+   runs:
 
     - [`grow.js`](script/hgw/grow.js) followed by
       [`weaken.js`](script/hgw/weaken.js); or
@@ -64,12 +65,11 @@ the following tasks:
 
     The order in which the loop runs [`grow.js`](script/hgw/grow.js) and
     [`weaken.js`](script/hgw/weaken.js) might affect the time required for the
-    target server to be at minimum security level and maximum money. For
-    example, [experimental data](../../data/hgw/README.md) shows that the
-    prepping loop for `n00dles` and `joesguns` should be
-    [`grow.js`](script/hgw/grow.js) followed by
-    [`weaken.js`](script/hgw/weaken.js), whereas the prepping loop for
-    `phantasy` should be [`weaken.js`](script/hgw/weaken.js) followed by
+    target server to be prepped. For example,
+    [experimental data](../../data/hgw/README.md) shows that the prepping loop
+    for `n00dles` and `joesguns` should be [`grow.js`](script/hgw/grow.js)
+    followed by [`weaken.js`](script/hgw/weaken.js), whereas the prepping loop
+    for `phantasy` should be [`weaken.js`](script/hgw/weaken.js) followed by
     [`grow.js`](script/hgw/grow.js). Direct all servers in your botnet to prep a
     target server. Each server in the botnet should use all of its available RAM
     to run a worker script.
