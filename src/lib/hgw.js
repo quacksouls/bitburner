@@ -132,7 +132,8 @@ export function has_min_security(ns, host) {
  * @param action The action we want to perform against the given target server.
  *     Supported actions are:
  *     (1) "grow" := Grow money on the target server.
- *     (2) "weaken" := Weaken the security level of the target server.
+ *     (2) "hack" := Hack money from the target server.
+ *     (3) "weaken" := Weaken the security level of the target server.
  */
 export async function hgw_action(ns, host, botnet, action) {
     assert(host !== "");
