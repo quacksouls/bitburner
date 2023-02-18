@@ -16,6 +16,8 @@
  */
 
 import { colour } from "/lib/constant/misc.js";
+import { home } from "/lib/constant/server.js";
+import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import { has_gang_api } from "/lib/source.js";
 import { exec } from "/lib/util.js";
@@ -86,6 +88,28 @@ export async function main(ns) {
         "/gang/slum-snakes.js",
     ];
     script.forEach((s) => exec(ns, s));
+
+    // The script /gang/slum-snakes.js attempts to decrease karma low enough to
+    // allow us to join Slum Snakes and create a gang within that faction.
+    // Lowering karma can take up to 15 hours or more, depending on how many
+    // sleeves we have.  We might as well use that waiting time to target a
+    // different server and generate even more money.  Data here:
+    //
+    // https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
+    const nthread = 1;
+    const kill_script = () => ns.exec("kill-script.js", home, nthread, "world");
+    if (ns.isRunning("world.js", home)) {
+        ns.kill("world.js", home);
+        kill_script();
+    }
+    exec(ns, "/hgw/world.js");
+    while (ns.isRunning("/gang/slum-snakes.js", home)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    ns.kill("/hgw/world.js", home);
+    kill_script();
+    exec(ns, "world.js");
+
     // If we want, we can create a criminal gang within Speakers for the Dead.
     // Note that it can take a very long time to satisfy all requirements for
     // joining this faction and setting up a gang within that faction.
