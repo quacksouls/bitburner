@@ -17,7 +17,6 @@
 
 import { bool } from "/lib/constant/bool.js";
 import { colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
 import { wait_t } from "/lib/constant/time.js";
 import { log } from "/lib/io.js";
 import {
@@ -25,6 +24,7 @@ import {
     purchase_augment,
 } from "/lib/singularity/augment.js";
 import { has_gang_api } from "/lib/source.js";
+import { exec } from "/lib/util.js";
 
 /**
  * Purchase Augmentations from our gang faction.
@@ -73,9 +73,7 @@ export async function main(ns) {
     if (success) {
         log(ns, `Augmentations bought from ${faction}`);
         // The next script in the load chain.
-        const script = "/singularity/home.js";
-        const nthread = 1;
-        ns.exec(script, home, nthread);
+        exec(ns, "/singularity/home.js");
         return;
     }
     log(ns, `No Augmentations bought from ${faction}`);
