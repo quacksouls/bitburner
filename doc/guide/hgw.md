@@ -66,7 +66,7 @@ the following tasks:
     The order in which the loop runs [`grow.js`](script/hgw/grow.js) and
     [`weaken.js`](script/hgw/weaken.js) might affect the time required for the
     target server to be prepped. For example,
-    [experimental data](../../data/hgw/README.md) shows that the prepping loop
+    [experimental data](../../data/hgw/README.md) show that the prepping loop
     for `n00dles` and `joesguns` should be [`grow.js`](script/hgw/grow.js)
     followed by [`weaken.js`](script/hgw/weaken.js), whereas the prepping loop
     for `phantasy` should be [`weaken.js`](script/hgw/weaken.js) followed by
