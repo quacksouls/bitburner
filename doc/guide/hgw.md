@@ -3,11 +3,12 @@
 > 📝 Work in progress. Subject to change.
 
 A hack/grow/weaken (or HGW) algorithm uses a separate script for each of the
+functions
 [`ns.hack()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.hack.md),
 [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.grow.md),
 and
-[`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md)
-functions. You create the following worker scripts:
+[`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/dev/markdown/bitburner.ns.weaken.md).
+You create the following worker scripts:
 
 <!-- prettier-ignore -->
 - [`hack.js`](script/hgw/hack.js) -- Should only have the function
