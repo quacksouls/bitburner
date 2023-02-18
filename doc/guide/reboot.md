@@ -297,6 +297,12 @@ hack, grow, or weaken a target server. The lower is the RAM required by
 `hack.js`, the more threads you can use to run the script. Here is an example
 [pserv script](script/pserv.js) that relies on the `hack.js` script.
 
+The above exercise should provide you with more experience in writing a script
+that manages a bunch of servers. The basic script `hack.js` is a good start for
+generating some money, but it is by no means efficient at using the RAM of a
+server. In the chapter [_Hack, grow, weaken (HGW)_](hgw.md), you will learn
+various techniques that can generate more money than the basic script `hack.js`.
+
 Why would you want to waste money to buy a server to do what can normally be
 done by means of a world server? An answer to this question can be summarized
 as: RAM. The servers you find in the game world usually have limited RAM. Some
