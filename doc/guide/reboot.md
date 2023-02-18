@@ -328,8 +328,8 @@ using an order of magnitude or more threads than any world server.
 > purchased servers to hack the server of highest hacking requirement to which
 > you have root access.
 >
-> **Problem 4.** Rewrite your pserv script to use the weight function from the
-> subsection [Your first worm](#your-first-worm).
+> **Problem 4.** Rewrite your pserv script to use the weight function described
+> in the section [_Your first worm_](#your-first-worm).
 >
 > **Problem 5.** Sometimes you need to wipe out your pserv farm and start again
 > with a clean slate. Write a script to delete all purchased servers.
