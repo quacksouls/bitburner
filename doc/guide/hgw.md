@@ -52,37 +52,45 @@ the following tasks:
       Hack requirement is less than half of your Hack stat.
 1. _Prep._ To prep a server means to weaken it to its minimum security level and
    grow the server to the maximum amount of money it can hold. The prepping
-   procedure runs the `grow.js` and `weaken.js` worker scripts in a loop until
-   such a time as the target server is at its minimum security level and holds
-   the maximum amount of money possible. The loop either runs:
+   procedure runs the [`grow.js`](script/hgw/grow.js) and
+   [`weaken.js`](script/hgw/weaken.js) worker scripts in a loop until such a
+   time as the target server is at its minimum security level and holds the
+   maximum amount of money possible. The loop either runs:
 
-    - `grow.js` followed by `weaken.js`; or
-    - `weaken.js` followed by `grow.js`.
+    - [`grow.js`](script/hgw/grow.js) followed by
+      [`weaken.js`](script/hgw/weaken.js); or
+    - [`weaken.js`](script/hgw/weaken.js) followed by
+      [`grow.js`](script/hgw/grow.js).
 
-    The order in which the loop runs `grow.js` and `weaken.js` might affect the
-    time required for the target server to be at minimum security level and
-    maximum money. For example, [experimental data](../../data/hgw/README.md)
-    shows that the prepping loop for `n00dles` and `joesguns` should be
-    `grow.js` followed by `weaken.js`, whereas the prepping loop for `phantasy`
-    should be `weaken.js` followed by `grow.js`. Direct all servers in your
-    botnet to prep a target server. Each server in the botnet should use all of
-    its available RAM to run a worker script.
+    The order in which the loop runs [`grow.js`](script/hgw/grow.js) and
+    [`weaken.js`](script/hgw/weaken.js) might affect the time required for the
+    target server to be at minimum security level and maximum money. For
+    example, [experimental data](../../data/hgw/README.md) shows that the
+    prepping loop for `n00dles` and `joesguns` should be
+    [`grow.js`](script/hgw/grow.js) followed by
+    [`weaken.js`](script/hgw/weaken.js), whereas the prepping loop for
+    `phantasy` should be [`weaken.js`](script/hgw/weaken.js) followed by
+    [`grow.js`](script/hgw/grow.js). Direct all servers in your botnet to prep a
+    target server. Each server in the botnet should use all of its available RAM
+    to run a worker script.
 
 1. _Hack._ Steal money from the target server. Unlike the prepping stage, during
    the hacking stage you should refrain from using all servers in your botnet to
-   run the `hack.js` worker script against the target server. The reason is
-   simple. The more money you hack from a server, the longer it would take to
-   prep the server again. You want to hack a fraction of the (prepped) target's
-   money such that the subsequent prepping time is as low as possible, but at
-   the same time you want to steal as much money as possible within a given time
-   frame. Which fraction of money should you hack in order to satisfy the above
-   2 objectives? [Experimental data](../../data/hgw/README.md) shows that you
-   should steal 70% of money from a prepped `n00dles`, steal 60% of money from a
-   prepped `joesguns`, and aim to steal 100% of money from a prepped `phantasy`.
-   On the other hand, you might want to steal 50% of money from any prepped
-   server. Suppose you want to hack 50% of a prepped server's money. Choose from
-   among your botnet a combination of servers having enough RAM to run `hack.js`
-   and allow you to steal 50% of the target's money.
+   run the [`hack.js`](script/hgw/hack.js) worker script against the target
+   server. The reason is simple. The more money you hack from a server, the
+   longer it would take to prep the server again. You want to hack a fraction of
+   the (prepped) target's money such that the subsequent prepping time is as low
+   as possible, but at the same time you want to steal as much money as possible
+   within a given time frame. Which fraction of money should you hack in order
+   to satisfy the above 2 objectives?
+   [Experimental data](../../data/hgw/README.md) shows that you should steal 70%
+   of money from a prepped `n00dles`, steal 60% of money from a prepped
+   `joesguns`, and aim to steal 100% of money from a prepped `phantasy`. On the
+   other hand, you might want to steal 50% of money from any prepped server.
+   Suppose you want to hack 50% of a prepped server's money. Choose from among
+   your botnet a combination of servers having enough RAM to run
+   [`hack.js`](script/hgw/hack.js) and allow you to steal 50% of the target's
+   money.
 
 Here is an [example HGW manager script](script/hgw/hgw.js) to pool the resources
 of world servers to hack a common target.
