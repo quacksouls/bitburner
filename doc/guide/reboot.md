@@ -274,7 +274,8 @@ automates these tasks:
    terabytes or beyond. The above strategies are by no means optimal, but are
    simple ideas on how to implement your first pserv script.
 1. Your pserv script must ensure that any server you want to target is already
-   compromised. The computer worm you wrote earlier is useful for compromising
+   compromised. The computer worm described in the section
+   [_Your first worm_](reboot.md#your-first-worm) is useful for compromising
    world servers. Your pserv script should not be searching for world servers to
    compromise, but rather piggybacking on the work of the worm script. In
    particular, the pserv script must ensure the following:
