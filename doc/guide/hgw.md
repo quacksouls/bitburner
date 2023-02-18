@@ -33,13 +33,13 @@ worker scripts. Write a manager script whose tasks include:
    servers in the network of world servers.
 1. Copy the HGW worker scripts to each server in your botnet.
 1. Determine which common server your botnet should target. One way to help you
-   determine which common server to target is to use the server rater described
-   in the section [_Your first worm_](reboot.md#your-first-worm). This approach
-   might not be a good idea depending on which server your botnet is targeting.
-   Each world server generally has limited RAM. The collective RAM of all world
-   servers is too small to be used to target a server that has a high Hack
-   requirement and/or high security. You might want to follow a rule of thumb
-   called _Joe's n00dles phantasy_:
+   determine the target is to use the server rater described in the section
+   [_Your first worm_](reboot.md#your-first-worm). This approach might not be a
+   good idea depending on which server your botnet is targeting. Each world
+   server generally has limited RAM. The collective RAM of all world servers is
+   too small to be used to target a server that has a high Hack requirement
+   and/or high security. You might want to follow a rule of thumb called _Joe's
+   n00dles phantasy_:
     - Target `n00dles` if you have less than 2 port opener programs. For
       example, the easiest port opener programs to create (and cheapest to buy)
       are `BruteSSH.exe` and `FTPCrack.exe`. In the absence of one or both of
