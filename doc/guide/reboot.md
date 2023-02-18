@@ -127,8 +127,9 @@ following tasks:
    required ports on the server, nuke the server to gain root access to it.
 1. _Ignore special servers._ Various servers in the game world are special. For
    example, you might want to ignore purchased servers because these are servers
-   you have bought and already have root access. See below for detail on
-   purchased servers.
+   you have bought and already have root access. See the section
+   [_Purchased servers_](reboot.md#purchased-servers) for detail on purchased
+   servers.
 
 Essentially, your objective is to create a computer worm that scans for world
 servers and attempts to gain root access to those servers. Two basic algorithms
