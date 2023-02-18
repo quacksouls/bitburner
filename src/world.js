@@ -69,7 +69,6 @@ function shush(ns) {
  */
 async function update(ns) {
     const target = choose_target(ns);
-    log(ns, `Direct botnet to hack ${target}`);
     nuke_servers(ns, network(ns)).forEach((host) => deploy(ns, host, target));
 }
 
