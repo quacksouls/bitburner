@@ -23,19 +23,6 @@ import { Server } from "/lib/server.js";
 import { nuke_servers } from "/lib/util.js";
 
 /**
- * Choose the target server to hack.  Always choose n00dles because the naive
- * algorithm (against n00dles) can generate money quicker than a sequential
- * batcher.  Data here
- *
- * https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
- *
- * @return Hostname of the server to target.
- */
-function choose_target() {
-    return server.NOODLES;
-}
-
-/**
  * Deploy our hack script to a nuked server.  Use the server to hack the given
  * target.
  *
@@ -66,9 +53,9 @@ function shush(ns) {
  * common server.  We exclude purchased servers.
  *
  * @param ns The Netscript API.
+ * @param target Hostname of the server to target.
  */
-async function update(ns) {
-    const target = choose_target(ns);
+async function update(ns, target) {
     nuke_servers(ns, network(ns)).forEach((host) => deploy(ns, host, target));
 }
 
@@ -78,18 +65,30 @@ async function update(ns) {
  * servers.
  *
  * This script relies on the basic hacking script.  It is not an implementation
- * of a proto-batcher nor a sequential batcher.
+ * of a proto-batcher nor a sequential batcher.  The script accepts a command
+ * line argument:
  *
- * Usage: run world.js
+ * (1) target := Hostname of the server to target.  If not provided, then target
+ *     n00dles by default.
+ *
+ * By default we should target n00dles because the naive algorithm
+ * (against n00dles) can generate money quicker than a sequential
+ * batcher.  Data here
+ *
+ * https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
+ *
+ * Usage: run world.js [target]
+ * Example: run world.js n00dles
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+    const target = ns.args.length > 0 ? ns.args[0] : server.NOODLES;
     // Continuously look for world servers to nuke.
     log(ns, "Searching for world servers to nuke and hack");
     for (;;) {
-        await update(ns);
+        await update(ns, target);
         await ns.sleep(5 * wait_t.MINUTE);
     }
 }
