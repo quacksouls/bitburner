@@ -217,6 +217,12 @@ receiving an invitation can be difficult to meet. However, if you have purchased
 and installed all Augmentations from the above factions, then it can be
 relatively easy to receive an invitation from any of these three factions.
 
+1. 📝 _Bladeburners._ Optional and not required to progress in the game. You
+   would not be able to access this faction until you have destroyed at least
+   BitNode 1.1.
+1. 📝 _Church of the Machine God._ Optional and not required to progress in the
+   game. You would not be able to access this faction until you have destroyed
+   at least BitNode 1.1.
 1. _Daedalus._ You must have installed at least 30 Augmentations, but this
    number can vary later in the game. Have at least $100b. Your Hack stat must
    be at least 2,500 or, alternatively, each of your combat stats must be at
