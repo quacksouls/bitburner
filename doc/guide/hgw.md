@@ -29,12 +29,12 @@ worker scripts. Write a manager script whose tasks include:
 
 1. Gain root access to as many world servers as possible. The compromised
    servers are your botnet. Adapt one or more of the algorithms described in the
-   subsection [Your first worm](reboot.md#your-first-worm) to help you scan all
+   section [_Your first worm_](reboot.md#your-first-worm) to help you scan all
    servers in the network of world servers.
 1. Copy the HGW worker scripts to each server in your botnet.
 1. Determine which common server your botnet should target. One way to help you
    determine which common server to target is to use the server rater described
-   in the subsection [Your first worm](reboot.md#your-first-worm). This approach
+   in the section [_Your first worm_](reboot.md#your-first-worm). This approach
    might not be a good idea depending on which server your botnet is targeting.
    Each world server generally has limited RAM. The collective RAM of all world
    servers is too small to be used to target a server that has a high Hack
