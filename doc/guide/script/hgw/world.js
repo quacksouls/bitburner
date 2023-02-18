@@ -719,14 +719,14 @@ function threads_to_use(ns, host, current, max) {
 }
 
 /**
- * A proto-batcher.  Each of the hack, grow, and weaken functions is separated
- * into its own script.  When we need a particular HGW action, we launch the
- * appropriate script against a target server.  We pool the resources of all
- * world servers, excluding our home server and purchased servers.
+ * A sequential batcher.  Each of the hack, grow, and weaken functions is
+ * separated into its own script.  When we need a particular HGW action, we
+ * launch the appropriate script against a target server.  We pool the resources
+ * of world servers, excluding our home server and purchased servers.
  *
  * Our purpose is to raise money and Hack XP.
  *
- * Usage: run hgw/hgw.js
+ * Usage: run hgw/world.js
  *
  * @param ns The Netscript API.
  */

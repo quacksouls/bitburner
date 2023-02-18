@@ -92,7 +92,7 @@ the following tasks:
    [`hack.js`](script/hgw/hack.js) and allow you to steal 50% of the target's
    money.
 
-Here is an [example HGW manager script](script/hgw/world.js) to pool the
+Here is an [example sequential batcher](script/hgw/world.js) that pools the
 resources of world servers to hack a common target.
 
 [[TOC](README.md "Table of Contents")]
