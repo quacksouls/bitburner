@@ -199,7 +199,10 @@ section [First script](script.md).
 > should deploy your hack script to a nuked server. All servers nuked by your
 > worm should run your hack script against a common target. The worm should
 > ignore all purchased servers for now. Later on, you might want to write a
-> script that specifically manages your purchased servers.
+> script that specifically manages your purchased servers. The purpose of this
+> exercise is to gain some experience in writing a manager script. There are
+> better techniques for hacking a world server that can generate more money than
+> the basic script `hack.js`.
 >
 > **Problem 2.** Rewrite your worm script to use a recursive version of
 > depth-first search.
