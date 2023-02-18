@@ -21,7 +21,7 @@ You create the following worker scripts:
 Each worker script should only have one of the dedicated HGW functions so as to
 maximize RAM usage. How you use the worker scripts is a different matter.
 
-## HGW and world servers
+## World servers
 
 The first task you might want to do is replace the general-purpose hack script
 from the section [First script](script.md) with a script that uses the HGW
