@@ -174,6 +174,7 @@ function dir_structure() {
         "sleeve/study.js",
         "test/crime/crime-int.js",
         "test/crime/crime.js",
+        "test/hgw/100million.js",
         "test/hgw/billion.js",
         "test/hgw/brutessh.js",
         "test/hgw/ftpcrack.js",
