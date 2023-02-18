@@ -23,9 +23,11 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 
 ## World servers
 
-The first task you might want to do is replace the general-purpose hack script
-from the chapter [_First script_](script.md) with a script that uses the HGW
-worker scripts. Write a manager script whose tasks include:
+The first task you might want to do is write a sequential batcher that pools the
+resources of world servers in order to target a common server. Replace the
+general-purpose hack script from the chapter [_First script_](script.md) with a
+script that uses the HGW worker scripts. Your sequential batcher accomplishes
+the following tasks:
 
 1. Gain root access to as many world servers as possible. The compromised
    servers are your botnet. Adapt one or more of the algorithms described in the
