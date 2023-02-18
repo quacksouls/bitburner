@@ -94,18 +94,18 @@ Here is an [example sequential batcher](script/hgw/world.js) that pools the
 resources of world servers to hack a common target.
 
 Is the sequential batcher any better than the basic script `hack.js`? Let's
-define some basic terms. By _naive technique_ we mean a manager script that uses
-the basic script `hack.js` and pools the resources of world servers to hack a
-common target. The term _wbatcher technique_ refers to the sequential batcher as
+define some terms. By _naive technique_ we mean a manager script that uses the
+basic script `hack.js` and pools the resources of world servers to hack a common
+target. The term _wbatcher technique_ refers to the sequential batcher as
 described in this section, where we pool the resources of world servers and use
 the HGW worker scripts to target a common server.
 [Experimental data](../../data/hgw/world.md) show that when hacking `n00dles`,
-the wbatcher technique requires nearly 3 hours to steal $100m whereas the naive
+the wbatcher technique requires nearly 3 hours to steal $100m, whereas the naive
 technique takes about 42 minutes. The situation is reversed when we target
 `joesguns`. The wbatcher technique requires about 1 hour and 2 minutes to hack
 $1b from `joesguns`, whereas the naive technique takes over 1 hour and 26
 minutes. As regards the server `phantasy`, the naive technique requires about 2
-hours less than the wbatcher technique to steal $10b fom `phantasy`. The
+hours less than the wbatcher technique to steal $10b from `phantasy`. The
 experiment shows that the naive technique outperforms the wbatcher technique
 whenever we are hacking `n00dles` or `phantasy`. However, if we want to hack
 `joesguns` then we should use the wbatcher technique.
