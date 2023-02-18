@@ -71,7 +71,7 @@ export async function main(ns) {
     log(ns, `Purchasing Augmentations from gang faction: ${faction}`);
     const success = await buy_augment(ns);
     if (success) {
-        log(ns, `Augmentations bought from ${faction}`);
+        log(ns, `Bought Augmentations from ${faction}`);
         // The next script in the load chain.
         exec(ns, "/singularity/home.js");
         return;
