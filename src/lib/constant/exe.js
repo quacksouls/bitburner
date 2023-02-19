@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -128,9 +128,9 @@ export const buy_schedule = {
         1,
         1e3, // 1 second
         10e3, // 10 seconds
-        30e3,
-        60e3, // 60 seconds or 1 minute
+        60e3,
         120e3, // 120 seconds or 2 minutes
+        180e3, // 180 seconds or 3 minutes
     ],
 };
 
