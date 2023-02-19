@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { script } from "/lib/constant/misc.js";
-import { home, home_t } from "/lib/constant/server.js";
-import { assert } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { script } from "/quack/lib/constant/misc.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * A server class that holds all information about a server, whether it be

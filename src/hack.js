@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@
  * below our threshold, and hack the server when all conditions are met.  We
  * want one command line argument, i.e. the name of the server to hack.
  *
- * Usage: run hack.js [targetServer]
- * Example: run hack.js n00dles
+ * Usage: run quack/hack.js [targetServer]
+ * Example: run quack/hack.js n00dles
  *
  * @param ns The Netscript API.
  */

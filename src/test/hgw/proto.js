@@ -55,16 +55,16 @@ const hgw = {
         /**
          * The grow script.  Use this script to grow money on a server.
          */
-        GROW: "/hgw/grow.js",
+        GROW: "/quack/hgw/grow.js",
         /**
          * The hack script.  Use this script to hack a server.
          */
-        HACK: "/hgw/hack.js",
+        HACK: "/quack/hgw/hack.js",
         /**
          * The weaken script.  Use this script to lower the security of a
          * server.
          */
-        WEAKEN: "/hgw/weaken.js",
+        WEAKEN: "/quack/hgw/weaken.js",
     },
 };
 
@@ -656,8 +656,8 @@ function threads_to_use(ns, host, current, max) {
  *
  * (1) target := Hostname of server to target.
  *
- * Usage: run test/hgw/proto.js [target]
- * Example: run test/hgw/proto.js n00dles
+ * Usage: run quack/test/hgw/proto.js [target]
+ * Example: run quack/test/hgw/proto.js n00dles
  *
  * @param ns The Netscript API.
  */

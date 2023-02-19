@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ export const server = {
      * The name of a text file.  The file contains the hostname of the server we
      * are currently targetting.  We use our home RAM to hack the target.
      */
-    HRAM: "hram.txt",
+    HRAM: "/quack/hram.txt",
     /**
      * The server n00dles.
      */
@@ -124,11 +124,11 @@ export const server = {
      * (2) We want to suspend the most RAM intensive script in order to free up
      *     some RAM on the home server.
      */
-    SHARE: "share.txt",
+    SHARE: "/quack/share.txt",
     /**
      * The name of the script for sharing our home server with a faction.
      */
-    SHARE_SCRIPT: "share.js",
+    SHARE_SCRIPT: "/quack/share.js",
     /**
      * The server sigma-cosmetics.
      */

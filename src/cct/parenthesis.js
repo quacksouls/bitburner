@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { parenthesis } from "/lib/constant/cct.js";
-import { assert } from "/lib/util.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { parenthesis } from "/quack/lib/constant/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether the parentheses in the given expression are balanced.  An empty
@@ -201,7 +201,7 @@ function sanitize(string) {
  * This is essentially the balanced brackets problem.  The twist is that we
  * must remove the minimum number of parentheses to balance the parentheses.
  *
- * Usage: run cct/parenthesis.js [cct] [hostname]
+ * Usage: run quack/cct/parenthesis.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -217,7 +217,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/parenthesis.txt";
+        const log = "/quack/cct/parenthesis.txt";
         await log_cct_failure(ns, log, cct, host, expression);
         print_error(ns, host, cct);
         return;

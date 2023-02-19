@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { bool } from "/lib/constant/bool.js";
-import { cc_t } from "/lib/constant/sleeve.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { cc_t } from "/quack/lib/constant/sleeve.js";
+import { assert } from "/quack/lib/util.js";
 
 // Utility functions for managing sleeves.  Use one or more of these utility
 // functions to help lower the RAM cost of our scripts.  Importing one utility

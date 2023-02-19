@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
+import { MyArray } from "/quack/lib/array.js";
 import {
     log_cct_failure,
     matrix_to_string,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { colour } from "/lib/constant/cct.js";
-import { Graph } from "/lib/network.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { colour } from "/quack/lib/constant/cct.js";
+import { Graph } from "/quack/lib/network.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether an undirected graph is bipartite.  Do not assume the graph is
@@ -250,7 +250,7 @@ function update_colouring(prev_colour, new_colour) {
  * This problem is equivalent to determining whether a graph is bipartite.
  * From the problem description, we only need to deal with undirected graphs.
  *
- * Usage: run cct/bipartite.js [cct] [hostname]
+ * Usage: run quack/cct/bipartite.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -267,7 +267,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/bipartite.txt";
+        const log = "/quack/cct/bipartite.txt";
         const data = `[${n}, ${matrix_to_string(edge)}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

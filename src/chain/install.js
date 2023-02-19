@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { exec, hram_resume, hram_suspend } from "/lib/util.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Start a load chain to run scripts to install Augmentations and soft reset.
  *
- * Usage: run chain/install.js
+ * Usage: run quack/chain/install.js
  *
  * @param ns The Netscript API.
  */
@@ -28,7 +28,7 @@ export async function main(ns) {
     // Suppress some log messages.
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the script below.
-    await hram_suspend(ns);
-    exec(ns, "/singularity/install.js");
-    hram_resume(ns);
+    // await hram_suspend(ns);
+    exec(ns, "/quack/singularity/install.js");
+    // hram_resume(ns);
 }

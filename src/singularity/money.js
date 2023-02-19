@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, home_t } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { Money } from "/lib/money.js";
-import { assert, exec } from "/lib/util.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { Money } from "/quack/lib/money.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Choose the threshold amount of money to raise.
@@ -48,7 +48,7 @@ function choose_threshold(ns) {
 async function commit_crimes(ns, threshold) {
     assert(threshold > 0);
     log(ns, "Commit crimes to raise money and lower karma");
-    const script = "/singularity/crime.js";
+    const script = "/quack/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
     // Wait for the crime script to end.
@@ -75,7 +75,7 @@ function is_upgrade_home_ram(ns) {
  * @param ns The Netscript API.
  */
 function load_chain(ns) {
-    exec(ns, "/chain/misc.js");
+    exec(ns, "/quack/chain/misc.js");
 }
 
 /**
@@ -111,9 +111,9 @@ export async function main(ns) {
         }
         // Reboot to take advantage of the newly upgraded home server.
         const nthread = 1;
-        ns.exec("kill-script.js", home, nthread, "world");
-        exec(ns, "kill-server.js");
-        exec(ns, "go.js");
+        ns.exec("/quack/kill-script.js", home, nthread, "world");
+        exec(ns, "/quack/kill-server.js");
+        exec(ns, "/quack/go.js");
         return;
     }
     load_chain(ns);

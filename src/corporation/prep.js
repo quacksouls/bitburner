@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,20 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { agriculture, corp, corp_t } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     investment_offer,
     new_hire,
     to_number,
-} from "/lib/corporation/util.js";
-import { create_file, log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+} from "/quack/lib/corporation/util.js";
+import { create_file, log } from "/quack/lib/io.js";
+import { has_corporation_api } from "/quack/lib/source.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Whether each warehouse has been upgraded for this round.
@@ -314,7 +314,7 @@ function upgrade_warehouse(ns, n) {
  * (4) Upgrade storage.
  * (5) Buy materials.
  *
- * Usage: run corporation/prep.js
+ * Usage: run quack/corporation/prep.js
  *
  * @param ns The Netscript API.
  */
@@ -333,7 +333,7 @@ export async function main(ns) {
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
     // Next scripts in the load chain.
-    exec(ns, "/corporation/agriculture.js");
-    exec(ns, "/corporation/tobacco.js");
+    exec(ns, "/quack/corporation/agriculture.js");
+    exec(ns, "/quack/corporation/tobacco.js");
     ns.rm(corp.PREP, home);
 }

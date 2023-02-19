@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
 
 // A class and various utility functions related to network.
 
-import { bool } from "/lib/constant/bool.js";
-import { home } from "/lib/constant/server.js";
-import { assert, filter_pserv } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { home } from "/quack/lib/constant/server.js";
+import { assert, filter_pserv } from "/quack/lib/util.js";
 
 /**
  * A combinatorial graph, commonly referred to as a graph.

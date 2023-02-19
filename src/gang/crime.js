@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import {
     armour,
     gang_augment,
@@ -26,12 +26,12 @@ import {
     task_t,
     vehicle,
     weapon,
-} from "/lib/constant/gang.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Gangster } from "/lib/gang/gangster.js";
-import { reassign_vigilante, strongest_member } from "/lib/gang/util.js";
-import { log } from "/lib/io.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/constant/gang.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Gangster } from "/quack/lib/gang/gangster.js";
+import { reassign_vigilante, strongest_member } from "/quack/lib/gang/util.js";
+import { log } from "/quack/lib/io.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Ascend a gang member.  Ascension provides a permanent boost to a member's
@@ -999,8 +999,8 @@ function update(ns) {
  * (4) The Dark Army
  * (5) Speakers for the Dead
  *
- * Usage: run gang/crime.js [faction]
- * Example: run gang/crime.js "Slum Snakes"
+ * Usage: run quack/gang/crime.js [faction]
+ * Example: run quack/gang/crime.js "Slum Snakes"
  *
  * @param ns The Netscript API.
  */

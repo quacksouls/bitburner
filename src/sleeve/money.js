@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { crimes } from "/lib/constant/crime.js";
-import { colour } from "/lib/constant/misc.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { has_sleeve_api } from "/lib/source.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { has_sleeve_api } from "/quack/lib/source.js";
 import {
     all_sleeves,
     has_mug_threshold,
     has_shoplift_threshold,
-} from "/lib/sleeve/util.js";
+} from "/quack/lib/sleeve/util.js";
 
 /**
  * Assign sleeves to commit a specific crime.  There are two reasons why we do

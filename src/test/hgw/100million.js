@@ -15,13 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hgw } from "/lib/constant/misc.js";
-import { home, server } from "/lib/constant/server.js";
+import { hgw } from "/quack/lib/constant/misc.js";
+import { home, server } from "/quack/lib/constant/server.js";
 import {
-    assemble_botnet, hgw_action, prep_gw, prep_wg,
-} from "/lib/hgw.js";
-import { log } from "/lib/io.js";
-import { assert, to_second } from "/lib/util.js";
+    assemble_botnet,
+    hgw_action,
+    prep_gw,
+    prep_wg,
+} from "/quack/lib/hgw.js";
+import { log } from "/quack/lib/io.js";
+import { assert, to_second } from "/quack/lib/util.js";
 
 /**
  * Continuously hack a server.  Steal a certain percentage of the server's
@@ -82,8 +85,8 @@ async function prep_server(ns, host) {
  * (1) serverName := Hostname of server to hack.
  * (2) fraction := The fraction of money to steal from the target server.
  *
- * Usage: run test/hgw/100million.js [serverName] [fraction]
- * Example: run test/hgw/100million.js joesguns 0.2
+ * Usage: run quack/test/hgw/100million.js [serverName] [fraction]
+ * Example: run quack/test/hgw/100million.js joesguns 0.2
  *
  * @param ns The Netscript API.
  */

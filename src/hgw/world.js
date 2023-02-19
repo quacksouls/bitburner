@@ -15,14 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { darkweb, hgw } from "/lib/constant/misc.js";
-import { server } from "/lib/constant/server.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { darkweb, hgw } from "/quack/lib/constant/misc.js";
+import { server } from "/quack/lib/constant/server.js";
 import {
-    assemble_botnet, hgw_action, prep_gw, prep_wg,
-} from "/lib/hgw.js";
-import { log } from "/lib/io.js";
-import { assert, has_all_popen, has_program } from "/lib/util.js";
+    assemble_botnet,
+    hgw_action,
+    prep_gw,
+    prep_wg,
+} from "/quack/lib/hgw.js";
+import { log } from "/quack/lib/io.js";
+import { assert, has_all_popen, has_program } from "/quack/lib/util.js";
 
 /**
  * Whether to abandon the server joesguns.
@@ -182,7 +185,7 @@ async function prep_server(ns, host) {
  * appropriate script against a target server.  We pool the resources of all
  * world servers, excluding our home server and purchased servers.
  *
- * Usage: run hgw/world.js
+ * Usage: run quack/hgw/world.js
  *
  * @param ns The Netscript API.
  */

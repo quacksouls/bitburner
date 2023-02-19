@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { bool } from "/lib/constant/bool.js";
-import { hnet_t } from "/lib/constant/hacknet.js";
-import { home } from "/lib/constant/server.js";
-import { has_hacknet_server_api } from "/lib/source.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { hnet_t } from "/quack/lib/constant/hacknet.js";
+import { home } from "/quack/lib/constant/server.js";
+import { has_hacknet_server_api } from "/quack/lib/source.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Assume we have millions or even billions of dollars.  Add more nodes to our
@@ -307,7 +307,7 @@ function upgrade_ram(ns, idx) {
 /**
  * Purchase and manage a farm of Hacknet nodes or Hacknet servers.
  *
- * Usage: run hnet-farm.js
+ * Usage: run quack/hnet-farm.js
  *
  * @param ns The Netscript API.
  */

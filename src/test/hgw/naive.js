@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { wait_t } from "/lib/constant/time.js";
-import { network } from "/lib/network.js";
-import { Server } from "/lib/server.js";
-import { nuke_servers } from "/lib/util.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { network } from "/quack/lib/network.js";
+import { Server } from "/quack/lib/server.js";
+import { nuke_servers } from "/quack/lib/util.js";
 
 /**
  * Deploy our hack script to a nuked server.  Use the server to hack the given
@@ -64,8 +64,8 @@ function update(ns, target) {
  *
  * (1) target := Hostname of the server to target.
  *
- * Usage: run test/hgw/naive.js [target]
- * Example: run test/hgw/naive.js n00dles
+ * Usage: run quack/test/hgw/naive.js [target]
+ * Example: run quack/test/hgw/naive.js n00dles
  *
  * @param ns The Netscript API.
  */

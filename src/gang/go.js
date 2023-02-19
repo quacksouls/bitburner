@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { has_gang_api } from "/lib/source.js";
-import { exec } from "/lib/util.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { has_gang_api } from "/quack/lib/source.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Decide which criminal faction to join.  Our goal is to create a gang within
@@ -71,7 +71,7 @@ import { exec } from "/lib/util.js";
  *
  * Anyway, join Slum Snakes regardless of the BitNode we are in.
  *
- * Usage: run gang/go.js
+ * Usage: run quack/gang/go.js
  *
  * @param ns The Netscript API.
  */
@@ -83,9 +83,9 @@ export async function main(ns) {
     // Regardless of the BitNode we are in, join Slum Snakes and set up our
     // gang within that faction.
     const script = [
-        "/gang/augment.js",
-        "/gang/program.js",
-        "/gang/slum-snakes.js",
+        "/quack/gang/augment.js",
+        "/quack/gang/program.js",
+        "/quack/gang/slum-snakes.js",
     ];
     script.forEach((s) => exec(ns, s));
 
@@ -97,18 +97,20 @@ export async function main(ns) {
     //
     // https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
     const nthread = 1;
-    const kill_script = () => ns.exec("kill-script.js", home, nthread, "world");
-    if (ns.isRunning("world.js", home)) {
-        ns.kill("world.js", home);
+    const kill_script = () => {
+        ns.exec("/quack/kill-script.js", home, nthread, "world");
+    };
+    if (ns.isRunning("/quack/world.js", home)) {
+        ns.kill("/quack/world.js", home);
         kill_script();
     }
-    exec(ns, "/hgw/world.js");
-    while (ns.isRunning("/gang/slum-snakes.js", home)) {
+    exec(ns, "/quack/hgw/world.js");
+    while (ns.isRunning("/quack/gang/slum-snakes.js", home)) {
         await ns.sleep(wait_t.DEFAULT);
     }
-    ns.kill("/hgw/world.js", home);
+    ns.kill("/quack/hgw/world.js", home);
     kill_script();
-    exec(ns, "world.js");
+    exec(ns, "/quack/world.js");
 
     // If we want, we can create a criminal gang within Speakers for the Dead.
     // Note that it can take a very long time to satisfy all requirements for

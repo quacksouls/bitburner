@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hgw } from "/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/misc.js";
 import {
     prep_gw, prep_mgw, prep_mwg, prep_wg,
-} from "/lib/hgw.js";
-import { log } from "/lib/io.js";
-import { assert, is_bankrupt, to_second } from "/lib/util.js";
+} from "/quack/lib/hgw.js";
+import { log } from "/quack/lib/io.js";
+import { assert, is_bankrupt, to_second } from "/quack/lib/util.js";
 
 /**
  * Prepare a server for hacking.  Our objective is to get a server to maximum
@@ -187,8 +187,8 @@ async function prep_weaken_grow(ns, host) {
  * (1) strategy := One of the above HGW strategies.
  * (2) targetServer := Hostname of server to target.
  *
- * Usage: run test/hgw/prep.js [strategy] [targetServer]
- * Example: run test/hgw/prep.js wg n00dles
+ * Usage: run quack/test/hgw/prep.js [strategy] [targetServer]
+ * Example: run quack/test/hgw/prep.js wg n00dles
  *
  * @param ns The Netscript API.
  */

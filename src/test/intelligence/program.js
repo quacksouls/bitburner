@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@ import {
     has_program,
     intelligence,
     intelligence_gain,
-} from "/intelligence/util.js";
-import { bool } from "/lib/constant/bool.js";
-import { wait_t } from "/lib/constant/time.js";
-import { assert } from "/lib/util.js";
+} from "/quack/intelligence/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * All programs that can be created.  These programs can also be purchased via
@@ -103,8 +103,8 @@ function is_valid_program(prog) {
  * programs.  This script accepts a command line argument, i.e. the name
  * of the program to create.
  *
- * Usage: run intelligence/program.js [programName]
- * Example: run intelligence/program.js BruteSSH.exe
+ * Usage: run quack/intelligence/program.js [programName]
+ * Example: run quack/intelligence/program.js BruteSSH.exe
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/lib/player.js";
-import { network } from "/lib/network.js";
+import { Player } from "/quack/lib/player.js";
+import { network } from "/quack/lib/network.js";
 
 /**
  * Kill all scripts on world or purchased servers.  Must provide one of the
@@ -25,8 +25,8 @@ import { network } from "/lib/network.js";
  * (1) pserv := Kill all scripts on all purchased servers.
  * (2) world := Kill all scripts on all world servers where we have root access.
  *
- * Usage: run kill-script.js [pserv | world]
- * Example: run kill-script.js pserv
+ * Usage: run quack/kill-script.js [pserv | world]
+ * Example: run quack/kill-script.js pserv
  *
  * @param ns The Netscript API.
  */

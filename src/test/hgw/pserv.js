@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { base } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { assert, to_second } from "/lib/util.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { assert, to_second } from "/quack/lib/util.js";
 
 /**
  * Use a sequential batcher to hack a common server.
@@ -32,14 +32,14 @@ import { assert, to_second } from "/lib/util.js";
  */
 async function hack(ns, host, target, frac, amount) {
     const target_money = money(ns) + amount;
-    const script = "/test/hgw/pbatch.js";
+    const script = "/quack/test/hgw/pbatch.js";
     const nthread = 1;
     const pid = ns.exec(script, home, nthread, host, target, frac);
     while (money(ns) < target_money) {
         await ns.sleep(wait_t.SECOND);
     }
     ns.kill(pid);
-    ns.exec("kill-script.js", home, nthread, "world");
+    ns.exec("/quack/kill-script.js", home, nthread, "world");
 }
 
 /**
@@ -111,8 +111,8 @@ function shush(ns) {
  * (3) frac := The fraction of money to steal from the target server.
  * (4) amount := The target amount of money to steal.
  *
- * Usage: run test/hgw/pserv.js [ram] [target] [frac] [amount]
- * Example: run test/hgw/pserv.js 128 n00dles 0.5 10e6
+ * Usage: run quack/test/hgw/pserv.js [ram] [target] [frac] [amount]
+ * Example: run quack/test/hgw/pserv.js 128 n00dles 0.5 10e6
  *
  * @param ns The Netscript API.
  */

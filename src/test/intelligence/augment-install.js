@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { io } from "/lib/constant/io.js";
-import { intelligence } from "/intelligence/util.js";
+import { io } from "/quack/lib/constant/io.js";
+import { intelligence } from "/quack/intelligence/util.js";
 
 /**
  * Install a bunch of Augmentations.
@@ -25,9 +25,9 @@ import { intelligence } from "/intelligence/util.js";
  */
 async function install_augmentations(ns) {
     const before = intelligence(ns);
-    const file = "/intelligence/value.txt";
+    const file = "/quack/intelligence/value.txt";
     await ns.write(file, before, io.WRITE);
-    const script = "/intelligence/augmentation-post-install.js";
+    const script = "/quack/intelligence/augmentation-post-install.js";
     ns.singularity.installAugmentations(script);
 }
 
@@ -37,7 +37,7 @@ async function install_augmentations(ns) {
  * the installation.  We must call another script to determine the Intelligence
  * XP gain after the installation.
  *
- * Usage: run intelligence/augmentation-install.js
+ * Usage: run quack/intelligence/augmentation-install.js
  *
  * @param ns The Netscript API.
  */

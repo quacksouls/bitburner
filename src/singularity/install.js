@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,24 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { cheapest_program } from "/lib/constant/exe.js";
-import { exclusive_aug, augment } from "/lib/constant/faction.js";
-import { colour } from "/lib/constant/misc.js";
-import { wait_t } from "/lib/constant/time.js";
-import { wse } from "/lib/constant/wse.js";
-import { Gangster } from "/lib/gang/gangster.js";
-import { reassign_soft_reset } from "/lib/gang/util.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { join_all_factions } from "/lib/singularity/faction.js";
-import { has_ai_api } from "/lib/source.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { cheapest_program } from "/quack/lib/constant/exe.js";
+import { exclusive_aug, augment } from "/quack/lib/constant/faction.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { wse } from "/quack/lib/constant/wse.js";
+import { Gangster } from "/quack/lib/gang/gangster.js";
+import { reassign_soft_reset } from "/quack/lib/gang/util.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { join_all_factions } from "/quack/lib/singularity/faction.js";
+import { has_ai_api } from "/quack/lib/source.js";
 import {
     assert,
     cleanup,
     trade_bot_resume,
     trade_bot_stop_buy,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have
@@ -159,7 +159,7 @@ function has_augmentations(ns) {
 function install(ns) {
     assert(has_augmentations(ns));
     log(ns, "Install Augmentations and soft reset");
-    ns.singularity.installAugmentations("go.js");
+    ns.singularity.installAugmentations("/quack/go.js");
 }
 
 /**
@@ -201,7 +201,7 @@ function set_neutral_gang(ns) {
     }
     log(ns, "Prepare gang for soft reset");
     // First, kill our gang script.
-    const script = "/gang/crime.js";
+    const script = "/quack/gang/crime.js";
     const { faction } = ns.gang.getGangInformation();
     const player = new Player(ns);
     if (ns.isRunning(script, player.home(), faction)) {

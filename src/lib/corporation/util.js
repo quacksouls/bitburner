@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import {
-    agriculture, corp, corp_t, tobacco,
-} from "/lib/constant/corp.js";
-import { io } from "/lib/constant/io.js";
-import { cities } from "/lib/constant/location.js";
-import { base } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
-import { log } from "/lib/io.js";
-import { random_integer } from "/lib/random.js";
-import { assert, is_boolean } from "/lib/util.js";
+    agriculture,
+    corp,
+    corp_t,
+    tobacco,
+} from "/quack/lib/constant/corp.js";
+import { io } from "/quack/lib/constant/io.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
+import { log } from "/quack/lib/io.js";
+import { random_integer } from "/quack/lib/random.js";
+import { assert, is_boolean } from "/quack/lib/util.js";
 
 /**
  * Purchase both "Market-TA.I" and "Market-TA.II".

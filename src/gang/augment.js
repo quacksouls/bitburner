@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { colour } from "/lib/constant/misc.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
 import {
     augment_to_install,
     purchase_augment,
-} from "/lib/singularity/augment.js";
-import { has_gang_api } from "/lib/source.js";
-import { exec } from "/lib/util.js";
+} from "/quack/lib/singularity/augment.js";
+import { has_gang_api } from "/quack/lib/source.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Purchase Augmentations from our gang faction.
@@ -50,7 +50,7 @@ async function buy_augment(ns) {
  * any money available to us.  This should help to speed up our run through a
  * BitNode.
  *
- * Usage: run gang/augment.js
+ * Usage: run quack/gang/augment.js
  *
  * @param ns The Netscript API.
  */
@@ -73,7 +73,7 @@ export async function main(ns) {
     if (success) {
         log(ns, `Bought Augmentations from ${faction}`);
         // The next script in the load chain.
-        exec(ns, "/singularity/home.js");
+        exec(ns, "/quack/singularity/home.js");
         return;
     }
     log(ns, `No Augmentations bought from ${faction}`);

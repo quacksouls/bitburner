@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
 
 // Utility functions for managing a gang.
 
-import { members } from "/lib/constant/gang.js";
-import { Gangster } from "/lib/gang/gangster.js";
-import { assert } from "/lib/util.js";
+import { members } from "/quack/lib/constant/gang.js";
+import { Gangster } from "/quack/lib/gang/gangster.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Choose the number of gang members to assign to vigilante justice.  The number

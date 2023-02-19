@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@ import {
     matrix_to_string,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { Graph } from "/lib/network.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { Graph } from "/quack/lib/network.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.
@@ -324,7 +324,7 @@ function unpairing(z) {
  * NOTE: If there are multiple equally short paths, any of them is accepted as
  * answer.  If there are no paths, the answer should be an empty string.
  *
- * Usage: run cct/grid3.js [cct] [hostname]
+ * Usage: run quack/cct/grid3.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -340,7 +340,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/grid3.txt";
+        const log = "/quack/cct/grid3.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

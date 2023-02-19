@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@ import {
     log_cct_failure,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The Caesar cipher on the given plaintext and left shift length k.  Suppose
@@ -88,7 +88,7 @@ function caesar(plaintext, k) {
  * This is Caesar cipher encryption, where the plaintext alphabet is the
  * uppercase characters of the English alphabet.
  *
- * Usage: run cct/caesar.js [cct] [hostname]
+ * Usage: run quack/cct/caesar.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -104,7 +104,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/caesar.txt";
+        const log = "/quack/cct/caesar.txt";
         const data = `[${plaintext}, ${k}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

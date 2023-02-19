@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 // Miscellaneous helper functions relating to random number generations.
 
-import { assert } from "/lib/util.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * A random integer between a minimum a and a maximum b, inclusive.  Code is

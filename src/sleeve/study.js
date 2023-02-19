@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cities } from "/lib/constant/location.js";
-import { colour } from "/lib/constant/misc.js";
-import { course } from "/lib/constant/study.js";
-import { log } from "/lib/io.js";
-import { all_sleeves } from "/lib/sleeve/util.js";
-import { has_sleeve_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { course } from "/quack/lib/constant/study.js";
+import { log } from "/quack/lib/io.js";
+import { all_sleeves } from "/quack/lib/sleeve/util.js";
+import { has_sleeve_api } from "/quack/lib/source.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Determine the university at which a sleeve should study.

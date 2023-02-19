@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,22 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { agriculture, corp } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { agriculture, corp } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     hire,
     buy_market_ta,
     buy_research,
     has_all_research,
     setup_research_lab,
-} from "/lib/corporation/util.js";
-import { create_file, log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/corporation/util.js";
+import { create_file, log } from "/quack/lib/io.js";
+import { has_corporation_api } from "/quack/lib/source.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Develop the research unit in each office.
@@ -88,7 +88,7 @@ function setup_market_ta(ns, div) {
 /**
  * Develop our Agriculture division.
  *
- * Usage: run corporation/agriculture.js
+ * Usage: run quack/corporation/agriculture.js
  *
  * @param ns The Netscript API.
  */

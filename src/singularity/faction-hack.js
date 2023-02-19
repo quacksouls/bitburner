@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,20 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { faction_req } from "/lib/constant/faction.js";
-import { wait_t } from "/lib/constant/time.js";
-import { job_area } from "/lib/constant/work.js";
-import { Server } from "/lib/server.js";
-import { purchase_augment } from "/lib/singularity/augment.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { faction_req } from "/quack/lib/constant/faction.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { job_area } from "/quack/lib/constant/work.js";
+import { Server } from "/quack/lib/server.js";
+import { purchase_augment } from "/quack/lib/singularity/augment.js";
 import {
     join_faction,
     raise_hack,
     work_for_faction,
-} from "/lib/singularity/faction.js";
-import { install_backdoor, visit_city } from "/lib/singularity/network.js";
-import { raise_hack_until } from "/lib/singularity/study.js";
-import { assert, exec, has_required_hack } from "/lib/util.js";
+} from "/quack/lib/singularity/faction.js";
+import {
+    install_backdoor,
+    visit_city,
+} from "/quack/lib/singularity/network.js";
+import { raise_hack_until } from "/quack/lib/singularity/study.js";
+import { assert, exec, has_required_hack } from "/quack/lib/util.js";
 
 /**
  * Join a hacking group.  The requirement for receiving an invitation is to
@@ -123,5 +126,5 @@ export async function main(ns) {
     sanity_check(faction);
     await hacking_group(ns, faction);
     // The next script in the load chain.
-    exec(ns, "/chain/home.js");
+    exec(ns, "/quack/chain/home.js");
 }

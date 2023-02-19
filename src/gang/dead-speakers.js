@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,21 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { faction_req } from "/lib/constant/faction.js";
-import { gang_t } from "/lib/constant/gang.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Player } from "/lib/player.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { faction_req } from "/quack/lib/constant/faction.js";
+import { gang_t } from "/quack/lib/constant/gang.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Player } from "/quack/lib/player.js";
 import {
     join_faction,
     raise_combat_stats,
     raise_hack,
-} from "/lib/singularity/faction.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/singularity/faction.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The karma threshold.  We want to lower our karma to a given amount.  Outside
@@ -67,7 +67,7 @@ function karma_threshold(ns) {
  *     allows us to create a criminal gang.
  */
 function load_chain(ns, faction) {
-    const script = "/gang/crime.js";
+    const script = "/quack/gang/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
 }
@@ -107,7 +107,7 @@ async function lower_karma(ns) {
  * (4) Negative karma at -45 or lower.
  * (5) Not working for CIA or NSA.
  *
- * Usage: run gang/dead-speakers.js
+ * Usage: run quack/gang/dead-speakers.js
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { io } from "/lib/constant/io.js";
-import { colour } from "/lib/constant/misc.js";
-import { assert } from "/lib/util.js";
+import { io } from "/quack/lib/constant/io.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { assert } from "/quack/lib/util.js";
 
 // Miscellaneous functions for input/output.
 

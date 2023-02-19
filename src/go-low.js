@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb } from "/lib/constant/misc.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { has_singularity_api } from "/lib/source.js";
+import { darkweb } from "/quack/lib/constant/misc.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { has_singularity_api } from "/quack/lib/source.js";
 import {
     assert, exec, has_program, init_sleeves,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Launch scripts to purchase port opener programs.
@@ -29,8 +29,8 @@ import {
  * @param ns The Netscript API.
  */
 async function init_popen(ns) {
-    const pida = exec(ns, "/gang/program.js");
-    const pidb = exec(ns, "world.js");
+    const pida = exec(ns, "/quack/gang/program.js");
+    const pidb = exec(ns, "/quack/world.js");
     while (
         !has_program(ns, darkweb.program.brutessh.NAME)
         || !has_program(ns, darkweb.program.ftpcrack.NAME)
@@ -79,7 +79,7 @@ async function reboot(ns) {
  * Our goal in this script is to raise the amount of RAM on our home server to
  * at least 512GB.
  *
- * Usage: run go-low.js
+ * Usage: run quack/go-low.js
  *
  * @param ns The Netscript API.
  */
@@ -90,5 +90,5 @@ export async function main(ns) {
     );
     assert(has_singularity_api(ns));
     await reboot(ns);
-    exec(ns, "/chain/money.js");
+    exec(ns, "/quack/chain/money.js");
 }

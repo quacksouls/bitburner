@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { io } from "/lib/constant/io.js";
-import { script } from "/lib/constant/misc.js";
-import { home, server } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { network } from "/lib/network.js";
-import { Server } from "/lib/server.js";
-import { assert, server_of_max_weight } from "/lib/util.js";
+import { io } from "/quack/lib/constant/io.js";
+import { script } from "/quack/lib/constant/misc.js";
+import { home, server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { network } from "/quack/lib/network.js";
+import { Server } from "/quack/lib/server.js";
+import { assert, server_of_max_weight } from "/quack/lib/util.js";
 
 /**
  * The number of threads we can use to run a script on our home server.
@@ -87,7 +87,7 @@ function update(ns, t) {
  * home RAM to another task, then this script should be suspended to free up
  * some RAM.
  *
- * Usage: run hram.js
+ * Usage: run quack/hram.js
  *
  * @param ns The Netscript API.
  */

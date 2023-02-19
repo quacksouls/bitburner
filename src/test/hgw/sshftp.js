@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_hack, prep_mwg } from "/lib/hgw.js";
-import { log } from "/lib/io.js";
-import { assert, to_second } from "/lib/util.js";
+import { darkweb } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { assemble_botnet, hgw_hack, prep_mwg } from "/quack/lib/hgw.js";
+import { log } from "/quack/lib/io.js";
+import { assert, to_second } from "/quack/lib/util.js";
 
 /**
  * Continuously hack a server.  Steal a certain percentage of the server's
@@ -76,8 +76,8 @@ function total_cost(prog) {
  *     ftp := The FTPCrack.exe program.
  * (2) The percentage of money to steal from a server.
  *
- * Usage: run test/hgw/sshftp.js [program] [moneyPercent]
- * Example: run test/hgw/sshftp.js ssh 0.2
+ * Usage: run quack/test/hgw/sshftp.js [program] [moneyPercent]
+ * Example: run quack/test/hgw/sshftp.js ssh 0.2
  *
  * @param ns The Netscript API.
  */

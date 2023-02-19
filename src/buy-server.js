@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { pserv } from "/lib/constant/pserv.js";
-import { home_t } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
-import { PurchasedServer } from "/lib/pserv.js";
-import { Server } from "/lib/server.js";
+import { MyArray } from "/quack/lib/array.js";
+import { pserv } from "/quack/lib/constant/pserv.js";
+import { home_t } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { network } from "/quack/lib/network.js";
+import { Player } from "/quack/lib/player.js";
+import { PurchasedServer } from "/quack/lib/pserv.js";
+import { Server } from "/quack/lib/server.js";
 import {
     assert,
     choose_best_server,
@@ -30,7 +30,7 @@ import {
     filter_bankrupt_servers,
     is_bankrupt,
     server_of_max_weight,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.
@@ -276,7 +276,7 @@ async function update(ns, ram) {
  * If our funds are sufficient, try to upgrade to servers with higher amounts
  * of RAM.
  *
- * Usage: run buy-server.js
+ * Usage: run quack/buy-server.js
  *
  * @param ns The Netscript API.
  */

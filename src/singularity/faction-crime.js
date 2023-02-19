@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,22 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { faction_req } from "/lib/constant/faction.js";
-import { work_hack_lvl } from "/lib/constant/misc.js";
-import { job_area } from "/lib/constant/work.js";
-import { purchase_augment } from "/lib/singularity/augment.js";
-import { lower_karma } from "/lib/singularity/crime.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { faction_req } from "/quack/lib/constant/faction.js";
+import { work_hack_lvl } from "/quack/lib/constant/misc.js";
+import { job_area } from "/quack/lib/constant/work.js";
+import { purchase_augment } from "/quack/lib/singularity/augment.js";
+import { lower_karma } from "/quack/lib/singularity/crime.js";
 import {
     join_faction,
     raise_combat_stats,
     raise_hack,
     work_for_faction,
-} from "/lib/singularity/faction.js";
-import { visit_city } from "/lib/singularity/network.js";
-import { raise_charisma, rise_to_cfo, work } from "/lib/singularity/work.js";
-import { assert, exec } from "/lib/util.js";
+} from "/quack/lib/singularity/faction.js";
+import { visit_city } from "/quack/lib/singularity/network.js";
+import {
+    raise_charisma,
+    rise_to_cfo,
+    work,
+} from "/quack/lib/singularity/work.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Various sanity checks of a parameter.
@@ -315,5 +319,5 @@ export async function main(ns) {
             break;
     }
     // The next script in the load chain.
-    exec(ns, "/chain/home.js");
+    exec(ns, "/quack/chain/home.js");
 }

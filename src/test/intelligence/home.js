@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { home } from "/lib/constant/server.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
-import { assert } from "/lib/util.js";
+import { intelligence, intelligence_gain } from "/quack/intelligence/util.js";
+import { home } from "/quack/lib/constant/server.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Upgrade the number of Cores on the home server.

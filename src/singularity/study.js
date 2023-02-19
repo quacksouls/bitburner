@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { all_programs } from "/lib/constant/exe.js";
-import { home, home_t } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { study } from "/lib/singularity/study.js";
-import { assert, exec } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { all_programs } from "/quack/lib/constant/exe.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { study } from "/quack/lib/singularity/study.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * If our home server is less than a mid-sized server, then run a script to
@@ -34,7 +34,8 @@ import { assert, exec } from "/lib/util.js";
  */
 async function bootstrap(ns) {
     if (ns.getServer(home).maxRam < home_t.RAM_MID) {
-        const script = ["low-end.js", "hnet-farm.js"];
+        // const script = ["low-end.js", "hnet-farm.js"];
+        const script = [];
         for (const s of script) {
             assert(!ns.isRunning(s, home));
             exec(ns, s);
@@ -143,5 +144,5 @@ export async function main(ns) {
 
     await study_and_create(ns);
     // The next segment in the load chain.
-    exec(ns, "/chain/money.js");
+    exec(ns, "/quack/chain/money.js");
 }

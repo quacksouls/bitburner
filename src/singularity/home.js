@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, home_t } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { Server } from "/lib/server.js";
-import { choose_hardware_company } from "/lib/singularity/util.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { Server } from "/quack/lib/server.js";
+import { choose_hardware_company } from "/quack/lib/singularity/util.js";
 import {
     assert,
     exec,
     trade_bot_resume,
     trade_bot_stop_buy,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Determine which to upgrade on the home server: Cores or RAM.  If the script
@@ -47,7 +47,7 @@ function choose_upgrade(ns) {
     }
     // Is the script "share.js" running on our home server?
     const server = new Server(ns, home);
-    const script = "share.js";
+    const script = "/quack/share.js";
     assert(ns.fileExists(script, home));
     if (server.is_running_script(script)) {
         return "RAM";
@@ -172,5 +172,5 @@ export async function main(ns) {
     await upgrade(ns);
     trade_bot_resume(ns);
     // The next script in the load chain.
-    exec(ns, "/chain/install.js");
+    exec(ns, "/quack/chain/install.js");
 }

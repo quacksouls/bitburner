@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@ import {
     has_program,
     intelligence,
     intelligence_gain,
-} from "/intelligence/util.js";
-import { all_programs } from "/lib/constant/exe.js";
-import { Player } from "/lib/player.js";
-import { assert } from "/lib/util.js";
+} from "/quack/intelligence/util.js";
+import { all_programs } from "/quack/lib/constant/exe.js";
+import { Player } from "/quack/lib/player.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Use the dark web to purchase various programs.

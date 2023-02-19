@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { assemble_botnet, hgw_hack, prep_gw } from "/lib/hgw.js";
-import { log } from "/lib/io.js";
-import { assert, has_program, to_second } from "/lib/util.js";
+import { darkweb } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { assemble_botnet, hgw_hack, prep_gw } from "/quack/lib/hgw.js";
+import { log } from "/quack/lib/io.js";
+import { assert, has_program, to_second } from "/quack/lib/util.js";
 
 /**
  * The server to target, depending on which program we want to buy.
@@ -156,8 +156,8 @@ function total_cost(ns, prog) {
  *     smtp := relaySMTP.exe
  * (2) moneyFraction := The fraction of money to steal from a server.
  *
- * Usage: run test/hgw/smtp.js [program] [moneyFraction]
- * Example: run test/hgw/smtp.js ssh 0.2
+ * Usage: run quack/test/hgw/smtp.js [program] [moneyFraction]
+ * Example: run quack/test/hgw/smtp.js ssh 0.2
  *
  * @param ns The Netscript API.
  */

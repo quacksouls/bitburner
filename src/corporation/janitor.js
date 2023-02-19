@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t } from "/lib/constant/corp.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { corp, corp_t } from "/quack/lib/constant/corp.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     create_product,
     discontinue_product,
@@ -27,10 +27,10 @@ import {
     hire,
     level_upgrade,
     sell_product,
-} from "/lib/corporation/util.js";
-import { create_file, log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/corporation/util.js";
+import { create_file, log } from "/quack/lib/io.js";
+import { has_corporation_api } from "/quack/lib/source.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Take our corporation public and list it on the Stock Exchange.
@@ -138,7 +138,7 @@ async function update(ns, div) {
  * Our corporation is now in maintenance mode.  Continue to maintain the various
  * divisions.
  *
- * Usage: run corporation/janitor.js
+ * Usage: run quack/corporation/janitor.js
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { program as popen } from "/lib/constant/exe.js";
-import { darkweb, work_hack_lvl } from "/lib/constant/misc.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { raise_hack } from "/lib/singularity/study.js";
-import { choose_hardware_company } from "/lib/singularity/util.js";
-import { work } from "/lib/singularity/work.js";
-import { assert } from "/lib/util.js";
+import { program as popen } from "/quack/lib/constant/exe.js";
+import { darkweb, work_hack_lvl } from "/quack/lib/constant/misc.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { raise_hack } from "/quack/lib/singularity/study.js";
+import { choose_hardware_company } from "/quack/lib/singularity/util.js";
+import { work } from "/quack/lib/singularity/work.js";
+import { assert } from "/quack/lib/util.js";
 
 // Utility functions related to programs.
 

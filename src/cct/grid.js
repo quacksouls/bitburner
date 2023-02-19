@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { assert } from "/lib/util.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The number of unique paths from top-left to bottom-right in an m x n
@@ -105,7 +105,7 @@ function unique_paths(n, k) {
  *
  * See the function unique_paths() for more details.
  *
- * Usage: run cct/grid.js [cct] [hostname]
+ * Usage: run quack/cct/grid.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -123,7 +123,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/grid.txt";
+        const log = "/quack/cct/grid.txt";
         const data = `[${row}, ${column}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

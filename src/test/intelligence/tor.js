@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { assert } from "/lib/util.js";
+import { intelligence, intelligence_gain } from "/quack/intelligence/util.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Obtain Intelligence XP by purchasing the TOR router.

@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { wait_t } from "/lib/constant/time.js";
-import { network } from "/lib/network.js";
-import { nuke_servers } from "/lib/util.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { network } from "/quack/lib/network.js";
+import { nuke_servers } from "/quack/lib/util.js";
 
 /**
  * Continuously try to nuke world servers.
  *
- * Usage: run test/hgw/nuke.js
+ * Usage: run quack/test/hgw/nuke.js
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { bool } from "/lib/constant/bool.js";
-import { factions } from "/lib/constant/faction.js";
-import { home } from "/lib/constant/server.js";
-import { owned_augment } from "/lib/singularity/augment.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { factions } from "/quack/lib/constant/faction.js";
+import { home } from "/quack/lib/constant/server.js";
+import { owned_augment } from "/quack/lib/singularity/augment.js";
+import { assert, is_valid_faction } from "/quack/lib/util.js";
 
 /**
  * Choose a faction to join and join that faction.  Work for the faction to
@@ -63,97 +63,97 @@ function choose_faction(ns) {
     let script = "";
     switch (faction) {
         case "Aevum":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         case "Bachman & Associates":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "BitRunners":
-            script = "/singularity/faction-hack.js";
+            script = "/quack/singularity/faction-hack.js";
             break;
         case "Blade Industries":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Chongqing":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         case "Clarke Incorporated":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "CyberSec":
-            script = "/singularity/faction-early.js";
+            script = "/quack/singularity/faction-early.js";
             break;
         case "Daedalus":
-            script = "/singularity/faction-end.js";
+            script = "/quack/singularity/faction-end.js";
             break;
         case "ECorp":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Four Sigma":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Fulcrum Secret Technologies":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Illuminati":
-            script = "/singularity/faction-end.js";
+            script = "/quack/singularity/faction-end.js";
             break;
         case "Ishima":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         case "KuaiGong International":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "MegaCorp":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Netburners":
-            script = "/singularity/faction-early.js";
+            script = "/quack/singularity/faction-early.js";
             break;
         case "New Tokyo":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         case "NiteSec":
-            script = "/singularity/faction-hack.js";
+            script = "/quack/singularity/faction-hack.js";
             break;
         case "NWO":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "OmniTek Incorporated":
-            script = "/singularity/faction-megacorp.js";
+            script = "/quack/singularity/faction-megacorp.js";
             break;
         case "Sector-12":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         case "Silhouette":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "Slum Snakes":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "Speakers for the Dead":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "Tetrads":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "The Black Hand":
-            script = "/singularity/faction-hack.js";
+            script = "/quack/singularity/faction-hack.js";
             break;
         case "The Covenant":
-            script = "/singularity/faction-end.js";
+            script = "/quack/singularity/faction-end.js";
             break;
         case "The Dark Army":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "The Syndicate":
-            script = "/singularity/faction-crime.js";
+            script = "/quack/singularity/faction-crime.js";
             break;
         case "Tian Di Hui":
-            script = "/singularity/faction-early.js";
+            script = "/quack/singularity/faction-early.js";
             break;
         case "Volhaven":
-            script = "/singularity/faction-city.js";
+            script = "/quack/singularity/faction-city.js";
             break;
         default:
             break;

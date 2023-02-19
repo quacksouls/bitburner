@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,16 +132,16 @@ export const hgw = {
         /**
          * The grow script.  Use this script to grow money on a server.
          */
-        GROW: "/hgw/grow.js",
+        GROW: "/quack/hgw/grow.js",
         /**
          * The hack script.  Use this script to hack a server.
          */
-        HACK: "/hgw/hack.js",
+        HACK: "/quack/hgw/hack.js",
         /**
          * The weaken script.  Use this script to lower the security of a
          * server.
          */
-        WEAKEN: "/hgw/weaken.js",
+        WEAKEN: "/quack/hgw/weaken.js",
     },
     /**
      * Various strategies for preparing a server.
@@ -177,7 +177,7 @@ export const money_reserve = 50e6;
 /**
  * The hack script.  This script is used for hacking a server.
  */
-export const script = "hack.js";
+export const script = "/quack/hack.js";
 
 /**
  * The minimum required Hack stat to enable a player to work at most companies.

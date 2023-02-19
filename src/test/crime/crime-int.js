@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { wait_t } from "/lib/constant/time.js";
-import { assert } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Commit a crime for a given amount of time.
@@ -131,7 +131,7 @@ function player_stat(ns) {
  * @param ns The Netscript API.
  */
 function usage(ns) {
-    const msg = "Usage: run test/crime/crime-int.js [crime]\n\n"
+    const msg = "Usage: run quack/test/crime/crime-int.js [crime]\n\n"
         + "crime -- (string) The name of a crime.";
     ns.tprint(msg);
 }
@@ -142,8 +142,8 @@ function usage(ns) {
  * stat gains, including Intelligence.  This script accepts a command line
  * argument.
  *
- * Usage: run test/crime/crime-int.js [crime]
- * Example: run test/crime/crime-int.js "shoplift"
+ * Usage: run quack/test/crime/crime-int.js [crime]
+ * Example: run quack/test/crime/crime-int.js "shoplift"
  */
 export async function main(ns) {
     // Sanity check.

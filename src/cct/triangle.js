@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ import {
     matrix_to_string,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * A deep copy of a triangle.
@@ -167,7 +167,7 @@ function is_triangle(triangle) {
  * 1, we have [3, 4].  From 3, we can move down to either 6 or 5, but we
  * cannot move from 3 to 7 because 7 is not directly below 3.
  *
- * Usage: run cct/triangle.js [cct] [hostname]
+ * Usage: run quack/cct/triangle.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -184,7 +184,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/triangle.txt";
+        const log = "/quack/cct/triangle.txt";
         const data = matrix_to_string(triangle);
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

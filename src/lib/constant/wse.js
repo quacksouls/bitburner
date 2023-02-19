@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,5 +70,5 @@ export const wse = {
      * is subject to certain conditions.  See the trade-bot.js script for more
      * details.
      */
-    STOP_BUY: "trade_bot_stop_buy.txt",
+    STOP_BUY: "/quack/trade_bot_stop_buy.txt",
 };

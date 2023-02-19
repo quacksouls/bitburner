@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { bool } from "/lib/constant/bool.js";
-import { augment } from "/lib/constant/faction.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
+import { intelligence, intelligence_gain } from "/quack/intelligence/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { augment } from "/quack/lib/constant/faction.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import {
     choose_augment,
     has_augment,
     prerequisites,
-} from "/lib/singularity/augment.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+} from "/quack/lib/singularity/augment.js";
+import { assert, is_valid_faction } from "/quack/lib/util.js";
 
 /**
  * Augmentations we still need to purchase from a faction.
@@ -150,8 +150,8 @@ async function purchase_aug(ns, aug, fac) {
  * Determine the amount of Intelligence XP gained from purchasing
  * Augmentations.  This script accepts a command line argument.
  *
- * Usage: run intelligence/augmentation-buy.js [factionName]
- * Example: run intelligence/augmentation-buy.js Sector-12
+ * Usage: run quack/intelligence/augmentation-buy.js [factionName]
+ * Example: run quack/intelligence/augmentation-buy.js Sector-12
  *
  * @param ns The Netscript API.
  */

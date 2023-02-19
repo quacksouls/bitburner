@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,22 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
+import { network } from "/quack/lib/network.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
 import {
     assert,
     choose_targets,
     filter_bankrupt_servers,
     server_of_max_weight,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Restart all scripts on a purchased server.  This is useful in the case where
  * all scripts running on a purchased server have been killed.  We start running
  * those scripts again.  This script chooses the "best" servers to hack.
  *
- * Usage: run restart-server.js
+ * Usage: run quack/restart-server.js
  *
  * @param ns The Netscript API.
  */

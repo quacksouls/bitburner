@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { exec } from "/lib/util.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Start a load chain to run various scripts.
@@ -31,7 +31,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the scripts below.
     // await hram_suspend(ns);
-    while (ns.isRunning("/singularity/money.js", home)) {
+    while (ns.isRunning("/quack/singularity/money.js", home)) {
         await ns.sleep(wait_t.SECOND);
     }
     // Assume our home server is high-end and has enough RAM to run multiple
@@ -53,15 +53,15 @@ export async function main(ns) {
     //     open all ports of each server.
     // (6) /sleeve/cc.js := Our sleeve manager.
     const gang_script = [
-        "/gang/go.js",
-        "/gang/slum-snakes.js",
-        "/gang/dead-speakers.js",
+        "/quack/gang/go.js",
+        "/quack/gang/slum-snakes.js",
+        "/quack/gang/dead-speakers.js",
     ];
     const script = [
         // "/corporation/go.js", // FIXME: update to use v2.2 API
-        "/singularity/daemon.js",
-        "/singularity/int-farm.js",
-        "/sleeve/cc.js",
+        "/quack/singularity/daemon.js",
+        "/quack/singularity/int-farm.js",
+        "/quack/sleeve/cc.js",
         gang_script[0],
     ];
     script.forEach((s) => exec(ns, s));
@@ -74,6 +74,6 @@ export async function main(ns) {
     while (gang_script.some(script_running)) {
         await ns.sleep(wait_t.SECOND);
     }
-    exec(ns, "/singularity/program.js");
+    exec(ns, "/quack/singularity/program.js");
     // hram_resume(ns);
 }

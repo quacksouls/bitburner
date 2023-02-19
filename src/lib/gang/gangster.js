@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import {
     armour,
     gang_augment,
@@ -27,11 +27,11 @@ import {
     task_t,
     vehicle,
     weapon,
-} from "/lib/constant/gang.js";
-import { money_reserve } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { random_integer } from "/lib/random.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/constant/gang.js";
+import { money_reserve } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { random_integer } from "/quack/lib/random.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * A class that holds various information about a gangster.

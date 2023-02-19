@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Merge overlapping intervals.
@@ -108,7 +108,7 @@ function valid_interval(array) {
  * the first number is always less than the second (e.g. [1, 5]).  The
  * intervals must be returned in ASCENDING order.
  *
- * Usage: run cct/interval.js [cct] [hostname]
+ * Usage: run quack/cct/interval.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -124,7 +124,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/interval.txt";
+        const log = "/quack/cct/interval.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

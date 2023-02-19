@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
 // NOTE: Import only constants into this file.
 // Miscellaneous helper functions.
 
-import { all_programs, program } from "/lib/constant/exe.js";
-import { factions } from "/lib/constant/faction.js";
-import { io } from "/lib/constant/io.js";
-import { cities } from "/lib/constant/location.js";
-import { darkweb, script } from "/lib/constant/misc.js";
-import { home, server } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { wse } from "/lib/constant/wse.js";
+import { all_programs, program } from "/quack/lib/constant/exe.js";
+import { factions } from "/quack/lib/constant/faction.js";
+import { io } from "/quack/lib/constant/io.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { darkweb, script } from "/quack/lib/constant/misc.js";
+import { home, server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { wse } from "/quack/lib/constant/wse.js";
 
 /**
  * A function for assertion.
@@ -288,7 +288,7 @@ export async function hram_suspend(ns) {
  * @param ns The Netscript API.
  */
 export async function init_sleeves(ns) {
-    const pid = exec(ns, "/sleeve/money.js");
+    const pid = exec(ns, "/quack/sleeve/money.js");
     while (ns.isRunning(pid)) {
         await ns.sleep(wait_t.DEFAULT);
     }

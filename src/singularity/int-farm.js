@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { buy_schedule, cheapest_program } from "/lib/constant/exe.js";
-import { colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { Money } from "/lib/money.js";
-import { Player } from "/lib/player.js";
-import { has_ai_api } from "/lib/source.js";
-import { assert } from "/lib/util.js";
+import { buy_schedule, cheapest_program } from "/quack/lib/constant/exe.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { Money } from "/quack/lib/money.js";
+import { Player } from "/quack/lib/player.js";
+import { has_ai_api } from "/quack/lib/source.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Passively farm Intelligence XP.

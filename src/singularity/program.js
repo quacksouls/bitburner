@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { exec, has_all_popen } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { exec, has_all_popen } from "/quack/lib/util.js";
 
 /**
  * Commit crime to raise money for purchasing port opener programs.  Stop as
@@ -59,5 +59,5 @@ function shush(ns) {
 export async function main(ns) {
     shush(ns);
     await commit_crime(ns);
-    exec(ns, "/chain/faction.js");
+    exec(ns, "/quack/chain/faction.js");
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
+import { MyArray } from "/quack/lib/array.js";
 import {
     count_one,
     log_cct_failure,
     parity_position,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { base } from "/lib/constant/misc.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Use Hamming code to encode a string of bits.
@@ -189,7 +189,7 @@ function set_parity(msg, nparity) {
  * https://www.youtube.com/watch?v=X8jsijhllIA
  * https://harryli0088.github.io/hamming-code/
  *
- * Usage: run cct/hamming.js [cct] [hostname]
+ * Usage: run quack/cct/hamming.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -205,7 +205,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/hamming.txt";
+        const log = "/quack/cct/hamming.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);
         return;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
-import { network, shortest_path } from "/lib/network.js";
-import { assert, shell } from "/lib/util.js";
+import { home } from "/quack/lib/constant/server.js";
+import { network, shortest_path } from "/quack/lib/network.js";
+import { assert, shell } from "/quack/lib/util.js";
 
 /**
  * Connect to a given target server.
@@ -36,8 +36,8 @@ function connect(path) {
  * Connect to a target server.  This script accepts a command line argument,
  * i.e. the hostname of the server to which we want to connect.
  *
- * Usage: run connect.js [targetServer]
- * Example: run connect.js run4theh111z
+ * Usage: run quack/connect.js [targetServer]
+ * Example: run quack/connect.js run4theh111z
  *
  * @param ns The Netscript API.
  */

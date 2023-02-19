@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,22 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { bool } from "/lib/constant/bool.js";
+import { MyArray } from "/quack/lib/array.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import {
     home, home_t, server, server_t,
-} from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
+} from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { network } from "/quack/lib/network.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
 import {
     assert,
     compromised_servers,
     filter_bankrupt_servers,
     filter_pserv,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Whether a server is nuked.
@@ -175,7 +175,7 @@ function update(ns) {
  * servers provides a good source of income.  We do not target all low-end
  * servers, only a small number of these.
  *
- * Usage: run low-end.js
+ * Usage: run quack/low-end.js
  *
  * @param ns The Netscript API.
  */

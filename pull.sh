@@ -105,25 +105,11 @@ cat << EOF >> "$SCRIPT"
  *     character added.
  */
 function target_name(f) {
-    assert(f.length > 0);
-    // Remove any leading forward slash "/" character.
-    let fname = f.toString();
+    assert(f !== "");
+    const fname = f.toString();
+    const prefix = "/quack";
     const slash = "/";
-    if (f.startsWith(slash)) {
-        fname = f.substring(1, f.length);
-    }
-    // If the file should be at the root directory of the home server, then it
-    // is just a file name without any other parent directory.  Something like
-    // "file.js" would be saved to the root directory.  If the file has a
-    // parent directory under root, then it would be something like
-    // "src/file.js".  When we split the string according to "/", we should end
-    // up with an array of at least 2 elements.
-    const newf = fname.split(slash);
-    if (newf.length === 1) {
-        return fname;
-    }
-    assert(newf.length > 1);
-    return slash + fname;
+    return [prefix, slash, fname].join("");
 }
 
 /**

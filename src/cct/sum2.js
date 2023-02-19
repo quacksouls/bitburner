@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The number of ways to change n using coins in the given set of denominations.
@@ -98,7 +98,7 @@ function partition(n, denom) {
  *
  * https://algorithmist.com/wiki/Coin_change
  *
- * Usage: run cct/sum2.js [cct] [hostname]
+ * Usage: run quack/cct/sum2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -115,7 +115,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/sum2.txt";
+        const log = "/quack/cct/sum2.txt";
         const data = `[${n}, [${denomination.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

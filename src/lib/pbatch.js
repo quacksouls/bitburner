@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hgw } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
+import { hgw } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import {
     has_max_money,
     has_min_security,
     hgw_script,
     hgw_wait_time,
     target_money,
-} from "/lib/hgw.js";
-import { assert, can_run_script, num_threads } from "/lib/util.js";
+} from "/quack/lib/hgw.js";
+import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
 
 /**
  * A purchased server that uses a proto-batcher.

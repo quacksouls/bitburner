@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t, tobacco } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { corp, corp_t, tobacco } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     buy_research,
     create_product,
@@ -36,10 +36,10 @@ import {
     sell_product,
     smart_supply,
     to_number,
-} from "/lib/corporation/util.js";
-import { create_file, log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+} from "/quack/lib/corporation/util.js";
+import { create_file, log } from "/quack/lib/io.js";
+import { has_corporation_api } from "/quack/lib/source.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Everything we need to do before taking our corporation to public.
@@ -337,7 +337,7 @@ async function upgrade(ns, n) {
 /**
  * Branch out into the Tobacco industry and develop various products.
  *
- * Usage: run corporation/tobacco.js
+ * Usage: run quack/corporation/tobacco.js
  *
  * @param ns The Netscript API.
  */
@@ -370,6 +370,6 @@ export async function main(ns) {
     }
     // Some last minute house keeping.
     await before_going_public(ns);
-    exec(ns, "/corporation/janitor.js");
+    exec(ns, "/quack/corporation/janitor.js");
     ns.rm(corp.TOBA, home);
 }

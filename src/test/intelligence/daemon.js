@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence } from "/intelligence/util.js";
-import { bool } from "/lib/constant/bool.js";
-import { io } from "/lib/constant/io.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
-import { connect_to } from "/lib/singularity/network.js";
-import { assert } from "/lib/util.js";
+import { intelligence } from "/quack/intelligence/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { io } from "/quack/lib/constant/io.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
+import { connect_to } from "/quack/lib/singularity/network.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Find and destroy the w0r1d_d43m0n server.
@@ -44,7 +44,7 @@ async function destroy(ns) {
     // Now hack the target server.
     connect_to(ns, player.home(), server.hostname());
     const before = intelligence(ns);
-    const file = "/intelligence/value-daemon.txt";
+    const file = "/quack/intelligence/value-daemon.txt";
     await ns.write(file, before, io.WRITE);
     await ns.singularity.installBackdoor();
 }
@@ -52,7 +52,7 @@ async function destroy(ns) {
 /**
  * Destroy the w0r1d_d43m0n server.
  *
- * Usage: run singularity/daemon.js
+ * Usage: run quack/singularity/daemon.js
  *
  * @param ns The Netscript API.
  */

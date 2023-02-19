@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ import {
     log_cct_failure,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { vigenere_square } from "/lib/constant/cct.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { vigenere_square } from "/quack/lib/constant/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Pad the key so that it is the same length as the plaintext.
@@ -115,7 +115,7 @@ function vigenere(plaintext, key) {
  * This is Vigenère encryption, where the plaintext alphabet is the uppercase
  * characters of the English alphabet.
  *
- * Usage: run cct/vigenere.js [cct] [hostname]
+ * Usage: run quack/cct/vigenere.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -136,7 +136,7 @@ export async function main(ns) {
     );
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/vigenere.txt";
+        const log = "/quack/cct/vigenere.txt";
         const data = `[${plaintext}, ${key}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

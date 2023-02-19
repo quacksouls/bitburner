@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { base } from "/lib/constant/misc.js";
-import { assert } from "/lib/util.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * All valid mathematical expressions, each of which evaluates to a target
@@ -124,7 +124,7 @@ function* expressions(digit, target, k = 1) {
  *     an expression such as "1+0+3" is accepted, but the expression "1+03" is
  *     invalid because the operand "03" has a leading zero.
  *
- * Usage: run cct/maths.js [cct] [hostname]
+ * Usage: run quack/cct/maths.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -141,7 +141,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/maths.txt";
+        const log = "/quack/cct/maths.txt";
         const data = `${string}, ${target}`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/lib/player.js";
+import { Player } from "/quack/lib/player.js";
 
 /**
  * The player's karma.
  *
- * Usage: run karma.js
+ * Usage: run quack/karma.js
  *
  * @param ns The Netscript API.
  */

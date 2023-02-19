@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { Graph } from "/lib/network.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { Graph } from "/quack/lib/network.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -128,7 +128,7 @@ function to_graph(array) {
  * (3) Each jump must be to the right, increasing the array index.
  * (4) If the array element is zero, we cannot jump.
  *
- * Usage: run cct/jump2.js [cct] [hostname]
+ * Usage: run quack/cct/jump2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -145,7 +145,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/jump2.txt";
+        const log = "/quack/cct/jump2.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

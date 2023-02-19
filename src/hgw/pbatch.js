@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { pserv } from "/lib/constant/pserv.js";
-import { PservHGW } from "/lib/pbatch.js";
-import { assert } from "/lib/util.js";
+import { pserv } from "/quack/lib/constant/pserv.js";
+import { PservHGW } from "/quack/lib/pbatch.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Continuously hack a target server.  Steal a certain percentage of the
@@ -64,7 +64,7 @@ function sanity_checks(host, frac) {
  * (2) target := Hostname of the server to target.
  * (3) frac := The fraction of money to steal.
  *
- * Usage: run hgw/pbatch.js [host] [target] [frac]
+ * Usage: run quack/hgw/pbatch.js [host] [target] [frac]
  *
  * @param ns The Netscript API.
  */

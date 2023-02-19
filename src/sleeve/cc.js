@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { crimes } from "/lib/constant/crime.js";
-import { colour } from "/lib/constant/misc.js";
-import { cc_t } from "/lib/constant/sleeve.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { has_sleeve_api } from "/lib/source.js";
-import { Sleeve } from "/lib/sleeve/cc.js";
-import { assert } from "/lib/util.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { cc_t } from "/quack/lib/constant/sleeve.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { has_sleeve_api } from "/quack/lib/source.js";
+import { Sleeve } from "/quack/lib/sleeve/cc.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Purchase Augmentations and install them on our sleeves.

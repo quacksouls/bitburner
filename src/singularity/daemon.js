@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/lib/constant/bool.js";
-import { augment } from "/lib/constant/faction.js";
-import { server } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { corp_cleanup } from "/lib/corporation/util.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
-import { join_all_factions } from "/lib/singularity/faction.js";
-import { connect_to } from "/lib/singularity/network.js";
-import { assert, cleanup } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { augment } from "/quack/lib/constant/faction.js";
+import { server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { corp_cleanup } from "/quack/lib/corporation/util.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
+import { join_all_factions } from "/quack/lib/singularity/faction.js";
+import { connect_to } from "/quack/lib/singularity/network.js";
+import { assert, cleanup } from "/quack/lib/util.js";
 
 /**
  * Find and destroy the w0r1d_d43m0n server.

@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { log } from "/lib/io.js";
-import { has_singularity_api } from "/lib/source.js";
-import { assert, exec, init_sleeves } from "/lib/util.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { log } from "/quack/lib/io.js";
+import { has_singularity_api } from "/quack/lib/source.js";
+import { assert, exec, init_sleeves } from "/quack/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -29,18 +29,18 @@ import { assert, exec, init_sleeves } from "/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "world.js",
-        "/gang/program.js",
+        "/quack/world.js",
+        "/quack/gang/program.js",
         // "hnet-farm.js",
-        "trade-bot.js",
-        "/cct/solver.js",
+        "/quack/trade-bot.js",
+        "/quack/cct/solver.js",
         // "hram.js",
     ];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         // script.unshift("buy-server.js");
-        script.unshift("/hgw/pserv.js");
+        script.unshift("/quack/hgw/pserv.js");
     }
     script.forEach((s) => exec(ns, s));
     await init_sleeves(ns);
@@ -59,7 +59,7 @@ async function reboot(ns) {
  * (3) Gain root access to servers in the game world (excluding purchased
  *     servers) and use each server to hack itself or a low-end server.
  *
- * Usage: run go-high.js
+ * Usage: run quack/go-high.js
  *
  * @param ns The Netscript API.
  */
@@ -67,5 +67,5 @@ export async function main(ns) {
     log(ns, "Home server is high-end. Bootstrap with all scripts.");
     assert(has_singularity_api(ns));
     await reboot(ns);
-    exec(ns, "/chain/money.js");
+    exec(ns, "/quack/chain/money.js");
 }

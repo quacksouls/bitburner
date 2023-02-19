@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 import {
     intelligence,
     intelligence_gain_per_minute,
-} from "/intelligence/util.js";
-import { bool } from "/lib/constant/bool.js";
-import { cities } from "/lib/constant/location.js";
-import { course } from "/lib/constant/study.js";
-import { wait_t } from "/lib/constant/time.js";
-import { assert } from "/lib/util.js";
+} from "/quack/intelligence/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { course } from "/quack/lib/constant/study.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Study various university courses for an hour each and calculate the

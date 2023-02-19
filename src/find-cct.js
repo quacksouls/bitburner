@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cct } from "/lib/constant/cct.js";
-import { home } from "/lib/constant/server.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
+import { cct } from "/quack/lib/constant/cct.js";
+import { home } from "/quack/lib/constant/server.js";
+import { log } from "/quack/lib/io.js";
+import { network } from "/quack/lib/network.js";
 
 /**
  * Find coding contracts on world servers.  This script essentially searches
  * the network of world servers to find coding contracts.
  *
- * Usage: run find-cct.js
+ * Usage: run quack/find-cct.js
  *
  * @param ns The Netscript API.
  */

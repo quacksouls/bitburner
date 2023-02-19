@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { server } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
-import { Server } from "/lib/server.js";
-import { nuke_servers } from "/lib/util.js";
+import { server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { network } from "/quack/lib/network.js";
+import { Server } from "/quack/lib/server.js";
+import { nuke_servers } from "/quack/lib/util.js";
 
 /**
  * Deploy our hack script to a nuked server.  Use the server to hack the given
@@ -77,8 +77,8 @@ async function update(ns, target) {
  *
  * https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
  *
- * Usage: run world.js [target]
- * Example: run world.js n00dles
+ * Usage: run quack/world.js [target]
+ * Example: run quack/world.js n00dles
  *
  * @param ns The Netscript API.
  */

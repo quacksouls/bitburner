@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ import {
     print_error,
     print_success,
     stock_traderIII,
-} from "/lib/cct.js";
-import { wait_t } from "/lib/constant/time.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The maximum profit that can be made when we are restricted to at most t
@@ -188,7 +188,7 @@ async function maximize_profit(ns, t, price) {
  * now make at most k transactions, where previously we were restricted to at
  * most two transactions.  Of course, k can be 0, 1, 2, or a higher integer.
  *
- * Usage: run cct/trader4.js [cct] [hostname]
+ * Usage: run quack/cct/trader4.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -205,7 +205,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/trader4.txt";
+        const log = "/quack/cct/trader4.txt";
         const data = `[${t}, [${price.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

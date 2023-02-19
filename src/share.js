@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,8 @@
  * reputation gains within that faction.  Run this script using as high a number
  * of threads as possible to increase our reputation gains even further.
  *
- * Usage: run share.js -t [numThread]
+ * Usage: run quack/share.js -t [numThread]
+ * Example: run quack/share.js -t 42
  *
  * @param ns The Netscript API.
  */

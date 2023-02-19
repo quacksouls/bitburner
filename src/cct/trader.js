@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import {
     max_profit_kadane,
     print_error,
     print_success,
-} from "/lib/cct.js";
+} from "/quack/lib/cct.js";
 
 /**
  * Algorithmic Stock Trader I: You are given an array of numbers representing
@@ -33,7 +33,7 @@ import {
  * This is similar, but not identical, to the problem
  * "Subarray with Maximum Sum".
  *
- * Usage: run cct/trader.js [cct] [hostname]
+ * Usage: run quack/cct/trader.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -54,7 +54,7 @@ export async function main(ns) {
     );
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/trader.txt";
+        const log = "/quack/cct/trader.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

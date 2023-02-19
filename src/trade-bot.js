@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { bool } from "/lib/constant/bool.js";
-import { money_reserve } from "/lib/constant/misc.js";
-import { pserv } from "/lib/constant/pserv.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { forecast, wse } from "/lib/constant/wse.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { assert } from "/lib/util.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { money_reserve } from "/quack/lib/constant/misc.js";
+import { pserv } from "/quack/lib/constant/pserv.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { forecast, wse } from "/quack/lib/constant/wse.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Wait until we have all prerequisites before we do anything related to the
@@ -259,6 +259,8 @@ function skip_stock(ns, stk) {
 
 /**
  * Automate our trading on the World Stock Exchange.  This is our trade bot.
+ *
+ * Usage: run quack/trade-bot.js
  *
  * @param ns The Netscript API.
  */

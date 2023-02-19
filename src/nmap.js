@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { program as popen } from "/lib/constant/exe.js";
-import { io } from "/lib/constant/io.js";
-import { base, colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { network, shortest_path } from "/lib/network.js";
-import { assert } from "/lib/util.js";
+import { program as popen } from "/quack/lib/constant/exe.js";
+import { io } from "/quack/lib/constant/io.js";
+import { base, colour } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { network, shortest_path } from "/quack/lib/network.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Insert forks.  Each fork indicates a child node.
@@ -483,16 +483,16 @@ function to_string(matrix) {
  * Without a command line argument, the script prints a map of the whole
  * network of world servers.
  *
- * Usage: run nmap.js [hostname]
- * Example: run nmap.js
- * Example: run nmap.js n00dles
+ * Usage: run quack/nmap.js [hostname]
+ * Example: run quack/nmap.js
+ * Example: run quack/nmap.js n00dles
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
     // Sanity check.
     if (ns.args.length > 1) {
-        let msg = "Usage: run nmap.js [hostname]\n\n";
+        let msg = "Usage: run quack/nmap.js [hostname]\n\n";
         msg += "hostname -- (optional) Hostname of target server.";
         ns.tprint(msg);
         return;

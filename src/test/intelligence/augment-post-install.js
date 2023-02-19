@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { home } from "/lib/constant/server.js";
+import { intelligence, intelligence_gain } from "/quack/intelligence/util.js";
+import { home } from "/quack/lib/constant/server.js";
 
 /**
  * Determine the amount of Intelligence XP gained from installing
@@ -27,7 +27,7 @@ import { home } from "/lib/constant/server.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const file = "/intelligence/value.txt";
+    const file = "/quack/intelligence/value.txt";
     const before = parseFloat(ns.read(file));
     const after = intelligence(ns);
     const action = "Install Augmentations";

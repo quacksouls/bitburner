@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 
 // Miscellaneous helper functions related to crime.
 
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Player } from "/lib/player.js";
-import { assert } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Player } from "/quack/lib/player.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Commit various crimes to raise our income to a given threshold.
@@ -34,7 +34,7 @@ import { assert } from "/lib/util.js";
  */
 export async function commit_crime(ns, threshold) {
     assert(threshold > 0);
-    const script = "/singularity/crime.js";
+    const script = "/quack/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
     let money = ns.getServerMoneyAvailable(home);

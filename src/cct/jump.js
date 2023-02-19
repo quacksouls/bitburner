@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { assert } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether we can reach the last cell of an array.  We use a greedy approach.
@@ -119,7 +119,7 @@ function last_index(array) {
  *
  * Submit your answer as 1 (meaning true) or 0 (meaning false).
  *
- * Usage: run cct/jump.js [cct] [hostname]
+ * Usage: run quack/cct/jump.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -135,7 +135,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/jump.txt";
+        const log = "/quack/cct/jump.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

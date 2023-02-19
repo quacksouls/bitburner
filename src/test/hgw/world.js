@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { base } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { assert, to_second } from "/lib/util.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { assert, to_second } from "/quack/lib/util.js";
 
 /**
  * Use either the naive or proto strategy to hack a common server.
@@ -33,9 +33,9 @@ async function hack(ns, strat, host, amount) {
     assert(host !== "");
     assert(amount > 0);
     const target_money = money(ns) + amount;
-    let script = "/test/hgw/naive.js";
+    let script = "/quack/test/hgw/naive.js";
     if (strat === "proto") {
-        script = "/test/hgw/proto.js";
+        script = "/quack/test/hgw/proto.js";
     }
     const nthread = 1;
     const pid = ns.exec(script, home, nthread, host);
@@ -43,7 +43,7 @@ async function hack(ns, strat, host, amount) {
         await ns.sleep(wait_t.SECOND);
     }
     ns.kill(pid);
-    ns.exec("kill-script.js", home, nthread, "world");
+    ns.exec("/quack/kill-script.js", home, nthread, "world");
 }
 
 /**
@@ -69,8 +69,8 @@ function money(ns) {
  * (2) host := Hostname of the target server.
  * (3) amount := The amount of money we want to raise.
  *
- * Usage: run test/hgw/world.js [strategy] [host] [amount]
- * Example: run test/hgw/world.js naive n00dles 10e6
+ * Usage: run quack/test/hgw/world.js [strategy] [host] [amount]
+ * Example: run quack/test/hgw/world.js naive n00dles 10e6
  *
  * @param ns The Netscript API.
  */

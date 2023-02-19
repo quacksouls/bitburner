@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { gang_t } from "/lib/constant/gang.js";
-import { base } from "/lib/constant/misc.js";
-import { cc_t } from "/lib/constant/sleeve.js";
-import { wait_t } from "/lib/constant/time.js";
-import { has_sleeve_api } from "/lib/source.js";
-import { assert, to_minute, to_second } from "/lib/util.js";
+import { MyArray } from "/quack/lib/array.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { gang_t } from "/quack/lib/constant/gang.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { cc_t } from "/quack/lib/constant/sleeve.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { has_sleeve_api } from "/quack/lib/source.js";
+import { assert, to_minute, to_second } from "/quack/lib/util.js";
 
 /**
  * The gain in each stat.
@@ -153,8 +153,8 @@ function sleeves_idle(ns, nsleeve) {
  *
  * (1) nSleeve := The number of sleeves to use.  We can use at most 8 sleeves.
  *
- * Usage: run test/karma/go.js [nSleeve]
- * Example: run test/karma/go.js 3
+ * Usage: run quack/test/karma/go.js [nSleeve]
+ * Example: run quack/test/karma/go.js 3
  *
  * @param ns The Netscript API.
  */

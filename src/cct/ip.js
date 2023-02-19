@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
-import { bool } from "/lib/constant/bool.js";
-import { base } from "/lib/constant/misc.js";
-import { assert } from "/lib/util.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { base } from "/quack/lib/constant/misc.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * All valid IPv4 addresses from a string of digits.
@@ -144,7 +144,7 @@ function is_valid_octet(octet) {
  * From the problem description, we only need to consider IPv4 addresses.
  * Don't need to handle IPv6 addresses.
  *
- * Usage: run cct/ip.js [cct] [hostname]
+ * Usage: run quack/cct/ip.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -160,7 +160,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/ip.txt";
+        const log = "/quack/cct/ip.txt";
         await log_cct_failure(ns, log, cct, host, string);
         print_error(ns, host, cct);
         return;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ import {
     matrix_to_string,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether an obstacle is found at the coordinates (r, c).
@@ -162,7 +162,7 @@ function unique_paths(grid) {
  *
  * See the function unique_paths() for more details.
  *
- * Usage: run cct/grid2.js [cct] [hostname]
+ * Usage: run quack/cct/grid2.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -178,7 +178,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/grid2.txt";
+        const log = "/quack/cct/grid2.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

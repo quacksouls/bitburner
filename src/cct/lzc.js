@@ -1,4 +1,4 @@
-import { log_cct_failure, print_error, print_success } from "/lib/cct.js";
+import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 
 /**
  * Compress a string using LZ encoding.  This function is due to
@@ -192,7 +192,7 @@ function compress(plain) {
  * either type.  You are given a string as input.  Encode it using Lempel-Ziv
  * encoding with the minimum possible output length.
  *
- * Usage: run cct/lzc.js [cct] [hostname]
+ * Usage: run quack/cct/lzc.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -208,7 +208,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/lzc.txt";
+        const log = "/quack/cct/lzc.txt";
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);
         return;

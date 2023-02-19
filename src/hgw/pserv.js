@@ -15,18 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MyArray } from "/lib/array.js";
-import { pserv } from "/lib/constant/pserv.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { network } from "/lib/network.js";
-import { Player } from "/lib/player.js";
-import { PurchasedServer } from "/lib/pserv.js";
-import { Server } from "/lib/server.js";
+import { MyArray } from "/quack/lib/array.js";
+import { pserv } from "/quack/lib/constant/pserv.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { network } from "/quack/lib/network.js";
+import { Player } from "/quack/lib/player.js";
+import { PurchasedServer } from "/quack/lib/pserv.js";
+import { Server } from "/quack/lib/server.js";
 import {
     assert, is_bankrupt, nuke_servers, weight,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.
@@ -340,7 +340,7 @@ async function update(ns, ram) {
  * of RAM.  Each purchased server uses HGW algorithms to prep and hack world
  * servers.
  *
- * Usage: run hgw/pserv.js
+ * Usage: run quack/hgw/pserv.js
  *
  * @param ns The Netscript API.
  */

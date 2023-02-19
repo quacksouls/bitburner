@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,23 @@
 
 // Miscellaneous helper functions related to factions.
 
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { factions, faction_req, faction_t } from "/lib/constant/faction.js";
-import { home, server } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { job_area } from "/lib/constant/work.js";
-import { log } from "/lib/io.js";
-import { Player } from "/lib/player.js";
-import { Server } from "/lib/server.js";
-import { augment_to_buy } from "/lib/singularity/augment.js";
-import { visit_city } from "/lib/singularity/network.js";
-import { study } from "/lib/singularity/study.js";
-import { assert, is_valid_faction } from "/lib/util.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import {
+    factions,
+    faction_req,
+    faction_t,
+} from "/quack/lib/constant/faction.js";
+import { home, server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { job_area } from "/quack/lib/constant/work.js";
+import { log } from "/quack/lib/io.js";
+import { Player } from "/quack/lib/player.js";
+import { Server } from "/quack/lib/server.js";
+import { augment_to_buy } from "/quack/lib/singularity/augment.js";
+import { visit_city } from "/quack/lib/singularity/network.js";
+import { study } from "/quack/lib/singularity/study.js";
+import { assert, is_valid_faction } from "/quack/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,20 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { agriculture, corp, corp_t } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
-import { colour } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Corporation } from "/lib/corporation/corp.js";
+import { agriculture, corp, corp_t } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     expand_city,
     hire_advert,
     smart_supply,
-} from "/lib/corporation/util.js";
-import { log } from "/lib/io.js";
-import { has_corporation_api } from "/lib/source.js";
-import { exec } from "/lib/util.js";
+} from "/quack/lib/corporation/util.js";
+import { log } from "/quack/lib/io.js";
+import { has_corporation_api } from "/quack/lib/source.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Create a corporation.
@@ -189,7 +189,7 @@ async function stage_one(ns) {
  * The initial creation of our corporation.  We also perform various tasks
  * related to the early management of the corporation.
  *
- * Usage: run corporation/go.js
+ * Usage: run quack/corporation/go.js
  *
  * @param ns The Netscript API.
  */
@@ -220,5 +220,5 @@ export async function main(ns) {
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
     // Next script in the load chain.
-    exec(ns, "/corporation/prep.js");
+    exec(ns, "/quack/corporation/prep.js");
 }

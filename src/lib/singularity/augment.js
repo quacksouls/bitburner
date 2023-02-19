@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,20 @@
 
 // Miscellaneous helper functions related to Augmentations.
 
-import { bool } from "/lib/constant/bool.js";
-import { augment } from "/lib/constant/faction.js";
-import { work_hack_lvl } from "/lib/constant/misc.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { log } from "/lib/io.js";
-import { commit_crime } from "/lib/singularity/crime.js";
-import { work } from "/lib/singularity/work.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { augment } from "/quack/lib/constant/faction.js";
+import { work_hack_lvl } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { log } from "/quack/lib/io.js";
+import { commit_crime } from "/quack/lib/singularity/crime.js";
+import { work } from "/quack/lib/singularity/work.js";
 import {
     assert,
     is_valid_faction,
     trade_bot_resume,
     trade_bot_stop_buy,
-} from "/lib/util.js";
+} from "/quack/lib/util.js";
 
 /**
  * Augmentations we still need to purchase from a faction.  From all

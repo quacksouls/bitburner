@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ import {
     matrix_to_string,
     print_error,
     print_success,
-} from "/lib/cct.js";
-import { assert } from "/lib/util.js";
+} from "/quack/lib/cct.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Trace out a ring inside a 2-D matrix.
@@ -106,7 +106,7 @@ function spiral(m) {
  * Output the elements of a 2-D matrix in spiral order, going in clockwise
  * direction.
  *
- * Usage: run cct/spiral.js [cct] [hostname]
+ * Usage: run quack/cct/spiral.js [cct] [hostname]
  *
  * @param ns The Netscript API.
  */
@@ -122,7 +122,7 @@ export async function main(ns) {
     });
     // Log the result in case of failure.
     if (result.length === 0) {
-        const log = "/cct/spiral.txt";
+        const log = "/quack/cct/spiral.txt";
         const data = matrix_to_string(matrix);
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

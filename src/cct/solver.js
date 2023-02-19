@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { cct } from "/lib/constant/cct.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { network } from "/lib/network.js";
-import { Server } from "/lib/server.js";
-import { assert } from "/lib/util.js";
+import { cct } from "/quack/lib/constant/cct.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { network } from "/quack/lib/network.js";
+import { Server } from "/quack/lib/server.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?
@@ -71,7 +71,7 @@ function solve(ns, fname, host) {
     const type = ns.codingcontract.getContractType(fname, host);
     // Determine the type of the CCT and set the appropriate solution script.
     let script = "";
-    const prefix = "/cct/";
+    const prefix = "/quack/cct/";
     switch (type) {
         case "Algorithmic Stock Trader I":
             script = `${prefix}trader.js`;
@@ -193,7 +193,7 @@ function solve_all(ns, host) {
  * Find Coding Contracts (CCTs) on world servers.  This script essentially
  * searches the network of world servers to find CCTs.
  *
- * Usage: run cct/solver.js
+ * Usage: run quack/cct/solver.js
  *
  * @param ns The Netscript API.
  */

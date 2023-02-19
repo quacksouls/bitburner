@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { exec } from "/lib/util.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { exec } from "/quack/lib/util.js";
 
 /**
  * Start a load chain to run scripts related to factions.
  *
- * Usage: run chain/faction.js
+ * Usage: run quack/chain/faction.js
  *
  * @param ns The Netscript API.
  */
@@ -31,9 +31,9 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Try to free up some RAM on home server so we can run the script below.
     // await hram_suspend(ns);
-    while (ns.isRunning("/singularity/program.js", home)) {
+    while (ns.isRunning("/quack/singularity/program.js", home)) {
         await ns.sleep(wait_t.SECOND);
     }
-    exec(ns, "/singularity/faction.js");
+    exec(ns, "/quack/singularity/faction.js");
     // hram_resume(ns);
 }

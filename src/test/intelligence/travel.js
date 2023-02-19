@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { intelligence, intelligence_gain } from "/intelligence/util.js";
-import { assert, is_valid_city } from "/lib/util.js";
+import { intelligence, intelligence_gain } from "/quack/intelligence/util.js";
+import { assert, is_valid_city } from "/quack/lib/util.js";
 
 /**
  * Determine the amount of Intelligence XP gained from travelling to a
  * different city.  This script accepts a command line argument.
  *
- * Usage: intelligence/travel.js [city]
- * Usage: intelligence/travel.js Chongqing
+ * Usage: quack/intelligence/travel.js [city]
+ * Example: quack/intelligence/travel.js Chongqing
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { bool } from "/lib/constant/bool.js";
-import { corp, corp_t } from "/lib/constant/corp.js";
-import { cities } from "/lib/constant/location.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Player } from "/lib/player.js";
-import { assert, is_boolean, is_valid_city } from "/lib/util.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { corp, corp_t } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Player } from "/quack/lib/player.js";
+import { assert, is_boolean, is_valid_city } from "/quack/lib/util.js";
 
 /**
  * A class to manage a corporation.  We typically use the Corporation API by

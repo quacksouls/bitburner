@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@ import {
     has_invitation,
     intelligence,
     intelligence_gain,
-} from "/intelligence/util.js";
-import { factions } from "/lib/constant/faction.js";
-import { assert } from "/lib/util.js";
+} from "/quack/intelligence/util.js";
+import { factions } from "/quack/lib/constant/faction.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Whether the given name represents a valid faction.
@@ -58,8 +58,8 @@ function join_faction(ns, fac) {
  * Determine the amount of Intelligence XP gained from joining a faction.
  * This script takes a command line argument.
  *
- * Usage: run intelligence/faction-join.js [factionName]
- * Example: run intelligence/faction-join.js Sector-12
+ * Usage: run quack/intelligence/faction-join.js [factionName]
+ * Example: run quack/intelligence/faction-join.js Sector-12
  *
  * @param ns The Netscript API.
  */

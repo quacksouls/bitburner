@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/lib/constant/bn.js";
-import { bool } from "/lib/constant/bool.js";
-import { crimes } from "/lib/constant/crime.js";
-import { faction_req } from "/lib/constant/faction.js";
-import { gang_t } from "/lib/constant/gang.js";
-import { cities } from "/lib/constant/location.js";
-import { home } from "/lib/constant/server.js";
-import { wait_t } from "/lib/constant/time.js";
-import { Player } from "/lib/player.js";
-import { join_faction } from "/lib/singularity/faction.js";
-import { work } from "/lib/singularity/work.js";
-import { assert } from "/lib/util.js";
+import { bitnode } from "/quack/lib/constant/bn.js";
+import { bool } from "/quack/lib/constant/bool.js";
+import { crimes } from "/quack/lib/constant/crime.js";
+import { faction_req } from "/quack/lib/constant/faction.js";
+import { gang_t } from "/quack/lib/constant/gang.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { Player } from "/quack/lib/player.js";
+import { join_faction } from "/quack/lib/singularity/faction.js";
+import { work } from "/quack/lib/singularity/work.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The karma threshold.  This value depends on the BitNode we are currently in.
@@ -49,7 +49,7 @@ function karma_threshold(ns) {
  *     allows us to create a criminal gang.
  */
 function load_chain(ns, faction) {
-    const script = "/gang/crime.js";
+    const script = "/quack/gang/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
 }
@@ -109,7 +109,7 @@ async function raise_combat_stats(ns, threshold) {
  * (2) Karma must be -9 or lower.
  * (3) At least $1m.
  *
- * Usage: run gang/slum-snakes.js
+ * Usage: run quack/gang/slum-snakes.js
  *
  * @param ns The Netscript API.
  */

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ export const corp = {
      *
      * /corporation/go.js
      */
-    AGRI: "/corporation/agriculture.txt",
+    AGRI: "/quack/corporation/agriculture.txt",
     /**
      * The name of the Corporation API.  We use this to circumvent the namespace
      * RAM cost.
@@ -83,7 +83,7 @@ export const corp = {
      * store the integer that represents the latest investment round in which
      * we accepted investment.
      */
-    INVEST: "/corporation/invest.txt",
+    INVEST: "/quack/corporation/invest.txt",
     /**
      * This file means that we should reload the script
      *
@@ -94,7 +94,7 @@ export const corp = {
      *
      * /corporation/go.js
      */
-    JANI: "/corporation/janitor.txt",
+    JANI: "/quack/corporation/janitor.txt",
     /**
      * The roles to assign to employees.  Data taken from this file:
      *
@@ -154,7 +154,7 @@ export const corp = {
      *
      * /corporation/go.js
      */
-    PREP: "/corporation/prep.txt",
+    PREP: "/quack/corporation/prep.txt",
     /**
      * Various research that can be purchased.  Data taken from this file:
      *
@@ -199,7 +199,7 @@ export const corp = {
      *
      * /corporation/go.js
      */
-    TOBA: "/corporation/tobacco.txt",
+    TOBA: "/quack/corporation/tobacco.txt",
     /**
      * Unlock upgrades.  These are one-time unlockable upgrades and apply to the
      * entire corporation.  We cannot level these upgrades.  Data are taken from

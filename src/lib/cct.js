@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 // Miscellaneous helper functions for solving coding contracts.
 
-import { io } from "/lib/constant/io.js";
-import { colour } from "/lib/constant/misc.js";
-import { log } from "/lib/io.js";
-import { assert } from "/lib/util.js";
+import { io } from "/quack/lib/constant/io.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { log } from "/quack/lib/io.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * The index of an alphabetic character.

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { home, server } from "/lib/constant/server.js";
+import { home, server } from "/quack/lib/constant/server.js";
 
 // A bunch of constant values related to purchased servers.
 
@@ -53,7 +53,7 @@ export const pserv = {
     /**
      * A script that implements a sequential batcher for purchased servers.
      */
-    PBATCH: "/hgw/pbatch.js",
+    PBATCH: "/quack/hgw/pbatch.js",
     /**
      * The prefix for the name of each purchased server.  The very first
      * purchased server is always named "pserv".  Any subsequent purchased

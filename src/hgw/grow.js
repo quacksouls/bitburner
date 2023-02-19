@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
  *
  * Grow money on a target server.
  *
- * Usage: run grow.js [targetServer]
- * Example: run grow.js n00dles
+ * Usage: run quack/hgw/grow.js [targetServer]
+ * Example: run quack/hgw/grow.js n00dles
  *
  * @param ns The Netscript API.
  */

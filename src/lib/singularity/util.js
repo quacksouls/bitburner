@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 
 // Miscellaneous helper functions related to the Singularity API.
 
-import { cities } from "/lib/constant/location.js";
-import { wait_t } from "/lib/constant/time.js";
+import { cities } from "/quack/lib/constant/location.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 
 /**
  * Determine the hardware company we should visit.  The company can sell us

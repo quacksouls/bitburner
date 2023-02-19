@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 import {
     intelligence,
     intelligence_gain_per_minute,
-} from "/intelligence/util.js";
-import { wait_t } from "/lib/constant/time.js";
-import { random_integer } from "/lib/random.js";
-import { assert } from "/lib/util.js";
+} from "/quack/intelligence/util.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { random_integer } from "/quack/lib/random.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * An array of all locations in Sector-12.
@@ -73,7 +73,7 @@ function choose_location(loc) {
  * Determine the amount of Intelligence XP gained from relocating to a
  * different place.  We only relocate within Sector-12.
  *
- * Usage: intelligence/relocate.js
+ * Usage: quack/intelligence/relocate.js
  *
  * @param ns The Netscript API.
  */

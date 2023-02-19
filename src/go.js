@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour } from "/lib/constant/misc.js";
-import { home, home_t } from "/lib/constant/server.js";
-import { log } from "/lib/io.js";
-import { has_singularity_api } from "/lib/source.js";
-import { assert, exec } from "/lib/util.js";
+import { colour } from "/quack/lib/constant/misc.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
+import { log } from "/quack/lib/io.js";
+import { has_singularity_api } from "/quack/lib/source.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Restart our source of income and Hack XP.  This script is useful whenever we
@@ -32,7 +32,7 @@ import { assert, exec } from "/lib/util.js";
  * (3) Gain root access to servers in the game world (excluding purchased
  *     servers) and use each server to hack itself or a low-end server.
  *
- * Usage: run go.js
+ * Usage: run quack/go.js
  *
  * @param ns The Netscript API.
  */
@@ -52,12 +52,12 @@ export async function main(ns) {
     const server = ns.getServer(home);
     let script = "";
     if (server.maxRam >= home_t.RAM_HIGH) {
-        script = "go-high.js";
+        script = "/quack/go-high.js";
     } else if (server.maxRam >= home_t.RAM_MID) {
-        script = "go-mid.js";
+        script = "/quack/go-mid.js";
     } else {
         assert(server.maxRam < home_t.RAM_MID);
-        script = "go-low.js";
+        script = "/quack/go-low.js";
     }
     assert(script !== "");
     exec(ns, script);
