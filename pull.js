@@ -38,7 +38,7 @@ function assert(cond) {
  */
 function dir_structure() {
     const filesystem = [
-        // Insert directry tree here.  Should contain all scripts for playing
+        // Insert directory tree here.  Should contain all scripts for playing
         // Bitburner.
         "buy-server.js",
         "cct/bipartite.js",
