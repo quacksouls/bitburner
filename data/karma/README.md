@@ -21,8 +21,8 @@ The general process for data gathering is:
 1. Load a save file.
 1. Use `b1t_flum3.exe` to enter the BitVerse and enter BN1.3 again. Doing so
    would remove any bonus time we have.
-1. Use the script [`/test/karma/go.js`](../../src/test/karma/go.js) to commit
-   homicide and assign `N` sleeves to commit homicide as well.
+1. Use the script [`/quack/test/karma/go.js`](../../src/test/karma/go.js) to
+   commit homicide and assign `N` sleeves to commit homicide as well.
 1. Wait for the script to end, at which point the script would print data to the
    terminal. The script ends as soon as we have -54,000 karma or lower.
 
@@ -31,20 +31,16 @@ number of minutes required to reach -54,000 or lower. Each number has been
 rounded to 6 decimal places and should be read as a rate per minute. Time is in
 the format `hh:mm:ss`.
 
-| Sleeve |     Time |    Agility |    Defense |  Dexterity |       Karma |          Money |   Strength |
-| -----: | -------: | ---------: | ---------: | ---------: | ----------: | -------------: | ---------: |
-|      0 | 16:03:00 |  95.804407 |  95.804407 |  95.804407 |  -56.135395 | 1052666.943867 |  95.804407 |
-|      1 | 15:27:51 |  46.412825 |  46.412825 |  46.412825 |  -58.253236 | 1041027.184466 |  46.412825 |
-|      3 | 07:57:37 | 124.884489 | 124.884489 | 124.884489 | -113.223899 | 1531136.303679 | 124.884489 |
-|      4 | 07:20:03 | 122.220805 | 122.220805 | 122.220805 | -122.730000 | 1479217.801807 | 122.220805 |
-|      5 | 06:24:15 | 124.653545 | 124.653545 | 124.653545 | -140.648438 | 1519683.268945 | 124.653545 |
-|      6 | 05:44:51 | 126.835345 | 126.835345 | 126.835345 | -157.009448 | 1551132.338154 | 126.835345 |
-|      7 | 05:15:27 | 128.510005 | 128.510005 | 128.510005 | -171.428571 | 1569389.902714 | 128.510005 |
-|      8 | 04:45:51 | 130.282132 | 130.282132 | 130.282132 | -189.507368 | 1599437.493790 | 130.282132 |
+| Sleeve |     Time |   Agility |   Defense | Dexterity |      Karma |          Money |  Strength |
+| -----: | -------: | --------: | --------: | --------: | ---------: | -------------: | --------: |
+|      0 | 17:05:54 | 44.957346 | 44.957346 | 44.957346 | -52.684390 |  964420.682927 | 44.957346 |
+|      1 | 15:26:24 | 46.568476 | 46.568476 | 46.568476 | -58.317927 | 1044159.395248 | 46.568476 |
+|      2 | 14:13:36 | 47.580838 | 47.580838 | 47.580838 | -63.308089 | 1110751.934349 | 47.580838 |
+|      3 | 13:11:48 | 48.809848 | 48.809848 | 48.809848 | -68.271808 | 1182741.087231 | 48.809848 |
+|      4 | 12:25:03 | 49.509698 | 49.509698 | 49.509698 | -72.487248 | 1239955.973154 | 49.509698 |
+|      5 | 11:47:25 | 50.403997 | 50.403997 | 50.403997 | -76.383310 | 1295880.339463 | 50.403997 |
+|      6 | 11:15:12 | 51.038900 | 51.038900 | 51.038900 | -80.002222 | 1345896.000000 | 51.038900 |
+|      7 | 10:43:45 | 51.631528 | 51.631528 | 51.631528 | -83.984137 | 1401382.581649 | 51.631528 |
+|      8 | 10:18:03 | 52.116087 | 52.116087 | 52.116087 | -87.383495 | 1447922.330097 | 52.116087 |
 
-> Note: The combat stats gain when using 1 sleeve is worst than without sleeves
-> at all. We used the development branch of Bitburner v2.2.2 at
->
-> https://bitburner-official.github.io/bitburner-src/
->
-> whereas the data for other sleeve numbers were obtained with v2.2.1.
+> Before v2.2.1, with 8 sleeves we could obtain -54,000 karma in about 4:45:51.
