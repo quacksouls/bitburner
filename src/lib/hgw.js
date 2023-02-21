@@ -58,7 +58,7 @@ export function assemble_botnet(ns, host, frac, is_prep) {
     const descending = (a, b) => nthread(b) - nthread(a);
     const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const money = target_money(ns, host, frac);
-    const max_threads = ns.hackAnalyzeThreads(host, money);
+    const max_threads = Math.floor(ns.hackAnalyzeThreads(host, money));
     const botnet = [];
     let n = 0;
     nuke_servers(ns)

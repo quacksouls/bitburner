@@ -96,7 +96,9 @@ export class PservHGW {
         // max_server_threads := The maximum number of threads the purchased
         //     server allows us to run the hack script.
         const money = target_money(this.#ns, host, frac);
-        const max_threads = this.#ns.hackAnalyzeThreads(host, money);
+        const max_threads = Math.floor(
+            this.#ns.hackAnalyzeThreads(host, money)
+        );
         const time = hgw_wait_time(this.#ns, host, hgw.action.HACK);
         const s = hgw_script(hgw.action.HACK);
         assert(can_run_script(this.#ns, s, this.#phost));
