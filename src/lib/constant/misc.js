@@ -111,7 +111,7 @@ export const hgw = {
      */
     hack: {
         joesguns: {
-            FRACTION: 0.6,
+            FRACTION: 0.7,
         },
         n00dles: {
             FRACTION: 0.5,

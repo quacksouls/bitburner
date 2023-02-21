@@ -30,7 +30,7 @@ import { assert, exec, init_sleeves } from "/quack/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "/quack/world.js";
+    const target = "/quack/hgw/world.js";
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];
     const script = [target, "/quack/cct/solver.js"];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point

@@ -29,7 +29,7 @@ import { assert, exec, init_sleeves } from "/quack/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "/quack/world.js",
+        "/quack/hgw/world.js",
         "/quack/gang/program.js",
         // "hnet-farm.js",
         "/quack/trade-bot.js",
