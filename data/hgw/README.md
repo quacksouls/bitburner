@@ -276,6 +276,37 @@ Use the script [`/test/hgw/prep.js`](../../src/test/hgw/prep.js) to prep
 | `phantasy` | MWG      | 0:27:32 |    9 |  77112.000000 | 46.689186 |
 | `phantasy` | WG       | 0:27:32 |    9 |  77112.000000 | 46.683816 |
 
+## Hack $100m, `n00dles`
+
+Steal $100m from `n00dles`. Use the save file `pserv.json`, which gives us the
+following:
+
+<!-- prettier-ignore -->
+- Start in BN1.1.
+- 20 Hack and default values in other stats.
+- Start with $29.812b.
+- Installed the Augmentation `CashRoot Starter Kit`, which allows us to start
+  with the program `BruteSSH.exe`.
+- Manually purchased the TOR router and the program `FTPCrack.exe`.
+
+Use the script
+[`/quack/test/hgw/100million.js`](../../src/test/hgw/100million.js) to prep and
+hack `n00dles`. Have to manually purchase the programs `HTTPWorm.exe`,
+`relaySMTP.exe`, and `SQLInject.exe` beforehand.
+
+| Fraction |     Time | Hack |        Hack XP |       XP/s |
+| -------: | -------: | ---: | -------------: | ---------: |
+|      0.1 | 11:07:58 |  278 | 5813893.800002 | 145.063778 |
+|      0.2 |  5:59:02 |  256 | 2929924.800000 | 136.008092 |
+|      0.3 |  4:11:18 |  243 | 1972198.800000 | 130.802954 |
+|      0.4 |  3:15:31 |  234 | 1493395.200000 | 127.303859 |
+|      0.5 |  2:38:40 |  227 | 1193627.325000 | 125.377255 |
+|      0.6 |  2:15:27 |  222 | 1004058.825000 | 123.550347 |
+|      0.7 |  1:57:49 |  217 |  864025.800000 | 122.224919 |
+|      0.8 |  1:45:12 |  213 |  764359.200000 | 121.096735 |
+|      0.9 |  1:35:31 |  210 |  685249.950000 | 119.564600 |
+|      1.0 |  1:27:11 |  207 |  625112.400000 | 119.504343 |
+
 ## Hack $1b
 
 Hack various servers to steal $1b. Use the save file `phantasy.json`, which
