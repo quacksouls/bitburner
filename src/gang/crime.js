@@ -940,6 +940,36 @@ function retrain(ns) {
 }
 
 /**
+ * Various sanity checks.
+ *
+ * @param ns The Netscript API.
+ * @return True if the checks pass; false otherwise.
+ */
+function sanity_checks(ns) {
+    if (ns.args.length !== 1) {
+        log(ns, "Must provide the name of a criminal organization");
+        return bool.FAILURE;
+    }
+    const faction = ns.args[0];
+    if (!is_valid_faction(faction)) {
+        log(ns, `Cannot create criminal gang within faction: ${faction}`);
+        return bool.FAILURE;
+    }
+    return bool.SUCCESS;
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("gang.setTerritoryWarfare");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("sleep");
+}
+
+/**
  * Manage our criminal gang.
  *
  * @param ns The Netscript API.
@@ -1005,23 +1035,14 @@ function update(ns) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Suppress various log messages.
-    ns.disableLog("gang.setTerritoryWarfare");
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("sleep");
-    // Sanity checks.
-    if (ns.args.length !== 1) {
-        ns.tprint("Must provide the name of a criminal organization.");
-        return;
-    }
-    const faction = ns.args[0];
-    if (!is_valid_faction(faction)) {
-        ns.tprint(`Cannot create criminal gang within faction: ${faction}`);
+    shush(ns);
+    if (!sanity_checks(ns)) {
         return;
     }
     // Create our criminal gang and recruit the first crop of gangsters.  By
     // default, we disable territory warfare.  Instead, we concentrate on
     // recruitment and building the strengths of our gang members.
+    const faction = ns.args[0];
     await create_gang(ns, faction);
     log(ns, `Disable territory warfare for gang in ${faction}`);
     ns.gang.setTerritoryWarfare(bool.DISABLE);
