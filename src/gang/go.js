@@ -16,8 +16,6 @@
  */
 
 import { colour } from "/quack/lib/constant/misc.js";
-import { home } from "/quack/lib/constant/server.js";
-import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { has_gang_api } from "/quack/lib/source.js";
 import { exec } from "/quack/lib/util.js";
@@ -88,29 +86,6 @@ export async function main(ns) {
         "/quack/gang/slum-snakes.js",
     ];
     script.forEach((s) => exec(ns, s));
-
-    // The script /gang/slum-snakes.js attempts to decrease karma low enough to
-    // allow us to join Slum Snakes and create a gang within that faction.
-    // Lowering karma can take up to 15 hours or more, depending on how many
-    // sleeves we have.  We might as well use that waiting time to target a
-    // different server and generate even more money.  Data here:
-    //
-    // https://github.com/quacksouls/bitburner/blob/main/data/hgw/world.md
-    const nthread = 1;
-    const kill_script = () => {
-        ns.exec("/quack/kill-script.js", home, nthread, "world");
-    };
-    if (ns.isRunning("/quack/world.js", home)) {
-        ns.kill("/quack/world.js", home);
-        kill_script();
-    }
-    exec(ns, "/quack/hgw/world.js");
-    while (ns.isRunning("/quack/gang/slum-snakes.js", home)) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-    ns.kill("/quack/hgw/world.js", home);
-    kill_script();
-    exec(ns, "/quack/world.js");
 
     // If we want, we can create a criminal gang within Speakers for the Dead.
     // Note that it can take a very long time to satisfy all requirements for
