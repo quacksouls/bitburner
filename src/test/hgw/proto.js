@@ -226,6 +226,9 @@ function fraction_noodles(ns) {
     ) {
         return 0.5;
     }
+    if (has_all_popen(ns)) {
+        return 1;
+    }
     if (
         has_program(ns, darkweb.program.brutessh)
         || has_program(ns, darkweb.program.ftpcrack)
@@ -240,13 +243,7 @@ function fraction_noodles(ns) {
  * @param ns The Netscript API.
  */
 function fraction_phantasy(ns) {
-    assert(
-        has_program(ns, darkweb.program.brutessh)
-            && has_program(ns, darkweb.program.ftpcrack)
-            && has_program(ns, darkweb.program.relaysmtp)
-            && has_program(ns, darkweb.program.httpworm)
-            && has_program(ns, darkweb.program.sqlinject)
-    );
+    assert(has_all_popen(ns));
     return 1;
 }
 
@@ -319,6 +316,22 @@ async function hack(ns, host) {
         await hgw_action(ns, host, botnet, hgw.action.HACK);
         await ns.sleep(0);
     }
+}
+
+/**
+ * Whether we have all port opener programs.
+ *
+ * @param ns The Netscript API.
+ * @return True if we have all port opener programs; false otherwise.
+ */
+function has_all_popen(ns) {
+    return (
+        has_program(ns, darkweb.program.brutessh)
+        && has_program(ns, darkweb.program.ftpcrack)
+        && has_program(ns, darkweb.program.relaysmtp)
+        && has_program(ns, darkweb.program.httpworm)
+        && has_program(ns, darkweb.program.sqlinject)
+    );
 }
 
 /**
