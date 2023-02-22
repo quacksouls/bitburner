@@ -19,7 +19,7 @@ import { base } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { assert, time_hms } from "/quack/lib/util.js";
+import { assert, time_hms, to_second } from "/quack/lib/util.js";
 
 /**
  * Use either the naive or proto strategy to hack a common server.
@@ -109,12 +109,13 @@ export async function main(ns) {
     await hack(ns, strat, host, max_money);
 
     // Data after hacking.
+    const rate = (amt, ms) => amt / to_second(ms);
     time = Date.now() - time;
     const time_fmt = time_hms(time);
     hack_xp = ns.getPlayer().exp.hacking - hack_xp;
-    const xp_rate = hack_xp / time;
+    const xp_rate = rate(hack_xp, time);
     hack_stat = ns.getPlayer().skills.hacking - hack_stat;
-    const money_rate = max_money / time;
+    const money_rate = rate(max_money, time);
     const stat = `${hack_stat}, ${hack_xp}, ${xp_rate}, ${money_rate}`;
     log(ns, `${host}: ${time_fmt}, ${stat}`);
 }
