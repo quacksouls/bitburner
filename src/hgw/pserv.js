@@ -60,6 +60,24 @@ async function buy_servers(ns) {
 }
 
 /**
+ * Deploy a sequential batcher to a purchased server.  Use the server to hack
+ * a chosen target.
+ *
+ * @param ns The Netscript API.
+ * @param phost Run a sequential batcher on this purchased server.
+ * @param host Hostname of the server to target.
+ */
+function deploy(ns, phost, host) {
+    const script = pserv.PBATCH;
+    const nthread = 1;
+    const frac = pserv.DEFAULT_MONEY_FRAC;
+    assert(!is_bankrupt(ns, host));
+    const target = new Server(ns, host);
+    assert(target.gain_root_access());
+    ns.exec(script, home, nthread, phost, target.hostname(), frac);
+}
+
+/**
  * Determine which world servers to target.
  *
  * @param ns The Netscript API.
@@ -214,16 +232,10 @@ function reboot(ns) {
     purchased_server.forEach((phost) => ns.killall(phost));
     // Launch a sequential batcher script for each purchased server.
     const candidate = find_candidates(ns);
-    const script = pserv.PBATCH;
-    const nthread = 1;
-    const frac = pserv.DEFAULT_MONEY_FRAC;
     let k = 0;
     purchased_server.forEach((phost) => {
         const host = candidate[k];
-        assert(!is_bankrupt(ns, host));
-        const target = new Server(ns, host);
-        assert(target.gain_root_access());
-        ns.exec(script, home, nthread, phost, target.hostname(), frac);
+        deploy(ns, phost, host);
         k++;
         if (k >= candidate.length) {
             k = 0;
@@ -308,20 +320,15 @@ async function update(ns, ram) {
         return;
     }
     let k = 0;
-    const has_funds = () => player.money() > psv.cost(server_ram);
     const script = pserv.PBATCH;
-    const nthread = 1;
-    const frac = pserv.DEFAULT_MONEY_FRAC;
+    const has_funds = () => player.money() > psv.cost(server_ram);
     while (i < psv.limit()) {
         const serv = new Server(ns, home);
         if (has_funds() && serv.num_threads(script) > 0) {
             // Purchase a server.  Choose the best target server.
             const hostname = psv.purchase(pserv.PREFIX, server_ram);
             const host = candidate[k];
-            const target = new Server(ns, host);
-            // Let the purchased server attack the chosen target.
-            assert(target.gain_root_access());
-            ns.exec(script, home, nthread, hostname, target.hostname(), frac);
+            deploy(ns, hostname, host);
             i++;
             k++;
             if (k >= candidate.length) {
