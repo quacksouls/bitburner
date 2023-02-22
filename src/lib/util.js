@@ -420,6 +420,20 @@ export function shell(cmd) {
 }
 
 /**
+ * Convert a time amount from milliseconds to the format hh:mm:ss.
+ *
+ * @param t An amount of time in milliseconds.
+ * @return The same but a string in the format hh:mm:ss.
+ */
+export function time_hms(t) {
+    const date = new Date(0);
+    date.setSeconds(to_second(t));
+    const start_idx = 11;
+    const end_idx = 19;
+    return date.toISOString().substring(start_idx, end_idx);
+}
+
+/**
  * Convert a given amount of time in milliseconds to minutes.
  *
  * @param t An amount of time in milliseconds.
