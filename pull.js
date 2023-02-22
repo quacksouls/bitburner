@@ -184,6 +184,7 @@ function dir_structure() {
         "test/hgw/prep.js",
         "test/hgw/proto.js",
         "test/hgw/pserv.js",
+        "test/hgw/smart.js",
         "test/hgw/smtp.js",
         "test/hgw/sshftp.js",
         "test/hgw/world.js",
