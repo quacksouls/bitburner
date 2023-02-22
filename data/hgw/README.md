@@ -1,5 +1,7 @@
 # HGW algorithms
 
+> Bitburner v2.2.1
+
 Testing various hack/grow/weaken (HGW) strategies. We use the following basic
 HGW algorithms.
 

@@ -1,5 +1,7 @@
 # Sequential batcher vs general-purpose `hack.js`
 
+> Bitburner v2.2.1
+
 A comparison of a sequential batcher and the general-purpose
 [`hack.js`](../../doc/guide/script/hack.js) script. Here are the specific
 scripts used:

@@ -1,5 +1,7 @@
 # Sequential batcher and pserv
 
+> Bitburner v2.2.1
+
 A sequential batcher that uses a purchased server instead of the RAM of world
 servers. Use the save file `pserv.json`, which grants us the following:
 
