@@ -21,6 +21,7 @@ available at these avenues:
 1. [After the first reboot](reboot.md)
 1. [Hack, grow, weaken (HGW)](hgw.md)
 1. [Faction progression](faction.md)
+1. [Stock market](stock.md)
 1. [Miscellaneous topics](misc.md)
 1. [Find the daemon](daemon.md)
 1. [BitNode-4: The Singularity](singularity.md)
