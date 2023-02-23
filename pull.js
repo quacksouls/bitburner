@@ -171,6 +171,7 @@ function dir_structure() {
         "sleeve/cc.js",
         "sleeve/money.js",
         "sleeve/study.js",
+        "stock/trade-bot.js",
         "test/crime/crime-int.js",
         "test/crime/crime.js",
         "test/hgw/100million.js",
@@ -205,7 +206,6 @@ function dir_structure() {
         "test/intelligence/travel.js",
         "test/intelligence/util.js",
         "test/karma/go.js",
-        "trade-bot.js",
         "world.js",
     ];
     assert(filesystem.length > 0);
