@@ -171,7 +171,7 @@ function dir_structure() {
         "sleeve/cc.js",
         "sleeve/money.js",
         "sleeve/study.js",
-        "stock/trade-bot.js",
+        "stock/trade.js",
         "test/crime/crime-int.js",
         "test/crime/crime.js",
         "test/hgw/100million.js",
