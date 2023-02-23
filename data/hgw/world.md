@@ -111,6 +111,11 @@ Here are the techniques used:
    a loop. Manually purchase the remaining port opener programs. Use the script
    [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
    command line argument `naive n00dles 100e6` to the script.
+1. smart -- Same as the naive strategy, but each of the functions
+   hack/grow/weaken is separated into its own script to maximize RAM usage.
+   Manually purchase the remaining port opener programs. Use the script
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `smart n00dles 100e6` to the script.
 1. wbatcher -- A sequential batcher that pools the resources of world servers to
    hack a common target. Manually purchase the remaining port opener programs.
    Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
@@ -123,8 +128,12 @@ Here are the techniques used:
 | Technique |    Time | Hack |          Hack XP |         XP/s |          $/s |
 | --------- | ------: | ---: | ---------------: | -----------: | -----------: |
 | naive     | 0:41:57 |  185 |    318238.800000 |   126.447060 | 39733.388960 |
+| (\*)smart | 1:04:57 |  208 |    652607.175000 |   167.449167 | 25658.493154 |
 | wbatcher  | 1:27:22 |  207 |    625312.050000 |   119.281139 | 19075.458316 |
 | pbatcher  | 0:53:28 |  373 | 114730918.500000 | 35758.584734 | 31167.348089 |
+
+> (\*) Data for the smart strategy were obtained using v2.2.2, whereas data for
+> the other strategies were obtained using v2.2.1.
 
 ## Comparison, `joesguns`
 
@@ -145,6 +154,11 @@ Here are the techniques used:
    a loop. Manually purchase the remaining port opener programs. Use the script
    [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
    command line argument `naive joesguns 1e9` to the script.
+1. smart -- Same as the naive strategy, but each of the functions
+   hack/grow/weaken is separated into its own script to maximize RAM usage.
+   Manually purchase the remaining port opener programs. Use the script
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `smart joesguns 1e9` to the script.
 1. wbatcher -- A sequential batcher that pools the resources of world servers to
    hack a common target. Manually purchase the remaining port opener programs.
    Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
@@ -157,8 +171,12 @@ Here are the techniques used:
 | Technique |    Time | Hack |         Hack XP |         XP/s |           $/s |
 | --------- | ------: | ---: | --------------: | -----------: | ------------: |
 | naive     | 1:26:07 |  218 |   881761.875000 |   170.649012 | 193531.855731 |
+| (\*)smart | 4:24:59 |  268 |  4208193.750000 |   264.677460 |  62895.739996 |
 | wbatcher  | 1:02:13 |  211 |   712683.750000 |   190.903637 | 267865.848497 |
 | pbatcher  | 0:29:01 |  362 | 80921542.500000 | 46482.350600 | 574412.562633 |
+
+> (\*) Data for the smart strategy were obtained using v2.2.2, whereas data for
+> the other strategies were obtained using v2.2.1.
 
 ## Comparison, `phantasy`
 
@@ -179,6 +197,11 @@ Here are the techniques used:
    a loop. Manually purchase the remaining port opener programs. Use the script
    [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
    command line argument `naive phantasy 10e9` to the script.
+1. smart -- Same as the naive strategy, but each of the functions
+   hack/grow/weaken is separated into its own script to maximize RAM usage.
+   Manually purchase the remaining port opener programs. Use the script
+   [`world.js`](../../src/test/hgw/world.js) to gather relevant data. Pass the
+   command line argument `smart phantasy 10e9` to the script.
 1. wbatcher -- A sequential batcher that pools the resources of world servers to
    hack a common target. Manually purchase the remaining port opener programs.
    Use the script [`world.js`](../../src/test/hgw/world.js) to gather relevant
@@ -191,5 +214,9 @@ Here are the techniques used:
 | Technique |    Time | Hack |          Hack XP |         XP/s |            $/s |
 | --------- | ------: | ---: | ---------------: | -----------: | -------------: |
 | naive     | 2:52:05 |   37 |    588172.500000 |    56.966185 |  968528.536870 |
+| (\*)smart | 4:44:11 |   55 |   1248045.750000 |    73.192176 |  586454.267006 |
 | wbatcher  | 5:02:15 |   58 |   1410423.750000 |    77.774242 |  551424.649696 |
 | pbatcher  | 1:59:56 |  190 | 102518399.250000 | 14246.379394 | 1389641.225208 |
+
+> (\*) Data for the smart strategy were obtained using v2.2.2, whereas data for
+> the other strategies were obtained using v2.2.1.
