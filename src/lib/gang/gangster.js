@@ -28,7 +28,6 @@ import {
     vehicle,
     weapon,
 } from "/quack/lib/constant/gang.js";
-import { money_reserve } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { random_integer } from "/quack/lib/random.js";
 import { assert } from "/quack/lib/util.js";
@@ -221,8 +220,7 @@ export class Gangster {
         const gang_armour = new Set(Object.values(armour));
         assert(gang_armour.has(amr));
         const cost = this.#ns.gang.getEquipmentCost(amr);
-        const funds = this.#player_money() - money_reserve;
-        if (funds < gang_t.COST_MULT * cost) {
+        if (this.#funds() < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, amr);
@@ -241,8 +239,7 @@ export class Gangster {
         const gang_aug = new Set(Object.values(gang_augment));
         assert(gang_aug.has(aug));
         const cost = this.#ns.gang.getEquipmentCost(aug);
-        const funds = this.#player_money() - money_reserve;
-        if (funds < gang_t.COST_MULT * cost) {
+        if (this.#funds() < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, aug);
@@ -261,8 +258,7 @@ export class Gangster {
         const gang_rootkit = new Set(Object.values(rootkit));
         assert(gang_rootkit.has(kit));
         const cost = this.#ns.gang.getEquipmentCost(kit);
-        const funds = this.#player_money() - money_reserve;
-        if (funds < gang_t.COST_MULT * cost) {
+        if (this.#funds() < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, kit);
@@ -281,8 +277,7 @@ export class Gangster {
         const gang_vehicle = new Set(Object.values(vehicle));
         assert(gang_vehicle.has(vhc));
         const cost = this.#ns.gang.getEquipmentCost(vhc);
-        const funds = this.#player_money() - money_reserve;
-        if (funds < gang_t.COST_MULT * cost) {
+        if (this.#funds() < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, vhc);
@@ -301,8 +296,7 @@ export class Gangster {
         const gang_weapon = new Set(Object.values(weapon));
         assert(gang_weapon.has(wpn));
         const cost = this.#ns.gang.getEquipmentCost(wpn);
-        const funds = this.#player_money() - money_reserve;
-        if (funds < gang_t.COST_MULT * cost) {
+        if (this.#funds() < gang_t.COST_MULT * cost) {
             return bool.FAILURE;
         }
         return this.#ns.gang.purchaseEquipment(name, wpn);
@@ -363,6 +357,14 @@ export class Gangster {
                 assert(this.#ns.gang.setMemberTask(s, task.FRAUD));
             }
         });
+    }
+
+    /**
+     * The amount of funds available for a purchasing activity.  This function
+     * takes care not to spend all our money.
+     */
+    #funds() {
+        return this.#player_money() - gang_t.MONEY_RESERVE;
     }
 
     /**

@@ -146,6 +146,13 @@ export const gang_t = {
      */
     KARMA: -54e3,
     /**
+     * Always have this amount of money in reserve.  When engaging in any
+     * purchasing activities, we do not want to spend all our money.  We spend
+     * only if doing so would leave us with at least this amount of money left
+     * over.
+     */
+    MONEY_RESERVE: 100e6,
+    /**
      * The roster of our gang.  This lists the number of members we want for
      * each role.  Except for punk, we want at most 1 member in each of the
      * other roles.  The number 8 below is the number of members in a non-punk
