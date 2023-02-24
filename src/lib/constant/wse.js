@@ -22,15 +22,17 @@
  */
 export const forecast = {
     /**
-     * The buying threshold for the market forecast.  We skip buying shares if
-     * the forecast is below this threshold.
+     * A threshold to help us decide whether to buy shares of a stock.  If the
+     * forecast is above this threshold, we should buy shares of the stock.
      */
-    BUY: 0.575,
+    BUY_TAU: 0.525,
     /**
-     * A selling threshold for the market forecast.  We sell all shares of a
-     * stock if the forecast is below this threshold.
+     * A threshold to help us decide whether to sell shares of a stock.  If the
+     * forecast of a stock exceeds this threshold, then we should hold on to
+     * shares of the stock.  On the other hand, if the forecast is at most this
+     * threshold, we should sell shares of the stock.
      */
-    SELL: 0.5,
+    SELL_TAU: 0.5,
     /**
      * The threshold for the market volatility.  We do not buy shares if the
      * volatility is above this threshold.
@@ -43,23 +45,39 @@ export const forecast = {
  */
 export const wse = {
     /**
-     * A multiplier for the amount of money we should have in reserve.  When
-     * trading on the Stock Market, we should not spend all our money on
-     * shares.  Instead we should have a fixed amount of money in reserve.  The
-     * multiplier is used to calculate how much money we should have before we
-     * buy any shares.  Let our funds threshold be the reserve multiplier times
-     * the amount of money to be held in reserve.  If our current amount of
-     * money is greater than the resulting product, then we have sufficient
-     * funds.  Increase the value of this constant to hold more money in
-     * reserve.
+     * The index in the array returned by ns.stock.getPosition() where we find
+     * the number of shares we own in the Long position.
      */
-    RESERVE_MULT: 1.1,
+    LONG_INDEX: 0,
+    /**
+     * Various constants related to the amount of money to be held in reserve.
+     */
+    reserve: {
+        /**
+         * Always have at least this amount of money in reserve.  When engaging
+         * in any purchasing activities, we do not want to spend all our money.
+         * We spend only if doing so would leave us with at least this amount of
+         * money left over.
+         */
+        MONEY: 100e6,
+        /**
+         * A multiplier for the amount of money we should have in reserve.  When
+         * trading on the Stock Market, we should not spend all our money on
+         * shares.  Instead we should have a fixed amount of money in reserve.
+         * The multiplier is used to calculate how much money we should have
+         * before we buy any shares.  Let our funds threshold be the reserve
+         * multiplier times the amount of money to be held in reserve.  If our
+         * current amount of money is greater than the resulting product, then
+         * we have sufficient funds.  Increase the value of this constant to
+         * hold more money in reserve.
+         */
+        MULT: 1.1,
+    },
     /**
      * The minimum amount of money we are willing to spend to purchase shares
-     * of a stock.  This is our spending threshold.  If our money is less than
-     * the spending threshold, then do not purchase any shares.
+     * of a stock.  This is our spending threshold.
      */
-    SPEND_T: 5e6,
+    SPEND_TAU: 5e6,
     /**
      * The Stock Market updates approximately every 6 seconds.
      */

@@ -15,214 +15,95 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/quack/lib/constant/bn.js";
-import { bool } from "/quack/lib/constant/bool.js";
-import { money_reserve } from "/quack/lib/constant/misc.js";
-import { pserv } from "/quack/lib/constant/pserv.js";
 import { home } from "/quack/lib/constant/server.js";
-import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
-import { Player } from "/quack/lib/player.js";
-import { assert } from "/quack/lib/util.js";
-
-/**
- * Wait until we have all prerequisites before we do anything related to the
- * dark web.  For now, we wait until the following conditions are met:
- *
- * (1) We have all port opener programs.
- * (2) Have at least a certain amount of money.
- *
- * @param ns The Netscript API.
- */
-async function await_prerequisites(ns) {
-    // Must acquire all port opener programs.
-    const player = new Player(ns);
-    while (!player.has_all_port_openers()) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-    // Our farm of purchased servers must meet certain minimum requirements.
-    if (player.bitnode() !== bitnode.Hacktocracy) {
-        while (!has_minimum_pserv(ns)) {
-            await ns.sleep(wait_t.DEFAULT);
-        }
-    }
-    // Wait until we have a large amount of money before trading on the Stock
-    // Market.  Gambling on the Stock Market requires huge wealth.
-    while (!meet_money_threshold(ns)) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-}
 
 /**
  * Purchase shares of a stock.
  *
  * @param ns The Netscript API.
- * @param stk We want to purchase shares of this stock.
+ * @param sym We want to purchase shares of this stock.
  */
-function buy_stock(ns, stk) {
-    // Do we skip buying shares of this stock?
-    if (skip_stock(ns, stk)) {
+function buy_stock(ns, sym) {
+    if (skip_buy(ns, sym)) {
         return;
     }
-    // Purchase shares of a stock.
-    const nshare = num_shares(ns, stk);
-    assert(nshare > 0);
-    ns.stock.buyStock(stk, nshare);
+    const nshare = num_shares(ns, sym);
+    if (nshare < 1) {
+        return;
+    }
+    ns.stock.buyStock(sym, nshare);
 }
 
 /**
- * Whether we have access to Stock Market data and APIs.
+ * Whether we have enough money to be held in reserve.  Must have at least a
+ * certain amount of money before we start dabbling on the Stock Market.
  *
  * @param ns The Netscript API.
- * @return True if we have access to all Stock Market data and APIs;
+ * @return True if we have sufficient money to be held in reserve;
  *     false otherwise.
  */
-function has_api_access(ns) {
-    if (!ns.stock.purchaseWseAccount()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchaseTixApi()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchase4SMarketData()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchase4SMarketDataTixApi()) {
-        return bool.NOT;
-    }
-    return bool.HAS;
+function has_money_reserve(ns) {
+    return ns.getServerMoneyAvailable(home) > wse.reserve.MONEY;
 }
 
 /**
- * Whether we have sufficient funds for purchasing stocks.  This function
- * takes into account the minimum amount of money that should be held in
- * reserve whenever we trade on the Stock Market.
+ * Whether the forecast is favourable for the Long position of a stock.  If the
+ * forecast for a stock exceeds a given threshold, then the value of the stock
+ * is expected to increase in the next tick (or cycle) of the Stock Market.  In
+ * this case, we say that the forecast is favourable for the Long position.
+ * However, if the forecast for the stock is at most the threshold, then the
+ * value of the stock is expected to decrease in the next tick.  Hence the
+ * forecast is unfavourable for the Long position.
  *
  * @param ns The Netscript API.
- * @return True if we have enough money to buy stocks; false otherwise.
+ * @param sym The symbol of a stock.
+ * @returns True if the forecast is favourable for the given stock in the Long
+ *     position; false otherwise.
  */
-function has_funds(ns) {
-    const player = new Player(ns);
-    return player.money() > wse.RESERVE_MULT * money_reserve;
+function is_favourable_long(ns, sym) {
+    return ns.stock.getForecast(sym) > wse.forecast.SELL_TAU;
 }
 
 /**
- * Whether we have a minimum running farm of purchased servers.  To meet this
- * condition, our farm must satisfy the following:
- *
- * (1) Each purchased server in the farm must have at least 16,384GB RAM.
- * (2) Our farm must have the maximum number of purchased server.
+ * The number of shares we own in the Long position.
  *
  * @param ns The Netscript API.
- * @return True if we have a minimum running purchased server farm;
- *     false otherwise.
+ * @param sym A stock symbol.
+ * @returns How many shares we have of the given stock in the Long position.
  */
-function has_minimum_pserv(ns) {
-    // Do we have the maximum number of purchased servers?
-    const player = new Player(ns);
-    if (player.pserv().length < ns.getPurchasedServerLimit()) {
-        return bool.NOT;
-    }
-    // Does each purchased server have at least the given amount of RAM?
-    const server = ns.getServer(pserv.PREFIX);
-    assert(server.purchasedByPlayer);
-    if (server.maxRam < pserv.HIGH_RAM) {
-        return bool.NOT;
-    }
-    return bool.HAS;
-}
-
-/**
- * Whether it is profitable to sell all shares of a given stock.
- *
- * @param ns The Netscript API.
- * @param stk Is there any profit in selling all shares of this stock?
- * @return True if we can make a profit by selling all our shares of this
- *     stock; false otherwise.
- */
-function is_profitable(ns, stk) {
-    const position = ns.stock.getPosition(stk);
-    const nlong = position[0];
-    // Assume we have at least 1 share of the stock.
-    assert(nlong > 0);
-    return ns.stock.getSaleGain(stk, nlong, "Long") > 0;
-}
-
-/**
- * Whether we meet the money threshold.  Must have at least a certain amount
- * of money before we start dabbling on the Stock Market.
- *
- * @param ns The Netscript API.
- * @return True if our funds is at least the money threshold; false otherwise.
- */
-function meet_money_threshold(ns) {
-    const player = new Player(ns);
-    return player.money() >= money_reserve;
+function num_long(ns, sym) {
+    return ns.stock.getPosition(sym)[wse.LONG_INDEX];
 }
 
 /**
  * How many shares of a stock we can purchase.
  *
  * @param ns The Netscript API.
- * @param stk We want to buy shares of this stock.
+ * @param sym We want to buy shares of this stock.
  * @return The number of shares of this stock that we can buy.  Must be at
- *     least zero.  If 0, then we can't buy any shares of the given stock.
+ *     least zero.  If 0, then we cannot buy any shares of the given stock.
  */
-function num_shares(ns, stk) {
-    // We don't have enough money to buy stocks.
-    if (!has_funds(ns)) {
+function num_shares(ns, sym) {
+    // Sanity checks.
+    if (!has_money_reserve(ns)) {
         return 0;
     }
-    // Our funds is less than the spending threshold.
-    const player = new Player(ns);
-    const funds = player.money() - money_reserve;
-    if (funds < wse.SPEND_T) {
+    const funds = ns.getServerMoneyAvailable(home) - wse.reserve.MONEY;
+    if (funds < wse.SPEND_TAU) {
         return 0;
     }
+
     // The maximum number of shares of the stock we can buy.  This takes into
     // account the number of shares we already own.
-    const position = ns.stock.getPosition(stk);
-    const nlong = position[0];
-    const max_share = ns.stock.getMaxShares(stk) - nlong;
+    const max_share = ns.stock.getMaxShares(sym) - num_long(ns, sym);
     if (max_share < 1) {
         return 0;
     }
-    // Calculate how many shares of the stock we can buy.
-    const price = ns.stock.getAskPrice(stk);
-    const nshare = Math.floor(funds / price);
+    // How many more shares of the stock we can buy.
+    const nshare = Math.floor(funds / ns.stock.getAskPrice(sym));
     return Math.min(nshare, max_share);
-}
-
-/**
- * Purchase access to Stock Market data and APIs.
- *
- * @param ns The Netscript API.
- */
-async function purchase_api_access(ns) {
-    while (!has_api_access(ns)) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-    log(ns, "Purchased access to Stock Market data and APIs");
-}
-
-/**
- * Sell shares of a stock.
- *
- * @param ns The Netscript API.
- * @param stk We want to sell shares of this stock.
- */
-function sell_stock(ns, stk) {
-    const position = ns.stock.getPosition(stk);
-    const nlong = position[0];
-    // Skip the stock if we don't have any shares of the stock.
-    if (nlong < 1) {
-        return;
-    }
-    // Sell all shares of the stock if the forecast is below the threshold.
-    if (ns.stock.getForecast(stk) < forecast.SELL && is_profitable(ns, stk)) {
-        ns.stock.sellStock(stk, nlong);
-    }
 }
 
 /**
@@ -232,63 +113,76 @@ function sell_stock(ns, stk) {
  * of money for various purposes.
  *
  * @param ns The Netscript API.
- * @return True if the trade bot should skip buying shares during this tick;
+ * @return True if we should skip buying shares during this tick;
  *     false otherwise.
  */
-function skip_buy(ns) {
+function pause_buy(ns) {
     return ns.fileExists(wse.STOP_BUY, home);
+}
+
+/**
+ * Sell shares of a stock.
+ *
+ * @param ns The Netscript API.
+ * @param sym We want to sell shares of this stock.
+ */
+function sell_stock(ns, sym) {
+    const nlong = num_long(ns, sym);
+    if (nlong > 0 && !is_favourable_long(ns, sym)) {
+        ns.stock.sellStock(sym, nlong);
+    }
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("sleep");
+    ns.disableLog("getServerMoneyAvailable");
 }
 
 /**
  * Whether to skip buying shares of a stock.
  *
  * @param ns The Netscript API.
- * @param stk Do we want to skip over this stock?
- * @return True if we are to skip this stock; false otherwise.
+ * @param sym Do we want to skip buying shares of this stock?
+ * @return True if we are to skip buying shares of this stock; false otherwise.
  */
-function skip_stock(ns, stk) {
-    if (
-        ns.stock.getForecast(stk) < forecast.BUY
-        || ns.stock.getVolatility(stk) > forecast.VOLATILITY
-        || num_shares(ns, stk) < 1
-    ) {
-        return bool.SKIP;
-    }
-    return bool.NO_SKIP;
+function skip_buy(ns, sym) {
+    return (
+        pause_buy(ns)
+        || ns.stock.getForecast(sym) <= forecast.BUY_TAU
+        || !has_money_reserve(ns)
+    );
+}
+
+/**
+ * Perform a market transaction of a stock.
+ *
+ * @param ns The Netscript API.
+ */
+function transaction(ns) {
+    ns.stock.getSymbols().forEach((sym) => {
+        sell_stock(ns, sym);
+        buy_stock(ns, sym);
+    });
 }
 
 /**
  * Automate our trading on the World Stock Exchange.  This is our trade bot.
  *
- * Usage: run quack/trade-bot.js
+ * Usage: run quack/stock/trade.js
  *
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Make the log less verbose.
-    ns.disableLog("sleep");
-    ns.disableLog("getServerMoneyAvailable");
-    // Prepare to trade.
-    await await_prerequisites(ns);
-    await purchase_api_access(ns);
+    shush(ns);
     // Continuously trade on the Stock Market.
     log(ns, "Trading on the Stock Market");
-    const player = new Player(ns);
     for (;;) {
-        // Iterate over each stock.  Decide whether to buy or sell.
-        for (const stk of ns.stock.getSymbols()) {
-            sell_stock(ns, stk);
-            if (
-                player.bitnode() !== bitnode.Hacktocracy
-                && !has_minimum_pserv(ns)
-            ) {
-                continue;
-            }
-            if (skip_buy(ns)) {
-                continue;
-            }
-            buy_stock(ns, stk);
-        }
+        transaction(ns);
         await ns.sleep(wse.TICK);
     }
 }
