@@ -33,9 +33,10 @@ export const base = {
 };
 
 /**
- * Use ANSI escape codes to add colour.  Refer to this page for more details:
+ * Use ANSI escape codes to add colour.  Refer to these pages for more details:
  *
  * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+ * https://talyian.github.io/ansicolors/
  */
 export const colour = {
     DARK_GREEN: "\u001b[38;5;22m",
