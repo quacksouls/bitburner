@@ -32,7 +32,7 @@ async function reboot(ns) {
         "/quack/hgw/world.js",
         "/quack/gang/program.js",
         // "hnet-farm.js",
-        "/quack/trade-bot.js",
+        "/quack/stock/go.js",
         "/quack/cct/solver.js",
         // "hram.js",
     ];
