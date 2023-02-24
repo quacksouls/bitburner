@@ -89,6 +89,13 @@ the following tasks:
    your botnet a combination of servers having enough RAM to run
    [`hack.js`](script/hgw/hack.js) and allow you to steal 50% of the target's
    money.
+1. _Loop._ Repeat steps 4 and 5. Cycle back to the _prep_ and _hack_ operations.
+   Repeat as often as necessary or, better yet, loop through the _prep_ and
+   _hack_ operations infinitely many times. As you are relying on the RAM of
+   world servers, every now and then perform the _nuke_ and _scp_ operations to
+   enlarge your botnet and hence increase the pooled RAM. On the other hand,
+   after step 5 you might want to repeat everything from step 1 onward but this
+   time you skip step 3 because you have already decided on a target server.
 
 Here is an [example sequential batcher](script/hgw/world.js) that pools the
 resources of world servers to hack a common target.
