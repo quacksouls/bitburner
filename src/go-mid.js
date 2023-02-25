@@ -31,6 +31,11 @@ import {
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
+    const pid = exec(ns, "/quack/sleeve/homicide.js");
+    while (ns.isRunning(pid)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+
     // Run scripts, wait a while, and then kill scripts to free up some RAM on
     // the home server.
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];

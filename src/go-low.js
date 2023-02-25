@@ -29,6 +29,11 @@ import {
  * @param ns The Netscript API.
  */
 async function init_popen(ns) {
+    const pid = exec(ns, "/quack/sleeve/homicide.js");
+    while (ns.isRunning(pid)) {
+        await ns.sleep(wait_t.SECOND);
+    }
+
     const pida = exec(ns, "/quack/gang/program.js");
     const pidb = exec(ns, "/quack/world.js");
     while (
