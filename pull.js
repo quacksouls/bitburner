@@ -98,6 +98,7 @@ function dir_structure() {
         "hgw/pserv.js",
         "hgw/weaken.js",
         "hgw/world.js",
+        "hgw/xp.js",
         "hnet-farm.js",
         "hram.js",
         "karma.js",
