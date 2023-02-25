@@ -19,6 +19,8 @@ You create the following worker scripts:
 Each worker script should only have one of the dedicated HGW functions so as to
 maximize RAM usage. How you use the worker scripts is a different matter.
 
+<!-- ====================================================================== -->
+
 ## World servers
 
 The first task you might want to do is write a sequential batcher that pools the
