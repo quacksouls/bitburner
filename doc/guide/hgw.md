@@ -97,8 +97,14 @@ the following tasks:
    after step 5 you might want to repeat everything from step 1 onward but this
    time you skip step 3 because you have already decided on a target server.
 
-Here is an [example sequential batcher](script/hgw/world.js) that pools the
-resources of world servers to hack a common target.
+The sequential batcher described above is illustrated in the image below. You
+essentially launch one operation, wait for it to finish, then launch another
+operation. This is why we used the word "sequential". Each operation is
+performed in sequence, one after the other. Here is an
+[example sequential batcher](script/hgw/world.js) that pools the resources of
+world servers to hack a common target.
+
+![Sequential batcher](image/sequential-batcher.png "Sequential batcher")
 
 Is the sequential batcher any better than the basic script `hack.js`? Let's
 define some terms. By _naive technique_ we mean a manager script that uses the
