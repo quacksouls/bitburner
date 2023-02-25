@@ -67,6 +67,25 @@ function is_favourable_long(ns, sym) {
 }
 
 /**
+ * The stock most likely to decrease in value during the next tick.  Only
+ * consider the Long position.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns The symbol of a stock that is forecasted to have the least chance of
+ *     increase in the next tick.  Empty string if we are unable to sell shares.
+ */
+function least_favourable(ns) {
+    const has_long = (sym) => num_long(ns, sym) > 0;
+    const not_favourable = (sym) => !is_favourable_long(ns, sym);
+    const to_int = (n) => Math.floor(1e6 * n);
+    const projection = (sym) => to_int(ns.stock.getForecast(sym));
+    const ascending = (syma, symb) => projection(syma) - projection(symb);
+    const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
+    stock.sort(ascending);
+    return stock.length === 0 ? "" : stock[0];
+}
+
+/**
  * The number of shares we own in the Long position.
  *
  * @param ns The Netscript API.
@@ -121,16 +140,17 @@ function pause_buy(ns) {
 }
 
 /**
- * Sell shares of a stock.
+ * Sell shares of a stock that is most likely to decrease in value during the
+ * next tick.
  *
- * @param ns The Netscript API.
- * @param sym We want to sell shares of this stock.
+ * @param {NS} ns The Netscript API.
  */
-function sell_stock(ns, sym) {
-    const nlong = num_long(ns, sym);
-    if (nlong > 0 && !is_favourable_long(ns, sym)) {
-        ns.stock.sellStock(sym, nlong);
+function sell_stock(ns) {
+    const sym = least_favourable(ns);
+    if (sym === "") {
+        return;
     }
+    ns.stock.sellStock(sym, num_long(ns, sym));
 }
 
 /**
@@ -159,13 +179,13 @@ function skip_buy(ns, sym) {
 }
 
 /**
- * Perform a market transaction of a stock.
+ * Sell or buy shares of stocks.
  *
  * @param ns The Netscript API.
  */
 function transaction(ns) {
+    sell_stock(ns);
     ns.stock.getSymbols().forEach((sym) => {
-        sell_stock(ns, sym);
         buy_stock(ns, sym);
     });
 }
