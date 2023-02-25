@@ -26,17 +26,13 @@ function generate_colours(type) {
     const msg = "ABC";
     const reset = "\u001b[0m";
     const prefix = type === "f" ? "\x1b[38;5;" : "\x1b[48;5;";
-    const array = [];
-    for (let i = 0; i < 256; i++) {
-        const code = `${prefix}${i}m`;
-        array.push(`${code}${msg}${reset}`);
-    }
-    return array.join(" ");
+    const colourize = (i) => `${prefix}${i}m${msg}${reset}`;
+    return [...Array(256).keys()].map(colourize).join(" ");
 }
 
 /**
- * Use ANSI hexadecimal escape code to colour text with
- * foreground and background colours.
+ * Use ANSI hexadecimal escape code to colour text with foreground and
+ * background colours.
  *
  * @param ns The Netscript API.
  */
