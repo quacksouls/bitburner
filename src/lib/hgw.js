@@ -219,7 +219,7 @@ export function hgw_wait_time(ns, host, action) {
  * @return True if all processes having the given PIDs are done;
  *     false otherwise.
  */
-function is_action_done(ns, pid) {
+export function is_action_done(ns, pid) {
     assert(pid.length > 0);
     const is_done = (i) => !ns.isRunning(i);
     return pid.every(is_done);

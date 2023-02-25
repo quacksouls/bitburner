@@ -18,7 +18,7 @@
 import { hgw } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { nuke_servers, prep_wg } from "/quack/lib/hgw.js";
+import { is_action_done, nuke_servers, prep_wg } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
 
@@ -30,9 +30,12 @@ import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
  */
 async function grind(ns, host) {
     await prep_wg(ns, host);
+    const time = 200 * wait_t.MILLISECOND;
     for (;;) {
-        grow_server(ns, host, nuke_servers(ns));
-        await ns.sleep(wait_t.SECOND);
+        const pid = grow_server(ns, host, nuke_servers(ns));
+        while (!is_action_done(ns, pid)) {
+            await ns.sleep(time);
+        }
     }
 }
 
@@ -43,17 +46,18 @@ async function grind(ns, host) {
  * @param {string} host Grow this server.  Cannot be our home server.
  * @param {array} botnet An array of world servers to which we have root access.
  *     Use these servers to grow the given target.  Cannot be empty array.
+ * @returns An array of PIDs.
  */
 function grow_server(ns, host, botnet) {
     assert(host !== "");
     assert(host !== home);
     assert(botnet.length > 0);
 
-    const s = hgw.script.GROW;
-    const can_run = (serv) => can_run_script(ns, s, serv);
-    const nthread = (serv) => num_threads(ns, s, serv);
-    const exec = (serv) => ns.exec(s, serv, nthread(serv), host, Date.now());
-    botnet.filter(can_run).map(exec);
+    const script = hgw.script.GROW;
+    const can_run = (serv) => can_run_script(ns, script, serv);
+    const nthread = (serv) => num_threads(ns, script, serv);
+    const exec = (serv) => ns.exec(script, serv, nthread(serv), host);
+    return botnet.filter(can_run).map(exec);
 }
 
 /**
