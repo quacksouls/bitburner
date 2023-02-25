@@ -63,7 +63,7 @@ function has_money_reserve(ns) {
  *     position; false otherwise.
  */
 function is_favourable_long(ns, sym) {
-    return ns.stock.getForecast(sym) > wse.forecast.SELL_TAU;
+    return ns.stock.getForecast(sym) > forecast.SELL_TAU;
 }
 
 /**
