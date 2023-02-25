@@ -22,7 +22,7 @@ import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
 import { io } from "/quack/lib/constant/io.js";
 import { cities } from "/quack/lib/constant/location.js";
-import { darkweb, script } from "/quack/lib/constant/misc.js";
+import { darkweb, hgw, script } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
@@ -134,6 +134,19 @@ export function compromised_servers(ns, s, candidate) {
 export function exec(ns, s) {
     const nthread = 1;
     return ns.exec(s, home, nthread);
+}
+
+/**
+ * Farm Hack XP until we reach a given threshold.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+export async function farm_hack_xp(ns) {
+    const pid = exec(ns, "/quack/hgw/xp.js");
+    while (ns.getHackingLevel() < hgw.MIN_HACK) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    ns.kill(pid);
 }
 
 /**

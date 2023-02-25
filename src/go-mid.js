@@ -15,12 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bitnode } from "/quack/lib/constant/bn.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
-import { assert, exec, init_sleeves } from "/quack/lib/util.js";
+import {
+    assert, exec, farm_hack_xp, init_sleeves,
+} from "/quack/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -30,23 +31,17 @@ import { assert, exec, init_sleeves } from "/quack/lib/util.js";
  * @param ns The Netscript API.
  */
 async function reboot(ns) {
-    const target = "/quack/hgw/world.js";
+    // Run scripts, wait a while, and then kill scripts to free up some RAM on
+    // the home server.
     // const script = [target, "hnet-farm.js", "/cct/solver.js"];
-    const script = [target, "/quack/cct/solver.js"];
-    // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
-    // in setting up a farm of purchased servers.
-    // TODO: Run script to buy Hacknet servers depending on whether we have
-    // Source-File 9.
-    if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-        // script.unshift("buy-server.js");
-        script.unshift("/quack/hgw/pserv.js");
-    }
+    const script = ["/quack/cct/solver.js"];
     script.forEach((s) => exec(ns, s));
-    // Wait a while and then kill a script to free up some RAM on the home
-    // server.
     await ns.sleep(wait_t.MINUTE);
-    script.filter((s) => s !== target).forEach((t) => assert(ns.kill(t, home)));
+    script.forEach((s) => assert(ns.kill(s, home)));
+
     exec(ns, "/quack/gang/program.js");
+    await farm_hack_xp(ns);
+    exec(ns, "/quack/hgw/world.js");
     await init_sleeves(ns);
 }
 

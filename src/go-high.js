@@ -18,7 +18,9 @@
 import { bitnode } from "/quack/lib/constant/bn.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
-import { assert, exec, init_sleeves } from "/quack/lib/util.js";
+import {
+    assert, exec, farm_hack_xp, init_sleeves,
+} from "/quack/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -29,20 +31,23 @@ import { assert, exec, init_sleeves } from "/quack/lib/util.js";
  */
 async function reboot(ns) {
     const script = [
-        "/quack/hgw/world.js",
         "/quack/gang/program.js",
         // "hnet-farm.js",
         "/quack/stock/go.js",
         "/quack/cct/solver.js",
         // "hram.js",
     ];
+    script.forEach((s) => exec(ns, s));
+    await farm_hack_xp(ns);
+
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
+    const other_script = ["/quack/hgw/world.js"];
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-        // script.unshift("buy-server.js");
-        script.unshift("/quack/hgw/pserv.js");
+        other_script.unshift("/quack/hgw/pserv.js");
     }
-    script.forEach((s) => exec(ns, s));
+    other_script.forEach((s) => exec(ns, s));
+
     await init_sleeves(ns);
 }
 
