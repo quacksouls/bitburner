@@ -20,13 +20,17 @@ import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 
 /**
- * Purchase shares of a stock.
+ * Purchase shares of the stock most likely to increase in value during the next
+ * tick.
  *
- * @param ns The Netscript API.
- * @param sym We want to purchase shares of this stock.
+ * @param {NS} ns The Netscript API.
  */
-function buy_stock(ns, sym) {
-    if (skip_buy(ns, sym)) {
+function buy_stock(ns) {
+    if (pause_buy(ns)) {
+        return;
+    }
+    const sym = most_favourable(ns);
+    if (sym === "") {
         return;
     }
     const nshare = num_shares(ns, sym);
@@ -82,6 +86,24 @@ function least_favourable(ns) {
     const ascending = (syma, symb) => projection(syma) - projection(symb);
     const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
     stock.sort(ascending);
+    return stock.length === 0 ? "" : stock[0];
+}
+
+/**
+ * The stock most likely to increase in value during the next tick.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns The symbol of a stock that is forecasted to have the best chance of
+ *     increase in the next tick.  Empty string if no stocks are forecasted to
+ *     increase in value.
+ */
+function most_favourable(ns) {
+    const is_favourable = (sym) => ns.stock.getForecast(sym) > forecast.BUY_TAU;
+    const to_int = (n) => Math.floor(1e6 * n);
+    const projection = (sym) => to_int(ns.stock.getForecast(sym));
+    const descending = (syma, symb) => projection(symb) - projection(syma);
+    const stock = ns.stock.getSymbols().filter(is_favourable);
+    stock.sort(descending);
     return stock.length === 0 ? "" : stock[0];
 }
 
@@ -164,30 +186,13 @@ function shush(ns) {
 }
 
 /**
- * Whether to skip buying shares of a stock.
- *
- * @param ns The Netscript API.
- * @param sym Do we want to skip buying shares of this stock?
- * @return True if we are to skip buying shares of this stock; false otherwise.
- */
-function skip_buy(ns, sym) {
-    return (
-        pause_buy(ns)
-        || ns.stock.getForecast(sym) <= forecast.BUY_TAU
-        || !has_money_reserve(ns)
-    );
-}
-
-/**
  * Sell or buy shares of stocks.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function transaction(ns) {
     sell_stock(ns);
-    ns.stock.getSymbols().forEach((sym) => {
-        buy_stock(ns, sym);
-    });
+    buy_stock(ns);
 }
 
 /**
