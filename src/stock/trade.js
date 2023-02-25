@@ -121,8 +121,8 @@ function num_long(ns, sym) {
 /**
  * How many shares of a stock we can purchase.
  *
- * @param ns The Netscript API.
- * @param sym We want to buy shares of this stock.
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym We want to buy shares of this stock.
  * @return The number of shares of this stock that we can buy.  Must be at
  *     least zero.  If 0, then we cannot buy any shares of the given stock.
  */
@@ -131,7 +131,8 @@ function num_shares(ns, sym) {
     if (!has_money_reserve(ns)) {
         return 0;
     }
-    const funds = ns.getServerMoneyAvailable(home) - wse.reserve.MONEY;
+    const excess_money = ns.getServerMoneyAvailable(home) - wse.reserve.MONEY;
+    const funds = wse.reserve.MULT * excess_money;
     if (funds < wse.SPEND_TAU) {
         return 0;
     }

@@ -61,17 +61,13 @@ export const wse = {
          */
         MONEY: 100e6,
         /**
-         * A multiplier for the amount of money we should have in reserve.  When
-         * trading on the Stock Market, we should not spend all our money on
-         * shares.  Instead we should have a fixed amount of money in reserve.
-         * The multiplier is used to calculate how much money we should have
-         * before we buy any shares.  Let our funds threshold be the reserve
-         * multiplier times the amount of money to be held in reserve.  If our
-         * current amount of money is greater than the resulting product, then
-         * we have sufficient funds.  Increase the value of this constant to
-         * hold more money in reserve.
+         * Spend this fraction of money to buy shares.  Our funds is defined as
+         *
+         * funds = current money - reserve money
+         *
+         * We want to spend (MULT * funds) to purchase shares.
          */
-        MULT: 1.1,
+        MULT: 0.1,
     },
     /**
      * The minimum amount of money we are willing to spend to purchase shares
