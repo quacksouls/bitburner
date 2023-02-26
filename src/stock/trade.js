@@ -44,8 +44,8 @@ function buy_stock(ns) {
  * Whether we have enough money to be held in reserve.  Must have at least a
  * certain amount of money before we start dabbling on the Stock Market.
  *
- * @param ns The Netscript API.
- * @return True if we have sufficient money to be held in reserve;
+ * @param {NS} ns The Netscript API.
+ * @return {boolean} True if we have sufficient money to be held in reserve;
  *     false otherwise.
  */
 function has_money_reserve(ns) {
@@ -61,10 +61,10 @@ function has_money_reserve(ns) {
  * value of the stock is expected to decrease in the next tick.  Hence the
  * forecast is unfavourable for the Long position.
  *
- * @param ns The Netscript API.
- * @param sym The symbol of a stock.
- * @returns True if the forecast is favourable for the given stock in the Long
- *     position; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym The symbol of a stock.
+ * @returns {boolean} True if the forecast is favourable for the given stock in
+ *     the Long position; false otherwise.
  */
 function is_favourable_long(ns, sym) {
     return ns.stock.getForecast(sym) > forecast.SELL_TAU;
@@ -75,8 +75,9 @@ function is_favourable_long(ns, sym) {
  * consider the Long position.
  *
  * @param {NS} ns The Netscript API.
- * @returns The symbol of a stock that is forecasted to have the least chance of
- *     increase in the next tick.  Empty string if we are unable to sell shares.
+ * @returns {string} The symbol of a stock that is forecasted to have the least
+ *     chance of increase in the next tick.  Empty string if we are unable to
+ *     sell shares.
  */
 function least_favourable(ns) {
     const has_long = (sym) => num_long(ns, sym) > 0;
@@ -127,8 +128,8 @@ function num_long(ns, sym) {
  *
  * @param {NS} ns The Netscript API.
  * @param {string} sym We want to buy shares of this stock.
- * @return The number of shares of this stock that we can buy.  Must be at
- *     least zero.  If 0, then we cannot buy any shares of the given stock.
+ * @return {number} The number of shares of this stock that we can buy.  Must be
+ *     at least zero.  If 0, then we cannot buy any shares of the given stock.
  */
 function num_shares(ns, sym) {
     // Sanity checks.
@@ -158,8 +159,8 @@ function num_shares(ns, sym) {
  * funds.  One reason is that we want to sell our shares to raise a huge amount
  * of money for various purposes.
  *
- * @param ns The Netscript API.
- * @return True if we should skip buying shares during this tick;
+ * @param {NS} ns The Netscript API.
+ * @return {boolean} True if we should skip buying shares during this tick;
  *     false otherwise.
  */
 function pause_buy(ns) {
@@ -183,7 +184,7 @@ function sell_stock(ns) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("sleep");
@@ -205,7 +206,7 @@ function transaction(ns) {
  *
  * Usage: run quack/stock/trade.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
