@@ -93,26 +93,30 @@ function least_favourable(ns) {
  * The stock most likely to increase in value during the next tick.
  *
  * @param {NS} ns The Netscript API.
- * @returns The symbol of a stock that is forecasted to have the best chance of
- *     increase in the next tick.  Empty string if no stocks are forecasted to
- *     increase in value.
+ * @returns {string} The symbol of a stock that is forecasted to have the best
+ *     chance of increase in the next tick.  Empty string if no stocks are
+ *     forecasted to increase in value.
  */
 function most_favourable(ns) {
     const is_favourable = (sym) => ns.stock.getForecast(sym) > forecast.BUY_TAU;
     const to_int = (n) => Math.floor(1e6 * n);
     const projection = (sym) => to_int(ns.stock.getForecast(sym));
     const descending = (syma, symb) => projection(symb) - projection(syma);
-    const stock = ns.stock.getSymbols().filter(is_favourable);
+    let stock = ns.stock.getSymbols().filter(is_favourable);
     stock.sort(descending);
+    const nshare = (sym) => ns.stock.getMaxShares(sym) - num_long(ns, sym);
+    const can_buy = (sym) => nshare(sym) > 0;
+    stock = stock.filter(can_buy);
     return stock.length === 0 ? "" : stock[0];
 }
 
 /**
  * The number of shares we own in the Long position.
  *
- * @param ns The Netscript API.
- * @param sym A stock symbol.
- * @returns How many shares we have of the given stock in the Long position.
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym A stock symbol.
+ * @returns {number} How many shares we have of the given stock in the Long
+ *     position.
  */
 function num_long(ns, sym) {
     return ns.stock.getPosition(sym)[wse.LONG_INDEX];
