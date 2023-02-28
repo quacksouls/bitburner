@@ -77,6 +77,9 @@ function sanity_checks(ns, psram, target, amount) {
  */
 function shush(ns) {
     ns.disableLog("getServerMaxMoney");
+    ns.disableLog("getServerMaxRam");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("getServerUsedRam");
     ns.disableLog("sleep");
 }
 
