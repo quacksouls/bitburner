@@ -36,7 +36,7 @@ async function hack(ns, host, target, amount) {
     batcher.scp_scripts();
     await batcher.prep_wg(target);
     const target_money = money(ns) + amount;
-    const enough_money = () => money() >= target_money;
+    const enough_money = () => money(ns) >= target_money;
     while (!enough_money()) {
         await batcher.launch_pbatch(target);
     }
