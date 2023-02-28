@@ -134,6 +134,7 @@ export class PservHGW {
             target,
             hthread
         );
+        // eslint-disable-next-line
         const exec = (script, nthread) => this.#ns.exec(script, this.#phost, nthread, target);
         const sleep = (time) => this.#ns.sleep(time);
         const pidw = exec(hgw.script.WEAKEN, wthread);
