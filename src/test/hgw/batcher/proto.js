@@ -33,6 +33,7 @@ import { assert, time_hms, to_second } from "/quack/lib/util.js";
  */
 async function hack(ns, host, target, amount) {
     const batcher = new PservHGW(ns, host);
+    batcher.scp_scripts();
     await batcher.prep_wg(target);
     const target_money = money(ns) + amount;
     const enough_money = () => money() >= target_money;
