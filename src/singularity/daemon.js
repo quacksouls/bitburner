@@ -47,6 +47,17 @@ async function destroy(ns) {
     assert(serv.has_root_access());
     // First, try to raise our Intelligence stat.
     join_all_factions(ns);
+    // Kill all running scripts.
+    const nthread = 1;
+    const pid = ns.exec(
+        "/quack/kill-script.js",
+        player.home(),
+        nthread,
+        "world"
+    );
+    while (ns.isRunning(pid)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
     // Now hack the target server.
     cleanup(ns);
     corp_cleanup(ns);
