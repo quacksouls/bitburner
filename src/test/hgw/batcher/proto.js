@@ -71,6 +71,16 @@ function sanity_checks(ns, psram, target, amount) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getServerMaxMoney");
+    ns.disableLog("sleep");
+}
+
+/**
  * Use a proto batcher together with a purchased server to hack a target.  Each
  * of the hack, grow, and weaken functions is separated into its own script.
  * When we need a particular HGW action, we launch the appropriate script
@@ -93,6 +103,7 @@ export async function main(ns) {
     const psram = parseInt(ram, base.DECIMAL);
     const target_money = parseInt(amount, base.DECIMAL);
     sanity_checks(ns, psram, target, target_money);
+    shush(ns);
 
     // Purchase a server having the given amount of RAM.
     const cost = ns.getPurchasedServerCost(psram);
