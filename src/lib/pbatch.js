@@ -28,7 +28,7 @@ import {
 import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
 
 /**
- * A purchased server that uses a proto-batcher.
+ * A purchased server that uses various HGW strategies.
  */
 export class PservHGW {
     /**
@@ -42,8 +42,8 @@ export class PservHGW {
     #ns;
 
     /**
-     * Create an object to represent a purchased server that uses a
-     * proto-batcher.
+     * Create an object to represent a purchased server that uses various
+     * batching strategies.
      *
      * @param ns The Netscript API.
      * @param host Hostname of a purchased server.
