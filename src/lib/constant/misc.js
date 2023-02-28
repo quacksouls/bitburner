@@ -126,10 +126,14 @@ export const hgw = {
      */
     MIN_HACK: 150,
     /**
-     * The fraction amount of money to steal from a server.  If it is 0.5, then
-     * we steal 50% of the server's money.
+     * The fraction of money to steal from a server.
      */
-    MONEY_PERCENT: 0.5,
+    money: {
+        /**
+         * Steal at most 90% of money from a server.
+         */
+        MAX_FRACTION: 0.9,
+    },
     /**
      * Various constants related to one batch in the model of proto batcher.
      */

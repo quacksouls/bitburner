@@ -238,36 +238,6 @@ export function nuke_servers(ns) {
 }
 
 /**
- * An initial guess for the number of hack threads to use in a proto batcher.
- * Use some other methods to refine the guess.
- *
- * @param {NS} ns The Netscript API.
- * @param {string} host Hostname of the server where the batch will run.
- * @param {string} target Hostname of the server our batch will target.
- * @returns The number of hack threads to use against the target.  This
- *     is a guess only, not the exact or optimal number of hack threads.
- */
-export async function pbatch_guess_hthread(ns, host, target) {
-    let max_threads = Math.floor(
-        free_ram(ns, host) / ns.getScriptRam(hgw.script.HACK, home)
-    );
-    while (max_threads > 0) {
-        max_threads = Math.floor(max_threads / 2);
-        const {
-            hthread, hram, gram, wram,
-        } = pbatch_parameters(
-            ns,
-            target,
-            max_threads
-        );
-        if (hram + gram + wram <= free_ram(ns, host)) {
-            return hthread;
-        }
-        await ns.sleep(0);
-    }
-}
-
-/**
  * The number of hack threads to use in one batch of a proto batcher.
  *
  * @param {NS} ns The Netscript API.
@@ -275,17 +245,33 @@ export async function pbatch_guess_hthread(ns, host, target) {
  * @param {string} target Hostname of the server our batch will target.
  * @returns The number of hack threads to use in one batch.
  */
-export async function pbatch_num_hthreads(ns, host, target) {
-    let hthread = await pbatch_guess_hthread(ns, host, target);
-    for (;;) {
-        hthread++;
-        const { hram, gram, wram } = pbatch_parameters(ns, target, hthread);
-        if (hram + gram + wram > free_ram(ns, host)) {
-            hthread--;
+export function pbatch_num_hthreads(ns, host, target) {
+    // The percentage of money we want to hack the target server.  Maximum is
+    // 90% and minimum is 1%.
+    const max_percent = Math.floor(hgw.money.MAX_FRACTION * 100);
+    const percent = [...Array(max_percent + 1).keys()];
+    percent.shift();
+    percent.reverse();
+
+    // The maximum percentage of money we can hack while using only the
+    // RAM available on the host server.
+    for (const pc of percent) {
+        const money = (pc / 100) * ns.getServerMaxMoney(target);
+        const max_threads = Math.floor(ns.hackAnalyzeThreads(target, money));
+        const {
+            hthread, hram, gram, wram,
+        } = pbatch_parameters(
+            ns,
+            target,
+            max_threads
+        );
+        const exceed_ram = () => hram + gram + wram > free_ram(ns, host);
+        if (!exceed_ram()) {
             return hthread;
         }
-        await ns.sleep(0);
     }
+    // Should never reach here.
+    assert(false);
 }
 
 /**
