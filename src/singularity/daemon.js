@@ -30,7 +30,7 @@ import { assert, cleanup } from "/quack/lib/util.js";
 /**
  * Find and destroy the w0r1d_d43m0n server.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function destroy(ns) {
     log(ns, `Searching for target server: ${server.WD}`);
@@ -57,9 +57,9 @@ async function destroy(ns) {
 /**
  * Destroy the w0r1d_d43m0n server.
  *
- * Usage: run singularity/daemon.js
+ * Usage: run quack/singularity/daemon.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const augmentation = ns.singularity.getOwnedAugmentations(
