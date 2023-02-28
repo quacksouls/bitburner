@@ -177,6 +177,17 @@ export function filter_pserv(ns, serv) {
 }
 
 /**
+ * The amount of available RAM on a server.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server to query.
+ * @returns The amount of free RAM on the given server.
+ */
+export function free_ram(ns, host) {
+    return ns.getServerMaxRam(host) - ns.getServerUsedRam(host);
+}
+
+/**
  * Attempt to gain root access to a given server.
  *
  * @param ns The Netscript API.

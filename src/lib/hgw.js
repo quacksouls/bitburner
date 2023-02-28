@@ -23,6 +23,7 @@ import { network } from "/quack/lib/network.js";
 import {
     assert,
     can_run_script,
+    free_ram,
     gain_root_access,
     num_threads,
 } from "/quack/lib/util.js";
@@ -234,6 +235,115 @@ export function is_action_done(ns, pid) {
  */
 export function nuke_servers(ns) {
     return network(ns).filter((host) => gain_admin_access(ns, host));
+}
+
+/**
+ * An initial guess for the number of hack threads to use in a proto batcher.
+ * Use some other methods to refine the guess.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server where the batch will run.
+ * @param {string} target Hostname of the server our batch will target.
+ * @returns The number of hack threads to use against the target.  This
+ *     is a guess only, not the exact or optimal number of hack threads.
+ */
+export async function pbatch_guess_hthread(ns, host, target) {
+    let max_threads = Math.floor(
+        free_ram(ns, host) / ns.getScriptRam(hgw.script.HACK, home)
+    );
+    while (max_threads > 0) {
+        max_threads = Math.floor(max_threads / 2);
+        const {
+            hthread, hram, gram, wram,
+        } = pbatch_parameters(
+            ns,
+            target,
+            max_threads
+        );
+        if (hram + gram + wram <= free_ram(ns, host)) {
+            return hthread;
+        }
+        await ns.sleep(0);
+    }
+}
+
+/**
+ * The number of hack threads to use in one batch of a proto batcher.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server where our batch will run.
+ * @param {string} target Hostname of the server our batch will target.
+ * @returns The number of hack threads to use in one batch.
+ */
+export async function pbatch_num_hthreads(ns, host, target) {
+    let hthread = await pbatch_guess_hthread(ns, host, target);
+    for (;;) {
+        hthread++;
+        const { hram, gram, wram } = pbatch_parameters(ns, target, hthread);
+        if (hram + gram + wram > free_ram(ns, host)) {
+            hthread--;
+            return hthread;
+        }
+        await ns.sleep(0);
+    }
+}
+
+/**
+ * The thread and RAM parameters for one batch of a proto batcher.
+ *
+ * WARNING: Must have access to the Formulas API.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server our batch will target.
+ * @param {number} thread The number of threads to run the ns.hack() function.
+ * @returns An object containing the batch parameters.  The object is
+ *     structured as follows:
+ *     {
+ *         hthread: number, // The number of threads to run ns.hack().
+ *         hram: number, // RAM required for the given number of hack threads.
+ *         htime: number, // Time required for ns.hack() to finish.
+ *         gthread: number, // The number of threads to run ns.grow().
+ *         gram: number, // RAM required for the given number of grow threads.
+ *         gtime: number, // Time required for ns.grow() to finish.
+ *         wthread: number, // The number of threads to run ns.weaken().
+ *         wram: number, // RAM required for the given number of weaken threads.
+ *         wtime: number, // Time required for ns.weaken() to finish.
+ *     }
+ */
+export function pbatch_parameters(ns, host, thread) {
+    const hthread = Math.floor(thread);
+    const serv = ns.getServer(host);
+    const htime = ns.formulas.hacking.hackTime(serv, ns.getPlayer());
+    const money_fraction = ns.formulas.hacking.hackPercent(
+        serv,
+        ns.getPlayer()
+    );
+    const money_hacked = hthread * money_fraction * ns.getServerMaxMoney(host);
+    serv.hackDifficulty += hthread * hgw.security.HACK;
+    serv.moneyAvailable = serv.moneyMax - money_hacked;
+    const gthread = ns.formulas.hacking.growThreads(
+        serv,
+        ns.getPlayer(),
+        serv.moneyMax
+    );
+    const gtime = ns.formulas.hacking.growTime(serv, ns.getPlayer());
+    serv.hackDifficulty += gthread * hgw.security.GROW;
+    const hack_sec_increase = hthread * hgw.security.HACK;
+    const grow_sec_increase = gthread * hgw.security.GROW;
+    const total_security_increase = hack_sec_increase + grow_sec_increase;
+    const wthread = Math.ceil(total_security_increase / hgw.security.WEAKEN);
+    const wtime = ns.formulas.hacking.weakenTime(serv, ns.getPlayer());
+    return {
+        hthread,
+        hram: hthread * ns.getScriptRam(hgw.script.HACK, home),
+        htime,
+        gthread,
+        gram: gthread * ns.getScriptRam(hgw.script.GROW, home),
+        gtime,
+        wthread,
+        wram: wthread * ns.getScriptRam(hgw.script.WEAKEN, home),
+        wtime,
+    };
 }
 
 /**

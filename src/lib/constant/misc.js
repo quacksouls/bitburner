@@ -131,6 +131,21 @@ export const hgw = {
      */
     MONEY_PERCENT: 0.5,
     /**
+     * Various constants related to one batch in the model of proto batcher.
+     */
+    pbatch: {
+        /**
+         * The delay time between the firing of each HGW action.  Time is in
+         * milliseconds.
+         */
+        DELAY: 1000,
+        /**
+         * Sleep for this amount of time while waiting for a batch to complete.
+         * Time is in milliseconds.
+         */
+        SLEEP: 100,
+    },
+    /**
      * Various scripts in the HGW model.
      */
     script: {
@@ -147,6 +162,27 @@ export const hgw = {
          * server.
          */
         WEAKEN: "/quack/hgw/weaken.js",
+    },
+    /**
+     * The change in security for each of the H/G/W actions.  Data taken from
+     * this file:
+     *
+     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Constants.ts
+     */
+    security: {
+        /**
+         * One thread of ns.hack() increases a server's security by this amount.
+         */
+        HACK: 0.002,
+        /**
+         * One thread of ns.grow() increases a server's security by this amount.
+         */
+        GROW: 0.004,
+        /**
+         * One thread of ns.weaken() decreases a server's security by this
+         * amount.
+         */
+        WEAKEN: 0.05,
     },
     /**
      * Various strategies for preparing a server.

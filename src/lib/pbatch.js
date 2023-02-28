@@ -23,6 +23,8 @@ import {
     has_min_security,
     hgw_script,
     hgw_wait_time,
+    pbatch_num_hthreads,
+    pbatch_parameters,
     target_money,
 } from "/quack/lib/hgw.js";
 import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
@@ -118,6 +120,39 @@ export class PservHGW {
     }
 
     /**
+     * Launch a batch against a target server.  Use the model of proto batcher.
+     *
+     * @param {string} target Hostname of the server our proto batcher will
+     *     target.
+     */
+    async launch_pbatch(target) {
+        const hthread = pbatch_num_hthreads(this.#ns, this.#phost, target);
+        const {
+            htime, gthread, gtime, wthread, wtime,
+        } = pbatch_parameters(
+            this.#ns,
+            target,
+            hthread
+        );
+        const exec = (script, nthread) => {
+            this.#ns.exec(script, this.#phost, nthread, target);
+        };
+        const sleep = (time) => this.#ns.sleep(time);
+        const pidw = exec(hgw.script.WEAKEN, wthread);
+        await sleep(wtime - hgw.pbatch.DELAY - gtime);
+        const pidg = exec(hgw.script.GROW, gthread);
+        await sleep(gtime - hgw.pbatch.DELAY - htime);
+        const pidh = exec(hgw.script.HACK, hthread);
+        const is_running = (pid) => this.#ns.isRunning(pid);
+        for (;;) {
+            if (!is_running(pidw) && !is_running(pidg) && !is_running(pidh)) {
+                return;
+            }
+            await sleep(hgw.pbatch.SLEEP);
+        }
+    }
+
+    /**
      * Prepare a world server for hacking.  We use the following strategy.
      *
      * (1) Grow
@@ -135,6 +170,35 @@ export class PservHGW {
             }
             if (!has_min_security(this.#ns, host)) {
                 await this.hgw_action(host, hgw.action.WEAKEN);
+            }
+            if (
+                has_min_security(this.#ns, host)
+                && has_max_money(this.#ns, host)
+            ) {
+                return;
+            }
+            await this.#ns.sleep(0);
+        }
+    }
+
+    /**
+     * Prepare a world server for hacking.  We use the following strategy.
+     *
+     * (1) Weaken
+     * (2) Grow
+     *
+     * Apply the above strategy in a loop.  Repeat until the target server has
+     * minimum security level and maximum money.
+     *
+     * @param {string} host Prep this world server.
+     */
+    async prep_wg(host) {
+        for (;;) {
+            if (!has_min_security(this.#ns, host)) {
+                await this.hgw_action(host, hgw.action.WEAKEN);
+            }
+            if (!has_max_money(this.#ns, host)) {
+                await this.hgw_action(host, hgw.action.GROW);
             }
             if (
                 has_min_security(this.#ns, host)

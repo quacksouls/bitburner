@@ -178,6 +178,7 @@ function dir_structure() {
         "test/crime/crime-int.js",
         "test/crime/crime.js",
         "test/hgw/100million.js",
+        "test/hgw/batcher/proto.js",
         "test/hgw/billion.js",
         "test/hgw/brutessh.js",
         "test/hgw/ftpcrack.js",
