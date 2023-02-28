@@ -134,18 +134,18 @@ export class PservHGW {
             target,
             hthread
         );
-        const exec = (script, nthread) => {
-            this.#ns.exec(script, this.#phost, nthread, target);
-        };
+        const exec = (script, nthread) => this.#ns.exec(script, this.#phost, nthread, target);
         const sleep = (time) => this.#ns.sleep(time);
         const pidw = exec(hgw.script.WEAKEN, wthread);
         await sleep(wtime - hgw.pbatch.DELAY - gtime);
         const pidg = exec(hgw.script.GROW, gthread);
         await sleep(gtime - hgw.pbatch.DELAY - htime);
         const pidh = exec(hgw.script.HACK, hthread);
-        const is_running = (pid) => this.#ns.isRunning(pid);
+        const not_running = (pid) => !this.#ns.isRunning(pid);
+        const pids = [pidh, pidg, pidw];
+        const is_done = () => pids.every(not_running);
         for (;;) {
-            if (!is_running(pidw) && !is_running(pidg) && !is_running(pidh)) {
+            if (is_done()) {
                 return;
             }
             await sleep(hgw.pbatch.SLEEP);
