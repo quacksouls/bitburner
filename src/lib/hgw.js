@@ -310,16 +310,18 @@ export function pbatch_num_hthreads(ns, host, target) {
  *     }
  */
 export function pbatch_parameters(ns, host, thread) {
+    // The number of hack threads required, the hack time, and the effect of
+    // hacking.
     const hthread = Math.floor(thread);
     const serv = ns.getServer(host);
-    const htime = ns.formulas.hacking.hackTime(serv, ns.getPlayer());
-    const money_fraction = ns.formulas.hacking.hackPercent(
-        serv,
-        ns.getPlayer()
-    );
+    const htime = ns.getHackTime(host);
+    const money_fraction = ns.hackAnalyze(host);
     const money_hacked = hthread * money_fraction * ns.getServerMaxMoney(host);
     serv.hackDifficulty += hthread * hgw.security.HACK;
     serv.moneyAvailable = serv.moneyMax - money_hacked;
+
+    // The number of grow threads required, the grow time, and the effect of
+    // growing.
     const gthread = ns.formulas.hacking.growThreads(
         serv,
         ns.getPlayer(),
@@ -327,20 +329,25 @@ export function pbatch_parameters(ns, host, thread) {
     );
     const gtime = ns.formulas.hacking.growTime(serv, ns.getPlayer());
     serv.hackDifficulty += gthread * hgw.security.GROW;
+    serv.moneyAvailable = serv.moneyMax;
+
+    // The number of weaken threads required and the weaken time.
     const hack_sec_increase = hthread * hgw.security.HACK;
     const grow_sec_increase = gthread * hgw.security.GROW;
     const total_security_increase = hack_sec_increase + grow_sec_increase;
     const wthread = Math.ceil(total_security_increase / hgw.security.WEAKEN);
     const wtime = ns.formulas.hacking.weakenTime(serv, ns.getPlayer());
+
+    const required_ram = (scrpt, nthrd) => nthrd * ns.getScriptRam(scrpt, home);
     return {
         hthread,
-        hram: hthread * ns.getScriptRam(hgw.script.HACK, home),
+        hram: required_ram(hgw.script.HACK, hthread),
         htime,
         gthread,
-        gram: gthread * ns.getScriptRam(hgw.script.GROW, home),
+        gram: required_ram(hgw.script.GROW, gthread),
         gtime,
         wthread,
-        wram: wthread * ns.getScriptRam(hgw.script.WEAKEN, home),
+        wram: required_ram(hgw.script.WEAKEN, wthread),
         wtime,
     };
 }
