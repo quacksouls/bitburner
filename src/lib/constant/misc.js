@@ -130,9 +130,9 @@ export const hgw = {
      */
     money: {
         /**
-         * Steal at most 90% of money from a server.
+         * Steal at most 95% of money from a server.
          */
-        MAX_FRACTION: 0.9,
+        MAX_FRACTION: 0.95,
     },
     /**
      * Various constants related to one batch in the model of proto batcher.
