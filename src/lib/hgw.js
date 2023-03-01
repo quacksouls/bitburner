@@ -227,6 +227,18 @@ export function is_action_done(ns, pid) {
 }
 
 /**
+ * Whether a server is prepped.  A server is said to be prepped if its security
+ * level is at minimum and its money is at maximum.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server to check.
+ * @returns {boolean} True if the target server is prepped; false otherwise.
+ */
+export function is_prepped(ns, host) {
+    return has_min_security(ns, host) && has_max_money(ns, host);
+}
+
+/**
  * Gain root access to as many world servers as we can.
  *
  * @param ns The Netscript API.
@@ -354,7 +366,7 @@ export async function prep_gw(ns, host) {
         if (!has_min_security(ns, host)) {
             await hgw_action(ns, host, botnet, hgw.action.WEAKEN);
         }
-        if (has_min_security(ns, host) && has_max_money(ns, host)) {
+        if (is_prepped(ns, host)) {
             return;
         }
         await ns.sleep(0);
@@ -418,7 +430,7 @@ export async function prep_wg(ns, host) {
         if (!has_max_money(ns, host)) {
             await hgw_action(ns, host, botnet, hgw.action.GROW);
         }
-        if (has_min_security(ns, host) && has_max_money(ns, host)) {
+        if (is_prepped(ns, host)) {
             return;
         }
         await ns.sleep(0);
