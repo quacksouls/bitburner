@@ -18,26 +18,61 @@
 import { home } from "/quack/lib/constant/server.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Purchase shares of the stock most likely to increase in value during the next
  * tick.
  *
  * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {object} The updated portfolio.
  */
-function buy_stock(ns) {
+function buy_stock(ns, portfolio) {
     if (pause_buy(ns)) {
-        return;
+        return portfolio;
     }
     const sym = most_favourable(ns);
     if (sym === "") {
-        return;
+        return portfolio;
     }
     const nshare = num_shares(ns, sym);
     if (nshare < 1) {
-        return;
+        return portfolio;
     }
-    ns.stock.buyStock(sym, nshare);
+    const cost_per_share = ns.stock.buyStock(sym, nshare);
+    if (cost_per_share === 0) {
+        return portfolio;
+    }
+    const new_portfolio = { ...portfolio };
+    new_portfolio[sym].cost = portfolio[sym].cost + nshare * cost_per_share;
+    new_portfolio[sym].commission = portfolio[sym].commission + wse.COMMISSION;
+    return new_portfolio;
+}
+
+/**
+ * Choose the stock to sell.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {string} The symbol of the stock to sell.  Empty string if no stocks
+ *     should be sold in this tick.
+ */
+function choose_sell_candidate(ns, portfolio) {
+    // All stocks that do not have favourable forecast.  Order them from least
+    // favourable to most favourable.
+    const has_long = (sym) => num_long(ns, sym) > 0;
+    const not_favourable = (sym) => !is_favourable_long(ns, sym);
+    const to_int = (n) => Math.floor(1e6 * n);
+    const projection = (sym) => to_int(ns.stock.getForecast(sym));
+    const ascending = (syma, symb) => projection(syma) - projection(symb);
+    const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
+    stock.sort(ascending);
+
+    // Choose a stock to sell provided we can make a profit.
+    const can_profit = (sym) => sell_profit(ns, sym, portfolio) > 0;
+    const candidate = stock.filter(can_profit);
+    return candidate.length === 0 ? "" : candidate[0];
 }
 
 /**
@@ -50,6 +85,156 @@ function buy_stock(ns) {
  */
 function has_money_reserve(ns) {
     return ns.getServerMoneyAvailable(home) > wse.reserve.MONEY;
+}
+
+/**
+ * The default portfolio of stocks.
+ *
+ * @returns An object representing the initial portfolio of stocks.  The object
+ *     is structured as follows:
+ *     {
+ *         symbol1: {
+ *             cost: number, // Total cost of purchasing all shares we own.
+ *             commission: number, // Total commission paid for all purchases.
+ *         },
+ *         ...
+ *     }
+ */
+function initial_portfolio() {
+    return {
+        AERO: {
+            cost: 0,
+            commission: 0,
+        },
+        APHE: {
+            cost: 0,
+            commission: 0,
+        },
+        BLD: {
+            cost: 0,
+            commission: 0,
+        },
+        CLRK: {
+            cost: 0,
+            commission: 0,
+        },
+        CTK: {
+            cost: 0,
+            commission: 0,
+        },
+        CTYS: {
+            cost: 0,
+            commission: 0,
+        },
+        DCOMM: {
+            cost: 0,
+            commission: 0,
+        },
+        ECP: {
+            cost: 0,
+            commission: 0,
+        },
+        FLCM: {
+            cost: 0,
+            commission: 0,
+        },
+        FNS: {
+            cost: 0,
+            commission: 0,
+        },
+        FSIG: {
+            cost: 0,
+            commission: 0,
+        },
+        GPH: {
+            cost: 0,
+            commission: 0,
+        },
+        HLS: {
+            cost: 0,
+            commission: 0,
+        },
+        ICRS: {
+            cost: 0,
+            commission: 0,
+        },
+        JGN: {
+            cost: 0,
+            commission: 0,
+        },
+        KGI: {
+            cost: 0,
+            commission: 0,
+        },
+        LXO: {
+            cost: 0,
+            commission: 0,
+        },
+        MDYN: {
+            cost: 0,
+            commission: 0,
+        },
+        MGCP: {
+            cost: 0,
+            commission: 0,
+        },
+        NTLK: {
+            cost: 0,
+            commission: 0,
+        },
+        NVMD: {
+            cost: 0,
+            commission: 0,
+        },
+        OMGA: {
+            cost: 0,
+            commission: 0,
+        },
+        OMN: {
+            cost: 0,
+            commission: 0,
+        },
+        OMTK: {
+            cost: 0,
+            commission: 0,
+        },
+        RHOC: {
+            cost: 0,
+            commission: 0,
+        },
+        SGC: {
+            cost: 0,
+            commission: 0,
+        },
+        SLRS: {
+            cost: 0,
+            commission: 0,
+        },
+        STM: {
+            cost: 0,
+            commission: 0,
+        },
+        SYSC: {
+            cost: 0,
+            commission: 0,
+        },
+        TITN: {
+            cost: 0,
+            commission: 0,
+        },
+        UNV: {
+            cost: 0,
+            commission: 0,
+        },
+        VITA: {
+            cost: 0,
+            commission: 0,
+        },
+        WDS: {
+            cost: 0,
+            commission: 0,
+        },
+    };
 }
 
 /**
@@ -68,26 +253,6 @@ function has_money_reserve(ns) {
  */
 function is_favourable_long(ns, sym) {
     return ns.stock.getForecast(sym) > forecast.SELL_TAU;
-}
-
-/**
- * The stock most likely to decrease in value during the next tick.  Only
- * consider the Long position.
- *
- * @param {NS} ns The Netscript API.
- * @returns {string} The symbol of a stock that is forecasted to have the least
- *     chance of increase in the next tick.  Empty string if we are unable to
- *     sell shares.
- */
-function least_favourable(ns) {
-    const has_long = (sym) => num_long(ns, sym) > 0;
-    const not_favourable = (sym) => !is_favourable_long(ns, sym);
-    const to_int = (n) => Math.floor(1e6 * n);
-    const projection = (sym) => to_int(ns.stock.getForecast(sym));
-    const ascending = (syma, symb) => projection(syma) - projection(symb);
-    const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
-    stock.sort(ascending);
-    return stock.length === 0 ? "" : stock[0];
 }
 
 /**
@@ -168,17 +333,40 @@ function pause_buy(ns) {
 }
 
 /**
- * Sell shares of a stock that is most likely to decrease in value during the
- * next tick.
+ * The profit we make from selling all shares of a stock.  This takes into
+ * account the total cost we have paid for shares of the stock, as well as the
+ * total commission we have paid and will pay for the sell transaction.
  *
  * @param {NS} ns The Netscript API.
+ * @param {string} sym We want to sell all shares of this stock.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {number} The profit from selling all shares of the given stock.
  */
-function sell_stock(ns) {
-    const sym = least_favourable(ns);
+function sell_profit(ns, sym, portfolio) {
+    const revenue = num_long(ns, sym) * ns.stock.getBidPrice(sym);
+    const total_commission = wse.COMMISSION + portfolio[sym].commission;
+    return revenue - total_commission - portfolio[sym].cost;
+}
+
+/**
+ * Sell shares of a stock that is most likely to decrease in value during the
+ * next tick.  Only sell if doing so would earn us a profit.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {object} The updated portfolio.
+ */
+function sell_stock(ns, portfolio) {
+    const sym = choose_sell_candidate(ns, portfolio);
     if (sym === "") {
-        return;
+        return portfolio;
     }
-    ns.stock.sellStock(sym, num_long(ns, sym));
+    const result = ns.stock.sellStock(sym, num_long(ns, sym));
+    assert(result !== 0);
+    const new_portfolio = { ...portfolio };
+    new_portfolio[sym].cost = 0;
+    new_portfolio[sym].commission = 0;
+    return new_portfolio;
 }
 
 /**
@@ -195,10 +383,12 @@ function shush(ns) {
  * Sell or buy shares of stocks.
  *
  * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {object} The updated portfolio.
  */
-function transaction(ns) {
-    sell_stock(ns);
-    buy_stock(ns);
+function transaction(ns, portfolio) {
+    const new_portfolio = sell_stock(ns, portfolio);
+    return buy_stock(ns, new_portfolio);
 }
 
 /**
@@ -212,8 +402,9 @@ export async function main(ns) {
     shush(ns);
     // Continuously trade on the Stock Market.
     log(ns, "Trading on the Stock Market");
+    let portfolio = initial_portfolio();
     for (;;) {
-        transaction(ns);
+        portfolio = transaction(ns, portfolio);
         await ns.sleep(wse.TICK);
     }
 }

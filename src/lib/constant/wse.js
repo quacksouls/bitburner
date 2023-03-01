@@ -45,6 +45,10 @@ export const forecast = {
  */
 export const wse = {
     /**
+     * The amount of money paid in commission for each market transaction.
+     */
+    COMMISSION: 100e3,
+    /**
      * The index in the array returned by ns.stock.getPosition() where we find
      * the number of shares we own in the Long position.
      */
