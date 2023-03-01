@@ -259,12 +259,13 @@ export function pbatch_num_hthreads(ns, host, target) {
         const money = (pc / 100) * ns.getServerMaxMoney(target);
         const max_threads = Math.floor(ns.hackAnalyzeThreads(target, money));
         const {
-            hthread, hram, gram, wram,
-        } = pbatch_parameters(
-            ns,
-            target,
-            max_threads
-        );
+            hram, hthread, gram, gthread, wram, wthread,
+        } = pbatch_parameters(ns, target, max_threads);
+        const thread = [hthread, gthread, wthread];
+        const invalid_thread = (t) => t < 1;
+        if (thread.some(invalid_thread)) {
+            continue;
+        }
         const exceed_ram = () => hram + gram + wram > free_ram(ns, host);
         if (!exceed_ram()) {
             return hthread;
