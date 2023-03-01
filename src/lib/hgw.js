@@ -246,8 +246,8 @@ export function nuke_servers(ns) {
  * @returns The number of hack threads to use in one batch.
  */
 export function pbatch_num_hthreads(ns, host, target) {
-    // The percentage of money we want to hack the target server.  Maximum is
-    // 90% and minimum is 1%.
+    // The percentage of money we want to hack from the target server.  Maximum
+    // is (MAX_FRACTION * 100)% and the minimum is 1%.
     const max_percent = Math.floor(hgw.money.MAX_FRACTION * 100);
     const percent = [...Array(max_percent + 1).keys()];
     percent.shift();
