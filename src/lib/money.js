@@ -45,10 +45,35 @@ export class Money {
      * @returns {string} The given amount formatted as currency.
      */
     static format(amount) {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-        }).format(amount);
+        const ndigit = 3; // How many significant digits.
+        const fmt = (divisor, suffix) => {
+            const fstr = (Math.abs(Number(amount)) / divisor).toFixed(ndigit);
+            return `$${fstr}${suffix}`;
+        };
+        const is_quintillion = (n) => Math.abs(Number(n)) >= 1e18;
+        const is_quadrillion = (n) => Math.abs(Number(n)) >= 1e15;
+        const is_trillion = (n) => Math.abs(Number(n)) >= 1e12;
+        const is_billion = (n) => Math.abs(Number(n)) >= 1e9;
+        const is_million = (n) => Math.abs(Number(n)) >= 1e6;
+        const is_thousand = (n) => Math.abs(Number(n)) >= 1e3;
+
+        let [divisor, suffix] = [0, ""];
+        if (is_quintillion(amount)) {
+            [divisor, suffix] = [1e18, "Q"];
+        } else if (is_quadrillion(amount)) {
+            [divisor, suffix] = [1e15, "q"];
+        } else if (is_trillion(amount)) {
+            [divisor, suffix] = [1e12, "t"];
+        } else if (is_billion(amount)) {
+            [divisor, suffix] = [1e9, "b"];
+        } else if (is_million(amount)) {
+            [divisor, suffix] = [1e6, "m"];
+        } else if (is_thousand(amount)) {
+            [divisor, suffix] = [1e3, "k"];
+        } else {
+            [divisor, suffix] = [1, ""];
+        }
+        return fmt(divisor, suffix);
     }
 
     /**
