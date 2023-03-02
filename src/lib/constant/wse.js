@@ -71,7 +71,7 @@ export const wse = {
          *
          * We want to spend (MULT * funds) to purchase shares.
          */
-        MULT: 0.1,
+        MULT: 0.01,
     },
     /**
      * The minimum amount of money we are willing to spend to purchase shares
