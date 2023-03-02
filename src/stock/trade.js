@@ -243,7 +243,7 @@ function sell_stock(ns, portfolio) {
     const new_portfolio = { ...portfolio };
     new_portfolio[sym].cost = 0;
     new_portfolio[sym].commission = 0;
-    log(ns, `Sold all shares of ${sym} for ${Money.format(profit)}`);
+    log(ns, `Sold all shares of ${sym} for ${Money.format(profit)} in profit`);
     return new_portfolio;
 }
 
