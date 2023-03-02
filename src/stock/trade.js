@@ -280,7 +280,7 @@ export async function main(ns) {
     shush(ns);
     // Continuously trade on the Stock Market.
     log(ns, "Trading on the Stock Market");
-    let portfolio = initial_portfolio();
+    let portfolio = initial_portfolio(ns);
     for (;;) {
         portfolio = transaction(ns, portfolio);
         await ns.sleep(wse.TICK);
