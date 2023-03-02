@@ -18,6 +18,7 @@
 import { home } from "/quack/lib/constant/server.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
+import { Money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -236,11 +237,13 @@ function sell_stock(ns, portfolio) {
     if (sym === "") {
         return portfolio;
     }
+    const profit = sell_profit(ns, sym, portfolio);
     const result = ns.stock.sellStock(sym, num_long(ns, sym));
     assert(result !== 0);
     const new_portfolio = { ...portfolio };
     new_portfolio[sym].cost = 0;
     new_portfolio[sym].commission = 0;
+    log(ns, `Sold all shares of ${sym} for ${Money.format(profit)}`);
     return new_portfolio;
 }
 

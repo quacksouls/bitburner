@@ -39,6 +39,19 @@ export class Money {
     }
 
     /**
+     * Format currency.
+     *
+     * @param {number} amount Format this amount as currency.
+     * @returns {string} The given amount formatted as currency.
+     */
+    static format(amount) {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+        }).format(amount);
+    }
+
+    /**
      * One million, i.e. 10^6.
      */
     million() {
