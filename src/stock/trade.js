@@ -90,6 +90,7 @@ function has_money_reserve(ns) {
 /**
  * The default portfolio of stocks.
  *
+ * @param {NS} ns The Netscript API.
  * @returns An object representing the initial portfolio of stocks.  The object
  *     is structured as follows:
  *     {
@@ -100,141 +101,15 @@ function has_money_reserve(ns) {
  *         ...
  *     }
  */
-function initial_portfolio() {
-    return {
-        AERO: {
+function initial_portfolio(ns) {
+    const portfolio = {};
+    ns.stock.getSymbols().forEach((sym) => {
+        portfolio[sym] = {
             cost: 0,
             commission: 0,
-        },
-        APHE: {
-            cost: 0,
-            commission: 0,
-        },
-        BLD: {
-            cost: 0,
-            commission: 0,
-        },
-        CLRK: {
-            cost: 0,
-            commission: 0,
-        },
-        CTK: {
-            cost: 0,
-            commission: 0,
-        },
-        CTYS: {
-            cost: 0,
-            commission: 0,
-        },
-        DCOMM: {
-            cost: 0,
-            commission: 0,
-        },
-        ECP: {
-            cost: 0,
-            commission: 0,
-        },
-        FLCM: {
-            cost: 0,
-            commission: 0,
-        },
-        FNS: {
-            cost: 0,
-            commission: 0,
-        },
-        FSIG: {
-            cost: 0,
-            commission: 0,
-        },
-        GPH: {
-            cost: 0,
-            commission: 0,
-        },
-        HLS: {
-            cost: 0,
-            commission: 0,
-        },
-        ICRS: {
-            cost: 0,
-            commission: 0,
-        },
-        JGN: {
-            cost: 0,
-            commission: 0,
-        },
-        KGI: {
-            cost: 0,
-            commission: 0,
-        },
-        LXO: {
-            cost: 0,
-            commission: 0,
-        },
-        MDYN: {
-            cost: 0,
-            commission: 0,
-        },
-        MGCP: {
-            cost: 0,
-            commission: 0,
-        },
-        NTLK: {
-            cost: 0,
-            commission: 0,
-        },
-        NVMD: {
-            cost: 0,
-            commission: 0,
-        },
-        OMGA: {
-            cost: 0,
-            commission: 0,
-        },
-        OMN: {
-            cost: 0,
-            commission: 0,
-        },
-        OMTK: {
-            cost: 0,
-            commission: 0,
-        },
-        RHOC: {
-            cost: 0,
-            commission: 0,
-        },
-        SGC: {
-            cost: 0,
-            commission: 0,
-        },
-        SLRS: {
-            cost: 0,
-            commission: 0,
-        },
-        STM: {
-            cost: 0,
-            commission: 0,
-        },
-        SYSC: {
-            cost: 0,
-            commission: 0,
-        },
-        TITN: {
-            cost: 0,
-            commission: 0,
-        },
-        UNV: {
-            cost: 0,
-            commission: 0,
-        },
-        VITA: {
-            cost: 0,
-            commission: 0,
-        },
-        WDS: {
-            cost: 0,
-            commission: 0,
-        },
-    };
+        };
+    });
+    return portfolio;
 }
 
 /**
