@@ -37,7 +37,7 @@ function buy_stock(ns, portfolio) {
     if (sym === "") {
         return portfolio;
     }
-    const nshare = num_shares(ns, sym);
+    const nshare = num_shares(ns, sym, portfolio);
     if (nshare < 1) {
         return portfolio;
     }
