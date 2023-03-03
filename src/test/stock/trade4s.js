@@ -85,8 +85,7 @@ function choose_sell_candidate(ns, portfolio) {
  *     false otherwise.
  */
 function has_money_reserve(ns) {
-    const reserve = 50e6;
-    return ns.getServerMoneyAvailable(home) > reserve;
+    return ns.getServerMoneyAvailable(home) > reserve_money();
 }
 
 /**
@@ -178,7 +177,7 @@ function num_shares(ns, sym) {
     if (!has_money_reserve(ns)) {
         return 0;
     }
-    const excess_money = ns.getServerMoneyAvailable(home) - wse.reserve.MONEY;
+    const excess_money = ns.getServerMoneyAvailable(home) - reserve_money();
     const funds = wse.reserve.MULT * excess_money;
     if (funds < wse.SPEND_TAU) {
         return 0;
@@ -207,6 +206,14 @@ function num_shares(ns, sym) {
  */
 function pause_buy(ns) {
     return ns.fileExists(wse.STOP_BUY, home);
+}
+
+/**
+ * The amount of money to be held in reserve.  Do not spend all money gambling
+ * on the Stock Market.
+ */
+function reserve_money() {
+    return 50e6;
 }
 
 /**
