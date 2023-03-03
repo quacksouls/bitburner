@@ -21,6 +21,32 @@ import { log } from "/quack/lib/io.js";
 import { exec } from "/quack/lib/util.js";
 
 /**
+ * Ensure our money is not over $250m.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+async function calibrate_money(ns) {
+    const max_money = 250e6;
+    const ram = 2; // 2GB RAM
+    const host = "pserv";
+    while (money(ns) > max_money) {
+        ns.purchaseServer(host, ram);
+        ns.deleteServer(host);
+        await ns.sleep(wait_t.MILLISECOND);
+    }
+}
+
+/**
+ * The player's current amount of money.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {number} Our current money.
+ */
+function money(ns) {
+    return ns.getServerMoneyAvailable(home);
+}
+
+/**
  * Use a Stock Market script where we have purchased all data and API access.
  * See how much money the script can generate within 24 hours.
  *
@@ -30,7 +56,8 @@ import { exec } from "/quack/lib/util.js";
  */
 export async function main(ns) {
     // Data prior to running the trade bot.
-    const money_before = ns.getServerMoneyAvailable(home);
+    await calibrate_money(ns);
+    const seed_money = money(ns);
     const nhour = 24;
     const max_time = nhour * wait_t.HOUR;
     const end_time = Date.now() + max_time;
@@ -43,6 +70,8 @@ export async function main(ns) {
     ns.kill(pid);
 
     // Data after the given interval.
-    const profit = ns.getServerMoneyAvailable(home) - money_before;
-    log(ns, `After ${nhour} hours, trade bot made $${profit} in profit`);
+    const profit = money(ns) - seed_money;
+    const seed_msg = `with seed money ${seed_money}`;
+    const profit_msg = `trade bot made ${profit} in profit`;
+    log(ns, `After ${nhour} hours, ${seed_msg}, ${profit_msg}`);
 }
