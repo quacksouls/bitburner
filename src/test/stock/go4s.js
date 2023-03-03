@@ -63,7 +63,7 @@ export async function main(ns) {
     const end_time = Date.now() + max_time;
 
     // Gather data.
-    const pid = exec(ns, "/quack/stock/trade.js");
+    const pid = exec(ns, "/quack/test/stock/trade4s.js");
     while (Date.now() < end_time) {
         await ns.sleep(wait_t.DEFAULT);
     }
