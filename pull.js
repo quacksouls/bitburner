@@ -210,6 +210,7 @@ function dir_structure() {
         "test/intelligence/travel.js",
         "test/intelligence/util.js",
         "test/karma/go.js",
+        "test/stock/go4s.js",
         "world.js",
     ];
     assert(filesystem.length > 0);
