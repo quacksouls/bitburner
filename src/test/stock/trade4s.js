@@ -178,7 +178,8 @@ function num_shares(ns, sym) {
         return 0;
     }
     const excess_money = ns.getServerMoneyAvailable(home) - reserve_money();
-    const funds = wse.reserve.MULT * excess_money;
+    const reserve_mult = 0.03;
+    const funds = reserve_mult * excess_money;
     if (funds < wse.SPEND_TAU) {
         return 0;
     }
