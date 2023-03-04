@@ -54,7 +54,7 @@ function has_api_access(ns) {
  */
 function has_money_threshold(ns) {
     const player = new Player(ns);
-    return player.money() >= wse.reserve.MONEY;
+    return player.money() >= wse.reserve.AMOUNT;
 }
 
 /**
