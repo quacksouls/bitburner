@@ -16,6 +16,7 @@
  */
 
 import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { Money } from "/quack/lib/money.js";
@@ -85,8 +86,8 @@ function choose_sell_candidate(ns, portfolio) {
  * @returns {number} The funds for buying shares.
  */
 function expenditure(ns, portfolio) {
-    const excess_money = money(ns) - portfolio.reserve.amount;
-    return Math.floor(portfolio.reserve.BUY_MULT * excess_money);
+    const excess_money = money(ns) - portfolio.reserve;
+    return Math.floor(wse.reserve.BUY_MULT * excess_money);
 }
 
 /**
@@ -99,7 +100,7 @@ function expenditure(ns, portfolio) {
  *     false otherwise.
  */
 function has_money_reserve(ns, portfolio) {
-    return money(ns) > portfolio.reserve.amount;
+    return money(ns) > portfolio.reserve;
 }
 
 /**
@@ -119,25 +120,11 @@ function has_money_reserve(ns, portfolio) {
  */
 function initial_portfolio(ns) {
     const portfolio = {
-        reserve: {
-            /**
-             * The initial amount of money to be held in reserve.  Will increase
-             * as we make a profit from selling shares of a stock.
-             */
-            amount: 0,
-            /**
-             * Use this fraction of excess money to purchase shares.
-             */
-            BUY_MULT: 0.025,
-            /**
-             * Lower the keep fraction by this amount.
-             */
-            KEEP_DELTA: 0.01,
-            /**
-             * The maximum fraction of profit to add to our reserve.
-             */
-            MAX_KEEP_MULT: 0.1,
-        },
+        /**
+         * The initial amount of money to be held in reserve.  Will increase as
+         * we make a profit from selling shares of a stock.
+         */
+        reserve: wse.reserve.AMOUNT,
     };
     ns.stock.getSymbols().forEach((sym) => {
         portfolio[sym] = {
@@ -268,19 +255,19 @@ async function profit_to_keep(ns, portfolio, profit) {
     // Given the fraction of the profit we should keep in reserve, do we have
     // enough funds to purchase shares of a stock?
     const has_funds = (keep_amount) => {
-        const new_resrve = portfolio.reserve.amount + keep_amount;
+        const new_resrve = portfolio.reserve + keep_amount;
         const excess_money = new_money - new_resrve;
-        const funds = Math.floor(portfolio.reserve.BUY_MULT * excess_money);
+        const funds = Math.floor(wse.reserve.BUY_MULT * excess_money);
         return funds >= wse.SPEND_TAU;
     };
 
     // Determine how much of the profit we can keep.
-    let keep_mult = portfolio.reserve.MAX_KEEP_MULT;
+    let keep_mult = wse.reserve.MAX_KEEP_MULT;
     let keep = Math.floor(keep_mult * profit);
     while (!has_funds(keep)) {
-        keep_mult -= portfolio.reserve.KEEP_DELTA;
+        keep_mult -= wse.reserve.KEEP_DELTA;
         keep = Math.floor(keep_mult * profit);
-        await ns.sleep(1);
+        await ns.sleep(wait_t.MILLISECOND);
     }
     assert(keep > 0);
     return keep;
@@ -320,7 +307,7 @@ async function sell_stock(ns, portfolio) {
     assert(result !== 0);
     const keep = await profit_to_keep(ns, portfolio, profit);
     const new_portfolio = { ...portfolio };
-    new_portfolio.reserve.amount += keep;
+    new_portfolio.reserve += keep;
     new_portfolio[sym].cost = 0;
     new_portfolio[sym].commission = 0;
     log(ns, `Sold all shares of ${sym} for ${Money.format(profit)} in profit`);
