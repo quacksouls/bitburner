@@ -25,8 +25,8 @@ import { exec } from "/quack/lib/util.js";
 /**
  * Whether we have access to Stock Market data and APIs.
  *
- * @param ns The Netscript API.
- * @return True if we have access to all Stock Market data and APIs;
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have access to all Stock Market data and APIs;
  *     false otherwise.
  */
 function has_api_access(ns) {
@@ -49,8 +49,9 @@ function has_api_access(ns) {
  * Whether we meet the money threshold.  Must have at least a certain amount
  * of money before we start dabbling on the Stock Market.
  *
- * @param ns The Netscript API.
- * @return True if our funds is at least the money threshold; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if our funds is at least the money threshold;
+ *     false otherwise.
  */
 function has_money_threshold(ns) {
     const player = new Player(ns);
@@ -64,7 +65,7 @@ function has_money_threshold(ns) {
  * (1) We have all port opener programs.
  * (2) Have at least a certain amount of money.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function prerequisites(ns) {
     // Must acquire all port opener programs.
@@ -83,7 +84,7 @@ async function prerequisites(ns) {
 /**
  * Purchase access to Stock Market data and APIs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function purchase_api_access(ns) {
     while (!has_api_access(ns)) {
@@ -95,7 +96,7 @@ async function purchase_api_access(ns) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("sleep");
@@ -108,7 +109,7 @@ function shush(ns) {
  *
  * Usage: run quack/stock/go.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
