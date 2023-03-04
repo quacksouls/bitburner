@@ -7,9 +7,9 @@ Market can be your personal bank where profits you earn are like interest on
 your deposit. To start trading on the Stock Market, you must have an account on
 the World Stock Exchange (WSE). Like The Slums, the WSE is available in each
 city. Refer to the image below to help you locate the WSE. Click on the dollar
-sign icon `$` to load the page for the WSE. As the ultimate goal of this guide
-is to help you automate as many aspects of the game as possible, the guide will
-not discuss manual trading on the Stock Market.
+sign icon `$` to load the page for the WSE. As the goal of this guide is to help
+you automate as many aspects of the game as possible, the guide will not discuss
+manual trading on the Stock Market.
 
 ![World Stock Exchange](image/stock-market.png "World Stock Exchange")
 
