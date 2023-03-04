@@ -211,6 +211,7 @@ function num_shares(ns, sym, portfolio) {
         return 0;
     }
     const funds = expenditure(ns, portfolio);
+    ns.print(`Funds: ${Money.format(funds)}`);
     if (funds < wse.SPEND_TAU) {
         return 0;
     }
