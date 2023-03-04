@@ -51,8 +51,8 @@ nodes. Refrain from spending all your money gambling on the Stock Market.
 > every time the script hack/grow/weaken a world server the action would
 > somewhat affect the stock of the company/organization that owns the server.
 > Use this to your advantage by having each purchased server target a different
-> world server. Use the weight function from the subsection
-> [Your first worm](reboot.md#your-first-worm) to help you choose a bunch of
+> world server. Use the weight function from the section
+> [_Your first worm_](reboot.md#your-first-worm) to help you choose a bunch of
 > world servers for your pserv farm to target.
 
 [[TOC](README.md "Table of Contents")]
