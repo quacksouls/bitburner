@@ -50,29 +50,21 @@ export class Money {
             const fstr = (Math.abs(Number(amount)) / divisor).toFixed(ndigit);
             return `$${fstr}${suffix}`;
         };
-        const is_quintillion = (n) => Math.abs(Number(n)) >= 1e18;
-        const is_quadrillion = (n) => Math.abs(Number(n)) >= 1e15;
-        const is_trillion = (n) => Math.abs(Number(n)) >= 1e12;
-        const is_billion = (n) => Math.abs(Number(n)) >= 1e9;
-        const is_million = (n) => Math.abs(Number(n)) >= 1e6;
-        const is_thousand = (n) => Math.abs(Number(n)) >= 1e3;
 
-        let [divisor, suffix] = [0, ""];
-        if (is_quintillion(amount)) {
-            [divisor, suffix] = [1e18, "Q"];
-        } else if (is_quadrillion(amount)) {
-            [divisor, suffix] = [1e15, "q"];
-        } else if (is_trillion(amount)) {
-            [divisor, suffix] = [1e12, "t"];
-        } else if (is_billion(amount)) {
-            [divisor, suffix] = [1e9, "b"];
-        } else if (is_million(amount)) {
-            [divisor, suffix] = [1e6, "m"];
-        } else if (is_thousand(amount)) {
-            [divisor, suffix] = [1e3, "k"];
-        } else {
-            [divisor, suffix] = [1, ""];
-        }
+        // divisor := threshold[0][dindex]
+        // suffix := threshold[0][sindex]
+        const threshold = [
+            [1e18, "Q"],
+            [1e15, "q"],
+            [1e12, "t"],
+            [1e9, "b"],
+            [1e6, "m"],
+            [1e3, "k"],
+            [1, ""],
+        ];
+        const dindex = 0;
+        const meet_threshold = (tau) => Math.abs(Number(amount)) >= tau[dindex];
+        const [divisor, suffix] = threshold.find(meet_threshold);
         return fmt(divisor, suffix);
     }
 
