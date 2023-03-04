@@ -23,29 +23,6 @@ import { Player } from "/quack/lib/player.js";
 import { exec } from "/quack/lib/util.js";
 
 /**
- * Wait until we have all prerequisites before we do anything related to the
- * Stock Market.  For now, we wait until the following conditions are met:
- *
- * (1) We have all port opener programs.
- * (2) Have at least a certain amount of money.
- *
- * @param ns The Netscript API.
- */
-async function prerequisites(ns) {
-    // Must acquire all port opener programs.
-    const player = new Player(ns);
-    while (!player.has_all_port_openers()) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-
-    // Wait until we have a large amount of money before trading on the Stock
-    // Market.  Gambling on the Stock Market requires huge wealth.
-    while (!has_money_threshold(ns)) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
-}
-
-/**
  * Whether we have access to Stock Market data and APIs.
  *
  * @param ns The Netscript API.
@@ -78,6 +55,29 @@ function has_api_access(ns) {
 function has_money_threshold(ns) {
     const player = new Player(ns);
     return player.money() >= wse.reserve.MONEY;
+}
+
+/**
+ * Wait until we have all prerequisites before we do anything related to the
+ * Stock Market.  For now, we wait until the following conditions are met:
+ *
+ * (1) We have all port opener programs.
+ * (2) Have at least a certain amount of money.
+ *
+ * @param ns The Netscript API.
+ */
+async function prerequisites(ns) {
+    // Must acquire all port opener programs.
+    const player = new Player(ns);
+    while (!player.has_all_port_openers()) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+
+    // Wait until we have a large amount of money before trading on the Stock
+    // Market.  Gambling on the Stock Market requires huge wealth.
+    while (!has_money_threshold(ns)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
 }
 
 /**
