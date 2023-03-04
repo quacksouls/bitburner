@@ -16,6 +16,7 @@
  */
 
 import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { Money } from "/quack/lib/money.js";
@@ -37,7 +38,7 @@ function buy_stock(ns, portfolio) {
     if (sym === "") {
         return portfolio;
     }
-    const nshare = num_shares(ns, sym);
+    const nshare = num_shares(ns, sym, portfolio);
     if (nshare < 1) {
         return portfolio;
     }
@@ -77,24 +78,39 @@ function choose_sell_candidate(ns, portfolio) {
 }
 
 /**
+ * The amount of money we can use to purchase shares of a stock.  This takes
+ * into account the money that should be held in reserve.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our stock portfolio.
+ * @returns {number} The funds for buying shares.
+ */
+function expenditure(ns, portfolio) {
+    const excess_money = money(ns) - portfolio.reserve;
+    return Math.floor(wse.reserve.BUY_MULT * excess_money);
+}
+
+/**
  * Whether we have enough money to be held in reserve.  Must have at least a
  * certain amount of money before we start dabbling on the Stock Market.
  *
  * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
  * @return {boolean} True if we have sufficient money to be held in reserve;
  *     false otherwise.
  */
-function has_money_reserve(ns) {
-    return ns.getServerMoneyAvailable(home) > wse.reserve.MONEY;
+function has_money_reserve(ns, portfolio) {
+    return money(ns) > portfolio.reserve;
 }
 
 /**
  * The default portfolio of stocks.
  *
  * @param {NS} ns The Netscript API.
- * @returns An object representing the initial portfolio of stocks.  The object
- *     is structured as follows:
+ * @returns {object} An object representing the initial portfolio of stocks.
+ *     The object is structured as follows:
  *     {
+ *         reserve: number, // The amount of money to be held in reserve.
  *         symbol1: {
  *             cost: number, // Total cost of purchasing all shares we own.
  *             commission: number, // Total commission paid for all purchases.
@@ -103,7 +119,13 @@ function has_money_reserve(ns) {
  *     }
  */
 function initial_portfolio(ns) {
-    const portfolio = {};
+    const portfolio = {
+        /**
+         * The initial amount of money to be held in reserve.  Will increase as
+         * we make a profit from selling shares of a stock.
+         */
+        reserve: wse.reserve.AMOUNT,
+    };
     ns.stock.getSymbols().forEach((sym) => {
         portfolio[sym] = {
             cost: 0,
@@ -129,6 +151,16 @@ function initial_portfolio(ns) {
  */
 function is_favourable_long(ns, sym) {
     return ns.stock.getForecast(sym) > forecast.SELL_TAU;
+}
+
+/**
+ * The amount of money the player has.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {number} Our current amount of money.
+ */
+function money(ns) {
+    return ns.getServerMoneyAvailable(home);
 }
 
 /**
@@ -169,16 +201,16 @@ function num_long(ns, sym) {
  *
  * @param {NS} ns The Netscript API.
  * @param {string} sym We want to buy shares of this stock.
- * @return {number} The number of shares of this stock that we can buy.  Must be
- *     at least zero.  If 0, then we cannot buy any shares of the given stock.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @return {number} The number of shares of this stock we can buy.  Must be at
+ *     least zero.  If 0, then we cannot buy any shares of the given stock.
  */
-function num_shares(ns, sym) {
+function num_shares(ns, sym, portfolio) {
     // Sanity checks.
-    if (!has_money_reserve(ns)) {
+    if (!has_money_reserve(ns, portfolio)) {
         return 0;
     }
-    const excess_money = ns.getServerMoneyAvailable(home) - wse.reserve.MONEY;
-    const funds = wse.reserve.MULT * excess_money;
+    const funds = expenditure(ns, portfolio);
     if (funds < wse.SPEND_TAU) {
         return 0;
     }
@@ -209,6 +241,39 @@ function pause_buy(ns) {
 }
 
 /**
+ * The amount of profit to add to our reserve.  The rest can be used to purchase
+ * shares of stocks.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @param {number} profit The profit from selling shares of a stock.
+ * @returns {Promise<number>} How much of the profit to keep.
+ */
+async function profit_to_keep(ns, portfolio, profit) {
+    const new_money = money(ns) + profit;
+
+    // Given the fraction of the profit we should keep in reserve, do we have
+    // enough funds to purchase shares of a stock?
+    const has_funds = (keep_amount) => {
+        const new_resrve = portfolio.reserve + keep_amount;
+        const excess_money = new_money - new_resrve;
+        const funds = Math.floor(wse.reserve.BUY_MULT * excess_money);
+        return funds >= wse.SPEND_TAU;
+    };
+
+    // Determine how much of the profit we can keep.
+    let keep_mult = wse.reserve.MAX_KEEP_MULT;
+    let keep = Math.floor(keep_mult * profit);
+    while (!has_funds(keep)) {
+        keep_mult -= wse.reserve.KEEP_DELTA;
+        keep = Math.floor(keep_mult * profit);
+        await ns.sleep(wait_t.MILLISECOND);
+    }
+    assert(keep > 0);
+    return keep;
+}
+
+/**
  * The profit we make from selling all shares of a stock.  This takes into
  * account the total cost we have paid for shares of the stock, as well as the
  * total commission we have paid and will pay for the sell transaction.
@@ -232,7 +297,7 @@ function sell_profit(ns, sym, portfolio) {
  * @param {object} portfolio Our portfolio of stocks.
  * @returns {object} The updated portfolio.
  */
-function sell_stock(ns, portfolio) {
+async function sell_stock(ns, portfolio) {
     const sym = choose_sell_candidate(ns, portfolio);
     if (sym === "") {
         return portfolio;
@@ -240,7 +305,9 @@ function sell_stock(ns, portfolio) {
     const profit = sell_profit(ns, sym, portfolio);
     const result = ns.stock.sellStock(sym, num_long(ns, sym));
     assert(result !== 0);
+    const keep = await profit_to_keep(ns, portfolio, profit);
     const new_portfolio = { ...portfolio };
+    new_portfolio.reserve += keep;
     new_portfolio[sym].cost = 0;
     new_portfolio[sym].commission = 0;
     log(ns, `Sold all shares of ${sym} for ${Money.format(profit)} in profit`);
@@ -264,8 +331,8 @@ function shush(ns) {
  * @param {object} portfolio Our portfolio of stocks.
  * @returns {object} The updated portfolio.
  */
-function transaction(ns, portfolio) {
-    const new_portfolio = sell_stock(ns, portfolio);
+async function transaction(ns, portfolio) {
+    const new_portfolio = await sell_stock(ns, portfolio);
     return buy_stock(ns, new_portfolio);
 }
 
@@ -282,7 +349,7 @@ export async function main(ns) {
     log(ns, "Trading on the Stock Market");
     let portfolio = initial_portfolio(ns);
     for (;;) {
-        portfolio = transaction(ns, portfolio);
+        portfolio = await transaction(ns, portfolio);
         await ns.sleep(wse.TICK);
     }
 }

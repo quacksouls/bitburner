@@ -58,12 +58,10 @@ export const wse = {
      */
     reserve: {
         /**
-         * Always have at least this amount of money in reserve.  When engaging
-         * in any purchasing activities, we do not want to spend all our money.
-         * We spend only if doing so would leave us with at least this amount of
-         * money left over.
+         * The initial amount of money to be held in reserve.  Will increase as
+         * we make a profit from selling shares of a stock.
          */
-        MONEY: 100e6,
+        AMOUNT: 0,
         /**
          * Spend this fraction of money to buy shares.  Our funds is defined as
          *
@@ -71,7 +69,17 @@ export const wse = {
          *
          * We want to spend (MULT * funds) to purchase shares.
          */
-        MULT: 0.01,
+        BUY_MULT: 0.025,
+        /**
+         * Lower the keep fraction by this amount.
+         */
+        KEEP_DELTA: 0.01,
+        /**
+         * The maximum fraction of profit to add to our reserve.  If we cannot
+         * add this fraction of the profit to our reserve, we lower the keep
+         * fraction by KEEP_DELTA.
+         */
+        MAX_KEEP_MULT: 0.1,
     },
     /**
      * The minimum amount of money we are willing to spend to purchase shares
