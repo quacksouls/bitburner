@@ -127,21 +127,15 @@ export class PservHGW {
      */
     async launch_pbatch(target) {
         const hthread = pbatch_num_hthreads(this.#ns, this.#phost, target);
-        const {
-            htime, gthread, gtime, wthread, wtime,
-        } = pbatch_parameters(
-            this.#ns,
-            target,
-            hthread
-        );
+        const param = pbatch_parameters(this.#ns, target, hthread);
         // eslint-disable-next-line
         const exec = (script, nthread) => this.#ns.exec(script, this.#phost, nthread, target);
         const sleep = (time) => this.#ns.sleep(time);
-        const pidw = exec(hgw.script.WEAKEN, wthread);
-        await sleep(wtime - hgw.pbatch.DELAY - gtime);
-        const pidg = exec(hgw.script.GROW, gthread);
-        await sleep(gtime - hgw.pbatch.DELAY - htime);
-        const pidh = exec(hgw.script.HACK, hthread);
+        const pidw = exec(hgw.script.WEAKEN, param.weaken.thread);
+        await sleep(param.weaken.time - hgw.pbatch.DELAY - param.grow.time);
+        const pidg = exec(hgw.script.GROW, param.grow.thread);
+        await sleep(param.grow.time - hgw.pbatch.DELAY - param.hack.time);
+        const pidh = exec(hgw.script.HACK, param.hack.thread);
         const not_running = (pid) => !this.#ns.isRunning(pid);
         const pids = [pidh, pidg, pidw];
         const is_done = () => pids.every(not_running);

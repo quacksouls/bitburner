@@ -255,7 +255,7 @@ export function nuke_servers(ns) {
  * @param {NS} ns The Netscript API.
  * @param {string} host Hostname of the server where our batch will run.
  * @param {string} target Hostname of the server our batch will target.
- * @returns The number of hack threads to use in one batch.
+ * @returns {number} The number of hack threads to use in one batch.
  */
 export function pbatch_num_hthreads(ns, host, target) {
     // The percentage of money we want to hack from the target server.  Maximum
@@ -270,17 +270,20 @@ export function pbatch_num_hthreads(ns, host, target) {
     for (const pc of percent) {
         const money = (pc / 100) * ns.getServerMaxMoney(target);
         const max_threads = Math.floor(ns.hackAnalyzeThreads(target, money));
-        const {
-            hram, hthread, gram, gthread, wram, wthread,
-        } = pbatch_parameters(ns, target, max_threads);
-        const thread = [hthread, gthread, wthread];
+        const param = pbatch_parameters(ns, target, max_threads);
+        const thread = [
+            param.hack.thread,
+            param.grow.thread,
+            param.weaken.thread,
+        ];
         const invalid_thread = (t) => t < 1;
         if (thread.some(invalid_thread)) {
             continue;
         }
-        const exceed_ram = () => hram + gram + wram > free_ram(ns, host);
+        const total_ram = param.hack.ram + param.grow.ram + param.weaken.ram;
+        const exceed_ram = () => total_ram > free_ram(ns, host);
         if (!exceed_ram()) {
-            return hthread;
+            return param.hack.thread;
         }
     }
     // Should never reach here.
@@ -295,18 +298,24 @@ export function pbatch_num_hthreads(ns, host, target) {
  * @param {NS} ns The Netscript API.
  * @param {string} host Hostname of the server our batch will target.
  * @param {number} thread The number of threads to run the ns.hack() function.
- * @returns An object containing the batch parameters.  The object is
+ * @returns {object} An object containing the batch parameters.  The object is
  *     structured as follows:
  *     {
- *         hthread: number, // The number of threads to run ns.hack().
- *         hram: number, // RAM required for the given number of hack threads.
- *         htime: number, // Time required for ns.hack() to finish.
- *         gthread: number, // The number of threads to run ns.grow().
- *         gram: number, // RAM required for the given number of grow threads.
- *         gtime: number, // Time required for ns.grow() to finish.
- *         wthread: number, // The number of threads to run ns.weaken().
- *         wram: number, // RAM required for the given number of weaken threads.
- *         wtime: number, // Time required for ns.weaken() to finish.
+ *         hack: {
+ *             ram: number, // RAM required for the number of hack threads.
+ *             thread: number, // The number of threads to run ns.hack().
+ *             time: number, // Time required for ns.hack() to finish.
+ *         },
+ *         grow: {
+ *             ram: number, // RAM required for the number of grow threads.
+ *             thread: number, // The number of threads to run ns.grow().
+ *             time: number, // Time required for ns.grow() to finish.
+ *         },
+ *         weaken: {
+ *             ram: number, // RAM required for the number of weaken threads.
+ *             thread: number, // The number of threads to run ns.weaken().
+ *             time: number, // Time required for ns.weaken() to finish.
+ *         }
  *     }
  */
 export function pbatch_parameters(ns, host, thread) {
@@ -327,28 +336,32 @@ export function pbatch_parameters(ns, host, thread) {
         ns.getPlayer(),
         serv.moneyMax
     );
-    const gtime = ns.formulas.hacking.growTime(serv, ns.getPlayer());
-    serv.hackDifficulty += gthread * hgw.security.GROW;
-    serv.moneyAvailable = serv.moneyMax;
+    const gtime = ns.getGrowTime(host);
 
     // The number of weaken threads required and the weaken time.
     const hack_sec_increase = hthread * hgw.security.HACK;
     const grow_sec_increase = gthread * hgw.security.GROW;
     const total_security_increase = hack_sec_increase + grow_sec_increase;
     const wthread = Math.ceil(total_security_increase / hgw.security.WEAKEN);
-    const wtime = ns.formulas.hacking.weakenTime(serv, ns.getPlayer());
+    const wtime = ns.getWeakenTime(host);
 
     const required_ram = (scrpt, nthrd) => nthrd * ns.getScriptRam(scrpt, home);
     return {
-        hthread,
-        hram: required_ram(hgw.script.HACK, hthread),
-        htime,
-        gthread,
-        gram: required_ram(hgw.script.GROW, gthread),
-        gtime,
-        wthread,
-        wram: required_ram(hgw.script.WEAKEN, wthread),
-        wtime,
+        hack: {
+            ram: required_ram(hgw.script.HACK, hthread),
+            thread: hthread,
+            time: htime,
+        },
+        grow: {
+            ram: required_ram(hgw.script.GROW, gthread),
+            thread: gthread,
+            time: gtime,
+        },
+        weaken: {
+            ram: required_ram(hgw.script.WEAKEN, wthread),
+            thread: wthread,
+            time: wtime,
+        },
     };
 }
 
