@@ -84,6 +84,10 @@ You have purchased the HTTPWorm.exe program. The new program can be found on you
 
 Notice the use of the semicolon `;` to chain a bunch of commands. If necessary,
 wait until you have accumulated enough money to buy the above four programs.
+Purchase the fifth program, i.e. `SQLInject.exe`, whenever you have sufficient
+funds. The five programs `BruteSSH.exe`, `FTPCrack.exe`, `HTTPWorm.exe`,
+`relaySMTP.exe`, and `SQLInject.exe` are collectively known as the _port
+openers_. Each of these programs allows you to open one port on a world server.
 
 ## Factions
 
