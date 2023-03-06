@@ -111,8 +111,8 @@ const server = {
 /**
  * Whether to abandon the server joesguns.
  *
- * @param ns The Netscript API.
- * @return True if we should abandon joesguns; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we should abandon joesguns; false otherwise.
  */
 function abandon_joesguns(ns) {
     return !choose_joesguns(ns);
@@ -121,8 +121,8 @@ function abandon_joesguns(ns) {
 /**
  * Whether to abandon the server n00dles.
  *
- * @param ns The Netscript API.
- * @return True if we should abandon n00dles; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we should abandon n00dles; false otherwise.
  */
 function abandon_noodles(ns) {
     return !choose_noodles(ns);
@@ -136,11 +136,12 @@ function abandon_noodles(ns) {
  * servers from among our botnet that would allow us to hack using n threads or
  * thereabout.
  *
- * @param ns The Netscript API.
- * @param host Hack this server.
- * @param frac The fraction of money to steal.  Must be between 0 and 1.
- * @param is_prep Are we prepping a world server?
- * @return An array of objects {host, thread} as follows:
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hack this server.
+ * @param {number} frac The fraction of money to steal.  Must be between 0 and
+ *     1.
+ * @param {boolean} is_prep Are we prepping a world server?
+ * @returns {array} An array of objects {host, thread} as follows:
  *
  *     (1) host := Hostname of a server where we are to run our hack script.
  *     (2) thread := The number of threads to use on the given server.
@@ -176,10 +177,10 @@ function assemble_botnet(ns, host, frac, is_prep) {
 }
 
 /**
- * A function for assertion.
+ * A function for assertion.  Throw an assertion error if the given condition is
+ * false.
  *
- * @param cond Assert that this condition is true.
- * @return Throw an assertion error if the given condition is false.
+ * @param {boolean} cond Assert that this condition is true.
  */
 function assert(cond) {
     if (!cond) {
@@ -190,11 +191,12 @@ function assert(cond) {
 /**
  * Whether we can run a script on a given server.
  *
- * @param ns The Netscript API.
- * @param s A script to run.  Assumed to exist on our home server as well
- *     as the target host.
- * @param host The target host.
- * @return True if the given target server can run the script; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A script to run.  Assumed to exist on our home server as
+ *     well as the target host.
+ * @param {string} host The target host.
+ * @returns {boolean} True if the given target server can run the script;
+ *     false otherwise.
  */
 function can_run_script(ns, s, host) {
     return num_threads(ns, s, host) > 0;
@@ -203,8 +205,9 @@ function can_run_script(ns, s, host) {
 /**
  * Whether to target the server joesguns.
  *
- * @param ns The Netscript API.
- * @return True if we are to prep and hack joesguns; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are to prep and hack joesguns;
+ *     false otherwise.
  */
 function choose_joesguns(ns) {
     assert(has_program(ns, darkweb.program.brutessh));
@@ -219,8 +222,8 @@ function choose_joesguns(ns) {
 /**
  * Whether to target the server n00dles.
  *
- * @param ns The Netscript API.
- * @return True if we are to prep and hack n00dles; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are to prep and hack n00dles; false otherwise.
  */
 function choose_noodles(ns) {
     return (
@@ -232,8 +235,8 @@ function choose_noodles(ns) {
 /**
  * Whether to target the server phantasy.
  *
- * @param ns The Netscript API.
- * @return True if we are to prep and hack phantasy; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are to prep and hack phantasy; false otherwise.
  */
 function choose_phantasy(ns) {
     if (!has_all_popen(ns)) {
@@ -246,8 +249,8 @@ function choose_phantasy(ns) {
 /**
  * Choose the target server to prep and hack.
  *
- * @param ns The Netscript API.
- * @return Hostname of the server to target.
+ * @param {NS} ns The Netscript API.
+ * @returns {string} Hostname of the server to target.
  */
 function choose_target(ns) {
     if (choose_noodles(ns)) {
@@ -265,9 +268,10 @@ function choose_target(ns) {
 /**
  * Exclude the purchased servers.
  *
- * @param ns The Netscript API.
- * @param serv An array of hostnames.
- * @return An array of hostnames, but minus the purchased servers.
+ * @param {NS} ns The Netscript API.
+ * @param {string} serv An array of hostnames.
+ * @returns {array<string>} An array of hostnames, but minus the purchased
+ *     servers.
  */
 function filter_pserv(ns, serv) {
     const is_home = (s) => s === server.HOME;
@@ -280,9 +284,10 @@ function filter_pserv(ns, serv) {
  * Attempt to gain root access to a given server.  After gaining root access, we
  * copy our HGW scripts over to the server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have root access to the given server;
+ *     false otherwise.
  */
 function gain_admin_access(ns, host) {
     if (gain_root_access(ns, host)) {
@@ -296,9 +301,10 @@ function gain_admin_access(ns, host) {
 /**
  * Attempt to gain root access to a given server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have root access to the given server;
+ *     false otherwise.
  */
 function gain_root_access(ns, host) {
     if (has_root_access(ns, host)) {
@@ -333,8 +339,8 @@ function gain_root_access(ns, host) {
  * money, then weaken/grow the server until it is at minimum security level and
  * maximum money.  Rinse and repeat.
  *
- * @param ns The Netscript API.
- * @param host Hack this server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hack this server.
  */
 async function hack(ns, host) {
     const not_prep = false;
@@ -357,8 +363,8 @@ async function hack(ns, host) {
 /**
  * Whether we have all port opener programs.
  *
- * @param ns The Netscript API.
- * @return True if we have all port opener programs; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have all port opener programs; false otherwise.
  */
 function has_all_popen(ns) {
     return (
@@ -373,10 +379,10 @@ function has_all_popen(ns) {
 /**
  * Whether a server's money is at its maximum.
  *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return True if the amount of money on the given server is at its maximum;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host The hostname of a server.
+ * @returns {boolean} True if the amount of money on the given server is at its
+ *     maximum; false otherwise.
  */
 function has_max_money(ns, host) {
     const { moneyAvailable, moneyMax } = ns.getServer(host);
@@ -386,10 +392,10 @@ function has_max_money(ns, host) {
 /**
  * Whether a server's security level is at its minimum.
  *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return True if the security level of the given server is at its minimum;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host The hostname of a server.
+ * @returns {boolean} True if the security level of the given server is at its
+ *     minimum; false otherwise.
  */
 function has_min_security(ns, host) {
     const { hackDifficulty, minDifficulty } = ns.getServer(host);
@@ -399,9 +405,9 @@ function has_min_security(ns, host) {
 /**
  * Whether we have a particular program.
  *
- * @param ns The Netscript API.
- * @param prog Do we have this program?
- * @return True if we have the given program; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} prog Do we have this program?
+ * @returns {boolean} True if we have the given program; false otherwise.
  */
 function has_program(ns, prog) {
     return ns.fileExists(prog, server.HOME);
@@ -410,9 +416,9 @@ function has_program(ns, prog) {
 /**
  * Whether we have root access to a server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have have root access to the given server;
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have have root access to the given server;
  *     false otherwise.
  */
 function has_root_access(ns, host) {
@@ -422,14 +428,14 @@ function has_root_access(ns, host) {
 /**
  * Perform an HGW action against a target server.
  *
- * @param ns The Netscript API.
- * @param host Perform an HGW action against this server.  Cannot be our home
- *     server.
- * @param botnet An array of world servers to which we have root access.  Use
- *     these servers to perform an HGW action against the given target.  Cannot
- *     be empty array.
- * @param action The action we want to perform against the given target server.
- *     Supported actions are:
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Perform an HGW action against this server.  Cannot be
+ *     our home server.
+ * @param {array<string>} botnet An array of world servers to which we have root
+ *     access.  Use these servers to perform an HGW action against the given
+ *     target.  Cannot be empty array.
+ * @param {string} action The action we want to perform against the given target
+ *     server.  Supported actions are:
  *     (1) "grow" := Grow money on the target server.
  *     (2) "weaken" := Weaken the security level of the target server.
  */
@@ -461,12 +467,12 @@ async function hgw_action(ns, host, botnet, action) {
 /**
  * The HGW script to use for a given HGW action.
  *
- * @param action The action we want to perform against a target server.
+ * @param {string} action The action we want to perform against a target server.
  *     Supported actions are:
  *     (1) "grow" := Grow money on the target server.
  *     (2) "hack" := Steal money from the target server.
  *     (3) "weaken" := Weaken the security level of the target server.
- * @return The HGW script corresponding to the given action.
+ * @returns {string} The HGW script corresponding to the given action.
  */
 function hgw_script(action) {
     switch (action) {
@@ -486,10 +492,10 @@ function hgw_script(action) {
  * The amount of time in milliseconds we must wait for an HGW action to
  * complete.
  *
- * @param ns The Netscript API.
- * @param host Perform an HGW action against this server.
- * @param action The action we want to perform against the given target server.
- *     Supported actions are:
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Perform an HGW action against this server.
+ * @param {string} action The action we want to perform against the given target
+ *     server.  Supported actions are:
  *     (1) "grow" := Grow money on the target server.
  *     (2) "hack" := Steal money from the target server.
  *     (3) "weaken" := Weaken the security level of the target server.
@@ -513,9 +519,9 @@ function hgw_wait_time(ns, host, action) {
 /**
  * Whether an HGW action is completed.
  *
- * @param ns The Netscript API.
- * @param pid An array of PIDs.
- * @return True if all processes having the given PIDs are done;
+ * @param {NS} ns The Netscript API.
+ * @param {array<number>} pid An array of PIDs.
+ * @returns {boolean} True if all processes having the given PIDs are done;
  *     false otherwise.
  */
 function is_action_done(ns, pid) {
@@ -528,9 +534,9 @@ function is_action_done(ns, pid) {
  * Scan the network of servers in the game world.  Each server must be
  * reachable from our home server.  We do not include purchased servers.
  *
- * @param ns The Netscript API.
- * @return An array of servers that can be reached from home.  Purchased
- *     servers are excluded.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} An array of servers that can be reached from home.
+ *     Purchased servers are excluded.
  */
 function network(ns) {
     const q = [server.HOME];
@@ -551,10 +557,10 @@ function network(ns) {
 /**
  * Whether to move on to another server to target.
  *
- * @param ns The Netscript API.
- * @param host Hostname of the server we are currently targeting.
- * @return True if we should abandon the current host and target another host;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the server we are currently targeting.
+ * @returns {boolean} True if we should abandon the current host and target
+ *     another host; false otherwise.
  */
 function next_host(ns, host) {
     switch (host) {
@@ -573,9 +579,9 @@ function next_host(ns, host) {
 /**
  * Gain root access to as many world servers as we can.
  *
- * @param ns The Netscript API.
- * @return An array of hostnames of servers.  We have root access to each
- *     server.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} An array of hostnames of servers.  We have root
+ *     access to each server.
  */
 function nuke_servers(ns) {
     return network(ns).filter((host) => gain_admin_access(ns, host));
@@ -585,10 +591,11 @@ function nuke_servers(ns) {
  * The maximum number of threads that can be used to run our script on a given
  * server.
  *
- * @param ns The Netscript API.
- * @param s A script.  Assumed to be located on home server.
- * @param host Hostname of a world server.
- * @return The maximum number of threads to run our script on the given server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A script.  Assumed to be located on home server.
+ * @param {string} host Hostname of a world server.
+ * @returns {number} The maximum number of threads to run our script on the
+ *     given server.
  */
 function num_threads(ns, s, host) {
     const script_ram = ns.getScriptRam(s, server.HOME);
@@ -609,8 +616,8 @@ function num_threads(ns, s, host) {
  * Apply the above strategy in a loop.  Repeat until the target server has
  * minimum security level and maximum money.
  *
- * @param ns The Netscript API.
- * @param host Prep this server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Prep this server.
  */
 async function prep_gw(ns, host) {
     const is_prep = true;
@@ -633,8 +640,8 @@ async function prep_gw(ns, host) {
  * Prep a server.  Weaken the server to its minimum security level and grow the
  * server to its maximum amount of money.
  *
- * @param ns The Netscript API.
- * @param host Prep this server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Prep this server.
  */
 async function prep_server(ns, host) {
     switch (host) {
@@ -660,8 +667,8 @@ async function prep_server(ns, host) {
  * Apply the above strategy in a loop.  Repeat until the target server has
  * minimum security and maximum money.
  *
- * @param ns The Netscript API.
- * @param host Prep this server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Prep this server.
  */
 async function prep_wg(ns, host) {
     const is_prep = true;
@@ -685,10 +692,10 @@ async function prep_wg(ns, host) {
  * a server of all of its money.  Instead, our objective should be to steal a
  * fraction of a server's money.
  *
- * @param ns The Netscript API.
- * @param host Steal money from this server.
- * @param frac The fraction of money to steal.
- * @return The amount of money to steal from the given server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Steal money from this server.
+ * @param {number} frac The fraction of money to steal.
+ * @returns {number} The amount of money to steal from the given server.
  */
 function target_money(ns, host, frac) {
     return Math.floor(frac * ns.getServer(host).moneyMax);
@@ -697,12 +704,12 @@ function target_money(ns, host, frac) {
 /**
  * The number of threads to use on a given server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a server.
- * @param current The current total number of threads.
- * @param max The overall maximum number of threads we should use.
- * @return The number of threads to use on the given server to run our hack
- *     script.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a server.
+ * @param {number} current The current total number of threads.
+ * @param {number} max The overall maximum number of threads we should use.
+ * @returns {number} The number of threads to use on the given server to run our
+ *     hack script.
  */
 function threads_to_use(ns, host, current, max) {
     assert(current >= 0);
@@ -728,7 +735,7 @@ function threads_to_use(ns, host, current, max) {
  *
  * Usage: run hgw/world.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     for (;;) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function buy_servers(ns) {
     // We want to purchase the default minimum number of servers.  We wait until
@@ -45,8 +45,9 @@ async function buy_servers(ns) {
  * Determine the best server to hack.  The "best" server is the one that
  * requires the highest hacking skill.
  *
- * @param ns The Netscript API.
- * @return The best server to hack.  Empty string if no target available.
+ * @param {NS} ns The Netscript API.
+ * @returns {string} The best server to hack.  Empty string if no target
+ *     available.
  */
 function choose_best_server(ns) {
     const candidate = compromised_servers(ns);
@@ -63,8 +64,9 @@ function choose_best_server(ns) {
  * purchased servers, bankrupt servers, and servers that require more Hack than
  * we have.
  *
- * @param ns The Netscript API.
- * @return An array of hostnames, each representing a compromised server.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} An array of hostnames, each representing a
+ *     compromised server.
  */
 function compromised_servers(ns, root = "home", visit = new Set()) {
     // Scan all servers in the game world.  Use a recursive version of
@@ -89,7 +91,7 @@ function compromised_servers(ns, root = "home", visit = new Set()) {
  * Delete all purchased servers.  This would also kill all scripts running on
  * each purchased server.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function delete_all_pserv(ns) {
     ns.getPurchasedServers().forEach((s) => {
@@ -101,11 +103,12 @@ function delete_all_pserv(ns) {
 /**
  * Deploy our hack script to a purchased server.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param host Hostname of a purchased server.  We will run our hack script on
- *     this server.
- * @param target Use our hack script to hack this target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} host Hostname of a purchased server.  We will run our hack
+ *     script on this server.
+ * @param {string} target Use our hack script to hack this target server.
  */
 function deploy(ns, script, host, target) {
     const home = "home";
@@ -120,9 +123,9 @@ function deploy(ns, script, host, target) {
 /**
  * Whether we have enough money to cover the cost of buying something.
  *
- * @param ns The Netscript API.
- * @param cost The cost to purchase or upgrade something.
- * @return True if we have sufficient funds to cover the given cost;
+ * @param {NS} ns The Netscript API.
+ * @param {number} cost The cost to purchase or upgrade something.
+ * @returns {boolean} True if we have sufficient funds to cover the given cost;
  *     false otherwise.
  */
 const has_funds = (ns, cost) => ns.getServerMoneyAvailable("home") > cost;
@@ -130,9 +133,9 @@ const has_funds = (ns, cost) => ns.getServerMoneyAvailable("home") > cost;
 /**
  * Whether we have the maximum number of purchased servers.
  *
- * @param ns The Netscript API.
- * @return True if we already have the maximum number of purchased servers;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we already have the maximum number of purchased
+ *     servers; false otherwise.
  */
 function has_max_pserv(ns) {
     return ns.getPurchasedServers().length === ns.getPurchasedServerLimit();
@@ -141,8 +144,8 @@ function has_max_pserv(ns) {
 /**
  * Whether we have zero purchased servers.
  *
- * @param ns The Netscript API.
- * @return True if we have no purchased servers; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have no purchased servers; false otherwise.
  */
 const has_no_pserv = (ns) => ns.getPurchasedServers().length < 1;
 
@@ -151,8 +154,8 @@ const has_no_pserv = (ns) => ns.getPurchasedServers().length < 1;
  * function multiple times with different arguments to upgrade our purchased
  * servers to higher RAM.
  *
- * @param ns The Netscript API.
- * @param ram The amount of RAM for each purchased server.
+ * @param {NS} ns The Netscript API.
+ * @param {number} ram The amount of RAM for each purchased server.
  */
 async function next_stage(ns, ram) {
     // If we have zero purchased servers, then buy servers with the given
@@ -180,10 +183,12 @@ async function next_stage(ns, ram) {
  * The maximum number of threads that can be used to run our script on a given
  * server.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param host Hostname of a purchased server.
- * @return The maximum number of threads to run our script on the given server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} host Hostname of a purchased server.
+ * @returns {number} The maximum number of threads to run our script on the
+ *     given server.
  */
 function num_threads(ns, script, host) {
     const home = "home";
@@ -237,9 +242,9 @@ function pserv_object() {
 /**
  * The possible amount of RAM for each purchased server.
  *
- * @param ns The Netscript API.
- * @return The amount of RAM for each purchased server.  Return 0 if we cannot
- *     afford the minimum number of purchased servers.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The amount of RAM for each purchased server.  Return 0 if
+ *     we cannot afford the minimum number of purchased servers.
  */
 function pserv_ram(ns) {
     // The possible amount of RAM for a purchased server.  We want the lowest
@@ -262,7 +267,7 @@ function pserv_ram(ns) {
 /**
  * Silence various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -278,7 +283,7 @@ function shush(ns) {
  * have a small amount of RAM, enough to run our hacking script using at least
  * 2 threads.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function stage_one(ns) {
     if (has_max_pserv(ns)) {
@@ -303,9 +308,9 @@ async function stage_one(ns) {
  * Purchase the maximum number of servers and run our hack script on those
  * servers.  We direct our purchased servers to hack a common target.
  *
- * @param ns The Netscript API.
- * @param ram The amount of RAM for each purchased server.  Must be a positive
- *     integer and a power of 2.
+ * @param {NS} ns The Netscript API.
+ * @param {number} ram The amount of RAM for each purchased server.  Must be a
+ *     positive integer and a power of 2.
  */
 async function update(ns, ram) {
     // Choose a target against which all purchased servers would attack.
@@ -336,7 +341,7 @@ async function update(ns, ram) {
  *
  * Usage: run pserv.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);

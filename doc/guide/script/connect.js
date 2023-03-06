@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,13 @@
 /**
  * Connect to a given target server.
  *
- * @param ns The Netscript API.
- * @param target We want to connect to this target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} target We want to connect to this target server.
  */
 function connect(ns, target) {
-    // A chain of Terminal commands that connect to the target server.
-    const walk = path(ns, target).filter((s) => s !== "home");
+    // A chain of terminal commands that connect to the target server.
+    const not_home = (host) => host !== "home";
+    const walk = path(ns, target).filter(not_home);
     if (walk.length === 0) {
         ns.tprint(`Server not reachable from home: ${target}`);
         return;
@@ -48,9 +49,10 @@ function connect(ns, target) {
  * Scan all servers in the game world, starting from our home server.  Use
  * breadth-first search.
  *
- * @param ns The Netscript API.
- * @return A map of the server preceding a given server.  For example, p[i]
- *     gives a server that directly connects to server i, where p[i] precedes i.
+ * @param {NS} ns The Netscript API.
+ * @returns {map} A map of the server preceding a given server.  For example,
+ *     p[i] gives a server that directly connects to server i, where p[i]
+ *     precedes i.
  */
 function network(ns) {
     const home = "home";
@@ -73,10 +75,11 @@ function network(ns) {
 /**
  * A path from our home server to a given target server.
  *
- * @param ns The Netscript API.
- * @param target Hostname of the target server.
- * @return An array of servers in a path from home to the given target server.
- *     An empty array if the target is not reachable from home.
+ * @param {NS} ns The Netscript API.
+ * @param {string} target Hostname of the target server.
+ * @returns {array<string>} An array of hostnames of servers in a path from home
+ *     to the given target server.  An empty array if the target is not
+ *     reachable from home.
  */
 function path(ns, target) {
     // Start from the target.  Work backward to find a path from home to the
@@ -105,7 +108,7 @@ function path(ns, target) {
  * Usage: run connect.js [targetServer]
  * Example: run connect.js run4theh111z
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Must provide a command line argument.

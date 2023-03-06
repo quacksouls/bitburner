@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
  * Usage: run hack.js [targetServer]
  * Example: run hack.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const target = ns.args[0];

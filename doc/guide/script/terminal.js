@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * Hackish way to implement shell scripting in Bitburner.
  *
- * @param cmd A string containing the Terminal commands we want to run.
+ * @param {string} cmd The terminal commands we want to run.
  */
 function shell(cmd) {
     const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
@@ -34,14 +34,14 @@ function shell(cmd) {
 }
 
 /**
- * Simulate Terminal input.  This is like a convoluted way to implement shell
+ * Simulate terminal input.  This is like a convoluted way to implement shell
  * scripting in the game.
  *
  * Usage: run terminal.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    ns.tprint("Simulate Terminal input.");
+    ns.tprint("Simulate terminal input");
     shell("connect n00dles; analyze");
 }

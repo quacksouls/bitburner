@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,9 @@
 /**
  * All nodes in our Hacknet farm.
  *
- * @param ns The Netscript API.
- * @return An array of node IDs.  An empty array if we have zero nodes.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<number>} An array of node IDs.  An empty array if we have
+ *     zero nodes.
  */
 function hacknet_nodes(ns) {
     const n = ns.hacknet.numNodes();
@@ -32,9 +33,9 @@ function hacknet_nodes(ns) {
 /**
  * Whether we have enough money to cover the cost of buying something.
  *
- * @param ns The Netscript API.
- * @param cost The cost to purchase or upgrade something.
- * @return True if we have sufficient funds to cover the given cost;
+ * @param {NS} ns The Netscript API.
+ * @param {number} cost The cost to purchase or upgrade something.
+ * @returns {boolean} True if we have sufficient funds to cover the given cost;
  *     false otherwise.
  */
 const has_funds = (ns, cost) => ns.getServerMoneyAvailable("home") > cost;
@@ -44,8 +45,9 @@ const has_funds = (ns, cost) => ns.getServerMoneyAvailable("home") > cost;
  * and 1 Core.  Our objective is to setup a farm of n Hacknet nodes, each node
  * at base stat.
  *
- * @param ns The Netscript API.
- * @param n How many Hacknet nodes in our farm.  Must be a positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} n How many Hacknet nodes in our farm.  Must be a positive
+ *     integer.
  */
 async function setup_farm(ns, n) {
     const nNode = Math.floor(n);
@@ -75,7 +77,7 @@ function update_interval() {
  * Upgrade the stats of each Hacknet node by one point.  Assume we have at
  * least one node.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function upgrade(ns) {
     await upgrade_level(ns);
@@ -85,7 +87,7 @@ async function upgrade(ns) {
 /**
  * Upgrade the Level of each Hacknet node in our farm.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function upgrade_level(ns) {
     const howmany = 1; // Upgrade this many Levels at a time.
@@ -105,7 +107,7 @@ async function upgrade_level(ns) {
  *
  * Usage: run hnet.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Make the log less verbose.

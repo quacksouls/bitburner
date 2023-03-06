@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,10 @@
  * Gain root access to as many world servers as we can.  Use each compromised
  * server to hack a common target.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param target Use our hack script to hack this target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} target Use our hack script to hack this target server.
  */
 function compromise(ns, script, target) {
     network(ns)
@@ -33,11 +34,12 @@ function compromise(ns, script, target) {
 /**
  * Deploy our hack script to a compromised server.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param host Hostname of a world server where we will run our hacking script.
- *     Assumed to have root access to this server.
- * @param target Use our hack script to hack this target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} host Hostname of a world server where we will run our hacking
+ *     script.  Assumed to have root access to this server.
+ * @param {string} target Use our hack script to hack this target server.
  */
 function deploy(ns, script, host, target) {
     const home = "home";
@@ -57,9 +59,10 @@ function deploy(ns, script, host, target) {
 /**
  * Attempt to gain root access to a given server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have root access to the given server;
+ *     false otherwise.
  */
 function gain_root_access(ns, host) {
     if (has_root_access(ns, host)) {
@@ -92,33 +95,37 @@ function gain_root_access(ns, host) {
 /**
  * Whether we have root access to a world server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have root access to the given server;
+ *     false otherwise.
  */
 function has_root_access(ns, host) {
     return ns.getServer(host).hasAdminRights;
 }
 
 /**
- * Scan all servers in the game world.  Use breadth-first search.
+ * Scan all servers in the game world.  Use a recursive version of
+ * depth-first search.
  *
- * @param ns The Netscript API.
- * @return An array of hostnames, excluding our home server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} root Start our scan from this server.  Default is our home
+ *     server.
+ * @param {set} visit Set of servers we have visited so far.  Default is empty
+ *     set.
+ * @returns {array<string>} An array of hostnames of world servers, excluding
+ *     our home server and purchased servers.
  */
-function network(ns) {
-    const home = "home";
-    const q = [home];
-    const visit = new Set([home]);
-    while (q.length > 0) {
-        ns.scan(q.shift())
-            .filter((v) => !visit.has(v))
-            .forEach((x) => {
-                visit.add(x);
-                q.push(x);
-            });
-    }
-    visit.delete(home);
+function network(ns, root = "home", visit = new Set()) {
+    const not_pserv = (host) => !ns.getServer(host).purchasedByPlayer;
+    const not_visited = (host) => !visit.has(host);
+    ns.scan(root)
+        .filter(not_pserv)
+        .filter(not_visited)
+        .forEach((host) => {
+            visit.add(host);
+            network(ns, host, visit);
+        });
     return [...visit];
 }
 
@@ -126,10 +133,12 @@ function network(ns) {
  * The maximum number of threads that can be used to run our script on a given
  * server.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param host Hostname of a world server.
- * @return The maximum number of threads to run our script on the given server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} host Hostname of a world server.
+ * @returns {number} The maximum number of threads to run our script on the
+ *     given server.
  */
 function num_threads(ns, script, host) {
     const home = "home";
@@ -145,10 +154,12 @@ function num_threads(ns, script, host) {
 /**
  * Whether to skip a world server.
  *
- * @param ns The Netscript API.
- * @param script Our hacking script.  Assumed to be located on home server.
- * @param host Hostname of a world server.
- * @return True if the given server is to be skipped over; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script Our hacking script.  Assumed to be located on home
+ *     server.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if the given server is to be skipped over;
+ *     false otherwise.
  */
 function skip(ns, script, host) {
     const required_lvl = ns.getServer(host).requiredHackingSkill;
@@ -173,7 +184,7 @@ function skip(ns, script, host) {
  * Usage: run worm.js [targetServer]
  * Example: run worm.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const second = 1000;

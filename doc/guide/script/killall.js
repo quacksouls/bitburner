@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +19,23 @@
  * Scan all world servers, excluding purchased servers.  Use a recursive version
  * of depth-first search.
  *
- * @param ns The Netscript API.
- * @param root Start our scan from this node.  Default is our home server.
- * @param visit Set of nodes we have visited so far.  Default is empty set.
- * @return Array of world servers, excluding our home server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} root Start our scan from this node.  Default is our home
+ *     server.
+ * @param {set} visit Set of nodes we have visited so far.  Default is empty
+ *     set.
+ * @returns {array<string>} Array of hostnames of world servers, excluding our
+ *     home server and purchased servers.
  */
 function network(ns, root = "home", visit = new Set()) {
+    const not_visited = (host) => !visit.has(host);
+    const not_pserv = (host) => !ns.getServer(host).purchasedByPlayer;
     ns.scan(root)
-        .filter((s) => !visit.has(s))
-        .filter((s) => !ns.getServer(s).purchasedByPlayer)
-        .forEach((s) => {
-            visit.add(s);
-            network(ns, s, visit);
+        .filter(not_visited)
+        .filter(not_pserv)
+        .forEach((host) => {
+            visit.add(host);
+            network(ns, host, visit);
         });
     return [...visit];
 }
@@ -40,10 +45,10 @@ function network(ns, root = "home", visit = new Set()) {
  *
  * Usage: run killall.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    network(ns)
-        .filter((s) => ns.getServer(s).hasAdminRights)
-        .forEach((s) => ns.killall(s));
+    const has_root_access = (host) => ns.getServer(host).hasAdminRights;
+    const kill_all = (host) => ns.killall(host);
+    network(ns).filter(has_root_access).forEach(kill_all);
 }
