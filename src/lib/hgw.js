@@ -286,8 +286,7 @@ export function pbatch_num_hthreads(ns, host, target) {
             return param.hack.thread;
         }
     }
-    // Should never reach here.
-    assert(false);
+    return hgw.pbatch.INVALID_NUM_THREAD;
 }
 
 /**

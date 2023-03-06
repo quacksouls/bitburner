@@ -17,7 +17,6 @@
 
 import { base } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
-import { is_prepped } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { PservHGW } from "/quack/lib/pbatch.js";
 import { assert, time_hms, to_second } from "/quack/lib/util.js";
@@ -39,8 +38,10 @@ async function hack(ns, host, target, amount) {
     const target_money = money(ns) + amount;
     const enough_money = () => money(ns) >= target_money;
     while (!enough_money()) {
-        await batcher.launch_pbatch(target);
-        assert(is_prepped(ns, target));
+        const success = await batcher.launch_pbatch(target);
+        if (!success) {
+            await batcher.prep_wg(target);
+        }
     }
 }
 

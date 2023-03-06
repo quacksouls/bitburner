@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
@@ -124,9 +125,15 @@ export class PservHGW {
      *
      * @param {string} target Hostname of the server our proto batcher will
      *     target.
+     * @returns {Promise<boolean>} True if the batch was successfully launched;
+     *     false otherwise.
      */
     async launch_pbatch(target) {
         const hthread = pbatch_num_hthreads(this.#ns, this.#phost, target);
+        if (hthread === hgw.pbatch.INVALID_NUM_THREAD) {
+            return bool.FAILURE;
+        }
+
         const param = pbatch_parameters(this.#ns, target, hthread);
         // eslint-disable-next-line
         const exec = (script, nthread) => this.#ns.exec(script, this.#phost, nthread, target);
@@ -141,7 +148,7 @@ export class PservHGW {
         const is_done = () => pids.every(not_running);
         for (;;) {
             if (is_done()) {
-                return;
+                return bool.SUCCESS;
             }
             await sleep(hgw.pbatch.SLEEP);
         }

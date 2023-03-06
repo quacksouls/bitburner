@@ -144,6 +144,10 @@ export const hgw = {
          */
         DELAY: 1000,
         /**
+         * An invalid number of threads.
+         */
+        INVALID_NUM_THREAD: -1,
+        /**
          * Sleep for this amount of time while waiting for a batch to complete.
          * Time is in milliseconds.
          */
