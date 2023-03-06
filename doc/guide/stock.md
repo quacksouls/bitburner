@@ -149,14 +149,23 @@ transaction for the stock? No. Only the relevant buy history.
 
 Here is how to calculate the true cost of a stock. Initially you have zero
 shares of the stock. You buy $s_1$ shares of the stock. The cost is $c_1$ and
-the commission fee is \$100k. Later on, you buy a further $s_2$ shares of the
-stock, costing you $c_1$ and a further
-$100k in commission fee. And so on. By
-the time you sell all shares of the stock, you would have
-$s
-= s_1 + s_2 + \cdots + s_n$ shares of the stock, the total cost is
-$c = c_1 + c_2 + \cdots + c_n$, and the total commission you have paid is
-$n \times 100000$. The true cost of the stock is therefore
+the commission fee is \$100k. Later on, you buy more shares of the stock, let's
+call it $s_2$ shares. The cost is $c_2$. You would also pay a further \$100k in
+commission fee. And so on. By the time you sell all shares of the stock, you
+would have
+
+```math
+s = s_1 + s_2 + \cdots + s_n
+```
+
+shares of the stock, the total cost is
+
+```math
+c = c_1 + c_2 + \cdots + c_n
+```
+
+and the total commission you have paid is $n \times 100000$. The true cost of
+the stock is therefore
 
 ```math
 c + (n \times 100000)
