@@ -89,6 +89,12 @@ funds. The five programs `BruteSSH.exe`, `FTPCrack.exe`, `HTTPWorm.exe`,
 `relaySMTP.exe`, and `SQLInject.exe` are collectively known as the _port
 openers_. Each of these programs allows you to open one port on a world server.
 
+> **Problem 1.** Click on the tab <kbd>Create Program</kbd> to show a list of
+> all programs available at the moment. Some of them you can create, while the
+> rest are locked until you have the required Hack stat. The programs are also
+> available for purchase via the dark web. Read the description of each program
+> to see whether you can work out what the program does.
+
 ## Factions
 
 The second important event after having at least 50 Hack is receiving an
