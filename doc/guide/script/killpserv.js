@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *
  * Usage: run killpserv.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    ns.getPurchasedServers().forEach((s) => {
-        ns.killall(s);
-        ns.deleteServer(s);
+    ns.getPurchasedServers().forEach((host) => {
+        ns.killall(host);
+        ns.deleteServer(host);
     });
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 Duck McSouls
+ * Copyright (C) 2022--2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,20 +26,23 @@
  * Usage: run hack.js [targetServer]
  * Example: run hack.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The target server, i.e. the server to hack.
     const target = ns.args[0];
+
     // How much money a server should have before we hack it.  Even if the
     // server is bankrupt, successfully hacking it would increase our Hack XP,
     // although we would not receive any money.  Set the money threshold at 75%
     // of the server's maximum money.
     const money_threshold = Math.floor(ns.getServerMaxMoney(target) * 0.75);
+
     // The threshold for the server's security level.  If the target's
     // security level is higher than the threshold, weaken the target
     // before doing anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
+
     // Continuously hack/grow/weaken the target server.
     for (;;) {
         const money = ns.getServerMoneyAvailable(target);
