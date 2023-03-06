@@ -136,7 +136,7 @@ with less money than your spend threshold, lower the percentage to 9%.
 
 Let's discuss how to calculate the profit from selling all shares of a stock.
 The function
-[`ns.stock.getSaleGain`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.tix.getsalegain.md)
+[`ns.stock.getSaleGain()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.tix.getsalegain.md)
 calculates the profit you make, taking into account the commission fee and
 various other factors. One point to note is that the function does not take into
 account all the commission fees you have paid when you bought shares of the
@@ -149,7 +149,7 @@ transaction for the stock? No. Only the relevant buy history.
 
 Here is how to calculate the true cost of a stock. Initially you have zero
 shares of the stock. You buy $s_1$ shares of the stock. The cost is $c_1$ and
-the commission fee is $100k. Later on, you buy a further $s_2$ shares of the
+the commission fee is \$100k. Later on, you buy a further $s_2$ shares of the
 stock, costing you $c_1$ and a further
 $100k in commission fee. And so on. By
 the time you sell all shares of the stock, you would have
