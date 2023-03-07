@@ -119,7 +119,7 @@ function target_name(f) {
  */
 function usage(ns) {
     const msg = "Usage: run pull.js";
-    ns.tprint(msg);
+    ns.tprintf(msg);
 }
 
 /**
@@ -149,9 +149,9 @@ export async function main(ns) {
         const target = target_name(f);
         const success = await ns.wget(file, target, home);
         if (success) {
-            ns.tprint(file);
+            ns.tprintf(file);
         }
     }
-    ns.tprint("Download complete.");
+    ns.tprintf("Download complete.");
 }
 EOF
