@@ -15,29 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * Hackish way to implement shell scripting in Bitburner.
- *
- * @param {string} cmd The terminal commands we want to run.
- */
-function shell(cmd) {
-    const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
-    input.value = cmd;
-    const handler = Object.keys(input)[1];
-    input[handler].onChange({
-        target: input,
-    });
-    input[handler].onKeyDown({
-        key: "Enter",
-        preventDefault: () => null,
-    });
-}
+import { shell } from "/guide/lib/util.js";
 
 /**
  * Simulate terminal input.  This is like a convoluted way to implement shell
  * scripting in the game.
  *
- * Usage: run terminal.js
+ * Usage: run guide/terminal.js
  *
  * @param {NS} ns The Netscript API.
  */

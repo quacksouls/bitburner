@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022--2023 Duck McSouls
+ * Copyright (C) 2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { network } from "/guide/lib/util.js";
+/// ///////////////////////////////////////////////////////////////////////
+// Constants related to servers
+/// ///////////////////////////////////////////////////////////////////////
 
-/**
- * Kill all scripts running on world servers.  Exclude our home server.
- *
- * Usage: run guide/killall.js
- *
- * @param {NS} ns The Netscript API.
- */
-export async function main(ns) {
-    const has_root_access = (host) => ns.getServer(host).hasAdminRights;
-    const kill_all = (host) => ns.killall(host);
-    network(ns).filter(has_root_access).forEach(kill_all);
-}
+export const server = {
+    HOME: "home",
+};

@@ -18,7 +18,7 @@
 /**
  * Delete all purchased servers.
  *
- * Usage: run killpserv.js
+ * Usage: run guide/killpserv.js
  *
  * @param {NS} ns The Netscript API.
  */

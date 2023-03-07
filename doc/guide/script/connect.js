@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { server } from "/guide/lib/constant/server.js";
+import { shell } from "/guide/lib/util.js";
+
 /**
  * Connect to a given target server.
  *
@@ -23,26 +26,14 @@
  */
 function connect(ns, target) {
     // A chain of terminal commands that connect to the target server.
-    const not_home = (host) => host !== "home";
+    const not_home = (host) => host !== server.HOME;
     const walk = path(ns, target).filter(not_home);
     if (walk.length === 0) {
         ns.tprint(`Server not reachable from home: ${target}`);
         return;
     }
     const command = `connect ${walk.join("; connect ")}`;
-    // Template code from the official documentation of Bitburner:
-    //
-    // https://bitburner-official.readthedocs.io/en/latest/netscript/advancedfunctions/inject_html.html
-    const input = globalThis["document"].getElementById("terminal-input"); // eslint-disable-line
-    input.value = command;
-    const handler = Object.keys(input)[1];
-    input[handler].onChange({
-        target: input,
-    });
-    input[handler].onKeyDown({
-        key: "Enter",
-        preventDefault: () => null,
-    });
+    shell(command);
 }
 
 /**
@@ -55,14 +46,14 @@ function connect(ns, target) {
  *     precedes i.
  */
 function network(ns) {
-    const home = "home";
-    const q = [home];
-    const visit = new Set([home]);
-    const prev = new Map([[home, undefined]]);
+    const q = [server.HOME];
+    const visit = new Set([server.HOME]);
+    const prev = new Map([[server.HOME, undefined]]);
+    const not_visited = (host) => !visit.has(host);
     while (q.length > 0) {
         const u = q.shift();
         ns.scan(u)
-            .filter((v) => !visit.has(v))
+            .filter(not_visited)
             .forEach((x) => {
                 visit.add(x);
                 q.push(x);
@@ -95,8 +86,9 @@ function path(ns, target) {
     if (stack.length === 0) {
         return [];
     }
+
     // Reconstruct the full path from home to target.
-    stack.push("home");
+    stack.push(server.HOME);
     stack.reverse();
     return stack;
 }
@@ -105,8 +97,8 @@ function path(ns, target) {
  * Connect to a target server.  This script accepts a command line argument,
  * i.e. the hostname of the server to which we want to connect.
  *
- * Usage: run connect.js [targetServer]
- * Example: run connect.js run4theh111z
+ * Usage: run guide/connect.js [targetServer]
+ * Example: run guide/connect.js run4theh111z
  *
  * @param {NS} ns The Netscript API.
  */
@@ -114,9 +106,9 @@ export async function main(ns) {
     // Must provide a command line argument.
     const error_msg = "Must provide the name of the target server.";
     if (ns.args.length < 1) {
-        ns.tprint(error_msg);
+        ns.tprintf(error_msg);
         return;
     }
-    // Connect to the target server.
+
     connect(ns, ns.args[0]);
 }
