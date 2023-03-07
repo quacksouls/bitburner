@@ -22,8 +22,8 @@
 /**
  * A function for assertion.
  *
- * @param cond Assert that this condition is true.
- * @return Throw an assertion error if the given condition is false.
+ * @param {boolean} cond Assert that this condition is true.
+ * @returns {exception} Throw an error if the given condition is false.
  */
 function assert(cond) {
     if (!cond) {
@@ -34,7 +34,7 @@ function assert(cond) {
 /**
  * The directory structure under "src/" on github.com.
  *
- * @return All files under "src/" on github.com.
+ * @returns {array<string>} All files under "src/" on github.com.
  */
 function dir_structure() {
     const filesystem = [
@@ -241,8 +241,8 @@ function dir_structure() {
  * https://github.com/danielyxie/bitburner/issues/1935
  * https://github.com/danielyxie/bitburner/issues/2115
  *
- * @param f A file name.  Cannot be empty string.
- * @return A possibly new file name with the leading forward slash "/"
+ * @param {string} f A file name.  Cannot be empty string.
+ * @returns {string} A possibly new file name with the leading forward slash "/"
  *     character added.
  */
 function target_name(f) {
@@ -256,7 +256,7 @@ function target_name(f) {
 /**
  * Print the usage information.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function usage(ns) {
     const msg = "Usage: run pull.js";
@@ -269,7 +269,7 @@ function usage(ns) {
  *
  * Usage: run pull.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Sanity check.
