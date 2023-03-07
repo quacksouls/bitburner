@@ -222,7 +222,7 @@ function pserv_object() {
          * The script to use for hacking a target server.  Assumed to be located
          * on our home server.
          */
-        SCRIPT: "hack.js",
+        SCRIPT: "/guide/hack.js",
         /**
          * The default update interval.  Must wait this amount of time (in
          * milliseconds) before performing the next update.  Time is 1 minute.

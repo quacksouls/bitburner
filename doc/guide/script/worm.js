@@ -106,7 +106,7 @@ export async function main(ns) {
         ns.tprintf(`No root access to target: ${target}`);
         return;
     }
-    const script = "hack.js";
+    const script = "/guide/hack.js";
     for (;;) {
         compromise(ns, script, target);
         await ns.sleep(minute);

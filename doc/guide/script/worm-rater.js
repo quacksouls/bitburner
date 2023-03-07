@@ -143,7 +143,7 @@ function weight(ns, host) {
 export async function main(ns) {
     const second = 1000;
     const minute = 60 * second;
-    const script = "hack.js";
+    const script = "/guide/hack.js";
     let target = "";
     for (;;) {
         const new_target = best_target(ns);
