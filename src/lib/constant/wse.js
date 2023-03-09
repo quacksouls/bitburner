@@ -45,6 +45,10 @@ export const forecast = {
  */
 export const wse = {
     /**
+     * The stock used to determine whether a change in price has occurred.
+     */
+    CANARY: "FSIG",
+    /**
      * The amount of money paid in commission for each market transaction.
      */
     COMMISSION: 100e3,
@@ -82,6 +86,11 @@ export const wse = {
         MAX_KEEP_MULT: 0.1,
     },
     /**
+     * The number of samples of price changes in a stock.  Always keep this many
+     * recent samples.
+     */
+    SAMPLE_LENGTH: 30,
+    /**
      * The minimum amount of money we are willing to spend to purchase shares
      * of a stock.  This is our spending threshold.
      */
@@ -90,6 +99,10 @@ export const wse = {
      * The Stock Market updates approximately every 6 seconds.
      */
     TICK: 6e3,
+    /**
+     * Sleep this many milliseonds if we do not have access to 4S data and API.
+     */
+    TICK_PRE4S: 2e3,
     /**
      * A file name.  If the trade bot detects the existence of this file on the
      * home server, it would stop purchasing shares of stocks.  The behaviour
