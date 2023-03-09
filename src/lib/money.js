@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/quack/lib/constant/server.js";
+
 /**
  * A class to hold information about money.
  */
@@ -88,4 +90,14 @@ export class Money {
     trillion() {
         return 1000 * this.billion();
     }
+}
+
+/**
+ * The amount of money the player has.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {number} Our current amount of money.
+ */
+export function money(ns) {
+    return ns.getServerMoneyAvailable(home);
 }

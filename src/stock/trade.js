@@ -19,7 +19,7 @@ import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
-import { Money } from "/quack/lib/money.js";
+import { money, Money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -151,16 +151,6 @@ function initial_portfolio(ns) {
  */
 function is_favourable_long(ns, sym) {
     return ns.stock.getForecast(sym) > forecast.SELL_TAU;
-}
-
-/**
- * The amount of money the player has.
- *
- * @param {NS} ns The Netscript API.
- * @returns {number} Our current amount of money.
- */
-function money(ns) {
-    return ns.getServerMoneyAvailable(home);
 }
 
 /**
