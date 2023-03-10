@@ -58,11 +58,10 @@ function buy_stock(ns, sym, portfolio) {
  *     false otherwise.
  */
 function can_buy(ns, sym, portfolio) {
-    const has_no_shares = (symb) => num_long(ns, symb) <= 0;
     const has_funds = () => expenditure(ns, portfolio) >= wse.SPEND_TAU;
     // eslint-disable-next-line
     const will_increase = (symb) => portfolio[symb].forecast === forecast.INCREASE;
-    return has_no_shares(sym) && has_funds() && will_increase(sym);
+    return has_funds() && will_increase(sym);
 }
 
 /**
