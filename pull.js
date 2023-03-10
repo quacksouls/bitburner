@@ -211,6 +211,7 @@ function dir_structure() {
         "test/intelligence/util.js",
         "test/karma/go.js",
         "test/stock/go4s.js",
+        "test/stock/pre4s.js",
         "test/stock/trade4s.js",
         "world.js",
     ];

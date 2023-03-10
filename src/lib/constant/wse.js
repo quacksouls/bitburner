@@ -27,6 +27,23 @@ export const forecast = {
      */
     BUY_TAU: 0.525,
     /**
+     * An indicator that the price of a stock is forecasted to decrease.
+     */
+    DECREASE: -1,
+    /**
+     * An indicator that the price of a stock is forecasted to increase.
+     */
+    INCREASE: 1,
+    /**
+     * The minimum number of historical price changes to consider.  At minimum,
+     * we look this far back.
+     */
+    MIN_HISTORY: 3,
+    /**
+     * An indicator that the price of a stock is forecasted to be unchanged.
+     */
+    NEUTRAL: 0,
+    /**
      * A threshold to help us decide whether to sell shares of a stock.  If the
      * forecast of a stock exceeds this threshold, then we should hold on to
      * shares of the stock.  On the other hand, if the forecast is at most this
@@ -57,6 +74,10 @@ export const wse = {
      * the number of shares we own in the Long position.
      */
     LONG_INDEX: 0,
+    /**
+     * Pre-4S.  The minimum number of shares of a stock to buy.
+     */
+    NUM_SHARES: 5e3,
     /**
      * Various constants related to the amount of money to be held in reserve.
      */
