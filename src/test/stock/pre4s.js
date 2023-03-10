@@ -34,6 +34,8 @@ function buy_stock(ns, sym, portfolio) {
     if (!can_buy(ns, sym, portfolio)) {
         return portfolio;
     }
+    const funds = expenditure(ns, portfolio);
+    ns.print(`Funds: ${Money.format(funds)}`);
     const nshare = num_shares(ns, sym, portfolio);
     if (nshare < 1) {
         return portfolio;
