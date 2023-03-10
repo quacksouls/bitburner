@@ -75,10 +75,6 @@ export const wse = {
      */
     LONG_INDEX: 0,
     /**
-     * Pre-4S.  The minimum number of shares of a stock to buy.
-     */
-    NUM_SHARES: 5e3,
-    /**
      * Various constants related to the amount of money to be held in reserve.
      */
     reserve: {
