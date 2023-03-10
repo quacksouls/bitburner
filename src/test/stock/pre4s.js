@@ -22,18 +22,29 @@ import { Money, money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
- * Purchase shares of the stock most likely to increase in value during the next
- * tick.
+ * Purchase shares of the stock that is decreasing in value.
  *
  * @param {NS} ns The Netscript API.
- * @param {string} sym We want to buy shares of this stock.
  * @param {object} portfolio Our portfolio of stocks.
  * @returns {object} The updated portfolio.
  */
-function buy_stock(ns, sym, portfolio) {
-    if (!can_buy(ns, sym, portfolio)) {
+function buy_stock(ns, portfolio) {
+    let stock = ns.stock.getSymbols();
+    stock = stock.filter((sym) => can_buy(ns, sym, portfolio));
+    if (stock.length === 0) {
         return portfolio;
     }
+
+    // The weight of a stock is the number of consecutive decrease in value.
+    const weight = (sym) => {
+        const is_increase = (elem) => elem === wse.INCREASE;
+        const idx = portfolio[sym].history.findIndex(is_increase);
+        return idx < 0 ? portfolio[sym].history.length : idx;
+    };
+    const descending = (syma, symb) => weight(symb) - weight(syma);
+    stock.sort(descending);
+
+    const sym = stock[0];
     const nshare = num_shares(ns, sym, portfolio);
     if (nshare < 1) {
         return portfolio;
@@ -43,8 +54,8 @@ function buy_stock(ns, sym, portfolio) {
         return portfolio;
     }
     const new_portfolio = { ...portfolio };
-    new_portfolio[sym].cost = portfolio[sym].cost + nshare * cost_per_share;
-    new_portfolio[sym].commission = portfolio[sym].commission + wse.COMMISSION;
+    new_portfolio[sym].cost += nshare * cost_per_share;
+    new_portfolio[sym].commission += wse.COMMISSION;
     return new_portfolio;
 }
 
@@ -59,9 +70,14 @@ function buy_stock(ns, sym, portfolio) {
  */
 function can_buy(ns, sym, portfolio) {
     const has_funds = () => expenditure(ns, portfolio) >= wse.SPEND_TAU;
-    // eslint-disable-next-line
-    const will_increase = (symb) => portfolio[symb].forecast === forecast.INCREASE;
-    return has_funds() && will_increase(sym);
+    // The stock has been decreasing at least twice in a row.
+    const is_decreasing = (symb) => {
+        const { history } = portfolio[symb];
+        const today_decrease = history[wse.TODAY] === forecast.DECREASE;
+        const yesterday_decrease = history[wse.YESTERDAY] === forecast.DECREASE;
+        return today_decrease && yesterday_decrease;
+    };
+    return has_funds() && is_decreasing(sym);
 }
 
 /**
@@ -76,9 +92,14 @@ function can_buy(ns, sym, portfolio) {
 function can_sell(ns, sym, portfolio) {
     const has_shares = (symb) => num_long(ns, symb) > 0;
     const can_profit = (symb) => sell_profit(ns, symb, portfolio) > 0;
-    // eslint-disable-next-line
-    const will_decrease = (symb) => portfolio[symb].forecast === forecast.DECREASE;
-    return has_shares(sym) && can_profit(sym) && will_decrease(sym);
+    // The stock has been increasing at least twice in a row.
+    const is_increase = (symb) => {
+        const { history } = portfolio[symb];
+        const today_increase = history[wse.TODAY] === forecast.INCREASE;
+        const yesterday_increase = history[wse.YESTERDAY] === forecast.INCREASE;
+        return today_increase && yesterday_increase;
+    };
+    return has_shares(sym) && can_profit(sym) && is_increase(sym);
 }
 
 /**
@@ -91,37 +112,6 @@ function can_sell(ns, sym, portfolio) {
  */
 function expenditure(ns, portfolio) {
     return money(ns) - portfolio.reserve - wse.COMMISSION;
-}
-
-/**
- * Forecast whether the price of a stock is expected to increase, decrease, or
- * remain unchanged in the next tick.  The forecast technique is due to Reddit
- * user u/peter_lang, from the post archived at
- *
- * https://web.archive.org/web/20230310033159/https://www.reddit.com/r/Bitburner/comments/rsqffz/bitnode_8_stockmarket_algo_trader_script_without/
- *
- * @param {object} portfolio Our portfolio of stocks.
- * @param {string} sym We want to forecast this stock.
- * @returns {number} A number indicating whether the given stock is expected to
- *    increase, decrease, or remain neutral.
- */
-function get_forecast(portfolio, sym) {
-    const sum = (array, k) => {
-        const subarray = array.slice(0, k + 1);
-        const add = (accumulator, elem) => accumulator + elem;
-        return subarray.reduce(add, 0);
-    };
-    const binary = portfolio[sym].history.map(to_binary);
-    for (let i = forecast.MIN_HISTORY; i < binary.length; i++) {
-        const s = sum(binary, i);
-        if (s >= i + 1) {
-            return forecast.INCREASE;
-        }
-        if (s === 0) {
-            return forecast.DECREASE;
-        }
-    }
-    return forecast.NEUTRAL;
 }
 
 /**
@@ -149,7 +139,6 @@ function has_money_reserve(ns, portfolio) {
  *         symbol1: {
  *             cost: number, // Total cost of purchasing all shares we own.
  *             commission: number, // Total commission paid for all purchases.
- *             forecast: number, // The forecast of the price of the stock.
  *             history: array<number>, // History of price changes.  Latest
  *                                     // value at front of array.
  *             prev_price: number, // The previous price of the stock.
@@ -174,7 +163,6 @@ async function initial_portfolio(ns) {
         portfolio[sym] = {
             cost: 0,
             commission: 0,
-            forecast: 0,
             history: [],
             prev_price: 0,
         };
@@ -315,18 +303,26 @@ function sell_profit(ns, sym, portfolio) {
 }
 
 /**
- * Sell shares of a stock that is most likely to decrease in value during the
- * next tick.  Only sell if doing so would earn us a profit.
+ * Sell shares of a stock that is decreasing in value.  Only sell if doing so
+ * would earn us a profit.
  *
  * @param {NS} ns The Netscript API.
- * @param {string} sym We want to sell all shares of this stock.
  * @param {object} portfolio Our portfolio of stocks.
  * @returns {Promise<object>} The updated portfolio.
  */
-async function sell_stock(ns, sym, portfolio) {
-    if (!can_sell(ns, sym, portfolio)) {
+async function sell_stock(ns, portfolio) {
+    // Consider those stocks whose sale would net us a profit.  Sort the stocks
+    // in descending order of the profit we can make.
+    let stock = ns.stock.getSymbols();
+    stock = stock.filter((sym) => can_sell(ns, sym, portfolio));
+    const sprofit = (sym) => sell_profit(ns, sym, portfolio);
+    const descending = (syma, symb) => sprofit(symb) - sprofit(syma);
+    stock.sort(descending);
+    if (stock.length === 0) {
         return portfolio;
     }
+
+    const sym = stock[0];
     const profit = sell_profit(ns, sym, portfolio);
     const result = ns.stock.sellStock(sym, num_long(ns, sym));
     assert(result !== 0);
@@ -350,22 +346,6 @@ function shush(ns) {
 }
 
 /**
- * Rate a stock based on its history of price changes.  The weighting technique
- * is due to Reddit user u/peter_lang, from the post archived at
- *
- * https://web.archive.org/web/20230310033159/https://www.reddit.com/r/Bitburner/comments/rsqffz/bitnode_8_stockmarket_algo_trader_script_without/
- *
- * @param {string} sym We want to calculate the weight of this stock.
- * @param {object} portfolio Our portfolio of stocks.
- * @returns {number} The weight of the given stock.
- */
-function stock_weight(sym, portfolio) {
-    const binary = portfolio[sym].history.map(to_binary);
-    const num_one = binary.reduce((cumsum, elem) => cumsum + elem, 0);
-    return Math.abs(binary.length - 2 * num_one);
-}
-
-/**
  * Convert the ratio of a price change to binary representation.
  *
  * @param {number} ratio The ratio of price change.
@@ -383,19 +363,9 @@ function to_binary(ratio) {
  * @returns {Promise<object>} The updated portfolio.
  */
 async function transaction(ns, portfolio) {
-    // Sort the stocks in descending order of weight.  The stock of highest
-    // priority is first, followed by the second highest priority, etc.
-    const weight = (sym) => stock_weight(sym, portfolio);
-    const descending = (syma, symb) => weight(symb) - weight(syma);
-    const stock = ns.stock.getSymbols();
-    stock.sort(descending);
-
     let new_portfolio = { ...portfolio };
-    for (const sym of stock) {
-        new_portfolio = await sell_stock(ns, sym, new_portfolio);
-        new_portfolio = buy_stock(ns, sym, new_portfolio);
-    }
-    return new_portfolio;
+    new_portfolio = await sell_stock(ns, new_portfolio);
+    return buy_stock(ns, new_portfolio);
 }
 
 /**
@@ -424,31 +394,15 @@ function update_history(ns, portfolio) {
     for (const sym of ns.stock.getSymbols()) {
         const current_price = ns.stock.getPrice(sym);
         const ratio = current_price / new_portfolio[sym].prev_price;
-        // The latest ratio is always at the front of the array.  The
-        // previous ratio is now at index 1 of the array, etc.  The
-        // oldest ratio is at the end of the array.
-        new_portfolio[sym].history.unshift(ratio);
+        // The latest is always at the front of the array.  The previous value
+        // is now at index 1 of the array, etc.  The oldest value is at the end
+        // of the array.
+        new_portfolio[sym].history.unshift(to_binary(ratio));
         if (new_portfolio[sym].history.length > wse.SAMPLE_LENGTH) {
             new_portfolio[sym].history.pop();
         }
         new_portfolio[sym].prev_price = current_price;
     }
-    return new_portfolio;
-}
-
-/**
- * Forecast whether the price of each stock is expected to increase, decrease,
- * or remain unchanged in the next tick.
- *
- * @param {NS} ns The Netscript API.
- * @param {object} portfolio Our portfolio of stocks.
- * @returns {object} The same portfolio, but with a forecast for each stock.
- */
-function update_forecast(ns, portfolio) {
-    const new_portfolio = { ...portfolio };
-    ns.stock.getSymbols().forEach((sym) => {
-        new_portfolio[sym].forecast = get_forecast(new_portfolio, sym);
-    });
     return new_portfolio;
 }
 
@@ -469,7 +423,6 @@ export async function main(ns) {
     for (;;) {
         if (is_price_changed(ns, portfolio)) {
             portfolio = update_history(ns, portfolio);
-            portfolio = update_forecast(ns, portfolio);
             portfolio = await transaction(ns, portfolio);
         }
         await ns.sleep(wse.TICK_PRE4S);

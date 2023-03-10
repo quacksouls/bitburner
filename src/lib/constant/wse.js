@@ -27,22 +27,13 @@ export const forecast = {
      */
     BUY_TAU: 0.525,
     /**
-     * An indicator that the price of a stock is forecasted to decrease.
+     * This indicates that the value of a stock has decreased.
      */
-    DECREASE: -1,
+    DECREASE: 0,
     /**
-     * An indicator that the price of a stock is forecasted to increase.
+     * This indicates that the value of a stock has increased.
      */
     INCREASE: 1,
-    /**
-     * The minimum number of historical price changes to consider.  At minimum,
-     * we look this far back.
-     */
-    MIN_HISTORY: 3,
-    /**
-     * An indicator that the price of a stock is forecasted to be unchanged.
-     */
-    NEUTRAL: 0,
     /**
      * A threshold to help us decide whether to sell shares of a stock.  If the
      * forecast of a stock exceeds this threshold, then we should hold on to
@@ -120,6 +111,14 @@ export const wse = {
      * Sleep this many milliseonds if we do not have access to 4S data and API.
      */
     TICK_PRE4S: 2e3,
+    /**
+     * Index of the current value in the history array.
+     */
+    TODAY: 0,
+    /**
+     * Index of the previous value in the history array.
+     */
+    YESTERDAY: 1,
     /**
      * A file name.  If the trade bot detects the existence of this file on the
      * home server, it would stop purchasing shares of stocks.  The behaviour
