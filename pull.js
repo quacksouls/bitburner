@@ -92,6 +92,7 @@ function dir_structure() {
         "go-mid.js",
         "go.js",
         "hack.js",
+        "hgw/batcher/joe.js",
         "hgw/grow.js",
         "hgw/hack.js",
         "hgw/pbatch.js",

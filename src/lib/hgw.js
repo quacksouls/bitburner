@@ -17,7 +17,7 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/misc.js";
-import { home } from "/quack/lib/constant/server.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { network } from "/quack/lib/network.js";
 import {
@@ -250,6 +250,57 @@ export function nuke_servers(ns) {
 }
 
 /**
+ * Perform an HGW action against a target server.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Run our HGW script on this server.
+ * @param {string} target Perform an HGW action against this server.
+ * @param {string} action The action we want to perform against the given target
+ *     server.  Supported actions are:
+ *     (1) "grow" := Grow money on the target server.
+ *     (2) "weaken" := Weaken the security level of the target server.
+ */
+export async function pbatch_action(ns, host, target, action) {
+    // Sanity checks.
+    assert(host !== "" && host !== home);
+    assert(target !== "" && target !== home);
+    const s = hgw_script(action);
+    assert(can_run_script(ns, s, host));
+
+    const nthread = pbatch_nthread(ns, s, host);
+    const pid = ns.exec(s, host, nthread, target);
+    const time = hgw_wait_time(ns, target, action);
+    await ns.sleep(time);
+    const is_done = () => !ns.isRunning(pid);
+    while (!is_done()) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
+ * The maximum number of threads that can be used to run our script on a given
+ * server.  If the host is our home server, we take into account the amount of
+ * RAM that should be reserved, taking care not to use all available RAM on our
+ * home server.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A script.  Assumed to be located on home server.
+ * @param {string} host Hostname of a world server.
+ * @returns {number} The maximum number of threads to run our script on the
+ *     given server.
+ */
+export function pbatch_nthread(ns, s, host) {
+    const script_ram = ns.getScriptRam(s, home);
+    const { maxRam, ramUsed } = ns.getServer(host);
+    const reserved_ram = host === home ? home_t.reserve.MID : 0;
+    const server_ram = maxRam - ramUsed - reserved_ram;
+    if (server_ram < 1) {
+        return 0;
+    }
+    return Math.floor(server_ram / script_ram);
+}
+
+/**
  * The number of hack threads to use in one batch of a proto batcher.
  *
  * @param {NS} ns The Netscript API.
@@ -364,6 +415,34 @@ export function pbatch_parameters(ns, host, thread) {
             time: wtime,
         },
     };
+}
+
+/**
+ * Prepare a world server for hacking.  We use the following strategy.
+ *
+ * (1) Weaken
+ * (2) Grow
+ *
+ * Apply the above strategy in a loop.  Repeat until the target server has
+ * minimum security level and maximum money.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Run HGW script(s) on this server.
+ * @param {string} target Prep this world server.
+ */
+export async function pbatch_prep(ns, host, target) {
+    for (;;) {
+        if (!has_min_security(ns, target)) {
+            await pbatch_action(ns, host, target, hgw.action.WEAKEN);
+        }
+        if (!has_max_money(ns, target)) {
+            await pbatch_action(ns, host, target, hgw.action.GROW);
+        }
+        if (has_min_security(ns, target) && has_max_money(ns, target)) {
+            return;
+        }
+        await ns.sleep(0);
+    }
 }
 
 /**
