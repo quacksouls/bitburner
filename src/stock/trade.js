@@ -61,19 +61,17 @@ function buy_stock(ns, portfolio) {
  *     should be sold in this tick.
  */
 function choose_sell_candidate(ns, portfolio) {
-    // All stocks that do not have favourable forecast.  Order them from least
-    // favourable to most favourable.
+    // All stocks that do not have favourable forecast.
     const has_long = (sym) => num_long(ns, sym) > 0;
     const not_favourable = (sym) => !is_favourable_long(ns, sym);
-    const to_int = (n) => Math.floor(1e6 * n);
-    const projection = (sym) => to_int(ns.stock.getForecast(sym));
-    const ascending = (syma, symb) => projection(syma) - projection(symb);
     const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
-    stock.sort(ascending);
 
-    // Choose a stock to sell provided we can make a profit.
-    const can_profit = (sym) => sell_profit(ns, sym, portfolio) > 0;
+    // Choose the stock that yields the highest profit.
+    const profit = (sym) => sell_profit(ns, sym, portfolio);
+    const can_profit = (sym) => profit(sym) > 0;
+    const descending = (syma, symb) => profit(symb) - profit(syma);
     const candidate = stock.filter(can_profit);
+    candidate.sort(descending);
     return candidate.length === 0 ? "" : candidate[0];
 }
 
