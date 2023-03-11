@@ -267,6 +267,8 @@ export function pbatch_num_hthreads(ns, host, target) {
 
     // The maximum percentage of money we can hack while using only the
     // RAM available on the host server.
+    const reserved_ram = host === home ? home_t.reserve.MID : 0;
+    const available_ram = free_ram(ns, host) - reserved_ram;
     for (const pc of percent) {
         const money = (pc / 100) * ns.getServerMaxMoney(target);
         const max_threads = Math.floor(ns.hackAnalyzeThreads(target, money));
@@ -281,8 +283,8 @@ export function pbatch_num_hthreads(ns, host, target) {
             continue;
         }
         const total_ram = param.hack.ram + param.grow.ram + param.weaken.ram;
-        const exceed_ram = () => total_ram > free_ram(ns, host);
-        if (!exceed_ram()) {
+        const exceed_ram = total_ram > available_ram;
+        if (!exceed_ram) {
             return param.hack.thread;
         }
     }
