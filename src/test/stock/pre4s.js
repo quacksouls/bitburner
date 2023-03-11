@@ -44,18 +44,21 @@ function buy_stock(ns, portfolio) {
     const descending = (syma, symb) => weight(symb) - weight(syma);
     stock.sort(descending);
 
-    const sym = stock[0];
-    const nshare = num_shares(ns, sym, portfolio);
-    if (nshare < 1) {
-        return portfolio;
-    }
-    const cost_per_share = ns.stock.buyStock(sym, nshare);
-    if (cost_per_share === 0) {
-        return portfolio;
-    }
+    // Buy as many shares as possible of stocks that are decreasing in value.
     const new_portfolio = { ...portfolio };
-    new_portfolio[sym].cost += nshare * cost_per_share;
-    new_portfolio[sym].commission += wse.COMMISSION;
+    for (const sym of stock) {
+        const nshare = num_shares(ns, sym, new_portfolio);
+        if (nshare < 1) {
+            continue;
+        }
+        const cost_per_share = ns.stock.buyStock(sym, nshare);
+        if (cost_per_share === 0) {
+            continue;
+        }
+        new_portfolio[sym].cost += nshare * cost_per_share;
+        new_portfolio[sym].commission += wse.COMMISSION;
+    }
+
     return new_portfolio;
 }
 
@@ -213,7 +216,7 @@ function num_shares(ns, sym, portfolio) {
     }
     // How many shares of the stock we can buy.
     const nshare = Math.floor(funds / ns.stock.getAskPrice(sym));
-    return Math.min(nshare, max_share);
+    return Math.min(nshare, wse.MIN_SHARES, max_share);
 }
 
 /**

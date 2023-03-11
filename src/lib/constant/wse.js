@@ -66,6 +66,10 @@ export const wse = {
      */
     LONG_INDEX: 0,
     /**
+     * Buy this minimum number of shares of a stock.
+     */
+    MIN_SHARES: 5e3,
+    /**
      * Various constants related to the amount of money to be held in reserve.
      */
     reserve: {
@@ -104,6 +108,13 @@ export const wse = {
      */
     SPEND_TAU: 5e6,
     /**
+     * A file name.  If the trade bot detects the existence of this file on the
+     * home server, it would stop purchasing shares of stocks.  The behaviour
+     * is subject to certain conditions.  See the trade-bot.js script for more
+     * details.
+     */
+    STOP_BUY: "/quack/trade_bot_stop_buy.txt",
+    /**
      * The Stock Market updates approximately every 6 seconds.
      */
     TICK: 6e3,
@@ -115,15 +126,4 @@ export const wse = {
      * Index of the current value in the history array.
      */
     TODAY: 0,
-    /**
-     * Index of the previous value in the history array.
-     */
-    YESTERDAY: 1,
-    /**
-     * A file name.  If the trade bot detects the existence of this file on the
-     * home server, it would stop purchasing shares of stocks.  The behaviour
-     * is subject to certain conditions.  See the trade-bot.js script for more
-     * details.
-     */
-    STOP_BUY: "/quack/trade_bot_stop_buy.txt",
 };
