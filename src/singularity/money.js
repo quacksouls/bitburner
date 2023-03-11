@@ -99,6 +99,7 @@ export async function main(ns) {
         return;
     }
     await commit_crimes(ns, threshold);
+
     // If our home server is not high-end, upgrade the RAM on the home server.
     if (is_upgrade_home_ram(ns)) {
         log(ns, "Raise money to upgrade home RAM");
@@ -110,11 +111,7 @@ export async function main(ns) {
             success = ns.singularity.upgradeHomeRam();
         }
         // Reboot to take advantage of the newly upgraded home server.
-        const nthread = 1;
-        ns.exec("/quack/kill-script.js", home, nthread, "world");
-        exec(ns, "/quack/kill-server.js");
-        exec(ns, "/quack/go.js");
-        return;
+        ns.singularity.softReset("/quack/go.js");
     }
     load_chain(ns);
 }
