@@ -262,7 +262,7 @@ export function nuke_servers(ns) {
  */
 export async function pbatch_action(ns, host, target, action) {
     // Sanity checks.
-    assert(host !== "" && host !== home);
+    assert(host !== "");
     assert(target !== "" && target !== home);
     const s = hgw_script(action);
     assert(can_run_script(ns, s, host));
