@@ -34,21 +34,25 @@ function buy_stock(ns, portfolio) {
     if (pause_buy(ns)) {
         return portfolio;
     }
-    const sym = most_favourable(ns);
-    if (sym === "") {
+    const stock = most_favourable(ns);
+    if (stock.length < 1) {
         return portfolio;
     }
-    const nshare = num_shares(ns, sym, portfolio);
-    if (nshare < 1) {
-        return portfolio;
-    }
-    const cost_per_share = ns.stock.buyStock(sym, nshare);
-    if (cost_per_share === 0) {
-        return portfolio;
-    }
+
     const new_portfolio = { ...portfolio };
-    new_portfolio[sym].cost = portfolio[sym].cost + nshare * cost_per_share;
-    new_portfolio[sym].commission = portfolio[sym].commission + wse.COMMISSION;
+    for (const sym of stock) {
+        const nshare = num_shares(ns, sym, portfolio);
+        if (nshare < 1) {
+            continue;
+        }
+        const cost_per_share = ns.stock.buyStock(sym, nshare);
+        if (cost_per_share === 0) {
+            continue;
+        }
+        new_portfolio[sym].cost += nshare * cost_per_share;
+        new_portfolio[sym].commission += wse.COMMISSION;
+    }
+
     return new_portfolio;
 }
 
@@ -152,24 +156,26 @@ function is_favourable_long(ns, sym) {
 }
 
 /**
- * The stock most likely to increase in value during the next tick.
+ * The top stocks most likely to increase in value during the next tick.
  *
  * @param {NS} ns The Netscript API.
- * @returns {string} The symbol of a stock that is forecasted to have the best
- *     chance of increase in the next tick.  Empty string if no stocks are
- *     forecasted to increase in value.
+ * @returns {array<string>} An array of the top stocks that are forecasted to
+ *     have the best chances of increase in the next tick.  Empty array if no
+ *     stocks are forecasted to increase in value.
  */
 function most_favourable(ns) {
+    // Sort the stocks in descending order of their chances of increase.
     const is_favourable = (sym) => ns.stock.getForecast(sym) > forecast.BUY_TAU;
     const to_int = (n) => Math.floor(1e6 * n);
     const projection = (sym) => to_int(ns.stock.getForecast(sym));
     const descending = (syma, symb) => projection(symb) - projection(syma);
     let stock = ns.stock.getSymbols().filter(is_favourable);
     stock.sort(descending);
+
     const nshare = (sym) => ns.stock.getMaxShares(sym) - num_long(ns, sym);
     const can_buy = (sym) => nshare(sym) > 0;
     stock = stock.filter(can_buy);
-    return stock.length === 0 ? "" : stock[0];
+    return stock.length === 0 ? [] : stock.slice(0, wse.NUM_BUY);
 }
 
 /**

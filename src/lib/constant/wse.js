@@ -70,6 +70,10 @@ export const wse = {
      */
     MIN_SHARES: 5e3,
     /**
+     * During any tick, buy shares of at most this many stocks.
+     */
+    NUM_BUY: 3,
+    /**
      * Various constants related to the amount of money to be held in reserve.
      */
     reserve: {
