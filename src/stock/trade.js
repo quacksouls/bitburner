@@ -87,7 +87,7 @@ function choose_sell_candidate(ns, portfolio) {
  */
 function expenditure(ns, portfolio) {
     const excess_money = money(ns) - portfolio.reserve;
-    return Math.floor(wse.reserve.BUY_MULT * excess_money);
+    return Math.floor(wse.reserve.BUY_MULT * excess_money) - wse.COMMISSION;
 }
 
 /**
