@@ -70,14 +70,11 @@ function buy_stock(ns, portfolio) {
  */
 function can_buy(ns, sym, portfolio) {
     const has_funds = () => expenditure(ns, portfolio) >= wse.SPEND_TAU;
-    // The stock has been decreasing at least twice in a row.
-    const is_decreasing = (symb) => {
-        const { history } = portfolio[symb];
-        const today_decrease = history[wse.TODAY] === forecast.DECREASE;
-        const yesterday_decrease = history[wse.YESTERDAY] === forecast.DECREASE;
-        return today_decrease && yesterday_decrease;
-    };
-    return has_funds() && is_decreasing(sym);
+    const max_share = ns.stock.getMaxShares(sym) - num_long(ns, sym);
+    const shares_available = () => max_share > 0;
+    // eslint-disable-next-line
+    const is_decreasing = () => portfolio[sym].history[wse.TODAY] === forecast.DECREASE;
+    return has_funds() && shares_available() && is_decreasing();
 }
 
 /**
@@ -90,16 +87,11 @@ function can_buy(ns, sym, portfolio) {
  *     false otherwise.
  */
 function can_sell(ns, sym, portfolio) {
-    const has_shares = (symb) => num_long(ns, symb) > 0;
-    const can_profit = (symb) => sell_profit(ns, symb, portfolio) > 0;
-    // The stock has been increasing at least twice in a row.
-    const is_increase = (symb) => {
-        const { history } = portfolio[symb];
-        const today_increase = history[wse.TODAY] === forecast.INCREASE;
-        const yesterday_increase = history[wse.YESTERDAY] === forecast.INCREASE;
-        return today_increase && yesterday_increase;
-    };
-    return has_shares(sym) && can_profit(sym) && is_increase(sym);
+    const has_shares = () => num_long(ns, sym) > 0;
+    const can_profit = () => sell_profit(ns, sym, portfolio) > 0;
+    // eslint-disable-next-line
+    const is_increase = () => portfolio[sym].history[wse.TODAY] === forecast.INCREASE;
+    return has_shares() && can_profit() && is_increase();
 }
 
 /**
