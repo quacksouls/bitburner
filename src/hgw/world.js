@@ -18,25 +18,8 @@
 import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/misc.js";
 import { server } from "/quack/lib/constant/server.js";
-import {
-    assemble_botnet,
-    hgw_action,
-    prep_gw,
-    prep_wg,
-} from "/quack/lib/hgw.js";
+import { assemble_botnet, hgw_action, prep_gw } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
-import { assert } from "/quack/lib/util.js";
-
-/**
- * Choose the target server to prep and hack.
- *
- * @param ns The Netscript API.
- * @return Hostname of the server to target.
- */
-function choose_target(ns) {
-    assert(ns.getServerMaxMoney(server.JOES) > 0);
-    return server.JOES;
-}
 
 /**
  * Continuously hack a server.  Steal a certain percentage of the server's
@@ -48,7 +31,7 @@ function choose_target(ns) {
  */
 async function hack(ns, host) {
     for (;;) {
-        await prep_server(ns, host);
+        await prep_gw(ns, host);
         const botnet = assemble_botnet(
             ns,
             host,
@@ -56,29 +39,6 @@ async function hack(ns, host) {
             bool.NOT_PREP
         );
         await hgw_action(ns, host, botnet, hgw.action.HACK);
-        await ns.sleep(0);
-    }
-}
-
-/**
- * Prep a server.  Weaken the server to its minimum security level and grow the
- * server to its maximum amount of money.
- *
- * @param ns The Netscript API.
- * @param host Prep this server.
- */
-async function prep_server(ns, host) {
-    switch (host) {
-        case server.NOODLES:
-        case server.JOES:
-            await prep_gw(ns, host);
-            break;
-        case server.PHANTASY:
-            await prep_wg(ns, host);
-            break;
-        default:
-            // Should never reach here.
-            assert(false);
     }
 }
 
@@ -94,7 +54,7 @@ async function prep_server(ns, host) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    const host = choose_target(ns);
+    const host = server.JOES;
     log(ns, `Prep and hack ${host}`);
     await hack(ns, host);
 }
