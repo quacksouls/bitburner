@@ -16,11 +16,30 @@
  */
 
 import { bitnode } from "/quack/lib/constant/bn.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
 import {
     assert, exec, farm_hack_xp, init_sleeves,
 } from "/quack/lib/util.js";
+
+/**
+ * Determine which batcher to use.  Here are the candidates:
+ *
+ * (1) Sequential batcher.  Good for when our home server has limited RAM.
+ * (2) Proto batcher.  Good for when our home server has a huge amount of RAM.
+ *     A proto batcher generates more money and Hack XP than a sequential
+ *     batcher, but is RAM intensive.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {string} Name of the batcher script to use.
+ */
+function choose_batcher(ns) {
+    if (ns.getServerMaxRam(home) >= home_t.RAM_HUGE) {
+        return "/quack/hgw/batcher/joe.js";
+    }
+    return "/quack/hgw/world.js";
+}
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -41,9 +60,9 @@ async function reboot(ns) {
     script.forEach((s) => exec(ns, s));
     await farm_hack_xp(ns);
 
+    const other_script = [choose_batcher(ns)];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
-    const other_script = ["/quack/hgw/world.js"];
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
         other_script.unshift("/quack/hgw/pserv.js");
     }
