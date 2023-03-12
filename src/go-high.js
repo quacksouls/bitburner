@@ -46,7 +46,7 @@ function choose_batcher(ns) {
  * bunch of Augmentations.  Our purpose is to gain some money and Hack XP
  * early on when our stats are low.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function reboot(ns) {
     const script = [
@@ -76,17 +76,11 @@ async function reboot(ns) {
  *
  * Restart our source of income and Hack XP.  This script is useful whenever we
  * have installed a bunch of Augmentations and we want to automatically restart
- * scripts to:
- *
- * (1) Purchase Hacknet nodes and manage our farm of nodes.
- * (2) Buy servers and use each purchased server to hack a target server in the
- *     game world.
- * (3) Gain root access to servers in the game world (excluding purchased
- *     servers) and use each server to hack itself or a low-end server.
+ * our chain of scripts.
  *
  * Usage: run quack/go-high.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     log(ns, "Home server is high-end. Bootstrap with all scripts.");
