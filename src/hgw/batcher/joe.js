@@ -59,7 +59,6 @@ async function launch_batch(ns, target) {
     }
 
     const param = pbatch_parameters(ns, target, hthread);
-    // eslint-disable-next-line
     const exec = (script, nthread) => ns.exec(script, home, nthread, target);
     const sleep = (time) => ns.sleep(time);
     const pidw = exec(hgw.script.WEAKEN, param.weaken.thread);
