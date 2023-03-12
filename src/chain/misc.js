@@ -22,7 +22,7 @@ import { exec } from "/quack/lib/util.js";
 /**
  * Start a load chain to run various scripts.
  *
- * Usage: run chain/misc.js
+ * Usage: run quack/chain/misc.js
  *
  * @param ns The Netscript API.
  */

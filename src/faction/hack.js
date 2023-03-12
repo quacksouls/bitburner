@@ -114,8 +114,8 @@ function shush(ns) {
  * The Black Hand.  This script accepts a command line argument, i.e. the name
  * of a faction.
  *
- * Usage: run singularity/faction-hack.js [factionName]
- * Example: run singularity/faction-hack.js BitRunners
+ * Usage: run quack/faction/hack.js [factionName]
+ * Example: run quack/faction/hack.js BitRunners
  *
  * @param ns The Netscript API.
  */

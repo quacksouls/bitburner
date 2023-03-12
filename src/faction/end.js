@@ -165,8 +165,8 @@ async function the_covenant(ns) {
  * The Covenant.  This script accepts a command line argument, i.e. the name
  * of a faction.
  *
- * Usage: run singularity/faction-end.js [factionName]
- * Example: run singularity/faction-end.js Daedalus
+ * Usage: run quack/faction/end.js [factionName]
+ * Example: run quack/faction/end.js Daedalus
  *
  * @param ns The Netscript API.
  */

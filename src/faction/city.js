@@ -109,8 +109,8 @@ function shush(ns) {
  * New Tokyo, Sector-12, Volhaven.  This script accepts a command line
  * argument, i.e. the name of a faction.
  *
- * Usage: run singularity/faction-city.js [factionName]
- * Example: run singularity/faction-city.js Sector-12
+ * Usage: run quack/faction/city.js [factionName]
+ * Example: run quack/faction/city.js Sector-12
  *
  * @param ns The Netscript API.
  */

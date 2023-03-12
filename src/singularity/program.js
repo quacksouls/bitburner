@@ -52,7 +52,7 @@ function shush(ns) {
 /**
  * Purchase various programs from the dark web.
  *
- * Usage: run singularity/program.js
+ * Usage: run quack/singularity/program.js
  *
  * @param ns The Netscript API.
  */

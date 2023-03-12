@@ -285,8 +285,8 @@ async function the_syndicate(ns) {
  * Slum Snakes, The Syndicate, Speakers for the Dead, Tetrads, The Dark Army.
  * This script accepts a command line argument, i.e. the name of a faction.
  *
- * Usage: run singularity/faction-crime.js [factionName]
- * Example: run singularity/faction-crime.js Silhouette
+ * Usage: run quack/faction/crime.js [factionName]
+ * Example: run quack/faction/crime.js Silhouette
  *
  * @param ns The Netscript API.
  */

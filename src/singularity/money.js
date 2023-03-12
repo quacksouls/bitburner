@@ -84,7 +84,7 @@ function load_chain(ns) {
  * low as possible.  Do not add anything to the script unless absolutely
  * necessary.
  *
- * Usage: run singularity/money.js
+ * Usage: run quack/singularity/money.js
  *
  * @param ns The Netscript API.
  */

@@ -205,8 +205,8 @@ async function tian_di_hui(ns) {
  * Netburners, Tian Di Hui.  This script accepts a command line argument,
  * i.e. the name of a faction.
  *
- * Usage: run singularity/faction-early.js [factionName]
- * Example: run singularity/faction-early.js CyberSec
+ * Usage: run quack/faction/early.js [factionName]
+ * Example: run quack/faction/early.js CyberSec
  *
  * @param ns The Netscript API.
  */

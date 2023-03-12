@@ -201,7 +201,7 @@ function join_next(ns, fac) {
  *
  * Join a faction and purchase all of its Augmentations.
  *
- * Usage: run singularity/faction.js
+ * Usage: run quack/faction/go.js
  *
  * @param ns The Netscript API.
  */

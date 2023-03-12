@@ -34,6 +34,6 @@ export async function main(ns) {
     while (ns.isRunning("/quack/singularity/program.js", home)) {
         await ns.sleep(wait_t.SECOND);
     }
-    exec(ns, "/quack/singularity/faction.js");
+    exec(ns, "/quack/faction/go.js");
     // hram_resume(ns);
 }

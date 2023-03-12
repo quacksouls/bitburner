@@ -147,8 +147,8 @@ function shush(ns) {
  * NWO, OmniTek Incorporated.  This script accepts a command line argument,
  * i.e. the name of a faction.
  *
- * Usage: run singularity/faction-megacorporation.js [factionName]
- * Example: run singularity/faction-megacorporation.js MegaCorp
+ * Usage: run quack/faction/megacorp.js [factionName]
+ * Example: run quack/faction/megacorp.js MegaCorp
  *
  * @param ns The Netscript API.
  */
