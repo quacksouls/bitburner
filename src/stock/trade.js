@@ -23,8 +23,8 @@ import { money, Money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
- * Purchase shares of the stock most likely to increase in value during the next
- * tick.
+ * Purchase shares of the top stocks most likely to increase in value during the
+ * next tick.
  *
  * @param {NS} ns The Netscript API.
  * @param {object} portfolio Our portfolio of stocks.
@@ -331,6 +331,8 @@ async function transaction(ns, portfolio) {
 }
 
 /**
+ * WARNING: Requires access to all Stock Market APIs and data.
+ *
  * Automate our trading on the World Stock Exchange.  This is our trade bot.
  *
  * Usage: run quack/stock/trade.js
