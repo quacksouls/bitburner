@@ -26,8 +26,12 @@ import { log } from "/quack/lib/io.js";
  * money, then weaken/grow the server until it is at minimum security level and
  * maximum money.  Rinse and repeat.
  *
- * @param ns The Netscript API.
- * @param host Hack this server.
+ * This is a sequential batcher.  At any time, only one of the HGW operations is
+ * running and waiting to complete.  After the operation finishes, we launch
+ * another operation.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hack this server.
  */
 async function hack(ns, host) {
     for (;;) {
@@ -51,7 +55,7 @@ async function hack(ns, host) {
  *
  * Usage: run quack/hgw/world.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const host = server.JOES;
