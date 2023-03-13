@@ -27,7 +27,7 @@ import { wse } from "/quack/lib/constant/wse.js";
  * Tell the trade bot to resume its transactions.  It can now buy and sell
  * shares of stocks.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export function trade_bot_resume(ns) {
     if (ns.fileExists(wse.STOP_BUY, home)) {
@@ -40,7 +40,7 @@ export function trade_bot_resume(ns) {
  * any more money on buying shares.  However, the trade bot can sell shares.
  * The idea is to cash in on the shares we have.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function trade_bot_stop_buy(ns) {
     const fname = wse.STOP_BUY;
