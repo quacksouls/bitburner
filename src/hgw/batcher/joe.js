@@ -103,6 +103,6 @@ function shush(ns) {
 export async function main(ns) {
     const target = server.JOES;
     shush(ns);
-    log(ns, `Hack ${target}`);
+    log(ns, `Launch proto batcher against ${target}`);
     await hack(ns, target);
 }
