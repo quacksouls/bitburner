@@ -75,6 +75,10 @@ export const home_t = {
          */
         HUGE: 1024,
         /**
+         * A large amount of RAM, double the mid-size amount of RAM.
+         */
+        LARGE: 256,
+        /**
          * If we have only level 1 of "Source-File 4: The Singularity".
          */
         MASSIVE: 2048,

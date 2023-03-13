@@ -292,7 +292,7 @@ export async function pbatch_action(ns, host, target, action) {
 export function pbatch_nthread(ns, s, host) {
     const script_ram = ns.getScriptRam(s, home);
     const { maxRam, ramUsed } = ns.getServer(host);
-    const reserved_ram = host === home ? home_t.reserve.MID : 0;
+    const reserved_ram = host === home ? home_t.reserve.LARGE : 0;
     const server_ram = maxRam - ramUsed - reserved_ram;
     if (server_ram < 1) {
         return 0;
@@ -318,7 +318,7 @@ export function pbatch_num_hthreads(ns, host, target) {
 
     // The maximum percentage of money we can hack while using only the
     // RAM available on the host server.
-    const reserved_ram = host === home ? home_t.reserve.MID : 0;
+    const reserved_ram = host === home ? home_t.reserve.LARGE : 0;
     const available_ram = free_ram(ns, host) - reserved_ram;
     for (const pc of percent) {
         const money = (pc / 100) * ns.getServerMaxMoney(target);
