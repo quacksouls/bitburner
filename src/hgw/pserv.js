@@ -19,14 +19,13 @@ import { MyArray } from "/quack/lib/array.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { find_candidates } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { network } from "/quack/lib/network.js";
 import { Player } from "/quack/lib/player.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
 import { Server } from "/quack/lib/server.js";
-import {
-    assert, is_bankrupt, nuke_servers, weight,
-} from "/quack/lib/util.js";
+import { assert, is_bankrupt } from "/quack/lib/util.js";
 
 /**
  * Buy servers, each having as high an amount of RAM as we can afford.
@@ -75,26 +74,6 @@ function deploy(ns, phost, host) {
     const target = new Server(ns, host);
     assert(target.gain_root_access());
     ns.exec(script, home, nthread, phost, target.hostname(), frac);
-}
-
-/**
- * Determine which world servers to target.
- *
- * @param ns The Netscript API.
- * @return An array of hostnames.  We have root access to each server.  The
- *     array is sorted in descending order of server weight.
- */
-function find_candidates(ns) {
-    const descending_weight = (s, t) => weight(ns, t) - weight(ns, s);
-    const positive_weight = (host) => weight(ns, host) > 0;
-    const exclude_list = new Set(pserv.exclude);
-    const is_hackable = (host) => !exclude_list.has(host);
-    const not_bankrupt = (host) => !is_bankrupt(ns, host);
-    return nuke_servers(ns, network(ns))
-        .filter(is_hackable)
-        .filter(not_bankrupt)
-        .filter(positive_weight)
-        .sort(descending_weight);
 }
 
 /**

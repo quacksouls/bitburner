@@ -17,6 +17,7 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/misc.js";
+import { pserv } from "/quack/lib/constant/pserv.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { network } from "/quack/lib/network.js";
@@ -25,7 +26,9 @@ import {
     can_run_script,
     free_ram,
     gain_root_access,
+    is_bankrupt,
     num_threads,
+    weight,
 } from "/quack/lib/util.js";
 
 // Utility functions in the model of hack/grow/weaken or HGW.
@@ -76,6 +79,26 @@ export function assemble_botnet(ns, host, frac, is_prep) {
         });
     assert(botnet.length > 0);
     return botnet;
+}
+
+/**
+ * Determine which world servers to target.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} An array of hostnames.  We have root access to each
+ *     server.  The array is sorted in descending order of server weight.
+ */
+export function find_candidates(ns) {
+    const descending_weight = (s, t) => weight(ns, t) - weight(ns, s);
+    const positive_weight = (host) => weight(ns, host) > 0;
+    const exclude_list = new Set(pserv.exclude);
+    const is_hackable = (host) => !exclude_list.has(host);
+    const not_bankrupt = (host) => !is_bankrupt(ns, host);
+    return nuke_servers(ns)
+        .filter(is_hackable)
+        .filter(not_bankrupt)
+        .filter(positive_weight)
+        .sort(descending_weight);
 }
 
 /**
