@@ -91,6 +91,8 @@ function shush(ns) {
 }
 
 /**
+ * WARNING: Requires the program Formulas.exe.
+ *
  * Use a proto batcher against joesguns.  The batcher uses the RAM of our
  * home server.
  *

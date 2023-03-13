@@ -20,7 +20,11 @@ import { home, home_t } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
 import {
-    assert, exec, farm_hack_xp, init_sleeves,
+    assert,
+    exec,
+    farm_hack_xp,
+    has_program,
+    init_sleeves,
 } from "/quack/lib/util.js";
 
 /**
@@ -35,7 +39,10 @@ import {
  * @returns {string} Name of the batcher script to use.
  */
 function choose_batcher(ns) {
-    if (ns.getServerMaxRam(home) >= home_t.RAM_HUGE) {
+    if (
+        ns.getServerMaxRam(home) >= home_t.RAM_HUGE
+        && has_program(ns, "Formulas.exe")
+    ) {
         return "/quack/hgw/batcher/joe.js";
     }
     return "/quack/hgw/world.js";
