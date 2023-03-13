@@ -62,98 +62,54 @@ function choose_faction(ns) {
     assert(faction.length > 0);
     let script = "";
     switch (faction) {
-        case "Aevum":
-            script = "/quack/singularity/faction-city.js";
-            break;
-        case "Bachman & Associates":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "BitRunners":
-            script = "/quack/singularity/faction-hack.js";
-            break;
-        case "Blade Industries":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "Chongqing":
-            script = "/quack/singularity/faction-city.js";
-            break;
-        case "Clarke Incorporated":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
+        // Early game factions
         case "CyberSec":
-            script = "/quack/singularity/faction-early.js";
-            break;
-        case "Daedalus":
-            script = "/quack/singularity/faction-end.js";
-            break;
-        case "ECorp":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "Four Sigma":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "Fulcrum Secret Technologies":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "Illuminati":
-            script = "/quack/singularity/faction-end.js";
-            break;
-        case "Ishima":
-            script = "/quack/singularity/faction-city.js";
-            break;
-        case "KuaiGong International":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "MegaCorp":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
         case "Netburners":
-            script = "/quack/singularity/faction-early.js";
-            break;
-        case "New Tokyo":
-            script = "/quack/singularity/faction-city.js";
-            break;
-        case "NiteSec":
-            script = "/quack/singularity/faction-hack.js";
-            break;
-        case "NWO":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "OmniTek Incorporated":
-            script = "/quack/singularity/faction-megacorp.js";
-            break;
-        case "Sector-12":
-            script = "/quack/singularity/faction-city.js";
-            break;
-        case "Silhouette":
-            script = "/quack/singularity/faction-crime.js";
-            break;
-        case "Slum Snakes":
-            script = "/quack/singularity/faction-crime.js";
-            break;
-        case "Speakers for the Dead":
-            script = "/quack/singularity/faction-crime.js";
-            break;
-        case "Tetrads":
-            script = "/quack/singularity/faction-crime.js";
-            break;
-        case "The Black Hand":
-            script = "/quack/singularity/faction-hack.js";
-            break;
-        case "The Covenant":
-            script = "/quack/singularity/faction-end.js";
-            break;
-        case "The Dark Army":
-            script = "/quack/singularity/faction-crime.js";
-            break;
-        case "The Syndicate":
-            script = "/quack/singularity/faction-crime.js";
-            break;
         case "Tian Di Hui":
-            script = "/quack/singularity/faction-early.js";
+            script = "/quack/faction/early.js";
             break;
+        // City factions
+        case "Aevum":
+        case "Chongqing":
+        case "Ishima":
+        case "New Tokyo":
+        case "Sector-12":
         case "Volhaven":
-            script = "/quack/singularity/faction-city.js";
+            script = "/quack/faction/city.js";
+            break;
+        // Hacking groups
+        case "BitRunners":
+        case "NiteSec":
+        case "The Black Hand":
+            script = "/quack/faction/hack.js";
+            break;
+        // Megacorporations
+        case "Bachman & Associates":
+        case "Blade Industries":
+        case "Clarke Incorporated":
+        case "ECorp":
+        case "Four Sigma":
+        case "Fulcrum Secret Technologies":
+        case "KuaiGong International":
+        case "MegaCorp":
+        case "NWO":
+        case "OmniTek Incorporated":
+            script = "/quack/faction/megacorp.js";
+            break;
+        // Criminal organizations
+        case "Silhouette":
+        case "Slum Snakes":
+        case "Speakers for the Dead":
+        case "Tetrads":
+        case "The Dark Army":
+        case "The Syndicate":
+            script = "/quack/faction/crime.js";
+            break;
+        // Endgame factions
+        case "Daedalus":
+        case "Illuminati":
+        case "The Covenant":
+            script = "/quack/faction/end.js";
             break;
         default:
             break;
