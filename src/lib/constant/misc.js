@@ -142,7 +142,7 @@ export const hgw = {
          * The delay time between the firing of each HGW action.  Time is in
          * milliseconds.
          */
-        DELAY: 1000,
+        DELAY: 250,
         /**
          * An invalid number of threads.
          */
