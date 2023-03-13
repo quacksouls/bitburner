@@ -36,7 +36,7 @@ import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
  * that are exclusive to other factions.  Exploit this feature to speed up our
  * progression through all factions.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function buy_exclusive_augmentations(ns) {
     if (!ns.gang.inGang()) {
@@ -44,6 +44,7 @@ function buy_exclusive_augmentations(ns) {
     }
     // The faction within which we created our gang.
     const gang_faction = ns.gang.getGangInformation().faction;
+
     // Attempt to purchase the exclusive Augmentations.
     const player = new Player(ns);
     const installed = new Set(installed_augmentations(ns));
@@ -69,12 +70,13 @@ function buy_exclusive_augmentations(ns) {
 /**
  * Use our gang faction to purchase any other Augmentations we can.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function buy_other_augmentations(ns) {
     if (!ns.gang.inGang()) {
         return;
     }
+
     // Sets of Augmentations to exclude.
     const installed = new Set(installed_augmentations(ns));
     let exclusive = [];
@@ -84,6 +86,7 @@ function buy_other_augmentations(ns) {
     exclusive = exclusive.filter((a) => a !== augment.TRP);
     exclusive = exclusive.concat(purchased_augmentations(ns));
     exclusive = new Set(exclusive);
+
     // Buy other Augmentations available from our gang faction.
     const { faction } = ns.gang.getGangInformation();
     const player = new Player(ns);
@@ -112,10 +115,13 @@ function buy_other_augmentations(ns) {
  * stage, we do not need any more programs to help us with our hacking and
  * faction work.  We buy the programs over and over again to help raise our
  * Intelligence XP.
+ *
+ * @param {NS} ns The Netscript API.
  */
 async function buy_programs(ns) {
     const player = new Player(ns);
     assert(player.has_tor());
+
     // Try to buy at most this many times to prevent the script from hanging.
     // If our income rises faster than our spending on programs, then it is
     // possible for this function to hang and buys indefinitely.
@@ -138,9 +144,9 @@ async function buy_programs(ns) {
 /**
  * Whether we have Augmentations that are purchased and yet to be installed.
  *
- * @param ns The Netscript API.
- * @return true if we have Augmentations that are yet to be installed;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have Augmentations that are yet to be
+ *     installed; false otherwise.
  */
 function has_augmentations(ns) {
     const aug = purchased_augmentations(ns);
@@ -150,7 +156,7 @@ function has_augmentations(ns) {
 /**
  * Install all purchased Augmentations.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function install(ns) {
     assert(has_augmentations(ns));
@@ -161,7 +167,7 @@ function install(ns) {
 /**
  * An array of Augmentations we have purchased and installed.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function installed_augmentations(ns) {
     return ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
@@ -170,7 +176,7 @@ function installed_augmentations(ns) {
 /**
  * An array of Augmentations we have purchased, but not yet installed.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function purchased_augmentations(ns) {
     const purchased_aug = ns.singularity.getOwnedAugmentations(bool.PURCHASED);
@@ -188,7 +194,7 @@ function purchased_augmentations(ns) {
  * (2) If a member is currently in training, set them to mug random people.
  * (3) Disengage from territory warfare.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function set_neutral_gang(ns) {
     if (!ns.gang.inGang()) {
@@ -196,6 +202,7 @@ function set_neutral_gang(ns) {
         return;
     }
     log(ns, "Prepare gang for soft reset");
+
     // First, kill our gang script.
     const script = "/quack/gang/crime.js";
     const { faction } = ns.gang.getGangInformation();
@@ -203,14 +210,17 @@ function set_neutral_gang(ns) {
     if (ns.isRunning(script, player.home(), faction)) {
         assert(ns.kill(script, player.home(), faction));
     }
+
     // Assign vigilantes.
     reassign_soft_reset(ns);
+
     // Put anyone in combat training to mug people.
     const gangster = new Gangster(ns);
     const newbie = ns.gang
         .getMemberNames()
         .filter((s) => gangster.is_training(s));
     gangster.mug(newbie);
+
     // Finally, disengage from turf warfare so members would not be killed
     // while we cannot run the script that manages our gang.
     ns.gang.setTerritoryWarfare(bool.DISABLE);
@@ -219,9 +229,9 @@ function set_neutral_gang(ns) {
 /**
  * Install all purchased Augmentations and run our bootstrap script.
  *
- * Usage: run singularity/install.js
+ * Usage: run quack/singularity/install.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Tell the trade bot to stop buying shares.  Wait a while for it to sell
@@ -233,6 +243,7 @@ export async function main(ns) {
         `Wait ${time / wait_t.SECOND} seconds to sell shares of stocks (if any)`
     );
     await ns.sleep(time);
+
     // Raise some Intelligence XP.
     if (has_ai_api(ns)) {
         log(ns, "Raise Intelligence XP");
@@ -244,6 +255,7 @@ export async function main(ns) {
         log(ns, "No access to Artificial Intelligence API", colour.RED);
     }
     trade_bot_resume(ns);
+
     // Set our gang to a state where it at least is working to lower the
     // penalty.
     set_neutral_gang(ns);
