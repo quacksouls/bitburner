@@ -87,6 +87,7 @@ function dir_structure() {
         "faction/go.js",
         "faction/hack.js",
         "faction/megacorp.js",
+        "faction/share.js",
         "find-cct.js",
         "gang/augment.js",
         "gang/crime.js",

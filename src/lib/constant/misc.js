@@ -222,6 +222,12 @@ export const hgw = {
 export const script = "/quack/hack.js";
 
 /**
+ * The share script.  Run this script to share the RAM of a server with a
+ * faction.
+ */
+export const script_share = "/quack/share.js";
+
+/**
  * The minimum required Hack stat to enable a player to work at most companies.
  */
 export const work_hack_lvl = 250;

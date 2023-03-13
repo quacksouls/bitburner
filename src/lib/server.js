@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { script } from "/quack/lib/constant/misc.js";
+import { script, script_share } from "/quack/lib/constant/misc.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -75,6 +75,11 @@ export class Server {
     #security_min;
 
     /**
+     * The script for sharing the RAM of a server with a faction.
+     */
+    #share_script;
+
+    /**
      * Create a server object with the given hostname.
      *
      * @param ns The Netscript API.
@@ -93,6 +98,7 @@ export class Server {
         this.#ns = ns;
         this.#script = script;
         this.#security_min = server.minDifficulty;
+        this.#share_script = script_share;
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
@@ -378,6 +384,32 @@ export class Server {
      */
     security_min() {
         return this.#security_min;
+    }
+
+    /**
+     * Copy our share script over to this server and run the script.
+     *
+     * @returns {boolean} True if our share script is running on the server
+     *     using at least one thread; false otherwise.
+     */
+    share() {
+        if (
+            !this.has_root_access()
+            || !this.#ns.fileExists(this.#share_script, this.#home)
+        ) {
+            return bool.FAILURE;
+        }
+        // No free RAM on server to run our share script.
+        const nthread = this.num_threads(this.#share_script);
+        if (nthread < 1) {
+            return bool.FAILURE;
+        }
+
+        // Copy our share script over to this server and share its RAM with a
+        // faction.
+        this.#ns.scp(this.#share_script, this.hostname(), this.#home);
+        this.#ns.exec(this.#share_script, this.hostname(), nthread);
+        return bool.SUCCESS;
     }
 
     /**

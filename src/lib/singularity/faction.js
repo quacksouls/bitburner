@@ -216,6 +216,21 @@ export async function raise_hack(ns, threshold) {
 }
 
 /**
+ * Share our botnet with a faction.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac Share our botnet with this faction.
+ */
+function share_botnet(ns, fac) {
+    // Kill all scripts running on world servers.
+    const nthread = 1;
+    ns.exec("/quack/kill-script.js", home, nthread, "world");
+
+    const script = "/quack/faction/share.js";
+    ns.exec(script, home, nthread, fac);
+}
+
+/**
  * Start sharing our home server with a faction.
  *
  * @param ns The Netscript API.
@@ -285,10 +300,13 @@ export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
     log(ns, `Work for faction: ${fac}`);
     assert(job_area.HACK === work_type || job_area.FIELD === work_type);
-    // Share our home server with the faction.  Doing so would boost the amount
-    // of reputation points we earn.
+
+    // Share our home server and botnet with the faction.  Doing so would boost
+    // the rate at which we gain reputation points.
     await start_share_home(ns);
     log(ns, `Share home server with faction: ${fac}`);
+    share_botnet(ns, fac);
+
     // Start working for the faction.
     const threshold = total_reputation(ns, fac);
     if (threshold === 0) {
@@ -304,6 +322,7 @@ export async function work_for_faction(ns, fac, work_type) {
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
+
     // We no longer need to share our home server with the faction.
     stop_share_home(ns);
     log(ns, `Stop sharing home server with faction: ${fac}`);
