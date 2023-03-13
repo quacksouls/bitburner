@@ -59,8 +59,9 @@ export class PurchasedServer {
     /**
      * The cost of buying a server with the given amount of RAM (GB).
      *
-     * @param ram The amount of RAM (GB) to buy with this purchased server.
-     *     RAM is assumed to be given as a power of 2.
+     * @param {number} ram The amount of RAM (GB) to buy with this purchased
+     *     server.  RAM is assumed to be given as a power of 2.
+     * @returns {number} The cost for a purchased server having the given RAM.
      */
     cost(ram) {
         assert(this.is_valid_ram(ram));
