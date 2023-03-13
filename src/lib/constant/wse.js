@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values related to the World Stock Exchange.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Various thresholds related to the market forecast.
