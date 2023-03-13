@@ -94,7 +94,7 @@ async function upgrade_ram(ns) {
 }
 
 /**
- * Upgrade the Cores and RAM on our home server.
+ * Upgrade our home server.
  *
  * Usage: run quack/singularity/home.js
  *
