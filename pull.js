@@ -158,6 +158,7 @@ function dir_structure() {
         "lib/sleeve/util.js",
         "lib/source.js",
         "lib/util.js",
+        "lib/wse.js",
         "low-end.js",
         "nmap.js",
         "restart-server.js",

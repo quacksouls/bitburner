@@ -27,12 +27,8 @@ import { log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
 import { join_all_factions } from "/quack/lib/singularity/faction.js";
 import { has_ai_api } from "/quack/lib/source.js";
-import {
-    assert,
-    cleanup,
-    trade_bot_resume,
-    trade_bot_stop_buy,
-} from "/quack/lib/util.js";
+import { assert, cleanup } from "/quack/lib/util.js";
+import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have

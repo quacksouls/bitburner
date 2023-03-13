@@ -20,7 +20,8 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { Server } from "/quack/lib/server.js";
 import { choose_hardware_company } from "/quack/lib/singularity/util.js";
-import { exec, trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/util.js";
+import { exec } from "/quack/lib/util.js";
+import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
 
 /**
  * Whether the RAM on the home server is at the artificial limit.  Even though

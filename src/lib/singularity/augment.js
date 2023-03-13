@@ -25,12 +25,8 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { commit_crime } from "/quack/lib/singularity/crime.js";
 import { work } from "/quack/lib/singularity/work.js";
-import {
-    assert,
-    is_valid_faction,
-    trade_bot_resume,
-    trade_bot_stop_buy,
-} from "/quack/lib/util.js";
+import { assert, is_valid_faction } from "/quack/lib/util.js";
+import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
 
 /**
  * Augmentations we still need to purchase from a faction.  From all
