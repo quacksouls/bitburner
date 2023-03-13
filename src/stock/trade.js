@@ -156,6 +156,40 @@ function is_favourable_long(ns, sym) {
 }
 
 /**
+ * Whether to sell all shares of all stocks we own.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are to liquidate all stocks; false otherwise.
+ */
+function is_liquidate(ns) {
+    return ns.fileExists(wse.LIQUIDATE, home);
+}
+
+/**
+ * Sell all shares of all stocks we own.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function liquidate_all(ns) {
+    const has_long = (sym) => num_long(ns, sym) > 0;
+    ns.stock
+        .getSymbols()
+        .filter(has_long)
+        .forEach((sym) => {
+            const nshare = num_long(ns, sym);
+            const price_per_share = ns.stock.sellStock(sym, nshare);
+            assert(price_per_share !== 0);
+            const revenue = price_per_share * nshare;
+            log(
+                ns,
+                `Sold all shares of ${sym} for ${Money.format(
+                    revenue
+                )} in revenue`
+            );
+        });
+}
+
+/**
  * The top stocks most likely to increase in value during the next tick.
  *
  * @param {NS} ns The Netscript API.
@@ -345,6 +379,10 @@ export async function main(ns) {
     log(ns, "Trading on the Stock Market");
     let portfolio = initial_portfolio(ns);
     for (;;) {
+        if (is_liquidate(ns)) {
+            liquidate_all(ns);
+            return;
+        }
         portfolio = await transaction(ns, portfolio);
         await ns.sleep(wse.TICK);
     }

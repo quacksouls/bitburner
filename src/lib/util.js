@@ -99,7 +99,7 @@ export function choose_targets(ns, candidate) {
  * @param ns The Netscript API.
  */
 export function cleanup(ns) {
-    const junk = [server.HRAM, server.SHARE, wse.STOP_BUY];
+    const junk = [server.HRAM, server.SHARE, wse.LIQUIDATE, wse.STOP_BUY];
     junk.forEach((f) => ns.rm(f, home));
 }
 

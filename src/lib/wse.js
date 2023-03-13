@@ -24,6 +24,17 @@ import { home } from "/quack/lib/constant/server.js";
 import { wse } from "/quack/lib/constant/wse.js";
 
 /**
+ * Sell all shares of all stocks we own.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+export function trade_bot_liquidate(ns) {
+    const fname = wse.LIQUIDATE;
+    const data = "Trade bot liquidate.";
+    ns.write(fname, data, io.WRITE);
+}
+
+/**
  * Tell the trade bot to resume its transactions.  It can now buy and sell
  * shares of stocks.
  *

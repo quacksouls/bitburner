@@ -63,6 +63,10 @@ export const wse = {
      */
     COMMISSION: 100e3,
     /**
+     * A file name.  Tells the trade bot to sell all shares of all stocks.
+     */
+    LIQUIDATE: "/quack/trade_bot_liquidate.txt",
+    /**
      * The index in the array returned by ns.stock.getPosition() where we find
      * the number of shares we own in the Long position.
      */

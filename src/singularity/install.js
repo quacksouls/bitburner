@@ -28,7 +28,11 @@ import { Player } from "/quack/lib/player.js";
 import { join_all_factions } from "/quack/lib/singularity/faction.js";
 import { has_ai_api } from "/quack/lib/source.js";
 import { assert, cleanup } from "/quack/lib/util.js";
-import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
+import {
+    trade_bot_liquidate,
+    trade_bot_resume,
+    trade_bot_stop_buy,
+} from "/quack/lib/wse.js";
 
 /**
  * Purchase Augmentations that are exclusive to various factions.  If we have
@@ -242,6 +246,11 @@ export async function main(ns) {
         `Wait ${time / wait_t.SECOND} seconds to sell shares of stocks (if any)`
     );
     await ns.sleep(time);
+    trade_bot_resume(ns);
+    // Now sell all shares of all remaining stocks.
+    trade_bot_liquidate(ns);
+    log(ns, "Liquidate all stocks (if any)");
+    await ns.sleep(wse.TICK + wait_t.DEFAULT);
 
     // Raise some Intelligence XP.
     if (has_ai_api(ns)) {
@@ -253,7 +262,6 @@ export async function main(ns) {
     } else {
         log(ns, "No access to Artificial Intelligence API", colour.RED);
     }
-    trade_bot_resume(ns);
 
     // Set our gang to a state where it at least is working to lower the
     // penalty.
