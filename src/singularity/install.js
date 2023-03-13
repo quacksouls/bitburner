@@ -149,8 +149,7 @@ async function buy_programs(ns) {
  *     installed; false otherwise.
  */
 function has_augmentations(ns) {
-    const aug = purchased_augmentations(ns);
-    return aug.length > 0;
+    return purchased_augmentations(ns).length > 0;
 }
 
 /**
