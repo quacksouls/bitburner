@@ -15,16 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/quack/lib/player.js";
-
 /**
  * The player's karma.
  *
  * Usage: run quack/karma.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    const player = new Player(ns);
-    ns.tprint(`Karma: ${player.karma()}`);
+    ns.tprintf(`Karma: ${ns.heart.break()}`);
 }
