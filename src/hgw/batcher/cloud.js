@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { hgw } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
@@ -96,8 +97,9 @@ function update(ns) {
  */
 function upgrade_server(ns) {
     const psv = new PurchasedServer(ns);
+    const can_upgrade = (host) => psv.max_ram(host) < hgw.PSERV_MAX_RAM;
     const upgrade_ram = (host) => psv.upgrade(host, 2 * psv.max_ram(host));
-    psv.farm().forEach(upgrade_ram);
+    psv.farm().filter(can_upgrade).forEach(upgrade_ram);
 }
 
 /**
