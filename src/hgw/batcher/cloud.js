@@ -20,7 +20,7 @@ import { home, home_t } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
 import { money } from "/quack/lib/money.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
-import { assert, can_run_script, has_program } from "/quack/lib/util.js";
+import { assert, can_run_script, has_formulas } from "/quack/lib/util.js";
 
 /**
  * Purchase a server.
@@ -111,7 +111,7 @@ function upgrade_server(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    assert(has_program(ns, "Formulas.exe"));
+    assert(has_formulas(ns));
     for (;;) {
         update(ns);
         if (
