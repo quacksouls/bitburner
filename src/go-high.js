@@ -28,7 +28,7 @@ import {
 } from "/quack/lib/util.js";
 
 /**
- * Determine which batcher to use.  Here are the candidates:
+ * Determine which batcher to run on our home server.  Here are the candidates:
  *
  * (1) Sequential batcher.  Good for when our home server has limited RAM.
  * (2) Proto batcher.  Good for when our home server has a huge amount of RAM.
