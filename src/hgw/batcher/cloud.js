@@ -84,7 +84,7 @@ function find_target(ns) {
  *
  * @param {NS} ns The Netscript API.
  */
-async function update(ns) {
+function update(ns) {
     buy_server(ns);
     upgrade_server(ns);
 }
