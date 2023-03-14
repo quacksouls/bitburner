@@ -26,6 +26,7 @@ import {
     can_run_script,
     free_ram,
     gain_root_access,
+    has_formulas,
     is_bankrupt,
     num_threads,
     weight,
@@ -79,6 +80,24 @@ export function assemble_botnet(ns, host, frac, is_prep) {
         });
     assert(botnet.length > 0);
     return botnet;
+}
+
+/**
+ * Determine which batcher to run on our farm of purchased servers.  Candidates:
+ *
+ * (1) Sequential batcher.  When we do not have the program Formulas.exe.
+ * (2) Proto batcher.  When a purchased server has a huge amount of RAM.  A
+ *     proto batcher generates more money and Hack XP than a sequential batcher,
+ *     but is RAM intensive.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {string} Name of the batcher script to use.
+ */
+export function choose_batcher_pserv(ns) {
+    if (has_formulas(ns)) {
+        return "/quack/hgw/batcher/cloud.js";
+    }
+    return "/quack/hgw/pserv.js";
 }
 
 /**
