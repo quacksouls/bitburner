@@ -2,12 +2,13 @@
 
 > Bitburner v2.2.2
 
-Data on a trade bot that uses the 4S data and API. We use
-[this test script](../../src/test/stock/trade4s.js) and
+Data on a trade bot that uses the 4S data and API. The
+[driver script](../../src/test/stock/go4s.js) manages the
+[trade bot](../../src/test/stock/trade4s.js). We use
 [this save file](../../data/stock/stock.json). In each tick of the Stock Market,
-the script chooses the best stock to sell and the best stock to buy. Before each
-run, ensure the seed money does not exceed $250m. Let the script run for 24
-hours, at the end of which print out the profit earned.
+the trade bot chooses the best stock to sell and the best stock to buy. Before
+each run, the driver script ensures the seed money does not exceed $250m. Let
+both scripts run for 24 hours, at the end of which print out the profit earned.
 
 Here is an explanation of the headers in the data table. Numbers were rounded to
 six decimal places.
