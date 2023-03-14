@@ -16,7 +16,7 @@
  */
 
 import { pserv } from "/quack/lib/constant/pserv.js";
-import { home } from "/quack/lib/constant/server.js";
+import { home, home_t } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
 import { money } from "/quack/lib/money.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
@@ -114,6 +114,12 @@ export async function main(ns) {
     assert(has_program(ns, "Formulas.exe"));
     for (;;) {
         update(ns);
+        if (
+            ns.getServer(home).maxRam < home_t.RAM_HIGH
+            && ns.getPurchasedServers().length === pserv.SMALL_FARM
+        ) {
+            return;
+        }
         await ns.sleep(pserv.TICK);
     }
 }

@@ -73,6 +73,11 @@ export const pserv = {
         131072, 262144, 524288, 1048576,
     ],
     /**
+     * The number of purchased servers for when we have limited RAM on home to
+     * run manager scripts for the batchers.
+     */
+    SMALL_FARM: 3,
+    /**
      * Sleep for this interval of time.  Currently it is 5 minutes.
      */
     TICK: 300e3,
