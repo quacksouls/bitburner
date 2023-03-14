@@ -15,9 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { bool } from "/quack/lib/constant/bool.js";
 import { script } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home } from "/quack/lib/constant/server.js";
+import { money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -57,6 +59,19 @@ export class PurchasedServer {
     }
 
     /**
+     * Whether we can upgrade the RAM of a purchased server.
+     *
+     * @param {string} host Hostname of the purchased server to upgrade.
+     * @param {number} ram Upgrade the server to this amount of RAM.
+     * @returns {boolean} True if we can upgrade the purchased server to the
+     *     given amount of RAM; false otherwise.
+     */
+    can_upgrade(host, ram) {
+        assert(this.has_server(host));
+        return money(this.#ns) > this.cost(ram);
+    }
+
+    /**
      * The cost of buying a server with the given amount of RAM (GB).
      *
      * @param {number} ram The amount of RAM (GB) to buy with this purchased
@@ -93,6 +108,28 @@ export class PurchasedServer {
     }
 
     /**
+     * Whether we have the maximum number of purchased servers.
+     *
+     * @returns {boolean} True if we have the maximum number of purchased
+     *     servers; false otherwise.
+     */
+    has_max() {
+        return this.farm().length === this.limit();
+    }
+
+    /**
+     * Whether we have a given purchased server.
+     *
+     * @param {string} host Hostname of a purchased server.
+     * @returns {boolean} True if we have the given purchased server;
+     *     false otherwise.
+     */
+    has_server(host) {
+        assert(host !== "" && host !== home);
+        return this.farm().includes(host);
+    }
+
+    /**
      * Whether the given amount of RAM (GB) is valid for a purchased server.
      *
      * @param ram The amount of RAM in GB.  Must be a power of 2.  Lowest is
@@ -126,6 +163,17 @@ export class PurchasedServer {
     }
 
     /**
+     * The maximum amount of RAM of a purchased server.
+     *
+     * @param {string} host Query this purchased server.
+     * @returns {number} The maximum amount of RAM of the given server.
+     */
+    max_ram(host) {
+        assert(this.has_server(host));
+        return this.#ns.getServerMaxRam(host);
+    }
+
+    /**
      * Purchase a new server with the given hostname and amount of RAM (GB).
      *
      * @param hostname The hostname of the new purchased server.  If a player
@@ -136,6 +184,20 @@ export class PurchasedServer {
      */
     purchase(hostname, ram) {
         return this.#ns.purchaseServer(hostname, ram);
+    }
+
+    /**
+     * Upgrade the RAM of a purchased server.
+     *
+     * @param {string} host We want to upgrade this purchased server.
+     * @param {number} ram Upgrade the purchased server to this amount of RAM.
+     * @returns {boolean} True if the upgrade is successful; false otherwise.
+     */
+    upgrade(host, ram) {
+        if (!this.can_upgrade(host, ram) || this.max_ram(host) >= ram) {
+            return bool.FAILURE;
+        }
+        return this.#ns.upgradePurchasedServer(host, ram);
     }
 
     /**

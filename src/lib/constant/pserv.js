@@ -61,6 +61,10 @@ export const pserv = {
      */
     PREFIX: "pserv",
     /**
+     * A script that implements a proto batcher for purchased servers.
+     */
+    PROTO_BATCH: "/quack/hgw/batcher/pserv.js",
+    /**
      * An array of valid RAM for a purchased server.  Each RAM amount is a
      * power of 2.
      */
@@ -68,4 +72,8 @@ export const pserv = {
         32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
         131072, 262144, 524288, 1048576,
     ],
+    /**
+     * Sleep for this interval of time.  Currently it is 5 minutes.
+     */
+    TICK: 300e3,
 };
