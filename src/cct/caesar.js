@@ -23,7 +23,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The Caesar cipher on the given plaintext and left shift length k.  Suppose
@@ -101,7 +101,7 @@ export async function main(ns) {
     const [plaintext, k] = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(caesar(plaintext, k), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/caesar.txt";
         const data = `[${plaintext}, ${k}]`;
         await log_cct_failure(ns, log, cct, host, data);

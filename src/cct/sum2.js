@@ -17,7 +17,7 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The number of ways to change n using coins in the given set of denominations.
@@ -112,7 +112,7 @@ export async function main(ns) {
     const npart = coin_change(n, denomination);
     const result = ns.codingcontract.attempt(npart, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/sum2.txt";
         const data = `[${n}, [${denomination.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);

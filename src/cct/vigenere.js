@@ -23,7 +23,7 @@ import {
     print_success,
 } from "/quack/lib/cct.js";
 import { vigenere_square } from "/quack/lib/constant/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Pad the key so that it is the same length as the plaintext.
@@ -132,7 +132,7 @@ export async function main(ns) {
         host
     );
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/vigenere.txt";
         const data = `[${plaintext}, ${key}]`;
         await log_cct_failure(ns, log, cct, host, data);

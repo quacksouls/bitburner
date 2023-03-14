@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The largest sum of a non-empty, contiguous subarray.
@@ -60,7 +60,7 @@ export async function main(ns) {
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(subarray_sum(array), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/subarray.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);

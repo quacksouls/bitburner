@@ -22,7 +22,7 @@ import {
     print_success,
 } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * A deep copy of a triangle.
@@ -181,7 +181,7 @@ export async function main(ns) {
     const [, sum] = descend(triangle);
     const result = ns.codingcontract.attempt(sum, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/triangle.txt";
         const data = matrix_to_string(triangle);
         await log_cct_failure(ns, log, cct, host, data);

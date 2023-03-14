@@ -21,7 +21,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Whether an obstacle is found at the coordinates (r, c).
@@ -175,7 +175,7 @@ export async function main(ns) {
     const grid = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(unique_paths(grid), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/grid2.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);

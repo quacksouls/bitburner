@@ -25,7 +25,7 @@ import {
 import { bool } from "/quack/lib/constant/bool.js";
 import { colour } from "/quack/lib/constant/cct.js";
 import { Graph } from "/quack/lib/network.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Whether an undirected graph is bipartite.  Do not assume the graph is
@@ -264,7 +264,7 @@ export async function main(ns) {
     const colr = bipartite(n, edge);
     const result = ns.codingcontract.attempt(colr, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/bipartite.txt";
         const data = `[${n}, ${matrix_to_string(edge)}]`;
         await log_cct_failure(ns, log, cct, host, data);

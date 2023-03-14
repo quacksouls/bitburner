@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The largest prime factor of a positive integer.
@@ -75,7 +75,7 @@ export async function main(ns) {
     const n = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(max_prime_factor(n), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/prime.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);

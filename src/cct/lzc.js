@@ -1,4 +1,5 @@
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Compress a string using LZ encoding.  This function is due to
@@ -205,7 +206,7 @@ export async function main(ns) {
     const data = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(compress(data), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/lzc.txt";
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

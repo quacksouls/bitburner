@@ -18,7 +18,7 @@
 import { MyArray } from "/quack/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Merge overlapping intervals.
@@ -121,7 +121,7 @@ export async function main(ns) {
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(merge(array), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/interval.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);

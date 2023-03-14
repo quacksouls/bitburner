@@ -18,7 +18,7 @@
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { lzchunk } from "/quack/lib/constant/cct.js";
 import { base } from "/quack/lib/constant/misc.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Use a variant of the Lempel-Ziv (LZ) algorithm to decompress a string.  The
@@ -191,7 +191,7 @@ export async function main(ns) {
     const data = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(decompress(data), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/lzd.txt";
         await log_cct_failure(ns, log, cct, host, data);
         print_error(ns, host, cct);

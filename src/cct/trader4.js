@@ -23,7 +23,7 @@ import {
     stock_traderIII,
 } from "/quack/lib/cct.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The maximum profit that can be made when we are restricted to at most t
@@ -202,7 +202,7 @@ export async function main(ns) {
     const mp = await maximize_profit(ns, t, price);
     const result = ns.codingcontract.attempt(mp, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/trader4.txt";
         const data = `[${t}, [${price.join(",")}]]`;
         await log_cct_failure(ns, log, cct, host, data);

@@ -21,6 +21,7 @@ import {
     print_success,
     stock_traderIII,
 } from "/quack/lib/cct.js";
+import { is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Algorithmic Stock Trader III: You are given an array of numbers representing
@@ -48,7 +49,7 @@ export async function main(ns) {
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(stock_traderIII(array), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/trader3.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);

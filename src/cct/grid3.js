@@ -23,7 +23,7 @@ import {
 } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { Graph } from "/quack/lib/network.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Whether we can move one step down from our current position on a grid.
@@ -337,7 +337,7 @@ export async function main(ns) {
     const grid = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(shortest_path(grid), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/grid3.txt";
         const data = matrix_to_string(grid);
         await log_cct_failure(ns, log, cct, host, data);

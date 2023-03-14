@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The number of unique paths from top-left to bottom-right in an m x n
@@ -120,7 +120,7 @@ export async function main(ns) {
     const n = row - 1 + k;
     const result = ns.codingcontract.attempt(unique_paths(n, k), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/grid.txt";
         const data = `[${row}, ${column}]`;
         await log_cct_failure(ns, log, cct, host, data);

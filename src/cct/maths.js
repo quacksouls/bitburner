@@ -17,7 +17,7 @@
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { base } from "/quack/lib/constant/misc.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * All valid mathematical expressions, each of which evaluates to a target
@@ -138,7 +138,7 @@ export async function main(ns) {
     const solution = all_expressions(string, target);
     const result = ns.codingcontract.attempt(solution, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/maths.txt";
         const data = `${string}, ${target}`;
         await log_cct_failure(ns, log, cct, host, data);

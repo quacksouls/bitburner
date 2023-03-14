@@ -16,7 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * The number of possible partitions of a non-negative integer n.  That is,
@@ -101,7 +101,7 @@ export async function main(ns) {
     const n = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(partition(n) - 1, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/sum.txt";
         await log_cct_failure(ns, log, cct, host, n);
         print_error(ns, host, cct);

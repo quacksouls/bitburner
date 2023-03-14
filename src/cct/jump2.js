@@ -19,7 +19,7 @@ import { MyArray } from "/quack/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { Graph } from "/quack/lib/network.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Whether we can jump from the current array cell.
@@ -142,7 +142,7 @@ export async function main(ns) {
     const min_jump = minimum_jump(array);
     const result = ns.codingcontract.attempt(min_jump, cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/jump2.txt";
         const data = `[${array.join(",")}]`;
         await log_cct_failure(ns, log, cct, host, data);

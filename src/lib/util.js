@@ -339,6 +339,16 @@ export function is_bankrupt(ns, s) {
 export const is_boolean = (x) => typeof x === "boolean";
 
 /**
+ * Whether a string is empty.
+ *
+ * @param {string} str Test this string.
+ * @returns {boolean} True if the given string is empty; false otherwise.
+ */
+export function is_empty_string(str) {
+    return typeof str === "string" && str === "" && str.length === 0;
+}
+
+/**
  * Whether a given string represents a valid city in the game world.
  *
  * @param c A city name, represented as a string.  Cannot be an empty string.

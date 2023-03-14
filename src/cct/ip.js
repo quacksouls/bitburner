@@ -18,7 +18,7 @@
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { base } from "/quack/lib/constant/misc.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * All valid IPv4 addresses from a string of digits.
@@ -157,7 +157,7 @@ export async function main(ns) {
     const string = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(all_ip(string), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/ip.txt";
         await log_cct_failure(ns, log, cct, host, string);
         print_error(ns, host, cct);

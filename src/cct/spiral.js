@@ -21,7 +21,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Trace out a ring inside a 2-D matrix.
@@ -119,7 +119,7 @@ export async function main(ns) {
     const matrix = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(spiral(matrix), cct, host);
     // Log the result in case of failure.
-    if (result.length === 0) {
+    if (is_empty_string(result)) {
         const log = "/quack/cct/spiral.txt";
         const data = matrix_to_string(matrix);
         await log_cct_failure(ns, log, cct, host, data);
