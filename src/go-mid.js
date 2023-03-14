@@ -17,6 +17,7 @@
 
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { choose_batcher_pserv } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
 import {
@@ -48,6 +49,7 @@ async function reboot(ns) {
     await farm_hack_xp(ns);
     exec(ns, "/quack/hgw/world.js");
     await init_sleeves(ns);
+    exec(ns, choose_batcher_pserv(ns));
 }
 
 /**
