@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/quack/lib/player.js";
+import { MyArray } from "/quack/lib/array.js";
 import { network } from "/quack/lib/network.js";
 
 /**
@@ -31,24 +31,24 @@ import { network } from "/quack/lib/network.js";
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    const error_msg = "Must provide one command line argument: pserv | world";
     // Must provide a command line argument to this script.
-    if (ns.args.length < 1) {
-        ns.tprint(error_msg);
+    const error_msg = "Must provide one command line argument: pserv | world";
+    if (MyArray.is_empty(ns.args)) {
+        ns.tprintf(error_msg);
         return;
     }
 
     const stype = ns.args[0];
-    const player = new Player(ns);
-    if (stype === "pserv") {
-        // Kill all scripts on purchased servers.
-        player.pserv().forEach((s) => ns.killall(s));
-    } else if (stype === "world") {
-        // Kill all scripts on world servers where we have root access.
-        network(ns)
-            .filter((s) => ns.hasRootAccess(s))
-            .forEach((s) => ns.killall(s));
-    } else {
-        ns.tprint(error_msg);
+    const kill = (host) => ns.killall(host);
+    const is_nuked = (host) => ns.hasRootAccess(host);
+    switch (stype) {
+        case "pserv":
+            ns.getPurchasedServers().forEach(kill);
+            break;
+        case "world":
+            network(ns).filter(is_nuked).forEach(kill);
+            break;
+        default:
+            ns.tprintf(error_msg);
     }
 }

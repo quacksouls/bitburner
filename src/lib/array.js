@@ -41,6 +41,17 @@ export class MyArray {
     }
 
     /**
+     * Whether an array is empty, i.e. has zero elements.
+     *
+     * @param {array} arr Test this array.
+     * @returns {boolean} True if the given array is empty; false otherwise.
+     */
+    static is_empty(arr) {
+        assert(Array.isArray(arr));
+        return arr.length === 0;
+    }
+
+    /**
      * The maximum element of an array.
      *
      * @param array We want to determine the maximum element of this array.
