@@ -84,6 +84,15 @@ export class PurchasedServer {
     }
 
     /**
+     * All servers in our farm of purchased servers.
+     *
+     * @returns {array<string>} Array of hostnames of our purchased servers.
+     */
+    farm() {
+        return this.#ns.getPurchasedServers();
+    }
+
+    /**
      * Whether the given amount of RAM (GB) is valid for a purchased server.
      *
      * @param ram The amount of RAM in GB.  Must be a power of 2.  Lowest is
@@ -101,7 +110,7 @@ export class PurchasedServer {
      * on each purchased server.
      */
     kill_all() {
-        for (const server of this.#ns.getPurchasedServers()) {
+        for (const server of this.farm()) {
             // Kill all scripts running on a purchased server.
             this.#ns.killall(server);
             // Delete the purchased server.
