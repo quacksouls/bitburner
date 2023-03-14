@@ -39,13 +39,38 @@ import {
  * @returns {string} Name of the batcher script to use.
  */
 function choose_batcher(ns) {
-    if (
-        ns.getServerMaxRam(home) >= home_t.RAM_HUGE
-        && has_program(ns, "Formulas.exe")
-    ) {
+    if (ns.getServerMaxRam(home) >= home_t.RAM_HUGE && has_formulas(ns)) {
         return "/quack/hgw/batcher/joe.js";
     }
     return "/quack/hgw/world.js";
+}
+
+/**
+ * Determine which batcher to run on our farm of purchased servers.  Candidates:
+ *
+ * (1) Sequential batcher.  When we do not have the program Formulas.exe.
+ * (2) Proto batcher.  When a purchased server has a huge amount of RAM.  A
+ *     proto batcher generates more money and Hack XP than a sequential batcher,
+ *     but is RAM intensive.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {string} Name of the batcher script to use.
+ */
+function choose_batcher_pserv(ns) {
+    if (has_formulas(ns)) {
+        return "/quack/hgw/batcher/cloud.js";
+    }
+    return "/quack/hgw/pserv.js";
+}
+
+/**
+ * Whether we have the program Formulas.exe.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have the program Formulas.exe; false otherwise.
+ */
+function has_formulas(ns) {
+    return has_program(ns, "Formulas.exe");
 }
 
 /**
@@ -71,7 +96,7 @@ async function reboot(ns) {
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
     if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
-        other_script.unshift("/quack/hgw/pserv.js");
+        other_script.unshift(choose_batcher_pserv(ns));
     }
     other_script.forEach((s) => exec(ns, s));
 
