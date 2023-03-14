@@ -60,6 +60,7 @@ export const darkweb = {
             COST: 500e3,
             NAME: "BruteSSH.exe",
         },
+        formulas: "Formulas.exe",
         ftpcrack: {
             COST: 1.5e6,
             NAME: "FTPCrack.exe",

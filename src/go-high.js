@@ -23,7 +23,7 @@ import {
     assert,
     exec,
     farm_hack_xp,
-    has_program,
+    has_formulas,
     init_sleeves,
 } from "/quack/lib/util.js";
 
@@ -61,16 +61,6 @@ function choose_batcher_pserv(ns) {
         return "/quack/hgw/batcher/cloud.js";
     }
     return "/quack/hgw/pserv.js";
-}
-
-/**
- * Whether we have the program Formulas.exe.
- *
- * @param {NS} ns The Netscript API.
- * @returns {boolean} True if we have the program Formulas.exe; false otherwise.
- */
-function has_formulas(ns) {
-    return has_program(ns, "Formulas.exe");
 }
 
 /**

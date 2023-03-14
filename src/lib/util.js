@@ -239,6 +239,16 @@ export function has_all_popen(ns) {
 }
 
 /**
+ * Whether we have the program Formulas.exe.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have the program Formulas.exe; false otherwise.
+ */
+export function has_formulas(ns) {
+    return has_program(ns, darkweb.program.formulas);
+}
+
+/**
  * Whether we have a particular program.
  *
  * @param ns The Netscript API.
