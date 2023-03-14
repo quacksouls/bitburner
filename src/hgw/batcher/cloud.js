@@ -20,7 +20,7 @@ import { home } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
 import { money } from "/quack/lib/money.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
-import { assert, has_program } from "/quack/lib/util.js";
+import { assert, can_run_script, has_program } from "/quack/lib/util.js";
 
 /**
  * Purchase a server.
@@ -29,6 +29,10 @@ import { assert, has_program } from "/quack/lib/util.js";
  */
 function buy_server(ns) {
     // Sanity checks.
+    const script = pserv.PROTO_BATCH;
+    if (!can_run_script(ns, script, home)) {
+        return;
+    }
     const psv = new PurchasedServer(ns);
     if (psv.has_max()) {
         return;
@@ -44,7 +48,6 @@ function buy_server(ns) {
         return;
     }
     const host = psv.purchase(pserv.PREFIX, pserv.DEFAULT_RAM_HGW);
-    const script = pserv.PROTO_BATCH;
     const nthread = 1;
     ns.exec(script, home, nthread, host, target);
 }
