@@ -116,7 +116,7 @@ export async function main(ns) {
         update(ns);
         if (
             ns.getServer(home).maxRam < home_t.RAM_HIGH
-            && ns.getPurchasedServers().length === pserv.SMALL_FARM
+            && ns.getPurchasedServers().length >= pserv.SMALL_FARM
         ) {
             return;
         }
