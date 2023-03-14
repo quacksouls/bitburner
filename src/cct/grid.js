@@ -118,9 +118,7 @@ export async function main(ns) {
     const [row, column] = ns.codingcontract.getData(cct, host);
     const k = column - 1;
     const n = row - 1 + k;
-    const result = ns.codingcontract.attempt(unique_paths(n, k), cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(unique_paths(n, k), cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/grid.txt";

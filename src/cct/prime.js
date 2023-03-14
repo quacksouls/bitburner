@@ -73,9 +73,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const n = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(max_prime_factor(n), cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(max_prime_factor(n), cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/prime.txt";

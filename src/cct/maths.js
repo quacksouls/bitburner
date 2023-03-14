@@ -136,9 +136,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
     const solution = all_expressions(string, target);
-    const result = ns.codingcontract.attempt(solution, cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(solution, cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/maths.txt";

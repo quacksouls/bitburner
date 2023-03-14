@@ -179,9 +179,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const triangle = ns.codingcontract.getData(cct, host);
     const [, sum] = descend(triangle);
-    const result = ns.codingcontract.attempt(sum, cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(sum, cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/triangle.txt";

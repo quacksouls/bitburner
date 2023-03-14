@@ -90,14 +90,7 @@ export async function main(ns) {
     const host = ns.args[1];
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        maximize_profit(array),
-        cct,
-        host,
-        {
-            returnReward: true,
-        }
-    );
+    const result = ns.codingcontract.attempt(maximize_profit(array), cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/trader2.txt";

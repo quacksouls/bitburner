@@ -200,9 +200,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const [t, price] = ns.codingcontract.getData(cct, host);
     const mp = await maximize_profit(ns, t, price);
-    const result = ns.codingcontract.attempt(mp, cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(mp, cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/trader4.txt";

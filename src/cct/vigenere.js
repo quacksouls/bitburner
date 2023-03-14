@@ -129,10 +129,7 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         vigenere(plaintext, key),
         cct,
-        host,
-        {
-            returnReward: true,
-        }
+        host
     );
     // Log the result in case of failure.
     if (result.length === 0) {

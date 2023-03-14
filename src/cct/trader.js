@@ -47,10 +47,7 @@ export async function main(ns) {
     const result = ns.codingcontract.attempt(
         max_profit_kadane(array),
         cct,
-        host,
-        {
-            returnReward: true,
-        }
+        host
     );
     // Log the result in case of failure.
     if (result.length === 0) {

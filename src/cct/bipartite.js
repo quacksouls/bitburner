@@ -262,9 +262,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const [n, edge] = ns.codingcontract.getData(cct, host);
     const colr = bipartite(n, edge);
-    const result = ns.codingcontract.attempt(colr, cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(colr, cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/bipartite.txt";

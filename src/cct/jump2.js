@@ -140,9 +140,7 @@ export async function main(ns) {
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
     const min_jump = minimum_jump(array);
-    const result = ns.codingcontract.attempt(min_jump, cct, host, {
-        returnReward: true,
-    });
+    const result = ns.codingcontract.attempt(min_jump, cct, host);
     // Log the result in case of failure.
     if (result.length === 0) {
         const log = "/quack/cct/jump2.txt";
