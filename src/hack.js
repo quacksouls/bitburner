@@ -15,45 +15,51 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // NOTE: Keep this script as independent and small as possible so that its RAM
 // requirement is as low as possible.  Avoid importing anything into this
 // script.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
- * NOTE: Assume that we have root access on the target server.
+ * NOTE: Assume we have root access on the target server.
  *
  * Hack a server and steal its money.  We weaken the server's security as
- * necessary, grow the server in case the amount of money on the server is
- * below our threshold, and hack the server when all conditions are met.  We
- * want one command line argument, i.e. the name of the server to hack.
+ * necessary, grow the server in case the amount of money on the server is below
+ * a threshold, and hack the server when all conditions are met.  This script
+ * accepts the following command line argument:
  *
- * Usage: run quack/hack.js [targetServer]
+ * (1) target := Hostname of the server to target.
+ *
+ * Usage: run quack/hack.js [target]
  * Example: run quack/hack.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The target server, i.e. the server to hack.
     const target = ns.args[0];
+
     // How much money a server should have before we hack it.  Even if the
     // server is bankrupt, successfully hacking it would increase our Hack XP,
     // although we would not receive any money.  Set the money threshold at 75%
     // of the server's maximum money.
     const money_threshold = Math.floor(ns.getServerMaxMoney(target) * 0.75);
-    // The threshold for the server's security level.  If the target's
-    // security level is higher than the threshold, weaken the target
-    // before doing anything else.
+
+    // The threshold for the server's security level.  If the target's security
+    // level is higher than the threshold, weaken the target before doing
+    // anything else.
     const security_threshold = ns.getServerMinSecurityLevel(target) + 5;
+
     // Continuously hack/grow/weaken the target server.
-    const opt = { stock: true }; // Affects the Stock Market.
     for (;;) {
         const money = ns.getServerMoneyAvailable(target);
         if (ns.getServerSecurityLevel(target) > security_threshold) {
-            await ns.weaken(target, opt);
+            await ns.weaken(target);
         } else if (money < money_threshold) {
-            await ns.grow(target, opt);
+            await ns.grow(target);
         } else {
-            await ns.hack(target, opt);
+            await ns.hack(target);
         }
     }
 }

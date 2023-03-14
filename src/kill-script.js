@@ -28,7 +28,7 @@ import { network } from "/quack/lib/network.js";
  * Usage: run quack/kill-script.js [pserv | world]
  * Example: run quack/kill-script.js pserv
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const error_msg = "Must provide one command line argument: pserv | world";
@@ -37,6 +37,7 @@ export async function main(ns) {
         ns.tprint(error_msg);
         return;
     }
+
     const stype = ns.args[0];
     const player = new Player(ns);
     if (stype === "pserv") {
