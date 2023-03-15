@@ -28,7 +28,7 @@ import { assert, shell } from "/quack/lib/util.js";
  *     this array.
  */
 function connect(path) {
-    // A chain of Terminal commands that connect to the target server.
+    // A chain of terminal commands that connect to the target server.
     assert(!MyArray.is_empty(path));
     const cmd = `connect ${path.filter((s) => s !== home).join("; connect ")}`;
     shell(cmd);
