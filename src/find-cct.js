@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { cct } from "/quack/lib/constant/cct.js";
 import { home } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
@@ -29,14 +30,15 @@ import { network } from "/quack/lib/network.js";
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    network(ns)
-        .concat([home])
-        .filter((s) => ns.ls(s, cct.SUFFIX).length > 0)
-        .forEach((host) => {
-            // Print the name of the coding contract, together with its type.
-            ns.ls(host, cct.SUFFIX).forEach((f) => {
-                const type = ns.codingcontract.getContractType(f, host);
-                log(ns, `${host}: ${f}, ${type}`);
-            });
+    const list_contract = (host) => ns.ls(host, cct.SUFFIX);
+    const has_contract = (host) => !MyArray.is_empty(list_contract(host));
+
+    // Print the name of a Coding Contract, together with its type.
+    const print_contract = (host) => {
+        list_contract(host).forEach((file) => {
+            const type = ns.codingcontract.getContractType(file, host);
+            log(ns, `${host}: ${file}, ${type}`);
         });
+    };
+    network(ns).concat([home]).filter(has_contract).forEach(print_contract);
 }
