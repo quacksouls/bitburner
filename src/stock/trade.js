@@ -297,8 +297,7 @@ async function profit_to_keep(ns, portfolio, profit) {
         keep = Math.floor(keep_mult * profit);
         await ns.sleep(wait_t.MILLISECOND);
     }
-    assert(keep >= 0);
-    return keep;
+    return keep < 0 ? 0 : keep;
 }
 
 /**
