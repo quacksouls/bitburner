@@ -19,7 +19,7 @@ import { colour } from "/quack/lib/constant/misc.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
-import { assert, exec } from "/quack/lib/util.js";
+import { assert, exec, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Restart our source of income and Hack XP.  This script is useful whenever we
@@ -54,6 +54,6 @@ export async function main(ns) {
         assert(server.maxRam < home_t.RAM_MID);
         script = "/quack/go-low.js";
     }
-    assert(script !== "");
+    assert(!is_empty_string(script));
     exec(ns, script);
 }
