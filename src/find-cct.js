@@ -21,12 +21,12 @@ import { log } from "/quack/lib/io.js";
 import { network } from "/quack/lib/network.js";
 
 /**
- * Find coding contracts on world servers.  This script essentially searches
- * the network of world servers to find coding contracts.
+ * Find Coding Contracts on world servers.  This script essentially searches
+ * the network of world servers to find Coding Contracts.
  *
  * Usage: run quack/find-cct.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     network(ns)
