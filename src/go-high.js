@@ -60,7 +60,6 @@ async function reboot(ns) {
         "/quack/sleeve/homicide.js",
         "/quack/stock/go.js",
         "/quack/cct/solver.js",
-        // "hram.js",
     ];
     script.forEach((s) => exec(ns, s));
     await farm_hack_xp(ns);

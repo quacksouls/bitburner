@@ -20,9 +20,8 @@
 
 import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
-import { io } from "/quack/lib/constant/io.js";
 import { cities } from "/quack/lib/constant/location.js";
-import { darkweb, hgw, script } from "/quack/lib/constant/misc.js";
+import { darkweb, hgw } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
@@ -281,39 +280,6 @@ export function has_required_hack(ns, host) {
  */
 export function has_root_access(ns, host) {
     return ns.getServer(host).hasAdminRights;
-}
-
-/**
- * Tell the script "hram.js" to resume whatever it was doing.
- *
- * @param ns The Netscript API.
- */
-export function hram_resume(ns) {
-    if (ns.fileExists(server.SHARE, home)) {
-        ns.rm(server.SHARE, home);
-    }
-}
-
-/**
- * Suspend the script "hram.js" to free up some RAM on the home server.
- *
- * @param ns The Netscript API.
- */
-export async function hram_suspend(ns) {
-    if (!ns.fileExists(server.SHARE, home)) {
-        const data = "Share home server.";
-        ns.write(server.SHARE, data, io.WRITE);
-    }
-    const target = ns.read(server.HRAM).trim();
-    if (target === "") {
-        while (ns.isRunning(script, home)) {
-            await ns.sleep(wait_t.SECOND);
-        }
-    } else {
-        while (ns.isRunning(script, home, target)) {
-            await ns.sleep(wait_t.SECOND);
-        }
-    }
 }
 
 /**

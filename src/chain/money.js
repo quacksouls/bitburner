@@ -28,8 +28,6 @@ import { exec } from "/quack/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Try to free up some RAM on home server so we can run the scripts below.
-    // await hram_suspend(ns);
     while (
         ns.isRunning("/quack/go-low.js", home)
         || ns.isRunning("/quack/go-mid.js", home)
@@ -37,6 +35,7 @@ export async function main(ns) {
     ) {
         await ns.sleep(wait_t.SECOND);
     }
+
     // Assume our home server has limited RAM.  The server cannot run multiple
     // scripts at the same time.  Load a sleeve script and let it run until
     // completion.  Then start another script.
@@ -54,5 +53,4 @@ export async function main(ns) {
     }
     // Now launch the main script for raising money.
     exec(ns, "/quack/singularity/money.js");
-    // hram_resume(ns);
 }

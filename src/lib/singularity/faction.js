@@ -236,9 +236,6 @@ function share_botnet(ns, fac) {
  * @param ns The Netscript API.
  */
 async function start_share_home(ns) {
-    // Tell the script hram.js to suspend whatever it is doing.  This should
-    // free up some RAM on the home server.
-    // await hram_suspend(ns);
     // Share our home server with a faction.
     const serv = new Server(ns, home);
     const ncopy = 1;
@@ -258,7 +255,6 @@ function stop_share_home(ns) {
     if (ns.isRunning(server.SHARE_SCRIPT, home)) {
         assert(ns.kill(server.SHARE_SCRIPT, home));
     }
-    // hram_resume(ns);
 }
 
 /**

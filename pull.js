@@ -111,7 +111,6 @@ function dir_structure() {
         "hgw/world.js",
         "hgw/xp.js",
         "hnet-farm.js",
-        "hram.js",
         "karma.js",
         "kill-script.js",
         "kill-server.js",

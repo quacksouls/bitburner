@@ -162,8 +162,5 @@ function join_next(ns, fac) {
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Try to free up some RAM on home server so we can run some scripts.
-    // await hram_suspend(ns);
     choose_faction(ns);
-    // hram_resume(ns);
 }

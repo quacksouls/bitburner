@@ -25,10 +25,6 @@ import { exec } from "/quack/lib/util.js";
  * @param ns The Netscript API.
  */
 export async function main(ns) {
-    // Suppress some log messages.
     ns.disableLog("sleep");
-    // Try to free up some RAM on home server so we can run the script below.
-    // await hram_suspend(ns);
     exec(ns, "/quack/singularity/install.js");
-    // hram_resume(ns);
 }
