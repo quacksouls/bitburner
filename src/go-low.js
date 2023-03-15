@@ -26,7 +26,7 @@ import {
 /**
  * Launch scripts to purchase port opener programs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function init_popen(ns) {
     const pid = exec(ns, "/quack/sleeve/homicide.js");
@@ -51,7 +51,7 @@ async function init_popen(ns) {
  * bunch of Augmentations or after visiting a new BitNode.  Our purpose is to
  * gain some money and Hack XP early on when our stats are low.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function reboot(ns) {
     // Execute a script, let it run for a while, kill the script, and run
@@ -73,20 +73,11 @@ async function reboot(ns) {
  *
  * Restart our source of income and Hack XP.  This script is useful whenever we
  * have installed a bunch of Augmentations and we want to automatically restart
- * scripts to:
- *
- * (1) Purchase Hacknet nodes and manage our farm of nodes.
- * (2) Buy servers and use each purchased server to hack a target server in the
- *     game world.
- * (3) Gain root access to servers in the game world (excluding purchased
- *     servers) and use each server to hack itself or a low-end server.
- *
- * Our goal in this script is to raise the amount of RAM on our home server to
- * at least 512GB.
+ * scripts to farm Hack XP and money.
  *
  * Usage: run quack/go-low.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     log(

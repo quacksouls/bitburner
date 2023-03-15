@@ -23,7 +23,7 @@ import { Player } from "/quack/lib/player.js";
  *
  * Usage: run quack/kill-server.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const player = new Player(ns);
