@@ -34,7 +34,7 @@ import { assert, exec } from "/quack/lib/util.js";
  */
 async function bootstrap(ns) {
     if (ns.getServer(home).maxRam < home_t.RAM_MID) {
-        // const script = ["low-end.js", "hnet-farm.js"];
+        // const script = ["hnet-farm.js"];
         const script = [];
         for (const s of script) {
             assert(!ns.isRunning(s, home));

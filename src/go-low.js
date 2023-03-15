@@ -57,7 +57,7 @@ async function reboot(ns) {
     // Execute a script, let it run for a while, kill the script, and run
     // another script.  Assume we do not have enough RAM to let multiple
     // scripts running at the same time.
-    // const script = ["hnet-farm.js", "low-end.js"];
+    // const script = ["hnet-farm.js"];
     // for (const s of script) {
     //     exec(ns, s);
     //     await ns.sleep(wait_t.DEFAULT);
