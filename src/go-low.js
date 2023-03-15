@@ -54,15 +54,6 @@ async function init_popen(ns) {
  * @param {NS} ns The Netscript API.
  */
 async function reboot(ns) {
-    // Execute a script, let it run for a while, kill the script, and run
-    // another script.  Assume we do not have enough RAM to let multiple
-    // scripts running at the same time.
-    // const script = ["hnet-farm.js"];
-    // for (const s of script) {
-    //     exec(ns, s);
-    //     await ns.sleep(wait_t.DEFAULT);
-    //     assert(ns.kill(s, home));
-    // }
     await init_sleeves(ns);
     await init_popen(ns);
 }

@@ -110,7 +110,7 @@ function dir_structure() {
         "hgw/weaken.js",
         "hgw/world.js",
         "hgw/xp.js",
-        "hnet-farm.js",
+        "hnet.js",
         "karma.js",
         "kill-script.js",
         "kill-server.js",

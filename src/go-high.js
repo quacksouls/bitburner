@@ -56,7 +56,6 @@ function choose_batcher(ns) {
 async function reboot(ns) {
     const script = [
         "/quack/gang/program.js",
-        // "hnet-farm.js",
         "/quack/sleeve/homicide.js",
         "/quack/stock/go.js",
         "/quack/cct/solver.js",

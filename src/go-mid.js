@@ -39,7 +39,6 @@ async function reboot(ns) {
 
     // Run scripts, wait a while, and then kill scripts to free up some RAM on
     // the home server.
-    // const script = [target, "hnet-farm.js", "/cct/solver.js"];
     const script = ["/quack/cct/solver.js"];
     script.forEach((s) => exec(ns, s));
     await ns.sleep(wait_t.MINUTE);
