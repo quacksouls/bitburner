@@ -22,8 +22,9 @@ import { assert, shell } from "/quack/lib/util.js";
 /**
  * Connect to a given target server.
  *
- * @param path An array of hostnames along the path that connects to a target
- *     server.  The target server is the last element of this array.
+ * @param {array<string>} path An array of hostnames along the path that
+ *     connects to a target server.  The target server is the last element of
+ *     this array.
  */
 function connect(path) {
     // A chain of Terminal commands that connect to the target server.
@@ -33,13 +34,14 @@ function connect(path) {
 }
 
 /**
- * Connect to a target server.  This script accepts a command line argument,
- * i.e. the hostname of the server to which we want to connect.
+ * Connect to a target server.  This script accepts a command line argument:
+ *
+ * (1) target := Hostname of the server to which we want to connect.
  *
  * Usage: run quack/connect.js [targetServer]
  * Example: run quack/connect.js run4theh111z
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Must provide a command line argument.
