@@ -23,7 +23,7 @@
  * Usage: run quack/share.js -t [numThread]
  * Example: run quack/share.js -t 42
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     for (;;) {
