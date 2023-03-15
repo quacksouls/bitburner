@@ -172,21 +172,17 @@ function is_liquidate(ns) {
  */
 function liquidate_all(ns) {
     const has_long = (sym) => num_long(ns, sym) > 0;
-    ns.stock
-        .getSymbols()
-        .filter(has_long)
-        .forEach((sym) => {
-            const nshare = num_long(ns, sym);
-            const price_per_share = ns.stock.sellStock(sym, nshare);
-            assert(price_per_share !== 0);
-            const revenue = price_per_share * nshare;
-            log(
-                ns,
-                `Sold all shares of ${sym} for ${Money.format(
-                    revenue
-                )} in revenue`
-            );
-        });
+    const sell_all = (sym) => {
+        const nshare = num_long(ns, sym);
+        const price_per_share = ns.stock.sellStock(sym, nshare);
+        assert(price_per_share > 0);
+        const revenue = price_per_share * nshare;
+        log(
+            ns,
+            `Sold all shares of ${sym} for ${Money.format(revenue)} in revenue`
+        );
+    };
+    ns.stock.getSymbols().filter(has_long).forEach(sell_all);
 }
 
 /**
@@ -283,8 +279,8 @@ async function profit_to_keep(ns, portfolio, profit) {
     // Given the fraction of the profit we should keep in reserve, do we have
     // enough funds to purchase shares of a stock?
     const has_funds = (keep_amount) => {
-        const new_resrve = portfolio.reserve + keep_amount;
-        const excess_money = new_money - new_resrve;
+        const new_reserve = portfolio.reserve + keep_amount;
+        const excess_money = new_money - new_reserve;
         const funds = Math.floor(wse.reserve.BUY_MULT * excess_money);
         return funds >= wse.SPEND_TAU;
     };
@@ -294,6 +290,10 @@ async function profit_to_keep(ns, portfolio, profit) {
     let keep = Math.floor(keep_mult * profit);
     while (!has_funds(keep)) {
         keep_mult -= wse.reserve.KEEP_DELTA;
+        if (keep_mult <= 0) {
+            keep = 0;
+            break;
+        }
         keep = Math.floor(keep_mult * profit);
         await ns.sleep(wait_t.MILLISECOND);
     }
