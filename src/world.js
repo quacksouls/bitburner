@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
@@ -84,7 +85,7 @@ async function update(ns, target) {
  */
 export async function main(ns) {
     shush(ns);
-    const target = ns.args.length > 0 ? ns.args[0] : server.NOODLES;
+    const target = MyArray.is_empty(ns.args) ? server.NOODLES : ns.args[0];
     // Continuously look for world servers to nuke.
     log(ns, "Searching for world servers to nuke and hack");
     for (;;) {
