@@ -20,6 +20,7 @@
 
 import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
+import { hnet_t } from "/quack/lib/constant/hacknet.js";
 import { cities } from "/quack/lib/constant/location.js";
 import { darkweb, hgw } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
@@ -98,7 +99,13 @@ export function choose_targets(ns, candidate) {
  * @param ns The Netscript API.
  */
 export function cleanup(ns) {
-    const junk = [server.HRAM, server.SHARE, wse.LIQUIDATE, wse.STOP_BUY];
+    const junk = [
+        hnet_t.LIQUIDATE,
+        server.HRAM,
+        server.SHARE,
+        wse.LIQUIDATE,
+        wse.STOP_BUY,
+    ];
     junk.forEach((f) => ns.rm(f, home));
 }
 

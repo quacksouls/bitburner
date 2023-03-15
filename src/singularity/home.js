@@ -17,10 +17,12 @@
 
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { wse } from "/quack/lib/constant/wse.js";
+import { hacknet_liquidate } from "/quack/lib/hnet.js";
 import { log } from "/quack/lib/io.js";
 import { Server } from "/quack/lib/server.js";
 import { choose_hardware_company } from "/quack/lib/singularity/util.js";
-import { exec } from "/quack/lib/util.js";
+import { exec, to_second } from "/quack/lib/util.js";
 import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
 
 /**
@@ -103,7 +105,14 @@ async function upgrade_ram(ns) {
  */
 export async function main(ns) {
     shush(ns);
+
+    // Raise some money.
     await trade_bot_stop_buy(ns);
+    hacknet_liquidate(ns);
+    const time = 3 * wse.TICK;
+    await ns.sleep(time);
+    log(ns, `Wait ${to_second(time)} seconds to raise money to upgrade home`);
+
     await upgrade(ns);
     trade_bot_resume(ns);
     // The next script in the load chain.

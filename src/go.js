@@ -44,6 +44,7 @@ export async function main(ns) {
 
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
+    exec(ns, "/quack/hash.js");
     const server = ns.getServer(home);
     let script = "";
     if (server.maxRam >= home_t.RAM_HIGH) {

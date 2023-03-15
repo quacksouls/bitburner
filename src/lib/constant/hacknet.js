@@ -22,6 +22,23 @@
  */
 export const hnet_t = {
     /**
+     * Various ways to spend our hashes.
+     */
+    hash: {
+        /**
+         * Generate a random Coding Contract somewhere on the network.
+         */
+        CCT: "Generate Coding Contract",
+        /**
+         * Sell hashes for $1m.
+         */
+        SELL: "Sell for Money",
+    },
+    /**
+     * A text file that tells the listener script to spend all hashes.
+     */
+    LIQUIDATE: "/quack/hnet_liquidate.txt",
+    /**
      * The maximum Level of a Hacknet node.  This number is taken from the file
      *
      * https://github.com/danielyxie/bitburner/blob/dev/src/Hacknet/data/Constants.ts
