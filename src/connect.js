@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { home } from "/quack/lib/constant/server.js";
 import { network, shortest_path } from "/quack/lib/network.js";
 import { assert, shell } from "/quack/lib/util.js";
@@ -28,7 +29,7 @@ import { assert, shell } from "/quack/lib/util.js";
  */
 function connect(path) {
     // A chain of Terminal commands that connect to the target server.
-    assert(path.length > 0);
+    assert(!MyArray.is_empty(path));
     const cmd = `connect ${path.filter((s) => s !== home).join("; connect ")}`;
     shell(cmd);
 }
@@ -46,21 +47,23 @@ function connect(path) {
 export async function main(ns) {
     // Must provide a command line argument.
     const error_msg = "Must provide the name of the target server.";
-    if (ns.args.length < 1) {
-        ns.tprint(error_msg);
+    if (MyArray.is_empty(ns.args)) {
+        ns.tprintf(error_msg);
         return;
     }
+
     // Not a server in the game world.  Exclude purchased servers.
     const target = ns.args[0];
     const server = new Set(network(ns));
     if (!server.has(target)) {
-        ns.tprint(`Server not found: ${target}`);
+        ns.tprintf(`Server not found: ${target}`);
         return;
     }
+
     // Find shortest path.
     const path = shortest_path(ns, home, target);
-    if (path.length < 1) {
-        ns.tprint(`Target server must be reachable from ${home}.`);
+    if (MyArray.is_empty(path)) {
+        ns.tprintf(`Target server must be reachable from ${home}.`);
         return;
     }
     connect(path);
