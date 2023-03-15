@@ -24,17 +24,11 @@ import { assert, exec } from "/quack/lib/util.js";
 /**
  * Restart our source of income and Hack XP.  This script is useful whenever we
  * have installed a bunch of Augmentations and we want to automatically restart
- * scripts to:
- *
- * (1) Purchase Hacknet nodes and manage our farm of nodes.
- * (2) Buy servers and use each purchased server to hack a target server in the
- *     game world.
- * (3) Gain root access to servers in the game world (excluding purchased
- *     servers) and use each server to hack itself or a low-end server.
+ * scripts to farm Hack XP and money.
  *
  * Usage: run quack/go.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Check whether we have access to the Singularity API.  If the check fails,
@@ -47,6 +41,7 @@ export async function main(ns) {
         );
         return;
     }
+
     // Run some or all utility scripts, depending on the amount of RAM on our
     // home server.
     const server = ns.getServer(home);
