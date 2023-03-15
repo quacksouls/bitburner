@@ -26,10 +26,10 @@ import { nuke_servers } from "/quack/lib/util.js";
  * Deploy our hack script to a nuked server.  Use the server to hack the given
  * target.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server where we will run our hacking script.
- *     Assumed to have root access to this server.
- * @param target Use our hack script to hack this target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server where we will run our hacking
+ *     script.  Assumed to have root access to this server.
+ * @param {string} target Hack this target server.
  */
 function deploy(ns, host, target) {
     const serv = new Server(ns, host);
@@ -39,7 +39,7 @@ function deploy(ns, host, target) {
 /**
  * Disable various messages in the script log.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -52,8 +52,8 @@ function shush(ns) {
  * Search for world servers to nuke.  Direct each compromised server to target a
  * common server.  We exclude purchased servers.
  *
- * @param ns The Netscript API.
- * @param target Hostname of the server to target.
+ * @param {NS} ns The Netscript API.
+ * @param {string} target Hostname of the server to target.
  */
 async function update(ns, target) {
     nuke_servers(ns, network(ns)).forEach((host) => deploy(ns, host, target));
@@ -65,7 +65,7 @@ async function update(ns, target) {
  * servers.
  *
  * This script relies on the basic hacking script.  It is not an implementation
- * of a proto-batcher nor a sequential batcher.  The script accepts a command
+ * of a proto batcher nor a sequential batcher.  The script accepts a command
  * line argument:
  *
  * (1) target := Hostname of the server to target.  If not provided, then target
@@ -80,7 +80,7 @@ async function update(ns, target) {
  * Usage: run quack/world.js [target]
  * Example: run quack/world.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
