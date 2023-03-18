@@ -35,6 +35,10 @@ export const hnet_t = {
         SELL: "Sell for Money",
     },
     /**
+     * ID of an invalid node/server.
+     */
+    INVALID_NODE: -1,
+    /**
      * A text file that tells the listener script to spend all hashes.
      */
     LIQUIDATE: "/quack/hnet_liquidate.txt",

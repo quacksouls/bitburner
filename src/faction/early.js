@@ -20,6 +20,7 @@ import { faction_req } from "/quack/lib/constant/faction.js";
 import { work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { job_area } from "/quack/lib/constant/work.js";
+import { satisfy_netburners_requirements } from "/quack/lib/hnet.js";
 import { Player } from "/quack/lib/player.js";
 import { Server } from "/quack/lib/server.js";
 import { purchase_augment } from "/quack/lib/singularity/augment.js";
@@ -105,6 +106,10 @@ async function netburners(ns) {
         await raise_hack(ns, required_lvl);
     }
     assert(player.hacking_skill() >= required_lvl);
+
+    // Setup and upgrade our Hacknet farm.
+    await satisfy_netburners_requirements(ns);
+
     // Join the faction, provided we are currently not a member.
     const joined_faction = player.faction();
     if (!joined_faction.includes(fac)) {
