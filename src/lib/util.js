@@ -22,7 +22,7 @@ import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
 import { cities } from "/quack/lib/constant/location.js";
-import { darkweb, hgw } from "/quack/lib/constant/misc.js";
+import { darkweb, empty_string, hgw } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
@@ -328,7 +328,7 @@ export const is_boolean = (x) => typeof x === "boolean";
  * @returns {boolean} True if the given string is empty; false otherwise.
  */
 export function is_empty_string(str) {
-    return typeof str === "string" && str === "" && str.length === 0;
+    return typeof str === "string" && str === empty_string && str.length === 0;
 }
 
 /**

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
@@ -76,7 +77,7 @@ function choose_sell_candidate(ns, portfolio) {
     const descending = (syma, symb) => profit(symb) - profit(syma);
     const candidate = stock.filter(can_profit);
     candidate.sort(descending);
-    return candidate.length === 0 ? "" : candidate[0];
+    return candidate.length === 0 ? empty_string : candidate[0];
 }
 
 /**

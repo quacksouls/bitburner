@@ -92,6 +92,11 @@ export const darkweb = {
 };
 
 /**
+ * The empty string.
+ */
+export const empty_string = "";
+
+/**
  * Various constants in the model of hack/grow/weaken (HGW).
  */
 export const hgw = {
