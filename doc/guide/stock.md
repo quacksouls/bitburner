@@ -132,7 +132,10 @@ Each time you make a profit from selling shares of a stock, stash a fraction of
 the profit in the reserve. The fraction to keep should leave you with funds for
 purchasing shares of other stocks. For example, consider 10% as the maximum
 percentage of the profit to keep. If keeping 10% of the profit would leave you
-with less money than your spend threshold, lower the percentage to 9%.
+with less money than your spend threshold, lower the percentage to 9%. And so
+on. It might happen that you cannot even keep 1% of the profit. In that case,
+keep nothing at all (i.e. zero percent of the profit) for this particular sell
+transaction.
 
 Let's discuss how to calculate the profit from selling all shares of a stock.
 The function
@@ -173,9 +176,16 @@ c + (n \times 100000)
 
 If $r$ is the revenue you generate from selling all shares of the stock,
 subtract the true cost and the commission from $r$. The extra commission is the
-fee of the sell transaction. After the sale, reset the history of the stock.
-That is, you have zero shares of the stock, you have paid zero money for the
-shares as well as zero commission.
+fee of the sell transaction. The profit from selling all shares of the stock is
+
+```math
+profit
+=
+r - c - (n + 1) 100000
+```
+
+After the sale, reset the history of the stock. That is, you have zero shares of
+the stock, you have paid zero money for the shares as well as zero commission.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](faction.md "Faction progression")]
