@@ -21,7 +21,7 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money, Money } from "/quack/lib/money.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Purchase shares of the top stocks most likely to increase in value during the
@@ -327,7 +327,7 @@ function sell_profit(ns, sym, portfolio) {
  */
 async function sell_stock(ns, portfolio) {
     const sym = choose_sell_candidate(ns, portfolio);
-    if (sym === "") {
+    if (is_empty_string(sym)) {
         return portfolio;
     }
     const profit = sell_profit(ns, sym, portfolio);
