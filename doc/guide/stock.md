@@ -187,6 +187,11 @@ r - c - 100000(n + 1)
 After the sale, reset the history of the stock. That is, you have zero shares of
 the stock, you have paid zero money for the shares as well as zero commission.
 
+Using the strategy described in this section, we ran an experiment to gather
+data on the profit generated after 24 hours. In each tick, we sell the least
+favourable stock and buy the most favourable stock. Further details together
+with experimental scripts are [available here](../../data/stock/README.md).
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](faction.md "Faction progression")]
 [[Next](misc.md "Miscellaneous topics")]
