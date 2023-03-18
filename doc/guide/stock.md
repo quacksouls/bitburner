@@ -181,7 +181,7 @@ fee of the sell transaction. The profit from selling all shares of the stock is
 ```math
 profit
 =
-r - c - (n + 1) 100000
+r - c - 100000(n + 1)
 ```
 
 After the sale, reset the history of the stock. That is, you have zero shares of
