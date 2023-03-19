@@ -137,6 +137,29 @@ requires about 2 hours less than the wbatcher technique to steal $10b from
 wbatcher technique whenever we are hacking `n00dles` or `phantasy`. However, if
 we want to hack `joesguns` then we should use the wbatcher technique.
 
+The sequential batcher algorithm outlined above can be adapted to run on a
+purchased server. Instead of pooling the resources of a botnet of world servers,
+you purchase a server with as high RAM as you can afford and run a sequential
+batcher on that purchased server. As shown in this
+[set of experimental data](../../data/hgw/pserv.md), the effectiveness of the
+sequential batcher depends on the amount of RAM of the purchased server. The
+higher is the RAM of a purchased server, the less time it takes for the
+sequential batcher to steal a given amount of money from a target. In another
+[set of experiments](../../data/hgw/world.md), we used a purchased server having
+524,288GB RAM to steal money from `n00dles`, `joesguns`, and `phantasy`. Let's
+call this the _pbatcher technique_. When targeting `n00dles`, the pbatcher
+technique required 53 minutes to steal $100m, outperforming the wbatcher
+technique. However, this is still worse than the naive technique, which required
+nearly 42 minutes. When targeting `joesguns`, we start to see the effectiveness
+of the pbatcher technique. While the naive technique requires about 1 hour and
+26 minutes to steal $1b from `joesguns`, the pbatcher technique requires 29
+minutes to steal the same amount of money, outperforming the wbatcher technique
+as well. Moving on to `phantasy`, we see that the pbatcher technique requires
+nearly 2 hours to steal $10b from `phantasy`, finishing about 1 hour earlier
+than the naive technique and approximately 3 hours earlier than the wbatcher
+technique. Given enough RAM, the pbatcher technique can outperform the naive and
+wbatcher techniques.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
 [[Next](faction.md "Faction progression")]
