@@ -24,6 +24,47 @@ import { home } from "/quack/lib/constant/server.js";
 import { wse } from "/quack/lib/constant/wse.js";
 
 /**
+ * Whether we have enough money to be held in reserve.  Must have at least a
+ * certain amount of money before we start dabbling on the Stock Market.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @return {boolean} True if we have sufficient money to be held in reserve;
+ *     false otherwise.
+ */
+export function has_money_reserve(ns, portfolio) {
+    return ns.getServerMoneyAvailable(home) > portfolio.reserve;
+}
+
+/**
+ * The number of shares we own in the Long position.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym A stock symbol.
+ * @returns {number} How many shares we have of the given stock in the Long
+ *     position.
+ */
+export function num_long(ns, sym) {
+    return ns.stock.getPosition(sym)[wse.LONG_INDEX];
+}
+
+/**
+ * The profit we make from selling all shares of a stock.  This takes into
+ * account the total cost we have paid for shares of the stock, as well as the
+ * total commission we have paid and will pay for the sell transaction.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym We want to sell all shares of this stock.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {number} The profit from selling all shares of the given stock.
+ */
+export function sell_profit(ns, sym, portfolio) {
+    const revenue = num_long(ns, sym) * ns.stock.getBidPrice(sym);
+    const total_commission = wse.COMMISSION + portfolio[sym].commission;
+    return revenue - total_commission - portfolio[sym].cost;
+}
+
+/**
  * Sell all shares of all stocks we own.
  *
  * @param {NS} ns The Netscript API.

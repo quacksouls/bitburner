@@ -22,6 +22,7 @@ import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money, Money } from "/quack/lib/money.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
+import { has_money_reserve, num_long, sell_profit } from "/quack/lib/wse.js";
 
 /**
  * Purchase shares of the top stocks most likely to increase in value during the
@@ -91,19 +92,6 @@ function choose_sell_candidate(ns, portfolio) {
 function expenditure(ns, portfolio) {
     const excess_money = money(ns) - portfolio.reserve;
     return Math.floor(wse.reserve.BUY_MULT * excess_money) - wse.COMMISSION;
-}
-
-/**
- * Whether we have enough money to be held in reserve.  Must have at least a
- * certain amount of money before we start dabbling on the Stock Market.
- *
- * @param {NS} ns The Netscript API.
- * @param {object} portfolio Our portfolio of stocks.
- * @return {boolean} True if we have sufficient money to be held in reserve;
- *     false otherwise.
- */
-function has_money_reserve(ns, portfolio) {
-    return money(ns) > portfolio.reserve;
 }
 
 /**
@@ -210,18 +198,6 @@ function most_favourable(ns) {
 }
 
 /**
- * The number of shares we own in the Long position.
- *
- * @param {NS} ns The Netscript API.
- * @param {string} sym A stock symbol.
- * @returns {number} How many shares we have of the given stock in the Long
- *     position.
- */
-function num_long(ns, sym) {
-    return ns.stock.getPosition(sym)[wse.LONG_INDEX];
-}
-
-/**
  * How many shares of a stock we can purchase.
  *
  * @param {NS} ns The Netscript API.
@@ -299,22 +275,6 @@ async function profit_to_keep(ns, portfolio, profit) {
         await ns.sleep(wait_t.MILLISECOND);
     }
     return keep < 0 ? 0 : keep;
-}
-
-/**
- * The profit we make from selling all shares of a stock.  This takes into
- * account the total cost we have paid for shares of the stock, as well as the
- * total commission we have paid and will pay for the sell transaction.
- *
- * @param {NS} ns The Netscript API.
- * @param {string} sym We want to sell all shares of this stock.
- * @param {object} portfolio Our portfolio of stocks.
- * @returns {number} The profit from selling all shares of the given stock.
- */
-function sell_profit(ns, sym, portfolio) {
-    const revenue = num_long(ns, sym) * ns.stock.getBidPrice(sym);
-    const total_commission = wse.COMMISSION + portfolio[sym].commission;
-    return revenue - total_commission - portfolio[sym].cost;
 }
 
 /**
