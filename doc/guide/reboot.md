@@ -247,6 +247,14 @@ money_{max} / security_{min}, & \text{otherwise}.
 > $security_{min}$ is the smallest security level to which the server can be
 > weakened. Use the above rule of thumb to direct your worm to hack a common
 > target server.
+>
+> **Problem 5.** The servers that exist in the game world can be harnessed into
+> a botnet for purposes other than hacking. Recall from the section
+> [_Share_](program.md#share) that you can share the RAM of your `home` server
+> with the faction for whom you are currently working. Sharing the RAM of a
+> server with a faction can boost the rate at which you gain reputation points
+> within that faction. In fact, you can share the RAM of any world servers you
+> have nuked. Write a script to share the RAM of your botnet with a faction.
 
 ## Purchased servers
 
