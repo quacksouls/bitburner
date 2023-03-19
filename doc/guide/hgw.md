@@ -148,8 +148,8 @@ sequential batcher to steal a given amount of money from a target. In another
 [set of experiments](../../data/hgw/world.md), we used a purchased server having
 524,288GB RAM to steal money from `n00dles`, `joesguns`, and `phantasy`. Let's
 call this the _pbatcher technique_. When targeting `n00dles`, the pbatcher
-technique required 53 minutes to steal $100m, outperforming the wbatcher
-technique. However, this is still worse than the naive technique, which required
+technique requires 53 minutes to steal $100m, outperforming the wbatcher
+technique. However, this is still worse than the naive technique, which requires
 nearly 42 minutes. When targeting `joesguns`, we start to see the effectiveness
 of the pbatcher technique. While the naive technique requires about 1 hour and
 26 minutes to steal $1b from `joesguns`, the pbatcher technique requires 29
