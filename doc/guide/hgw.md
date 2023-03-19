@@ -28,7 +28,13 @@ resources of world servers in order to target a common server. A sequential
 batcher is easy to implement and is the next step up from using the basic
 hacking script to target a world server. Replace the general-purpose hack script
 from the chapter [_First script_](script.md) with a script that uses the HGW
-worker scripts. Your sequential batcher accomplishes the following tasks:
+worker scripts.
+
+<!-- ====================================================================== -->
+
+### Algorithm outline
+
+Your sequential batcher accomplishes the following tasks:
 
 1. _Nuke._ Gain root access to as many world servers as possible. The
    compromised servers are your botnet. Adapt one or more of the algorithms
@@ -109,6 +115,10 @@ performed in sequence, one after the other. Here is an
 world servers to hack a common target.
 
 ![Sequential batcher](image/sequential-batcher.png "Sequential batcher")
+
+<!-- ====================================================================== -->
+
+### Experimental results
 
 Is the sequential batcher any better than the basic script `hack.js`? Let's
 define some terms. By _naive technique_ we mean a manager script that uses the
