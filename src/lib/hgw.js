@@ -310,6 +310,9 @@ export async function pbatch_action(ns, host, target, action) {
     assert(can_run_script(ns, s, host));
 
     const nthread = pbatch_nthread(ns, s, host);
+    if (nthread < 1) {
+        return;
+    }
     const pid = ns.exec(s, host, nthread, target);
     const time = hgw_wait_time(ns, target, action);
     await ns.sleep(time);
