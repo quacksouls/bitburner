@@ -24,10 +24,11 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 ## Sequential batcher
 
 The first task you might want to do is write a sequential batcher that pools the
-resources of world servers in order to target a common server. Replace the
-general-purpose hack script from the chapter [_First script_](script.md) with a
-script that uses the HGW worker scripts. Your sequential batcher accomplishes
-the following tasks:
+resources of world servers in order to target a common server. A sequential
+batcher is easy to implement and is the next step up from using the basic
+hacking script to target a world server. Replace the general-purpose hack script
+from the chapter [_First script_](script.md) with a script that uses the HGW
+worker scripts. Your sequential batcher accomplishes the following tasks:
 
 1. _Nuke._ Gain root access to as many world servers as possible. The
    compromised servers are your botnet. Adapt one or more of the algorithms
