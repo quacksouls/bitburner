@@ -72,7 +72,8 @@ the following tasks:
     for `phantasy` should be [`weaken.js`](script/hgw/weaken.js) followed by
     [`grow.js`](script/hgw/grow.js). Direct all servers in your botnet to prep a
     target server. Each server in the botnet should use all of its available RAM
-    to run a worker script.
+    to run a worker script. When in doubt, weaken a target first, then grow the
+    target.
 
 1. _Hack._ Steal money from the prepped server. Unlike the prepping stage,
    during the hacking stage you should refrain from using all servers in your
