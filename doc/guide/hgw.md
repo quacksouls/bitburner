@@ -21,7 +21,7 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 
 <!-- ====================================================================== -->
 
-## World servers
+## Sequential batcher
 
 The first task you might want to do is write a sequential batcher that pools the
 resources of world servers in order to target a common server. Replace the
