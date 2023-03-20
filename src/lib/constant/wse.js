@@ -111,7 +111,7 @@ export const wse = {
      * The number of samples of price changes in a stock.  Always keep this many
      * recent samples.
      */
-    SAMPLE_LENGTH: 30,
+    SAMPLE_LENGTH: 14,
     /**
      * The minimum amount of money we are willing to spend to purchase shares
      * of a stock.  This is our spending threshold.
