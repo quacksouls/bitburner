@@ -152,6 +152,17 @@ export function has_sleeve_api(ns) {
 }
 
 /**
+ * Whether we are in "BitNode-8: Ghost of Wall Street".
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are in BN8; false otherwise.
+ */
+export function is_ghost_of_wall_street(ns) {
+    const bn_name = "Ghost of Wall Street";
+    return bitnode[bn_name] === ns.getPlayer().bitNodeN;
+}
+
+/**
  * The level of a Source-File.
  *
  * @param ns The Netscript API.

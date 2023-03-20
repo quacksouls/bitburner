@@ -18,7 +18,10 @@
 import { colour } from "/quack/lib/constant/misc.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
-import { has_singularity_api } from "/quack/lib/source.js";
+import {
+    has_singularity_api,
+    is_ghost_of_wall_street,
+} from "/quack/lib/source.js";
 import { assert, exec, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -39,6 +42,12 @@ export async function main(ns) {
             "No access to Singularity API. Cannot automate game play.",
             colour.RED
         );
+        return;
+    }
+
+    // "BitNode-8: Ghost of Wall Street" requires special treatment.
+    if (is_ghost_of_wall_street(ns)) {
+        exec(ns, "/quack/chain/ghost.js");
         return;
     }
 
