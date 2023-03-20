@@ -177,9 +177,6 @@ function num_shares(ns, sym, portfolio) {
         return 0;
     }
 
-    const funds = expenditure(ns, portfolio);
-    ns.print(`Funds: ${Money.format(funds)}`);
-
     // The maximum number of shares of the stock we can buy.  This takes into
     // account the number of shares we already own.
     const max_share = ns.stock.getMaxShares(sym) - num_long(ns, sym);
@@ -187,6 +184,7 @@ function num_shares(ns, sym, portfolio) {
         return 0;
     }
     // How many shares of the stock we can buy.
+    const funds = expenditure(ns, portfolio);
     const nshare = Math.floor(funds / ns.stock.getAskPrice(sym));
     return Math.min(nshare, wse.MIN_SHARES, max_share);
 }
