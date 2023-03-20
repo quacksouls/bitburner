@@ -61,6 +61,15 @@ function grow_server(ns, host, botnet) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("sleep");
+}
+
+/**
  * Pool the resources of world servers to grind Hack XP.  Exclude our home
  * server and purchased servers.
  *
@@ -69,6 +78,7 @@ function grow_server(ns, host, botnet) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
+    shush(ns);
     const host = server.JOES;
     log(ns, `Grind Hack XP from ${host}`);
     await grind(ns, host);
