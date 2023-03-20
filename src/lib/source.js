@@ -19,7 +19,9 @@ import { bitnode } from "/quack/lib/constant/bn.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { assert } from "/quack/lib/util.js";
 
+/// ///////////////////////////////////////////////////////////////////////
 // Helper functions relating to Source-Files.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Whether we have access to the Artificial Intelligence (AI) API.

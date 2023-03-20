@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // NOTE: Import only constants into this file.
 // Miscellaneous helper functions.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
