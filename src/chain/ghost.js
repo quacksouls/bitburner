@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { exec } from "/quack/lib/util.js";
+import { wait_t } from "/quack/lib/constant/time.js";
+import { exec, has_all_popen } from "/quack/lib/util.js";
 
 /**
  * Suppress various log messages.
@@ -41,9 +42,20 @@ export async function main(ns) {
     // Farm Hack XP.
     exec(ns, "/quack/hgw/xp.js");
     // Create port opener programs.
-    exec(ns, "/quack/singularity/popen.js");
+    const pidp = exec(ns, "/quack/singularity/popen.js");
     // Launch trade bot, pre-4S.
     exec(ns, "/quack/stock/pre4s.js");
+    // Let sleeves commit homicide to lower karma.
+    const pidh = exec(ns, "/quack/sleeve/homicide.js");
+
+    // Wait until we have all port opener programs.
+    while (!has_all_popen(ns)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    [pidh, pidp].forEach((p) => ns.kill(p));
+
     // Join factions and purchase Augmentations.  Only do so after we have all
     // port opener programs.
+    exec(ns, "/quack/gang/go.js");
+    exec(ns, "/quack/faction/go.js");
 }
