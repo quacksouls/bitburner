@@ -31,7 +31,7 @@ import { has_money_reserve, num_long, sell_profit } from "/quack/lib/wse.js";
  * @returns {object} The updated portfolio.
  */
 function buy_stock(ns, portfolio) {
-    const stock = most_favourable(ns);
+    const stock = most_favourable(ns, portfolio);
     if (MyArray.is_empty(stock)) {
         return portfolio;
     }
