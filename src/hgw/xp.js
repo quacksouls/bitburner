@@ -21,7 +21,12 @@ import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { is_action_done, nuke_servers, prep_wg } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
-import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
+import {
+    assert,
+    can_run_script,
+    is_empty_string,
+    num_threads,
+} from "/quack/lib/util.js";
 
 /**
  * Prep a server, then spam grow to grind Hack XP.
@@ -50,8 +55,7 @@ async function grind(ns, host) {
  * @returns An array of PIDs.
  */
 function grow_server(ns, host, botnet) {
-    assert(host !== "");
-    assert(host !== home);
+    assert(!is_empty_string(host) && host !== home);
     assert(!MyArray.is_empty(botnet));
 
     const script = hgw.script.GROW;
