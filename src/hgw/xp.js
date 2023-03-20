@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { hgw } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
@@ -51,7 +52,7 @@ async function grind(ns, host) {
 function grow_server(ns, host, botnet) {
     assert(host !== "");
     assert(host !== home);
-    assert(botnet.length > 0);
+    assert(!MyArray.is_empty(botnet));
 
     const script = hgw.script.GROW;
     const can_run = (serv) => can_run_script(ns, script, serv);
