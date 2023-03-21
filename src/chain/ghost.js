@@ -56,6 +56,6 @@ export async function main(ns) {
 
     // Join factions and purchase Augmentations.  Only do so after we have all
     // port opener programs.
-    exec(ns, "/quack/gang/go.js");
+    exec(ns, "/quack/gang/slum-snakes.js");
     exec(ns, "/quack/faction/go.js");
 }
