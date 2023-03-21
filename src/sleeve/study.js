@@ -34,7 +34,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  */
 function choose_university(ns, i) {
     assert(i >= 0);
-    const { city } = ns.sleeve.getInformation(i);
+    const { city } = ns.sleeve.getSleeve(i);
     const { uni } = cities[city];
     return uni ?? empty_string;
 }
