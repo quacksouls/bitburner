@@ -26,11 +26,11 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Determine the university at which a sleeve should study.
  *
- * @param ns The Netscript API.
- * @param i The index of a sleeve.  Must be a non-negative integer.
- * @return A string representing the name of the university where a sleeve
- *     should study.  An empty string if a sleeve is located in a city that does
- *     not have a university.
+ * @param {NS} ns The Netscript API.
+ * @param {number} i The index of a sleeve.  Must be a non-negative integer.
+ * @returns {string} The name of the university where a sleeve should study.  An
+ *     empty string if a sleeve is located in a city that does not have a
+ *     university.
  */
 function choose_university(ns, i) {
     assert(i >= 0);
@@ -42,9 +42,9 @@ function choose_university(ns, i) {
 /**
  * Assign sleeves to study at a university.
  *
- * Usage: run sleeve/study.js
+ * Usage: run quack/sleeve/study.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Sanity check.
