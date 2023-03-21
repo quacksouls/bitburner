@@ -21,7 +21,7 @@ import { course } from "/quack/lib/constant/study.js";
 import { log } from "/quack/lib/io.js";
 import { all_sleeves } from "/quack/lib/sleeve/util.js";
 import { has_sleeve_api } from "/quack/lib/source.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Determine the university at which a sleeve should study.
@@ -56,7 +56,7 @@ export async function main(ns) {
     log(ns, course.CS);
     all_sleeves(ns).forEach((i) => {
         const uni = choose_university(ns, i);
-        assert(uni !== "");
+        assert(!is_empty_string(uni));
         ns.sleeve.setToUniversityCourse(i, uni, course.CS);
     });
 }
