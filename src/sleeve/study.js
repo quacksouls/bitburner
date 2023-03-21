@@ -16,7 +16,7 @@
  */
 
 import { cities } from "/quack/lib/constant/location.js";
-import { colour } from "/quack/lib/constant/misc.js";
+import { colour, empty_string } from "/quack/lib/constant/misc.js";
 import { course } from "/quack/lib/constant/study.js";
 import { log } from "/quack/lib/io.js";
 import { all_sleeves } from "/quack/lib/sleeve/util.js";
@@ -36,7 +36,7 @@ function choose_university(ns, i) {
     assert(i >= 0);
     const { city } = ns.sleeve.getInformation(i);
     const { uni } = cities[city];
-    return uni ?? "";
+    return uni ?? empty_string;
 }
 
 /**
