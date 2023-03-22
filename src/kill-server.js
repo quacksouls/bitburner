@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Player } from "/quack/lib/player.js";
-
 /**
  * Delete all purchased servers.  This would also kill all scripts running
  * on each purchased server.
@@ -26,9 +24,8 @@ import { Player } from "/quack/lib/player.js";
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    const player = new Player(ns);
-    player.pserv().forEach((s) => {
-        ns.killall(s);
-        ns.deleteServer(s);
+    ns.getPurchasedServers().forEach((host) => {
+        ns.killall(host);
+        ns.deleteServer(host);
     });
 }
