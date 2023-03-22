@@ -16,6 +16,7 @@
  */
 
 import { home } from "/quack/lib/constant/server.js";
+import { number_format } from "/quack/lib/util.js";
 
 /**
  * A class to hold information about money.
@@ -47,27 +48,7 @@ export class Money {
      * @returns {string} The given amount formatted as currency.
      */
     static format(amount) {
-        const ndigit = 3; // How many significant digits.
-        const fmt = (divisor, suffix) => {
-            const fstr = (Math.abs(Number(amount)) / divisor).toFixed(ndigit);
-            return `$${fstr}${suffix}`;
-        };
-
-        // divisor := threshold[0][dindex]
-        // suffix := threshold[0][sindex]
-        const threshold = [
-            [1e18, "Q"],
-            [1e15, "q"],
-            [1e12, "t"],
-            [1e9, "b"],
-            [1e6, "m"],
-            [1e3, "k"],
-            [1, ""],
-        ];
-        const dindex = 0;
-        const meet_threshold = (tau) => Math.abs(Number(amount)) >= tau[dindex];
-        const [divisor, suffix] = threshold.find(meet_threshold);
-        return fmt(divisor, suffix);
+        return `$${number_format(amount)}`;
     }
 
     /**
