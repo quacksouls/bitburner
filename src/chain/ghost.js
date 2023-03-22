@@ -56,6 +56,7 @@ export async function main(ns) {
             pid.push(pidh);
         }
     }
+    await ns.sleep(wait_t.DEFAULT);
 
     // Create port opener programs.
     const pidp = exec(ns, "/quack/singularity/popen.js");
