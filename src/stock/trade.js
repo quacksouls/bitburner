@@ -20,7 +20,7 @@ import { home } from "/quack/lib/constant/server.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { Money } from "/quack/lib/money.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, number_format } from "/quack/lib/util.js";
 import { initial_portfolio, num_long, transaction } from "/quack/lib/wse.js";
 
 /**
@@ -45,9 +45,11 @@ function liquidate_all(ns) {
         const price_per_share = ns.stock.sellStock(sym, nshare);
         assert(price_per_share > 0);
         const revenue = price_per_share * nshare;
+        const nshare_fmt = number_format(nshare);
+        const money_fmt = Money.format(revenue);
         log(
             ns,
-            `Sold all shares of ${sym} for ${Money.format(revenue)} in revenue`
+            `Sold ${nshare_fmt} share(s) of ${sym} for ${money_fmt} in revenue`
         );
     };
     ns.stock.getSymbols().filter(has_long).forEach(sell_all);

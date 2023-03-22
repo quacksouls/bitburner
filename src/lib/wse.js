@@ -27,7 +27,12 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money, Money } from "/quack/lib/money.js";
-import { assert, is_boolean, is_empty_string } from "/quack/lib/util.js";
+import {
+    assert,
+    is_boolean,
+    is_empty_string,
+    number_format,
+} from "/quack/lib/util.js";
 
 /**
  * Purchase shares of the top stocks most likely to increase in value during the
@@ -369,14 +374,17 @@ async function sell_stock(ns, portfolio) {
     }
 
     const profit = sell_profit(ns, sym, portfolio);
-    const result = ns.stock.sellStock(sym, num_long(ns, sym));
+    const nshare = num_long(ns, sym);
+    const result = ns.stock.sellStock(sym, nshare);
     assert(result !== 0);
     const keep = await profit_to_keep(ns, portfolio, profit);
     const new_portfolio = { ...portfolio };
     new_portfolio.reserve += keep;
     new_portfolio[sym].cost = 0;
     new_portfolio[sym].commission = 0;
-    log(ns, `Sold all shares of ${sym} for ${Money.format(profit)} in profit`);
+    const nshare_fmt = number_format(nshare);
+    const money_fmt = Money.format(profit);
+    log(ns, `Sold ${nshare_fmt} share(s) of ${sym} for ${money_fmt} in profit`);
     return new_portfolio;
 }
 
