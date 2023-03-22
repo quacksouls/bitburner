@@ -221,11 +221,11 @@ function upgrade(ns) {
     upgrade_level(ns);
     // Should we also upgrade the Cores, RAM, and Cache?
     hacknet_nodes(ns)
-        .filter((n) => is_upgrade_core_ram_cache(ns, n))
-        .forEach((n) => {
-            upgrade_core(ns, n);
-            upgrade_ram(ns, n);
-            upgrade_cache(ns, n);
+        .filter((node) => is_upgrade_core_ram_cache(ns, node))
+        .forEach((node) => {
+            upgrade_core(ns, node);
+            upgrade_ram(ns, node);
+            upgrade_cache(ns, node);
         });
 }
 
@@ -281,12 +281,12 @@ function upgrade_core(ns, idx) {
  */
 function upgrade_level(ns) {
     const howmany = 1; // Upgrade this many Levels at a time.
-    hacknet_nodes(ns).forEach((n) => {
+    hacknet_nodes(ns).forEach((node) => {
         // The Level of a node/server is at maximum if the cost of upgrading to
         // another Level is Infinity.
-        const cost = ns.hacknet.getLevelUpgradeCost(n, howmany);
+        const cost = ns.hacknet.getLevelUpgradeCost(node, howmany);
         if (Number.isFinite(cost) && has_funds(ns, cost)) {
-            assert(ns.hacknet.upgradeLevel(n, howmany));
+            assert(ns.hacknet.upgradeLevel(node, howmany));
         }
     });
 }
