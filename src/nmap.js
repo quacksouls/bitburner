@@ -25,8 +25,9 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Insert forks.  Each fork indicates a child node.
  *
- * @param matrix The ASCII art of the network of world servers.
- * @return The same matrix, but forks are inserted where necessary.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ * @returns {array<array>} The same matrix, but forks are inserted where
+ *     necessary.
  */
 function add_fork(matrix) {
     assert(matrix.length > 0);
@@ -48,10 +49,11 @@ function add_fork(matrix) {
 /**
  * Replace each leaf with the corresponding server name.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
- * @param map A translation from coordinates in the grid to server name.
- * @return The same matrix, but with server names added.
+ * @param {NS} ns The Netscript API.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ *     The function modifies this argument.
+ * @param {map} map A translation from coordinates in the grid to server name.
+ * @returns {array<array>} The same matrix, but with server names added.
  */
 function add_server_name(ns, matrix, map) {
     assert(matrix.length > 0);
@@ -73,9 +75,9 @@ function add_server_name(ns, matrix, map) {
 /**
  * Insert T junctions into the ASCII art.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
- * @return The same matrix, but with T junctions inserted.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ *     The function modifies this argument.
+ * @returns {array<array>} The same matrix, but with T junctions inserted.
  */
 function add_tee_junction(matrix) {
     assert(matrix.length > 0);
@@ -103,9 +105,9 @@ function add_tee_junction(matrix) {
 /**
  * All shortest paths from our home server to each server in the game world.
  *
- * @param ns The Netscript API.
- * @return An array of shortest paths from the home server to each server in
- *     the game world.  Each element is a string formatted as
+ * @param {NS} ns The Netscript API.
+ * @returns {array} An array of shortest paths from the home server to each
+ *     server in the game world.  Each element is a string formatted as
  *
  *     home,serv1,serv2,serv3,...,servk
  *
@@ -126,10 +128,11 @@ function all_shortest_paths(ns) {
  * do various clean-ups such as removing dead branches and redundant (or
  * unnecessary) branches.
  *
- * @param grid An ASCII art representation of the network of world servers.
- *     This should be the output of the function to_ascii_art().
- * @param map A translation from coordinates in the grid to server name.
- * @return A string representation of the ASCII art.
+ * @param {NS} ns The Netscript API.
+ * @param {array<array>} grid An ASCII art representation of the network of
+ *     world servers.  This should be the output of the function to_ascii_art().
+ * @param {map} map A translation from coordinates in the grid to server name.
+ * @returns {string} A string representation of the ASCII art.
  */
 function beautify(ns, grid, map) {
     assert(grid.length > 0);
@@ -158,6 +161,8 @@ function beautify(ns, grid, map) {
 /**
  * Internal representation for a branch.  Each branch represents an alternate
  * path that may lead to other servers.
+ *
+ * @returns {string} ASCII art for a branch.
  */
 function branch() {
     return "│  ";
@@ -166,9 +171,10 @@ function branch() {
 /**
  * Add various decorations to a server name.
  *
- * @param ns The Netscript API.
- * @param server We want to add various decorations to this server name.
- * @return The same server name, but with added decoration.
+ * @param {NS} ns The Netscript API.
+ * @param {string} server We want to add various decorations to this server
+ *     name.
+ * @returns {string} The same server name, but with added decoration.
  */
 function decorate(ns, server) {
     // We do not need any other decoration for the home server, apart from
@@ -206,6 +212,8 @@ function decorate(ns, server) {
 
 /**
  * The character used to delimit two servers in a path.
+ *
+ * @returns {string} The server delimiter.
  */
 function delimiter() {
     return ",";
@@ -214,10 +222,10 @@ function delimiter() {
 /**
  * Print the tree structure of the network of world servers.
  *
- * @param ns The Netscript API.
- * @param path An array of shortest paths from the home server to each server
- *     in the game world.  This array should be the output of the function
- *     all_shortest_paths().
+ * @param {NS} ns The Netscript API.
+ * @param {array} path An array of shortest paths from the home server to each
+ *     server in the game world.  This array should be the output of the
+ *     function all_shortest_paths().
  */
 function display_tree(ns, path) {
     assert(path.length > 0);
@@ -234,6 +242,8 @@ function display_tree(ns, path) {
 
 /**
  * Internal representation of a fork.  A fork is immediately followed by a leaf.
+ *
+ * @returns {string} ASCII art representation of a fork.
  */
 function fork() {
     return "└╴";
@@ -241,6 +251,8 @@ function fork() {
 
 /**
  * Internal representation for a leaf, i.e. a destination server.
+ *
+ * @returns {string} ASCII art representation of a leaf.
  */
 function leaf() {
     return "+";
@@ -251,8 +263,8 @@ function leaf() {
  * the game world.  This depends on whether the player has the necessary
  * hacking programs on the home server.
  *
- * @param ns The Netscript API.
- * @return How many ports we can open on a world server.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} How many ports we can open on a world server.
  */
 function num_ports(ns) {
     let program = Array.from(popen);
@@ -262,6 +274,8 @@ function num_ports(ns) {
 
 /**
  * Internal representation for a whitespace.
+ *
+ * @returns {string} ASCII art representation of a placeholder.
  */
 function placeholder() {
     return ".";
@@ -270,10 +284,10 @@ function placeholder() {
 /**
  * Remove a dead branch.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
- * @param r Start the pruning from this row upward.
- * @return The same matrix, but with dead branches removed.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ *     The function modifies this argument.
+ * @param {number} r Start the pruning from this row upward.
+ * @returns {array<array>} The same matrix, but with dead branches removed.
  */
 function prune_branch(matrix, r) {
     assert(matrix.length > 0);
@@ -306,9 +320,9 @@ function prune_branch(matrix, r) {
  * We can work out which servers are siblings by following the branch lines
  * that connect two forks.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
- * @return The same matrix, but with sibling branches removed.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ *     The function modifies this argument.
+ * @returns {array<array>} The same matrix, but with sibling branches removed.
  */
 function prune_sibling_branch(matrix) {
     assert(matrix.length > 0);
@@ -343,6 +357,8 @@ function prune_sibling_branch(matrix) {
 
 /**
  * A T junction.
+ *
+ * @returns {string} ASCII art representation of a T junction.
  */
 function tee() {
     return "├╴";
@@ -352,9 +368,9 @@ function tee() {
  * Translate the internal representation of the network of servers into ASCII
  * art.
  *
- * @param tree A matrix containing the internal representation of the network
- *     of servers.
- * @return An array [grid, map] as follows.
+ * @param {array<array>} tree A matrix containing the internal representation of
+ *     the network of servers.
+ * @returns {array<array, map>} An array [grid, map] as follows.
  *
  *     grid := The internal representation as ASCII art.
  *     map := Converts a pair of coordinates in grid to a server name.
@@ -396,9 +412,9 @@ function to_ascii_art(tree) {
 /**
  * Convert the matrix representation of the ASCII art into a string.
  *
- * @param matrix The ASCII art of the network of world servers.  The function
- *     modifies this argument.
- * @return A string representation of the ASCII art.
+ * @param {array<array>} matrix The ASCII art of the network of world servers.
+ *     The function modifies this argument.
+ * @returns {string} A string representation of the ASCII art.
  */
 function to_string(matrix) {
     assert(matrix.length > 0);
@@ -487,7 +503,7 @@ function to_string(matrix) {
  * Example: run quack/nmap.js
  * Example: run quack/nmap.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Sanity check.
