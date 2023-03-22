@@ -72,6 +72,7 @@ export async function main(ns) {
     if (has_gang_api(ns) && !ns.gang.inGang()) {
         exec(ns, "/quack/sleeve/study.js");
     }
+    await ns.sleep(wait_t.DEFAULT);
     exec(ns, "/quack/gang/slum-snakes.js");
     exec(ns, "/quack/faction/go.js");
 }
