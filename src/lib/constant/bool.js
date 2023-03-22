@@ -59,6 +59,11 @@ export const bool = {
     HAS: true,
     NOT: false,
     /**
+     * Whether or not we have access to the 4S data and API.
+     */
+    HAS_4S: true,
+    NO_4S: false,
+    /**
      * Whether or not we are prepping a server.
      */
     IS_PREP: true,
