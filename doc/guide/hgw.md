@@ -160,6 +160,26 @@ than the naive technique and approximately 3 hours earlier than the wbatcher
 technique. Given enough RAM, the pbatcher technique can outperform the naive and
 wbatcher techniques.
 
+> **Problem 1.** The sequential batcher described in this section can be adapted
+> to the case of purchased servers. Write a sequential batcher that uses the RAM
+> of world servers to hack `joesguns`. Raise enough money to purchase a server
+> with a large amount of RAM and use the purchased server to run the sequential
+> batcher. As a start, you might want to raise enough money to buy a server
+> having at least 500GB RAM. Let the batcher run for a while until you have
+> generated sufficient funds to upgrade the server to a higher amount of RAM.
+>
+> **Problem 2.** When your Hack stat is high enough (e.g. at least 200 Hack) and
+> you have sufficient money, purchase another server having at least 500GB RAM
+> and run a sequential batcher on that server against `phantasy`. Every once in
+> a while, upgrade the RAM of the server.
+>
+> **Problem 3.** Write a sequential batch manager whose job is to purchase a
+> server and deploy a sequential batcher on the server against a target. Use the
+> weight formula described in the section
+> [_Your first worm_](reboot.md#your-first-worm) to help you choose a target for
+> your batcher. Every now and then, upgrade the RAM of any server in your farm
+> or add another server to your farm.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
 [[Next](faction.md "Faction progression")]
