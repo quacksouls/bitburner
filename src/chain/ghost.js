@@ -16,6 +16,7 @@
  */
 
 import { wait_t } from "/quack/lib/constant/time.js";
+import { has_gang_api } from "/quack/lib/source.js";
 import { exec, has_all_popen } from "/quack/lib/util.js";
 
 /**
@@ -43,20 +44,32 @@ export async function main(ns) {
     exec(ns, "/quack/hgw/xp.js");
     // Create port opener programs.
     const pidp = exec(ns, "/quack/singularity/popen.js");
+    const pid = [pidp];
     // Launch trade bot, pre-4S.
     exec(ns, "/quack/stock/pre4s.js");
-    // Let sleeves commit homicide to lower karma.
-    const pidh = exec(ns, "/quack/sleeve/homicide.js");
+
+    // Let sleeves commit homicide to lower karma as necessary.
+    if (has_gang_api(ns)) {
+        if (ns.gang.inGang()) {
+            exec(ns, "/quack/sleeve/study.js");
+            exec(ns, "/quack/gang/slum-snakes.js");
+        } else {
+            const pidh = exec(ns, "/quack/sleeve/homicide.js");
+            pid.push(pidh);
+        }
+    }
 
     // Wait until we have all port opener programs.
     while (!has_all_popen(ns)) {
         await ns.sleep(wait_t.DEFAULT);
     }
-    [pidh, pidp].forEach((p) => ns.kill(p));
+    pid.forEach((p) => ns.kill(p));
 
     // Join factions and purchase Augmentations.  Only do so after we have all
     // port opener programs.
-    exec(ns, "/quack/sleeve/study.js");
-    exec(ns, "/quack/gang/slum-snakes.js");
+    if (has_gang_api(ns) && !ns.gang.inGang()) {
+        exec(ns, "/quack/sleeve/study.js");
+        exec(ns, "/quack/gang/slum-snakes.js");
+    }
     exec(ns, "/quack/faction/go.js");
 }
