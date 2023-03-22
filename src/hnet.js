@@ -323,7 +323,7 @@ export async function main(ns) {
     // Occassionally expand and upgrade the nodes/servers.
     const [money_t, node] = money_node_thresholds(ns);
     for (;;) {
-        if (money_t.length > 0 && has_funds(ns, money_t[0])) {
+        if (!MyArray.is_empty(money_t) && has_funds(ns, money_t[0])) {
             await expand_farm(ns, node[0]);
             // Ensure our Hacknet farm has at least the given number of
             // nodes/servers before moving on to the next money/node thresholds.
