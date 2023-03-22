@@ -30,7 +30,8 @@ import { assert, shell } from "/quack/lib/util.js";
 function connect(path) {
     // A chain of terminal commands that connect to the target server.
     assert(!MyArray.is_empty(path));
-    const cmd = `connect ${path.filter((s) => s !== home).join("; connect ")}`;
+    const not_home = (host) => host !== home;
+    const cmd = `connect ${path.filter(not_home).join("; connect ")}`;
     shell(cmd);
 }
 
