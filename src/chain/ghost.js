@@ -42,13 +42,11 @@ export async function main(ns) {
 
     // Farm Hack XP.
     exec(ns, "/quack/hgw/xp.js");
-    // Create port opener programs.
-    const pidp = exec(ns, "/quack/singularity/popen.js");
-    const pid = [pidp];
     // Launch trade bot, pre-4S.
     exec(ns, "/quack/stock/pre4s.js");
 
     // Let sleeves commit homicide to lower karma as necessary.
+    const pid = [];
     if (has_gang_api(ns)) {
         if (ns.gang.inGang()) {
             exec(ns, "/quack/sleeve/study.js");
@@ -58,6 +56,10 @@ export async function main(ns) {
             pid.push(pidh);
         }
     }
+
+    // Create port opener programs.
+    const pidp = exec(ns, "/quack/singularity/popen.js");
+    pid.push(pidp);
 
     // Wait until we have all port opener programs.
     while (!has_all_popen(ns)) {
