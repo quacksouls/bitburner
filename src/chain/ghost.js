@@ -50,7 +50,6 @@ export async function main(ns) {
     if (has_gang_api(ns)) {
         if (ns.gang.inGang()) {
             exec(ns, "/quack/sleeve/study.js");
-            exec(ns, "/quack/gang/slum-snakes.js");
         } else {
             const pidh = exec(ns, "/quack/sleeve/homicide.js");
             pid.push(pidh);
@@ -72,7 +71,7 @@ export async function main(ns) {
     // port opener programs.
     if (has_gang_api(ns) && !ns.gang.inGang()) {
         exec(ns, "/quack/sleeve/study.js");
-        exec(ns, "/quack/gang/slum-snakes.js");
     }
+    exec(ns, "/quack/gang/slum-snakes.js");
     exec(ns, "/quack/faction/go.js");
 }
