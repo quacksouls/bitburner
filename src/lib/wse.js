@@ -41,7 +41,7 @@ function buy_stock(ns, portfolio) {
     if (pause_buy(ns)) {
         return portfolio;
     }
-    const stock = most_favourable(ns);
+    const stock = most_favourable(ns, portfolio);
     if (MyArray.is_empty(stock)) {
         return portfolio;
     }
