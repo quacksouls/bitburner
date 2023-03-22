@@ -18,7 +18,7 @@
 import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
-import { home } from "/quack/lib/constant/server.js";
+import { money } from "/quack/lib/money.js";
 import { has_hacknet_server_api } from "/quack/lib/source.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
@@ -58,7 +58,7 @@ function hacknet_nodes(ns) {
  */
 function has_funds(ns, cost) {
     assert(cost > 0);
-    return ns.getServerMoneyAvailable(home) > cost;
+    return money(ns) > cost;
 }
 
 /**
@@ -140,12 +140,12 @@ function is_upgrade_core_ram_cache(ns, idx) {
  *     (2) node := An array of node or server thresholds.
  */
 function money_node_thresholds(ns) {
-    const money = Array.from(hnet_t.MONEY);
+    const money_t = Array.from(hnet_t.MONEY);
     let node = Array.from(hnet_t.NODE);
     if (has_hacknet_server_api(ns)) {
         node = Array.from(hnet_t.SERVER);
     }
-    return [money, node];
+    return [money_t, node];
 }
 
 /**
@@ -315,14 +315,14 @@ export async function main(ns) {
     shush(ns);
     await setup_farm(ns, hnet_t.SEED_NODE);
     // Occassionally expand and upgrade the nodes/servers.
-    const [money, node] = money_node_thresholds(ns);
+    const [money_t, node] = money_node_thresholds(ns);
     for (;;) {
-        if (money.length > 0 && has_funds(ns, money[0])) {
+        if (money_t.length > 0 && has_funds(ns, money_t[0])) {
             await expand_farm(ns, node[0]);
             // Ensure our Hacknet farm has at least the given number of
             // nodes/servers before moving on to the next money/node thresholds.
             if (ns.hacknet.numNodes() >= node[0]) {
-                money.shift();
+                money_t.shift();
                 node.shift();
             }
         }
