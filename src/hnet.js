@@ -28,9 +28,9 @@ import { assert } from "/quack/lib/util.js";
  * Assume we have millions or even billions of dollars.  Add more nodes to our
  * Hacknet farm.
  *
- * @param ns The Netscript API.
- * @param n Increase the number of nodes to this amount.  Must be a positive
- *     integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} n Increase the number of nodes to this amount.  Must be a
+ *     positive integer.
  */
 async function expand_farm(ns, n) {
     const nNode = Math.floor(n);
@@ -41,8 +41,9 @@ async function expand_farm(ns, n) {
 /**
  * All nodes in our Hacknet farm.
  *
- * @param ns The Netscript API.
- * @return An array of node IDs.  An empty array if we have zero nodes.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<number>} An array of node IDs.  An empty array if we have
+ *     zero nodes.
  */
 function hacknet_nodes(ns) {
     const n = ns.hacknet.numNodes();
@@ -52,9 +53,10 @@ function hacknet_nodes(ns) {
 /**
  * Whether we have sufficient money to cover a given cost.
  *
- * @param ns The Netscript API.
- * @param cost Do we have enough funds to cover this cost?
- * @return True if we have funds to cover the given cost; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {number} cost Do we have enough funds to cover this cost?
+ * @returns {boolean} True if we have funds to cover the given cost;
+ *     false otherwise.
  */
 function has_funds(ns, cost) {
     assert(cost > 0);
@@ -64,10 +66,10 @@ function has_funds(ns, cost) {
 /**
  * Whether a node (or Hacknet server) has reached the maximum Level.
  *
- * @param ns The Netscript API.
- * @param idx The ID of a node (or Hacknet server).
- * @return True if the given node/server has reached its maximum Level;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {number} idx The ID of a node (or Hacknet server).
+ * @returns {boolean} True if the given node/server has reached its maximum
+ *     Level; false otherwise.
  */
 function has_max_level(ns, idx) {
     if (has_hacknet_server_api(ns)) {
@@ -84,10 +86,10 @@ function has_max_level(ns, idx) {
  * Cores, RAM, or Cache should usually be longer than the corresponding interval
  * for Level.
  *
- * @param ns The Netscript API.
- * @param idx Whether to upgrade the Cores, RAM, or Cache of the Hacknet
- *     node/server having this ID.
- * @return True if it is time to upgrade the Cores, RAM, or Cache;
+ * @param {NS} ns The Netscript API.
+ * @param {number} idx Whether to upgrade the Cores, RAM, or Cache of the
+ *     Hacknet node/server having this ID.
+ * @returns {boolean} True if it is time to upgrade the Cores, RAM, or Cache;
  *     false otherwise.
  */
 function is_upgrade_core_ram_cache(ns, idx) {
@@ -133,8 +135,8 @@ function is_upgrade_core_ram_cache(ns, idx) {
  * The money and node/server thresholds.  We use the money threshold to gauge
  * how many nodes/servers we should have at a particular stage.
  *
- * @param ns The Netscript API.
- * @return An array [money, node] as follows:
+ * @param {NS} ns The Netscript API.
+ * @returns {array<array<number, number>>} An array [money, node] as follows:
  *     (1) money := An array of money thresholds.  Higher money threshold means
  *         we can afford more nodes or servers.
  *     (2) node := An array of node or server thresholds.
@@ -151,9 +153,9 @@ function money_node_thresholds(ns) {
 /**
  * The Level of a Hacknet node or server.
  *
- * @param ns The Netscript API.
- * @param i The ID of a Hacknet node or server.  Must be non-negative.
- * @return The Level of the Hacknet node/server whose ID is i.
+ * @param {NS} ns The Netscript API.
+ * @param {number} i The ID of a Hacknet node or server.  Must be non-negative.
+ * @returns {number} The Level of the Hacknet node/server whose ID is i.
  */
 function node_level(ns, i) {
     assert(i >= 0);
@@ -165,9 +167,9 @@ function node_level(ns, i) {
  * Level 1, 1GB RAM, 1 Core, and Cache Level 1.  Our objective is to setup a
  * farm of n Hacknet nodes/servers, each at base stat.
  *
- * @param ns The Netscript API.
- * @param n How many Hacknet nodes/servers in our farm.  Must be a positive
- *     integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} n How many Hacknet nodes/servers in our farm.  Must be a
+ *     positive integer.
  */
 async function setup_farm(ns, n) {
     const nNode = Math.floor(n);
@@ -193,7 +195,7 @@ async function setup_farm(ns, n) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getServerMoneyAvailable");
@@ -202,6 +204,8 @@ function shush(ns) {
 
 /**
  * The interval between successive updates.
+ *
+ * @returns {number} The waiting interval in milliseconds.
  */
 function update_interval() {
     return wait_t.MINUTE;
@@ -211,7 +215,7 @@ function update_interval() {
  * Upgrade the stats of each Hacknet node/server by one point.  Assume we have
  * at least one node/server.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function upgrade(ns) {
     upgrade_level(ns);
@@ -230,8 +234,8 @@ function upgrade(ns) {
  * function multiple times to max out the Cache level of a server.  This
  * function is applicable only to Hacknet servers.
  *
- * @param ns The Netscript API.
- * @param idx Upgrade the Cache of the Hacknet server having this ID.
+ * @param {NS} ns The Netscript API.
+ * @param {number} idx Upgrade the Cache of the Hacknet server having this ID.
  */
 function upgrade_cache(ns, idx) {
     if (!has_hacknet_server_api(ns)) {
@@ -253,8 +257,9 @@ function upgrade_cache(ns, idx) {
  * Upgrade the Cores of a Hacknet node/server in our farm by one point.  Call
  * this function multiple times to max out the number of Cores.
  *
- * @param ns The Netscript API.
- * @param idx Upgrade the Cores of the Hacknet node/server having this ID.
+ * @param {NS} ns The Netscript API.
+ * @param {number} idx Upgrade the Cores of the Hacknet node/server having this
+ *     ID.
  */
 function upgrade_core(ns, idx) {
     const farm = new Set(hacknet_nodes(ns));
@@ -272,7 +277,7 @@ function upgrade_core(ns, idx) {
 /**
  * Upgrade the Level of each Hacknet node/server in our farm by one point.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function upgrade_level(ns) {
     const howmany = 1; // Upgrade this many Levels at a time.
@@ -289,8 +294,9 @@ function upgrade_level(ns) {
 /**
  * Upgrade the RAM of a Hacknet node/server in our farm.
  *
- * @param ns The Netscript API.
- * @param idx Upgrade the RAM of the Hacknet node/server having this ID.
+ * @param {NS} ns The Netscript API.
+ * @param {number} idx Upgrade the RAM of the Hacknet node/server having this
+ *     ID.
  */
 function upgrade_ram(ns, idx) {
     const farm = new Set(hacknet_nodes(ns));
@@ -307,9 +313,9 @@ function upgrade_ram(ns, idx) {
 /**
  * Purchase and manage a farm of Hacknet nodes or Hacknet servers.
  *
- * Usage: run quack/hnet-farm.js
+ * Usage: run quack/hnet.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
