@@ -124,7 +124,9 @@ function buy_other_augmentations(ns) {
  */
 async function buy_programs(ns) {
     const player = new Player(ns);
-    assert(player.has_tor());
+    if (!player.has_tor()) {
+        return;
+    }
 
     // Try to buy at most this many times to prevent the script from hanging.
     // If our income rises faster than our spending on programs, then it is
