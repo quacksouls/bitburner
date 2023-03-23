@@ -28,6 +28,7 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money, Money } from "/quack/lib/money.js";
+import { is_ghost_of_wall_street } from "/quack/lib/source.js";
 import {
     assert,
     is_boolean,
@@ -69,6 +70,9 @@ function buy_stock(ns, portfolio, position) {
     }
     if (MyArray.is_empty(stock)) {
         return portfolio;
+    }
+    if (is_ghost_of_wall_street(ns)) {
+        stock = [stock[0]];
     }
 
     const new_portfolio = { ...portfolio };
@@ -127,7 +131,11 @@ export function can_short(ns) {
  */
 function expenditure(ns, portfolio) {
     const excess_money = money(ns) - portfolio.reserve;
-    return Math.floor(wse.reserve.BUY_MULT * excess_money) - wse.COMMISSION;
+    let fraction = wse.reserve.BUY_MULT;
+    if (is_ghost_of_wall_street(ns)) {
+        fraction = wse.reserve.BUY_MULT_BN8;
+    }
+    return Math.floor(fraction * excess_money) - wse.COMMISSION;
 }
 
 /**
