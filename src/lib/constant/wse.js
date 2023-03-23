@@ -80,6 +80,13 @@ export const wse = {
      */
     NUM_BUY: 3,
     /**
+     * Positions for a stock.
+     */
+    position: {
+        LONG: "Long",
+        SHORT: "Short",
+    },
+    /**
      * Various constants related to the amount of money to be held in reserve.
      */
     reserve: {
@@ -112,6 +119,11 @@ export const wse = {
      * recent samples.
      */
     SAMPLE_LENGTH: 14,
+    /**
+     * The index in the array returned by ns.stock.getPosition() where we find
+     * the number of shares we own in the Short position.
+     */
+    SHORT_INDEX: 2,
     /**
      * The minimum amount of money we are willing to spend to purchase shares
      * of a stock.  This is our spending threshold.

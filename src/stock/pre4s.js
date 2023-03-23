@@ -19,6 +19,7 @@ import { bool } from "/quack/lib/constant/bool.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import {
+    can_short,
     initial_portfolio,
     transaction,
     update_history,
@@ -47,11 +48,12 @@ export async function main(ns) {
     shush(ns);
 
     // Continuously trade on the Stock Market.
+    const allow_short = can_short(ns);
     log(ns, "Trading on the Stock Market, pre-4S");
     let portfolio = await initial_portfolio(ns, bool.NO_4S);
     for (;;) {
         await ns.sleep(wse.TICK);
         portfolio = update_history(ns, portfolio);
-        portfolio = await transaction(ns, portfolio, bool.NO_4S);
+        portfolio = await transaction(ns, portfolio, bool.NO_4S, allow_short);
     }
 }

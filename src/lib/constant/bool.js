@@ -35,6 +35,11 @@ export const bool = {
     CAN_RUN: true,
     NOT_RUN: false,
     /**
+     * Whether or not we can short stocks.
+     */
+    CAN_SHORT: true,
+    NO_SHORT: false,
+    /**
      * Whether or not a graph is directed.
      */
     DIRECTED: true,

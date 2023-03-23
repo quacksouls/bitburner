@@ -21,7 +21,12 @@ import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { Money } from "/quack/lib/money.js";
 import { assert, number_format } from "/quack/lib/util.js";
-import { initial_portfolio, num_long, transaction } from "/quack/lib/wse.js";
+import {
+    can_short,
+    initial_portfolio,
+    num_long,
+    transaction,
+} from "/quack/lib/wse.js";
 
 /**
  * Whether to sell all shares of all stocks we own.
@@ -78,6 +83,7 @@ export async function main(ns) {
     shush(ns);
 
     // Continuously trade on the Stock Market.
+    const allow_short = can_short(ns);
     log(ns, "Trading on the Stock Market");
     let portfolio = initial_portfolio(ns, bool.HAS_4S);
     for (;;) {
@@ -85,7 +91,7 @@ export async function main(ns) {
             liquidate_all(ns);
             return;
         }
-        portfolio = await transaction(ns, portfolio, bool.HAS_4S);
+        portfolio = await transaction(ns, portfolio, bool.HAS_4S, allow_short);
         await ns.sleep(wse.TICK);
     }
 }

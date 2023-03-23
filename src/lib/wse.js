@@ -20,6 +20,7 @@
 /// ///////////////////////////////////////////////////////////////////////
 
 import { MyArray } from "/quack/lib/array.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import { io } from "/quack/lib/constant/io.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
@@ -35,60 +36,85 @@ import {
 } from "/quack/lib/util.js";
 
 /**
+ * How many shares are available to be purchased.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym A stock symbol.
+ * @returns {number} The number of shares of the given stock available to be
+ *     purchased.
+ */
+function available_shares(ns, sym) {
+    const max_shares = () => ns.stock.getMaxShares(sym);
+    return max_shares() - num_long(ns, sym) - num_short(ns, sym);
+}
+
+/**
  * Purchase shares of the top stocks most likely to increase in value during the
  * next tick.
  *
  * @param {NS} ns The Netscript API.
  * @param {object} portfolio Our portfolio of stocks.
+ * @param {string} position The position we want to buy.
  * @returns {object} The updated portfolio.
  */
-function buy_stock(ns, portfolio) {
+function buy_stock(ns, portfolio, position) {
+    assert(is_valid_position(position));
     if (pause_buy(ns)) {
         return portfolio;
     }
-    const stock = most_favourable(ns, portfolio);
+
+    let stock = most_favourable(ns, portfolio);
+    if (position === wse.position.SHORT) {
+        stock = least_favourable(ns, portfolio);
+    }
     if (MyArray.is_empty(stock)) {
         return portfolio;
     }
 
     const new_portfolio = { ...portfolio };
     for (const sym of stock) {
-        const nshare = num_shares(ns, sym, new_portfolio);
+        const nshare = num_shares(ns, sym, new_portfolio, position);
         if (nshare < 1) {
             continue;
         }
-        const cost_per_share = ns.stock.buyStock(sym, nshare);
+
+        // Try to buy the given number of shares.
+        let cost_per_share = 0;
+        if (position === wse.position.LONG) {
+            cost_per_share = ns.stock.buyStock(sym, nshare);
+        } else {
+            cost_per_share = ns.stock.buyShort(sym, nshare);
+        }
         if (cost_per_share === 0) {
             continue;
         }
-        new_portfolio[sym].cost += nshare * cost_per_share;
-        new_portfolio[sym].commission += wse.COMMISSION;
+
+        // Update the cost and commission.
+        if (position === wse.position.LONG) {
+            new_portfolio[sym].cost_long += nshare * cost_per_share;
+            new_portfolio[sym].commission_long += wse.COMMISSION;
+        } else {
+            new_portfolio[sym].cost_short += nshare * cost_per_share;
+            new_portfolio[sym].commission_short += wse.COMMISSION;
+        }
     }
 
     return new_portfolio;
 }
 
 /**
- * Choose the stock to sell.
+ * Whether we can short stocks.
  *
  * @param {NS} ns The Netscript API.
- * @param {object} portfolio Our portfolio of stocks.
- * @returns {string} The symbol of the stock to sell.  Empty string if no stocks
- *     should be sold in this tick.
+ * @returns {boolean} True if we can short stocks; false otherwise.
  */
-function choose_sell_candidate(ns, portfolio) {
-    // All stocks that do not have favourable forecast.
-    const has_long = (sym) => num_long(ns, sym) > 0;
-    const not_favourable = (sym) => !is_favourable_long(portfolio, sym);
-    const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
-
-    // Choose the stock that yields the highest profit.
-    const profit = (sym) => sell_profit(ns, sym, portfolio);
-    const can_profit = (sym) => profit(sym) > 0;
-    const descending = (syma, symb) => profit(symb) - profit(syma);
-    const candidate = stock.filter(can_profit);
-    candidate.sort(descending);
-    return MyArray.is_empty(candidate) ? empty_string : candidate[0];
+export function can_short(ns) {
+    try {
+        ns.stock.buyShort("FSIG", 0);
+        return bool.CAN_SHORT;
+    } catch {
+        return bool.NO_SHORT;
+    }
 }
 
 /**
@@ -154,8 +180,10 @@ function has_money_reserve(ns, portfolio) {
  *     {
  *         reserve: number, // The amount of money to be held in reserve.
  *         symbol1: {
- *             cost: number, // Total cost of purchasing all shares we own.
- *             commission: number, // Total commission paid for all purchases.
+ *             cost_long: number, // Total cost of buying all shares in Long.
+ *             cost_short: number, // Total cost of buying all shares in Short.
+ *             commission_long: number, // Commission for all shares in Long.
+ *             commission_short: number, // Commission for all shares in Short.
  *             forecast: number, // The forecast for the stock.
  *             history: array<number>, // History of price changes.  Latest
  *                                     // value at front of array.  Pre-4S only.
@@ -175,8 +203,10 @@ export async function initial_portfolio(ns, fourS) {
     };
     ns.stock.getSymbols().forEach((sym) => {
         portfolio[sym] = {
-            cost: 0,
-            commission: 0,
+            cost_long: 0,
+            cost_short: 0,
+            commission_long: 0,
+            commission_short: 0,
             forecast: 0,
             history: [],
             prev_price: 0,
@@ -204,6 +234,40 @@ function is_favourable_long(portfolio, sym) {
 }
 
 /**
+ * Whether this is a valid position for a stock.
+ *
+ * @param {string} position A position of a stock.
+ * @returns {boolean} True if the given position is supported; false otherwise.
+ */
+function is_valid_position(position) {
+    assert(!is_empty_string(position));
+    return position === wse.position.LONG || position === wse.position.SHORT;
+}
+
+/**
+ * The top stocks most likely to decrease in value during the next tick.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {array<string>} An array of the top stocks that are forecasted to
+ *     have the lowest chances of increase in the next tick.  Empty array if no
+ *     stocks are forecasted to decrease in value.
+ */
+function least_favourable(ns, portfolio) {
+    // Sort the stocks in increasing order of their chances of increase.
+    const not_favourable = (sym) => portfolio[sym].forecast < forecast.SELL_TAU;
+    const to_int = (n) => Math.floor(1e6 * n);
+    const projection = (sym) => to_int(portfolio[sym].forecast);
+    const ascending = (syma, symb) => projection(syma) - projection(symb);
+    let stock = ns.stock.getSymbols().filter(not_favourable);
+    stock.sort(ascending);
+
+    const can_buy = (sym) => available_shares(ns, sym) > 0;
+    stock = stock.filter(can_buy);
+    return MyArray.is_empty(stock) ? [] : stock.slice(0, wse.NUM_BUY);
+}
+
+/**
  * The top stocks most likely to increase in value during the next tick.
  *
  * @param {NS} ns The Netscript API.
@@ -221,8 +285,7 @@ function most_favourable(ns, portfolio) {
     let stock = ns.stock.getSymbols().filter(is_favourable);
     stock.sort(descending);
 
-    const nshare = (sym) => ns.stock.getMaxShares(sym) - num_long(ns, sym);
-    const can_buy = (sym) => nshare(sym) > 0;
+    const can_buy = (sym) => available_shares(ns, sym) > 0;
     stock = stock.filter(can_buy);
     return MyArray.is_empty(stock) ? [] : stock.slice(0, wse.NUM_BUY);
 }
@@ -245,11 +308,14 @@ export function num_long(ns, sym) {
  * @param {NS} ns The Netscript API.
  * @param {string} sym We want to buy shares of this stock.
  * @param {object} portfolio Our portfolio of stocks.
- * @returns {number} The number of shares of this stock we can buy.  Must be at
- *     least zero.  If 0, then we cannot buy any shares of the given stock.
+ * @param {string} position The position of the stock.
+ * @returns {number} The number of shares of this stock we can buy, in the given
+ *     position.  Must be at least zero.  If 0, then we cannot buy any shares of
+ *     the given stock.
  */
-function num_shares(ns, sym, portfolio) {
+function num_shares(ns, sym, portfolio, position) {
     // Sanity checks.
+    assert(is_valid_position(position));
     if (!has_money_reserve(ns, portfolio)) {
         return 0;
     }
@@ -260,13 +326,37 @@ function num_shares(ns, sym, portfolio) {
 
     // The maximum number of shares of the stock we can buy.  This takes into
     // account the number of shares we already own.
-    const max_share = ns.stock.getMaxShares(sym) - num_long(ns, sym);
+    const max_share = available_shares(ns, sym);
     if (max_share < 1) {
         return 0;
     }
+
     // How many more shares of the stock we can buy.
-    const nshare = Math.floor(funds / ns.stock.getAskPrice(sym));
+    let nshare = 0;
+    switch (position) {
+        case wse.position.LONG:
+            nshare = Math.floor(funds / ns.stock.getAskPrice(sym));
+            break;
+        case wse.position.SHORT:
+            nshare = Math.floor(funds / ns.stock.getBidPrice(sym));
+            break;
+        default:
+            // Should never reach here.
+            assert(false);
+    }
     return Math.min(nshare, max_share);
+}
+
+/**
+ * The number of shares we own in the Short position.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym A stock symbol.
+ * @returns {number} How many shares we have of the given stock in the Short
+ *     position.
+ */
+export function num_short(ns, sym) {
+    return ns.stock.getPosition(sym)[wse.SHORT_INDEX];
 }
 
 /**
@@ -344,6 +434,57 @@ async function profit_to_keep(ns, portfolio, profit) {
 }
 
 /**
+ * Choose the stock to sell in the Long position.  The propitious time to sell
+ * shares of a stock in the Long position is when the forecast tells us the
+ * stock would decrease in the next tick.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {string} The symbol of the stock to sell in the Long position.
+ *     Empty string if no stocks should be sold in the Long position.
+ */
+function sell_candidate_long(ns, portfolio) {
+    // All stocks that do not have favourable forecast.
+    const has_long = (sym) => num_long(ns, sym) > 0;
+    const not_favourable = (sym) => !is_favourable_long(portfolio, sym);
+    const stock = ns.stock.getSymbols().filter(has_long).filter(not_favourable);
+
+    // Choose the stock that yields the highest profit.
+    const profit = (sym) => sell_profit(ns, sym, portfolio, wse.position.LONG);
+    const can_profit = (sym) => profit(sym) > 0;
+    const descending = (syma, symb) => profit(symb) - profit(syma);
+    const candidate = stock.filter(can_profit);
+    candidate.sort(descending);
+    return MyArray.is_empty(candidate) ? empty_string : candidate[0];
+}
+
+/**
+ * Choose the stock to sell in the Short position.  When shorting a stock, we
+ * are betting that the stock would increase in the next tick.  The propitious
+ * time to sell shares of a stock in the Short position is when the forecast
+ * tells us the stock would increase in the next tick.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {string} The symbol of the stock to sell in the Short position.
+ *     Empty string if no stocks should be sold in the Short position.
+ */
+function sell_candidate_short(ns, portfolio) {
+    // All stocks having favourable forecast.
+    const has_short = (sym) => num_short(ns, sym) > 0;
+    const favourable = (sym) => is_favourable_long(portfolio, sym);
+    const stock = ns.stock.getSymbols().filter(has_short).filter(favourable);
+
+    // Choose the stock that yields the highest profit.
+    const profit = (sym) => sell_profit(ns, sym, portfolio, wse.position.SHORT);
+    const can_profit = (sym) => profit(sym) > 0;
+    const descending = (syma, symb) => profit(symb) - profit(syma);
+    const candidate = stock.filter(can_profit);
+    candidate.sort(descending);
+    return MyArray.is_empty(candidate) ? empty_string : candidate[0];
+}
+
+/**
  * The profit we make from selling all shares of a stock.  This takes into
  * account the total cost we have paid for shares of the stock, as well as the
  * total commission we have paid and will pay for the sell transaction.
@@ -351,12 +492,34 @@ async function profit_to_keep(ns, portfolio, profit) {
  * @param {NS} ns The Netscript API.
  * @param {string} sym We want to sell all shares of this stock.
  * @param {object} portfolio Our portfolio of stocks.
- * @returns {number} The profit from selling all shares of the given stock.
+ * @param {string} position The position of the given stock.
+ * @returns {number} The profit from selling all shares of the stock in the
+ *     given position.
  */
-function sell_profit(ns, sym, portfolio) {
-    const revenue = num_long(ns, sym) * ns.stock.getBidPrice(sym);
-    const total_commission = wse.COMMISSION + portfolio[sym].commission;
-    return revenue - total_commission - portfolio[sym].cost;
+function sell_profit(ns, sym, portfolio, position) {
+    return (
+        sell_revenue(ns, sym, position)
+        - total_fees(sym, portfolio, position)
+        - total_cost(sym, portfolio, position)
+    );
+}
+
+/**
+ * The revenue from selling all shares of a stock in a given position.  Revenue
+ * is not the same as profit.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} sym We want to sell all shares of this stock.
+ * @param {string} position The position of the given stock.
+ * @returns {number} The revenue from selling all shares of the stock in the
+ *     given position.
+ */
+function sell_revenue(ns, sym, position) {
+    assert(is_valid_position(position));
+    if (position === wse.position.LONG) {
+        return num_long(ns, sym) * ns.stock.getBidPrice(sym);
+    }
+    return num_short(ns, sym) * ns.stock.getAskPrice(sym);
 }
 
 /**
@@ -365,27 +528,108 @@ function sell_profit(ns, sym, portfolio) {
  *
  * @param {NS} ns The Netscript API.
  * @param {object} portfolio Our portfolio of stocks.
- * @returns {object} The updated portfolio.
+ * @param {boolean} allow_short Whether we can short stocks.
+ * @returns {Promise<object>} The updated portfolio.
  */
-async function sell_stock(ns, portfolio) {
-    const sym = choose_sell_candidate(ns, portfolio);
+async function sell_stock(ns, portfolio, allow_short) {
+    assert(is_boolean(allow_short));
+    let new_portfolio = await sell_stock_long(ns, portfolio);
+    if (allow_short) {
+        new_portfolio = await sell_stock_short(ns, new_portfolio);
+    }
+    return new_portfolio;
+}
+
+/**
+ * Sell all shares of a stock in the Long position.  Only sell if doing so would
+ * earn us a profit.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {Promise<object>} The updated portfolio.
+ */
+async function sell_stock_long(ns, portfolio) {
+    const new_portfolio = { ...portfolio };
+    const sym = sell_candidate_long(ns, new_portfolio);
     if (is_empty_string(sym)) {
         return portfolio;
     }
 
-    const profit = sell_profit(ns, sym, portfolio);
+    const profit = sell_profit(ns, sym, new_portfolio, wse.position.LONG);
     const nshare = num_long(ns, sym);
     const result = ns.stock.sellStock(sym, nshare);
     assert(result !== 0);
-    const keep = await profit_to_keep(ns, portfolio, profit);
-    const new_portfolio = { ...portfolio };
+    const keep = await profit_to_keep(ns, new_portfolio, profit);
     new_portfolio.reserve += keep;
-    new_portfolio[sym].cost = 0;
-    new_portfolio[sym].commission = 0;
-    const nshare_fmt = number_format(nshare);
-    const money_fmt = Money.format(profit);
-    log(ns, `Sold ${nshare_fmt} share(s) of ${sym} for ${money_fmt} in profit`);
+    new_portfolio[sym].cost_long = 0;
+    new_portfolio[sym].commission_long = 0;
+    const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Long)`;
+    const suffix = `for ${Money.format(profit)} in profit`;
+    log(ns, `${prefix} ${suffix}`);
     return new_portfolio;
+}
+
+/**
+ * Sell all shares of a stock in the Short position.  Only sell if doing so
+ * would earn us a profit.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @returns {Promise<object>} The updated portfolio.
+ */
+async function sell_stock_short(ns, portfolio) {
+    const new_portfolio = { ...portfolio };
+    const sym = sell_candidate_short(ns, new_portfolio);
+    if (is_empty_string(sym)) {
+        return portfolio;
+    }
+
+    const profit = sell_profit(ns, sym, new_portfolio, wse.position.SHORT);
+    const nshare = num_short(ns, sym);
+    const result = ns.stock.sellShort(sym, nshare);
+    assert(result !== 0);
+    const keep = await profit_to_keep(ns, new_portfolio, profit);
+    new_portfolio.reserve += keep;
+    new_portfolio[sym].cost_short = 0;
+    new_portfolio[sym].commission_short = 0;
+    const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Short)`;
+    const suffix = `for ${Money.format(profit)} in profit`;
+    log(ns, `${prefix} ${suffix}`);
+    return new_portfolio;
+}
+
+/**
+ * The total cost of a stock in a given position.  Does not include commission.
+ *
+ * @param {string} sym A stock symbol.
+ * @param {object} portfolio Our portfolio of stocks.
+ * @param {string} position A position of the stock.
+ * @returns {number} The total cost of the stock in the given position.
+ */
+function total_cost(sym, portfolio, position) {
+    assert(is_valid_position(position));
+    if (position === wse.position.LONG) {
+        return portfolio[sym].cost_long;
+    }
+    return portfolio[sym].cost_short;
+}
+
+/**
+ * The total commission incurred when we want to sell all shares of a stock in a
+ * position.
+ *
+ * @param {string} sym We want to sell all shares of this stock.
+ * @param {object} portfolio We stock portfolio.
+ * @param {string} position The position of the given stock.
+ * @returns {number} The total commission from selling all shares of the stock
+ *     in the given position.
+ */
+function total_fees(sym, portfolio, position) {
+    assert(is_valid_position(position));
+    if (position === wse.position.LONG) {
+        return wse.COMMISSION + portfolio[sym].commission_long;
+    }
+    return wse.COMMISSION + portfolio[sym].commission_short;
 }
 
 /**
@@ -430,13 +674,19 @@ export async function trade_bot_stop_buy(ns) {
  * @param {NS} ns The Netscript API.
  * @param {object} portfolio Our portfolio of stocks.
  * @param {boolean} fourS Whether we have access to the 4S data and API.
+ * @param {boolean} allow_short Whether we can short stocks.
  * @returns {object} The updated portfolio.
  */
-export async function transaction(ns, portfolio, fourS) {
+export async function transaction(ns, portfolio, fourS, allow_short) {
     assert(is_boolean(fourS));
+    assert(is_boolean(allow_short));
     let new_portfolio = get_forecast(ns, portfolio, fourS);
-    new_portfolio = await sell_stock(ns, new_portfolio);
-    return buy_stock(ns, new_portfolio);
+    new_portfolio = await sell_stock(ns, new_portfolio, allow_short);
+    new_portfolio = buy_stock(ns, new_portfolio, wse.position.LONG);
+    if (allow_short) {
+        new_portfolio = buy_stock(ns, new_portfolio, wse.position.SHORT);
+    }
+    return new_portfolio;
 }
 
 /**
