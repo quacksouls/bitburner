@@ -31,7 +31,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *     that evaluates to the target number.
  */
 function all_expressions(digit, target) {
-    assert(digit.length > 0);
+    assert(!is_empty_string(digit));
     return Array.from(expressions(digit, target));
 }
 
