@@ -31,13 +31,13 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * Whether an undirected graph is bipartite.  Do not assume the graph is
  * connected, i.e. each node is reachable from any other node.
  *
- * @param n The number of nodes in the graph.  Must be positive.
- * @param edge An array of edges of the graph.  Each array element is an
+ * @param {number} n The number of nodes in the graph.  Must be positive.
+ * @param {array} edge An array of edges of the graph.  Each array element is an
  *     edge of the form [u, v], where u and v are nodes of the graph.
- * @return An array having n elements.  If i is an index of the array a,
- *     then a[i] represents the colour of node i in the graph, assuming
- *     the graph to have a 2-colouring.  In case the graph is not
- *     bipartite, then return an empty array.
+ * @returns {array} An array having n elements.  If i is an index of the array
+ *     a, then a[i] represents the colour of node i in the graph, assuming
+ *     the graph to have a 2-colouring.  In case the graph is not bipartite,
+ *     then return an empty array.
  */
 function bipartite(n, edge) {
     assert(n > 0);
@@ -49,6 +49,7 @@ function bipartite(n, edge) {
     if (edge.length === 0) {
         return empty_array;
     }
+
     // Use breath-first search to colour each node of the graph.
     const graph = to_graph(n, edge);
     let colr = new Array(n).fill(colour.WHITE);
@@ -67,6 +68,7 @@ function bipartite(n, edge) {
         colr = update_colouring(colr, col);
         v = choose_white_node(colr);
     }
+
     // Determine whether the graph has a 2-colouring.
     for (const r of root) {
         if (!is_bipartite(graph, r, colr)) {
@@ -79,9 +81,10 @@ function bipartite(n, edge) {
 /**
  * Choose a white node from a graph.
  *
- * @param colr A colouring of the nodes of a graph, where colour[i]
+ * @param {array} colr A colouring of the nodes of a graph, where colour[i]
  *     represents the colour of node i.
- * @return A node that is white.  Return -1 if each node has been coloured.
+ * @returns {number} A node that is white.  Return -1 if each node has been
+ *     coloured.
  */
 function choose_white_node(colr) {
     assert(colr.length > 0);
@@ -97,11 +100,11 @@ function choose_white_node(colr) {
  * Attempt to colour a graph by using 2 colours.  Each node is coloured such
  * that the endpoints of an edge have different colours.
  *
- * @param graph We want to colour this graph.
- * @param root Start the colouring from this node.
- * @return An array a where the element a[i] represents the colour of node i
- *     in the graph.  An empty array if the graph cannot be coloured with the
- *     given colours such that the endpoints of each edge have different
+ * @param {Graph} graph We want to colour this graph.
+ * @param {number} root Start the colouring from this node.
+ * @returns {array} An array a where the element a[i] represents the colour of
+ *     node i in the graph.  An empty array if the graph cannot be coloured with
+ *     the given colours such that the endpoints of each edge have different
  *     colours.  Even if the returned array is not empty, we must still test
  *     to see whether the graph has a 2-colouring.
  */
@@ -116,6 +119,7 @@ function colouring(graph, root) {
     const visit = new Set();
     visit.add(root);
     colr[root] = colour.BLUE;
+
     // Use breath-first search to colour each node.  We do not assume the graph
     // to be connected.
     while (stack.length > 0) {
@@ -124,6 +128,7 @@ function colouring(graph, root) {
             if (visit.has(v)) {
                 continue;
             }
+
             // Colour the neighbours of u.
             visit.add(v);
             stack.push(v);
@@ -133,6 +138,7 @@ function colouring(graph, root) {
             }
             assert(colour.RED === colr[u]);
             colr[v] = colour.BLUE;
+
             // Determine whether v is connected to any node of the same colour.
             for (const w of graph.neighbour(v)) {
                 // The graph is not bipartite because v is neighbour with a
@@ -149,10 +155,10 @@ function colouring(graph, root) {
 /**
  * Whether a graph is bipartite.
  *
- * @param graph Check this graph to see whether it is bipartite.
- * @param root Start our breath-first search from this node.
- * @param colr A colouring of the nodes of the graph.
- * @return true if the graph is bipartite; false otherwise.
+ * @param {Graph} graph Check this graph to see whether it is bipartite.
+ * @param {number} root Start our breath-first search from this node.
+ * @param {array} colr A colouring of the nodes of the graph.
+ * @returns {boolean} True if the graph is bipartite; false otherwise.
  */
 function is_bipartite(graph, root, colr) {
     // Mark the root node as visited.
@@ -160,6 +166,7 @@ function is_bipartite(graph, root, colr) {
     const visit = new Set();
     stack.push(root);
     visit.add(root);
+
     // Use breath-first search to help us determine whether the
     // graph has a 2-colouring.
     while (stack.length > 0) {
@@ -182,16 +189,17 @@ function is_bipartite(graph, root, colr) {
 /**
  * Construct an undirected graph given the number of nodes and an edge set.
  *
- * @param n The number of nodes in the graph.
- * @param edge An array of edges of the graph.  Each array element is an
+ * @param {number} n The number of nodes in the graph.
+ * @param {array} edge An array of edges of the graph.  Each array element is an
  *     edge of the form [u, v], where u and v are nodes of the graph.
- * @return An undirected graph having n nodes and the given edge set.
+ * @returns {Graph} An undirected graph having n nodes and the given edge set.
  */
 function to_graph(n, edge) {
     assert(n > 0);
     assert(edge.length > 0);
     const node = new Set(MyArray.sequence(n));
     const graph = new Graph(bool.UNDIRECTED);
+
     // First, add the edges.
     for (let i = 0; i < edge.length; i++) {
         const [u, v] = edge[i];
@@ -199,6 +207,7 @@ function to_graph(n, edge) {
         node.delete(u);
         node.delete(v);
     }
+
     // Add any nodes not listed in the edge set.
     node.forEach((v) => assert(graph.add_node(v)));
     assert(n === graph.nodes().length);
@@ -208,14 +217,15 @@ function to_graph(n, edge) {
 /**
  * Update the colouring array.
  *
- * @param prev_colour The current colouring of the nodes of a graph.
- * @param new_colour The new colouring of the nodes.
- * @return An array representing the updated colouring.
+ * @param {array} prev_colour The current colouring of the nodes of a graph.
+ * @param {array} new_colour The new colouring of the nodes.
+ * @returns {array} An array representing the updated colouring.
  */
 function update_colouring(prev_colour, new_colour) {
     assert(prev_colour.length > 0);
     assert(prev_colour.length === new_colour.length);
     const colr = Array.from(prev_colour);
+
     for (let i = 0; i < prev_colour.length; i++) {
         // Find a white node.
         if (colour.WHITE !== prev_colour[i]) {
@@ -224,6 +234,7 @@ function update_colouring(prev_colour, new_colour) {
         if (colour.WHITE === new_colour[i]) {
             continue;
         }
+
         // Previously node i was white, but now has been coloured.
         assert(colour.WHITE === prev_colour[i]);
         assert(colour.WHITE !== new_colour[i]);
@@ -252,7 +263,7 @@ function update_colouring(prev_colour, new_colour) {
  *
  * Usage: run quack/cct/bipartite.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
