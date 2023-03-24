@@ -66,12 +66,11 @@ function minimum_jump(array) {
     const path = graph.shortest_path(start, end);
 
     // Cannot reach the last cell of the given array.
-    if (path.length === 0) {
+    if (MyArray.is_empty(path)) {
         return 0;
     }
 
     // We can reach the last cell of the array.
-    assert(path.length > 0);
     const min_jump = path.length - 1;
     assert(min_jump > 0);
     return min_jump;
@@ -86,7 +85,7 @@ function minimum_jump(array) {
  *     array.
  */
 function to_graph(array) {
-    assert(array.length > 0);
+    assert(!MyArray.is_empty(array));
     // First, add the nodes of the directed graph because the graph might be
     // disconnected.  Each node ID is an index of the given array.
     const node = MyArray.sequence(array.length);
@@ -100,6 +99,7 @@ function to_graph(array) {
         if (!can_jump(u, array)) {
             continue;
         }
+
         // All possible jumps, where each jump distance is between 1 and
         // array[u], inclusive.
         const max_distance = array[u];
