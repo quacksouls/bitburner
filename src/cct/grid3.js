@@ -22,6 +22,7 @@ import {
     print_success,
 } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { Graph } from "/quack/lib/network.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -209,7 +210,7 @@ function shortest_path(grid) {
     const a = pairing(0, 0);
     const b = pairing(grid.length - 1, grid[0].length - 1);
     if (!graph.has_node(a) || !graph.has_node(b)) {
-        return "";
+        return empty_string;
     }
     const path = graph.shortest_path(a, b);
     return path_to_string(path);
@@ -280,7 +281,7 @@ function to_graph(grid) {
 function path_to_string(gpath) {
     // No shortest paths in the grid.
     if (gpath.length === 0) {
-        return "";
+        return empty_string;
     }
     // We have a shortest path in the grid.
     const path = [];
@@ -305,7 +306,7 @@ function path_to_string(gpath) {
         }
         [rold, cold] = [r, c];
     }
-    return path.join("");
+    return path.join(empty_string);
 }
 
 /**
