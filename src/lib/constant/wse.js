@@ -106,7 +106,7 @@ export const wse = {
         /**
          * The same as BUY_MULT, but for "BitNode-8: Ghost of Wall Street".
          */
-        BUY_MULT_BN8: 0.3,
+        BUY_MULT_BN8: 0.4,
         /**
          * Lower the keep fraction by this amount.
          */
