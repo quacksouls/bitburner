@@ -99,7 +99,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * @returns {string} The decompressed string corresponding to the input data.
  */
 function decompress(data) {
-    assert(data.length > 0);
+    assert(!is_empty_string(data));
 
     // Always start with the chunk format L<string>.
     let chunk_type = lzchunk.LS;
