@@ -23,7 +23,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
-import { base } from "/quack/lib/constant/misc.js";
+import { base, empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -40,7 +40,7 @@ function encode(n) {
     // base 10, whereas a binary number is expressed in base 2.
     const data = n
         .toString(base.BINARY)
-        .split("")
+        .split(empty_string)
         .map((s) => parseInt(s, base.DECIMAL));
 
     // Determine the number of parity bits.
@@ -52,7 +52,7 @@ function encode(n) {
     const TRASH = -1;
     let msg = lay_data_bits(data, nparity, TRASH);
     msg = set_parity(msg, nparity);
-    return msg.join("");
+    return msg.join(empty_string);
 }
 
 /**
