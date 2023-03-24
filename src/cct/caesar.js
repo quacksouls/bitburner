@@ -53,7 +53,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 function caesar(plaintext, k) {
     // Sanity checks.
     const ell = Math.floor(k);
-    assert(plaintext.length > 0);
+    assert(!is_empty_string(plaintext));
     assert(ell >= 0);
 
     // Encryption.
