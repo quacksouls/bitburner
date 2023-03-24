@@ -17,7 +17,7 @@
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { lzchunk } from "/quack/lib/constant/cct.js";
-import { base } from "/quack/lib/constant/misc.js";
+import { base, empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -106,7 +106,7 @@ function decompress(data) {
     // Where are we in the compressed string?
     let i = 0;
     // The uncompressed string.
-    let result = "";
+    let result = empty_string;
     while (i < data.length) {
         const ell = parseInt(data[i], base.DECIMAL);
 
