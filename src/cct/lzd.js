@@ -93,13 +93,14 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * [3] The Hitchhiker's Guide to Compression
  *     https://go-compression.github.io/
  *
- * @param data We want to decompress this string.  The string is assumed to be
- *     the output of a variant of the LZ compression algorithm.  Cannot be an
- *     empty string.
- * @return The decompressed string corresponding to the input data.
+ * @param {string} data We want to decompress this string.  The string is
+ *     assumed to be the output of a variant of the LZ compression algorithm.
+ *     Cannot be an empty string.
+ * @returns {string} The decompressed string corresponding to the input data.
  */
 function decompress(data) {
     assert(data.length > 0);
+
     // Always start with the chunk format L<string>.
     let chunk_type = lzchunk.LS;
     // Where are we in the compressed string?
@@ -108,6 +109,7 @@ function decompress(data) {
     let result = "";
     while (i < data.length) {
         const ell = parseInt(data[i], base.DECIMAL);
+
         // Is this chunk of type L<string>?
         if (lzchunk.LS === chunk_type) {
             // Do we end the chunk now?
@@ -125,6 +127,7 @@ function decompress(data) {
             i = end;
             continue;
         }
+
         // This chunk is of type LX, which has 2 characters.
         assert(lzchunk.LX === chunk_type);
         // Do we end the chunk now?
@@ -133,6 +136,7 @@ function decompress(data) {
             chunk_type = lzchunk.LS;
             continue;
         }
+
         // Backtrack X characters in the uncompressed string.  Copy and append
         // the X-th character to the uncompressed string.  Repeat L times.
         const x = parseInt(data[i + 1], base.DECIMAL);
@@ -150,9 +154,9 @@ function decompress(data) {
  * Whether to end a chunk now.  Each chunk is either of the formats L<string>
  * or LX.  Here, L is a decimal digit between 0 and 9, inclusive.
  *
- * @param ell The first part of any chunk, denoted as L.  Assumed to be a
- *     decimal digit between 0 and 9, inclusive.
- * @return true if a chunk ends now; false otherwise.
+ * @param {number} ell The first part of any chunk, denoted as L.  Assumed to be
+ *     a decimal digit between 0 and 9, inclusive.
+ * @returns {boolean} True if a chunk ends now; false otherwise.
  */
 function end_now(ell) {
     return ell === 0;
@@ -180,7 +184,7 @@ function end_now(ell) {
  *
  * Usage: run quack/cct/lzd.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
