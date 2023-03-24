@@ -31,6 +31,7 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
 import { reassign_vigilante, strongest_member } from "/quack/lib/gang/util.js";
 import { log } from "/quack/lib/io.js";
+import { is_ghost_of_wall_street } from "/quack/lib/source.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -224,6 +225,11 @@ function enable_turf_war(ns) {
  * @param ns The Netscript API.
  */
 function equip(ns) {
+    // Only equip if this is not "BitNode-8: Ghost of Wall Street".
+    if (is_ghost_of_wall_street(ns)) {
+        return;
+    }
+
     const gangster = new Gangster(ns);
     for (const s of ns.gang.getMemberNames()) {
         // Equip items that raise a member's defense.  Higher defense translates
