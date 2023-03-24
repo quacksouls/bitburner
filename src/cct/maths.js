@@ -25,10 +25,10 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * following operators between decimal digits: addition (+), subtraction (-),
  * multiplication (*).
  *
- * @param digit A string of decimal digits.  Cannot be empty.
- * @param target An expression must evaluate to this number.
- * @returns An array of strings, each of which is an expression that evaluates
- *     to the target number.
+ * @param {string} digit A string of decimal digits.  Cannot be empty.
+ * @param {number} target An expression must evaluate to this number.
+ * @returns {array<string>} An array of strings, each of which is an expression
+ *     that evaluates to the target number.
  */
 function all_expressions(digit, target) {
     assert(digit.length > 0);
@@ -49,10 +49,10 @@ function all_expressions(digit, target) {
  *
  * This generator function is a JavaScript translation of Karila's Python code.
  *
- * @param digit A string containing a bunch of decimal digits.
- * @param target Any mathematical expression created from the given digits must
- *     evaluate to this number.
- * @param k The multiplication factor.
+ * @param {string} digit A string containing a bunch of decimal digits.
+ * @param {number} target Any mathematical expression created from the given
+ *     digits must evaluate to this number.
+ * @param {number} k The multiplication factor.
  */
 function* expressions(digit, target, k = 1) {
     for (let i = 1; i < digit.length; i++) {
