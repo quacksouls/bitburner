@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to factions.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
