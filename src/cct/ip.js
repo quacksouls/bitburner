@@ -23,13 +23,14 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * All valid IPv4 addresses from a string of digits.
  *
- * @param string A string of decimal digits.  Cannot be an empty string.
- * @return An array where each element is a string representing a valid
- *     IPv4 address.  An empty array if no valid IPv4 addresses can be
+ * @param {string} string A string of decimal digits.  Cannot be empty string.
+ * @returns {array<string>} An array where each element is a string representing
+ *     a valid IPv4 address.  An empty array if no valid IPv4 addresses can be
  *     generated from the given string.
  */
 function all_ip(string) {
     assert(string.length > 0);
+
     // An IPv4 address has 4 octets, each of which is a segment of the digit
     // string.  No two segments overlap.  Each segment contains at most 3
     // digits.  The total length of all segments must be the same as the number
@@ -46,12 +47,15 @@ function all_ip(string) {
                     if (ip_length !== i + j + k + ell) {
                         continue;
                     }
+
                     // Extract each segment.
                     const octet = extract_octets(string, i, j, k);
+
                     // Is each segment a valid octet in an IPv4 address?
                     if (!is_valid_ip(octet)) {
                         continue;
                     }
+
                     // We have found a valid IPv4 address.  Octets in an IPv4
                     // address are delimited by a period.
                     ip.push(octet.join("."));
@@ -59,6 +63,7 @@ function all_ip(string) {
             }
         }
     }
+
     // Since v2.1.0, the game wants the array as a string.
     return ip.toString();
 }
@@ -66,9 +71,9 @@ function all_ip(string) {
 /**
  * Extract 4 octets from a digit string.
  *
- * @param string A string of decimal digits.
- * @param i, j, k The boundary of each octet, where the boundary is with
- *     respect to the digit string.  Going from left to right in the digit
+ * @param {string} string A string of decimal digits.
+ * @param {number} i, j, k The boundary of each octet, where the boundary is
+ *     with respect to the digit string.  Going from left to right in the digit
  *     string, the first octet starts from index 0 and ends at index i - 1,
  *     inclusive.  The range of indices of the first octet can be written as
  *     the closed interval [0, i - 1], meaning that digits in the first octet
@@ -77,8 +82,8 @@ function all_ip(string) {
  *     octet has the range of indices [i + j, i + j + k - 1].  Finally, the
  *     fourth octet has the range of indices [i + j + k, n - 1], where n is
  *     the length of the digit string.
- * @return An array where each element is a string of digits representing an
- *     octet of the digit string.
+ * @returns {array<string>} An array where each element is a string of digits
+ *     representing an octet of the digit string.
  */
 function extract_octets(string, i, j, k) {
     assert(string.length > 0);
@@ -96,8 +101,8 @@ function extract_octets(string, i, j, k) {
  * Whether a given sequence of octets forms a valid IPv4 address.
  * A valid IPv4 address has 4 valid octets.
  *
- * @param octet An array of candidate octets to test.
- * @return true if each octet is valid; false otherwise.
+ * @param {array} octet An array of candidate octets to test.
+ * @returns {boolean} True if each octet is valid; false otherwise.
  */
 function is_valid_ip(octet) {
     assert(octet.length === 4);
@@ -112,8 +117,9 @@ function is_valid_ip(octet) {
 /**
  * Whether a given segment is a valid octet in an IPv4 address.
  *
- * @param octet A digit string.  Cannot be an empty string.
- * @return true if the given segment is a valid IPv4 octet; false otherwise.
+ * @param {string} octet A digit string.  Cannot be an empty string.
+ * @returns {boolean} True if the given segment is a valid IPv4 octet;
+ *     false otherwise.
  */
 function is_valid_octet(octet) {
     assert(octet.length > 0);
@@ -124,6 +130,7 @@ function is_valid_octet(octet) {
             return bool.INVALID;
         }
     }
+
     // An octet represents an integer between 0 and 255, inclusive.
     const n = parseInt(octet, base.DECIMAL);
     const min = 0;
