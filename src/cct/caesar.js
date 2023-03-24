@@ -42,19 +42,20 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * plaintext alphabet.  Punctuation, whitespace, and special characters are
  * ignored.
  *
- * @param plaintext Encrypt this string using the Caesar cipher.  Cannot be
- *     empty string.
- * @param k The left shift length.  We shift to the left by this many
+ * @param {string} plaintext Encrypt this string using the Caesar cipher.
+ *     Cannot be empty string.
+ * @param {number} k The left shift length.  We shift to the left by this many
  *     characters, taking into account rotation (wrap around).  Must be a
  *     non-negative integer.
- * @return The ciphertext corresponding to the plaintext, encrypted using the
- *     Caesar cipher having a left shift of k positions.
+ * @returns {string} The ciphertext corresponding to the plaintext, encrypted
+ *     using the Caesar cipher having a left shift of k positions.
  */
 function caesar(plaintext, k) {
     // Sanity checks.
     const ell = Math.floor(k);
     assert(plaintext.length > 0);
     assert(ell >= 0);
+
     // Encryption.
     const alphabet = english_alphabet();
     const n = alphabet.length;
@@ -90,7 +91,7 @@ function caesar(plaintext, k) {
  *
  * Usage: run quack/cct/caesar.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
