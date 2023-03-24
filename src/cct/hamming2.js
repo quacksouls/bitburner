@@ -103,14 +103,18 @@ function decode(msg) {
 function num_parity(msg) {
     const lower_bound = 4;
     assert(msg.length >= lower_bound);
-    let i = 0; // How many parity bits.
-    let pos = 2 ** i; // Position of a parity bit.
-    while (pos < msg.length) {
-        i++;
-        pos = 2 ** i;
-    }
-    assert(i === Math.ceil(Math.log2(msg.length)));
-    return i;
+
+    // Another way to calculate the number of parity bits.
+    // let i = 0; // How many parity bits.
+    // let pos = 2 ** i; // Position of a parity bit.
+    // while (pos < msg.length) {
+    //     i++;
+    //     pos = 2 ** i;
+    // }
+    // assert(i === Math.ceil(Math.log2(msg.length)));
+    // return i;
+
+    return Math.ceil(Math.log2(msg.length));
 }
 
 /**
