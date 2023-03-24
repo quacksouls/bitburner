@@ -58,11 +58,12 @@ function bipartite(n, edge) {
     // a number of subgraphs each of which can be considered a tree by
     // means of breath-first search.
     const root = [];
+
     // Colour all nodes of the graph.
     while (v >= 0) {
         root.push(v);
         const col = colouring(graph, v);
-        if (col.length === 0) {
+        if (MyArray.is_empty(col)) {
             return empty_array;
         }
         colr = update_colouring(colr, col);
@@ -87,7 +88,7 @@ function bipartite(n, edge) {
  *     coloured.
  */
 function choose_white_node(colr) {
-    assert(colr.length > 0);
+    assert(!MyArray.is_empty(colr));
     for (let i = 0; i < colr.length; i++) {
         if (colour.WHITE === colr[i]) {
             return i;
@@ -169,7 +170,7 @@ function is_bipartite(graph, root, colr) {
 
     // Use breath-first search to help us determine whether the
     // graph has a 2-colouring.
-    while (stack.length > 0) {
+    while (!MyArray.is_empty(stack)) {
         const u = stack.pop();
         assert(colr[u] === colour.BLUE || colr[u] === colour.RED);
         for (const v of graph.neighbour(u)) {
@@ -222,7 +223,7 @@ function to_graph(n, edge) {
  * @returns {array} An array representing the updated colouring.
  */
 function update_colouring(prev_colour, new_colour) {
-    assert(prev_colour.length > 0);
+    assert(!MyArray.is_empty(prev_colour));
     assert(prev_colour.length === new_colour.length);
     const colr = Array.from(prev_colour);
 
