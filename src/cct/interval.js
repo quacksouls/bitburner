@@ -23,19 +23,21 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Merge overlapping intervals.
  *
- * @param interval An array of intervals.  Each interval is represented as an
- *     array [a, b] of two elements, where a < b.  So this is an array of
+ * @param {array} interval An array of intervals.  Each interval is represented
+ *     as an array [a, b] of two elements, where a < b.  So this is an array of
  *     arrays.
- * @return An array of intervals, where all overlapping intervals have
+ * @returns {array} An array of intervals, where all overlapping intervals have
  *     been merged.  Intervals in the array are sorted in ascending order.
  */
 function merge(interval) {
     // Sanity checks.
     assert(interval.length > 0);
     assert(valid_interval(interval));
+
     // Sort the array in ascending order using the first element of
     // each subarray.
     const array = MyArray.sort_ascending_tuple(interval);
+
     // Compare two intervals and merge them as necessary.
     let i = 0;
     let j = i + 1;
@@ -48,6 +50,7 @@ function merge(interval) {
             const a = array[i][start];
             const b = Math.max(array[i][end], array[j][end]);
             array[i] = [a, b];
+
             // Delete interval j.
             array.splice(j, howmany);
             continue;
@@ -61,20 +64,24 @@ function merge(interval) {
 /**
  * Whether to merge two intervals.
  *
- * @param intA An interval, represented as an array [x, y] of two elements.
- * @param intB Another interval.
- * @return True if the given intervals should be merged; false otherwise.
+ * @param {array} intA An interval, represented as an array [x, y] of two
+ *     elements.
+ * @param {array} intB Another interval.
+ * @returns {boolean} True if the given intervals should be merged;
+ *     false otherwise.
  */
 function merge_interval(intA, intB) {
     const start = 0;
     const end = 1;
     const a = intA[end];
     const b = intB[start];
+
     // The end of the previous interval is smaller than the start
     // of the current interval.
     if (a < b) {
         return bool.NO_MERGE;
     }
+
     // The end of the previous interval is greater than or equal
     // to the start of the current interval.
     assert(a >= b);
@@ -84,8 +91,8 @@ function merge_interval(intA, intB) {
 /**
  * Whether each interval is valid.
  *
- * @param array An array of intervals.  Cannot be an empty array.
- * @return True if each interval is valid; false otherwise.
+ * @param {array} array An array of intervals.  Cannot be an empty array.
+ * @returns {boolean} True if each interval is valid; false otherwise.
  */
 function valid_interval(array) {
     assert(array.length > 0);
@@ -110,7 +117,7 @@ function valid_interval(array) {
  *
  * Usage: run quack/cct/interval.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
