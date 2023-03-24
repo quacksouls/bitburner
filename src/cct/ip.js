@@ -29,7 +29,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *     generated from the given string.
  */
 function all_ip(string) {
-    assert(string.length > 0);
+    assert(!is_empty_string(string));
 
     // An IPv4 address has 4 octets, each of which is a segment of the digit
     // string.  No two segments overlap.  Each segment contains at most 3
@@ -86,7 +86,7 @@ function all_ip(string) {
  *     representing an octet of the digit string.
  */
 function extract_octets(string, i, j, k) {
-    assert(string.length > 0);
+    assert(!is_empty_string(string));
     assert(i > 0);
     assert(j > 0);
     assert(k > 0);
@@ -122,7 +122,7 @@ function is_valid_ip(octet) {
  *     false otherwise.
  */
 function is_valid_octet(octet) {
-    assert(octet.length > 0);
+    assert(!is_empty_string(octet));
     // An octet cannot begin with '0'.  The exception to this rule
     // is when the octet itself represents the number 0.
     if (octet[0] === "0") {
