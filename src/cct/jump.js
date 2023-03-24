@@ -25,9 +25,9 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * Try to jump the maximum distance, otherwise backtrack and/or reduce the
  * jump distance.
  *
- * @param array An array of integers.  Cannot be an empty array.
- * @return 1 if starting from the first array cell we can reach the last array
- *     cell; 0 otherwise.
+ * @param {array} array An array of integers.  Cannot be an empty array.
+ * @returns {number} 1 if starting from the first array cell we can reach the
+ *     last array cell; 0 otherwise.
  */
 function end_reachable(array) {
     assert(MyArray.all_nonnegative(array));
@@ -49,10 +49,12 @@ function end_reachable(array) {
             d = array[i];
             jump.push([d, i]);
         }
+
         // Are we at the last array cell?
         if (is_last_cell(i, array)) {
             return bool.REACHABLE;
         }
+
         // Zero jump distance.
         [d, i] = jump[last_index(jump)];
         if (d === 0) {
@@ -65,6 +67,7 @@ function end_reachable(array) {
             reduce_distance = true;
             continue;
         }
+
         // Can we jump the given distance?
         if (can_jump(i, d)) {
             i += d;
@@ -77,10 +80,9 @@ function end_reachable(array) {
 /**
  * Whether we are at the last array cell.
  *
- * @param i Index of the current array cell.
- * @param array An array of integers.  Cannot be an empty array.
- * @return True if i is the last index of the array;
- *     false otherwise.
+ * @param {number} i Index of the current array cell.
+ * @param {array} array An array of integers.  Cannot be an empty array.
+ * @returns {boolean} True if i is the last index of the array; false otherwise.
  */
 function is_last_cell(i, array) {
     assert(i >= 0);
@@ -91,8 +93,8 @@ function is_last_cell(i, array) {
 /**
  * The last index of an array.
  *
- * @param array A nonempty array.
- * @return The last index of the given array.
+ * @param {array} array A nonempty array.
+ * @returns {number} The last index of the given array.
  */
 function last_index(array) {
     assert(array.length > 0);
