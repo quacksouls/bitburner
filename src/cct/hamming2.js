@@ -77,7 +77,7 @@ function check_parity(msg, nparity) {
  * @returns {number} The integer corresponding to the encoded bit string.
  */
 function decode(msg) {
-    assert(msg.length > 0);
+    assert(!is_empty_string(msg));
     const _msg = Array.from(msg).map((s) => parseInt(s, base.DECIMAL));
     const nparity = num_parity(_msg);
     const _msgc = secded(_msg, nparity);
@@ -128,7 +128,7 @@ function secded(msg, nparity) {
     // Check for errors in the parity (i.e. redundant) bits.
     const error = check_parity(msg, nparity);
     // No errors in the bit string.
-    if (error.length === 0) {
+    if (MyArray.is_empty(error)) {
         return msg;
     }
 
