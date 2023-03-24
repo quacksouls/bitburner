@@ -21,13 +21,14 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * The largest prime factor of a positive integer.
  *
- * @param n A positive integer greater than 1.
- * @return The largest prime factor of the given integer.
+ * @param {number} n A positive integer greater than 1.
+ * @returns {number} The largest prime factor of the given integer.
  */
 function max_prime_factor(n) {
     // Sanity checks.
     assert(n > 1);
     assert(Number.isSafeInteger(n));
+
     // Determine the largest prime factor.
     let k = Number(n);
     let p = k;
@@ -36,6 +37,7 @@ function max_prime_factor(n) {
         k /= 2;
         p = 2;
     }
+
     // Use trial division to divide n by increasingly larger primes.  Start with
     // the next higher prime, i.e. 3.
     let i = 3;
@@ -64,7 +66,7 @@ function max_prime_factor(n) {
  *
  * Usage: run quack/cct/prime.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

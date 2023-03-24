@@ -195,7 +195,7 @@ function to_integer(msg, nparity) {
  *
  * Usage: run quack/cct/hamming2.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

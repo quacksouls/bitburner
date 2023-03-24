@@ -25,10 +25,10 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Do we have enough free RAM on the home server to run the given script?
  *
- * @param ns The Netscript API.
- * @param script We want to run this script on our home server.
- * @return True if enough free RAM is available to execute the script;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} script We want to run this script on our home server.
+ * @returns {boolean} True if enough free RAM is available to execute the
+ *     script; false otherwise.
  */
 function can_run_script(ns, script) {
     const server = new Server(ns, home);
@@ -38,9 +38,9 @@ function can_run_script(ns, script) {
 /**
  * Whether a server has Coding Contracts (CCTs).
  *
- * @param ns The Netscript API.
- * @param host Hostname of a server.
- * @return True if the given server has CCTs; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a server.
+ * @returns {boolean} True if the given server has CCTs; false otherwise.
  */
 function has_cct(ns, host) {
     return ns.ls(host, cct.SUFFIX).length > 0;
@@ -49,7 +49,7 @@ function has_cct(ns, host) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getServerUsedRam");
@@ -60,15 +60,16 @@ function shush(ns) {
 /**
  * Solve a Coding Contract (CCT).
  *
- * @param ns The Netscript API.
- * @param fname The file name of the CCT.
- * @param host The hostname of the server on which the CCT is located.
- * @return True if we successfully launched a script to solve the given CCT;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fname The file name of the CCT.
+ * @param {string} host The hostname of the server on which the CCT is located.
+ * @returns {boolean} True if we successfully launched a script to solve the
+ *     given CCT; false otherwise.
  */
 function solve(ns, fname, host) {
     const nthread = 1;
     const type = ns.codingcontract.getContractType(fname, host);
+
     // Determine the type of the CCT and set the appropriate solution script.
     let script = "";
     const prefix = "/quack/cct/";
@@ -158,16 +159,19 @@ function solve(ns, fname, host) {
             script = "";
             break;
     }
+
     // No script to run, possibly because there are no CCTs on any of the world
     // servers.
     if (script.length < 1) {
         return true;
     }
+
     // Run the appropriate script to solve the CCT.
     if (can_run_script(ns, script)) {
         ns.exec(script, home, nthread, fname, host);
         return true;
     }
+
     // const pre = `${host}: ${fname}`;
     // const msg = `No free RAM to run ${script} on ${home}`;
     // log(ns, `${pre}: ${msg}`, colour.RED);
@@ -177,10 +181,10 @@ function solve(ns, fname, host) {
 /**
  * Solve all Coding Contracts (CCTs) found on a world server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a server where CCTs are found.
- * @return True if we successfully launched scripts to solve all CCTs on the
- *     given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a server where CCTs are found.
+ * @returns {boolean} True if we successfully launched scripts to solve all CCTs
+ *     on the given server; false otherwise.
  */
 function solve_all(ns, host) {
     assert(host !== "");
@@ -195,7 +199,7 @@ function solve_all(ns, host) {
  *
  * Usage: run quack/cct/solver.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);

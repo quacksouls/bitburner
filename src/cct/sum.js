@@ -50,9 +50,9 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *     2004.
  *     DOI: 10.1216/rmjm/1181069871
  *
- * @param n We want to determine the number of partitions of this number.
- *     Must be a non-negative integer.
- * @return Possible values:
+ * @param {number} n We want to determine the number of partitions of this
+ *     number.  Must be a non-negative integer.
+ * @returns {number} Possible values:
  *     (1) 1 if n = 0.
  *     (2) 0 if n < 0.
  *     (3) p(n)
@@ -62,6 +62,7 @@ function partition(n) {
     if (n === 0) {
         return 1;
     }
+
     // Use an array of n + 1 elements because we also need to take care of the
     // base case.
     const cache = Array(n + 1).fill(0);
@@ -90,7 +91,7 @@ function partition(n) {
  *
  * Usage: run quack/cct/sum.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

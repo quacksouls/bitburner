@@ -21,9 +21,9 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * The largest sum of a non-empty, contiguous subarray.
  *
- * @param array An array of integers.
- * @return The largest sum of any non-empty, contiguous subarray of the given
- *     array.
+ * @param {array} array An array of integers.
+ * @returns {number} The largest sum of any non-empty, contiguous subarray of
+ *     the given array.
  */
 function subarray_sum(array) {
     // Use Kadane's algorithm.
@@ -49,7 +49,7 @@ function subarray_sum(array) {
  *
  * Usage: run quack/cct/subarray.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

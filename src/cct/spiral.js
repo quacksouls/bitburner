@@ -26,11 +26,17 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Trace out a ring inside a 2-D matrix.
  *
- * @param m A 2-D matrix, represented as an array of arrays.
- * @param [tlr, tlc] The coordinates of the top-left element of the ring.
- *     "r" and "c" mean row and column, respectively.
- * @param [brr, brc] The coordinates of the bottom-right element of the ring.
- *     "r" and "c" mean row and column, respectively.
+ * @param {array<array>} m A 2-D matrix, represented as an array of arrays.
+ * @param {number} tlr The x-coordinate of the top-left element of the ring.
+ *     "r" means row.
+ * @param {number} tlc The y-coordinate of the top-left element of the ring.
+ *     "c" means column.
+ * @param {number} brr The x-coordinate of the bottom-right element of the ring.
+ *     "r" means row.
+ * @param {number} brc The y-coordinate of the bottom-right element of the ring.
+ *     "c" means column.
+ * @returns {array} The elements of the given matrix, traced out by going
+ *     clockwise around a ring.
  */
 function ring(m, tlr, tlc, brr, brc) {
     // Top-left to top-right.
@@ -39,24 +45,29 @@ function ring(m, tlr, tlc, brr, brc) {
     assert(tlc <= brc);
     array = m[tlr];
     elem = Array.from(array.slice(tlc, brc + 1));
+
     // Is this a matrix of one row?
     if (tlr === brr) {
         return elem;
     }
+
     // Top-right to bottom-right.
     assert(tlr < brr);
     for (let r = tlr + 1; r <= brr; r++) {
         elem.push(m[r][brc]);
     }
+
     // Do we have a matrix of one column?
     if (tlc === brc) {
         return elem;
     }
+
     // Bottom-right to bottom-left.
     assert(tlc < brc);
     array = m[brr];
     array = Array.from(array.slice(tlc, brc));
     elem = elem.concat(array.reverse());
+
     // Bottom-left to top-left.
     array = [];
     for (let r = tlr + 1; r < brr; r++) {
@@ -69,8 +80,9 @@ function ring(m, tlr, tlc, brr, brc) {
 /**
  * The elements of a 2-D matrix in spiral order, going in clockwise direction.
  *
- * @param m A 2-D matrix, represented as an array of arrays.
- * @return An array representing the elements of the matrix in spiral order.
+ * @param {array<array>} m A 2-D matrix, represented as an array of arrays.
+ * @returns {array} An array representing the elements of the matrix in spiral
+ *     order.
  */
 function spiral(m) {
     // Sanity checks.
@@ -83,6 +95,7 @@ function spiral(m) {
         assert(a.length > 0);
         assert(ncol === a.length);
     }
+
     // The spiral order of a matrix.
     let tlr = 0; // top-left row
     let tlc = tlr; // top-left column
@@ -108,7 +121,7 @@ function spiral(m) {
  *
  * Usage: run quack/cct/spiral.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

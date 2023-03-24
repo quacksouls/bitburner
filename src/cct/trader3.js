@@ -38,7 +38,7 @@ import { is_empty_string } from "/quack/lib/util.js";
  *
  * Usage: run quack/cct/trader3.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

@@ -22,17 +22,21 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * The number of ways to change n using coins in the given set of denominations.
  *
- * @param n We want to partition this number.  Must be a positive integer.
- * @param denom The array of denominations.  An array of positive integers to
- *     use to partition n.  Elements of the array are unique.
- * @return The number of ways to change n using the given denominations.
+ * @param {number} n We want to partition this number.  Must be a positive
+ *     integer.
+ * @param {array} denom The array of denominations.  An array of positive
+ *     integers to use to partition n.  Elements of the array are unique.
+ * @returns {number} The number of ways to change n using the given
+ *     denominations.
  */
 function coin_change(n, denom) {
     assert(n > 0);
     assert(denom.length > 0);
+
     // Sort the array of denominations in ascending order.
     let denomination = Array.from(new Set(denom));
     denomination = MyArray.sort_ascending(denomination);
+
     // Remove any coin value higher than n.
     let i = denomination.length - 1;
     while (n < denomination[i]) {
@@ -64,11 +68,11 @@ function coin_change(n, denom) {
  *
  * https://www.educative.io/m/coin-changing-problem
  *
- * @param n We want to partition this integer.
- * @param denom The array of denominations.  An array of positive integers to
- *     use to partition n.  Elements of the array are unique and the array is
- *     assumed to be sorted in ascending order.
- * @return The number of ways to partition n using only integers from
+ * @param {number} n We want to partition this integer.
+ * @param {array} denom The array of denominations.  An array of positive
+ *     integers to use to partition n.  Elements of the array are unique and the
+ *     array is assumed to be sorted in ascending order.
+ * @returns {number} The number of ways to partition n using only integers from
  *     the denomination array.
  */
 function partition(n, denom) {
@@ -100,7 +104,7 @@ function partition(n, denom) {
  *
  * Usage: run quack/cct/sum2.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

@@ -42,19 +42,23 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * The edge case is when i is the last day.  We should not buy the stock on
  * the last day because we won't be able to sell it the next day.
  *
- * @param price An array where price[i] is the price of a stock on day i.
- * @return The maximum profit to be made, provided we are allowed to make
- *     as many transactions as we want.  Return 0 if no profits can be made.
+ * @param {array} price An array where price[i] is the price of a stock on day
+ *     i.
+ * @returns {number} The maximum profit to be made, provided we are allowed to
+ *     make as many transactions as we want.  Return 0 if no profits can be
+ *     made.
  */
 function maximize_profit(price) {
     // Sanity checks.
     assert(price.length > 0);
+
     // If the price array has only one value, we can buy on the first day.
     // However, we won't be able to sell at all.  Therefore the maximum profit
     // should be zero.
     if (price.length === 1) {
         return 0;
     }
+
     // Keep track of the running maximum profit by considering the price
     // difference between consecutive days.
     assert(price.length >= 2);
@@ -81,7 +85,7 @@ function maximize_profit(price) {
  *
  * Usage: run quack/cct/trader2.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

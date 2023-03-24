@@ -27,8 +27,8 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * A deep copy of a triangle.
  *
- * @param triangle A triangle represented as an array of arrays.
- * @return The same triangle, but as a deep copy.
+ * @param {array<array>} triangle A triangle represented as an array of arrays.
+ * @returns {array<array>} The same triangle, but as a deep copy.
  */
 function clone(triangle) {
     const new_triangle = [];
@@ -43,8 +43,8 @@ function clone(triangle) {
  * Descend from the top to the bottom of a triangle, finding a path of minimum
  * sum as we go.
  *
- * @param triangle A triangle represented as an array of arrays.
- * @return An array [path, min_sum] as follows:
+ * @param {array<array>} triangle A triangle represented as an array of arrays.
+ * @returns {array} An array [path, min_sum] as follows:
  *     (1) path := A path of minimum sum from the top of the triangle to the
  *         bottom.
  *     (2) min_sum := The minimum path sum.
@@ -55,6 +55,7 @@ function descend(triangle) {
     if (triangle.length === 1) {
         return [triangle[0], triangle[0][0]];
     }
+
     // A triangle having at least 2 levels.  Consider the following triangle:
     //
     // (0)       2
@@ -88,11 +89,13 @@ function descend(triangle) {
     // triangle.
     const mtriangle = clone(triangle);
     const path = [];
+
     // Start from the penultimate level and work upward to the top level.
     // Keep track of a minimum path as we move along.
     for (let i = triangle.length - 2; i >= 0; i--) {
         // The minimum sum at level i.
         let minsum = Infinity;
+
         // A node at level i + 1.  This is a node of a path of minimum sum.
         let mink = Infinity;
         for (let j = 0; j < triangle[i].length; j++) {
@@ -100,6 +103,7 @@ function descend(triangle) {
             const a = mtriangle[i + 1][j];
             const b = mtriangle[i + 1][j + 1];
             mtriangle[i][j] += Math.min(a, b);
+
             // Update the path of minimum sum.  We keep track of the column
             // index at level i + 1.
             if (minsum > mtriangle[i][j]) {
@@ -111,6 +115,7 @@ function descend(triangle) {
     }
     path.push(0);
     path.reverse();
+
     // Reconstruct a path of minimum sum.  This path contains the intermediate
     // nodes from the top of the triangle to the bottom level.
     for (let i = 0; i < triangle.length; i++) {
@@ -122,8 +127,8 @@ function descend(triangle) {
 /**
  * Whether the given array represents a valid triangle.
  *
- * @param triangle A triangle represented as an array of arrays.
- * @return true if the array represents a triangle; false otherwise.
+ * @param {array<array>} triangle A triangle represented as an array of arrays.
+ * @returns {boolean} True if the array represents a triangle; false otherwise.
  */
 function is_triangle(triangle) {
     assert(triangle.length > 0);
@@ -169,7 +174,7 @@ function is_triangle(triangle) {
  *
  * Usage: run quack/cct/triangle.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

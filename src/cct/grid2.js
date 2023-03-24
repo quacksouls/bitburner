@@ -26,9 +26,10 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Whether an obstacle is found at the coordinates (r, c).
  *
- * @param grid A grid of m x n squares.
- * @param r, c A pair of coordinates in the grid.
- * @return true if an obstacle is located at (r, c); false otherwise.
+ * @param {array<array>} grid A grid of m x n squares.
+ * @param {number} r The x-coordinate in the grid.
+ * @param {number} c The y-coordinate in the grid.
+ * @returns {boolean} True if an obstacle is located at (r, c); false otherwise.
  */
 function is_obstacle(grid, r, c) {
     return grid[r][c] === 1;
@@ -100,9 +101,9 @@ function is_obstacle(grid, r, c) {
  *
  * The edge case is when (i, j) is an obstacle so we set p[i][j] = 0.
  *
- * @param grid A grid of m x n squares.
- * @return The number of different paths from (0, 0) to (m-1, n-1) without
- *     passing through any obstacles.
+ * @param {array<array>} grid A grid of m x n squares.
+ * @returns {number} The number of different paths from (0, 0) to (m-1, n-1)
+ *     without passing through any obstacles.
  */
 function unique_paths(grid) {
     // Sanity checks.
@@ -110,12 +111,14 @@ function unique_paths(grid) {
     const ncol = grid[0].length;
     assert(nrow > 0);
     assert(ncol > 0);
+
     // The table of path counts.
     const path = [];
     for (let i = 0; i < nrow; i++) {
         assert(ncol === grid[i].length);
         path.push(new Array(ncol));
     }
+
     // Start from (0, 0) and work our way to (m-1, n-1).
     for (let r = 0; r < nrow; r++) {
         for (let c = 0; c < ncol; c++) {
@@ -124,21 +127,25 @@ function unique_paths(grid) {
                 path[r][c] = 0;
                 continue;
             }
+
             // r = 0, c = 0
             if (r === 0 && c === 0) {
                 path[r][c] = 1;
                 continue;
             }
+
             // r = 0, c >= 1
             if (r === 0 && c >= 1) {
                 path[r][c] = path[r][c - 1];
                 continue;
             }
+
             // r >= 1, c = 0
             if (r >= 1 && c === 0) {
                 path[r][c] = path[r - 1][c];
                 continue;
             }
+
             // A pair of coordinates not located along the top-most row or the
             // left-most column.
             // r >= 1, c >= 1
@@ -164,7 +171,7 @@ function unique_paths(grid) {
  *
  * Usage: run quack/cct/grid2.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

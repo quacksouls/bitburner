@@ -118,6 +118,7 @@ function decompress(data) {
                 chunk_type = lzchunk.LX;
                 continue;
             }
+
             // Copy the following L characters and append them to the
             // uncompressed string.
             const start = i + 1;

@@ -24,11 +24,11 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * Whether the parentheses in the given expression are balanced.  An empty
  * string does not have parentheses, hence its parentheses are unbalanced.
  *
- * @param expression A string consisting of parentheses and other characters.
- *     The parentheses in this string are possibly unbalanced.  Cannot be an
- *     empty string.
- * @return true if the parentheses in the given expression are balanced;
- *     false otherwise.
+ * @param {string} expression A string consisting of parentheses and other
+ *     characters.  The parentheses in this string are possibly unbalanced.
+ *     Cannot be an empty string.
+ * @returns {boolean} True if the parentheses in the given expression are
+ *     balanced; false otherwise.
  */
 function is_balanced(expression) {
     if (expression.length === 0) {
@@ -67,8 +67,9 @@ function is_balanced(expression) {
 /**
  * Whether a character represents an opening or closing parenthesis.
  *
- * @param c A character.
- * @return true if the given character is a parenthesis; false otherwise.
+ * @param {string} c A character.
+ * @returns {boolean} True if the given character is a parenthesis;
+ *     false otherwise.
  */
 function is_parenthesis(c) {
     assert(c.length === 1);
@@ -81,17 +82,17 @@ function is_parenthesis(c) {
 /**
  * Slice an expression by removing a character at the given index.
  *
- * @param expr We want to prune one character from this expression.  The
- *     expression is represented as a string.
- * @param i Remove the character expr[i] at index i.
- * @return A sub-expression obtained by removing from expr the character
- *     at index i.  We do not modify the given expression.
+ * @param {string} expr We want to prune one character from this expression.
+ * @param {number} i Remove the character expr[i] at index i.
+ * @returns {string} A sub-expression obtained by removing from expr the
+ *     character at index i.  We do not modify the given expression.
  */
 function slice(expr, i) {
     // Sanity checks.
     assert(expr.length > 0);
     assert(i >= 0);
     assert(i < expr.length);
+
     // Remove the character at index i.
     return expr.slice(0, i) + expr.slice(i + 1, expr.length);
 }
@@ -133,10 +134,10 @@ function slice(expr, i) {
  * as we encounter a sub-expression that has balanced parentheses, we no longer
  * need to remove one character to form new sub-expressions.
  *
- * @param string An expression containing parentheses and other characters.
- *     The parentheses in the expression are possibly unbalanced.
- * @return An array of strings.  Each string has balanced parentheses.  We
- *     removed the same number of parentheses to result in each balanced
+ * @param {string} string An expression containing parentheses and other
+ *     characters.  The parentheses in the expression are possibly unbalanced.
+ * @returns {array} An array of strings.  Each string has balanced parentheses.
+ *     We removed the same number of parentheses to result in each balanced
  *     expression.
  */
 function sanitize(string) {
@@ -152,6 +153,7 @@ function sanitize(string) {
     // Whether we need to prune one parenthesis from an expression to
     // create a new sub-expression.
     let prune = true;
+
     // Use a pattern similar to breath-first search to test expressions and
     // their sub-expressions.  Let exprA and exprB be expressions.  We consider
     // them as nodes in a directed graph.  If exprB can be obtained by removing
@@ -168,10 +170,12 @@ function sanitize(string) {
             // pruning needed.
             prune = false;
         }
+
         // Do we need to prune a parenthesis from the current sub-expression?
         if (!prune) {
             continue;
         }
+
         // Prune a parenthesis from the current expression.  Each sub-expression
         // is obtained by removing a character at index i, provided that the
         // character is a parenthesis.
@@ -203,7 +207,7 @@ function sanitize(string) {
  *
  * Usage: run quack/cct/parenthesis.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

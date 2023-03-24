@@ -92,31 +92,35 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *
  * https://www.techiedelight.com/find-maximum-profit-earned-at-most-k-stock-transactions/
  *
- * @param ns The Netscript API.
- * @param t The maximum number of transactions.
- * @param price An array of prices, where price[i] is the price of one share of
- *     a stock on day i.  All prices relate to the same stock.
- * @return The maximum profit to be made, assuming we can perform at most t
- *     transactions.  Return 0 if no profit can be made.
+ * @param {NS} ns The Netscript API.
+ * @param {number} t The maximum number of transactions.
+ * @param {array} price An array of prices, where price[i] is the price of one
+ *     share of a stock on day i.  All prices relate to the same stock.
+ * @returns {Promise<number>} The maximum profit to be made, assuming we can
+ *     perform at most t transactions.  Return 0 if no profit can be made.
  */
 async function maximize_profit(ns, t, price) {
     assert(t >= 0);
     assert(price.length > 0);
+
     // No transactions means no profit.  We don't buy and sell, therefore
     // no profit at all.
     if (t === 0) {
         return 0;
     }
+
     // If t = 1, we are restricted to at most 1 transaction.  Simply use
     // Kadane's algorithm on the price array.
     if (t === 1) {
         return max_profit_kadane(price);
     }
+
     // If t = 2, we are restricted to at most 2 transactions.  This is the case
     // of Algorithmic Stock Trader III.
     if (t === 2) {
         return stock_traderIII(price);
     }
+
     // Perform at most t >= 3 transactions.  Let p[t][i] be the maximum profit
     // obtained by using at most t transactions up to and including day i.  The
     // value of p[t][i] is the maximum of these two expressions:
@@ -129,6 +133,7 @@ async function maximize_profit(ns, t, price) {
     // maximum number of transactions.  The column number c represents the
     // current day.
     assert(t >= 3);
+
     // The base case p[0][i] := 0 for all i.
     const p = [];
     p.push(new Array(price.length).fill(0));
@@ -138,6 +143,7 @@ async function maximize_profit(ns, t, price) {
         array[0] = 0;
         p.push(array);
     }
+
     // The case of at least t >= 3 transactions.  Here, 1 <= tau <= t.  Build
     // up our table from tau = 1 up to and including tau = t.
     for (let tau = 1; tau <= t; tau++) {
@@ -190,7 +196,7 @@ async function maximize_profit(ns, t, price) {
  *
  * Usage: run quack/cct/trader4.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

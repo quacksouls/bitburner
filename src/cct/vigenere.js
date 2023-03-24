@@ -28,10 +28,12 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Pad the key so that it is the same length as the plaintext.
  *
- * @param plaintext We want to encrypt this string.  Cannot be empty string.
- * @param key Encryption is done using this key.  Cannot be empty string.
- * @return A string representing the key, possibly padded.  If the plaintext
- *     and key are of the same length, then return the original key.
+ * @param {string} plaintext We want to encrypt this string.  Cannot be empty
+ *     string.
+ * @param {string} key Encryption is done using this key.  Cannot be empty
+ *     string.
+ * @returns {string} A string representing the key, possibly padded.  If the
+ *     plaintext and key are of the same length, then return the original key.
  */
 function pad_key(plaintext, key) {
     assert(plaintext.length > 0);
@@ -56,14 +58,17 @@ function pad_key(plaintext, key) {
  * Vigenère encryption.  We encrypt only uppercase letters of the English
  * alphabet.  All other characters are ignored.
  *
- * @param plaintext We want to encrypt this string.  Cannot be empty string.
- * @param key Encryption is done using this key.  Cannot be empty string.
- * @return A ciphertext encrypted using the Vigenère cipher.
+ * @param {string} plaintext We want to encrypt this string.  Cannot be empty
+ *     string.
+ * @param {string} key Encryption is done using this key.  Cannot be empty
+ *     string.
+ * @returns {string} A ciphertext encrypted using the Vigenère cipher.
  */
 function vigenere(plaintext, key) {
     // Sanity checks.
     assert(plaintext.length > 0);
     assert(key.length > 0);
+
     // Encryption.
     const ptxt = plaintext.toUpperCase();
     const pk = pad_key(plaintext, key);
@@ -117,7 +122,7 @@ function vigenere(plaintext, key) {
  *
  * Usage: run quack/cct/vigenere.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.

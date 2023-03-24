@@ -21,9 +21,9 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Encode a string that consists of the same character.
  *
- * @param c A character.
- * @param n The run-length of the given character.
- * @return A run-length encoding of the given character.
+ * @param {string} c A character.
+ * @param {number} n The run-length of the given character.
+ * @returns {string} A run-length encoding of the given character.
  */
 function encode(c, n) {
     assert(c.length === 1);
@@ -33,6 +33,7 @@ function encode(c, n) {
     if (k <= max) {
         return `${k}${c}`;
     }
+
     // A run-length of more than 9 is split into multiple runs.
     const s = [];
     do {
@@ -46,9 +47,9 @@ function encode(c, n) {
 /**
  * The run-length encoding (RLE) of a string.
  *
- * @param string We want to compress this string by means of run-length
+ * @param {string} string We want to compress this string by means of run-length
  *     encoding.
- * @return The RLE of the given string.
+ * @returns {string} The RLE of the given string.
  */
 function rle(string) {
     const str = string;
@@ -67,10 +68,12 @@ function rle(string) {
             }
             continue;
         }
+
         // The current character is different from the previous character.
         e.push(encode(c, n));
         n = 1;
         c = str[i];
+
         // Are we at the end of the string?
         if (i === lastidx) {
             e.push(encode(c, n));
@@ -90,7 +93,7 @@ function rle(string) {
  *
  * Usage: run quack/cct/rle.js [cct] [hostname]
  *
- * @param ns
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
