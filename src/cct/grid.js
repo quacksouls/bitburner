@@ -52,14 +52,15 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * set of n segments.  The combination number is also known as the
  * binomial coefficient.
  *
- * @param n The total number of segments.
- * @param k How many segments are downward segments.
- * @return The combination number C(n, k).
+ * @param {number} n The total number of segments.
+ * @param {number} k How many segments are downward segments.
+ * @returns {number} The combination number C(n, k).
  */
 function unique_paths(n, k) {
     // Sanity checks.
     assert(n >= 0);
     assert(k >= 0);
+
     // Edge cases.
     if (k === 0 || n === k) {
         return 1;
@@ -67,6 +68,7 @@ function unique_paths(n, k) {
     if (k > n) {
         return 0;
     }
+
     // Use the recurrence relation
     //
     // C(n, k) := C(n - 1, k - 1) + C(n - 1, k)
@@ -107,7 +109,7 @@ function unique_paths(n, k) {
  *
  * Usage: run quack/cct/grid.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
