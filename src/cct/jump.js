@@ -97,7 +97,7 @@ function is_last_cell(i, array) {
  * @returns {number} The last index of the given array.
  */
 function last_index(array) {
-    assert(array.length > 0);
+    assert(!MyArray.is_empty(array));
     return array.length - 1;
 }
 
