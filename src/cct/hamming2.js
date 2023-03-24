@@ -23,7 +23,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
-import { base } from "/quack/lib/constant/misc.js";
+import { base, empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -175,7 +175,7 @@ function to_integer(msg, nparity) {
 
     // The number is a binary representation of an integer.  Convert the binary
     // representation to a decimal representation.
-    return parseInt(data.join(""), base.BINARY);
+    return parseInt(data.join(empty_string), base.BINARY);
 }
 
 /**
