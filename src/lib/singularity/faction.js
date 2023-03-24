@@ -35,6 +35,7 @@ import { Server } from "/quack/lib/server.js";
 import { augment_to_buy } from "/quack/lib/singularity/augment.js";
 import { visit_city } from "/quack/lib/singularity/network.js";
 import { study } from "/quack/lib/singularity/study.js";
+import { is_ghost_of_wall_street } from "/quack/lib/source.js";
 import { assert, is_valid_faction } from "/quack/lib/util.js";
 
 /**
@@ -313,10 +314,13 @@ export async function work_for_faction(ns, fac, work_type) {
     ns.singularity.workForFaction(fac, work_type, bool.FOCUS);
     while (ns.singularity.getFactionRep(fac) < threshold) {
         // Donate some money to the faction in exchange for reputation points.
-        const amount = Math.floor(
-            faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home)
-        );
-        ns.singularity.donateToFaction(fac, amount);
+        // Consider donation if this is not "BitNode-8: Ghost of Wall Street".
+        if (!is_ghost_of_wall_street(ns)) {
+            const amount = Math.floor(
+                faction_t.DONATE_MULT * ns.getServerMoneyAvailable(home)
+            );
+            ns.singularity.donateToFaction(fac, amount);
+        }
         await ns.sleep(wait_t.DEFAULT);
     }
     ns.singularity.stopAction();
