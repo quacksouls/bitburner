@@ -29,20 +29,24 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Use Hamming code to encode a string of bits.
  *
- * @param n A positive integer.  This is our data.
- * @return A bit string representing the Hamming encoding of the given data.
+ * @param {number} n A positive integer.  This is our data.
+ * @returns {string} A bit string representing the Hamming encoding of the given
+ *     data.
  */
 function encode(n) {
     assert(n > 0);
+
     // Convert from decimal to binary.  A decimal number is expressed in
     // base 10, whereas a binary number is expressed in base 2.
     const data = n
         .toString(base.BINARY)
         .split("")
         .map((s) => parseInt(s, base.DECIMAL));
+
     // Determine the number of parity bits.
     const nparity = num_parity(data);
     assert(nparity > 0);
+
     // Lay out the data bits in the incomplete encoded message.  Set each
     // redundant bit as well as the overall parity bit.
     const TRASH = -1;
@@ -56,13 +60,13 @@ function encode(n) {
  * is reserved for the overall parity bit.  Position 2^i in the message is
  * reserved for a parity (or redundant) bit, where i = 0, 1, 2, ...
  *
- * @param data An array of bits, representing the bit string of the data.
- * @param p The number of parity bits in the encoded message.  This number
- *     does not include the overall parity bit.
- * @param trash Rubbish placed at positions not occupied by a data bit.
- * @return An incomplete bit string, where only the data bits are placed.
- *     A position not occupied by a data bit is filled with rubbish whose
- *     value is determined by trash.
+ * @param {array} data An array of bits, i.e. the bit string of the data.
+ * @param {number} p The number of parity bits in the encoded message.  This
+ *     number does not include the overall parity bit.
+ * @param {number} trash Rubbish placed at positions not occupied by a data bit.
+ * @returns {array} An incomplete bit string, where only the data bits are
+ *     placed.  A position not occupied by a data bit is filled with rubbish
+ *     whose value is determined by trash.
  */
 function lay_data_bits(data, p, trash) {
     // The number of bits in our encoded message.  The extra one bit
@@ -72,6 +76,7 @@ function lay_data_bits(data, p, trash) {
     // Determine the positions where the parity (i.e. redundant) bits are
     // to be placed.
     const pos = new Set(parity_position(p));
+
     // Lay out the data bits.
     const msg = Array(m).fill(trash);
     const _data = Array.from(data);
@@ -93,9 +98,9 @@ function lay_data_bits(data, p, trash) {
  *
  * 2^p >= k + p + 1
  *
- * @param data The bit string to be encoded using Hamming code.
- * @return The number of parity bits.  This number does not include the overall
- *     parity bit.
+ * @param {array} data The bit string to be encoded using Hamming code.
+ * @returns {number} The number of parity bits.  This number does not include
+ *     the overall parity bit.
  */
 function num_parity(data) {
     assert(data.length > 0);
@@ -106,6 +111,7 @@ function num_parity(data) {
         p++;
         max = 2 ** p;
     } while (max < k + p + 1);
+
     // The encoded message has m := k + p + 1 bits, as explained below.
     //
     // k := The number of bits in the data, represented as a bit string.
@@ -128,20 +134,22 @@ function num_parity(data) {
  * that are reserved for parity bits.  We set each of these locations to
  * 1 or 0.
  *
- * @param msg An incomplete encoded message.  Assume only the data bits
+ * @param {array} msg An incomplete encoded message.  Assume only the data bits
  *     to have been laid out.
- * @param nparity The number of parity bits in the encoded message.  This
- *     number does not include the overall parity bit.
- * @return The same as the input msg array, but the location of parity
+ * @param {number} nparity The number of parity bits in the encoded message.
+ *     This number does not include the overall parity bit.
+ * @returns {array} The same as the input msg array, but the location of parity
  *     bits have been set.  We do not modify msg.  We also set the
  *     overall parity bit.
  */
 function set_parity(msg, nparity) {
     assert(msg.length > 0);
     assert(nparity > 0);
+
     // The positions where the parity bits are placed.  Do not include the
     // position of the overall parity bit.
     const pos = parity_position(nparity);
+
     // Set each parity bit.
     const _msg = Array.from(msg);
     for (const p of pos) {
@@ -151,10 +159,12 @@ function set_parity(msg, nparity) {
         // even, then the parity is 0.  Otherwise the parity is 1.
         _msg[p] = n1 % 2;
     }
+
     // Count the number of 1s in the encoded message, excluding the
     // very first position.
     const _msga = _msg.slice(1, _msg.length);
     const n1 = MyArray.sum(_msga);
+
     // Set the overall parity bit.
     _msg[0] = n1 % 2;
     return _msg;
@@ -191,7 +201,7 @@ function set_parity(msg, nparity) {
  *
  * Usage: run quack/cct/hamming.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
