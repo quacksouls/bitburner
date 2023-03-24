@@ -28,10 +28,13 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Whether we can move one step down from our current position on a grid.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @param r, c Our current location (r, c) on the grid.
- * @return true if we can move from (r, c) one step down; false otherwise.
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @param {number} r The row index of our current location (r, c) on the grid.
+ * @param {number} c The column index of our current location (r, c) on the
+ *     grid.
+ * @returns {boolean} True if we can move from (r, c) one step down;
+ *     false otherwise.
  */
 function can_move_down(grid, r, c) {
     // Are we at the bottom-most edge of the grid?
@@ -39,6 +42,7 @@ function can_move_down(grid, r, c) {
     if (lastidx === r) {
         return bool.NOT_MOVE;
     }
+
     // Below us is an obstacle.
     assert(r >= 0);
     assert(r < lastidx);
@@ -53,10 +57,12 @@ function can_move_down(grid, r, c) {
  * Whether we can move one step to the left from our current position on
  * a grid.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @param r, c Our current location (r, c) on the grid.
- * @return true if we can move from (r, c) one step to the left;
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @param {number} r The row index of our current location (r, c) on the grid.
+ * @param {number} c The column index of our current location (r, c) on the
+ *     grid.
+ * @returns {boolean} True if we can move from (r, c) one step to the left;
  *     false otherwise.
  */
 function can_move_left(grid, r, c) {
@@ -64,6 +70,7 @@ function can_move_left(grid, r, c) {
     if (c === 0) {
         return bool.NOT_MOVE;
     }
+
     // To our left is an obstacle.
     assert(c > 0);
     assert(c < grid[r].length);
@@ -78,10 +85,12 @@ function can_move_left(grid, r, c) {
  * Whether we can move one step to the right from our current position on
  * a grid.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @param r, c Our current location (r, c) on the grid.
- * @return true if we can move from (r, c) one step to the right;
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @param {number} r The row index of our current location (r, c) on the grid.
+ * @param {number} c The column index of our current location (r, c) on the
+ *     grid.
+ * @returns {boolean} True if we can move from (r, c) one step to the right;
  *     false otherwise.
  */
 function can_move_right(grid, r, c) {
@@ -90,6 +99,7 @@ function can_move_right(grid, r, c) {
     if (lastidx === c) {
         return bool.NOT_MOVE;
     }
+
     // To our right is an obstacle.
     assert(c >= 0);
     assert(c < lastidx);
@@ -103,16 +113,20 @@ function can_move_right(grid, r, c) {
 /**
  * Whether we can move one step up from our current position on a grid.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @param r, c Our current location (r, c) on the grid.
- * @return true if we can move from (r, c) one step up; false otherwise.
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @param {number} r The row index of our current location (r, c) on the grid.
+ * @param {number} c The column index of our current location (r, c) on the
+ *     grid.
+ * @returns {boolean} True if we can move from (r, c) one step up;
+ *     false otherwise.
  */
 function can_move_up(grid, r, c) {
     // Are we at the top-most edge of the grid?
     if (r === 0) {
         return bool.NOT_MOVE;
     }
+
     // Above us is an obstacle.
     assert(r > 0);
     assert(r < grid.length);
@@ -126,10 +140,11 @@ function can_move_up(grid, r, c) {
 /**
  * Is the given location an obstacle?
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @param r, c A location on the grid.
- * @return true if the given location is an obstacle on the grid;
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @param {number} r The row index of a location (r, c) on the grid.
+ * @param {number} c The column index of a location (r, c) on the grid.
+ * @returns {boolean} True if the given location is an obstacle on the grid;
  *     false otherwise.
  */
 function is_obstacle(grid, r, c) {
@@ -137,13 +152,13 @@ function is_obstacle(grid, r, c) {
 }
 
 /**
- * Use the Cantor pairing function to assign a unique non-negative integer
- * to a pair of coordinates.
+ * Use the Cantor pairing function to assign a unique non-negative integer to a
+ * pair of coordinates.
  *
- * @param x, y A pair of coordinates (x, y), each number being a
- *     non-negative integer.
- * @return A unique non-negative integer associated with the coordinates
- *     (x, y).
+ * @param {number} x The x-coordinate in (x, y).
+ * @param {number} y The y-coordinate in (x, y).
+ * @returns {number} A unique non-negative integer associated with the
+ *     coordinates (x, y).
  */
 function pairing(x, y) {
     assert(x >= 0);
@@ -180,9 +195,9 @@ function pairing(x, y) {
  * represents 0.  We cannot move to a pair of coordinates that represents
  * an obstacle.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @return A string representing a shortest path in the grid, from the
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @returns {string} A string representing a shortest path in the grid, from the
  *     top-left corner to the bottom-right corner.  Each character of the
  *     string is either U, D, L, R.  An empty string if there are no paths
  *     from the top-left to the bottom-right.
@@ -203,10 +218,10 @@ function shortest_path(grid) {
 /**
  * A representation of a grid as an unweighted, undirected graph.
  *
- * @param grid A map as an array of arrays.  This is essentially a binary
- *     matrix, where each entry is either 0 or 1.
- * @return An undirected graph representation of the grid.  Each vertex is
- *     a non-negative integer n that is uniquely associated with a location
+ * @param {array<array>} grid A map as an array of arrays.  This is essentially
+ *     a binary matrix, where each entry is either 0 or 1.
+ * @returns {Graph} An undirected graph representation of the grid.  Each vertex
+ *     is a non-negative integer n that is uniquely associated with a location
  *     (r, c) on the grid.  We use the Cantor pairing function (and its
  *     inverse) to map between n and (r, c).
  */
@@ -258,8 +273,8 @@ function to_graph(grid) {
  * * L := move left by one step.
  * * R := move right by one step.
  *
- * @param gpath An array of nodes representing a path in a graph.
- * @return A string comprised of the characters U, D, L, R to indicate
+ * @param {array<array>} gpath An array of nodes representing a path in a graph.
+ * @returns {string} A string comprised of the characters U, D, L, R to indicate
  *     a path.  An empty string if gpath is an empty array.
  */
 function path_to_string(gpath) {
@@ -297,8 +312,8 @@ function path_to_string(gpath) {
  * Use the inverse of the Cantor pairing function to break a non-negative
  * integer into a pair of coordinates (x, y).
  *
- * @param z A non-negative integer.
- * @return A pair of coordinates (x, y) that is uniquely associated with z.
+ * @param {number} z A non-negative integer.
+ * @returns {array} A pair of coordinates (x, y) uniquely associated with z.
  */
 function unpairing(z) {
     assert(z >= 0);
@@ -326,7 +341,7 @@ function unpairing(z) {
  *
  * Usage: run quack/cct/grid3.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
