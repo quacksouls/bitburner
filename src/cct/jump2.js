@@ -24,19 +24,21 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Whether we can jump from the current array cell.
  *
- * @param i Index of current array cell.
- * @param array The array.
- * @return true if we can jump from the current cell;
+ * @param {number} i Index of current array cell.
+ * @param {array} array The array.
+ * @returns {boolean} True if we can jump from the current cell;
  *     false otherwise;
  */
 function can_jump(i, array) {
     // Sanity checks.
     assert(i >= 0);
     assert(i < array.length);
+
     // Cannot jump if the maximum number of jumps is zero.
     if (array[i] === 0) {
         return bool.NO_JUMP;
     }
+
     // Cannot jump if we are at the last array cell.
     const last_index = array.length - 1;
     if (last_index === i) {
@@ -48,9 +50,10 @@ function can_jump(i, array) {
 /**
  * The minimum number of jumps to reach the end of an array.
  *
- * @param array An array of non-negative integers.  Cannot be an empty array.
- * @return The minimum number of jumps from the first to the last cell.  If we
- *     cannot reach the last cell, then the minimum number is 0.
+ * @param {array} array An array of non-negative integers.  Cannot be an empty
+ *     array.
+ * @returns {number} The minimum number of jumps from the first to the last
+ *     cell.  If we cannot reach the last cell, then the minimum number is 0.
  */
 function minimum_jump(array) {
     assert(MyArray.all_nonnegative(array));
@@ -61,10 +64,12 @@ function minimum_jump(array) {
     const end = array.length - 1;
     const graph = to_graph(array);
     const path = graph.shortest_path(start, end);
+
     // Cannot reach the last cell of the given array.
     if (path.length === 0) {
         return 0;
     }
+
     // We can reach the last cell of the array.
     assert(path.length > 0);
     const min_jump = path.length - 1;
@@ -75,8 +80,10 @@ function minimum_jump(array) {
 /**
  * Construct a directed, unweighted graph from the given array.
  *
- * @param array An array of non-negative integers.  Cannot be an empty array.
- * @return A directed, unweighted graph representation of the given array.
+ * @param {array} array An array of non-negative integers.  Cannot be an empty
+ *     array.
+ * @returns {Graph} A directed, unweighted graph representation of the given
+ *     array.
  */
 function to_graph(array) {
     assert(array.length > 0);
@@ -85,6 +92,7 @@ function to_graph(array) {
     const node = MyArray.sequence(array.length);
     const graph = new Graph(bool.DIRECTED);
     node.forEach((v) => graph.add_node(v));
+
     // Add the directed edges of the graph.
     const last_index = array.length - 1;
     for (const u of node) {
@@ -130,7 +138,7 @@ function to_graph(array) {
  *
  * Usage: run quack/cct/jump2.js [cct] [hostname]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // The file name of the coding contract.
