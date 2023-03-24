@@ -29,11 +29,11 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 /**
  * Check the parity bits.
  *
- * @param msg An encoded message as a bit string.
- * @param nparity The number of parity bits in the encoded message.
- * @return An array of indices where the parity bit has detected an error.
- *     Each index is the location of a parity (i.e. redundant) bit.  The
- *     value of this parity bit is different from the parity of the
+ * @param {string} msg An encoded message as a bit string.
+ * @param {number} nparity The number of parity bits in the encoded message.
+ * @returns {array} An array of indices where the parity bit has detected an
+ *     error.  Each index is the location of a parity (i.e. redundant) bit.
+ *     The value of this parity bit is different from the parity of the
  *     positions that the bit is meant to check.  An empty array if there
  *     are no errors in the parity check.
  */
@@ -43,9 +43,11 @@ function check_parity(msg, nparity) {
     // Locations of error.  Each location is an index of the bit string.
     // Each index is the position of a parity (i.e. redundant) bit.
     const error = [];
+
     // Check each parity (i.e. redundant) bit.
     for (const p of pos) {
         assert(p > 0);
+
         // The function count_one() also counts the value of the parity
         // bit located at index p in the bit string.  If the value of
         // msg[p] is 1, we must subtract 1 from the result of the
@@ -54,6 +56,7 @@ function check_parity(msg, nparity) {
         if (msg[p] === 1) {
             n1--;
         }
+
         // Is there an error?
         const parity = n1 % 2;
         if (parity !== msg[p]) {
@@ -66,12 +69,12 @@ function check_parity(msg, nparity) {
 /**
  * Decode a binary string to an integer.
  *
- * @param msg A bit string that has been encoded using Hamming code.
+ * @param {string} msg A bit string that has been encoded using Hamming code.
  *     Going from left to right, the very first bit is the overall
  *     parity bit.  This is the extended Hamming code with an additional
  *     parity bit, also known as "single error correction, double error
  *     detection" (SECDED).
- * @return The integer corresponding to the encoded bit string.
+ * @returns {number} The integer corresponding to the encoded bit string.
  */
 function decode(msg) {
     assert(msg.length > 0);
@@ -88,13 +91,14 @@ function decode(msg) {
  *
  * 2^p >= m + p + 1
  *
- * @param msg A bit string that has been encoded using Hamming code.
+ * @param {string} msg A bit string that has been encoded using Hamming code.
  *     The 0-th position is reserved for the overall parity bit.  The first
  *     parity (or redundant) bit is at index 1.  The second parity bit is at
  *     index 2.  Index 3 is the first index where a data bit is located.
  *     Assuming the message string has at least 1 bit, the encoded bit string
  *     has at least 4 bits.
- * @return The number of redundant bits, excluding the overall parity bit.
+ * @returns {number} The number of redundant bits, excluding the overall parity
+ *     bit.
  */
 function num_parity(msg) {
     const lower_bound = 4;
@@ -113,11 +117,12 @@ function num_parity(msg) {
  * Correct a single error and detect two errors.  Also known as "single error
  * correction, double error detection" (SECDED).
  *
- * @param msg A bit string that has been encoded using the extended Hamming
- *     code.
- * @param nparity The number of parity (i.e. redundant) bits in the bit string.
- * @return The same bit string as msg, but with a single error corrected if
- *     there is an error in the bit string.
+ * @param {string} msg A bit string that has been encoded using the extended
+ *     Hamming code.
+ * @param {number} nparity The number of parity (i.e. redundant) bits in the bit
+ *     string.
+ * @returns {string} The same bit string as msg, but with a single error
+ *     corrected if there is an error in the bit string.
  */
 function secded(msg, nparity) {
     // Check for errors in the parity (i.e. redundant) bits.
@@ -126,12 +131,14 @@ function secded(msg, nparity) {
     if (error.length === 0) {
         return msg;
     }
+
     // We have an error in the bit string.  Calculate the sum of the indices of
     // the erroneous parity bits.  This sum gives the index of where an error
     // occurs.  Correct one error.
     const i = MyArray.sum(error);
     const _msg = Array.from(msg);
     _msg[i] = (_msg[i] + 1) % 2;
+
     // Check the overall parity bit.  This allows us to check for the presence
     // of a second error, but we would not be able to correct the second error.
     const n1 = MyArray.sum(_msg.slice(1, _msg.length));
@@ -142,15 +149,17 @@ function secded(msg, nparity) {
 /**
  * Convert a Hamming code to an integer.
  *
- * @param msg A bit string encoded using Hamming code.
- * @param nparity The number of parity (i.e. redundant) bits in the
+ * @param {string} msg A bit string encoded using Hamming code.
+ * @param {number} nparity The number of parity (i.e. redundant) bits in the
  *     bit string.  This does not include the overall parity bit, which is
  *     assumed to be at index 0 of msg.
- * @return An integer representation of the Hamming encoded bit string.
+ * @returns {number} An integer representation of the Hamming encoded bit
+ *     string.
  */
 function to_integer(msg, nparity) {
     assert(msg.length > 3);
     assert(nparity > 0);
+
     // Extract data bits, i.e. those bits that are not redundant bits and not
     // the overall parity bit.  Index 0 is reserved for the overall parity bit.
     // Index 1 is reserved for a redundant bit, so is index 2.  Therefore, we
@@ -163,6 +172,7 @@ function to_integer(msg, nparity) {
         }
         data.push(msg[i]);
     }
+
     // The number is a binary representation of an integer.  Convert the binary
     // representation to a decimal representation.
     return parseInt(data.join(""), base.BINARY);
