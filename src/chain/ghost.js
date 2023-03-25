@@ -41,7 +41,7 @@ export async function main(ns) {
     shush(ns);
 
     // Farm Hack XP.
-    exec(ns, "/quack/hgw/xp.js");
+    const pidx = exec(ns, "/quack/hgw/xp.js");
     // Launch trade bot, pre-4S.
     exec(ns, "/quack/stock/pre4s.js");
 
@@ -67,12 +67,15 @@ export async function main(ns) {
     }
     pid.forEach((p) => ns.kill(p));
 
-    // Join factions and purchase Augmentations.  Only do so after we have all
-    // port opener programs.
+    // Launch our gang manager.
     if (has_gang_api(ns) && !ns.gang.inGang()) {
         exec(ns, "/quack/sleeve/study.js");
     }
     await ns.sleep(wait_t.DEFAULT);
     exec(ns, "/quack/gang/slum-snakes.js");
+
+    // Join factions and purchase Augmentations.  Kill the Hack XP farmer.
+    // We need to share our botnet with a faction.
+    ns.kill(pidx);
     exec(ns, "/quack/faction/go.js");
 }
