@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { cct } from "/quack/lib/constant/cct.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
@@ -206,12 +207,13 @@ export async function main(ns) {
     shush(ns);
     const server = network(ns);
     server.push(home);
+
     // Continuously search for CCTs.  Solve a CCT, provided we have a solution
     // script.
     const unsolved = (serv) => !solve_all(ns, serv);
     for (;;) {
         let host = server.filter((s) => has_cct(ns, s));
-        while (host.length > 0) {
+        while (!MyArray.is_empty(host)) {
             host = host.filter(unsolved);
             await ns.sleep(wait_t.DEFAULT);
         }
