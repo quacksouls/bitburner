@@ -39,17 +39,13 @@ import { is_empty_string } from "/quack/lib/util.js";
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    // The file name of the coding contract.
-    const cct = ns.args[0];
-    // The hostname of the server where the coding contract is located.
-    const host = ns.args[1];
+    const [cct, host] = ns.args;
+
     // Solve the coding contract.
     const array = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        max_profit_kadane(array),
-        cct,
-        host
-    );
+    const profit = max_profit_kadane(array);
+    const result = ns.codingcontract.attempt(profit, cct, host);
+
     // Log the result in case of failure.
     if (is_empty_string(result)) {
         const log = "/quack/cct/trader.txt";

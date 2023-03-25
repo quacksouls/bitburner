@@ -112,15 +112,14 @@ function unique_paths(n, k) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    // The file name of the coding contract.
-    const cct = ns.args[0];
-    // The hostname of the server where the coding contract is located.
-    const host = ns.args[1];
+    const [cct, host] = ns.args;
+
     // Solve the coding contract.
     const [row, column] = ns.codingcontract.getData(cct, host);
     const k = column - 1;
     const n = row - 1 + k;
     const result = ns.codingcontract.attempt(unique_paths(n, k), cct, host);
+
     // Log the result in case of failure.
     if (is_empty_string(result)) {
         const log = "/quack/cct/grid.txt";

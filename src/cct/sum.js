@@ -94,13 +94,12 @@ function partition(n) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    // The file name of the coding contract.
-    const cct = ns.args[0];
-    // The hostname of the server where the coding contract is located.
-    const host = ns.args[1];
+    const [cct, host] = ns.args;
+
     // Solve the coding contract.
     const n = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(partition(n) - 1, cct, host);
+
     // Log the result in case of failure.
     if (is_empty_string(result)) {
         const log = "/quack/cct/sum.txt";

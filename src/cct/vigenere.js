@@ -126,17 +126,13 @@ function vigenere(plaintext, key) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    // The file name of the coding contract.
-    const cct = ns.args[0];
-    // The hostname of the server where the coding contract is located.
-    const host = ns.args[1];
+    const [cct, host] = ns.args;
+
     // Solve the coding contract.
     const [plaintext, key] = ns.codingcontract.getData(cct, host);
-    const result = ns.codingcontract.attempt(
-        vigenere(plaintext, key),
-        cct,
-        host
-    );
+    const ciphertext = vigenere(plaintext, key);
+    const result = ns.codingcontract.attempt(ciphertext, cct, host);
+
     // Log the result in case of failure.
     if (is_empty_string(result)) {
         const log = "/quack/cct/vigenere.txt";
