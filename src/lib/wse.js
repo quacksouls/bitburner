@@ -574,6 +574,7 @@ async function sell_stock_long(ns, portfolio) {
     const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Long)`;
     const suffix = `for ${Money.format(profit)} in profit`;
     log(ns, `${prefix} ${suffix}`);
+    ns.printf(`Reserve: ${Money.format(new_portfolio.reserve)}`);
     return new_portfolio;
 }
 
@@ -603,6 +604,7 @@ async function sell_stock_short(ns, portfolio) {
     const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Short)`;
     const suffix = `for ${Money.format(profit)} in profit`;
     log(ns, `${prefix} ${suffix}`);
+    ns.printf(`Reserve: ${Money.format(new_portfolio.reserve)}`);
     return new_portfolio;
 }
 
