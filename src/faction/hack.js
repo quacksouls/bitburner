@@ -46,14 +46,15 @@ import { assert, exec, has_required_hack } from "/quack/lib/util.js";
  *     server.  We need some time to acquire at most 4 port opener programs.
  * (3) Manually install a backdoor on the target server.
  *
- * @param ns The Netscript API.
- * @param fac We want to join this hacking group.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to join this hacking group.
  */
 async function hacking_group(ns, fac) {
     // If possible, we want to perform Hacking Contracts for this faction in
     // order to raise our Hack stat.
     const target_fac = "Sector-12";
     await visit_city(ns, target_fac);
+
     // Ensure we have the required Hack stat.
     const server = new Server(ns, faction_req[fac].backdoor);
     if (!has_required_hack(ns, server.hostname())) {
@@ -63,12 +64,14 @@ async function hacking_group(ns, fac) {
         await raise_hack(ns, server.hacking_skill());
     }
     assert(has_required_hack(ns, server.hostname()));
+
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();
         await ns.sleep(wait_t.SECOND);
     }
     assert(server.has_root_access());
+
     // Install backdoor, then join the faction.
     await install_backdoor(ns, server.hostname());
     await join_faction(ns, fac);
@@ -86,7 +89,7 @@ async function hacking_group(ns, fac) {
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(
@@ -97,7 +100,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -117,14 +120,16 @@ function shush(ns) {
  * Usage: run quack/faction/hack.js [factionName]
  * Example: run quack/faction/hack.js BitRunners
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
     await hacking_group(ns, faction);
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }

@@ -40,8 +40,8 @@ import { assert, exec, has_required_hack } from "/quack/lib/util.js";
  * Installing a backdoor on the company server would reduce the reputation
  * requirement to 300k.
  *
- * @param ns The Netscript API.
- * @param fac The name of a megacorporation faction.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac The name of a megacorporation faction.
  */
 async function install_backdoor_on_server(ns, fac) {
     // Ensure we have the required Hack stat.
@@ -50,6 +50,7 @@ async function install_backdoor_on_server(ns, fac) {
         await raise_hack(ns, server.hacking_skill());
     }
     assert(has_required_hack(ns, server.hostname()));
+
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();
@@ -69,28 +70,30 @@ async function install_backdoor_on_server(ns, fac) {
  *     Even if we satisfy the above 2 requirements, we would not receive an
  *     invitation if we are not currently an employee of the company.
  *
- * The exception is Fulcrum Technologies.  In addition to the above two
+ * The exception is Fulcrum Technologies.  In addition to the above
  * requirements, this megacorporation also requires us to install a backdoor on
  * the fulcrumassets server.  The invitation is sent from Fulcrum Secret
  * Technologies, not Fulcrum Technologies.
  *
- * @param ns The Netscript API.
- * @param company We want to work for this company and raise our reputation
+ * @param {NS} ns The Netscript API.
+ * @param {string} company We want to work for this company and raise our
+ *     reputation within the company.
+ * @param {string} fac Our aim is to join this faction.
+ * @param {number} rep Must earn at least this amount of reputation points
  *     within the company.
- * @param fac Our aim is to join this faction.
- * @param rep Must earn at least this amount of reputation points within the
- *     company.
  */
 async function megacorporation(ns, company, fac, rep) {
     // Relocate to raise Intelligence XP.
     await visit_city(ns, faction_req[fac].city);
     ns.singularity.goToLocation(company);
+
     // Work for the company to earn the required reputation points.  Must
     // continue working for the company until we receive an invitation from
     // the company faction.
     await work_for_company(ns, company, rep);
     ns.singularity.applyToCompany(company, choose_field(ns));
     ns.singularity.workForCompany(company, bool.FOCUS);
+
     // Join the faction, earn reputation points, and purchase all
     // Augmentations.  Ensure we remain an employee of the company.  Wait until
     // we have joined the company faction, then quit our job at the company.
@@ -109,7 +112,7 @@ async function megacorporation(ns, company, fac, rep) {
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(
@@ -129,7 +132,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -150,13 +153,15 @@ function shush(ns) {
  * Usage: run quack/faction/megacorp.js [factionName]
  * Example: run quack/faction/megacorp.js MegaCorp
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
+
     // Since version 2.0, we need at least 400k company reputation to join the
     // corresponding company faction.  See
     //
@@ -172,6 +177,7 @@ export async function main(ns) {
     assert(company.length > 0);
     assert(faction.length > 0);
     await megacorporation(ns, company, faction, faction_t.CORP_REP);
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }

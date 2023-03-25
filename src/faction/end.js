@@ -45,7 +45,7 @@ import { assert, exec } from "/quack/lib/util.js";
  *     (a) At least 2,500 Hack; or
  *     (b) Each combat stat must be at least 1,500.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function daedalus(ns) {
     // Ensure we have already installed a minimum number of Augmentations.
@@ -55,10 +55,12 @@ async function daedalus(ns) {
         min_augment = ns.getBitNodeMultipliers().DaedalusAugsRequirement;
     }
     assert(augment.size >= min_augment);
+
     // Raise our money and Hack stat.
     const fac = "Daedalus";
     await work(ns, faction_req[fac].money);
     await raise_hack(ns, faction_req[fac].hack);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -80,17 +82,19 @@ async function daedalus(ns) {
  * (3) At least 1,500 Hack.
  * (4) Each combat stat must be at least 1,200.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function illuminati(ns) {
     // Ensure we have already installed at least 30 Augmentations.
     const augment = owned_augment(ns);
     assert(augment.size >= 30);
+
     // Raise our money, Hack stat, and combat stats.
     const fac = "Illuminati";
     await work(ns, faction_req[fac].money);
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -106,7 +110,7 @@ async function illuminati(ns) {
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(
@@ -117,7 +121,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -137,17 +141,19 @@ function shush(ns) {
  * (3) At least 850 Hack.
  * (4) Each combat stat must be at least 850.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function the_covenant(ns) {
     // Ensure we have already installed at least 20 Augmentations.
     const augment = owned_augment(ns);
     assert(augment.size >= 20);
+
     // Raise our money, Hack stat, and combat stats.
     const fac = "The Covenant";
     await work(ns, faction_req[fac].money);
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -168,10 +174,11 @@ async function the_covenant(ns) {
  * Usage: run quack/faction/end.js [factionName]
  * Example: run quack/faction/end.js Daedalus
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
@@ -188,6 +195,7 @@ export async function main(ns) {
         default:
             break;
     }
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }

@@ -31,7 +31,7 @@ import { assert, is_valid_faction } from "/quack/lib/util.js";
  * (2) We have not yet purchased and installed all Augmentations from the
  *     faction.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function choose_faction(ns) {
     // Determine which faction to join next.  First, consider factions on our
@@ -45,6 +45,7 @@ function choose_faction(ns) {
             break;
         }
     }
+
     // In case we have already joined each faction on the fast track list,
     // consider the remaining factions.
     if (faction === "") {
@@ -58,6 +59,7 @@ function choose_faction(ns) {
     if (faction === "") {
         return;
     }
+
     // Join a faction.
     assert(faction.length > 0);
     let script = "";
@@ -123,12 +125,14 @@ function choose_faction(ns) {
  * Whether to join a given faction.  We exclude the faction within which we
  * created a gang.
  *
- * @param ns The Netscript API.
- * @param fac The name of the faction to consider.
- * @return True if the given faction should be joined next; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac The name of the faction to consider.
+ * @returns {boolean} True if the given faction should be joined next;
+ *     false otherwise.
  */
 function join_next(ns, fac) {
     assert(is_valid_faction(fac));
+
     // We have a gang within the given faction.  Must be in a gang in order to
     // get information about our gang.
     if (ns.gang.inGang() && ns.gang.getGangInformation().faction === fac) {
@@ -140,6 +144,7 @@ function join_next(ns, fac) {
     ) {
         return bool.NO_JOIN;
     }
+
     // See whether we have all Augmentations from the given faction.
     const owned_aug = owned_augment(ns);
     for (const aug of ns.singularity.getAugmentationsFromFaction(fac)) {
@@ -159,7 +164,7 @@ function join_next(ns, fac) {
  *
  * Usage: run quack/faction/go.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     choose_faction(ns);

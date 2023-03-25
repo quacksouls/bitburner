@@ -39,7 +39,7 @@ import { assert, exec } from "/quack/lib/util.js";
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(
@@ -55,7 +55,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -82,21 +82,24 @@ function shush(ns) {
  * (2) Have at least $15m.
  * (3) Karma at -22 or lower.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function silhouette(ns) {
     // Relocate to raise Intelligence XP.
     await visit_city(ns, "Sector-12");
     const company = "MegaCorp";
+
     // Rise to a top position at a company.
     const charisma_lvl = work_hack_lvl;
     await raise_charisma(ns, work_hack_lvl, charisma_lvl);
     await rise_to_cfo(ns, company);
+
     // Lower karma and raise our money.
     const fac = "Silhouette";
     const nkill = 0;
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await work(ns, faction_req[fac].money);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -120,7 +123,7 @@ async function silhouette(ns) {
  * (2) Karma at or lower than -9.
  * (3) Have at least $1m.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function slum_snakes(ns) {
     // Lower karma, raise combat stats, and raise money.
@@ -129,6 +132,7 @@ async function slum_snakes(ns) {
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await raise_combat_stats(ns, faction_req[fac].combat);
     await work(ns, faction_req[fac].money);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.FIELD);
@@ -151,7 +155,7 @@ async function slum_snakes(ns) {
  * (4) Karma is at -45 or lower.
  * (5) Not working for CIA or NSA.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function speakers_for_the_dead(ns) {
     // Lower karma, raise combat stats, and raise Hack stat.
@@ -164,6 +168,7 @@ async function speakers_for_the_dead(ns) {
     );
     await raise_combat_stats(ns, faction_req[fac].combat);
     await raise_hack(ns, faction_req[fac].hack);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     // Perform Hacking Contracts so we can benefit from the extra reputation
     // gain when we share our home server with the faction.
@@ -186,14 +191,16 @@ async function speakers_for_the_dead(ns) {
  * (2) Each combat stat must be at least 75.
  * (3) Karma is at -18 or lower.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function tetrads(ns) {
     const fac = "Tetrads";
+
     // Lower karma and raise combat stats.
     const nkill = 0;
     await lower_karma(ns, faction_req[fac].karma, crimes.SHOP, nkill);
     await raise_combat_stats(ns, faction_req[fac].combat);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
@@ -218,10 +225,11 @@ async function tetrads(ns) {
  * (5) Karma at -45 or lower.
  * (6) Not working for CIA or NSA.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function the_dark_army(ns) {
     const fac = "The Dark Army";
+
     // Raise our Hack and combat stats, and lower our karma.
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
@@ -231,6 +239,7 @@ async function the_dark_army(ns) {
         crimes.KILL,
         faction_req[fac].kill
     );
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     await visit_city(ns, faction_req[fac].city);
     await join_faction(ns, fac);
@@ -255,16 +264,18 @@ async function the_dark_army(ns) {
  * (5) Karma at -90 or lower.
  * (6) Not working for CIA or NSA.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function the_syndicate(ns) {
     const fac = "The Syndicate";
+
     // Raise our Hack and combat stats, lower our karma, and raise our income.
     await raise_hack(ns, faction_req[fac].hack);
     await raise_combat_stats(ns, faction_req[fac].combat);
     const nkill = 0;
     await lower_karma(ns, faction_req[fac].karma, crimes.KILL, nkill);
     await work(ns, faction_req[fac].money);
+
     // Join the faction, earn reputation points, and purchase all Augmentations.
     // Perform Hacking Contracts so we can benefit from the extra reputation
     // gain when we share our home server with the faction.
@@ -288,10 +299,11 @@ async function the_syndicate(ns) {
  * Usage: run quack/faction/crime.js [factionName]
  * Example: run quack/faction/crime.js Silhouette
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
@@ -318,6 +330,7 @@ export async function main(ns) {
         default:
             break;
     }
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }

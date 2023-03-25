@@ -46,12 +46,13 @@ import { assert, exec, is_valid_city } from "/quack/lib/util.js";
  * (5) Sector-12: must be in Sector-12; have at least $15m.
  * (6) Volhaven: must be in Volhaven; have at least $50m.
  *
- * @param ns The Netscript API.
- * @param city We must be located in this city.  This is also the faction name.
+ * @param {NS} ns The Netscript API.
+ * @param {string} city Must be located in this city; also the faction name.
  */
 async function city_faction(ns, city) {
     assert(is_valid_city(city));
     await visit_city(ns, city);
+
     // Boost our income.
     const fac = city;
     const player = new Player(ns);
@@ -62,6 +63,7 @@ async function city_faction(ns, city) {
             await work(ns, faction_req[fac].money);
         }
     }
+
     // Join the faction and purchase all of its Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -77,7 +79,7 @@ async function city_faction(ns, city) {
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(
@@ -93,7 +95,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -112,14 +114,16 @@ function shush(ns) {
  * Usage: run quack/faction/city.js [factionName]
  * Example: run quack/faction/city.js Sector-12
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
     await city_faction(ns, faction);
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }

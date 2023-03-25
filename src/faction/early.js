@@ -50,10 +50,11 @@ import { assert, exec, has_required_hack } from "/quack/lib/util.js";
  *     server.  We need some time to acquire the port opener programs.
  * (3) Manually install a backdoor on the target server.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function cyberSec(ns) {
     await visit_city(ns, "Sector-12");
+
     // Ensure we have the required Hack stat.
     const fac = "CyberSec";
     const server = new Server(ns, faction_req[fac].backdoor);
@@ -61,12 +62,14 @@ async function cyberSec(ns) {
         await raise_hack(ns, server.hacking_skill());
     }
     assert(has_required_hack(ns, server.hostname()));
+
     // Ensure we have root access on the target server.
     while (!server.has_root_access()) {
         server.gain_root_access();
         await ns.sleep(wait_t.SECOND);
     }
     assert(server.has_root_access());
+
     // Install backdoor, then join the faction.
     await install_backdoor(ns, server.hostname());
     await join_faction(ns, fac);
@@ -94,10 +97,11 @@ async function cyberSec(ns) {
  * (5) A total Hacknet Cores of 4.  All of our Hacknet nodes collectively have
  *     at least 4 Cores.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function netburners(ns) {
     await visit_city(ns, "Sector-12");
+
     // Ensure we have at least the required Hack stat.
     const fac = "Netburners";
     const player = new Player(ns);
@@ -132,6 +136,8 @@ async function netburners(ns) {
         }
         ns.singularity.joinFaction(fac);
     }
+
+    // Work for faction, raise reputation points, and buy Augmentations.
     await work_for_faction(ns, fac, job_area.HACK);
     await purchase_augment(
         ns,
@@ -145,7 +151,7 @@ async function netburners(ns) {
 /**
  * Various sanity checks of a parameter.
  *
- * @param fac Sanity check this parameter.
+ * @param {string} fac Sanity check this parameter.
  */
 function sanity_check(fac) {
     assert(fac === "CyberSec" || fac === "Netburners" || fac === "Tian Di Hui");
@@ -154,7 +160,7 @@ function sanity_check(fac) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -173,7 +179,7 @@ function shush(ns) {
  * (2) At least 50 Hack.
  * (3) Located in Chongqing, New Tokyo, or Ishima.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function tian_di_hui(ns) {
     // Ensure we have at least the required Hack stat.
@@ -184,6 +190,7 @@ async function tian_di_hui(ns) {
         await raise_hack(ns, required_lvl);
     }
     assert(player.hacking_skill() >= required_lvl);
+
     // Travel to Ishima and wait for our income to be at least $1m.
     await visit_city(ns, faction_req[fac].city);
     if (player.money() < faction_req[fac].money) {
@@ -193,6 +200,7 @@ async function tian_di_hui(ns) {
             await work(ns, faction_req[fac].money);
         }
     }
+
     // Join the faction and purchase all of its Augmentations.
     await join_faction(ns, fac);
     await work_for_faction(ns, fac, job_area.HACK);
@@ -213,10 +221,11 @@ async function tian_di_hui(ns) {
  * Usage: run quack/faction/early.js [factionName]
  * Example: run quack/faction/early.js CyberSec
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
+
     // Join the appropriate faction.
     const faction = ns.args[0];
     sanity_check(faction);
@@ -233,6 +242,7 @@ export async function main(ns) {
         default:
             break;
     }
+
     // The next script in the load chain.
     exec(ns, "/quack/chain/home.js");
 }
