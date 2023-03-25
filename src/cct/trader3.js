@@ -43,7 +43,7 @@ import { is_empty_string } from "/quack/lib/util.js";
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(stock_traderIII(array), cct, host);
 

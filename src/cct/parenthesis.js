@@ -217,7 +217,7 @@ function sanitize(string) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const expression = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(sanitize(expression), cct, host);
 

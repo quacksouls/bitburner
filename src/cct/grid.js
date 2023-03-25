@@ -114,7 +114,7 @@ function unique_paths(n, k) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [row, column] = ns.codingcontract.getData(cct, host);
     const k = column - 1;
     const n = row - 1 + k;

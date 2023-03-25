@@ -143,7 +143,7 @@ function to_graph(array) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(minimum_jump(array), cct, host);
 

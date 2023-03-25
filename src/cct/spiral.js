@@ -126,7 +126,7 @@ function spiral(m) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const matrix = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(spiral(matrix), cct, host);
 

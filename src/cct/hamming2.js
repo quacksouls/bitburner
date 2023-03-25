@@ -200,7 +200,7 @@ function to_integer(msg, nparity) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const msg = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(decode(msg), cct, host);
 

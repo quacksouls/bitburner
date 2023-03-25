@@ -179,7 +179,7 @@ function is_triangle(triangle) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const triangle = ns.codingcontract.getData(cct, host);
     const [, sum] = descend(triangle);
     const result = ns.codingcontract.attempt(sum, cct, host);

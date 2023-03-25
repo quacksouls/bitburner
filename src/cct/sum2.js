@@ -109,7 +109,7 @@ function partition(n, denom) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [n, denomination] = ns.codingcontract.getData(cct, host);
     const npart = coin_change(n, denomination);
     const result = ns.codingcontract.attempt(npart, cct, host);

@@ -98,7 +98,7 @@ function caesar(plaintext, k) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [plaintext, k] = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(caesar(plaintext, k), cct, host);
 

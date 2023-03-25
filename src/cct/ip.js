@@ -158,7 +158,7 @@ function is_valid_octet(octet) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const string = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(all_ip(string), cct, host);
 

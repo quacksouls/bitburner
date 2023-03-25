@@ -128,7 +128,7 @@ function vigenere(plaintext, key) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [plaintext, key] = ns.codingcontract.getData(cct, host);
     const ciphertext = vigenere(plaintext, key);
     const result = ns.codingcontract.attempt(ciphertext, cct, host);

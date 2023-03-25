@@ -202,7 +202,7 @@ async function maximize_profit(ns, t, price) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [t, price] = ns.codingcontract.getData(cct, host);
     const mp = await maximize_profit(ns, t, price);
     const result = ns.codingcontract.attempt(mp, cct, host);

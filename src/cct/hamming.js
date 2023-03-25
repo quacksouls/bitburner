@@ -206,7 +206,7 @@ function set_parity(msg, nparity) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const n = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(encode(n), cct, host);
 

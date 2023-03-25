@@ -200,7 +200,7 @@ function compress(plain) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const data = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(compress(data), cct, host);
 

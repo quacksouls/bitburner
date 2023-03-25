@@ -54,7 +54,7 @@ function subarray_sum(array) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const array = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(subarray_sum(array), cct, host);
 

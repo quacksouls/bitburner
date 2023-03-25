@@ -41,7 +41,7 @@ import { is_empty_string } from "/quack/lib/util.js";
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const array = ns.codingcontract.getData(cct, host);
     const profit = max_profit_kadane(array);
     const result = ns.codingcontract.attempt(profit, cct, host);

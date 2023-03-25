@@ -176,7 +176,7 @@ function unique_paths(grid) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const grid = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(unique_paths(grid), cct, host);
 

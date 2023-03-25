@@ -131,7 +131,7 @@ function* expressions(digit, target, k = 1) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [string, target] = ns.codingcontract.getData(cct, host);
     const solution = all_expressions(string, target);
     const result = ns.codingcontract.attempt(solution, cct, host);

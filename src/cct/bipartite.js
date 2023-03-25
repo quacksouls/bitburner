@@ -269,7 +269,7 @@ function update_colouring(prev_colour, new_colour) {
 export async function main(ns) {
     const [cct, host] = ns.args;
 
-    // Solve the coding contract.
+    // Solve the Coding Contract.
     const [n, edge] = ns.codingcontract.getData(cct, host);
     const result = ns.codingcontract.attempt(bipartite(n, edge), cct, host);
 
