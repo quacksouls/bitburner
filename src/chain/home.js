@@ -22,7 +22,7 @@ import { exec } from "/quack/lib/util.js";
  *
  * Usage: run quack/chain/home.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     ns.disableLog("sleep");

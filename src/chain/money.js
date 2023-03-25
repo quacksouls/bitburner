@@ -25,7 +25,7 @@ import { exec } from "/quack/lib/util.js";
  *
  * Usage: run quack/chain/money.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     while (
@@ -43,6 +43,7 @@ export async function main(ns) {
     while (ns.isRunning(pid)) {
         await ns.sleep(wait_t.SECOND);
     }
+
     // See whether any Coding Contracts have appeared and solve them.
     const script = "/quack/cct/solver.js";
     if (!ns.isRunning(script, home)) {
@@ -51,6 +52,7 @@ export async function main(ns) {
         await ns.sleep(10 * wait_t.SECOND);
         ns.kill(pid);
     }
+
     // Now launch the main script for raising money.
     exec(ns, "/quack/singularity/money.js");
 }

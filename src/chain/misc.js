@@ -24,7 +24,7 @@ import { exec } from "/quack/lib/util.js";
  *
  * Usage: run quack/chain/misc.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     ns.disableLog("sleep");
@@ -63,6 +63,7 @@ export async function main(ns) {
         gang_script[0],
     ];
     script.forEach((s) => exec(ns, s));
+
     // Wait until we have joined a criminal faction.  Then launch another
     // script.  We must wait because the script launched by "/gang/go.sh" needs
     // to perform tasks that require focus.  The script

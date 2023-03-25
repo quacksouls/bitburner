@@ -26,7 +26,7 @@ import { exec } from "/quack/lib/util.js";
  *
  * Usage: run quack/chain/study.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Assume our home server has limited RAM.  The server cannot run multiple
