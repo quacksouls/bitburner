@@ -23,6 +23,7 @@ import {
     print_error,
     print_success,
 } from "/quack/lib/cct.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -60,12 +61,13 @@ function caesar(plaintext, k) {
     const alphabet = english_alphabet();
     const n = alphabet.length;
     const ptxt = plaintext.toUpperCase();
-    let ciphertext = "";
+    let ciphertext = empty_string;
     for (let i = 0; i < ptxt.length; i++) {
         if (!is_alphabetic(ptxt[i])) {
             ciphertext += ptxt[i];
             continue;
         }
+
         // Index of the ciphertext character.
         let j = char_index(ptxt[i]) - ell;
         if (j < 0) {

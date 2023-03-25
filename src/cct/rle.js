@@ -16,6 +16,7 @@
  */
 
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -41,7 +42,7 @@ function encode(c, n) {
         k -= max;
     } while (k > max);
     s.push(`${k}${c}`);
-    return s.join("");
+    return s.join(empty_string);
 }
 
 /**
@@ -79,7 +80,7 @@ function rle(string) {
             e.push(encode(c, n));
         }
     }
-    return e.join("");
+    return e.join(empty_string);
 }
 
 /**

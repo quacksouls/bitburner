@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -50,7 +51,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  */
 function maximize_profit(price) {
     // Sanity checks.
-    assert(price.length > 0);
+    assert(!MyArray.is_empty(price));
 
     // If the price array has only one value, we can buy on the first day.
     // However, we won't be able to sell at all.  Therefore the maximum profit

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { log_cct_failure, print_error, print_success } from "/quack/lib/cct.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { parenthesis } from "/quack/lib/constant/cct.js";
@@ -31,9 +32,10 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *     balanced; false otherwise.
  */
 function is_balanced(expression) {
-    if (expression.length === 0) {
+    if (is_empty_string(expression)) {
         return bool.INVALID;
     }
+
     // The stack data structure is perfect for this problem.
     const stack = [];
     for (const c of expression) {
@@ -42,18 +44,21 @@ function is_balanced(expression) {
             stack.push(c);
             continue;
         }
+
         // Is this character the ending parenthesis?
         if (parenthesis.CLOSE === c) {
             // We have an ending parenthesis, but the stack is empty.
-            if (stack.length === 0) {
+            if (MyArray.is_empty(stack)) {
                 return bool.INVALID;
             }
+
             // This ending parenthesis must be matched with an opening
             // parenthesis at the top of the stack.
             if (parenthesis.OPEN === stack[stack.length - 1]) {
                 stack.pop();
                 continue;
             }
+
             // We encounter a closing parenthesis, but the top of the stack
             // does not contain an opening parenthesis.
             return bool.INVALID;
@@ -61,7 +66,7 @@ function is_balanced(expression) {
     }
     // Every opening parenthesis should be matched with a closing parenthesis.
     // If the stack has zero elements, then the expression is balanced.
-    return stack.length === 0;
+    return MyArray.is_empty(stack);
 }
 
 /**
@@ -89,7 +94,7 @@ function is_parenthesis(c) {
  */
 function slice(expr, i) {
     // Sanity checks.
-    assert(expr.length > 0);
+    assert(!is_empty_string(expr));
     assert(i >= 0);
     assert(i < expr.length);
 
@@ -141,7 +146,7 @@ function slice(expr, i) {
  *     expression.
  */
 function sanitize(string) {
-    assert(string.length > 0);
+    assert(!is_empty_string(string));
     // Test the expression at the start of this array.
     const queue = [];
     queue.push(string);
@@ -159,7 +164,7 @@ function sanitize(string) {
     // them as nodes in a directed graph.  If exprB can be obtained by removing
     // one parenthesis from exprA, then there is a directed edge from exprA
     // to exprB.
-    while (queue.length > 0) {
+    while (!MyArray.is_empty(queue)) {
         // Get the first element of the queue.
         const expr = queue.shift();
         // Does this expression have balanced parentheses?

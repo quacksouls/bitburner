@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import {
     log_cct_failure,
     max_profit_kadane,
@@ -101,7 +102,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  */
 async function maximize_profit(ns, t, price) {
     assert(t >= 0);
-    assert(price.length > 0);
+    assert(!MyArray.is_empty(price));
 
     // No transactions means no profit.  We don't buy and sell, therefore
     // no profit at all.

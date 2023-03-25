@@ -31,7 +31,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  */
 function coin_change(n, denom) {
     assert(n > 0);
-    assert(denom.length > 0);
+    assert(!MyArray.is_empty(denom));
 
     // Sort the array of denominations in ascending order.
     let denomination = Array.from(new Set(denom));

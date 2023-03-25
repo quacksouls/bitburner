@@ -23,6 +23,7 @@ import {
     print_success,
 } from "/quack/lib/cct.js";
 import { vigenere_square } from "/quack/lib/constant/cct.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -36,8 +37,8 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  *     plaintext and key are of the same length, then return the original key.
  */
 function pad_key(plaintext, key) {
-    assert(plaintext.length > 0);
-    assert(key.length > 0);
+    assert(!is_empty_string(plaintext));
+    assert(!is_empty_string(key));
     if (plaintext.length === key.length) {
         return key;
     }
@@ -66,13 +67,13 @@ function pad_key(plaintext, key) {
  */
 function vigenere(plaintext, key) {
     // Sanity checks.
-    assert(plaintext.length > 0);
-    assert(key.length > 0);
+    assert(!is_empty_string(plaintext));
+    assert(!is_empty_string(key));
 
     // Encryption.
     const ptxt = plaintext.toUpperCase();
     const pk = pad_key(plaintext, key);
-    let ciphertext = "";
+    let ciphertext = empty_string;
     const matrix = Array.from(vigenere_square);
     for (let i = 0; i < ptxt.length; i++) {
         if (!is_alphabetic(ptxt[i])) {

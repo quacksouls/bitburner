@@ -16,11 +16,12 @@
  */
 
 import { cct } from "/quack/lib/constant/cct.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { network } from "/quack/lib/network.js";
 import { Server } from "/quack/lib/server.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Do we have enough free RAM on the home server to run the given script?
@@ -71,7 +72,7 @@ function solve(ns, fname, host) {
     const type = ns.codingcontract.getContractType(fname, host);
 
     // Determine the type of the CCT and set the appropriate solution script.
-    let script = "";
+    let script = empty_string;
     const prefix = "/quack/cct/";
     switch (type) {
         case "Algorithmic Stock Trader I":
@@ -156,13 +157,13 @@ function solve(ns, fname, host) {
             script = `${prefix}grid2.js`;
             break;
         default:
-            script = "";
+            script = empty_string;
             break;
     }
 
     // No script to run, possibly because there are no CCTs on any of the world
     // servers.
-    if (script.length < 1) {
+    if (is_empty_string(script)) {
         return true;
     }
 
@@ -187,7 +188,7 @@ function solve(ns, fname, host) {
  *     on the given server; false otherwise.
  */
 function solve_all(ns, host) {
-    assert(host !== "");
+    assert(!is_empty_string(host));
     const file = ns.ls(host, cct.SUFFIX);
     const is_solved = (f) => solve(ns, f, host);
     return file.every(is_solved);
