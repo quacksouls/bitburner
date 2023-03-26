@@ -15,13 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hgw } from "/quack/lib/constant/misc.js";
+import { MyArray } from "/quack/lib/array.js";
+import { empty_string, hgw } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
 import { money } from "/quack/lib/money.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
-import { assert, can_run_script, has_formulas } from "/quack/lib/util.js";
+import {
+    assert,
+    can_run_script,
+    has_formulas,
+    is_empty_string,
+} from "/quack/lib/util.js";
 
 /**
  * Purchase a server.
@@ -45,7 +51,7 @@ function buy_server(ns) {
 
     // Purchase a server and launch a proto batcher on it.
     const target = find_target(ns);
-    if (target === "") {
+    if (is_empty_string(target)) {
         return;
     }
     const host = psv.purchase(pserv.PREFIX, pserv.DEFAULT_RAM_HGW);
@@ -77,7 +83,7 @@ function find_target(ns) {
     // Exclude the servers being targeted.
     const not_target = (host) => !targets.includes(host);
     candidate = candidate.filter(not_target);
-    return candidate.length === 0 ? "" : candidate[0];
+    return MyArray.is_empty(candidate) ? empty_string : candidate[0];
 }
 
 /**

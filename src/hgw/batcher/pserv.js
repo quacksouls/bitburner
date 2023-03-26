@@ -18,7 +18,7 @@
 import { home } from "/quack/lib/constant/server.js";
 import { log } from "/quack/lib/io.js";
 import { PservHGW } from "/quack/lib/pbatch.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Use a proto batcher to continuously hack a server.  Steal a certain
@@ -49,8 +49,8 @@ async function hack(ns, host, target) {
  * @param {string} target Hostname of the server to hack.
  */
 function sanity_checks(ns, host, target) {
-    assert(host !== "" && host !== home);
-    assert(target !== "" && target !== home);
+    assert(!is_empty_string(host) && host !== home);
+    assert(!is_empty_string(target) && target !== home);
     assert(ns.getServerMaxMoney(target) > 0);
 }
 
