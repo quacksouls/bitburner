@@ -17,7 +17,7 @@
 
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { PservHGW } from "/quack/lib/pbatch.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Continuously hack a target server.  Steal a certain percentage of the
@@ -48,7 +48,7 @@ async function hack(ns, host, target, frac) {
  *     most 1.
  */
 function sanity_checks(host, frac) {
-    assert(host !== "");
+    assert(!is_empty_string(host));
     const exclude_list = new Set(pserv.exclude);
     assert(!exclude_list.has(host));
     assert(frac > 0 && frac <= 1);
