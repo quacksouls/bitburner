@@ -24,10 +24,10 @@ import { assert } from "/quack/lib/util.js";
  * server's money, then weaken/grow the server until it is at minimum security
  * level and maximum money.  Rinse and repeat.
  *
- * @param ns The Netscript API.
- * @param host Hostname of the purchased server to use.
- * @param target Hack this world server.
- * @param frac The fraction of money to steal.  Must be positive and at
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of the purchased server to use.
+ * @param {string} target Hack this world server.
+ * @param {number} frac The fraction of money to steal.  Must be positive and at
  *     most 1.
  */
 async function hack(ns, host, target, frac) {
@@ -43,8 +43,8 @@ async function hack(ns, host, target, frac) {
 /**
  * Various sanity checks.
  *
- * @param host Hostname of the server to target.
- * @param frac The fraction of money to steal.  Must be positive and at
+ * @param {string} host Hostname of the server to target.
+ * @param {number} frac The fraction of money to steal.  Must be positive and at
  *     most 1.
  */
 function sanity_checks(host, frac) {
@@ -58,7 +58,7 @@ function sanity_checks(host, frac) {
  * A sequential batcher for purchased servers.  Each of the hack, grow, and
  * weaken functions is separated into its own script.  When we need a particular
  * HGW action, we launch the appropriate script against a target server.  The
- * script accepts the following command line arguments.
+ * script accepts the following command line arguments:
  *
  * (1) host := Hostname of the purchased server to use.
  * (2) target := Hostname of the server to target.
@@ -66,7 +66,7 @@ function sanity_checks(host, frac) {
  *
  * Usage: run quack/hgw/pbatch.js [host] [target] [frac]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const [host, target, frac] = ns.args;

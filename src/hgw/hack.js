@@ -27,7 +27,7 @@
  * Usage: run quack/hgw/hack.js [targetServer]
  * Example: run quack/hgw/hack.js n00dles
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     const target = ns.args[0];

@@ -52,7 +52,7 @@ async function grind(ns, host) {
  * @param {string} host Grow this server.  Cannot be our home server.
  * @param {array} botnet An array of world servers to which we have root access.
  *     Use these servers to grow the given target.  Cannot be empty array.
- * @returns An array of PIDs.
+ * @returns {array} An array of PIDs.
  */
 function grow_server(ns, host, botnet) {
     assert(!is_empty_string(host) && host !== home);
