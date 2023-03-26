@@ -18,9 +18,10 @@
 import { bitnode } from "/quack/lib/constant/bn.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { factions } from "/quack/lib/constant/faction.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { owned_augment } from "/quack/lib/singularity/augment.js";
-import { assert, is_valid_faction } from "/quack/lib/util.js";
+import { assert, is_empty_string, is_valid_faction } from "/quack/lib/util.js";
 
 /**
  * Choose a faction to join and join that faction.  Work for the faction to
@@ -38,7 +39,7 @@ function choose_faction(ns) {
     // fast track.  These factions have Augmentations to boost our reputation
     // multiplier as well as allowing us to start with various port opener
     // programs.
-    let faction = "";
+    let faction = empty_string;
     for (const f of Object.keys(factions.fast_track)) {
         if (join_next(ns, f)) {
             faction = f;
@@ -48,7 +49,7 @@ function choose_faction(ns) {
 
     // In case we have already joined each faction on the fast track list,
     // consider the remaining factions.
-    if (faction === "") {
+    if (is_empty_string(faction)) {
         for (const f of factions.all) {
             if (join_next(ns, f)) {
                 faction = f;
@@ -56,13 +57,13 @@ function choose_faction(ns) {
             }
         }
     }
-    if (faction === "") {
+    if (is_empty_string(faction)) {
         return;
     }
 
     // Join a faction.
-    assert(faction.length > 0);
-    let script = "";
+    assert(!is_empty_string(faction));
+    let script = empty_string;
     switch (faction) {
         // Early game factions
         case "CyberSec":
@@ -116,7 +117,7 @@ function choose_faction(ns) {
         default:
             break;
     }
-    assert(script !== "");
+    assert(!is_empty_string(script));
     const nthread = 1;
     ns.exec(script, home, nthread, faction);
 }
