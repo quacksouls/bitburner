@@ -36,6 +36,8 @@ export class Money {
 
     /**
      * One billion, i.e. 10^9.
+     *
+     * @returns {number} The amount of 1 billion.
      */
     billion() {
         return 1000 * this.million();
@@ -53,6 +55,8 @@ export class Money {
 
     /**
      * One million, i.e. 10^6.
+     *
+     * @returns {number} The amount of 1 million.
      */
     million() {
         return this.#million;
@@ -60,6 +64,8 @@ export class Money {
 
     /**
      * One quadrillion, i.e. 10^15.
+     *
+     * @returns {number} The amount of 1 quadrillion.
      */
     quadrillion() {
         return 1000 * this.trillion();
@@ -67,6 +73,8 @@ export class Money {
 
     /**
      * One trillion, i.e. 10^12.
+     *
+     * @returns {number} The amount of 1 trillion.
      */
     trillion() {
         return 1000 * this.billion();

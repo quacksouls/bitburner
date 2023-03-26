@@ -46,6 +46,8 @@ export function hacknet_liquidate(ns) {
  *     collective RAM of 8GB.
  * (3) A total Hacknet Cores of 4.  All of our Hacknet nodes/servers
  *     collectively have at least 4 Cores.
+ *
+ * @param {NS} ns The Netscript API.
  */
 export async function satisfy_netburners_requirements(ns) {
     // Purchase one Hacknet node/server.

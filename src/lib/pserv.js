@@ -37,7 +37,7 @@ export class PurchasedServer {
     #ns;
 
     /**
-     * The player's main hacking script.
+     * The player's main hacking script.  Usually the early hacking template.
      */
     #script;
 
@@ -49,7 +49,7 @@ export class PurchasedServer {
     /**
      * Create an object to represent a purchased server.
      *
-     * @param ns The Netscript API.
+     * @param {NS} ns The Netscript API.
      */
     constructor(ns) {
         this.#home = home;
@@ -132,10 +132,10 @@ export class PurchasedServer {
     /**
      * Whether the given amount of RAM (GB) is valid for a purchased server.
      *
-     * @param ram The amount of RAM in GB.  Must be a power of 2.  Lowest is
-     *     2GB.  Will round down to the nearest whole number.
-     * @return true if the given amount of RAM is valid for a purchased server;
-     *     false otherwise.
+     * @param {number} ram The amount of RAM in GB.  Must be a power of 2.
+     *     Lowest is 2GB.  Will round down to the nearest whole number.
+     * @returns {boolean} True if the given amount of RAM is valid for a
+     *     purchased server; false otherwise.
      */
     is_valid_ram(ram) {
         const n = Math.floor(ram);
@@ -148,15 +148,15 @@ export class PurchasedServer {
      */
     kill_all() {
         for (const server of this.farm()) {
-            // Kill all scripts running on a purchased server.
             this.#ns.killall(server);
-            // Delete the purchased server.
             this.#ns.deleteServer(server);
         }
     }
 
     /**
      * The maximum number of purchased servers that can be bought.
+     *
+     * @returns {number} How many purchased servers we can have in our farm.
      */
     limit() {
         return this.#ns.getPurchasedServerLimit();
@@ -176,11 +176,11 @@ export class PurchasedServer {
     /**
      * Purchase a new server with the given hostname and amount of RAM (GB).
      *
-     * @param hostname The hostname of the new purchased server.  If a player
-     *     already has a purchased server with the given hostname, append a
-     *     numeric value to the hostname.
-     * @param ram The amount of RAM (GB) of the purchased server.
-     * @return The hostname of the newly purchased server.
+     * @param {string} hostname The hostname of the new purchased server.  If a
+     *     player already has a purchased server with the given hostname, append
+     *     a numeric value to the hostname.
+     * @param {number} ram The amount of RAM (GB) of the purchased server.
+     * @returns {string} The hostname of the newly purchased server.
      */
     purchase(hostname, ram) {
         return this.#ns.purchaseServer(hostname, ram);

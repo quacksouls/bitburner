@@ -712,6 +712,7 @@ export function update_history(ns, portfolio) {
     for (const sym of ns.stock.getSymbols()) {
         const current_price = ns.stock.getPrice(sym);
         const ratio = current_price / new_portfolio[sym].prev_price;
+
         // The latest is always at the front of the array.  The previous value
         // is now at index 1 of the array, etc.  The oldest value is at the end
         // of the array.

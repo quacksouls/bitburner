@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A class and various utility functions related to network.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { home } from "/quack/lib/constant/server.js";
@@ -41,9 +43,9 @@ export class Graph {
     /**
      * A graph object.
      *
-     * @param directed A boolean indicating whether each edge of the graph is
-     *     directed or undirected.  If true, then each edge is directed.  If
-     *     false, then each edge is undirected.
+     * @param {boolean} directed Whether each edge of the graph is directed or
+     *     undirected.  If true, then each edge is directed.  If false, then
+     *     each edge is undirected.
      */
     constructor(directed) {
         this.#adj = new Map();
@@ -56,8 +58,9 @@ export class Graph {
     /**
      * Add an edge to this graph.
      *
-     * @param u, v An edge between vertices u and v.
-     * @return true if the edge was successfully added to the graph;
+     * @param {number} u A node of the edge (u, v).
+     * @param {number} v Another node of the edge edge (u, v).
+     * @returns {boolean} True if the edge was successfully added to the graph;
      *     false otherwise or the edge is already in the graph.
      */
     add_edge(u, v) {
@@ -65,6 +68,7 @@ export class Graph {
         if (this.has_edge(u, v)) {
             return bool.FAILURE;
         }
+
         // First, add the nodes if we don't have them already.
         if (!this.has_node(u)) {
             assert(this.add_node(u));
@@ -72,12 +76,14 @@ export class Graph {
         if (!this.has_node(v)) {
             assert(this.add_node(v));
         }
+
         // Now insert the edge (u, v).
         // If the graph is directed, only need to add the edge (u, v).
         // If the graph is undirected, also must add the edge (v, u).
         const u_neighbour = this.neighbour(u);
         u_neighbour.push(v);
         this.#adj.set(u, u_neighbour);
+
         // Undirected graph.
         if (!this.#directed) {
             const v_neighbour = this.neighbour(v);
@@ -90,8 +96,8 @@ export class Graph {
     /**
      * Add a vertex to this graph.
      *
-     * @param v Add this node.
-     * @return true if the given node was successfully added;
+     * @param {number} v Add this node.
+     * @returns {boolean} True if the given node was successfully added;
      *     false otherwise or the node already exists in the graph.
      */
     add_node(v) {
@@ -106,9 +112,9 @@ export class Graph {
      * Use Dijkstra's algorithm to determine a shortest path from a given
      * node to all nodes in a graph.
      *
-     * @param source The source vertex.  All shortest paths must start
+     * @param {number} source The source vertex.  All shortest paths must start
      *     from this node.
-     * @return These two data structures:
+     * @returns {array<Map, Map>} These two data structures:
      *     (1) A map of the shortest number of nodes in a path to a target
      *         node.  Each path starts from the given source node.  For
      *         example, the map element A[i] means the shortest number of nodes
@@ -127,16 +133,19 @@ export class Graph {
         const prev = new Map();
         // A queue of nodes to visit.
         let queue = [];
+
         // Initialization.
         for (const v of this.nodes()) {
             dist.set(v, Infinity);
             prev.set(v, undefined);
             queue.push(v);
         }
+
         // The distance from the source node to itself is zero.
         dist.set(source, 0);
         prev.set(source, undefined);
         queue.push(source);
+
         // Search for shortest paths from the source node to other nodes.  This
         // is an unweighted graph so the weight between a node and any of its
         // neighbours is 1.
@@ -144,6 +153,7 @@ export class Graph {
         while (queue.length > 0) {
             const u = this.#minimumq(queue, dist);
             queue = queue.filter((s) => s !== u);
+
             // Consider the neighbours of u.  Each neighbour must still be in
             // the queue.
             let neighbour = Array.from(this.neighbour(u));
@@ -151,6 +161,7 @@ export class Graph {
             neighbour = neighbour.filter((s) => queue.includes(s));
             for (const v of neighbour) {
                 const alt = dist.get(u) + weight;
+
                 // We have found a shorter path to v.
                 if (alt < dist.get(v)) {
                     dist.set(v, alt);
@@ -163,6 +174,8 @@ export class Graph {
 
     /**
      * All edges of this graph, as an array of arrays.
+     *
+     * @returns {array<array>} The edges of this graph.
      */
     edges() {
         // Directed graph.
@@ -173,6 +186,7 @@ export class Graph {
             });
             return edge;
         }
+
         // Undirected graph.
         assert(!this.#directed);
         const edge = new Set();
@@ -196,8 +210,10 @@ export class Graph {
     /**
      * Whether the graph has the given edge.
      *
-     * @param u, v Check the graph for this edge.
-     * @return true if the graph has the edge (u, v); false otherwise.
+     * @param {number} u A node of the edge (u, v).
+     * @param {number} v Another node of the edge (u, v).
+     * @returns {boolean} True if the graph has the edge (u, v);
+     *     false otherwise.
      */
     has_edge(u, v) {
         if (!this.has_node(u)) {
@@ -206,11 +222,13 @@ export class Graph {
         if (!this.has_node(v)) {
             return bool.NOT;
         }
+
         // Directed graph.
         if (this.#directed) {
             const neighbour = this.neighbour(u);
             return neighbour.includes(v);
         }
+
         // Undirected graph.
         assert(!this.#directed);
         const u_neighbour = this.neighbour(u);
@@ -225,8 +243,8 @@ export class Graph {
     /**
      * Whether the graph has the given vertex.
      *
-     * @param v Check for the presence or absence of this vertex.
-     * @return true if the graph already has the vertex; false otherwise.
+     * @param {number} v Check for the presence or absence of this vertex.
+     * @returns {boolean} True if the graph has the given node; false otherwise.
      */
     has_node(v) {
         return this.#adj.has(v);
@@ -237,10 +255,10 @@ export class Graph {
      * implementation.  For better performance, the queue should be implemented
      * as a minimum priority queue.
      *
-     * @param queue An array of nodes to visit.
-     * @param dist A map of the shortest number of nodes in a path to
+     * @param {array<number>} queue An array of nodes to visit.
+     * @param {Map} dist A map of the shortest number of nodes in a path to
      *     a target node.
-     * @return The node i such that dist[i] is minimal.
+     * @returns {number} The node i such that dist[i] is minimal.
      */
     // eslint-disable-next-line class-methods-use-this
     #minimumq(queue, dist) {
@@ -258,8 +276,8 @@ export class Graph {
     /**
      * The neighbours of a vertex.
      *
-     * @param v A node of this graph.
-     * @return An array representing the neighbours of the given node.
+     * @param {number} v A node of this graph.
+     * @returns {array<number>} The neighbours of the given node.
      */
     neighbour(v) {
         assert(this.has_node(v));
@@ -268,6 +286,8 @@ export class Graph {
 
     /**
      * All nodes of this graph, as an array.
+     *
+     * @returns {array<number>} The nodes of the graph.
      */
     nodes() {
         const vertex = [...this.#adj.keys()];
@@ -278,32 +298,36 @@ export class Graph {
     /**
      * Determine a shortest path from the source to the target.
      *
-     * @param source Start our path from this node.
-     * @param target We want to reach this node.
-     * @return An array representing a shortest path from source to target.
-     *     An empty array if the target is not reachable from the source.
+     * @param {number} source Start our path from this node.
+     * @param {number} target We want to reach this node.
+     * @returns {array<number>} A shortest path from source to target.  An empty
+     *     array if the target is not reachable from the source.
      */
     shortest_path(source, target) {
         // The implementation is the same for directed and undirected graphs.
         assert(this.has_node(source));
         assert(this.has_node(target));
         const [dist, prev] = this.#dijkstra(source);
+
         // Ensure the target is reachable from the source node.
         if (!dist.has(target)) {
             return [];
         }
         const stack = [];
         let u = target;
+
         // Start from the target and work backward to find a shortest path from
         // the source to the target.
         while (prev.get(u) !== undefined) {
             stack.push(u);
             u = prev.get(u);
         }
+
         // Target is not reachable from the source node.
         if (stack.length === 0) {
             return [];
         }
+
         // Reconstruct the full path from source to target.
         assert(stack.length > 0);
         stack.push(source);
@@ -316,8 +340,8 @@ export class Graph {
  * Scan the network of servers in the game world.  Each server must be
  * reachable from our home server.  We do not include purchased servers.
  *
- * @param ns The Netscript API.
- * @return An array of servers that can be reached from home.  Purchased
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} Servers that can be reached from home.  Purchased
  *     servers are excluded.
  */
 export function network(ns) {
@@ -340,11 +364,11 @@ export function network(ns) {
  * Determine a shortest path from the source server to the target server
  * in the network of world servers.
  *
- * @param ns The Netscript API.
- * @param source Start our path from this server.
- * @param target We want to reach this server.
- * @return An array of shortest path from source to target.  An
- *     empty array if the target is not reachable from the source.
+ * @param {NS} ns The Netscript API.
+ * @param {string} source Start our path from this server.
+ * @param {string} target We want to reach this server.
+ * @returns {array<string>} A shortest path from source to target.  An empty
+ *     array if the target is not reachable from the source.
  */
 export function shortest_path(ns, source, target) {
     // Represent the network of world servers as an undirected graph.
@@ -352,14 +376,17 @@ export function shortest_path(ns, source, target) {
     const visit = new Set();
     stack.push(source);
     const graph = new Graph(bool.UNDIRECTED);
+
     // Use breath-first search to navigate the network.
     while (stack.length > 0) {
         const s = stack.pop();
+
         // Have we visited the server s yet?
         if (visit.has(s)) {
             continue;
         }
         visit.add(s);
+
         // All neighbours of s, excluding the purchased servers.
         const neighbour = [...filter_pserv(ns, ns.scan(s))];
         stack.push(...neighbour);
@@ -371,6 +398,6 @@ export function shortest_path(ns, source, target) {
             assert(graph.add_edge(s, t));
         }
     }
-    // A shortest path from source to target.
+
     return graph.shortest_path(source, target);
 }

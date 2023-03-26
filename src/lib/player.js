@@ -48,14 +48,14 @@ export class Player {
 
     /**
      * The hack script of the player.  Assumed to be located on the player's
-     * home server.
+     * home server.  Usually the early hacking template.
      */
     #script;
 
     /**
      * Initialize a Player object.
      *
-     * @param ns The Netscript API.
+     * @param {NS} ns The Netscript API.
      */
     constructor(ns) {
         this.#home = home;
@@ -66,7 +66,9 @@ export class Player {
     }
 
     /**
-     * The player's agility level.
+     * The player's Agility level.
+     *
+     * @returns {number} The player's Agility stat.
      */
     agility() {
         return this.#ns.getPlayer().skills.agility;
@@ -74,6 +76,8 @@ export class Player {
 
     /**
      * The BitNode in which the player currently inhabits.
+     *
+     * @returns {number} The current BitNode number.
      */
     bitnode() {
         return this.#ns.getPlayer().bitNodeN;
@@ -81,6 +85,8 @@ export class Player {
 
     /**
      * The player's current Charisma level.
+     *
+     * @returns {number} The player's Charisma stat.
      */
     charisma() {
         return this.#ns.getPlayer().skills.charisma;
@@ -88,20 +94,26 @@ export class Player {
 
     /**
      * The current city where the player is located.
+     *
+     * @returns {string} The city in which the player is currently located.
      */
     city() {
         return this.#ns.getPlayer().city;
     }
 
     /**
-     * The player's defense level.
+     * The player's Defense level.
+     *
+     * @returns {number} The player's Defense stat.
      */
     defense() {
         return this.#ns.getPlayer().skills.defense;
     }
 
     /**
-     * The player's dexterity level.
+     * The player's Dexterity level.
+     *
+     * @returns {number} The player's Dexterity stat.
      */
     dexterity() {
         return this.#ns.getPlayer().skills.dexterity;
@@ -109,6 +121,8 @@ export class Player {
 
     /**
      * An array of all factions to which the player is a member.
+     *
+     * @returns {array<string>} All factions to which the player belongs.
      */
     faction() {
         return this.#ns.getPlayer().factions;
@@ -116,6 +130,8 @@ export class Player {
 
     /**
      * The current Hack stat of the player.
+     *
+     * @returns {number} The player's Hack stat.
      */
     hacking_skill() {
         return this.#ns.getHackingLevel();
@@ -125,8 +141,8 @@ export class Player {
      * Whether the player has all programs to open all ports on any world
      * server.
      *
-     * @return true if the player can open all ports on another server;
-     *     false otherwise.
+     * @returns {boolean} True if the player can open all ports on another
+     *     server; false otherwise.
      */
     has_all_port_openers() {
         return this.num_ports() === this.#port_opener.length;
@@ -136,8 +152,8 @@ export class Player {
      * Whether the player has all programs to visit all world servers and open
      * all ports on any world server.
      *
-     * @return true if the player has all network programs and port openers;
-     *     false otherwise.
+     * @returns {boolean} True if the player has all network programs and port
+     *     openers; false otherwise.
      */
     has_all_programs() {
         const prog = Array.from(this.#port_opener).concat(this.#program);
@@ -153,7 +169,8 @@ export class Player {
     /**
      * Whether we have a given program.
      *
-     * @param p A program we want to check.
+     * @param {string} p A program we want to check.
+     * @returns {boolean} True if we have the given program; false otherwise.
      */
     has_program(p) {
         return this.#ns.fileExists(p, this.home());
@@ -162,7 +179,7 @@ export class Player {
     /**
      * Whether we have purchased the TOR router.
      *
-     * @return true if we have purchased the TOR router; false otherwise.
+     * @returns {boolean} True if we have the TOR router; false otherwise.
      */
     has_tor() {
         return this.#ns.hasTorRouter();
@@ -170,6 +187,8 @@ export class Player {
 
     /**
      * The home server of the player.
+     *
+     * @returns {string} The player's home server.
      */
     home() {
         return this.#home;
@@ -178,8 +197,8 @@ export class Player {
     /**
      * Whether the player is working for a company.
      *
-     * @param company A string representing the name of a company.
-     * @return true if the player is working for the given company;
+     * @param {string} company The name of a company.
+     * @returns {boolean} True if the player is working for the given company;
      *     false otherwise.
      */
     is_employer(company) {
@@ -191,8 +210,9 @@ export class Player {
     /**
      * Whether the player is a member of a faction.
      *
-     * @param fac A string representing the name of a faction.
-     * @return true if the player belongs to the given faction; false otherwise.
+     * @param {string} fac The name of a faction.
+     * @returns {boolean} True if the player belongs to the given faction;
+     *     false otherwise.
      */
     is_member(fac) {
         assert(fac !== "");
@@ -202,9 +222,9 @@ export class Player {
     /**
      * The position the player holds at a given company.
      *
-     * @param company The name of a company.
-     * @return The position the player currently holds at the given company.
-     *     Return an empty string if the player does not hold any position at
+     * @param {string} company The name of a company.
+     * @returns {string} The position the player currently holds at the given
+     *     company.  An empty string if the player does not hold any position at
      *     the given company.
      */
     job(company) {
@@ -221,6 +241,8 @@ export class Player {
      * of the game.  Refer to this file:
      *
      * https://github.com/danielyxie/bitburner/blob/dev/src/NetscriptFunctions/Extra.ts
+     *
+     * @returns {number} The player's karma stat.
      */
     karma() {
         return this.#ns.heart.break();
@@ -228,6 +250,8 @@ export class Player {
 
     /**
      * The amount of money available to this player.
+     *
+     * @returns {number} The player's money.
      */
     money() {
         return this.#ns.getServerMoneyAvailable(this.home());
@@ -235,6 +259,8 @@ export class Player {
 
     /**
      * The number of people the player has killed.
+     *
+     * @returns {number} How many people the player has killed.
      */
     nkill() {
         return this.#ns.getPlayer().numPeopleKilled;
@@ -244,11 +270,14 @@ export class Player {
      * Determine the number of ports a player can currently open on servers in
      * the game world.  This depends on whether the player has the necessary
      * hacking programs on the home server.
+     *
+     * @returns {number} How many ports the player can open on any world server.
      */
     num_ports() {
         // These are programs that can be created after satisfying certain
         // conditions.
         let prog = Array.from(this.#port_opener);
+
         // Determine the number of ports we can open on other servers.
         prog = prog.filter((p) => this.#ns.fileExists(p, this.home()));
         return prog.length;
@@ -256,6 +285,8 @@ export class Player {
 
     /**
      * All purchased servers of this player.
+     *
+     * @returns {array<string>} All purchased servers the player owns.
      */
     pserv() {
         return this.#ns.getPurchasedServers();
@@ -263,13 +294,17 @@ export class Player {
 
     /**
      * The name of the hacking script of the player.
+     *
+     * @returns {string} The player's hacking script.
      */
     script() {
         return this.#script;
     }
 
     /**
-     * The player's strength level.
+     * The player's Strength level.
+     *
+     * @returns {number} The player's Strength stat.
      */
     strength() {
         return this.#ns.getPlayer().skills.strength;

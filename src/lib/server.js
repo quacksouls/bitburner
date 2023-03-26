@@ -21,8 +21,8 @@ import { home, home_t } from "/quack/lib/constant/server.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
- * A server class that holds all information about a server, whether it be
- * a purchased server or a server found on the network in the game world.
+ * A server class that holds information about a server, whether it be a
+ * purchased server or a server found on the network in the game world.
  */
 export class Server {
     /**
@@ -65,7 +65,7 @@ export class Server {
     #ram_reserve;
 
     /**
-     * The player's main hacking script.
+     * The player's main hacking script.  Usually the early hacking template.
      */
     #script;
 
@@ -82,10 +82,10 @@ export class Server {
     /**
      * Create a server object with the given hostname.
      *
-     * @param ns The Netscript API.
-     * @param hostname The hostname of a server.  The server must exist in the
-     *     game world and can be either a purchased server or a server found on
-     *     the network in the game world.
+     * @param {NS} ns The Netscript API.
+     * @param {string} hostname The hostname of a server.  The server must exist
+     *     in the game world and can be either a purchased server or a server
+     *     found on the network in the game world.
      */
     constructor(ns, hostname) {
         assert(hostname.length > 0);
@@ -99,6 +99,7 @@ export class Server {
         this.#script = script;
         this.#security_min = server.minDifficulty;
         this.#share_script = script_share;
+
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.
         this.#ram_reserve = 0;
@@ -111,6 +112,8 @@ export class Server {
 
     /**
      * How much RAM (in GB) is available on this server.
+     *
+     * @returns {number} The amount of RAM available on this server.
      */
     available_ram() {
         return this.ram_max() - this.#ns.getServerUsedRam(this.hostname());
@@ -121,8 +124,8 @@ export class Server {
      * least one thread.  We ignore any amount of RAM that has been reserved,
      * using all available RAM to help us make a decision.
      *
-     * @param s We want to run this script on this server.
-     * @return true if the given script can be run on this server;
+     * @param {string} s We want to run this script on this server.
+     * @returns {boolean} True if the given script can be run on this server;
      *     false otherwise.
      */
     can_run_script(s) {
@@ -140,6 +143,8 @@ export class Server {
 
     /**
      * The number of CPU Cores on this server.
+     *
+     * @returns {number} How many CPU Cores this server has.
      */
     cores() {
         return this.#ns.getServer(this.hostname()).cpuCores;
@@ -149,11 +154,11 @@ export class Server {
      * Copy our hack script over to this server.  Run the hack script on this
      * server and use the server to hack the given target.
      *
-     * @param target We run our hack script against this target server.
-     * @return True if our hack script is running on the server using at least
-     *     one thread; false otherwise.  The method can return false if, for
-     *     example, there is no free RAM on the server or we do not have root
-     *     access on either servers.
+     * @param {string} target We run our hack script against this target server.
+     * @returns {boolean} True if our hack script is running on the server using
+     *     at least one thread; false otherwise.  The method can return false
+     *     if, for example, there is no free RAM on the server or we do not have
+     *     root access on either servers.
      */
     deploy(target) {
         assert(target.length > 0);
@@ -165,11 +170,13 @@ export class Server {
         ) {
             return bool.FAILURE;
         }
+
         // No free RAM on server to run our hack script.
         const nthread = this.num_threads(this.#script);
         if (nthread < 1) {
             return bool.FAILURE;
         }
+
         // Copy our script over to this server.  Use the server to hack the
         // target.
         this.#ns.scp(this.#script, this.hostname(), this.#home);
@@ -180,7 +187,7 @@ export class Server {
     /**
      * Try to gain root access on this server.
      *
-     * @return true if the player has root access to this server;
+     * @returns {boolean} True if the player has root access to this server;
      *     false if root access cannot be obtained.
      */
     gain_root_access() {
@@ -188,6 +195,7 @@ export class Server {
         if (this.has_root_access()) {
             return true;
         }
+
         // Try to open all required ports and nuke the server.
         try {
             this.#ns.brutessh(this.hostname());
@@ -215,7 +223,6 @@ export class Server {
 
     /**
      * Increase the amount of money available on this server.
-     *
      */
     async grow() {
         await this.#ns.grow(this.hostname());
@@ -223,7 +230,6 @@ export class Server {
 
     /**
      * Steal money from this server.
-     *
      */
     async hack() {
         await this.#ns.hack(this.hostname());
@@ -231,6 +237,8 @@ export class Server {
 
     /**
      * The amount of Hack stat required to hack this server.
+     *
+     * @returns {number} The hacking requirement of this server.
      */
     hacking_skill() {
         return this.#hacking_skill;
@@ -239,7 +247,8 @@ export class Server {
     /**
      * Whether we have root access to this server.
      *
-     * @return true if we have root access to this server; false otherwise.
+     * @returns {boolean} True if we have root access to this server;
+     *     false otherwise.
      */
     has_root_access() {
         return this.#ns.hasRootAccess(this.hostname());
@@ -247,6 +256,8 @@ export class Server {
 
     /**
      * The hostname of this server.
+     *
+     * @returns {string} This server's hostname.
      */
     hostname() {
         return this.#hostname;
@@ -259,7 +270,7 @@ export class Server {
      * server.  The server is bankrupt if the maximum amount of money it
      * can hold is zero.
      *
-     * @return true if the server is bankrupt; false otherwise.
+     * @returns {boolean} True if the server is bankrupt; false otherwise.
      */
     is_bankrupt() {
         return Math.floor(this.money_max()) === 0;
@@ -268,7 +279,7 @@ export class Server {
     /**
      * Whether this is our home server.
      *
-     * @return True if this server is our home server; false otherwise.
+     * @returns {boolean} True if this is our home server; false otherwise.
      */
     is_home() {
         return this.hostname() === this.#home;
@@ -277,7 +288,7 @@ export class Server {
     /**
      * Whether we have purchased this server.
      *
-     * @return True if this is a purchased server; false otherwise.
+     * @returns {boolean} True if this is a purchased server; false otherwise.
      */
     is_pserv() {
         return this.#ns.getServer(this.hostname()).purchasedByPlayer;
@@ -286,9 +297,9 @@ export class Server {
     /**
      * Whether this server is currently running a script.
      *
-     * @param s Check to see if this script is currently running on the
+     * @param {string} s Check to see if this script is currently running on the
      *     server.
-     * @return True if the given script is running on the server;
+     * @returns {boolean} True if the given script is running on the server;
      *     false otherwise.
      */
     is_running_script(s) {
@@ -298,6 +309,7 @@ export class Server {
     /**
      * The amount of money currently available on the server.
      *
+     * @returns {number} How much money the server has.
      */
     money_available() {
         return this.#ns.getServerMoneyAvailable(this.hostname());
@@ -305,6 +317,8 @@ export class Server {
 
     /**
      * The maximum amount of money this server can hold.
+     *
+     * @returns {number} The largest amount of money this server can hold.
      */
     money_max() {
         return this.#money_max;
@@ -312,6 +326,8 @@ export class Server {
 
     /**
      * The number of ports that must be opened in order to hack this server.
+     *
+     * @returns {number} How many ports must be opened on this server.
      */
     num_ports_required() {
         return this.#n_ports_required;
@@ -319,16 +335,16 @@ export class Server {
 
     /**
      * Determine how many threads we can run a given script on this server.
-     * This function takes care not to use all available RAM on the player's
-     * home server.  If this is the player's home server, the function reserves
+     * This method takes care not to use all available RAM on the player's
+     * home server.  If this is the player's home server, the method reserves
      * some amount of RAM on the home server and use the remaining available
      * RAM to calculate the number of threads to devote to the given script.
      *
-     * @param s We want to run this script on the server.  The script must
-     *     exist on our home server.
-     * @return The number of threads that can be used to run the given script
-     *     on this server.  Return 0 if the amount of RAM to reserve is higher
-     *     than the available RAM.
+     * @param {string} s We want to run this script on the server.  The script
+     *     must exist on our home server.
+     * @returns {number} The number of threads that can be used to run the given
+     *     script on this server.  Return 0 if we cannot run the script using at
+     *     least one thread.
      */
     num_threads(s) {
         const script_ram = this.#ns.getScriptRam(s, this.#home);
@@ -342,6 +358,8 @@ export class Server {
 
     /**
      * The maximum amount of RAM (GB) of this server.
+     *
+     * @returns {number} The largest amount of RAM on this server.
      */
     ram_max() {
         return this.#ns.getServer(this.hostname()).maxRam;
@@ -353,7 +371,7 @@ export class Server {
      * BN4.1 or BN4.2, the game allows us to use Singularity functions at their
      * lowest RAM costs as if we have level 3 of the Source-File.
      *
-     * @return The amount of RAM to reserve.
+     * @returns {number} The amount of RAM to reserve.
      */
     #reserve_ram() {
         // if (this.ram_max() >= home_t.RAM_HUGE) {
@@ -373,7 +391,7 @@ export class Server {
     /**
      * The current security level of this server.
      *
-     * @param ns The Netscript API.
+     * @returns {number} The server's current security level.
      */
     security_level() {
         return this.#ns.getServerSecurityLevel(this.hostname());
@@ -381,6 +399,8 @@ export class Server {
 
     /**
      * The minimum security level to which this server can be weakened.
+     *
+     * @returns {number} The lowest possible security level of this server.
      */
     security_min() {
         return this.#security_min;
@@ -399,6 +419,7 @@ export class Server {
         ) {
             return bool.FAILURE;
         }
+
         // No free RAM on server to run our share script.
         const nthread = this.num_threads(this.#share_script);
         if (nthread < 1) {
@@ -418,10 +439,10 @@ export class Server {
      * of threads.  Given the number of instances to run, we want to know how
      * many threads each instance can use.
      *
-     * @param s The script to run on this server.
-     * @param n We want to run this many instances of the given script.
+     * @param {string} s The script to run on this server.
+     * @param {number} n We want to run this many instances of the given script.
      *     Must be a positive integer.
-     * @return The number of threads for each instance of the script.
+     * @returns {number} The number of threads for each instance of the script.
      *     Return 0 if we cannot run any scripts on this server.
      */
     threads_per_instance(s, n) {
@@ -432,7 +453,6 @@ export class Server {
 
     /**
      * Weaken the security of this server.
-     *
      */
     async weaken() {
         await this.#ns.weaken(this.hostname());

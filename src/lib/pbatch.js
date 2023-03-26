@@ -48,8 +48,8 @@ export class PservHGW {
      * Create an object to represent a purchased server that uses various
      * batching strategies.
      *
-     * @param ns The Netscript API.
-     * @param host Hostname of a purchased server.
+     * @param {NS} ns The Netscript API.
+     * @param {string} host Hostname of a purchased server.
      */
     constructor(ns, host) {
         this.#ns = ns;
@@ -59,10 +59,10 @@ export class PservHGW {
     /**
      * Perform an HGW action against a target server.
      *
-     * @param host Perform an HGW action against this server.  Cannot be our
-     *     home server.
-     * @param action The action we want to perform against the given target
-     *     server.  Supported actions are:
+     * @param {string} host Perform an HGW action against this server.  Cannot
+     *     be our home server.
+     * @param {string} action The action we want to perform against the given
+     *     target server.  Supported actions are:
      *     (1) "grow" := Grow money on the target server.
      *     (2) "weaken" := Weaken the security level of the target server.
      */
@@ -85,9 +85,9 @@ export class PservHGW {
     /**
      * Perform the hack HGW action against a target server.
      *
-     * @param host Hack this server.  Cannot be our home server.
-     * @param frac The fraction of money to steal.  Must be positive and at
-     *     most 1.
+     * @param {string} host Hack this server.  Cannot be our home server.
+     * @param {number} frac The fraction of money to steal.  Must be positive
+     *     and at most 1.
      */
     async hgw_hack(host, frac) {
         assert(host !== "");
@@ -163,7 +163,7 @@ export class PservHGW {
      * Apply the above strategy in a loop.  Repeat until the target server has
      * minimum security level and maximum money.
      *
-     * @param host Prep this world server.
+     * @param {string} host Prep this world server.
      */
     async prep_gw(host) {
         for (;;) {

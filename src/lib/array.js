@@ -26,8 +26,8 @@ export class MyArray {
     /**
      * Whether the given array has only non-negative numbers.
      *
-     * @param array An array of integers.  Cannot be an empty array.
-     * @return true if the given array has only non-negative integers;
+     * @param {array} array An array of integers.  Cannot be an empty array.
+     * @returns {boolean} True if the array has only non-negative integers;
      *     false otherwise.
      */
     static all_nonnegative(array) {
@@ -54,9 +54,9 @@ export class MyArray {
     /**
      * The maximum element of an array.
      *
-     * @param array We want to determine the maximum element of this array.
-     *     Cannot be an empty array.
-     * @return The largest element of the given array.
+     * @param {array} array We want to determine the maximum element of this
+     *     array.  Cannot be an empty array.
+     * @returns {number} The largest element of the given array.
      */
     static max(array) {
         assert(array.length > 0);
@@ -68,13 +68,14 @@ export class MyArray {
      * A sequence of non-negative integers, starting from zero.  Each number in
      * the sequence is one more than the previous number.
      *
-     * @param num How many numbers in the sequence.  Must be positive.  If
-     *     num := 4, then our sequence is [0, 1, 2, 3].
-     * @return An array representing a sequence of num numbers starting from 0.
+     * @param {number} num How many numbers in the sequence.  Must be positive.
+     *     If num := 4, then our sequence is [0, 1, 2, 3].
+     * @returns {array} A sequence of num numbers starting from 0.
      */
     static sequence(num) {
         const n = Math.floor(num);
         assert(n > 0);
+
         // Zoekeeper (Ansopedi#3422) on the Bitburner server of Discord pointed
         // out that this code is faster:
         //
@@ -87,10 +88,10 @@ export class MyArray {
     /**
      * Sort an array in ascending order.
      *
-     * @param array We want to sort this array.  Cannot be an empty array.
-     * @return A new array whose elements are sorted in ascending order.  If
-     *     the array has duplicate elements, we are actually sorting in
-     *     non-decreasing order.
+     * @param {array} array We want to sort this array.  Cannot be empty.
+     * @returns {array} A new array whose elements are sorted in ascending
+     *     order.  If the array has duplicate elements, we are actually sorting
+     *     in non-decreasing order.
      */
     static sort_ascending(array) {
         assert(array.length > 0);
@@ -111,9 +112,9 @@ export class MyArray {
      *
      * [[1, 2], [1, 3], [3, 1], [5, 4]]
      *
-     * @param array We want to sort this array of 2-tuples.  Cannot be an empty
-     *     array.
-     * @return A new array of 2-tuples, where each element is sorted in
+     * @param {array} array We want to sort this array of 2-tuples.  Cannot be
+     *     an empty array.
+     * @returns {array} A new array of 2-tuples, where each element is sorted in
      *     ascending order.  The sort is done based on the first element of
      *     each 2-tuple.
      */
@@ -127,10 +128,10 @@ export class MyArray {
     /**
      * Sort an array in descending order.
      *
-     * @param array We want to sort this array.  Cannot be an empty array.
-     * @return A new array whose elements are sorted in descending order.  If
-     *     the array has duplicate elements, then we are actually sorting the
-     *     array in non-increasing order.
+     * @param {array} array We want to sort this array.  Cannot be empty.
+     * @returns {array} A new array whose elements are sorted in descending
+     *     order.  If the array has duplicate elements, then we are actually
+     *     sorting the array in non-increasing order.
      */
     static sort_descending(array) {
         assert(array.length > 0);
@@ -142,9 +143,9 @@ export class MyArray {
     /**
      * Sum the elements of an array.
      *
-     * @param array We want to add the elements of this array.  Cannot be an
-     *     empty array.
-     * @return The sum of the elements in the given array.
+     * @param {array} array We want to add together the elements of this array.
+     *     Cannot be an empty array.
+     * @returns {number} The sum of the elements in the given array.
      */
     static sum(array) {
         assert(array.length > 0);

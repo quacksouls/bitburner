@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions relating to random number generations.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { assert } from "/quack/lib/util.js";
 
@@ -25,10 +27,10 @@ import { assert } from "/quack/lib/util.js";
  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
  *
- * @param a The minimum integer value.
- * @param b The maximum integer value.
- * @return A random integer in the range [a, b], inclusive.  The returned
- *     integer can be the given minimum or the given maximum.
+ * @param {number} a The minimum integer value.
+ * @param {number} b The maximum integer value.
+ * @returns {number} A random integer in the range [a, b], inclusive.  The
+ *     returned integer can be the given minimum or the given maximum.
  */
 export function random_integer(a, b) {
     const min = Math.ceil(a);

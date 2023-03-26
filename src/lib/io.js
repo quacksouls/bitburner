@@ -19,15 +19,17 @@ import { io } from "/quack/lib/constant/io.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { assert } from "/quack/lib/util.js";
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous functions for input/output.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Create a text file.  We typically use a text file to communicate with various
  * scripts.
  *
- * @param ns The Netscript API.
- * @param fname Full path of the file name.
- * @param data Write this data to the text file.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fname Full path of the file name.
+ * @param {string} data Write this data to the text file.
  */
 export function create_file(ns, fname, data) {
     assert(fname !== "");
@@ -38,11 +40,11 @@ export function create_file(ns, fname, data) {
 /**
  * Print a log to the terminal.
  *
- * @param ns The Netscript API.
- * @param msg Print this message to the terminal.
- * @param clr Use this colour to print the given message.  Must be a string
- *     representation of a Unicode escape sequence.  Default is empty string,
- *     which means we use the default colour theme of the terminal.
+ * @param {NS} ns The Netscript API.
+ * @param {string} msg Print this message to the terminal.
+ * @param {string} clr Use this colour to print the given message.  Must be a
+ *     string representation of a Unicode escape sequence.  Default is empty
+ *     string, which means we use the default colour theme of the terminal.
  */
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
@@ -54,9 +56,9 @@ export function log(ns, msg, clr = "") {
  * Convert a RAM amount in the game to a value suitable for display in the
  * terminal.
  *
- * @param ns The Netscript API.
- * @param n An amount of RAM as returned by a function in the game.
- * @return An amount of RAM suitable to be displayed in the terminal.
+ * @param {NS} ns The Netscript API.
+ * @param {number} n An amount of RAM as returned by a function in the game.
+ * @returns {string} An amount of RAM suitable to be displayed in the terminal.
  */
 export function format_ram(ns, n) {
     assert(n > 0);

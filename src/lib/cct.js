@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions for solving coding contracts.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { io } from "/quack/lib/constant/io.js";
 import { colour } from "/quack/lib/constant/misc.js";
@@ -25,8 +27,9 @@ import { assert } from "/quack/lib/util.js";
 /**
  * The index of an alphabetic character.
  *
- * @param c A character of the English alphabet.  Cannot be empty string.
- * @return The index of the given character, where index starts from zero.
+ * @param {string} c A character of the English alphabet.  Cannot be empty
+ *     string.
+ * @returns {number} The index of the given character; index starts from zero.
  */
 export function char_index(c) {
     assert(c.length === 1);
@@ -66,18 +69,19 @@ export function char_index(c) {
  * Count the total occurrence of 1 in a bit string.  This function does not
  * necessarily count all 1s in a bit string.  Some positions can be skipped.
  *
- * @param msg A bit string, representing a possibly incomplete encoded message.
- *     The message is encoded using Hamming code.  If the bit string is an
- *     incomplete encoded message, the location of each parity bit has been
- *     filled with rubbish.
- * @param p The position of a parity (or redundant) bit.  Its value is always
- *     a power of 2.  We start counting from this position in the bit string.
- *     The value of p also tells us how many consecutive positions to skip.
- *     In Hamming code, when checking parity we check p consecutive positions
- *     and skip p consecutive positions, giving us a window of 2p consecutive
- *     positions.  To reach the next window, we should skip 2p positions.
- * @return The number of 1s in the given bit string, while skipping over
- *     some positions.
+ * @param {string} msg A bit string, representing a possibly incomplete encoded
+ *     message.  The message is encoded using Hamming code.  If the bit string
+ *     is an incomplete encoded message, the location of each parity bit has
+ *     been filled with rubbish.
+ * @param {number} p The position of a parity (or redundant) bit.  Its value is
+ *     always a power of 2.  We start counting from this position in the bit
+ *     string.  The value of p also tells us how many consecutive positions to
+ *     skip.  In Hamming code, when checking parity we check p consecutive
+ *     positions and skip p consecutive positions, giving us a window of 2p
+ *     consecutive positions.  To reach the next window, we should skip 2p
+ *     positions.
+ * @returns {number} The number of 1s in the given bit string, while skipping
+ *     over some positions.
  */
 export function count_one(msg, p) {
     assert(msg.length > 0);
@@ -97,7 +101,9 @@ export function count_one(msg, p) {
 }
 
 /**
- * An array of uppercase letters of the English alphabet.
+ * Uppercase letters of the English alphabet.
+ *
+ * @returns {string} All capital letters of the English alphabet.
  */
 export function english_alphabet() {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -106,9 +112,9 @@ export function english_alphabet() {
 /**
  * Whether a character is an uppercase letter of the English alphabet.
  *
- * @param c A character.  Cannot be empty string.
- * @return true if the given character is an uppercase letter of the English
- *     alphabet; false otherwise.
+ * @param {string} c A character.  Cannot be empty string.
+ * @returns {boolean} True if the given character is an uppercase letter of the
+ *     English alphabet; false otherwise.
  */
 export function is_alphabetic(c) {
     assert(c.length === 1);
@@ -116,14 +122,14 @@ export function is_alphabetic(c) {
 }
 
 /**
- * Log a failure when attempting to solve a coding contract.
+ * Log a failure when attempting to solve a Coding Contract (CCT).
  *
- * @param ns The Netscript API.
- * @param fname Write our log to this file.  Must be a text file with
+ * @param {NS} ns The Netscript API.
+ * @param {string} fname Write our log to this file.  Must be a text file with
  *     file extension ".txt".
- * @param cct The file name of the coding contract.
- * @param host The hostname of the server where the coding contract is located.
- * @param data The data used for solving the coding contract.
+ * @param {string} cct The file name of the CCT.
+ * @param {string} host The hostname of the server where the CCT is located.
+ * @param {string} data The data used for solving the CCT.
  */
 export async function log_cct_failure(ns, fname, cct, host, data) {
     const date = new Date(Date.now());
@@ -135,8 +141,8 @@ export async function log_cct_failure(ns, fname, cct, host, data) {
 /**
  * Format a matrix as a string.
  *
- * @param mat A matrix, i.e. an array of arrays.
- * @return The given matrix as a string.
+ * @param {array<array>} mat A matrix, i.e. an array of arrays.
+ * @returns {string} The given matrix as a string.
  */
 export function matrix_to_string(mat) {
     let string = "";
@@ -167,26 +173,29 @@ export function matrix_to_string(mat) {
  *
  * https://betterprogramming.pub/dynamic-programming-interview-questions-how-to-maximize-stock-profits-8ed4966c2206
  *
- * @param price An array where price[i] represents the price of a stock on
- *     day i.  All prices are for the same stock.
- * @return The maximum profit we can make, assuming at most one transaction.
- *       Return 0 if no profit can be made or the price array is empty.
+ * @param {array} price An array where price[i] represents the price of a stock
+ *     on day i.  All prices are for the same stock.
+ * @returns {number} The maximum profit we can make, assuming at most one
+ *     transaction.  Return 0 if no profit can be made or the price array is
+ *     empty.
  */
 export function max_profit_kadane(price) {
     // Empty price array means zero profit.
     if (price.length === 0) {
         return 0;
     }
-    let max_profit = 0;
-    let min_price = price[0];
+
     // Must start on the second day.  On the first day, we have only one
     // price value so the minimum of one value is that value itself.
+    let max_profit = 0;
+    let min_price = price[0];
     for (let i = 1; i < price.length; i++) {
         // We need to keep track of the minimum price.  Let mp be the minimum
         // price so far.  If the price on day i is lower than mp, we set mp to
         // to the new minimum price.  Otherwise, we move to the price on the
         // next day.
         min_price = Math.min(min_price, price[i]);
+
         // Why do we need to keep track of the minimum price so far?  Let mp be
         // the minimum price up to and including day i.  Let price[i] be the
         // price on day i.  The profit pf is defined as the price on day i
@@ -226,9 +235,9 @@ export function max_profit_kadane(price) {
  * as redundant bits to distinguish them from the overall parity bit placed at
  * index 0 in the encoded bit string.
  *
- * @param p The number of parity bits.
- * @return An array, where each element represents the position or index of a
- *     parity bit.  These parity bits are also called redundant bits.
+ * @param {number} p The number of parity bits.
+ * @returns {array} An array, where each element represents the position or
+ *     index of a parity bit.  These parity bits are also called redundant bits.
  *     This array does not include the position of the overall parity
  *     bit, which is assumed to be at index 0 in the encoded message.
  */
@@ -242,12 +251,12 @@ export function parity_position(p) {
 }
 
 /**
- * Print to the terminal an error message about which Coding Contract we did
- * not solve correctly.
+ * Print to the terminal an error message about which Coding Contract (CCT) we
+ * did not solve correctly.
  *
- * @param The Netscript API.
- * @param host The hostname of the server where the Coding Contract was found.
- * @param cct The file name of the Coding Contract.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host The hostname of the server where the CCT was found.
+ * @param {string} cct The file name of the CCT.
  */
 export function print_error(ns, host, cct) {
     const msg = `${host}: ${cct}: FAILURE`;
@@ -256,12 +265,12 @@ export function print_error(ns, host, cct) {
 
 /**
  * Print to the terminal a message about the reward from successfully solving
- * a Coding Contract.
+ * a Coding Contract (CCT).
  *
- * @param The Netscript API.
- * @param host The hostname of the server where the Coding Contract was found.
- * @param cct The file name of the Coding Contract.
- * @param reward The reward from solving the Coding Contract.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host The hostname of the server where the CCT was found.
+ * @param {string} cct The file name of the CCT.
+ * @param {string} reward The reward from solving the CCT.
  */
 export function print_success(ns, host, cct, reward) {
     const msg = `${host}: ${cct}: ${reward}`;
@@ -291,10 +300,10 @@ export function print_success(ns, host, cct, reward) {
  * value of k.  Calculate the maximum profit for each partition.  The true
  * maximum profit is the maximum of the results of all partitions.
  *
- * @param price An array of prices, where price[i] is the price of one share of
- *     a stock on day i.  All prices relate to the same stock.
- * @return The maximum profit to be made, assuming we can perform at most
- *     two transactions.  Return 0 if no profit can be made.
+ * @param {array} price An array of prices, where price[i] is the price of one
+ *     share of a stock on day i.  All prices relate to the same stock.
+ * @returns {number} The maximum profit to be made, assuming we can perform at
+ *     most two transactions.  Return 0 if no profit can be made.
  */
 export function stock_traderIII(price) {
     assert(price.length > 0);
@@ -306,9 +315,11 @@ export function stock_traderIII(price) {
         // The left and right subarrays in the partition.
         const left = price.slice(0, k + 1);
         const right = price.slice(k + 1, price.length);
+
         // The maximum profit of each subarray in the partition.
         const mpl = max_profit_kadane(left);
         const mpr = max_profit_kadane(right);
+
         // The running maximum profit.
         max_profit = Math.max(max_profit, mpl + mpr);
     }

@@ -32,8 +32,8 @@ import { wse } from "/quack/lib/constant/wse.js";
 /**
  * A function for assertion.
  *
- * @param cond Assert that this condition is true.
- * @return Throw an assertion error if the given condition is false.
+ * @param {expression} cond Assert that this condition is true.
+ * @returns {Error} Throw an assertion error if the given condition is false.
  */
 export function assert(cond) {
     if (!cond) {
@@ -44,11 +44,12 @@ export function assert(cond) {
 /**
  * Whether we can run a script on a given server.
  *
- * @param ns The Netscript API.
- * @param s A script to run.  Assumed to exist on our home server as well
- *     as the target host.
- * @param host The target host.
- * @return True if the given target server can run the script; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A script to run.  Assumed to exist on our home server as
+ *     well as the target host.
+ * @param {string} host The target host.
+ * @returns {boolean} True if the given target server can run the script;
+ *     false otherwise.
  */
 export function can_run_script(ns, s, host) {
     return num_threads(ns, s, host) > 0;
@@ -59,9 +60,9 @@ export function can_run_script(ns, s, host) {
  * However, at the moment the "best" server is the one that requires the
  * highest hacking skill.
  *
- * @param ns The Netscript API.
- * @param candidate Choose from among the servers in this array.
- * @return The best server to hack.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Choose from among the servers in this array.
+ * @returns {string} The best server to hack.
  */
 export function choose_best_server(ns, candidate) {
     assert(candidate.length > 0);
@@ -77,16 +78,18 @@ export function choose_best_server(ns, candidate) {
  * (1) We meet the hacking skill requirement of the server.
  * (2) We can open all ports required to gain root access to the server.
  *
- * @param ns The Netscript API.
- * @param candidate Use this array to search for targets to hack.
- * @return An array of target servers.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Use this array to search for targets.
+ * @returns {array<string>} An array of target servers.
  */
 export function choose_targets(ns, candidate) {
     // Sanity check.
     assert(candidate.length > 0);
+
     // How many ports can we open?
     const port_opener = program.filter((p) => ns.fileExists(p, home));
     const nport = port_opener.length;
+
     // Find a bunch of target servers to hack.
     const required_hack = (s) => ns.getServer(s).requiredHackingSkill;
     const can_nuke = (s) => nport >= ns.getServer(s).numOpenPortsRequired;
@@ -98,7 +101,7 @@ export function choose_targets(ns, candidate) {
 /**
  * Remove any files created by other scripts.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export function cleanup(ns) {
     const junk = [
@@ -119,11 +122,11 @@ export function cleanup(ns) {
  * (1) We have root access to the server.
  * (2) Our hack script is currently running on the server.
  *
- * @param ns The Netscript API.
- * @param s A hack script.  We want to check whether a server is running
- *     this script.
- * @param candidate An array of world servers to check.
- * @return An array of servers that have been compromised.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A hack script.  We want to check whether a server is
+ *     running this script.
+ * @param {array<string>} candidate World servers to check.
+ * @returns {array<string>} Servers that have been compromised.
  */
 export function compromised_servers(ns, s, candidate) {
     assert(candidate.length > 0);
@@ -135,9 +138,9 @@ export function compromised_servers(ns, s, candidate) {
 /**
  * Execute a script on the home server and using 1 thread.
  *
- * @param ns The Netscript API.
- * @param s A string representing the name of the script to run.
- * @return The PID of the running script.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s The name of the script to run.
+ * @returns {number} The PID of the running script.
  */
 export function exec(ns, s) {
     const nthread = 1;
@@ -161,9 +164,9 @@ export async function farm_hack_xp(ns) {
  * Remove bankrupt servers from a given array of servers.  A server is bankrupt
  * if the maximum amount of money it can hold is zero.
  *
- * @param ns The Netscript API.
- * @param candidate An array of servers to filter.
- * @return An array of servers, each of which is not bankrupt.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Servers to filter.
+ * @returns {array<string>} Servers that are not bankrupt.
  */
 export function filter_bankrupt_servers(ns, candidate) {
     assert(candidate.length > 0);
@@ -173,9 +176,9 @@ export function filter_bankrupt_servers(ns, candidate) {
 /**
  * Exclude the purchased servers.
  *
- * @param ns The Netscript API.
- * @param serv An array of server names.
- * @return An array of servers, but minus the purchased servers.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} serv Server hostnames.
+ * @returns {array<string>} Server hostnames, but minus the purchased servers.
  */
 export function filter_pserv(ns, serv) {
     const is_home = (s) => s === home;
@@ -189,7 +192,7 @@ export function filter_pserv(ns, serv) {
  *
  * @param {NS} ns The Netscript API.
  * @param {string} host Hostname of the server to query.
- * @returns The amount of free RAM on the given server.
+ * @returns {number} The amount of free RAM on the given server.
  */
 export function free_ram(ns, host) {
     return ns.getServerMaxRam(host) - ns.getServerUsedRam(host);
@@ -198,14 +201,16 @@ export function free_ram(ns, host) {
 /**
  * Attempt to gain root access to a given server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have root access to the given server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have root access to the given server;
+ *     false otherwise.
  */
 export function gain_root_access(ns, host) {
     if (has_root_access(ns, host)) {
         return true;
     }
+
     // Try to open all required ports and nuke the server.
     try {
         ns.brutessh(host);
@@ -233,8 +238,8 @@ export function gain_root_access(ns, host) {
 /**
  * Whether we have all port opener programs.
  *
- * @param ns The Netscript API.
- * @return True if we have all port opener programs; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have all port opener programs; false otherwise.
  */
 export function has_all_popen(ns) {
     return (
@@ -259,9 +264,9 @@ export function has_formulas(ns) {
 /**
  * Whether we have a particular program.
  *
- * @param ns The Netscript API.
- * @param prog Do we have this program?
- * @return True if we have the given program; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} prog Do we have this program?
+ * @returns {boolean} True if we have the given program; false otherwise.
  */
 export function has_program(ns, prog) {
     return ns.fileExists(prog, home);
@@ -270,10 +275,10 @@ export function has_program(ns, prog) {
 /**
  * Whether we have the minimum Hack stat required by a server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if our Hack stat meets the required hacking level of the given
- *     server; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if our Hack stat meets the required hacking level of
+ *     the given server; false otherwise.
  */
 export function has_required_hack(ns, host) {
     return ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(host);
@@ -282,9 +287,9 @@ export function has_required_hack(ns, host) {
 /**
  * Whether we have root access to a server.
  *
- * @param ns The Netscript API.
- * @param host Hostname of a world server.
- * @return True if we have have root access to the given server;
+ * @param {NS} ns The Netscript API.
+ * @param {string} host Hostname of a world server.
+ * @returns {boolean} True if we have have root access to the given server;
  *     false otherwise.
  */
 export function has_root_access(ns, host) {
@@ -294,7 +299,7 @@ export function has_root_access(ns, host) {
 /**
  * Let our sleeves commit crimes to raise money.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function init_sleeves(ns) {
     const pid = exec(ns, "/quack/sleeve/money.js");
@@ -307,9 +312,9 @@ export async function init_sleeves(ns) {
  * Whether a server is bankrupt.  A server is bankrupt if the maximum amount
  * of money it can hold is zero.
  *
- * @param ns The Netscript API.
- * @param s Test this server for bankruptcy.
- * @return True if the server is bankrupt; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s Test this server for bankruptcy.
+ * @returns {boolean} True if the server is bankrupt; false otherwise.
  */
 export function is_bankrupt(ns, s) {
     return ns.getServer(s).moneyMax === 0;
@@ -318,8 +323,8 @@ export function is_bankrupt(ns, s) {
 /**
  * Whether a variable is boolean.
  *
- * @param x We want to determine whether this is a boolean.
- * @return True if the given parameter is a boolean; false otherwise.
+ * @param {expression} x We want to determine whether this is a boolean.
+ * @returns {boolean} True if the given parameter is a boolean; false otherwise.
  */
 export const is_boolean = (x) => typeof x === "boolean";
 
@@ -336,9 +341,9 @@ export function is_empty_string(str) {
 /**
  * Whether a given string represents a valid city in the game world.
  *
- * @param c A city name, represented as a string.  Cannot be an empty string.
- * @return True if the given string represents a city in the game world;
- *     false otherwise.
+ * @param {string} c A city name.  Cannot be an empty string.
+ * @returns {boolean} True if the given string represents a city in the game
+ *     world; false otherwise.
  */
 export function is_valid_city(c) {
     assert(c.length > 0);
@@ -349,8 +354,8 @@ export function is_valid_city(c) {
 /**
  * Whether the given name represents a valid faction.
  *
- * @param fac A string representing the name of a faction.
- * @return True if the given name represents a valid faction;
+ * @param {string} fac The name of a faction.
+ * @returns {boolean} True if the given name represents a valid faction;
  *     false otherwise.
  */
 export function is_valid_faction(fac) {
@@ -362,8 +367,8 @@ export function is_valid_faction(fac) {
 /**
  * Whether the given name represents a valid program.
  *
- * @param name A string representing the name of a program.
- * @return True if the given name refers to a valid program;
+ * @param {string} name The name of a program.
+ * @returns {boolean} True if the given name refers to a valid program;
  *     false otherwise.
  */
 export function is_valid_program(name) {
@@ -375,10 +380,10 @@ export function is_valid_program(name) {
 /**
  * Gain root access to as many world servers as we can.
  *
- * @param ns The Netscript API.
- * @param candidate An array of server hostnames.  We want to nuke each of these
- *     servers.
- * @return An array of hostnames of servers.  We have root access to each
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Server hostnames.  We want to nuke each of
+ *     these servers.
+ * @returns {array<string>} Hostnames of servers.  We have root access to each
  *     server.
  */
 export function nuke_servers(ns, candidate) {
@@ -389,10 +394,11 @@ export function nuke_servers(ns, candidate) {
  * The maximum number of threads that can be used to run our script on a given
  * server.
  *
- * @param ns The Netscript API.
- * @param s A script.  Assumed to be located on home server.
- * @param host Hostname of a world server.
- * @return The maximum number of threads to run our script on the given server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} s A script.  Assumed to be located on our home server.
+ * @param {string} host Hostname of a world server.
+ * @returns {number} The maximum number of threads to run our script on the
+ *     given server.
  */
 export function num_threads(ns, s, host) {
     const script_ram = ns.getScriptRam(s, home);
@@ -440,9 +446,9 @@ export function number_format(num) {
 /**
  * A server that has the greatest hack desirability score.
  *
- * @param ns The Netscript API.
- * @param candidate Choose from among this array of hostnames.
- * @return Hostname of the server to target.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Choose from among this array of hostnames.
+ * @returns {string} Hostname of the server to target.
  */
 export function server_of_max_weight(ns, candidate) {
     const desirable_server = (s, t) => (weight(ns, s) < weight(ns, t) ? t : s);
@@ -453,7 +459,7 @@ export function server_of_max_weight(ns, candidate) {
  * A hackish way to implement shell scripting in Bitburner.  Emulate terminal
  * input.
  *
- * @param cmd Run this command from the terminal.
+ * @param {string} cmd Run this command from the terminal.
  */
 export function shell(cmd) {
     // Template code from the official documentation of Bitburner:
@@ -474,10 +480,11 @@ export function shell(cmd) {
 /**
  * Convert a time amount from milliseconds to the format hh:mm:ss.
  *
- * @param t An amount of time in milliseconds.
- * @return The same but a string in the format hh:mm:ss.
+ * @param {number} t An amount of time in milliseconds.
+ * @returns {string} The same but a string in the format hh:mm:ss.
  */
 export function time_hms(t) {
+    // FIXME: handle a time period greater than 24 hours.
     const date = new Date(0);
     date.setSeconds(to_second(t));
     const start_idx = 11;
@@ -488,8 +495,8 @@ export function time_hms(t) {
 /**
  * Convert a given amount of time in milliseconds to minutes.
  *
- * @param t An amount of time in milliseconds.
- * @return The same amount of time but given in minutes.
+ * @param {number} t An amount of time in milliseconds.
+ * @returns {number} The same amount of time but given in minutes.
  */
 export function to_minute(t) {
     assert(t >= 0);
@@ -499,8 +506,8 @@ export function to_minute(t) {
 /**
  * Convert a given amount of time in milliseconds to seconds.
  *
- * @param t An amount of time in milliseconds.
- * @return The same amount of time but given in seconds.
+ * @param {number} t An amount of time in milliseconds.
+ * @returns {number} The same amount of time but given in seconds.
  */
 export function to_second(t) {
     assert(t >= 0);
@@ -510,10 +517,10 @@ export function to_second(t) {
 /**
  * The weight, or hack desirability, of a server.  Higher weight is better.
  *
- * @param ns The Netscript API.
- * @param host The hostname of a server.
- * @return A non-negative number representing the hack desirability of the given
- *     server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} host The hostname of a server.
+ * @returns {number} A non-negative number representing the hack desirability of
+ *     the given server.
  */
 export function weight(ns, host) {
     const serv = ns.getServer(host);
