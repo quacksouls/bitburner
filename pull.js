@@ -92,7 +92,6 @@ function dir_structure() {
         "find-cct.js",
         "gang/augment.js",
         "gang/crime.js",
-        "gang/dead-speakers.js",
         "gang/go.js",
         "gang/program.js",
         "gang/slum-snakes.js",

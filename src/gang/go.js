@@ -87,10 +87,4 @@ export async function main(ns) {
         "/quack/gang/slum-snakes.js",
     ];
     script.forEach((s) => exec(ns, s));
-
-    // If we want, we can create a criminal gang within Speakers for the Dead.
-    // Note that it can take a very long time to satisfy all requirements for
-    // joining this faction and setting up a gang within that faction.
-    // const script = "/gang/dead-speakers.js";
-    // ns.exec(script, home, nthread);
 }
