@@ -84,7 +84,7 @@ export async function main(ns) {
     const script = [
         "/quack/gang/augment.js",
         "/quack/gang/program.js",
-        "/quack/gang/slum-snakes.js",
+        "/quack/gang/snek.js",
     ];
     script.forEach((s) => exec(ns, s));
 }

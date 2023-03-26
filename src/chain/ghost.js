@@ -72,7 +72,7 @@ export async function main(ns) {
         exec(ns, "/quack/sleeve/study.js");
     }
     await ns.sleep(wait_t.DEFAULT);
-    exec(ns, "/quack/gang/slum-snakes.js");
+    exec(ns, "/quack/gang/snek.js");
 
     // Join factions and purchase Augmentations.  Kill the Hack XP farmer.
     // We need to share our botnet with a faction.

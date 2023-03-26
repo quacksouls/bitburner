@@ -50,7 +50,7 @@ export async function main(ns) {
     //     opener programs.  We need all five port opener programs so we can
     //     open all ports of each server.
     // (6) /sleeve/cc.js := Our sleeve manager.
-    const gang_script = ["/quack/gang/go.js", "/quack/gang/slum-snakes.js"];
+    const gang_script = ["/quack/gang/go.js", "/quack/gang/snek.js"];
     const script = [
         // "/corporation/go.js", // FIXME: update to use v2.2 API
         "/quack/singularity/daemon.js",

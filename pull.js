@@ -94,7 +94,7 @@ function dir_structure() {
         "gang/crime.js",
         "gang/go.js",
         "gang/program.js",
-        "gang/slum-snakes.js",
+        "gang/snek.js",
         "go-high.js",
         "go-low.js",
         "go-mid.js",

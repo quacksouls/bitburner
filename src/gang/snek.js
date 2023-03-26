@@ -111,7 +111,7 @@ async function raise_combat_stats(ns, threshold) {
  * (2) Karma must be -9 or lower.
  * (3) At least $1m.
  *
- * Usage: run quack/gang/slum-snakes.js
+ * Usage: run quack/gang/snek.js
  *
  * @param {NS} ns The Netscript API.
  */
