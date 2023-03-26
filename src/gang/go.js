@@ -71,13 +71,14 @@ import { exec } from "/quack/lib/util.js";
  *
  * Usage: run quack/gang/go.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     if (!has_gang_api(ns)) {
         log(ns, "No access to Gang API", colour.RED);
         return;
     }
+
     // Regardless of the BitNode we are in, join Slum Snakes and set up our
     // gang within that faction.
     const script = [

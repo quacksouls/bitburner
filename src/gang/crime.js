@@ -43,7 +43,7 @@ import { assert } from "/quack/lib/util.js";
  * (3) Lose all respect points gained by the member.  The respect points gained
  *     by this member will be deducted from our total respect.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function ascend(ns) {
     const member = ns.gang.getMemberNames();
@@ -57,7 +57,7 @@ function ascend(ns) {
 /**
  * Marshall our forces on the border and be ready for war.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function casus_belli(ns) {
     assert(ns.gang.getGangInformation().territoryWarfareEngaged);
@@ -79,8 +79,8 @@ function casus_belli(ns) {
  * As we have multiple gang members who hold the role of Punk, choose the
  * strongest of those members.
  *
- * @param ns The Netscript API.
- * @return An array of member names.  This is never an empty array.
+ * @param {NS} ns The Netscript API.
+ * @returns {array} Member names.  This is never an empty array.
  */
 function choose_warriors(ns) {
     const gangster = new Gangster(ns);
@@ -92,6 +92,7 @@ function choose_warriors(ns) {
                 || gangster.is_pilot(s)
         );
     assert(combatant.length > 0);
+
     // We want at most 1 Punk assigned to territory warfare.
     const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
     const punk_warrior = punk.filter((p) => gangster.is_warrior(p));
@@ -112,8 +113,8 @@ function choose_warriors(ns) {
  * BitNode other than BN2.x, we must have a certain amount of negative karma
  * as a pre-requisite for creating a gang.
  *
- * @param ns The Netscript API.
- * @param fac A string representing the name of a criminal organization.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac The name of a criminal organization.
  */
 async function create_gang(ns, fac) {
     assert(is_valid_faction(fac));
@@ -135,7 +136,7 @@ async function create_gang(ns, fac) {
  * gangsters and set them to vigilante justice.  The remaining members are given
  * jobs that attract less wanted levels than their current jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function decrease_penalty(ns) {
     reassign_vigilante(ns);
@@ -163,6 +164,8 @@ function decrease_penalty(ns) {
 
 /**
  * All Augmentations that raise the defense of a gang member.
+ *
+ * @returns {array} Augmentation names.
  */
 function defensive_equipment_augment() {
     return Object.values(gang_augment).filter(
@@ -177,6 +180,8 @@ function defensive_equipment_augment() {
 
 /**
  * All weapons that raise the defense of a gang member.
+ *
+ * @returns {array} Weapon names.
  */
 function defensive_equipment_weapon() {
     return Object.values(weapon).filter((w) => w !== weapon.AWM);
@@ -194,9 +199,9 @@ function defensive_equipment_weapon() {
  * However, if our gang already has taken over 100% of the territory, then
  * there is no need to engage in turf warfare.
  *
- * @param ns The Netscript API.
- * @return True if we are to engage in territory warfare against another gang;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we are to engage in territory warfare against
+ *     another gang; false otherwise.
  */
 function enable_turf_war(ns) {
     if (has_all_turf(ns)) {
@@ -222,7 +227,7 @@ function enable_turf_war(ns) {
  * succeed or fail, depending on whether we have sufficient funds to purchase
  * equipment.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function equip(ns) {
     // Only equip if this is not "BitNode-8: Ghost of Wall Street".
@@ -249,11 +254,13 @@ function equip(ns) {
                 break;
             }
         }
+
         // Now equip items that raise other stats.  Ensure we have first
         // equipped all items that raise defense.
         if (!has_all_def_equipment(ns, s)) {
             continue;
         }
+
         // Try to equip other Augmentations.
         const other_augment = Object.values(gang_augment).filter(
             (a) => !defensive_equipment_augment().includes(a)
@@ -266,6 +273,7 @@ function equip(ns) {
                 break;
             }
         }
+
         // Try to equip other weapons.
         const other_weapon = Object.values(weapon).filter(
             (w) => !defensive_equipment_weapon().includes(w)
@@ -278,6 +286,7 @@ function equip(ns) {
                 break;
             }
         }
+
         // Try to equip a new vehicle.
         for (const vhc of Object.values(vehicle)) {
             if (gangster.has_vehicle(s, vhc)) {
@@ -287,6 +296,7 @@ function equip(ns) {
                 break;
             }
         }
+
         // Try to equip a rootkit.  This should be low on our priority list
         // because members of a criminal gang primarily depend on their combat
         // stats and Charisma.
@@ -329,8 +339,8 @@ function equip(ns) {
  * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/Gang.ts
  * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/data/upgrades.ts
  *
- * @param ns The Netscript API.
- * @param name A string representing the name of our gang member.
+ * @param {NS} ns The Netscript API.
+ * @param {string} name The name of our gang member.
  */
 function equip_augment_def(ns, name) {
     const gangster = new Gangster(ns);
@@ -365,8 +375,8 @@ function equip_augment_def(ns, name) {
  * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/Gang.ts
  * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Gang/data/upgrades.ts
  *
- * @param ns The Netscript API.
- * @param name A string representing the name of our gang member.
+ * @param {NS} ns The Netscript API.
+ * @param {string} name The name of our gang member.
  */
 function equip_weapon_def(ns, name) {
     const gangster = new Gangster(ns);
@@ -384,7 +394,7 @@ function equip_weapon_def(ns, name) {
  * Once a new member has completed their training, graduate and assign them
  * their first job.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function graduate(ns) {
     const member = ns.gang.getMemberNames();
@@ -399,10 +409,10 @@ function graduate(ns) {
  * Defense is important during a clash against a rival gang.  The higher is a
  * member's defense, the lower is the probability of death during the clash.
  *
- * @param ns The Netscript API.
- * @param name A string representing the name of a gang member.
- * @return True if a gang member has all equipment that raise their defense;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {string} name The name of a gang member.
+ * @returns {boolean} True if a gang member has all equipment that raise their
+ *     defense; false otherwise.
  */
 function has_all_def_equipment(ns, name) {
     const gangster = new Gangster(ns);
@@ -427,9 +437,8 @@ function has_all_def_equipment(ns, name) {
 /**
  * Whether our gang already controls 100% of the territory.
  *
- * @param ns The Netscript API.
- * @return True if we already have control over 100% of the territory;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we control 100% of the territory; false otherwise.
  */
 function has_all_turf(ns) {
     return ns.gang.getGangInformation().territory >= 1;
@@ -438,8 +447,8 @@ function has_all_turf(ns) {
 /**
  * Whether we have the maximum number of members in our gang.
  *
- * @param ns The Netscript API.
- * @return True if our gang is at capacity; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if our gang is at capacity; false otherwise.
  */
 function has_max_members(ns) {
     return members.MAX === ns.gang.getMemberNames().length;
@@ -448,9 +457,9 @@ function has_max_members(ns) {
 /**
  * Whether any of our gang members are currently committing acts of terrorism.
  *
- * @param ns The Netscript API.
- * @return True if at least one gang member is committing acts of terrorism;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if at least one gang member is committing acts of
+ *     terrorism; false otherwise.
  */
 function has_terrorist(ns) {
     const gangster = new Gangster(ns);
@@ -465,9 +474,9 @@ function has_terrorist(ns) {
 /**
  * Whether any of our gang members are currently on vigilante justice.
  *
- * @param ns The Netscript API.
- * @return True if at least one gang member is currently assigned to vigilante
- *     justice; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if at least one gang member is currently assigned to
+ *     vigilante justice; false otherwise.
  */
 function has_vigilante(ns) {
     const gangster = new Gangster(ns);
@@ -482,9 +491,9 @@ function has_vigilante(ns) {
 /**
  * Whether our gang is engaged in turf warfare.
  *
- * @param ns The Netscript API.
- * @return True if our gang is engaged in turf warfare against a rival gang;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if our gang is engaged in turf warfare against a
+ *     rival gang; false otherwise.
  */
 function is_in_war(ns) {
     if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
@@ -502,10 +511,10 @@ function is_in_war(ns) {
  * the time period as defined by the constant gang_t.TICK.  At the start of
  * each tick, there is a chance for our gang to clash against a rival gang.
  *
- * @param ns The Netscript API.
- * @param other An object containing information about other gangs.  The data
- *     in the object should be from the previous tick.
- * @return True if we are in a new tick; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {object} other An object containing information about other gangs.
+ *     The data in the object should be from the previous tick.
+ * @returns {boolean} True if we are in a new tick; false otherwise.
  */
 function is_new_tick(ns, other) {
     const current = ns.gang.getOtherGangInformation();
@@ -524,9 +533,9 @@ function is_new_tick(ns, other) {
  * Whether the given string represents the name of a criminal organization
  * within which we can create a criminal gang.
  *
- * @param fac A string representing the name of a criminal organization.
- * @return True if we can create a criminal gang within the given faction;
- *     false otherwise.
+ * @param {string} fac The name of a criminal organization.
+ * @returns {boolean} True if we can create a criminal gang within the given
+ *     faction; false otherwise.
  */
 function is_valid_faction(fac) {
     assert(fac.length > 0);
@@ -546,9 +555,9 @@ function is_valid_faction(fac) {
  * clash is 0.6879, we convert this to the percentage of 68.79 and take only
  * the integer part, which in this case is 68%.
  *
- * @param ns The Netscript API.
- * @return The minimum chance as an integer percentage of winning a clash
- *     against any rival gang.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The minimum chance as an integer percentage of winning a
+ *     clash against any rival gang.
  */
 function min_victory_chance(ns) {
     let chance = Infinity;
@@ -567,7 +576,7 @@ function min_victory_chance(ns) {
  * Si vis pacem, para bellum.  Make preparation to increase our power.  We do
  * not engage in turf warfare yet.  First, build our gang power.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function para_bellum(ns) {
     // If we already control 100% of the territory, there is no need to send
@@ -575,6 +584,7 @@ function para_bellum(ns) {
     if (has_all_turf(ns)) {
         return;
     }
+
     // We want at most members.WARRIOR members to be engaged in territory
     // warfare.  The remaining members should be in as high-paying jobs as
     // possible.  The 4 combatants can be assigned to arms trafficking and the
@@ -585,6 +595,7 @@ function para_bellum(ns) {
     // in some form of trafficking is effectively 7.  The subtraction of 1
     // accounts for the lone member who commits acts of terrorism.
     const threshold = members.MAX - members.WARRIOR - 1;
+
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
     const trafficker = ns.gang
@@ -596,6 +607,7 @@ function para_bellum(ns) {
     if (trafficker.length < threshold) {
         return;
     }
+
     // Choose various combatants and reassign them to turf warfare.
     assert(trafficker.length >= threshold);
     gangster.turf_war(choose_warriors(ns));
@@ -609,8 +621,8 @@ function para_bellum(ns) {
  * that the wanted level can never be lower than 1.  Aim to keep the penalty p
  * below a certain fraction.
  *
- * @param ns The Netscript API.
- * @return The penalty as a percentage.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The penalty as a percentage.
  */
 function penalty(ns) {
     const wanted = ns.gang.getGangInformation().wantedLevel;
@@ -623,7 +635,7 @@ function penalty(ns) {
 /**
  * Reassign gang members to some other tasks.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign(ns) {
     reassign_combatant(ns);
@@ -636,7 +648,7 @@ function reassign(ns) {
  * When we no longer need to lower our penalty, reassign our gang members to
  * other jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_after_vigilante_justice(ns) {
     const gangster = new Gangster(ns);
@@ -648,7 +660,7 @@ function reassign_after_vigilante_justice(ns) {
  * Following territory warfare against a rival gang, reassign our gang members
  * to other jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_after_warfare(ns) {
     const gangster = new Gangster(ns);
@@ -661,11 +673,11 @@ function reassign_after_warfare(ns) {
  * gang members if their Strength stat is in the half-open interval [min, max).
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to traffick illegal arms.
- * @param min The minimum value for the Strength stat.
- * @param max The maximum value for the Strength stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to traffick illegal arms.
+ * @param {number} min The minimum value for the Strength stat.
+ * @param {number} max The maximum value for the Strength stat.
  */
 function reassign_arms_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -689,11 +701,11 @@ function reassign_arms_trafficking(ns, member, min, max) {
  * half-open interval [min, max).  We include the minimum threshold but exclude
  * the maximum threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to threaten and blackmail people.
- * @param min The minimum value for the Charisma stat.
- * @param max The maximum value for the Charisma stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to threaten and blackmail people.
+ * @param {number} min The minimum value for the Charisma stat.
+ * @param {number} max The maximum value for the Charisma stat.
  */
 function reassign_blackmail(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -706,22 +718,25 @@ function reassign_blackmail(ns, member, min, max) {
 /**
  * Reassign combatants to other jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_combatant(ns) {
     const gangster = new Gangster(ns);
     const combatant = ns.gang
         .getMemberNames()
         .filter((s) => gangster.is_combatant(s));
+
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
     reassign_extortion(ns, combatant, task_t.EXTORT, task_t.ROBBERY);
     reassign_robbery(ns, combatant, task_t.ROBBERY, task_t.TRAFFICK_ARMS);
+
     // Try to have at least one gang member assigned to commit acts of
     // terrorism.  This should help to increase our respect so we can recruit
     // more members.  However, if we already have the maximum number of
     // gangsters, then there is no need to have anyone be terrorists.
     reassign_terrorism(ns, combatant, task_t.TERROR, Infinity);
+
     // Assign other high-level members to trafficking illegal arms.
     reassign_arms_trafficking(ns, combatant, task_t.TRAFFICK_ARMS, Infinity);
 }
@@ -731,11 +746,11 @@ function reassign_combatant(ns) {
  * if their Charisma stat is in the half-open interval [min, max).  We include
  * the minimum threshold but exclude the maximum threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to run a con.
- * @param min The minimum value for the Charisma stat.
- * @param max The maximum value for the Charisma stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to run a con.
+ * @param {number} min The minimum value for the Charisma stat.
+ * @param {number} max The maximum value for the Charisma stat.
  */
 function reassign_con(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -751,11 +766,11 @@ function reassign_con(ns, member, min, max) {
  * [min, max).  That is, we include the minimum threshold but exclude the
  * maximum threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to strongarm civilians.
- * @param min The minimum value for the Strength stat.
- * @param max The maximum value for the Strength stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to strongarm civilians.
+ * @param {number} min The minimum value for the Strength stat.
+ * @param {number} max The maximum value for the Strength stat.
  */
 function reassign_extortion(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -768,7 +783,7 @@ function reassign_extortion(ns, member, min, max) {
 /**
  * Reassign anyone who is in the neutral state to a default task.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_from_neutral(ns) {
     const gangster = new Gangster(ns);
@@ -787,7 +802,7 @@ function reassign_from_neutral(ns) {
 /**
  * Reassign our Hacker to some other job.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_hacker(ns) {
     const gangster = new Gangster(ns);
@@ -795,10 +810,12 @@ function reassign_hacker(ns) {
         .getMemberNames()
         .filter((s) => gangster.is_hacker(s));
     assert(hacker.length === 1);
+
     // This is not a hacking gang.  Reassign the Hacker to one of the jobs
     // normally done by a miscellaneous gang member.
     reassign_con(ns, hacker, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, hacker, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+
     // If we already control 100% of the territory, then assign everyone to
     // trafficking illegal arms because this task generally earns more money
     // than human trafficking.
@@ -815,11 +832,11 @@ function reassign_hacker(ns) {
  * [min, max).  We include the minimum threshold but exclude the maximum
  * threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to operate a human trafficking ring.
- * @param min The minimum value for the Charisma stat.
- * @param max The maximum value for the Charisma stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to operate a human trafficking ring.
+ * @param {number} min The minimum value for the Charisma stat.
+ * @param {number} max The maximum value for the Charisma stat.
  */
 function reassign_human_trafficking(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -832,7 +849,7 @@ function reassign_human_trafficking(ns, member, min, max) {
 /**
  * Reassign miscellaneous gang members to various jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function reassign_miscellaneous(ns) {
     const gangster = new Gangster(ns);
@@ -841,6 +858,7 @@ function reassign_miscellaneous(ns) {
         .filter((s) => gangster.is_miscellaneous(s));
     reassign_con(ns, other, task_t.CON, task_t.BLACKMAIL);
     reassign_blackmail(ns, other, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
+
     // If we already control 100% of the territory, then assign everyone to
     // trafficking illegal arms because this task generally earns more money
     // than human trafficking.
@@ -856,11 +874,11 @@ function reassign_miscellaneous(ns) {
  * members if their Strength stat is in the half-open interval [min, max).
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to armed robbery.
- * @param min The minimum value for the Strength stat.
- * @param max The maximum value for the Strength stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to armed robbery.
+ * @param {number} min The minimum value for the Strength stat.
+ * @param {number} max The maximum value for the Strength stat.
  */
 function reassign_robbery(ns, member, min, max) {
     const gangster = new Gangster(ns);
@@ -880,16 +898,17 @@ function reassign_robbery(ns, member, min, max) {
  * there is no reason to have any terrorists around.  Only assign a limited
  * number of members to terrorism.
  *
- * @param ns The Netscript API.
- * @param member An array of member names.  We want to reassign these members
- *     to acts of terrorism.
- * @param min The minimum value for the Strength stat.
- * @param max The maximum value for the Strength stat.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Member names.  We want to reassign these
+ *     members to acts of terrorism.
+ * @param {number} min The minimum value for the Strength stat.
+ * @param {number} max The maximum value for the Strength stat.
  */
 function reassign_terrorism(ns, member, min, max) {
     if (has_terrorist(ns) && !has_max_members(ns)) {
         return;
     }
+
     // We already have the maximum number of gang members.  Reassign the
     // terrorists to trafficking illegal arms.
     const gangster = new Gangster(ns);
@@ -902,6 +921,7 @@ function reassign_terrorism(ns, member, min, max) {
     }
     assert(!has_terrorist(ns));
     assert(!has_max_members(ns));
+
     // We want our Vanguard to commit acts of terrorism.
     const vanguard = member.filter(
         (s) => gangster.is_vanguard(s)
@@ -919,7 +939,7 @@ function reassign_terrorism(ns, member, min, max) {
  * Recruit as many new members as possible.  Set the newbies to train their
  * various stats.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function recruit(ns) {
     const gangster = new Gangster(ns);
@@ -935,7 +955,7 @@ function recruit(ns) {
 /**
  * Retrain the stats of gang members as necessary.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function retrain(ns) {
     const gangster = new Gangster(ns);
@@ -948,8 +968,8 @@ function retrain(ns) {
 /**
  * Various sanity checks.
  *
- * @param ns The Netscript API.
- * @return True if the checks pass; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if the checks pass; false otherwise.
  */
 function sanity_checks(ns) {
     if (ns.args.length !== 1) {
@@ -967,7 +987,7 @@ function sanity_checks(ns) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("gang.setTerritoryWarfare");
@@ -978,18 +998,20 @@ function shush(ns) {
 /**
  * Manage our criminal gang.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function update(ns) {
     recruit(ns);
     retrain(ns);
     graduate(ns);
+
     // Ascend a gang member before we spend any more money on them.  After the
     // ascension, the member would lose all equipment and their stats would
     // reset.  We ascend the member now so down the pipeline we can retrain
     // and re-equip them.
     ascend(ns);
     equip(ns);
+
     // Do we have anyone on vigilante justice?
     if (has_vigilante(ns)) {
         if (penalty(ns) <= penalty_t.LOW) {
@@ -997,6 +1019,7 @@ function update(ns) {
             return;
         }
     }
+
     // Initially, our gang has a small number of members.  Assigning one or
     // more members to vigilante justice would do precious little to decrease
     // our wanted level.  With such a small membership, it is more important to
@@ -1013,6 +1036,7 @@ function update(ns) {
         }
     }
     reassign(ns);
+
     // Prepare for war.
     para_bellum(ns);
 }
@@ -1038,13 +1062,14 @@ function update(ns) {
  * Usage: run quack/gang/crime.js [faction]
  * Example: run quack/gang/crime.js "Slum Snakes"
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);
     if (!sanity_checks(ns)) {
         return;
     }
+
     // Create our criminal gang and recruit the first crop of gangsters.  By
     // default, we disable territory warfare.  Instead, we concentrate on
     // recruitment and building the strengths of our gang members.
@@ -1054,6 +1079,7 @@ export async function main(ns) {
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     assert(!ns.gang.getGangInformation().isHacking);
     recruit(ns);
+
     // Manage our gang.
     // A tick is a period of time as defined by the constant gang_t.TICK.  At
     // the start of each tick, there is a chance for our gang to clash against
@@ -1072,6 +1098,7 @@ export async function main(ns) {
             log(ns, `Disable territory warfare for gang in ${faction}`);
             ns.gang.setTerritoryWarfare(bool.DISABLE);
         }
+
         // Are we in a new tick?  If we are having a turf war, then let our
         // gang members fight until a new tick occurs.
         if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
@@ -1082,6 +1109,7 @@ export async function main(ns) {
             await ns.sleep(wait_t.MILLISECOND);
             continue;
         }
+
         // We are in the same tick.  Is it time to go to war?
         if (Date.now() > tick_threshold) {
             if (ns.gang.getGangInformation().territoryWarfareEngaged) {

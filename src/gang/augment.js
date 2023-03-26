@@ -29,8 +29,9 @@ import { exec } from "/quack/lib/util.js";
 /**
  * Purchase Augmentations from our gang faction.
  *
- * @param ns The Netscript API.
- * @return True if we bought at least one Augmentation; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {Promise<boolean>} True if we bought at least one Augmentation;
+ *     false otherwise.
  */
 async function buy_augment(ns) {
     const { faction } = ns.gang.getGangInformation();
@@ -52,17 +53,19 @@ async function buy_augment(ns) {
  *
  * Usage: run quack/gang/augment.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Less verbose log.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+
     // Sanity check.
     if (!has_gang_api(ns)) {
         log(ns, "No access to Gang API", colour.RED);
         return;
     }
+
     // The update loop.
     while (!ns.gang.inGang()) {
         await ns.sleep(wait_t.DEFAULT);

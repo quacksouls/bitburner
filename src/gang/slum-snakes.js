@@ -31,8 +31,8 @@ import { assert } from "/quack/lib/util.js";
 /**
  * The karma threshold.  This value depends on the BitNode we are currently in.
  *
- * @param ns The Netscript API.
- * @return The karma threshold.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The karma threshold.
  */
 function karma_threshold(ns) {
     if (bitnode["Rise of the Underworld"] === ns.getPlayer().bitNodeN) {
@@ -44,9 +44,9 @@ function karma_threshold(ns) {
 /**
  * Run the next script(s) in our load chain for criminal gangs.
  *
- * @param ns The Netscript API.
- * @param faction The name of a criminal organization.  Must be a faction that
- *     allows us to create a criminal gang.
+ * @param {NS} ns The Netscript API.
+ * @param {string} faction The name of a criminal organization.  Must be a
+ *     faction that allows us to create a criminal gang.
  */
 function load_chain(ns, faction) {
     const script = "/quack/gang/crime.js";
@@ -60,7 +60,7 @@ function load_chain(ns, faction) {
  * than BN2, we need -54,000 karma.  Homicide yields -3 karma so we must commit
  * homicide at most 18,000 times.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function lower_karma(ns) {
     ns.singularity.goToLocation(cities.generic.slum); // Raise Int XP.
@@ -78,12 +78,14 @@ async function lower_karma(ns) {
  * best ways to raise all of our combat stats.  Upon success, we gain XP for
  * each of the following stats: Strength, Defense, Dexterity, Agility.
  *
- * @param ns The Netscript API.
- * @param threshold Each of our combat stats should be at least this level.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Each of our combat stats should be at least this
+ *     level.
  */
 async function raise_combat_stats(ns, threshold) {
     assert(threshold > 0);
     ns.singularity.goToLocation(cities.generic.slum); // Raise Int XP.
+
     // Continue to mug someone until each of our combat stats is at least
     // the given threshold.
     const player = new Player(ns);
@@ -111,12 +113,13 @@ async function raise_combat_stats(ns, threshold) {
  *
  * Usage: run quack/gang/slum-snakes.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+
     // Raise combat stats, ensure we have the required minimum karma, raise our
     // income.  Then join the Slum Snakes faction.  Lower our karma so we can
     // create a gang.
