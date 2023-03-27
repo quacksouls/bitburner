@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Utility functions for managing a gang.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { members } from "/quack/lib/constant/gang.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
@@ -26,12 +28,13 @@ import { assert } from "/quack/lib/util.js";
  * of gangsters who will be assigned to these jobs depends on our current
  * membership.
  *
- * @param ns The Netscript API.
- * @return The number of members to assign to vigilante justice.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The number of members to assign to vigilante justice.
  */
 function choose_vigilante_threshold(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
     assert(members.VIGILANTE > 0);
+
     // Lower the threshold, depending on our gang membership.
     const mid_point = Math.floor(members.MAX / 2);
     const quarter_point = mid_point + Math.floor(mid_point / 2);
@@ -52,9 +55,9 @@ function choose_vigilante_threshold(ns) {
 /**
  * Whether we already have enough gang members assigned to vigilante justice.
  *
- * @param ns The Netscript API.
- * @return true if enough gangsters are assigned to vigilante justice;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if enough gangsters are assigned to vigilante
+ *     justice; false otherwise.
  */
 function has_enough_vigilante(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
@@ -70,8 +73,8 @@ function has_enough_vigilante(ns) {
  * We have too many gang members in vigilante justice.  Reassign the excess
  * members to some other jobs.
  *
- * @param ns The Netscript API.
- * @param threshold We want this many members to be in vigilante justice.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold We want this many members on vigilante justice.
  */
 function reassign_excess_vigilante(ns, threshold) {
     assert(!ns.gang.getGangInformation().isHacking);
@@ -85,6 +88,7 @@ function reassign_excess_vigilante(ns, threshold) {
         .getMemberNames()
         .filter((s) => gangster.is_hacker(s));
     const vanguard = vigilante.filter((s) => gangster.is_vanguard(s));
+
     // The Vanguard is always the first to be assigned to vigilante justice.
     // The Hacker is always the next member to be assigned to this task.
     let vigilante_hacker = vanguard.concat(hacker);
@@ -98,6 +102,7 @@ function reassign_excess_vigilante(ns, threshold) {
     }
     assert(candidate.length > 0);
     gangster.vigilante(vigilante_hacker);
+
     // Reassign the rest to other jobs.
     reassign_other(ns, candidate);
 }
@@ -105,8 +110,8 @@ function reassign_excess_vigilante(ns, threshold) {
 /**
  * Reassign some members to other jobs.
  *
- * @param ns The Netscript API.
- * @param name An array of member names.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} name Member names.
  */
 function reassign_other(ns, name) {
     assert(!ns.gang.getGangInformation().isHacking);
@@ -132,10 +137,11 @@ function reassign_other(ns, name) {
  * soft reset.  Our objective is to lower our wanted level while other gang
  * members are involved in other jobs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export function reassign_soft_reset(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
+
     // We want only one gang member on vigilante justice.  That member is the
     // Vanguard.
     const gangster = new Gangster(ns);
@@ -144,6 +150,7 @@ export function reassign_soft_reset(ns) {
         .filter((s) => gangster.is_vanguard(s));
     assert(vanguard.length === 1);
     gangster.vigilante(vanguard);
+
     // Other members currently on vigilante justice are reassigned to other
     // jobs.
     const vigilante = ns.gang
@@ -162,13 +169,14 @@ export function reassign_soft_reset(ns) {
  * We do not have enough gang members in vigilante justice.  Reassign some
  * members to these jobs.
  *
- * @param ns The Netscript API.
- * @param threshold We want this many members to be in vigilante justice.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Have this many members on vigilante justice.
  */
 function reassign_to_vigilante(ns, threshold) {
     assert(!ns.gang.getGangInformation().isHacking);
     const tau = Math.floor(threshold);
     assert(tau > 0);
+
     // All gang members who should be on vigilante justice.
     const gangster = new Gangster(ns);
     const vanguard = ns.gang
@@ -181,6 +189,7 @@ function reassign_to_vigilante(ns, threshold) {
         .getMemberNames()
         .filter((s) => gangster.is_artillery(s));
     const pilot = ns.gang.getMemberNames().filter((s) => gangster.is_pilot(s));
+
     // Determine which members to assign to vigilante justice.  The Vanguard is
     // always the first to be assigned to vigilante justice.  This is followed
     // by the Hacker.  Next comes the Artillery and the Pilot, who are assigned
@@ -199,6 +208,7 @@ function reassign_to_vigilante(ns, threshold) {
     while (candidate.length > nmore) {
         candidate.pop();
     }
+
     // Assign the candidates to vigilante justice.
     gangster.vigilante(candidate);
 }
@@ -207,20 +217,23 @@ function reassign_to_vigilante(ns, threshold) {
  * Reassign a number of our gang members to vigilante justice.  Our objective is
  * to lower our wanted level.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export function reassign_vigilante(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
+
     // Initially, our gang has a small number of members.  Assigning one or
     // more members to vigilante justice would do precious little to decrease
     // our wanted level.  With such a small membership, it is more important to
     // raise the members' stats and recruit more members than to lower our
     // wanted level.
     assert(ns.gang.getMemberNames().length > members.HALF);
+
     // Do we already have the required number of members on vigilante justice?
     if (has_enough_vigilante(ns)) {
         return;
     }
+
     // We have more vigilantes than the given threshold.  Move some members out
     // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
@@ -232,6 +245,7 @@ export function reassign_vigilante(ns) {
         reassign_excess_vigilante(ns, tau);
         return;
     }
+
     // If we already have some vigilantes, then add more members to vigilante
     // justice to make up the required threshold.
     assert(vigilante.length < tau);
@@ -241,9 +255,9 @@ export function reassign_vigilante(ns) {
 /**
  * The strongest member in our gang.
  *
- * @param ns The Netscript API.
- * @param member Choose from among this array of member names.
- * @return A string representing the name of the strongest gang member.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} member Choose from among these member names.
+ * @returns {string} The name of the strongest gang member.
  */
 export function strongest_member(ns, member) {
     assert(member.length > 0);

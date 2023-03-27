@@ -44,7 +44,7 @@ export class Gangster {
     /**
      * Initialize a Gangster object.
      *
-     * @param ns The Netscript API.
+     * @param {NS} ns The Netscript API.
      */
     constructor(ns) {
         this.#ns = ns;
@@ -53,8 +53,8 @@ export class Gangster {
     /**
      * The Agility stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Agility stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Agility stat of the given member.
      */
     agility(name) {
         assert(this.is_member(name));
@@ -64,8 +64,8 @@ export class Gangster {
     /**
      * Ascend a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return True if the ascension is successful; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the ascension is successful; false otherwise.
      */
     ascend(name) {
         assert(this.is_member(name));
@@ -73,11 +73,13 @@ export class Gangster {
         if (undefined === asc) {
             return bool.FAILURE;
         }
+
         // Convert a number in the form 1.xyz to 1xy.  We multiply the number
         // by 100 and take the integer part.  So 1.25 would be 125.  We do this
         // because comparing floating point numbers can be tricky and result in
         // unexpected behaviour.  It is easier and simpler to compare integers.
         const to_int = (x) => Math.floor(100 * x);
+
         // See whether we can ascend this gang member.  The cases of combatant,
         // hacker, and miscellaneous are each handled separately.
         const tau = to_int(gang_t.ASCEND);
@@ -107,6 +109,7 @@ export class Gangster {
                 ascend_this_member = true;
             }
         }
+
         // Now ascend the gangster.
         if (ascend_this_member) {
             const result = this.#ns.gang.ascendMember(name);
@@ -120,13 +123,14 @@ export class Gangster {
     /**
      * Assign gang members to threaten and blackmail high-profile targets.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     blackmail(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members threaten and blackmail people.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -139,8 +143,8 @@ export class Gangster {
     /**
      * The Charisma stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Charisma stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Charisma stat of the given member.
      */
     charisma(name) {
         assert(this.is_member(name));
@@ -150,13 +154,14 @@ export class Gangster {
     /**
      * Assign gang members to run a con.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     con(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members run a con.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -169,13 +174,14 @@ export class Gangster {
     /**
      * Assign gang members to deal drugs.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     deal_drugs(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members be involved in dealing drugs.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -188,8 +194,8 @@ export class Gangster {
     /**
      * The Defense stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Defense stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Defense stat of the given member.
      */
     defense(name) {
         assert(this.is_member(name));
@@ -199,8 +205,8 @@ export class Gangster {
     /**
      * The Dexterity stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Dexterity stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Dexterity stat of the given member.
      */
     dexterity(name) {
         assert(this.is_member(name));
@@ -210,10 +216,10 @@ export class Gangster {
     /**
      * Purchase the given armour piece and equip it on a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @param amr A string representing the name of an armour piece.
-     * @return true if the armour is successfully purchased for the given
-     *     member; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} amr The name of an armour piece.
+     * @returns {boolean} True if the armour is successfully purchased for the
+     *     given member; false otherwise.
      */
     equip_armour(name, amr) {
         assert(this.is_member(name));
@@ -229,10 +235,10 @@ export class Gangster {
     /**
      * Purchase the given Augmentation and equip it on a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @param aug A string representing the name of an Augmentation.
-     * @return true if the Augmentation is successfully purchased for the given
-     *     member; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} aug The name of an Augmentation.
+     * @returns {boolean} True if the Augmentation is successfully purchased for
+     *     the given member; false otherwise.
      */
     equip_augment(name, aug) {
         assert(this.is_member(name));
@@ -248,10 +254,10 @@ export class Gangster {
     /**
      * Purchase the given rootkit and equip it on a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @param kit A string representing the name of a rootkit.
-     * @return true if the rootkit is successfully purchased for the given
-     *     member; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} kit The name of a rootkit.
+     * @returns {boolean} True if the rootkit is successfully purchased for the
+     *     given member; false otherwise.
      */
     equip_rootkit(name, kit) {
         assert(this.is_member(name));
@@ -267,10 +273,10 @@ export class Gangster {
     /**
      * Purchase the given vehicle and equip it on a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @param vhc A string representing the name of a vehicle.
-     * @return true if the vehicle is successfully purchased for the given
-     *     member; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} vhc The name of a vehicle.
+     * @returns {boolean} True if the vehicle is successfully purchased for the
+     *     given member; false otherwise.
      */
     equip_vehicle(name, vhc) {
         assert(this.is_member(name));
@@ -286,10 +292,10 @@ export class Gangster {
     /**
      * Purchase the given weapon and equip it on a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @param wpn A string representing the name of a weapon.
-     * @return true if the weapon is successfully purchased for the given
-     *     member; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} wpn The name of a weapon.
+     * @returns {boolean} True if the weapon is successfully purchased for the
+     *     given member; false otherwise.
      */
     equip_weapon(name, wpn) {
         assert(this.is_member(name));
@@ -305,13 +311,14 @@ export class Gangster {
     /**
      * Assign gang members to ethical hacking.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     ethical_hacking(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members be involved in ethical hacking.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -324,13 +331,14 @@ export class Gangster {
     /**
      * Assign gang members to extort civilians on our turf.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     extort(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members strongarm civilians.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -343,13 +351,14 @@ export class Gangster {
     /**
      * Assign gang members to commit financial fraud and digital counterfeiting.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     fraud(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members commit financial fraud and digital counterfeiting.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -360,8 +369,10 @@ export class Gangster {
     }
 
     /**
-     * The amount of funds available for a purchasing activity.  This function
+     * The amount of funds available for a purchasing activity.  This method
      * takes care not to spend all our money.
+     *
+     * @returns {number} How much funds are available for buying equipment.
      */
     #funds() {
         return this.#player_money() - gang_t.MONEY_RESERVE;
@@ -371,10 +382,9 @@ export class Gangster {
      * Graduate gang members who have been training their combat stats.  Assign
      * them to mug random people.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.
-     * @param threshold A combatant transitions to mugging once each of their
-     *     combat stats is at least this amount.
+     * @param {array<string>} name Member names.
+     * @param {number} threshold A combatant transitions to mugging once each of
+     *     their combat stats is at least this amount.
      */
     graduate_combatant(name, threshold) {
         // Sanity checks.
@@ -384,6 +394,7 @@ export class Gangster {
         name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
+
         // After training their combat stats, members graduate to mugging
         // random people.
         const graduate = name.filter(
@@ -407,13 +418,12 @@ export class Gangster {
      * first job of a miscellaneous member.  In case our gang is a hacking gang,
      * the first job of a hacker is to create and distribute ransomware.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.
-     * @param threshold A hacker transitions to ransomware (or the first job of
-     *     a miscellaneous gangster) once their Hack stat is at least this
-     *     amount.  The transition is also affected by their Charisma stat.  If
-     *     they do not have sufficient Charisma, they must train their Charisma
-     *     stat before being assigned their first job.
+     * @param {array<string>} name Member names.
+     * @param {number} threshold A hacker transitions to ransomware (or the
+     *     first job of a miscellaneous gangster) once their Hack stat is at
+     *     least this amount.  The transition is also affected by their Charisma
+     *     stat.  If they do not have sufficient Charisma, they must train their
+     *     Charisma stat before being assigned their first job.
      */
     graduate_hacker(name, threshold) {
         // Sanity checks.
@@ -423,6 +433,7 @@ export class Gangster {
         name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
+
         // After training their Hack stat, a hacker also trains their Charisma
         // stat.
         const hacker = name.filter((s) => this.is_hacker(s));
@@ -430,6 +441,7 @@ export class Gangster {
             (s) => this.is_training_hack(s) && this.hack(s) >= min
         );
         this.train_charisma(hack_graduate);
+
         // Once a hacker's Hack and Charisma stats are of minimum amounts,
         // assign them their first job.
         const charisma_graduate = hacker.filter(
@@ -450,13 +462,12 @@ export class Gangster {
      * After a miscellaneous member has trained their Charisma and combat stats,
      * assign them their first job of dealing drugs.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.
-     * @param threshold A miscellaneous member transitions to dealing drugs
-     *     once their Charisma stat is at least this amount.  The transition is
-     *     also affected by their combat stats.  If they do not have sufficient
-     *     combat stats, they must train their combat stats before being
-     *     assigned their first job.
+     * @param {array<string>} name Member names.
+     * @param {number} threshold A miscellaneous member transitions to dealing
+     *     drugs once their Charisma stat is at least this amount.  The
+     *     transition is also affected by their combat stats.  If they do not
+     *     have sufficient combat stats, they must train their combat stats
+     *     before being assigned their first job.
      */
     graduate_other(name, threshold) {
         // Sanity checks.
@@ -466,6 +477,7 @@ export class Gangster {
         name.forEach((s) => assert(this.is_member(s)));
         const min = Math.floor(threshold);
         assert(min > 0);
+
         // After training their Charisma stat, a miscellaneous member also
         // trains their combat stats.
         const graduate = name.filter((s) => this.is_miscellaneous(s));
@@ -473,6 +485,7 @@ export class Gangster {
             (s) => this.is_training_charisma(s) && this.charisma(s) >= min
         );
         this.train_combat(charisma_graduate);
+
         // Once the Charisma and combat stats of a miscellaneous member are of
         // minimum amounts, assign them their first job.
         const combat_graduate = graduate.filter(
@@ -488,8 +501,8 @@ export class Gangster {
     /**
      * The Hack stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Hack stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Hack stat of the given member.
      */
     hack(name) {
         assert(this.is_member(name));
@@ -499,9 +512,9 @@ export class Gangster {
     /**
      * Whether a gang member has a particular armour piece.
      *
-     * @param name A string representing the name of a gang member.
-     * @param amr A string representing the name of an armour.
-     * @return true if the gang member has the given armour piece;
+     * @param {string} name The name of a gang member.
+     * @param {string} amr The name of an armour.
+     * @returns {boolean} True if the gang member has the given armour piece;
      *     false otherwise.
      */
     has_armour(name, amr) {
@@ -517,9 +530,9 @@ export class Gangster {
     /**
      * Whether a gang member has a particular Augmentation.
      *
-     * @param name A string representing the name of a gang member.
-     * @param aug A string representing the name of an Augmentation.
-     * @return true if the gang member has the given Augmentation;
+     * @param {string} name The name of a gang member.
+     * @param {string} aug The name of an Augmentation.
+     * @returns {boolean} True if the gang member has the given Augmentation;
      *     false otherwise.
      */
     has_augment(name, aug) {
@@ -535,9 +548,10 @@ export class Gangster {
     /**
      * Whether a gang member has a particular rootkit.
      *
-     * @param name A string representing the name of a gang member.
-     * @param kit A string representing the name of a rootkit.
-     * @return true if the gang member has the given rootkit; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} kit The name of a rootkit.
+     * @returns {boolean} True if the gang member has the given rootkit;
+     *     false otherwise.
      */
     has_rootkit(name, kit) {
         assert(this.is_member(name));
@@ -552,9 +566,10 @@ export class Gangster {
     /**
      * Whether a gang member has a particular vehicle.
      *
-     * @param name A string representing the name of a gang member.
-     * @param vhc A string representing the name of a vehicle.
-     * @return true if the gang member has the given vehicle; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} vhc The name of a vehicle.
+     * @returns {boolean} True if the gang member has the given vehicle;
+     *     false otherwise.
      */
     has_vehicle(name, vhc) {
         assert(this.is_member(name));
@@ -569,9 +584,10 @@ export class Gangster {
     /**
      * Whether a gang member has a particular weapon.
      *
-     * @param name A string representing the name of a gang member.
-     * @param wpn A string representing the name of a weapon.
-     * @return true if the gang member has the given weapon; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @param {string} wpn The name of a weapon.
+     * @returns {boolean} True if the gang member has the given weapon;
+     *     false otherwise.
      */
     has_weapon(name, wpn) {
         assert(this.is_member(name));
@@ -586,13 +602,14 @@ export class Gangster {
     /**
      * Assign gang members to commit identity theft.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     id_theft(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members commit identity theft.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -605,8 +622,8 @@ export class Gangster {
     /**
      * Whether a gang member is engaged in trafficking illegal arms.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is trafficking illegal arms;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is trafficking illegal arms;
      *     false otherwise.
      */
     is_arms_trafficker(name) {
@@ -618,9 +635,9 @@ export class Gangster {
     /**
      * Whether a gang member has been assigned the role of Artillery.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member takes on the role of Artillery;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member takes on the role of
+     *     Artillery; false otherwise.
      */
     is_artillery(name) {
         assert(this.is_member(name));
@@ -631,9 +648,9 @@ export class Gangster {
      * Whether a gang member is threatening and blackmailing high-profile
      * targets.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is threatening and blackmailing people;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is threatening and
+     *     blackmailing people; false otherwise.
      */
     is_blackmailer(name) {
         assert(this.is_member(name));
@@ -649,8 +666,9 @@ export class Gangster {
      * (3) Punk
      * (4) Vanguard
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is a combatant; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is a combatant;
+     *     false otherwise.
      */
     is_combatant(name) {
         return (
@@ -664,8 +682,9 @@ export class Gangster {
     /**
      * Whether a gang member is running a con.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is running a con; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is running a con;
+     *     false otherwise.
      */
     is_con_artist(name) {
         assert(this.is_member(name));
@@ -675,9 +694,9 @@ export class Gangster {
     /**
      * Whether a gang member is creating and distributing ransomware.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is involved in the creation and
-     *     distribution of ransomware; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is involved in the creation
+     *     and distribution of ransomware; false otherwise.
      */
     is_creating_ransomware(name) {
         assert(this.is_member(name));
@@ -688,8 +707,9 @@ export class Gangster {
     /**
      * Whether a gang member is involved in dealing drugs.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is dealing drugs; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is dealing drugs;
+     *     false otherwise.
      */
     is_dealing_drugs(name) {
         assert(this.is_member(name));
@@ -699,9 +719,9 @@ export class Gangster {
     /**
      * Whether a gang member is engaged in ethical hacking.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is engaged in ethical hacking;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is engaged in ethical
+     *     hacking; false otherwise.
      */
     is_ethical_hacker(name) {
         assert(this.is_member(name));
@@ -711,8 +731,8 @@ export class Gangster {
     /**
      * Whether a gang member is strongarming civilians.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is strongarming civilians;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is strongarming civilians;
      *     false otherwise.
      */
     is_extortionist(name) {
@@ -724,9 +744,9 @@ export class Gangster {
      * Whether a gang member is committing financial fraud and digital
      * counterfeiting.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing financial fraud and
-     *     digital counterfeiting; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is committing financial fraud
+     *     and digital counterfeiting; false otherwise.
      */
     is_fraudster(name) {
         assert(this.is_member(name));
@@ -737,8 +757,8 @@ export class Gangster {
      * Whether a gang member is a hacker.  A gangster is a hacker if they have
      * been assigned the role of Hacker.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is a hacker; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is a hacker; false otherwise.
      */
     is_hacker(name) {
         assert(this.is_member(name));
@@ -748,8 +768,9 @@ export class Gangster {
     /**
      * Whether a gang member is operating a human trafficking ring.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is trafficking humans; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is trafficking humans;
+     *     false otherwise.
      */
     is_human_trafficker(name) {
         assert(this.is_member(name));
@@ -760,8 +781,8 @@ export class Gangster {
     /**
      * Whether a gang member is committing identity theft.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing identity theft;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is committing identity theft;
      *     false otherwise.
      */
     is_id_thief(name) {
@@ -772,8 +793,8 @@ export class Gangster {
     /**
      * Whether a gang member is currently unassigned.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is idle; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is idle; false otherwise.
      */
     is_idle(name) {
         assert(this.is_member(name));
@@ -783,8 +804,9 @@ export class Gangster {
     /**
      * Whether a gang member is laundering money.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is laundering money; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is laundering money;
+     *     false otherwise.
      */
     is_launderer(name) {
         assert(this.is_member(name));
@@ -794,10 +816,11 @@ export class Gangster {
     /**
      * Whether the given name belongs to a member of our gang.
      *
-     * @param name A string representing the name of a gangster.  A member's
-     *     name should be prefixed with their role, according to the format:
+     * @param {string} name The name of a gangster.  A member's name should be
+     *     prefixed with their role, according to the format:
      *     "[Role] Full Name".
-     * @return true if our gang has the specified member; false otherwise.
+     * @returns {boolean} True if our gang has the specified member;
+     *     false otherwise.
      */
     is_member(name) {
         assert(name.length > 0);
@@ -813,8 +836,8 @@ export class Gangster {
      * (3) Thief
      * (4) Traitor
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member holds a miscellaneous role;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member holds a miscellaneous role;
      *     false otherwise.
      */
     is_miscellaneous(name) {
@@ -831,8 +854,8 @@ export class Gangster {
     /**
      * Whether a gang member is mugging random people on the streets.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is mugging random people;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is mugging random people;
      *     false otherwise.
      */
     is_mugger(name) {
@@ -843,9 +866,9 @@ export class Gangster {
     /**
      * Whether a gang member is committing phishing scams.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is involved in a phishing scam;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is involved in a phishing
+     *     scam; false otherwise.
      */
     is_phisher(name) {
         assert(this.is_member(name));
@@ -855,8 +878,8 @@ export class Gangster {
     /**
      * Whether a gang member has been assigned the role of Pilot.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member takes on the role of Pilot;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member takes on the role of Pilot;
      *     false otherwise.
      */
     is_pilot(name) {
@@ -867,8 +890,8 @@ export class Gangster {
     /**
      * Whether a gang member has been assigned the role of Punk.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member takes on the role of Punk;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member takes on the role of Punk;
      *     false otherwise.
      */
     is_punk(name) {
@@ -879,8 +902,8 @@ export class Gangster {
     /**
      * Whether a gang member is engaged in armed robbery.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing armed robbery;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is committing armed robbery;
      *     false otherwise.
      */
     is_robber(name) {
@@ -891,9 +914,9 @@ export class Gangster {
     /**
      * Whether a gang member is committing acts of terrorism.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is committing acts of terrorism;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is committing acts of
+     *     terrorism; false otherwise.
      */
     is_terrorist(name) {
         assert(this.is_member(name));
@@ -903,9 +926,9 @@ export class Gangster {
     /**
      * Whether a gang member is in combat, charisma, or hack training.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is in combat, charisma, or hack
-     *     training; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is in combat, charisma, or
+     *     hack training; false otherwise.
      */
     is_training(name) {
         return (
@@ -918,8 +941,8 @@ export class Gangster {
     /**
      * Whether a gang member is in charisma training.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is in charisma training;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is in charisma training;
      *     false otherwise.
      */
     is_training_charisma(name) {
@@ -930,8 +953,9 @@ export class Gangster {
     /**
      * Whether a gang member is in combat training.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is in combat training; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is in combat training;
+     *     false otherwise.
      */
     is_training_combat(name) {
         assert(this.is_member(name));
@@ -941,8 +965,9 @@ export class Gangster {
     /**
      * Whether a gang member is in hack training.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is in hack training; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is in hack training;
+     *     false otherwise.
      */
     is_training_hack(name) {
         assert(this.is_member(name));
@@ -952,9 +977,9 @@ export class Gangster {
     /**
      * Whether a gang member has been assigned the role of Vanguard.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is taking on the role of Vanguard;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is taking on the role of
+     *     Vanguard; false otherwise.
      */
     is_vanguard(name) {
         assert(this.is_member(name));
@@ -964,9 +989,9 @@ export class Gangster {
     /**
      * Whether a gang member is engaged in vigilante justice.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is engaged in vigilante justice;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is engaged in vigilante
+     *     justice; false otherwise.
      */
     is_vigilante(name) {
         assert(this.is_member(name));
@@ -976,8 +1001,8 @@ export class Gangster {
     /**
      * Whether a gang member is engaged in turf warfare.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member is engaged in turf warfare;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member is engaged in turf warfare;
      *     false otherwise.
      */
     is_warrior(name) {
@@ -988,13 +1013,14 @@ export class Gangster {
     /**
      * Assign gang members to launder money.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     launder(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members launder money.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1007,13 +1033,14 @@ export class Gangster {
     /**
      * Assign gang members to mug random people on the street.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     mug(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members mug random people.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1026,8 +1053,8 @@ export class Gangster {
     /**
      * Whether a gang member needs to train their Charisma stat.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member needs Charisma training;
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member needs Charisma training;
      *     false otherwise.
      */
     needs_charisma_training(name) {
@@ -1038,8 +1065,9 @@ export class Gangster {
     /**
      * Whether a gang member needs to train their combat stats.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member needs combat training; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member needs combat training;
+     *     false otherwise.
      */
     needs_combat_training(name) {
         if (
@@ -1056,8 +1084,9 @@ export class Gangster {
     /**
      * Whether a gang member needs to train their Hack stat.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member needs Hack training; false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member needs Hack training;
+     *     false otherwise.
      */
     needs_hack_training(name) {
         assert(this.is_member(name));
@@ -1067,9 +1096,9 @@ export class Gangster {
     /**
      * Whether a gang member needs training in various stats.
      *
-     * @param name A string representing the name of a gang member.
-     * @return true if the given member needs training in one or more stats;
-     *     false otherwise.
+     * @param {string} name The name of a gang member.
+     * @returns {boolean} True if the given member needs training in one or more
+     *     stats; false otherwise.
      */
     needs_training(name) {
         if (this.is_combatant(name)) {
@@ -1091,13 +1120,14 @@ export class Gangster {
     /**
      * Assign gang members to the idle state.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     neutral(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members be in the idle state.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1108,13 +1138,14 @@ export class Gangster {
     /**
      * Assign gang members to commit phishing scams.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     phish(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members commit phishing scams.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1134,9 +1165,9 @@ export class Gangster {
     /**
      * A random name with which to assign a new gang member.
      *
-     * @param name An array of potential names for our new recruit.  Use this
-     *     array to randomly choose a name for our new member.
-     * @return A string representing the name of our newest member.
+     * @param {array<string>} name Potential names for our new recruit.  Use
+     *     this array to randomly choose a name for our new member.
+     * @returns {string} The name of our newest member.
      */
     // eslint-disable-next-line class-methods-use-this
     #random_name(name) {
@@ -1150,13 +1181,14 @@ export class Gangster {
     /**
      * Assign gang members to create and distribute ransomware.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     ransomware(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members create and distribute ransomware.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1183,9 +1215,9 @@ export class Gangster {
      * (8) Traitor x 1.  Someone who would likely betray the gang.
      * (9) Vanguard x 1.  Our frontliner and tank.
      *
-     * @return An array of the names of the new recruits.  Each name follows
-     *     the format "[Role] Full Name".  Return an empty array if we cannot
-     *     recruit any new members.
+     * @returns {array<string>} The names of the new recruits.  Each name
+     *     follows the format "[Role] Full Name".  Return an empty array if we
+     *     cannot recruit any new members.
      */
     recruit() {
         const newbie = [];
@@ -1223,11 +1255,11 @@ export class Gangster {
     /**
      * Recruit a member to our gang.  Assume that we can recruit.
      *
-     * @param name An array of potential names for our new recruit.  Choose a
-     *     random name from this array.
-     * @param role A string representing the role of our new recruit.
-     * @return A string representing the role and name of our new member.
-     *     Follow the format "[Role] Full Name".
+     * @param {array<string>} name Potential names for our new recruit.  Choose
+     *     a random name from this array.
+     * @param {string} role The role of our new recruit.
+     * @returns {string} The role and name of our new member.  Follow the format
+     *     "[Role] Full Name".
      */
     #recruit_member(name, role) {
         assert(this.#ns.gang.canRecruitMember());
@@ -1244,13 +1276,14 @@ export class Gangster {
     /**
      * Assign gang members to armed robbery.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     robbery(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members engage in armed robbery.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1267,8 +1300,8 @@ export class Gangster {
      *
      * We can easily extract the role from this format.
      *
-     * @param name A string representing the name of a gangster.
-     * @return The role of the given gang member.
+     * @param {string} name The name of a gangster.
+     * @returns {string} The role of the given gang member.
      */
     role(name) {
         assert(this.is_member(name));
@@ -1279,7 +1312,7 @@ export class Gangster {
     /**
      * Our current gang members and their roles.
      *
-     * @return An object as follows:
+     * @returns {object} An object as follows:
      *
      *     {
      *         "artillery": number,
@@ -1308,6 +1341,7 @@ export class Gangster {
             traitor: 0,
             vanguard: 0,
         };
+
         // Assume the name of each member follows this format:
         //
         // [Role] Full Name
@@ -1321,8 +1355,8 @@ export class Gangster {
     /**
      * The Strength stat of a gang member.
      *
-     * @param name A string representing the name of a gang member.
-     * @return The Strength stat of the given member.
+     * @param {string} name The name of a gang member.
+     * @returns {number} The Strength stat of the given member.
      */
     strength(name) {
         assert(this.is_member(name));
@@ -1332,13 +1366,14 @@ export class Gangster {
     /**
      * Assign gang members to commit acts of terrorism.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     terrorism(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members engage in terrorism.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1351,13 +1386,14 @@ export class Gangster {
     /**
      * Assign gang members to trafficking illegal arms.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     traffick_arms(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members engage in trafficking illegal arms.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1370,13 +1406,14 @@ export class Gangster {
     /**
      * Assign gang members to engage in human trafficking.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     traffick_human(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members operate a human trafficking ring.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1398,9 +1435,9 @@ export class Gangster {
      * (3) Medic, Spy, Thief, Traitor.  These roles are primarily
      *     Charisma-based, but could benefit from some training in combat stats.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.  Each name follows the format "[Role] Full Name".  We
-     *     want to raise various stats of each of these members.
+     * @param {array<string>} name Member names.  Each name follows the format
+     *     "[Role] Full Name".  We want to raise various stats of each of these
+     *     members.
      */
     train(name) {
         // Sanity checks.
@@ -1408,6 +1445,7 @@ export class Gangster {
             return;
         }
         name.forEach((s) => assert(this.is_member(s)));
+
         // Train various stats.  The stat(s) to train, and the amount of time
         // spent in training, depend on a member's role.
         const hacker = name.filter((s) => this.is_hacker(s));
@@ -1422,15 +1460,15 @@ export class Gangster {
     /**
      * Raise the Charisma stat of gang members.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.  We want to raise the Charisma stat of each of these
-     *     members.
+     * @param {array<string>} name Member names.  We want to raise the Charisma
+     *     stat of each of these members.
      */
     train_charisma(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Charisma training.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1443,15 +1481,15 @@ export class Gangster {
     /**
      * Raise the combat stats of gang members.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.  We want to raise the combat stats of each of these
-     *     members.
+     * @param {array<string>} name Member names.  We want to raise the combat
+     *     stats of each of these members.
      */
     train_combat(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Combat training.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1464,15 +1502,15 @@ export class Gangster {
     /**
      * Raise the Hack stat of gang members.
      *
-     * @param name An array each of whose elements is a string that represents
-     *     a member name.  We want to raise the Hack stat of each of these
-     *     members.
+     * @param {array<string>} name Member names.  We want to raise the Hack stat
+     *     of each of these members.
      */
     train_hack(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Hack training.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1485,13 +1523,14 @@ export class Gangster {
     /**
      * Assign gang members to engage in turf warfare.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     turf_war(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members engage in turf warfare.
         name.forEach((s) => {
             assert(this.is_member(s));
@@ -1504,13 +1543,14 @@ export class Gangster {
     /**
      * Assign gang members to vigilante justice.
      *
-     * @param name An array of member names.
+     * @param {array<string>} name Member names.
      */
     vigilante(name) {
         // Sanity check.
         if (name.length === 0) {
             return;
         }
+
         // Let gang members be vigilantes.
         name.forEach((s) => {
             assert(this.is_member(s));
