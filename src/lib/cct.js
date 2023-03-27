@@ -20,7 +20,7 @@
 /// ///////////////////////////////////////////////////////////////////////
 
 import { io } from "/quack/lib/constant/io.js";
-import { colour } from "/quack/lib/constant/misc.js";
+import { colour, empty_string } from "/quack/lib/constant/misc.js";
 import { log } from "/quack/lib/io.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -145,7 +145,7 @@ export async function log_cct_failure(ns, fname, cct, host, data) {
  * @returns {string} The given matrix as a string.
  */
 export function matrix_to_string(mat) {
-    let string = "";
+    let string = empty_string;
     const delim = ", ";
     for (let i = 0; i < mat.length; i++) {
         string += `[${mat[i]}]${delim}`;
