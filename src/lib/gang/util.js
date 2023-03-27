@@ -19,9 +19,11 @@
 // Utility functions for managing a gang.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { members } from "/quack/lib/constant/gang.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Choose the number of gang members to assign to vigilante justice.  The number
@@ -115,7 +117,7 @@ function reassign_excess_vigilante(ns, threshold) {
  */
 function reassign_other(ns, name) {
     assert(!ns.gang.getGangInformation().isHacking);
-    if (name.length === 0) {
+    if (MyArray.is_empty(name)) {
         return;
     }
     const trainee = [];
@@ -262,7 +264,7 @@ export function reassign_vigilante(ns) {
 export function strongest_member(ns, member) {
     assert(member.length > 0);
     let maxstr = -Infinity;
-    let name = "";
+    let name = empty_string;
     for (const s of member) {
         const { str } = ns.gang.getMemberInformation(s);
         if (str > maxstr) {
@@ -270,6 +272,6 @@ export function strongest_member(ns, member) {
             name = s;
         }
     }
-    assert(name !== "");
+    assert(!is_empty_string(name));
     return name;
 }

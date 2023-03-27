@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import {
     armour,
@@ -28,9 +29,10 @@ import {
     vehicle,
     weapon,
 } from "/quack/lib/constant/gang.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { random_integer } from "/quack/lib/random.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * A class that holds various information about a gangster.
@@ -127,7 +129,7 @@ export class Gangster {
      */
     blackmail(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -158,7 +160,7 @@ export class Gangster {
      */
     con(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -178,7 +180,7 @@ export class Gangster {
      */
     deal_drugs(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -315,7 +317,7 @@ export class Gangster {
      */
     ethical_hacking(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -335,7 +337,7 @@ export class Gangster {
      */
     extort(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -355,7 +357,7 @@ export class Gangster {
      */
     fraud(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -388,7 +390,7 @@ export class Gangster {
      */
     graduate_combatant(name, threshold) {
         // Sanity checks.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
         name.forEach((s) => assert(this.is_member(s)));
@@ -427,7 +429,7 @@ export class Gangster {
      */
     graduate_hacker(name, threshold) {
         // Sanity checks.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
         name.forEach((s) => assert(this.is_member(s)));
@@ -471,7 +473,7 @@ export class Gangster {
      */
     graduate_other(name, threshold) {
         // Sanity checks.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
         name.forEach((s) => assert(this.is_member(s)));
@@ -606,7 +608,7 @@ export class Gangster {
      */
     id_theft(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -823,7 +825,7 @@ export class Gangster {
      *     false otherwise.
      */
     is_member(name) {
-        assert(name.length > 0);
+        assert(!is_empty_string(name));
         const member = new Set(this.#ns.gang.getMemberNames());
         return member.has(name);
     }
@@ -1017,7 +1019,7 @@ export class Gangster {
      */
     launder(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1037,7 +1039,7 @@ export class Gangster {
      */
     mug(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1124,7 +1126,7 @@ export class Gangster {
      */
     neutral(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1142,7 +1144,7 @@ export class Gangster {
      */
     phish(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1171,7 +1173,7 @@ export class Gangster {
      */
     // eslint-disable-next-line class-methods-use-this
     #random_name(name) {
-        assert(name.length > 0);
+        assert(!MyArray.is_empty(name));
         const min = 0;
         const max = name.length - 1;
         const i = random_integer(min, max);
@@ -1185,7 +1187,7 @@ export class Gangster {
      */
     ransomware(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1223,7 +1225,7 @@ export class Gangster {
         const newbie = [];
         const roster = this.#roster();
         while (this.#ns.gang.canRecruitMember()) {
-            let role = "";
+            let role = empty_string;
             if (roster.vanguard < gang_t.ROSTER.vanguard) {
                 role = members.ROLE.vanguard;
             } else if (roster.hacker < gang_t.ROSTER.hacker) {
@@ -1243,7 +1245,7 @@ export class Gangster {
             } else if (roster.traitor < gang_t.ROSTER.traitor) {
                 role = members.ROLE.traitor;
             }
-            assert(role !== "");
+            assert(!is_empty_string(role));
             const role_lowercase = role.toLowerCase();
             const name = this.#recruit_member(gangster_t[role_lowercase], role);
             roster[role_lowercase]++;
@@ -1263,8 +1265,8 @@ export class Gangster {
      */
     #recruit_member(name, role) {
         assert(this.#ns.gang.canRecruitMember());
-        assert(name.length > 0);
-        assert(role.length > 0);
+        assert(!MyArray.is_empty(name));
+        assert(!is_empty_string(role));
         let s = `[${role}] ${this.#random_name(name)}`;
         while (this.is_member(s)) {
             s = `[${role}] ${this.#random_name(name)}`;
@@ -1280,7 +1282,7 @@ export class Gangster {
      */
     robbery(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1370,7 +1372,7 @@ export class Gangster {
      */
     terrorism(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1390,7 +1392,7 @@ export class Gangster {
      */
     traffick_arms(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1410,7 +1412,7 @@ export class Gangster {
      */
     traffick_human(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1441,7 +1443,7 @@ export class Gangster {
      */
     train(name) {
         // Sanity checks.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
         name.forEach((s) => assert(this.is_member(s)));
@@ -1465,7 +1467,7 @@ export class Gangster {
      */
     train_charisma(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1486,7 +1488,7 @@ export class Gangster {
      */
     train_combat(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1507,7 +1509,7 @@ export class Gangster {
      */
     train_hack(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1527,7 +1529,7 @@ export class Gangster {
      */
     turf_war(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
@@ -1547,7 +1549,7 @@ export class Gangster {
      */
     vigilante(name) {
         // Sanity check.
-        if (name.length === 0) {
+        if (MyArray.is_empty(name)) {
             return;
         }
 
