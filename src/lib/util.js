@@ -20,7 +20,6 @@
 // Miscellaneous helper functions.
 /// ///////////////////////////////////////////////////////////////////////
 
-import { MyArray } from "/quack/lib/array.js";
 import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
@@ -130,7 +129,7 @@ export function cleanup(ns) {
  * @returns {array<string>} Servers that have been compromised.
  */
 export function compromised_servers(ns, s, candidate) {
-    assert(!MyArray.is_empty(candidate));
+    assert(candidate.length > 0);
     return filter_pserv(ns, candidate)
         .filter((serv) => ns.hasRootAccess(serv))
         .filter((host) => ns.scriptRunning(s, host));
@@ -170,7 +169,7 @@ export async function farm_hack_xp(ns) {
  * @returns {array<string>} Servers that are not bankrupt.
  */
 export function filter_bankrupt_servers(ns, candidate) {
-    assert(!MyArray.is_empty(candidate));
+    assert(candidate.length > 0);
     return candidate.filter((s) => !is_bankrupt(ns, s));
 }
 
