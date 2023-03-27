@@ -17,7 +17,7 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { program } from "/quack/lib/constant/exe.js";
-import { script } from "/quack/lib/constant/misc.js";
+import { empty_string, script } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -232,7 +232,7 @@ export class Player {
         assert(!is_empty_string(company));
         const stat = this.#ns.getPlayer();
         if (stat.jobs[company] === undefined) {
-            return "";
+            return empty_string;
         }
         return stat.jobs[company];
     }
