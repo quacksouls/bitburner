@@ -20,6 +20,7 @@
 // Miscellaneous helper functions.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { all_programs, program } from "/quack/lib/constant/exe.js";
 import { factions } from "/quack/lib/constant/faction.js";
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
@@ -129,7 +130,7 @@ export function cleanup(ns) {
  * @returns {array<string>} Servers that have been compromised.
  */
 export function compromised_servers(ns, s, candidate) {
-    assert(candidate.length > 0);
+    assert(!MyArray.is_empty(candidate));
     return filter_pserv(ns, candidate)
         .filter((serv) => ns.hasRootAccess(serv))
         .filter((host) => ns.scriptRunning(s, host));
@@ -169,7 +170,7 @@ export async function farm_hack_xp(ns) {
  * @returns {array<string>} Servers that are not bankrupt.
  */
 export function filter_bankrupt_servers(ns, candidate) {
-    assert(candidate.length > 0);
+    assert(!MyArray.is_empty(candidate));
     return candidate.filter((s) => !is_bankrupt(ns, s));
 }
 
@@ -346,7 +347,7 @@ export function is_empty_string(str) {
  *     world; false otherwise.
  */
 export function is_valid_city(c) {
-    assert(c.length > 0);
+    assert(!is_empty_string(c));
     const city = new Set(Object.keys(cities));
     return city.has(c);
 }
@@ -359,7 +360,7 @@ export function is_valid_city(c) {
  *     false otherwise.
  */
 export function is_valid_faction(fac) {
-    assert(fac.length > 0);
+    assert(!is_empty_string(fac));
     const faction = new Set(factions.all);
     return faction.has(fac);
 }
@@ -372,7 +373,7 @@ export function is_valid_faction(fac) {
  *     false otherwise.
  */
 export function is_valid_program(name) {
-    assert(name.length > 0);
+    assert(!is_empty_string(name));
     const prog = all_programs();
     return prog.has(name);
 }

@@ -17,7 +17,7 @@
 
 import { io } from "/quack/lib/constant/io.js";
 import { colour } from "/quack/lib/constant/misc.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous functions for input/output.
@@ -32,8 +32,8 @@ import { assert } from "/quack/lib/util.js";
  * @param {string} data Write this data to the text file.
  */
 export function create_file(ns, fname, data) {
-    assert(fname !== "");
-    assert(data !== "");
+    assert(!is_empty_string(fname));
+    assert(!is_empty_string(data));
     ns.write(fname, data, io.WRITE);
 }
 
@@ -48,7 +48,7 @@ export function create_file(ns, fname, data) {
  */
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
-    const suffix = clr !== "" ? colour.RESET : "";
+    const suffix = is_empty_string(clr) ? "" : colour.RESET;
     ns.tprintf(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
 }
 

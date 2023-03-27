@@ -19,6 +19,7 @@
 // Miscellaneous helper functions for solving coding contracts.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { io } from "/quack/lib/constant/io.js";
 import { colour, empty_string } from "/quack/lib/constant/misc.js";
 import { log } from "/quack/lib/io.js";
@@ -181,7 +182,7 @@ export function matrix_to_string(mat) {
  */
 export function max_profit_kadane(price) {
     // Empty price array means zero profit.
-    if (price.length === 0) {
+    if (MyArray.is_empty(price)) {
         return 0;
     }
 

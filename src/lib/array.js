@@ -31,7 +31,7 @@ export class MyArray {
      *     false otherwise.
      */
     static all_nonnegative(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         for (const a of array) {
             if (a < 0) {
                 return false;
@@ -59,7 +59,7 @@ export class MyArray {
      * @returns {number} The largest element of the given array.
      */
     static max(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         const init_value = -Infinity;
         return array.reduce((x, y) => Math.max(x, y), init_value);
     }
@@ -94,7 +94,7 @@ export class MyArray {
      *     in non-decreasing order.
      */
     static sort_ascending(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         const arr = Array.from(array);
         arr.sort((a, b) => a - b);
         return arr;
@@ -119,7 +119,7 @@ export class MyArray {
      *     each 2-tuple.
      */
     static sort_ascending_tuple(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         const arr = Array.from(array);
         arr.sort((a, b) => a[0] - b[0]);
         return arr;
@@ -134,7 +134,7 @@ export class MyArray {
      *     sorting the array in non-increasing order.
      */
     static sort_descending(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         const arr = Array.from(array);
         arr.sort((a, b) => b - a);
         return arr;
@@ -148,7 +148,7 @@ export class MyArray {
      * @returns {number} The sum of the elements in the given array.
      */
     static sum(array) {
-        assert(array.length > 0);
+        assert(!this.is_empty(array));
         const init_value = 0;
         return array.reduce((sum, current) => sum + current, init_value);
     }

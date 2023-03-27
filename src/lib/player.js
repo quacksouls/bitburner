@@ -15,10 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { program } from "/quack/lib/constant/exe.js";
 import { script } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * A class that holds all information about a player.
@@ -157,7 +158,7 @@ export class Player {
      */
     has_all_programs() {
         const prog = Array.from(this.#port_opener).concat(this.#program);
-        assert(prog.length > 0);
+        assert(!MyArray.is_empty(prog));
         for (const p of prog) {
             if (!this.has_program(p)) {
                 return false;
@@ -202,7 +203,7 @@ export class Player {
      *     false otherwise.
      */
     is_employer(company) {
-        assert(company.length > 0);
+        assert(!is_empty_string(company));
         const employer = new Set(Object.keys(this.#ns.getPlayer().jobs));
         return employer.has(company);
     }
@@ -215,7 +216,7 @@ export class Player {
      *     false otherwise.
      */
     is_member(fac) {
-        assert(fac !== "");
+        assert(!is_empty_string(fac));
         return this.#ns.getPlayer().factions.includes(fac);
     }
 
@@ -228,7 +229,7 @@ export class Player {
      *     the given company.
      */
     job(company) {
-        assert(company.length > 0);
+        assert(!is_empty_string(company));
         const stat = this.#ns.getPlayer();
         if (stat.jobs[company] === undefined) {
             return "";

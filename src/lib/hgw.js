@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
@@ -80,7 +81,7 @@ export function assemble_botnet(ns, host, frac, is_prep) {
             n += k;
             assert(n <= max_threads);
         });
-    assert(botnet.length > 0);
+    assert(!MyArray.is_empty(botnet));
     return botnet;
 }
 
@@ -184,7 +185,7 @@ export function has_min_security(ns, host) {
 export async function hgw_action(ns, host, botnet, action) {
     assert(host !== "");
     assert(host !== home);
-    assert(botnet.length > 0);
+    assert(!MyArray.is_empty(botnet));
 
     const time = hgw_wait_time(ns, host, action);
     const s = hgw_script(action);
@@ -196,7 +197,7 @@ export async function hgw_action(ns, host, botnet, action) {
         run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
     }
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
-    if (pid.length === 0) {
+    if (MyArray.is_empty(pid)) {
         return;
     }
     await ns.sleep(time);
@@ -266,7 +267,7 @@ export function hgw_wait_time(ns, host, action) {
  *     false otherwise.
  */
 export function is_action_done(ns, pid) {
-    assert(pid.length > 0);
+    assert(!MyArray.is_empty(pid));
     const is_done = (i) => !ns.isRunning(i);
     return pid.every(is_done);
 }

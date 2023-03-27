@@ -19,6 +19,7 @@
 // A class and various utility functions related to network.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { home } from "/quack/lib/constant/server.js";
 import { assert, filter_pserv } from "/quack/lib/util.js";
@@ -150,7 +151,7 @@ export class Graph {
         // is an unweighted graph so the weight between a node and any of its
         // neighbours is 1.
         const weight = 1;
-        while (queue.length > 0) {
+        while (!MyArray.is_empty(queue)) {
             const u = this.#minimumq(queue, dist);
             queue = queue.filter((s) => s !== u);
 
@@ -262,7 +263,7 @@ export class Graph {
      */
     // eslint-disable-next-line class-methods-use-this
     #minimumq(queue, dist) {
-        assert(queue.length > 0);
+        assert(!MyArray.is_empty(queue));
         assert(dist.size > 0);
         let node = queue[0];
         for (const v of queue) {
@@ -324,12 +325,11 @@ export class Graph {
         }
 
         // Target is not reachable from the source node.
-        if (stack.length === 0) {
+        if (MyArray.is_empty(stack)) {
             return [];
         }
 
         // Reconstruct the full path from source to target.
-        assert(stack.length > 0);
         stack.push(source);
         stack.reverse();
         return stack;
@@ -347,7 +347,7 @@ export class Graph {
 export function network(ns) {
     const q = [home];
     const visit = new Set([home]);
-    while (q.length > 0) {
+    while (!MyArray.is_empty(q)) {
         const u = q.shift();
         ns.scan(u)
             .filter((v) => !visit.has(v))
@@ -378,7 +378,7 @@ export function shortest_path(ns, source, target) {
     const graph = new Graph(bool.UNDIRECTED);
 
     // Use breath-first search to navigate the network.
-    while (stack.length > 0) {
+    while (!MyArray.is_empty(stack)) {
         const s = stack.pop();
 
         // Have we visited the server s yet?
