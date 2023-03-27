@@ -29,6 +29,8 @@ import {
     gain_root_access,
     has_formulas,
     is_bankrupt,
+    is_empty_string,
+    is_valid_target,
     num_threads,
     weight,
 } from "/quack/lib/util.js";
@@ -183,8 +185,7 @@ export function has_min_security(ns, host) {
  *     (3) "weaken" := Weaken the security level of the target server.
  */
 export async function hgw_action(ns, host, botnet, action) {
-    assert(host !== "");
-    assert(host !== home);
+    assert(is_valid_target(host));
     assert(!MyArray.is_empty(botnet));
 
     const time = hgw_wait_time(ns, host, action);
@@ -308,8 +309,8 @@ export function nuke_servers(ns) {
  */
 export async function pbatch_action(ns, host, target, action) {
     // Sanity checks.
-    assert(host !== "");
-    assert(target !== "" && target !== home);
+    assert(!is_empty_string(host));
+    assert(is_valid_target(target));
     const s = hgw_script(action);
     assert(can_run_script(ns, s, host));
 

@@ -377,6 +377,17 @@ export function is_valid_program(name) {
 }
 
 /**
+ * Whether a target server is valid.  Usually we should exclude our home server.
+ *
+ * @param {string} host Hostname of the target server.
+ * @returns {boolean} True if the given server is valid for targeting;
+ *     false otherwise.
+ */
+export function is_valid_target(host) {
+    return !is_empty_string(host) && host !== home;
+}
+
+/**
  * Gain root access to as many world servers as we can.
  *
  * @param {NS} ns The Netscript API.

@@ -20,7 +20,7 @@ import { script } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home } from "/quack/lib/constant/server.js";
 import { money } from "/quack/lib/money.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * A class that holds information specific to purchased servers.
@@ -125,8 +125,20 @@ export class PurchasedServer {
      *     false otherwise.
      */
     has_server(host) {
-        assert(host !== "" && host !== home);
+        assert(this.is_valid_host(host));
         return this.farm().includes(host);
+    }
+
+    /**
+     * Whether a given name is valid as a hostname for a purchased server.
+     *
+     * @param {string} host Check this hostname.
+     * @returns {boolean} True if the given name is valid as a hostname;
+     *     false otherwise.
+     */
+    // eslint-disable-next-line class-methods-use-this
+    is_valid_host(host) {
+        return !is_empty_string(host) && host !== home;
     }
 
     /**

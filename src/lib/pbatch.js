@@ -28,7 +28,12 @@ import {
     pbatch_parameters,
     target_money,
 } from "/quack/lib/hgw.js";
-import { assert, can_run_script, num_threads } from "/quack/lib/util.js";
+import {
+    assert,
+    can_run_script,
+    is_valid_target,
+    num_threads,
+} from "/quack/lib/util.js";
 
 /**
  * A purchased server that uses various HGW strategies.
@@ -67,8 +72,7 @@ export class PservHGW {
      *     (2) "weaken" := Weaken the security level of the target server.
      */
     async hgw_action(host, action) {
-        assert(host !== "");
-        assert(host !== home);
+        assert(is_valid_target(host));
         const time = hgw_wait_time(this.#ns, host, action);
         const s = hgw_script(action);
         assert(can_run_script(this.#ns, s, this.#phost));
@@ -89,8 +93,7 @@ export class PservHGW {
      *     and at most 1.
      */
     async hgw_hack(host, frac) {
-        assert(host !== "");
-        assert(host !== home);
+        assert(is_valid_target(host));
         assert(frac > 0 && frac <= 1);
 
         // max_threads := The number of threads to use to hack the target server
