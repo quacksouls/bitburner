@@ -37,7 +37,7 @@ import { wse } from "/quack/lib/constant/wse.js";
  */
 export function assert(cond) {
     if (!cond) {
-        throw new Error("Assertion failed.");
+        throw new Error("Assertion failed");
     }
 }
 
