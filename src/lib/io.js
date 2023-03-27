@@ -16,7 +16,7 @@
  */
 
 import { io } from "/quack/lib/constant/io.js";
-import { colour } from "/quack/lib/constant/misc.js";
+import { colour, empty_string } from "/quack/lib/constant/misc.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /// ///////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ export function create_file(ns, fname, data) {
  */
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
-    const suffix = is_empty_string(clr) ? "" : colour.RESET;
+    const suffix = is_empty_string(clr) ? empty_string : colour.RESET;
     ns.tprintf(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
 }
 
