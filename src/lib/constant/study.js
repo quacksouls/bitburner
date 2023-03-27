@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values related to studying at a university.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Various courses we can study at a university.  Data taken from

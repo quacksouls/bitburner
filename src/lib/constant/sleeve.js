@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Various constants related to sleeves.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Miscellaneous thresholds related to sleeves.  A sleeve is a digital carbon

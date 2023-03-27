@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values.  These can be numeric constants or string
 // constants.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * The bases for various number systems.

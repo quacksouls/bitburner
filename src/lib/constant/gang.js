@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values relating to gangs.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Various armour pieces that a gang member can equip.  Going from top to

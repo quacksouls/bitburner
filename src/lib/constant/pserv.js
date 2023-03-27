@@ -17,8 +17,9 @@
 
 import { home, server } from "/quack/lib/constant/server.js";
 
-// A bunch of constant values related to purchased servers.
-
+/**
+ * A bunch of constant values related to purchased servers.
+ */
 export const pserv = {
     /**
      * The default fraction of money to steal from a world server.

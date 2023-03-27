@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values related to various locations in the game world.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * All cities and their locations.  Data taken from:

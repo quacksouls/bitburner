@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values related to working at a company or for a faction.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Areas of employment within a company or faction.

@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Various constant values related to BitNodes.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * All named BitNodes.  The names are taken from this file:

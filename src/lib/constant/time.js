@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Various constants related to time.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Various pre-defined periods.  Use these as our waiting times.  If we want

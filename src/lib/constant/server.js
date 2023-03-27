@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // A bunch of constant values related to servers in the game world.  We exclude
 // purchased servers.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * The home server of the player.
