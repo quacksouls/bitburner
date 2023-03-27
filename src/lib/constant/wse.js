@@ -55,10 +55,6 @@ export const forecast = {
  */
 export const wse = {
     /**
-     * The stock used to determine whether a change in price has occurred.
-     */
-    CANARY: "FSIG",
-    /**
      * The amount of money paid in commission for each market transaction.
      */
     COMMISSION: 100e3,
