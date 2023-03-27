@@ -114,7 +114,7 @@ function buy_stock(ns, portfolio, position) {
  */
 export function can_short(ns) {
     try {
-        ns.stock.buyShort("FSIG", 0);
+        ns.stock.buyShort(wse.stock.FSIG, 0);
         return bool.CAN_SHORT;
     } catch {
         return bool.NO_SHORT;

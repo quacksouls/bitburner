@@ -130,6 +130,12 @@ export const wse = {
      */
     SPEND_TAU: 5e6,
     /**
+     * Stock symbols.
+     */
+    stock: {
+        FSIG: "FSIG", // Four Sigma
+    },
+    /**
      * A file name.  If the trade bot detects the existence of this file on the
      * home server, it would stop purchasing shares of stocks.  The behaviour
      * is subject to certain conditions.  See the trade-bot.js script for more
