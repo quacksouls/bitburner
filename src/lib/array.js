@@ -61,7 +61,8 @@ export class MyArray {
     static max(array) {
         assert(!this.is_empty(array));
         const init_value = -Infinity;
-        return array.reduce((x, y) => Math.max(x, y), init_value);
+        const max = (x, y) => Math.max(x, y);
+        return array.reduce(max, init_value);
     }
 
     /**
@@ -96,7 +97,8 @@ export class MyArray {
     static sort_ascending(array) {
         assert(!this.is_empty(array));
         const arr = Array.from(array);
-        arr.sort((a, b) => a - b);
+        const ascending = (a, b) => a - b;
+        arr.sort(ascending);
         return arr;
     }
 
@@ -121,7 +123,8 @@ export class MyArray {
     static sort_ascending_tuple(array) {
         assert(!this.is_empty(array));
         const arr = Array.from(array);
-        arr.sort((a, b) => a[0] - b[0]);
+        const ascending = (a, b) => a[0] - b[0];
+        arr.sort(ascending);
         return arr;
     }
 
@@ -136,7 +139,8 @@ export class MyArray {
     static sort_descending(array) {
         assert(!this.is_empty(array));
         const arr = Array.from(array);
-        arr.sort((a, b) => b - a);
+        const descending = (a, b) => b - a;
+        arr.sort(descending);
         return arr;
     }
 
@@ -150,6 +154,7 @@ export class MyArray {
     static sum(array) {
         assert(!this.is_empty(array));
         const init_value = 0;
-        return array.reduce((sum, current) => sum + current, init_value);
+        const add = (sum, current) => sum + current;
+        return array.reduce(add, init_value);
     }
 }

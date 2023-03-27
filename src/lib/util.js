@@ -92,10 +92,9 @@ export function choose_targets(ns, candidate) {
 
     // Find a bunch of target servers to hack.
     const required_hack = (s) => ns.getServer(s).requiredHackingSkill;
+    const has_requirement = (s) => ns.getHackingLevel() >= required_hack(s);
     const can_nuke = (s) => nport >= ns.getServer(s).numOpenPortsRequired;
-    return candidate
-        .filter((s) => ns.getHackingLevel() >= required_hack(s))
-        .filter((t) => can_nuke(t));
+    return candidate.filter(has_requirement).filter(can_nuke);
 }
 
 /**

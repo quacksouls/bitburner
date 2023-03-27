@@ -72,9 +72,8 @@ export class PservHGW {
         const time = hgw_wait_time(this.#ns, host, action);
         const s = hgw_script(action);
         assert(can_run_script(this.#ns, s, this.#phost));
-        const nthread = () => num_threads(this.#ns, s, this.#phost);
-        const run_script = () => this.#ns.exec(s, this.#phost, nthread(), host);
-        const pid = run_script();
+        const nthread = num_threads(this.#ns, s, this.#phost);
+        const pid = this.#ns.exec(s, this.#phost, nthread, host);
         await this.#ns.sleep(time);
         const is_action_done = () => !this.#ns.isRunning(pid);
         while (!is_action_done()) {
@@ -111,8 +110,7 @@ export class PservHGW {
             nthread = max_server_threads;
         }
 
-        const run_script = () => this.#ns.exec(s, this.#phost, nthread, host);
-        const pid = run_script();
+        const pid = this.#ns.exec(s, this.#phost, nthread, host);
         await this.#ns.sleep(time);
         const is_action_done = () => !this.#ns.isRunning(pid);
         while (!is_action_done()) {

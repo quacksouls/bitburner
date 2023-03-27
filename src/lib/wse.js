@@ -45,8 +45,8 @@ import {
  *     purchased.
  */
 function available_shares(ns, sym) {
-    const max_shares = () => ns.stock.getMaxShares(sym);
-    return max_shares() - num_long(ns, sym) - num_short(ns, sym);
+    const max_shares = ns.stock.getMaxShares(sym);
+    return max_shares - num_long(ns, sym) - num_short(ns, sym);
 }
 
 /**
