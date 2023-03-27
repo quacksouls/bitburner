@@ -435,7 +435,7 @@ export function number_format(num) {
         [1e9, "b"],
         [1e6, "m"],
         [1e3, "k"],
-        [1, ""],
+        [1, empty_string],
     ];
     const dindex = 0;
     const meet_threshold = (tau) => Math.abs(Number(num)) >= tau[dindex];
