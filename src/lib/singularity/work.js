@@ -20,14 +20,14 @@
 /// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { work_hack_lvl } from "/quack/lib/constant/misc.js";
+import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { job_area, job_title } from "/quack/lib/constant/work.js";
 import { log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
 import { study } from "/quack/lib/singularity/study.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Choose a company at which to work.
@@ -36,7 +36,7 @@ import { assert } from "/quack/lib/util.js";
  * @returns {string} The name of a company.
  */
 function choose_company(ns) {
-    let company = "";
+    let company = empty_string;
     switch (ns.getPlayer().city) {
         case "Aevum":
             company = "ECorp";
@@ -57,10 +57,10 @@ function choose_company(ns) {
             company = "NWO";
             break;
         default:
-            company = "";
+            company = empty_string;
             break;
     }
-    assert(company !== "");
+    assert(!is_empty_string(company));
     return company;
 }
 

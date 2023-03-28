@@ -21,9 +21,10 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { cities } from "/quack/lib/constant/location.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { course } from "/quack/lib/constant/study.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Determine the university at which we should study.
@@ -36,7 +37,7 @@ function choose_university(ns) {
     const { city } = ns.getPlayer();
     const { uni } = cities[city];
     if (undefined === uni) {
-        return "";
+        return empty_string;
     }
     return uni;
 }
@@ -75,11 +76,11 @@ export async function raise_hack(ns, threshold) {
 export async function raise_hack_until(ns, threshold, fac) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
-    assert(fac !== "");
+    assert(!is_empty_string(fac));
 
     // By default, we study the free computer science course at a university.
     const uni = choose_university(ns);
-    assert(uni !== "");
+    assert(!is_empty_string(uni));
     ns.singularity.goToLocation(uni); // Raise Intelligence XP.
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
     while (ns.getHackingLevel() < tau) {
@@ -114,13 +115,11 @@ export async function raise_hack_until(ns, threshold, fac) {
 export async function study(ns, threshold) {
     assert(threshold > 0);
     const uni = choose_university(ns);
-    const empty_str = "";
-    if (empty_str === uni) {
+    if (is_empty_string(uni)) {
         return;
     }
 
     // Go to a different location to gain some Intelligence XP.
-    assert(empty_str !== uni);
     ns.singularity.goToLocation(uni);
 
     // Study the free computer science course at a university.

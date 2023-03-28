@@ -15,15 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { program as popen } from "/quack/lib/constant/exe.js";
-import { darkweb, work_hack_lvl } from "/quack/lib/constant/misc.js";
+import {
+    darkweb,
+    empty_string,
+    work_hack_lvl,
+} from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
 import { raise_hack } from "/quack/lib/singularity/study.js";
 import { choose_hardware_company } from "/quack/lib/singularity/util.js";
 import { work } from "/quack/lib/singularity/work.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /// ///////////////////////////////////////////////////////////////////////
 // Utility functions related to programs.
@@ -49,10 +54,10 @@ export async function buy_all_programs(ns, visit, wrk) {
 
     // Work out which programs we still need to purchase via the dark web.
     let program = ns.singularity.getDarkwebPrograms();
-    assert(program.length > 0);
+    assert(!MyArray.is_empty(program));
     const player = new Player(ns);
     program = program.filter((p) => !player.has_program(p));
-    if (program.length === 0) {
+    if (MyArray.is_empty(program)) {
         return;
     }
 
@@ -76,13 +81,13 @@ async function buy_programs(ns, program, wrk) {
     const player = new Player(ns);
     let prog = Array.from(program);
     prog = prog.filter((p) => !player.has_program(p));
-    if (prog.length === 0) {
+    if (MyArray.is_empty(prog)) {
         return;
     }
 
     // Purchase the remaining programs.
     log(ns, `Buying port openers: ${prog.join(", ")}`);
-    while (prog.length > 0) {
+    while (!MyArray.is_empty(prog)) {
         const [p, cost] = cheapest(ns, prog);
         if (player.has_program(p)) {
             prog = prog.filter((e) => e !== p);
@@ -147,7 +152,7 @@ async function buy_tor_router(ns, wrk) {
 function cheapest(ns, program) {
     assert(program.length > 0);
     let mincost = Infinity;
-    let prog = "";
+    let prog = empty_string;
     for (const p of program) {
         const cost = ns.singularity.getDarkwebProgramCost(p);
         if (mincost > cost) {
@@ -156,7 +161,7 @@ function cheapest(ns, program) {
         }
     }
     assert(mincost > 0);
-    assert(prog.length > 0);
+    assert(!is_empty_string(prog));
     assert(program.includes(prog));
     return [prog, mincost];
 }

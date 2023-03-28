@@ -19,6 +19,7 @@
 // Miscellaneous helper functions related to crime.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cities } from "/quack/lib/constant/location.js";
@@ -56,7 +57,7 @@ export async function commit_crime(ns, threshold) {
  *     then all crimes in the array have the same chance of success.
  */
 export function greatest_chance(ns, crime) {
-    assert(crime.length > 0);
+    assert(!MyArray.is_empty(crime));
     let max = 0;
     const chance = new Map();
     const million = 1e6;

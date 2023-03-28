@@ -36,10 +36,11 @@ import { assert } from "/quack/lib/util.js";
  */
 export function connect_to(ns, source, target) {
     const path = shortest_path(ns, source, target);
-    assert(path.length > 0);
+    const not_empty_path = () => path.length > 0;
+    assert(not_empty_path());
     assert(source === path[0]);
     path.shift();
-    while (path.length > 0) {
+    while (not_empty_path()) {
         const node = path.shift();
         assert(ns.singularity.connect(node));
     }

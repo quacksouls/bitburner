@@ -19,15 +19,16 @@
 // Miscellaneous helper functions related to Augmentations.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { augment } from "/quack/lib/constant/faction.js";
-import { work_hack_lvl } from "/quack/lib/constant/misc.js";
+import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { commit_crime } from "/quack/lib/singularity/crime.js";
 import { work } from "/quack/lib/singularity/work.js";
-import { assert, is_valid_faction } from "/quack/lib/util.js";
+import { assert, is_empty_string, is_valid_faction } from "/quack/lib/util.js";
 import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
 
 /**
@@ -58,7 +59,7 @@ export function augment_to_buy(ns, fac) {
     fac_aug = fac_aug
         .filter((a) => !owned_aug.has(a))
         .filter((b) => b !== augment.NFG);
-    if (fac_aug.length === 0) {
+    if (MyArray.is_empty(fac_aug)) {
         return [];
     }
 
@@ -69,12 +70,12 @@ export function augment_to_buy(ns, fac) {
         const aug = lowest_reputation(ns, fac_aug);
         tobuy.push(aug);
         fac_aug = fac_aug.filter((a) => a !== aug);
-        if (fac_aug.length === 0) {
+        if (MyArray.is_empty(fac_aug)) {
             break;
         }
         i++;
     }
-    assert(tobuy.length > 0);
+    assert(!MyArray.is_empty(tobuy));
     return tobuy;
 }
 
@@ -106,7 +107,7 @@ export function augment_to_install(ns) {
 export function choose_augment(ns, candidate) {
     assert(candidate.length > 0);
     let max = -Infinity;
-    let aug = "";
+    let aug = empty_string;
     for (const a of candidate) {
         const cost = Math.ceil(ns.singularity.getAugmentationPrice(a));
         if (max < cost) {
@@ -114,7 +115,7 @@ export function choose_augment(ns, candidate) {
             aug = a;
         }
     }
-    assert(aug !== "");
+    assert(!is_empty_string(aug));
     return aug;
 }
 
@@ -143,10 +144,10 @@ export function has_augment(ns, aug) {
  *     of reputation points.
  */
 function lowest_reputation(ns, candidate) {
-    assert(candidate.length > 0);
+    assert(!MyArray.is_empty(candidate));
     assert(!candidate.includes(augment.NFG));
     let min = Infinity;
-    let min_aug = "";
+    let min_aug = empty_string;
     for (const aug of candidate) {
         const rep = Math.ceil(ns.singularity.getAugmentationRepReq(aug));
         if (min > rep) {
@@ -154,7 +155,7 @@ function lowest_reputation(ns, candidate) {
             min_aug = aug;
         }
     }
-    assert(min_aug !== "");
+    assert(!is_empty_string(min_aug));
     return min_aug;
 }
 
@@ -198,9 +199,9 @@ export function owned_augment(ns) {
  *     all of its pre-requisites.
  */
 export function prerequisites(ns, aug) {
-    assert(aug !== "");
+    assert(!is_empty_string(aug));
     const prereq = ns.singularity.getAugmentationPrereq(aug);
-    if (prereq.length === 0) {
+    if (MyArray.is_empty(prereq)) {
         return [];
     }
     return prereq.filter((a) => !has_augment(ns, a));
@@ -230,7 +231,7 @@ export async function purchase_augment(
     // Sanity checks.
     assert(is_valid_faction(fac));
     let candidate = augment_to_buy(ns, fac);
-    if (candidate.length === 0) {
+    if (MyArray.is_empty(candidate)) {
         return;
     }
 
@@ -248,7 +249,7 @@ export async function purchase_augment(
     // (3) Leave the NeuroFlux Governor Augmentation to last.
     const fac_aug = new Set(ns.singularity.getAugmentationsFromFaction(fac));
     const fac_has_aug = (a) => fac_aug.has(a);
-    while (candidate.length > 0) {
+    while (!MyArray.is_empty(candidate)) {
         if (num_augment(ns) >= augment.BUY_TAU) {
             break;
         }
@@ -264,7 +265,7 @@ export async function purchase_augment(
         // already purchased all of its pre-requisites, then purchase the
         // Augmentation.
         let prereq = prerequisites(ns, aug);
-        if (prereq.length === 0) {
+        if (MyArray.is_empty(prereq)) {
             await purchase_aug(ns, aug, fac, raise_money);
             candidate = candidate.filter((a) => a !== aug);
             continue;
@@ -277,7 +278,7 @@ export async function purchase_augment(
             candidate = candidate.filter((a) => a !== aug);
             continue;
         }
-        while (prereq.length > 0) {
+        while (!MyArray.is_empty(prereq)) {
             const pre = choose_augment(ns, prereq);
             await purchase_aug(ns, pre, fac, raise_money);
             prereq = prereq.filter((a) => a !== pre);
@@ -323,7 +324,7 @@ export async function purchase_augment(
 async function purchase_aug(ns, aug, fac, raise_money) {
     // Purchase any pre-requisites first.
     let prereq = prerequisites(ns, aug);
-    while (prereq.length > 0) {
+    while (!MyArray.is_empty(prereq)) {
         const pre = choose_augment(ns, prereq);
         await purchase_aug(ns, pre, fac, raise_money);
         prereq = prereq.filter((a) => a !== pre);

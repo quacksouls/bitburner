@@ -19,6 +19,7 @@
 // Miscellaneous helper functions related to factions.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import {
@@ -26,6 +27,7 @@ import {
     faction_req,
     faction_t,
 } from "/quack/lib/constant/faction.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { job_area } from "/quack/lib/constant/work.js";
@@ -36,7 +38,7 @@ import { augment_to_buy } from "/quack/lib/singularity/augment.js";
 import { visit_city } from "/quack/lib/singularity/network.js";
 import { study } from "/quack/lib/singularity/study.js";
 import { is_ghost_of_wall_street } from "/quack/lib/source.js";
-import { assert, is_valid_faction } from "/quack/lib/util.js";
+import { assert, is_empty_string, is_valid_faction } from "/quack/lib/util.js";
 
 /**
  * Wait for an invitation from the target faction.
@@ -200,7 +202,7 @@ export async function raise_hack(ns, threshold) {
     // already joined.  See whether we can join one of them and perform
     // Hacking Contracts.
     const invite = new Set(ns.singularity.checkFactionInvitations());
-    let target = "";
+    let target = empty_string;
     for (const f of factions.early) {
         if (invite.has(f) || player.is_member(f)) {
             target = f;
@@ -210,7 +212,7 @@ export async function raise_hack(ns, threshold) {
     }
 
     // Carry out Hacking Contracts for the faction.
-    if (target !== "") {
+    if (!is_empty_string(target)) {
         ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
         while (player.hacking_skill() < threshold) {
             await ns.sleep(wait_t.DEFAULT);
@@ -282,7 +284,7 @@ function stop_share_home(ns) {
  */
 function total_reputation(ns, fac) {
     const augment = augment_to_buy(ns, fac);
-    if (augment.length === 0) {
+    if (MyArray.is_empty(augment)) {
         return 0;
     }
 
