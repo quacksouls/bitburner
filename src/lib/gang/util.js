@@ -83,20 +83,15 @@ function reassign_excess_vigilante(ns, threshold) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     const gangster = new Gangster(ns);
-    const vigilante = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vigilante(s));
-    const hacker = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_hacker(s));
-    const vanguard = vigilante.filter((s) => gangster.is_vanguard(s));
+    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
+    const hacker = ns.gang.getMemberNames().filter(gangster.is_hacker);
+    const vanguard = vigilante.filter(gangster.is_vanguard);
 
     // The Vanguard is always the first to be assigned to vigilante justice.
     // The Hacker is always the next member to be assigned to this task.
+    const not_vanguard = (s) => !gangster.is_vanguard(s);
     let vigilante_hacker = vanguard.concat(hacker);
-    vigilante_hacker = vigilante_hacker.concat(
-        vigilante.filter((s) => !gangster.is_vanguard(s))
-    );
+    vigilante_hacker = vigilante_hacker.concat(vigilante.filter(not_vanguard));
     assert(vigilante_hacker.length > tau);
     const candidate = [];
     while (vigilante_hacker.length > tau) {
@@ -147,9 +142,7 @@ export function reassign_soft_reset(ns) {
     // We want only one gang member on vigilante justice.  That member is the
     // Vanguard.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vanguard(s));
+    const vanguard = ns.gang.getMemberNames().filter(gangster.is_vanguard);
     assert(vanguard.length === 1);
     gangster.vigilante(vanguard);
 
@@ -181,25 +174,17 @@ function reassign_to_vigilante(ns, threshold) {
 
     // All gang members who should be on vigilante justice.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vanguard(s));
-    const hacker = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_hacker(s));
-    const artillery = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_artillery(s));
-    const pilot = ns.gang.getMemberNames().filter((s) => gangster.is_pilot(s));
+    const vanguard = ns.gang.getMemberNames().filter(gangster.is_vanguard);
+    const hacker = ns.gang.getMemberNames().filter(gangster.is_hacker);
+    const artillery = ns.gang.getMemberNames().filter(gangster.is_artillery);
+    const pilot = ns.gang.getMemberNames().filter(gangster.is_pilot);
 
     // Determine which members to assign to vigilante justice.  The Vanguard is
     // always the first to be assigned to vigilante justice.  This is followed
     // by the Hacker.  Next comes the Artillery and the Pilot, who are assigned
     // to vigilante justice in that order.
     const candidate = [vanguard, hacker, artillery, pilot].flat();
-    const vigilante = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vigilante(s));
+    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
     assert(vigilante.length < candidate.length);
     assert(vigilante.length < tau);
     while (vigilante.includes(candidate[0])) {
@@ -240,9 +225,7 @@ export function reassign_vigilante(ns) {
     // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
     const tau = choose_vigilante_threshold(ns);
-    const vigilante = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vigilante(s));
+    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
     if (vigilante.length > tau) {
         reassign_excess_vigilante(ns, tau);
         return;
