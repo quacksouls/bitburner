@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to Augmentations.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { augment } from "/quack/lib/constant/faction.js";
@@ -37,15 +39,16 @@ import { trade_bot_resume, trade_bot_stop_buy } from "/quack/lib/wse.js";
  * example, if n = 5 we would be purchasing the first 5 Augmentations that have
  * the lowest reputation requirements.
  *
- * @param ns The Netscript API.
- * @param fac We want to purchase all Augmentations from this faction.
- * @return An array of Augmentation names.  We do not yet have these
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to purchase all Augmentations from this faction.
+ * @returns {array<string>} Augmentation names.  We do not yet have these
  *     Augmentations.  This array never includes the NeuroFlux Governor
  *     Augmentation.  An empty array if there are no Augmentations to buy from
  *     the given faction.
  */
 export function augment_to_buy(ns, fac) {
     assert(is_valid_faction(fac));
+
     // All Augmentations we have not yet purchased from the given faction.
     // Exclude the NeuroFlux Governor.
     const owned_aug = new Set(
@@ -58,6 +61,7 @@ export function augment_to_buy(ns, fac) {
     if (fac_aug.length === 0) {
         return [];
     }
+
     // Choose n Augmentations that have the least reputation requirements.
     const tobuy = [];
     let i = 0;
@@ -77,8 +81,8 @@ export function augment_to_buy(ns, fac) {
 /**
  * Augmentations we have purchased and are yet to be installed.
  *
- * @param ns The Netscript API.
- * @return An array of Augmentation names.  These are Augmentations we have
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} Augmentation names.  These are Augmentations we have
  *     bought, but we have not yet installed them.  Can be an empty array.
  */
 export function augment_to_install(ns) {
@@ -94,9 +98,10 @@ export function augment_to_install(ns) {
  * Augmentation is raised by a multiplier.  Had we not purchased the most
  * expensive Augmentation, its cost would now be much higher than previously.
  *
- * @param ns The Netscript API.
- * @param candidate An array of Augmentation names.  Cannot be an empty array.
- * @return The name of the most expensive Augmentation from the given array.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Augmentation names.  Cannot be empty array.
+ * @returns {string} The name of the most expensive Augmentation from the given
+ *     array.
  */
 export function choose_augment(ns, candidate) {
     assert(candidate.length > 0);
@@ -116,9 +121,9 @@ export function choose_augment(ns, candidate) {
 /**
  * Whether we have a given Augmentation.
  *
- * @param ns The Netscript API.
- * @param aug Check this Augmentation.
- * @return true if we have already purchased the given Augmentation;
+ * @param {NS} ns The Netscript API.
+ * @param {string} aug Check this Augmentation.
+ * @returns {boolean} True if we have already purchased the given Augmentation;
  *     false otherwise.
  */
 export function has_augment(ns, aug) {
@@ -131,11 +136,11 @@ export function has_augment(ns, aug) {
 /**
  * Determine an Augmentation that requires the least reputation points.
  *
- * @param ns The Netscript API.
- * @param candidate An array of Augmentation names.  This array does not include
- *     the NeuroFlux Governor.
- * @return A string representing the name of an Augmentation that requires the
- *     lowest amount of reputation points.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} candidate Augmentation names.  This array does not
+ *     include the NeuroFlux Governor.
+ * @returns {string} The name of an Augmentation that requires the lowest amount
+ *     of reputation points.
  */
 function lowest_reputation(ns, candidate) {
     assert(candidate.length > 0);
@@ -157,8 +162,8 @@ function lowest_reputation(ns, candidate) {
  * The number of Augmentations we have purchased.  This number only includes
  * those that have been bought and not yet installed.
  *
- * @param ns The Netscript API.
- * @return How many Augmentations we have bought and yet to install.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} How many Augmentations we have bought and yet to install.
  */
 function num_augment(ns) {
     const owned_aug = ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED);
@@ -173,9 +178,9 @@ function num_augment(ns) {
 /**
  * All Augmentations we own and have already installed.
  *
- * @param ns The Netscript API.
- * @return A set of all Augmentations we own.  These Augmentations are already
- *     installed.
+ * @param {NS} ns The Netscript API.
+ * @returns {set} A set of all Augmentations we own.  These Augmentations are
+ *     already installed.
  */
 export function owned_augment(ns) {
     return new Set(ns.singularity.getOwnedAugmentations(bool.NOT_PURCHASED));
@@ -185,9 +190,9 @@ export function owned_augment(ns) {
  * All pre-requisites of an Augmentation.  Include only pre-requisites we have
  * not yet purchased.
  *
- * @param ns The Netscript API.
- * @param aug A string representing the name of an Augmentation.
- * @return An array of Augmentation names.  Each Augmentation in the array is a
+ * @param {NS} ns The Netscript API.
+ * @param {string} aug The name of an Augmentation.
+ * @returns {array} Augmentation names.  Each Augmentation in the array is a
  *     pre-requisite of the given Augmentation.  Return an empty array if the
  *     given Augmentation has no pre-requisites or we have already purchased
  *     all of its pre-requisites.
@@ -206,13 +211,12 @@ export function prerequisites(ns, aug) {
  * be expensive.  If our trade bot is running, tell it to stop buying and start
  * selling all shares.
  *
- * @param ns The Netscript API.
- * @param fac We want to buy Augmentations from this faction.
- * @param stop_trade A boolean signifying whether the trade bot should stop
- *     buying shares of stocks.
- * @param buy_nfg A boolean signifying whether to upgrade the NeuroFlux Governor
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to buy Augmentations from this faction.
+ * @param {boolean} stop_trade Whether the trade bot should stop buying shares.
+ * @param {boolean} buy_nfg Whether to upgrade the NeuroFlux Governor
  *     Augmentation.
- * @param raise_money A boolean signifying whether we should raise funds to buy
+ * @param {boolean} raise_money Whether we should raise funds to buy
  *     Augmentations.  We can raise funds by working at a company or committing
  *     crimes.
  */
@@ -229,11 +233,13 @@ export async function purchase_augment(
     if (candidate.length === 0) {
         return;
     }
+
     // Tell the trade bot to stop buying shares of stocks.  We want to cash in
     // on our shares and raise money to buy Augmentations.
     if (stop_trade) {
         await trade_bot_stop_buy(ns);
     }
+
     // Below is our purchasing strategy.
     //
     // (1) Purchase the most expensive Augmentation first.
@@ -246,12 +252,14 @@ export async function purchase_augment(
         if (num_augment(ns) >= augment.BUY_TAU) {
             break;
         }
+
         // Choose the most expensive Augmentation.
         const aug = choose_augment(ns, candidate);
         if (has_augment(ns, aug)) {
             candidate = candidate.filter((a) => a !== aug);
             continue;
         }
+
         // If the most expensive Augmentation has no pre-requisites or we have
         // already purchased all of its pre-requisites, then purchase the
         // Augmentation.
@@ -261,6 +269,7 @@ export async function purchase_augment(
             candidate = candidate.filter((a) => a !== aug);
             continue;
         }
+
         // If the Augmentation has one or more pre-requisites we have not yet
         // purchased, then first purchase the pre-requisites.  Ensure that the
         // faction has the pre-requisites as well.
@@ -276,6 +285,7 @@ export async function purchase_augment(
         await purchase_aug(ns, aug, fac, raise_money);
         candidate = candidate.filter((a) => a !== aug);
     }
+
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     if (buy_nfg) {
         let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
@@ -294,6 +304,7 @@ export async function purchase_augment(
             money = ns.getServerMoneyAvailable(home);
         }
     }
+
     // The trade bot can now resume buying and selling shares.
     if (stop_trade) {
         trade_bot_resume(ns);
@@ -303,12 +314,11 @@ export async function purchase_augment(
 /**
  * Purchase an Augmentation.
  *
- * @param ns The Netscript API.
- * @param aug We want to purchase this Augmentation.
- * @param fac We want to purchase the given Augmentation from this faction.
- * @param raise_money A boolean signifying whether we should raise funds to buy
- *     the given Augmentation.  We can raise funds by working at a company or
- *     committing crimes.
+ * @param {NS} ns The Netscript API.
+ * @param {string} aug We want to purchase this Augmentation.
+ * @param {string} fac We want to purchase the Augmentation from this faction.
+ * @param {boolean} raise_money Whether we should raise funds to buy the given
+ *     Augmentation.  Raise funds by working at a company or committing crimes.
  */
 async function purchase_aug(ns, aug, fac, raise_money) {
     // Purchase any pre-requisites first.
@@ -318,6 +328,7 @@ async function purchase_aug(ns, aug, fac, raise_money) {
         await purchase_aug(ns, pre, fac, raise_money);
         prereq = prereq.filter((a) => a !== pre);
     }
+
     // Having purchased all pre-requisites of an Augmentation, now purchase
     // the Augmentation.
     let success = false;

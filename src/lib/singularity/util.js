@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to the Singularity API.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { cities } from "/quack/lib/constant/location.js";
 import { wait_t } from "/quack/lib/constant/time.js";
@@ -24,14 +26,14 @@ import { wait_t } from "/quack/lib/constant/time.js";
  * Determine the hardware company we should visit.  The company can sell us
  * more RAM for our home server.
  *
- * @param ns The Netscript API.
- * @param visit A boolean signifying whether to visit the travel agency.
- *     Although not required, we typically visit a travel agency to raise our
- *     Intelligence XP.
- * @return A string representing the name of a hardware store.
+ * @param {NS} ns The Netscript API.
+ * @param {boolean} visit Whether to visit the travel agency.  Although not
+ *     required, we visit a travel agency to raise our Intelligence XP.
+ * @returns {string} The name of a hardware store.
  */
 export async function choose_hardware_company(ns, visit) {
     let { city } = ns.getPlayer();
+
     // There are no hardware stores in Chongqing and New Tokyo.  If we are
     // currently in either of these cities, travel to Sector-12 to increase our
     // Intelligence XP.

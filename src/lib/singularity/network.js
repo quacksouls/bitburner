@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to network.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { cities } from "/quack/lib/constant/location.js";
 import { wait_t } from "/quack/lib/constant/time.js";
@@ -27,9 +29,9 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Connect to a given server.  The target server can be multiple hops away.
  *
- * @param ns The Netscript API.
- * @param source The source node.  We are currently on this server.
- * @param target We want to connect to this server.  Not necessarily a
+ * @param {NS} ns The Netscript API.
+ * @param {string} source The source node.  We are currently on this server.
+ * @param {string} target We want to connect to this server.  Not necessarily a
  *     neighbour node.
  */
 export function connect_to(ns, source, target) {
@@ -46,9 +48,9 @@ export function connect_to(ns, source, target) {
 /**
  * Install a backdoor on a world server.
  *
- * @param ns The Netscript API.
- * @param hostname We want to install a backdoor on the server having this
- *     hostname.  Assume that we have root access to the target server.
+ * @param {NS} ns The Netscript API.
+ * @param {string} hostname We want to install a backdoor on this server.
+ *     Assume that we have root access to the target server.
  */
 export async function install_backdoor(ns, hostname) {
     // Sanity checks.
@@ -56,6 +58,7 @@ export async function install_backdoor(ns, hostname) {
     const server = new Server(ns, hostname);
     assert(player.hacking_skill() >= server.hacking_skill());
     assert(server.has_root_access());
+
     // Install a backdoor on the target server.
     connect_to(ns, player.home(), server.hostname());
     await ns.singularity.installBackdoor();
@@ -65,8 +68,8 @@ export async function install_backdoor(ns, hostname) {
 /**
  * Travel to a city.
  *
- * @param ns The Netscript API.
- * @param city We want to travel to this city.
+ * @param {NS} ns The Netscript API.
+ * @param {string} city We want to travel to this city.
  */
 export async function visit_city(ns, city) {
     const player = new Player(ns);

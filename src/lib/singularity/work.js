@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to work.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { work_hack_lvl } from "/quack/lib/constant/misc.js";
@@ -30,8 +32,8 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Choose a company at which to work.
  *
- * @param ns The Netscript API.
- * @return A string representing the name of a company.
+ * @param {NS} ns The Netscript API.
+ * @returns {string} The name of a company.
  */
 function choose_company(ns) {
     let company = "";
@@ -65,8 +67,8 @@ function choose_company(ns) {
 /**
  * Choose the field of work.  Either "Business" or "Software".
  *
- * @param ns The Netscript API.
- * @return The field of work.  Either "Business" or "Software".
+ * @param {NS} ns The Netscript API.
+ * @returns {string} Either "Business" or "Software".
  */
 export function choose_field(ns) {
     const charisma_lvl = work_hack_lvl;
@@ -79,10 +81,10 @@ export function choose_field(ns) {
 /**
  * Work for a company to raise our Charisma to a given amount.
  *
- * @param ns The Netscript API.
- * @param hack_lvl The minimum amount of Hack we must have.
- * @param threshold Continue working until our Charisma is at this level or
- *     higher.  Assume to be a positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} hack_lvl The minimum amount of Hack we must have.
+ * @param {number} threshold Continue working until our Charisma is at this
+ *     level or higher.  Assume to be a positive integer.
  */
 export async function raise_charisma(ns, hack_lvl, threshold) {
     // Sanity checks.
@@ -91,11 +93,13 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
         return;
     }
     assert(threshold > 0);
+
     // Ensure we have the minimum Hack stat.
     if (player.hacking_skill() < hack_lvl) {
         await study(ns, hack_lvl);
     }
     assert(player.hacking_skill() >= hack_lvl);
+
     // Work for a company as a software engineer until we have accumulated the
     // given amount of Charisma level.
     const company = choose_company(ns);
@@ -108,6 +112,7 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
             company,
             job_area.SOFTWARE
         );
+
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
@@ -121,8 +126,8 @@ export async function raise_charisma(ns, hack_lvl, threshold) {
  * Work at a company and rise to the position of Chief Financial Officer.  We
  * do not quit the company after the function ends.
  *
- * @param ns The Netscript API.
- * @param company We want to work for this company.
+ * @param {NS} ns The Netscript API.
+ * @param {string} company We want to work for this company.
  */
 export async function rise_to_cfo(ns, company) {
     // Ensure we have the minimum Hack and Charisma stats.
@@ -130,6 +135,7 @@ export async function rise_to_cfo(ns, company) {
     const charisma_lvl = work_hack_lvl;
     assert(player.hacking_skill() >= work_hack_lvl);
     assert(player.charisma() >= charisma_lvl);
+
     // Work for the company in a business position.  Once in a while, apply for
     // a promotion until we reach the position of Chief Financial Officer.
     ns.singularity.goToLocation(company); // Raise Intelligence XP.
@@ -147,6 +153,7 @@ export async function rise_to_cfo(ns, company) {
             company,
             job_area.BUSINESS
         );
+
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
@@ -159,20 +166,22 @@ export async function rise_to_cfo(ns, company) {
  * Work to boost our income.  Stop working when we have accumulated a given
  * amount of money.
  *
- * @param ns The Netscript API.
- * @param threshold Continue working as long as our money is less than this
- *     threshold.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Continue working as long as our money is less than
+ *     this threshold.
  */
 export async function work(ns, threshold) {
     assert(threshold > 0);
     if (ns.getServerMoneyAvailable(home) >= threshold) {
         return;
     }
+
     // Ensure we have the minimum Hack stat.
     if (ns.getHackingLevel() < work_hack_lvl) {
         await study(ns, work_hack_lvl);
     }
     assert(ns.getHackingLevel() >= work_hack_lvl);
+
     // Work for a company until our money is at least the given threshold.
     // Every once in a while, apply for a promotion to earn more money per
     // second.  By default, we work a business job.  However, if our Charisma
@@ -187,6 +196,7 @@ export async function work(ns, threshold) {
         await ns.sleep(wait_t.DEFAULT);
         field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
+
         // We have a promotion.  Start working in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);
@@ -201,19 +211,21 @@ export async function work(ns, threshold) {
  * Work for a company.  Stop working when we have accumulated a given amount
  * of reputation points.
  *
- * @param ns The Netscript API.
- * @param company We want to work for this company.
- * @param rep Work for the company until we have at least this amount of
- *     reputation points.
+ * @param {NS} ns The Netscript API.
+ * @param {string} company We want to work for this company.
+ * @param {number} rep Work for the company until we have at least this amount
+ *     of reputation points.
  */
 export async function work_for_company(ns, company, rep) {
     assert(rep > 0);
     ns.singularity.goToLocation(company); // Raise Intelligence XP.
+
     // Ensure we have the minimum Hack stat.
     if (ns.getHackingLevel() < work_hack_lvl) {
         await study(ns, work_hack_lvl);
     }
     assert(ns.getHackingLevel() >= work_hack_lvl);
+
     // Work for the company until we have accumulated the given amount of
     // reputation points.  Occasionally apply for a promotion to earn even
     // more reputation points per second.
@@ -225,6 +237,7 @@ export async function work_for_company(ns, company, rep) {
         await ns.sleep(wait_t.DEFAULT);
         field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);
+
         // We have a promotion.  Work in the new job.
         if (success) {
             ns.singularity.workForCompany(company, bool.FOCUS);

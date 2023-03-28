@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to crime.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
@@ -28,9 +30,9 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Commit various crimes to raise our income to a given threshold.
  *
- * @param ns The Netscript API.
- * @param threshold Continue to commit crime as long as our income is below
- *     this threshold.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Continue to commit crime as long as our income is
+ *     below this threshold.
  */
 export async function commit_crime(ns, threshold) {
     assert(threshold > 0);
@@ -48,11 +50,10 @@ export async function commit_crime(ns, threshold) {
 /**
  * Choose a crime that has the highest chance of success.
  *
- * @param ns The Netscript API.
- * @param crime An array of crime names.
- * @return An array of strings, where each element is the name of a crime.
- *     If the array has multiple elements, then all crimes in the array have
- *     the same chance of success.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} crime Crime names.
+ * @returns {array<string>} Crime names.  If the array has multiple elements,
+ *     then all crimes in the array have the same chance of success.
  */
 export function greatest_chance(ns, crime) {
     assert(crime.length > 0);
@@ -84,23 +85,25 @@ export function greatest_chance(ns, crime) {
  * Accumulate negative karma.  Stop when our negative karma is at or lower than
  * a given threshold.
  *
- * @param ns The Netscript API.
- * @param threshold We want our negative karma to be at or lower than this
- *     threshold.  Must be a negative integer.
- * @param crime The crime we must carry out to lower our karma.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold We want our negative karma to be at or lower than
+ *     this threshold.  Must be a negative integer.
+ * @param {string} crime The crime we must carry out to lower our karma.
  *     Either "shoplift" or "homicide".
- * @param nkill If crime := "homicide", then we must also provide the target
- *     number of people to kill.  Pass in 0 if the crime is not homicide.  Pass
- *     in Infinity if we care only about lowering our karma and not about the
- *     number of people killed.  Must be a non-negative integer.
+ * @param {number} nkill If crime := "homicide", then we must also provide the
+ *     target number of people to kill.  Pass in 0 if the crime is not homicide.
+ *     Pass in Infinity if we care only about lowering our karma and not about
+ *     the number of people killed.  Must be a non-negative integer.
  */
 export async function lower_karma(ns, threshold, crime, nkill) {
     // Sanity checks.
     assert(threshold < 0);
     assert(crimes.SHOP === crime || crimes.KILL === crime);
     assert(nkill >= 0);
+
     // Relocate to raise Intelligence XP.
     ns.singularity.goToLocation(cities.generic.slum);
+
     // Shoplift.  Use the ceiling function to convert the karma value to an
     // integer.  It is safer to compare integers than it is to compare floating
     // point numbers.
@@ -115,6 +118,7 @@ export async function lower_karma(ns, threshold, crime, nkill) {
         assert(Math.ceil(player.karma()) <= threshold);
         return;
     }
+
     // Homicide.
     assert(crimes.KILL === crime);
     ns.singularity.commitCrime(crime, bool.FOCUS);

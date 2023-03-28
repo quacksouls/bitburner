@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/// ///////////////////////////////////////////////////////////////////////
 // Miscellaneous helper functions related to study at a university.
+/// ///////////////////////////////////////////////////////////////////////
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { cities } from "/quack/lib/constant/location.js";
@@ -26,10 +28,9 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Determine the university at which we should study.
  *
- * @param ns The Netscript API.
- * @return A string representing the name of the university where we should
- *     study.  An empty string if the player is located in a city that does not
- *     have a university.
+ * @param {NS} ns The Netscript API.
+ * @returns {string} The name of the university where we should study.  An empty
+ *     string if we are located in a city that does not have a university.
  */
 function choose_university(ns) {
     const { city } = ns.getPlayer();
@@ -44,9 +45,9 @@ function choose_university(ns) {
  * Increase our Hack stat.  Continue doing so until our Hack stat is at least
  * a given threshold.
  *
- * @param ns The Netscript API.
- * @param threshold We want to increase our Hack stat to be at least this
- *     threshold.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold We want to increase our Hack stat to be at least
+ *     this threshold.
  */
 export async function raise_hack(ns, threshold) {
     assert(threshold > 0);
@@ -63,18 +64,19 @@ export async function raise_hack(ns, threshold) {
  * (1) Our Hack stat is at least the given threshold.
  * (2) We receive an invitation from the given faction.
  *
- * @param ns The Netscript API.
- * @param threshold We want to increase our Hack stat to at least this
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold We want to increase our Hack stat to at least this
  *     threshold.  The function can exit even if our Hack stat is below the
  *     given threshold.
- * @param fac The name of a faction.  We want to receive an invitation from this
- *     faction.  The function can exit even if we do not receive an invitation
- *     from the given faction.
+ * @param {string} fac The name of a faction.  We want to receive an invitation
+ *     from this faction.  The function can exit even if we do not receive an
+ *     invitation from the given faction.
  */
 export async function raise_hack_until(ns, threshold, fac) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     assert(fac !== "");
+
     // By default, we study the free computer science course at a university.
     const uni = choose_university(ns);
     assert(uni !== "");
@@ -105,8 +107,8 @@ export async function raise_hack_until(ns, threshold, fac) {
  * want to study at a university, ensure we are located in a city that has a
  * university.
  *
- * @param ns The Netscript API.
- * @param threshold Study until we have reached at least this amount of
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Study until we have reached at least this amount of
  *     Hack stat.
  */
 export async function study(ns, threshold) {
@@ -116,11 +118,14 @@ export async function study(ns, threshold) {
     if (empty_str === uni) {
         return;
     }
+
     // Go to a different location to gain some Intelligence XP.
     assert(empty_str !== uni);
     ns.singularity.goToLocation(uni);
+
     // Study the free computer science course at a university.
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
+
     // Stop our study when our Hack stat is at least the given threshold.
     while (ns.getHackingLevel() < threshold) {
         await ns.sleep(wait_t.DEFAULT);

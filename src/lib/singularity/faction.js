@@ -41,8 +41,8 @@ import { assert, is_valid_faction } from "/quack/lib/util.js";
 /**
  * Wait for an invitation from the target faction.
  *
- * @param ns The Netscript API.
- * @param fac We want an invitation from this faction.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want an invitation from this faction.
  */
 async function await_invitation(ns, fac) {
     assert(is_valid_faction(fac));
@@ -56,8 +56,8 @@ async function await_invitation(ns, fac) {
 /**
  * Whether a given faction is a megacorporation faction.
  *
- * @param fac The name of a faction.
- * @return true if the given faction is a megacorporation faction;
+ * @param {string} fac The name of a faction.
+ * @returns {boolean} True if the given faction is a megacorporation faction;
  *     false otherwise.
  */
 function is_megacorp_faction(fac) {
@@ -68,6 +68,8 @@ function is_megacorp_faction(fac) {
  * Join as many factions as we can.  We typically do this to raise our
  * Intelligence stat.  Call this function prior to installing one or more
  * Augmentations, or before hacking the w0r1d_d43m0n server.
+ *
+ * @param {NS} ns The Netscript API.
  */
 export function join_all_factions(ns) {
     const invite = new Set(ns.singularity.checkFactionInvitations());
@@ -79,12 +81,13 @@ export function join_all_factions(ns) {
 /**
  * Join a faction.
  *
- * @param ns The Netscript API.
- * @param fac We want to join this faction.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to join this faction.
  */
 export async function join_faction(ns, fac) {
     assert(is_valid_faction(fac));
     log(ns, `Join faction: ${fac}`);
+
     // Since version 2.0 of the game, we must be working for a megacorporation
     // while waiting for an invitation from the corresponding faction.  We can
     // quit working once we have joined the faction.
@@ -96,6 +99,7 @@ export async function join_faction(ns, fac) {
         ns.singularity.applyToCompany(company, job_area.SOFTWARE);
         ns.singularity.workForCompany(company, bool.FOCUS);
     }
+
     // Join the faction.
     const player = new Player(ns);
     const joined_faction = new Set(player.faction());
@@ -103,6 +107,7 @@ export async function join_faction(ns, fac) {
         await await_invitation(ns, fac);
         ns.singularity.joinFaction(fac);
     }
+
     // We are a member of the target faction.  Quit working for the
     // corresponding megacorporation.
     if (is_megacorp_faction(fac)) {
@@ -113,7 +118,7 @@ export async function join_faction(ns, fac) {
 
 /**
  * Raise each of our combat stats to a given level.  An easy way to raise our
- * combat stats is to go to the slum of any city and either mug someone or
+ * combat stats is to go to the slums of any city and either mug someone or
  * commit homicide.  Mugging yields more XP for all our combat stats than
  * homicide.  However, there are two reasons why we should choose homicide.
  * First, it yields more negative karma than mugging.  We need lots of negative
@@ -126,9 +131,9 @@ export async function join_faction(ns, fac) {
  * faction.  For example, if we have a gang within Slum Snakes, we are not
  * allowed to perform Field Work for Slum Snakes.  In that case, join Tetrads.
  *
- * @param ns The Netscript API.
- * @param threshold Each of our combat stats should be raised to at least this
- *     value.  Must be a positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Each of our combat stats should be raised to at
+ *     least this value.  Must be a positive integer.
  */
 export async function raise_combat_stats(ns, threshold) {
     // Sanity checks.
@@ -143,6 +148,7 @@ export async function raise_combat_stats(ns, threshold) {
     ) {
         return;
     }
+
     // Commit homicide to raise all our combat stats.
     let target = "Slum Snakes";
     let city = "Sector-12";
@@ -154,6 +160,7 @@ export async function raise_combat_stats(ns, threshold) {
     }
     await visit_city(ns, city);
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
+
     // Wait to receive an invitation from Slum Snakes (or Tetrads) and perform
     // Field Work for the faction.  Among the criminal organizations, Slum
     // Snakes has the lowest requirements.  Tetrads has slightly higher
@@ -178,9 +185,9 @@ export async function raise_combat_stats(ns, threshold) {
 /**
  * Raise our Hack stat.  Stop when our Hack stat is at least a given level.
  *
- * @param ns The Netscript API.
- * @param threshold We want our Hack stat to be at least this level.  Must be a
- *     positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold We want our Hack stat to be at least this level.
+ *     Must be a positive integer.
  */
 export async function raise_hack(ns, threshold) {
     assert(threshold > 0);
@@ -188,6 +195,7 @@ export async function raise_hack(ns, threshold) {
     if (player.hacking_skill() >= threshold) {
         return;
     }
+
     // Join a faction.  Choose from one of the early factions we should have
     // already joined.  See whether we can join one of them and perform
     // Hacking Contracts.
@@ -200,6 +208,7 @@ export async function raise_hack(ns, threshold) {
             break;
         }
     }
+
     // Carry out Hacking Contracts for the faction.
     if (target !== "") {
         ns.singularity.workForFaction(target, job_area.HACK, bool.FOCUS);
@@ -209,6 +218,7 @@ export async function raise_hack(ns, threshold) {
         ns.singularity.stopAction();
         return;
     }
+
     // Cannot join one of the early factions.  Default to studying at
     // university.
     const current_city = player.city();
@@ -236,7 +246,7 @@ function share_botnet(ns, fac) {
 /**
  * Start sharing our home server with a faction.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function start_share_home(ns) {
     // Share our home server with a faction.
@@ -252,7 +262,7 @@ async function start_share_home(ns) {
 /**
  * Stop sharing our home server with a faction.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function stop_share_home(ns) {
     if (ns.isRunning(server.SHARE_SCRIPT, home)) {
@@ -265,16 +275,17 @@ function stop_share_home(ns) {
  * some Augmentations from a faction.  This is not necessarily the highest
  * reputation requirement of any Augmentation.
  *
- * @param ns The Netscript API.
- * @param fac We want to earn reputation points from this faction.
- * @return The maximum amount of reputation points we must earn from a faction.
- *     Return 0 if we do not need to earn any reputation points.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to earn reputation points from this faction.
+ * @returns {number} The maximum amount of reputation points we must earn from a
+ *    faction.  Return 0 if we do not need to earn any reputation points.
  */
 function total_reputation(ns, fac) {
     const augment = augment_to_buy(ns, fac);
     if (augment.length === 0) {
         return 0;
     }
+
     // The total reputation points we need to earn.
     let max = -Infinity;
     for (const aug of augment) {
@@ -290,9 +301,9 @@ function total_reputation(ns, fac) {
  * Work for a faction.  Stop working when we have accumulated enough reputation
  * points to purchase all Augmentations from the faction.
  *
- * @param ns The Netscript API.
- * @param fac We want to work for this faction.
- * @param work_type The type of work to carry out for the given faction.
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac We want to work for this faction.
+ * @param {string} work_type The type of work to carry out for the faction.
  *     Either "Hacking Contracts" or "Field Work".
  */
 export async function work_for_faction(ns, fac, work_type) {

@@ -25,18 +25,19 @@ import { choose_hardware_company } from "/quack/lib/singularity/util.js";
 import { work } from "/quack/lib/singularity/work.js";
 import { assert } from "/quack/lib/util.js";
 
+/// ///////////////////////////////////////////////////////////////////////
 // Utility functions related to programs.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * Purchase all programs from the dark web.
  *
- * @param ns The Netscript API.
- * @param visit A boolean signifying whether to visit a hardware store.
- *     Although not required, we typically visit a hardware store to increase
- *     our Intelligence XP.
- * @param wrk A boolean signifying whether to work to increase our funds or
- *     required stats.  We require money to puchase programs.  In most cases, we
- *     require certain stats to be offered a job.
+ * @param {NS} ns The Netscript API.
+ * @param {boolean} visit Whether to visit a hardware store.  Although not
+ *     required, we visit a hardware store to increase our Intelligence XP.
+ * @param {boolean} wrk Whether to work to increase our funds or required stats.
+ *     We require money to puchase programs.  In most cases, we require certain
+ *     stats to be offered a job.
  */
 export async function buy_all_programs(ns, visit, wrk) {
     // Purchase the Tor router from a hardware store.
@@ -45,6 +46,7 @@ export async function buy_all_programs(ns, visit, wrk) {
         ns.singularity.goToLocation(shop);
     }
     await buy_tor_router(ns, wrk);
+
     // Work out which programs we still need to purchase via the dark web.
     let program = ns.singularity.getDarkwebPrograms();
     assert(program.length > 0);
@@ -53,6 +55,7 @@ export async function buy_all_programs(ns, visit, wrk) {
     if (program.length === 0) {
         return;
     }
+
     // Purchase all remaining programs.
     await buy_programs(ns, popen, wrk);
 }
@@ -60,14 +63,15 @@ export async function buy_all_programs(ns, visit, wrk) {
 /**
  * Purchase all programs from a given list.
  *
- * @param ns The Netscript API.
- * @param program We want to buy all programs from this list.
- * @param wrk A boolean signifying whether to work to increase our funds or
- *     required stats.  We require money to puchase programs.  In most cases, we
- *     require certain stats to be offered a job.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} program We want to buy all programs from this list.
+ * @param {boolean} wrk Whether to work to increase our funds or required stats.
+ *     We require money to puchase programs.  In most cases, we require certain
+ *     stats to be offered a job.
  */
 async function buy_programs(ns, program, wrk) {
     assert(program.length > 0);
+
     // First, determine which programs we do not have.
     const player = new Player(ns);
     let prog = Array.from(program);
@@ -75,6 +79,7 @@ async function buy_programs(ns, program, wrk) {
     if (prog.length === 0) {
         return;
     }
+
     // Purchase the remaining programs.
     log(ns, `Buying port openers: ${prog.join(", ")}`);
     while (prog.length > 0) {
@@ -105,10 +110,10 @@ async function buy_programs(ns, program, wrk) {
 /**
  * Purchase the Tor router so we can access the dark web.
  *
- * @param ns The Netscript API.
- * @param wrk A boolean signifying whether to work to increase our funds or
- *     required stats.  We require money to puchase the Tor router.  In most
- *     cases, we require certain stats to be offered a job.
+ * @param {NS} ns The Netscript API.
+ * @param {boolean} wrk Whether to work to increase our funds or required stats.
+ *     We require money to puchase the Tor router.  In most cases, we require
+ *     certain stats to be offered a job.
  */
 async function buy_tor_router(ns, wrk) {
     log(ns, "Purchase Tor router");
@@ -131,10 +136,10 @@ async function buy_tor_router(ns, wrk) {
 /**
  * Choose the least expensive program that can be purchased via the dark web.
  *
- * @param ns The Netscript API.
- * @param program An array of program names.  We want to determine the cheapest
- *     program from among this list.
- * @return An array [prog, cost] as follows.
+ * @param {NS} ns The Netscript API.
+ * @param {array<string>} program Program names.  We want to determine the
+ *     cheapest program from among this list.
+ * @returns {array} An array [prog, cost] as follows.
  *     (1) prog := The name of cheapest program from among the given list of
  *         program names.
  *     (2) cost := The cost of the cheapest program.
@@ -159,7 +164,7 @@ function cheapest(ns, program) {
 /**
  * Raise our Hack stat to at least a given number.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function target_hack_lvl(ns) {
     const player = new Player(ns);
