@@ -21,10 +21,10 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
-import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { job_area, job_title } from "/quack/lib/constant/work.js";
 import { log } from "/quack/lib/io.js";
+import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { study } from "/quack/lib/singularity/study.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
@@ -57,8 +57,8 @@ function choose_company(ns) {
             company = "NWO";
             break;
         default:
-            company = empty_string;
-            break;
+            // Should never reach here.
+            assert(false);
     }
     assert(!is_empty_string(company));
     return company;
@@ -141,11 +141,11 @@ export async function rise_to_cfo(ns, company) {
     ns.singularity.goToLocation(company); // Raise Intelligence XP.
     ns.singularity.applyToCompany(company, job_area.BUSINESS);
     ns.singularity.workForCompany(company, bool.FOCUS);
+    const is_cfo = () => player.job(company) === job_title.CFO;
+    const is_ceo = () => player.job(company) === job_title.CEO;
+    const has_target_job = () => is_cfo() || is_ceo();
     for (;;) {
-        if (
-            player.job(company) === job_title.CFO
-            || player.job(company) === job_title.CEO
-        ) {
+        if (has_target_job()) {
             break;
         }
         await ns.sleep(wait_t.DEFAULT);
@@ -172,7 +172,7 @@ export async function rise_to_cfo(ns, company) {
  */
 export async function work(ns, threshold) {
     assert(threshold > 0);
-    if (ns.getServerMoneyAvailable(home) >= threshold) {
+    if (money(ns) >= threshold) {
         return;
     }
 
@@ -192,7 +192,7 @@ export async function work(ns, threshold) {
     ns.singularity.applyToCompany(company, field);
     ns.singularity.workForCompany(company, bool.FOCUS);
     log(ns, `Work for ${company} in ${field}`);
-    while (ns.getServerMoneyAvailable(home) < threshold) {
+    while (money(ns) < threshold) {
         await ns.sleep(wait_t.DEFAULT);
         field = choose_field(ns);
         const success = ns.singularity.applyToCompany(company, field);

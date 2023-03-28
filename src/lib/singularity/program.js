@@ -75,7 +75,7 @@ export async function buy_all_programs(ns, visit, wrk) {
  *     stats to be offered a job.
  */
 async function buy_programs(ns, program, wrk) {
-    assert(program.length > 0);
+    assert(!MyArray.is_empty(program));
 
     // First, determine which programs we do not have.
     const player = new Player(ns);
@@ -143,23 +143,25 @@ async function buy_tor_router(ns, wrk) {
  *
  * @param {NS} ns The Netscript API.
  * @param {array<string>} program Program names.  We want to determine the
- *     cheapest program from among this list.
+ *     cheapest program from among this list.  Assume we do not yet have any of
+ *     these programs.
  * @returns {array} An array [prog, cost] as follows.
  *     (1) prog := The name of cheapest program from among the given list of
  *         program names.
  *     (2) cost := The cost of the cheapest program.
  */
 function cheapest(ns, program) {
-    assert(program.length > 0);
-    let mincost = Infinity;
-    let prog = empty_string;
-    for (const p of program) {
-        const cost = ns.singularity.getDarkwebProgramCost(p);
-        if (mincost > cost) {
-            mincost = cost;
-            prog = p;
-        }
-    }
+    assert(!MyArray.is_empty(program));
+
+    // Find an array [program_name, cost] where the program has the least cost
+    // among all programs.
+    const init_value = [empty_string, Infinity]; // [program_name, cost]
+    const min_prog_cost = (acc, curr) => {
+        const cost = ns.singularity.getDarkwebProgramCost(curr);
+        return acc[1] > cost ? [curr, cost] : acc;
+    };
+    const [prog, mincost] = program.reduce(min_prog_cost, init_value);
+
     assert(mincost > 0);
     assert(!is_empty_string(prog));
     assert(program.includes(prog));

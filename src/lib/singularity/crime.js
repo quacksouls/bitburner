@@ -25,6 +25,7 @@ import { crimes } from "/quack/lib/constant/crime.js";
 import { cities } from "/quack/lib/constant/location.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -40,10 +41,8 @@ export async function commit_crime(ns, threshold) {
     const script = "/quack/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
-    let money = ns.getServerMoneyAvailable(home);
-    while (money < threshold || ns.singularity.isBusy()) {
+    while (money(ns) < threshold || ns.singularity.isBusy()) {
         await ns.sleep(wait_t.DEFAULT);
-        money = ns.getServerMoneyAvailable(home);
     }
     ns.singularity.stopAction();
 }
@@ -109,24 +108,24 @@ export async function lower_karma(ns, threshold, crime, nkill) {
     // integer.  It is safer to compare integers than it is to compare floating
     // point numbers.
     const player = new Player(ns);
+    const karma = () => Math.ceil(player.karma());
+    const has_karma_threshold = () => karma() < 0 && karma() <= threshold;
     if (crimes.SHOP === crime) {
         ns.singularity.commitCrime(crime, bool.FOCUS);
-        while (Math.ceil(player.karma()) > threshold) {
+        while (karma() > threshold) {
             await ns.sleep(wait_t.SECOND);
         }
         ns.singularity.stopAction();
-        assert(Math.ceil(player.karma()) < 0);
-        assert(Math.ceil(player.karma()) <= threshold);
+        assert(has_karma_threshold());
         return;
     }
 
     // Homicide.
     assert(crimes.KILL === crime);
     ns.singularity.commitCrime(crime, bool.FOCUS);
-    while (Math.ceil(player.karma()) > threshold || player.nkill() < nkill) {
+    while (karma() > threshold || player.nkill() < nkill) {
         await ns.sleep(wait_t.SECOND);
     }
-    assert(Math.ceil(player.karma()) < 0);
-    assert(Math.ceil(player.karma()) <= threshold);
+    assert(has_karma_threshold());
     assert(player.nkill() >= nkill);
 }

@@ -36,10 +36,7 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 function choose_university(ns) {
     const { city } = ns.getPlayer();
     const { uni } = cities[city];
-    if (undefined === uni) {
-        return empty_string;
-    }
-    return uni;
+    return uni ?? empty_string;
 }
 
 /**
@@ -119,10 +116,8 @@ export async function study(ns, threshold) {
         return;
     }
 
-    // Go to a different location to gain some Intelligence XP.
-    ns.singularity.goToLocation(uni);
-
     // Study the free computer science course at a university.
+    ns.singularity.goToLocation(uni); // Raise Intelligence XP.
     assert(ns.singularity.universityCourse(uni, course.CS, bool.FOCUS));
 
     // Stop our study when our Hack stat is at least the given threshold.

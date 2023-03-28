@@ -23,9 +23,9 @@ import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { augment } from "/quack/lib/constant/faction.js";
 import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
-import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
+import { money } from "/quack/lib/money.js";
 import { commit_crime } from "/quack/lib/singularity/crime.js";
 import { work } from "/quack/lib/singularity/work.js";
 import { assert, is_empty_string, is_valid_faction } from "/quack/lib/util.js";
@@ -105,17 +105,17 @@ export function augment_to_install(ns) {
  *     array.
  */
 export function choose_augment(ns, candidate) {
-    assert(candidate.length > 0);
-    let max = -Infinity;
-    let aug = empty_string;
-    for (const a of candidate) {
-        const cost = Math.ceil(ns.singularity.getAugmentationPrice(a));
-        if (max < cost) {
-            max = cost;
-            aug = a;
-        }
-    }
+    assert(!MyArray.is_empty(candidate));
+
+    // (augment, cost)
+    const init_value = [empty_string, -Infinity];
+    const most_expensive = (acc, aug) => {
+        const cost = Math.ceil(ns.singularity.getAugmentationPrice(aug));
+        return acc[1] < cost ? [aug, cost] : acc;
+    };
+    const aug = candidate.reduce(most_expensive, init_value)[0];
     assert(!is_empty_string(aug));
+
     return aug;
 }
 
@@ -146,17 +146,17 @@ export function has_augment(ns, aug) {
 function lowest_reputation(ns, candidate) {
     assert(!MyArray.is_empty(candidate));
     assert(!candidate.includes(augment.NFG));
-    let min = Infinity;
-    let min_aug = empty_string;
-    for (const aug of candidate) {
+
+    // (augment, rep_cost)
+    const init_value = [empty_string, Infinity];
+    const min_rep = (acc, aug) => {
         const rep = Math.ceil(ns.singularity.getAugmentationRepReq(aug));
-        if (min > rep) {
-            min = rep;
-            min_aug = aug;
-        }
-    }
-    assert(!is_empty_string(min_aug));
-    return min_aug;
+        return acc[1] > rep ? [aug, rep] : acc;
+    };
+    const aug = candidate.reduce(min_rep, init_value)[0];
+    assert(!is_empty_string(aug));
+
+    return aug;
 }
 
 /**
@@ -289,20 +289,17 @@ export async function purchase_augment(
 
     // Level up the NeuroFlux Governor Augmentation as high as our funds allows.
     if (buy_nfg) {
-        let cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
-        let nfg_rep = Math.ceil(
-            ns.singularity.getAugmentationRepReq(augment.NFG)
-        );
-        let fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
-        let money = ns.getServerMoneyAvailable(home);
-        while (cost <= money && nfg_rep <= fac_rep) {
+        const nfg_rep = () => {
+            const rep = ns.singularity.getAugmentationRepReq(augment.NFG);
+            return Math.ceil(rep);
+        };
+        const nfg_cost = () => {
+            const cost = ns.singularity.getAugmentationPrice(augment.NFG);
+            return Math.ceil(cost);
+        };
+        const fac_rep = () => Math.floor(ns.singularity.getFactionRep(fac));
+        while (nfg_cost() <= money(ns) && nfg_rep() <= fac_rep()) {
             assert(ns.singularity.purchaseAugmentation(fac, augment.NFG));
-            cost = Math.ceil(ns.singularity.getAugmentationPrice(augment.NFG));
-            nfg_rep = Math.ceil(
-                ns.singularity.getAugmentationRepReq(augment.NFG)
-            );
-            fac_rep = Math.floor(ns.singularity.getFactionRep(fac));
-            money = ns.getServerMoneyAvailable(home);
         }
     }
 
@@ -338,19 +335,15 @@ async function purchase_aug(ns, aug, fac, raise_money) {
         if (has_augment(ns, aug)) {
             break;
         }
-        if (ns.getServerMoneyAvailable(home) < cost) {
+        if (money(ns) < cost) {
             if (raise_money) {
                 if (ns.getHackingLevel() < work_hack_lvl) {
                     log(ns, `Raising Hack stat to target: ${work_hack_lvl}`);
                     await commit_crime(ns, cost);
                 } else {
-                    log(
-                        ns,
-                        `Raising money to target: ${ns.nFormat(
-                            cost,
-                            "$0,0.00a"
-                        )}`
-                    );
+                    const prefix = "Raising money to target";
+                    const suffix = `${ns.nFormat(cost, "$0,0.000a")}`;
+                    log(ns, `${prefix}: ${suffix}`);
                     await work(ns, cost);
                 }
             }

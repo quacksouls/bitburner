@@ -75,9 +75,7 @@ function is_megacorp_faction(fac) {
  */
 export function join_all_factions(ns) {
     const invite = new Set(ns.singularity.checkFactionInvitations());
-    factions.all
-        .filter((f) => invite.has(f))
-        .forEach((g) => ns.singularity.joinFaction(g));
+    factions.all.filter(invite.has).forEach(ns.singularity.joinFaction);
 }
 
 /**
@@ -289,14 +287,13 @@ function total_reputation(ns, fac) {
     }
 
     // The total reputation points we need to earn.
-    let max = -Infinity;
-    for (const aug of augment) {
+    const init_value = 0;
+    const max_rep = (aug, curr) => {
+        // (augment, max_rep_cost)
         const rep = ns.singularity.getAugmentationRepReq(aug);
-        if (max < rep) {
-            max = rep;
-        }
-    }
-    return max;
+        return Math.max(rep, curr);
+    };
+    return augment.reduce(max_rep, init_value);
 }
 
 /**
