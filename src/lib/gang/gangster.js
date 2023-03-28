@@ -30,7 +30,7 @@ import {
     weapon,
 } from "/quack/lib/constant/gang.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
-import { home } from "/quack/lib/constant/server.js";
+import { money } from "/quack/lib/money.js";
 import { random_integer } from "/quack/lib/random.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -84,15 +84,12 @@ export class Gangster {
 
         // See whether we can ascend this gang member.  The cases of combatant,
         // hacker, and miscellaneous are each handled separately.
+        const stat = [asc.agi, asc.def, asc.dex, asc.str].map(to_int);
         const tau = to_int(gang_t.ASCEND);
+        const over_threshold = (s) => s > tau;
         let ascend_this_member = false;
         if (this.is_combatant(name)) {
-            if (
-                to_int(asc.agi) > tau
-                || to_int(asc.def) > tau
-                || to_int(asc.dex) > tau
-                || to_int(asc.str) > tau
-            ) {
+            if (stat.some(over_threshold)) {
                 ascend_this_member = true;
             }
         } else if (this.is_hacker(name)) {
@@ -101,13 +98,8 @@ export class Gangster {
             }
         } else {
             assert(this.is_miscellaneous(name));
-            if (
-                to_int(asc.cha) > tau
-                || to_int(asc.agi) > tau
-                || to_int(asc.def) > tau
-                || to_int(asc.dex) > tau
-                || to_int(asc.str) > tau
-            ) {
+            stat.push(to_int(asc.cha));
+            if (stat.some(over_threshold)) {
                 ascend_this_member = true;
             }
         }
@@ -377,7 +369,7 @@ export class Gangster {
      * @returns {number} How much funds are available for buying equipment.
      */
     #funds() {
-        return this.#player_money() - gang_t.MONEY_RESERVE;
+        return money(this.#ns) - gang_t.MONEY_RESERVE;
     }
 
     /**
@@ -1158,13 +1150,6 @@ export class Gangster {
     }
 
     /**
-     * The player's total amount of money.
-     */
-    #player_money() {
-        return this.#ns.getServerMoneyAvailable(home);
-    }
-
-    /**
      * A random name with which to assign a new gang member.
      *
      * @param {array<string>} name Potential names for our new recruit.  Use
@@ -1450,9 +1435,9 @@ export class Gangster {
 
         // Train various stats.  The stat(s) to train, and the amount of time
         // spent in training, depend on a member's role.
-        const hacker = name.filter((s) => this.is_hacker(s));
-        const combatant = name.filter((s) => this.is_combatant(s));
-        const other = name.filter((s) => this.is_miscellaneous(s));
+        const hacker = name.filter(this.is_hacker);
+        const combatant = name.filter(this.is_combatant);
+        const other = name.filter(this.is_miscellaneous);
         assert(hacker.length > 0 || combatant.length > 0 || other.length > 0);
         this.train_combat(combatant);
         this.train_hack(hacker);
