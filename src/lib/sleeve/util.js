@@ -20,15 +20,17 @@ import { bool } from "/quack/lib/constant/bool.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { assert } from "/quack/lib/util.js";
 
+/// ///////////////////////////////////////////////////////////////////////
 // Utility functions for managing sleeves.  Use one or more of these utility
 // functions to help lower the RAM cost of our scripts.  Importing one utility
 // function does not incur as much RAM cost as importing the Sleeve class.
+/// ///////////////////////////////////////////////////////////////////////
 
 /**
  * The index of every sleeve.
  *
- * @param ns The Netscript API.
- * @return An array of sleeve indices.
+ * @param {NS} ns The Netscript API.
+ * @returns {array<number>} Sleeve indices.
  */
 export function all_sleeves(ns) {
     return MyArray.sequence(ns.sleeve.getNumSleeves());
@@ -37,9 +39,9 @@ export function all_sleeves(ns) {
 /**
  * Whether the combat stats of sleeves are at least a given threshold.
  *
- * @param ns The Netscript API.
- * @return True if the combat stats of each sleeve are each at least cc_t.MUG;
- *     false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if the combat stats of each sleeve are each at least
+ *     cc_t.MUG; false otherwise.
  */
 export function has_mug_threshold(ns) {
     const all_cc = all_sleeves(ns);
@@ -62,9 +64,9 @@ export function has_mug_threshold(ns) {
  * Whether the Dexterity and Agility stats of sleeves are at least a given
  * threshold.
  *
- * @param ns The Netscript API.
- * @return True if the Dexterity and Agility stats of each sleeve are each
- *     at least cc_t.SHOP; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if the Dexterity and Agility stats of each sleeve are
+ *     each at least cc_t.SHOP; false otherwise.
  */
 export function has_shoplift_threshold(ns) {
     const all_cc = all_sleeves(ns);
@@ -81,9 +83,10 @@ export function has_shoplift_threshold(ns) {
 /**
  * Whether an array contains valid sleeve indices.
  *
- * @param ns The Netscript API.
- * @param s An array of sleeve indices.
- * @return True if the array has all valid sleeve indices; false otherwise.
+ * @param {NS} ns The Netscript API.
+ * @param {array<number>} s Sleeve indices.
+ * @returns {boolean} True if the array has all valid sleeve indices;
+ *     false otherwise.
  */
 function is_valid_index(ns, s) {
     const min = 0;
