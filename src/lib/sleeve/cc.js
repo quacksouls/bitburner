@@ -18,8 +18,9 @@
 import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * A class to manage various aspects of sleeves.
@@ -89,12 +90,12 @@ export class Sleeve {
         // Sanity checks.
         assert(this.#is_valid_index([idx]));
         const aug = this.#ns.sleeve.getSleevePurchasableAugs(idx);
-        if (aug.length === 0) {
+        if (MyArray.is_empty(aug)) {
             return [];
         }
 
         // Find the cheapest Augmentation.
-        let name = "";
+        let name = empty_string;
         let cost = Infinity;
         aug.forEach((a) => {
             if (a.cost < cost) {
@@ -102,7 +103,7 @@ export class Sleeve {
                 name = a.name;
             }
         });
-        assert(name !== "");
+        assert(!is_empty_string(name));
         assert(cost < Infinity);
         return [name, cost];
     }
@@ -138,7 +139,7 @@ export class Sleeve {
      *     false otherwise or the array is empty.
      */
     graduate_mug(s) {
-        if (s.length === 0) {
+        if (MyArray.is_empty(s)) {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
@@ -159,7 +160,7 @@ export class Sleeve {
      *     false otherwise or the array is empty.
      */
     graduate_shoplift(s) {
-        if (s.length === 0) {
+        if (MyArray.is_empty(s)) {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
@@ -210,7 +211,7 @@ export class Sleeve {
      * @param {array<number>} s Sleeve indices.
      */
     homicide(s) {
-        if (s.length === 0) {
+        if (MyArray.is_empty(s)) {
             return;
         }
         assert(this.#is_valid_index(s));
@@ -252,7 +253,7 @@ export class Sleeve {
     #is_valid_index(s) {
         const min = 0;
         const max = this.#ns.sleeve.getNumSleeves();
-        assert(s.length > 0);
+        assert(!MyArray.is_empty(s));
         for (const i of s) {
             if (i < min || i >= max) {
                 return bool.INVALID;
@@ -267,7 +268,7 @@ export class Sleeve {
      * @param {array<number>} s Sleeve indices.
      */
     mug(s) {
-        if (s.length === 0) {
+        if (MyArray.is_empty(s)) {
             return;
         }
         assert(this.#is_valid_index(s));
@@ -280,7 +281,7 @@ export class Sleeve {
      * @param {array<number>} s Sleeve indices.
      */
     shoplift(s) {
-        if (s.length === 0) {
+        if (MyArray.is_empty(s)) {
             return;
         }
         assert(this.#is_valid_index(s));
