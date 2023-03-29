@@ -25,7 +25,7 @@ import { exec, has_all_popen } from "/quack/lib/util.js";
  * Commit crime to raise money for purchasing port opener programs.  Stop as
  * soon as we have bought all port opener programs.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function commit_crime(ns) {
     log(ns, `Commit crime to raise money: ${crimes.KILL}`);
@@ -39,7 +39,7 @@ async function commit_crime(ns) {
 /**
  * Suppress various log messages.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function shush(ns) {
     ns.disableLog("getHackingLevel");
@@ -54,7 +54,7 @@ function shush(ns) {
  *
  * Usage: run quack/singularity/program.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     shush(ns);

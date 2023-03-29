@@ -28,14 +28,16 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Passively farm Intelligence XP.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function farm_intelligence(ns) {
     log(ns, "Passively farm for Intelligence XP");
+
     // The minimum amount of money we should have in order to purchase one of
     // the cheapest programs.
     const m = new Money();
     const min_money = 10 * m.million();
+
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
     const player = new Player(ns);
@@ -62,8 +64,8 @@ async function farm_intelligence(ns) {
  * money we have.  The higher is our money, the lower is the sleep interval and
  * the more programs we buy.
  *
- * @param ns The Netscript API.
- * @return An array [k, t] as follows:
+ * @param {NS} ns The Netscript API.
+ * @returns {array} An array [k, t] as follows:
  *
  *     (1) k := How many programs to purchase.  We buy this many programs in
  *         one go, then sleep.
@@ -82,6 +84,7 @@ function purchase_schedule(ns) {
         // Should never reach here.
         assert(false);
     }
+
     // We are filthy rich.  Use a dynamic purchasing schedule.  We limit the
     // batch size to prevent the script from slowing down the UI.
     let howmany = Math.floor(funds / buy_schedule.DIVISOR);
@@ -96,9 +99,9 @@ function purchase_schedule(ns) {
  * focus.  At the moment, the action we want to perform periodically is
  * purchase one of the cheapest programs via the dark web.
  *
- * Usage: run singularity/int-farm.js
+ * Usage: run quack/singularity/int-farm.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     if (!has_ai_api(ns)) {

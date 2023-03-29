@@ -24,8 +24,8 @@ import { assert, exec } from "/quack/lib/util.js";
 /**
  * Choose the threshold amount of money to raise.
  *
- * @param ns The Netscript API.
- * @return The amount of money to raise.
+ * @param {NS} ns The Netscript API.
+ * @returns {number} The amount of money to raise.
  */
 function choose_threshold(ns) {
     // If our server is not high-end, then the threshold is the cost of
@@ -33,6 +33,7 @@ function choose_threshold(ns) {
     if (ns.getServer(home).maxRam < home_t.RAM_HIGH) {
         return Math.ceil(ns.singularity.getUpgradeHomeRamCost());
     }
+
     // The default threshold.
     const m = new Money();
     return 5 * m.million();
@@ -41,9 +42,9 @@ function choose_threshold(ns) {
 /**
  * Commit various crimes to raise money.
  *
- * @param ns The Netscript API.
- * @param threshold Continue to commit crimes until our money is at least this
- *     amount.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Continue to commit crimes until our money is at
+ *     least this amount.
  */
 async function commit_crimes(ns, threshold) {
     assert(threshold > 0);
@@ -51,6 +52,7 @@ async function commit_crimes(ns, threshold) {
     const script = "/quack/singularity/crime.js";
     const nthread = 1;
     ns.exec(script, home, nthread, threshold);
+
     // Wait for the crime script to end.
     while (ns.scriptRunning(script, home)) {
         await ns.sleep(wait_t.DEFAULT);
@@ -60,8 +62,8 @@ async function commit_crimes(ns, threshold) {
 /**
  * Whether to upgrade the RAM of our home server.
  *
- * @param ns The Netscript API.
- * @return True if we need to upgrade the RAM of our home server;
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we need to upgrade the RAM of our home server;
  *     false otherwise.
  */
 function is_upgrade_home_ram(ns) {
@@ -72,7 +74,7 @@ function is_upgrade_home_ram(ns) {
 /**
  * Run the next script in the load chain.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function load_chain(ns) {
     exec(ns, "/quack/chain/misc.js");
@@ -86,7 +88,7 @@ function load_chain(ns) {
  *
  * Usage: run quack/singularity/money.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Suppress various log messages.
@@ -110,6 +112,7 @@ export async function main(ns) {
             await commit_crimes(ns, cost);
             success = ns.singularity.upgradeHomeRam();
         }
+
         // Reboot to take advantage of the newly upgraded home server.
         ns.singularity.softReset("/quack/go.js");
     }

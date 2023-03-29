@@ -87,6 +87,7 @@ async function upgrade(ns) {
 async function upgrade_ram(ns) {
     log(ns, "Upgrade home RAM");
     const success = ns.singularity.upgradeHomeRam();
+
     // We are willing to wait some time for our funds to increase.  After the
     // waiting period is over, try to upgrade the RAM again.  If we are still
     // unsuccessful at the second attempt, then move on.

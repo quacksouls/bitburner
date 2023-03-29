@@ -26,9 +26,9 @@ import { assert } from "/quack/lib/util.js";
  * Commit some other crime to earn some income.  We also want to lower our
  * karma so that we can create a gang at some later time.
  *
- * @param ns The Netscript API.
- * @param threshold Continue committing crimes as long as our money is less
- *     than this amount.
+ * @param {NS} ns The Netscript API.
+ * @param {number} threshold Continue committing crimes as long as our money is
+ *     less than this amount.
  */
 async function commit_other_crime(ns, threshold) {
     assert(threshold > 0);
@@ -46,8 +46,8 @@ async function commit_other_crime(ns, threshold) {
 /**
  * Whether our combat stats are at least a given threshold.
  *
- * @param ns The Netscript API.
- * @return True if our combat stats are each at least crimes_t.MUG;
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if our combat stats are each at least crimes_t.MUG;
  *     false otherwise.
  */
 function has_mug_threshold(ns) {
@@ -63,8 +63,8 @@ function has_mug_threshold(ns) {
 /**
  * Whether our Dexterity and Agility stats are at least a given threshold.
  *
- * @param ns The Netscript API.
- * @return True if our Dexterity and Agility stats are each at least
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if our Dexterity and Agility stats are each at least
  *   crimes_t.SHOP; false otherwise.
  */
 function has_shoplift_threshold(ns) {
@@ -76,7 +76,7 @@ function has_shoplift_threshold(ns) {
  * Mug someone a few times to raise all our combat stats, i.e. Strength,
  * Defense, Dexterity, Agility.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function mug_someone(ns) {
     log(ns, "Mug someone to raise money and combat stats");
@@ -92,7 +92,7 @@ async function mug_someone(ns) {
 /**
  * Shoplift a few times to raise our Dexterity and Agility stats.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function shoplift(ns) {
     log(ns, "Shoplift to raise money, and Dexterity and Agility stats");
@@ -126,9 +126,9 @@ async function shoplift(ns) {
  * script as low as possible.  Do not add anything to the script unless
  * absolutely necessary.
  *
- * Usage: run singularity/crime.js [threshold]
+ * Usage: run quack/singularity/crime.js [threshold]
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Sanity checks.
@@ -136,6 +136,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     const threshold = Math.floor(ns.args[0]);
     assert(threshold > 0);
+
     // Commit crimes as long as our funds is less than the given threshold.
     await shoplift(ns);
     await mug_someone(ns);
