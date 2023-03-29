@@ -89,19 +89,19 @@ export class Sleeve {
     cheapest_augment(idx) {
         // Sanity checks.
         assert(this.#is_valid_index([idx]));
+        // Array of [cost, aug_name].
         const aug = this.#ns.sleeve.getSleevePurchasableAugs(idx);
         if (MyArray.is_empty(aug)) {
             return [];
         }
 
         // Find the cheapest Augmentation.
-        const init_value = [empty_string, Infinity];
-        // ([aug_name, cost], augment)
+        const init_value = [Infinity, empty_string];
         const min_aug = (acc, au) => {
             const [cost, au_name] = au;
-            return cost < acc[1] ? [au_name, cost] : acc;
+            return cost < acc[0] ? [cost, au_name] : acc;
         };
-        const [name, cost] = aug.reduce(min_aug, init_value);
+        const [cost, name] = aug.reduce(min_aug, init_value);
         assert(!is_empty_string(name));
         assert(cost < Infinity);
 
