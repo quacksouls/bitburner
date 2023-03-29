@@ -83,9 +83,10 @@ function reassign_excess_vigilante(ns, threshold) {
     const tau = Math.floor(threshold);
     assert(tau > 0);
     const gangster = new Gangster(ns);
-    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
-    const hacker = ns.gang.getMemberNames().filter(gangster.is_hacker);
-    const vanguard = vigilante.filter(gangster.is_vanguard);
+    const member = ns.gang.getMemberNames();
+    const vigilante = member.filter((s) => gangster.is_vigilante(s));
+    const hacker = member.filter((s) => gangster.is_hacker(s));
+    const vanguard = vigilante.filter((s) => gangster.is_vanguard(s));
 
     // The Vanguard is always the first to be assigned to vigilante justice.
     // The Hacker is always the next member to be assigned to this task.
@@ -142,15 +143,16 @@ export function reassign_soft_reset(ns) {
     // We want only one gang member on vigilante justice.  That member is the
     // Vanguard.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang.getMemberNames().filter(gangster.is_vanguard);
+    const member = ns.gang.getMemberNames();
+    const vanguard = member.filter((s) => gangster.is_vanguard(s));
     assert(vanguard.length === 1);
     gangster.vigilante(vanguard);
 
     // Other members currently on vigilante justice are reassigned to other
     // jobs.
-    const vigilante = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_vigilante(s) && !gangster.is_vanguard(s));
+    const vigilante = member.filter(
+        (s) => gangster.is_vigilante(s) && !gangster.is_vanguard(s)
+    );
     vigilante.forEach((s) => {
         if (gangster.is_hacker(s)) {
             gangster.blackmail([s]);
@@ -174,17 +176,18 @@ function reassign_to_vigilante(ns, threshold) {
 
     // All gang members who should be on vigilante justice.
     const gangster = new Gangster(ns);
-    const vanguard = ns.gang.getMemberNames().filter(gangster.is_vanguard);
-    const hacker = ns.gang.getMemberNames().filter(gangster.is_hacker);
-    const artillery = ns.gang.getMemberNames().filter(gangster.is_artillery);
-    const pilot = ns.gang.getMemberNames().filter(gangster.is_pilot);
+    const member = ns.gang.getMemberNames();
+    const vanguard = member.filter((s) => gangster.is_vanguard(s));
+    const hacker = member.filter((s) => gangster.is_hacker(s));
+    const artillery = member.filter((s) => gangster.is_artillery(s));
+    const pilot = member.filter((s) => gangster.is_pilot(s));
 
     // Determine which members to assign to vigilante justice.  The Vanguard is
     // always the first to be assigned to vigilante justice.  This is followed
     // by the Hacker.  Next comes the Artillery and the Pilot, who are assigned
     // to vigilante justice in that order.
     const candidate = [vanguard, hacker, artillery, pilot].flat();
-    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
+    const vigilante = member.filter((s) => gangster.is_vigilante(s));
     assert(vigilante.length < candidate.length);
     assert(vigilante.length < tau);
     while (vigilante.includes(candidate[0])) {
@@ -214,7 +217,8 @@ export function reassign_vigilante(ns) {
     // our wanted level.  With such a small membership, it is more important to
     // raise the members' stats and recruit more members than to lower our
     // wanted level.
-    assert(ns.gang.getMemberNames().length > members.HALF);
+    const member = ns.gang.getMemberNames();
+    assert(member.length > members.HALF);
 
     // Do we already have the required number of members on vigilante justice?
     if (has_enough_vigilante(ns)) {
@@ -225,7 +229,7 @@ export function reassign_vigilante(ns) {
     // of vigilante justice and into some other jobs.
     const gangster = new Gangster(ns);
     const tau = choose_vigilante_threshold(ns);
-    const vigilante = ns.gang.getMemberNames().filter(gangster.is_vigilante);
+    const vigilante = member.filter((s) => gangster.is_vigilante(s));
     if (vigilante.length > tau) {
         reassign_excess_vigilante(ns, tau);
         return;
