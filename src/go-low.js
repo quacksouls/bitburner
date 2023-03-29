@@ -71,10 +71,7 @@ async function reboot(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    log(
-        ns,
-        "Home server is low-end. Bootstrap with a small number of scripts."
-    );
+    log(ns, "Home server is low-end. Bootstrap with some scripts.");
     assert(has_singularity_api(ns));
     await reboot(ns);
     exec(ns, "/quack/chain/money.js");
