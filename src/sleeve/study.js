@@ -52,6 +52,7 @@ export async function main(ns) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
+
     // Study at a university.
     log(ns, course.CS);
     all_sleeves(ns).forEach((i) => {

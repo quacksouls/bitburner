@@ -38,7 +38,7 @@ import {
  *     Underworld, our karma must be at -54,000 or lower to meet one of the
  *     requirements for creating a gang.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function commit_crimes(ns) {
     // Shoplift.
@@ -47,12 +47,14 @@ async function commit_crimes(ns) {
     while (!has_shoplift_threshold(ns)) {
         await ns.sleep(wait_t.SECOND);
     }
+
     // Mugging people.
     log(ns, crimes.MUG);
     all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.MUG));
     while (!has_mug_threshold(ns)) {
         await ns.sleep(wait_t.SECOND);
     }
+
     // Homicide.
     log(ns, crimes.KILL);
     all_sleeves(ns).forEach((i) => ns.sleeve.setToCommitCrime(i, crimes.KILL));
@@ -62,9 +64,9 @@ async function commit_crimes(ns) {
  * Assign sleeves to commit crimes as a means of earning some money in the early
  * stages of a BitNode.
  *
- * Usage: run sleeve/money.js
+ * Usage: run quack/sleeve/money.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     ns.disableLog("sleep");

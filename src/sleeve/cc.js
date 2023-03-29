@@ -28,7 +28,7 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Purchase Augmentations and install them on our sleeves.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 function buy_augmentation(ns) {
     const player = new Player(ns);
@@ -57,10 +57,10 @@ function buy_augmentation(ns) {
  *     Underworld, our karma must be at -54,000 or lower to meet one of the
  *     requirements for creating a gang.
  *
- * @param ns The Netscript API.
- * @param crime Assign sleeves to commit this crime.
- * @param tau Commit the given crime for this amount of time (in milliseconds).
- *     Must be non-negative integer.
+ * @param {NS} ns The Netscript API.
+ * @param {string} crime Assign sleeves to commit this crime.
+ * @param {number} tau Commit the given crime for this amount of time (in
+ *     milliseconds).  Must be non-negative integer.
  */
 async function commit_crime(ns, crime, tau) {
     assert(tau >= 0);
@@ -77,7 +77,7 @@ async function commit_crime(ns, crime, tau) {
 /**
  * Retrain the combat stats of our sleeves.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function retrain(ns) {
     // Train Dexterity and Agility by shoplift.
@@ -89,6 +89,7 @@ async function retrain(ns) {
             await ns.sleep(wait_t.SECOND);
         }
     }
+
     // Train combat stats by mugging people.
     trainee = sleeve.all().filter((i) => !sleeve.has_mug_threshold(i));
     if (trainee.length > 0) {
@@ -103,9 +104,9 @@ async function retrain(ns) {
 /**
  * Assign sleeves to shock recovery.
  *
- * @param ns The Netscript API.
- * @param tau Be in shock recovery for this amount of time (in milliseconds).
- *     Must be a positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} tau Be in shock recovery for this amount of time (in
+ *     milliseconds).  Must be a positive integer.
  */
 async function shock_therapy(ns, tau) {
     assert(tau > 0);
@@ -121,9 +122,9 @@ async function shock_therapy(ns, tau) {
 /**
  * Assign sleeves to synchronize with the consciousness of the player.
  *
- * @param ns The Netscript API.
- * @param tau Synchronize for this amount of time (in milliseconds).  Must be a
- *     positive integer.
+ * @param {NS} ns The Netscript API.
+ * @param {number} tau Synchronize for this amount of time (in milliseconds).
+ *     Must be a positive integer.
  */
 async function synchronize(ns, tau) {
     assert(tau > 0);
@@ -139,7 +140,7 @@ async function synchronize(ns, tau) {
 /**
  * Manage our sleeves via an update loop.
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 async function update(ns) {
     buy_augmentation(ns);
@@ -152,19 +153,21 @@ async function update(ns) {
 /**
  * Manage our sleeves.
  *
- * Usage: run sleeve/cc.js
+ * Usage: run quack/sleeve/cc.js
  *
- * @param ns The Netscript API.
+ * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
     // Less verbose log.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+
     // Sanity check.
     if (!has_sleeve_api(ns)) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;
     }
+
     // The update loop.
     for (;;) {
         await update(ns);
