@@ -19,6 +19,7 @@ import { bool } from "/quack/lib/constant/bool.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
+import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { exec } from "/quack/lib/util.js";
 
@@ -54,8 +55,7 @@ function has_api_access(ns) {
  *     false otherwise.
  */
 function has_money_threshold(ns) {
-    const player = new Player(ns);
-    return player.money() >= wse.reserve.AMOUNT;
+    return money(ns) >= wse.reserve.AMOUNT;
 }
 
 /**
