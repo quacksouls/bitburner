@@ -95,16 +95,16 @@ export class Sleeve {
         }
 
         // Find the cheapest Augmentation.
-        let name = empty_string;
-        let cost = Infinity;
-        aug.forEach((a) => {
-            if (a.cost < cost) {
-                cost = a.cost;
-                name = a.name;
-            }
-        });
+        const init_value = [empty_string, Infinity];
+        // ([aug_name, cost], augment)
+        const min_aug = (acc, au) => {
+            const [cost, au_name] = au;
+            return cost < acc[1] ? [au_name, cost] : acc;
+        };
+        const [name, cost] = aug.reduce(min_aug, init_value);
         assert(!is_empty_string(name));
         assert(cost < Infinity);
+
         return [name, cost];
     }
 
@@ -143,12 +143,7 @@ export class Sleeve {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
-        for (const i of s) {
-            if (!this.has_mug_threshold(i)) {
-                return bool.NOT;
-            }
-        }
-        return bool.GRADUATE;
+        return s.every(this.has_mug_threshold);
     }
 
     /**
@@ -164,12 +159,7 @@ export class Sleeve {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
-        for (const i of s) {
-            if (!this.has_shoplift_threshold(i)) {
-                return bool.NOT;
-            }
-        }
-        return bool.GRADUATE;
+        return s.every(this.has_shoplift_threshold);
     }
 
     /**
@@ -254,12 +244,8 @@ export class Sleeve {
         const min = 0;
         const max = this.#ns.sleeve.getNumSleeves();
         assert(!MyArray.is_empty(s));
-        for (const i of s) {
-            if (i < min || i >= max) {
-                return bool.INVALID;
-            }
-        }
-        return bool.VALID;
+        const is_valid = (i) => min <= i && i < max;
+        return s.every(is_valid);
     }
 
     /**
@@ -305,8 +291,8 @@ export class Sleeve {
      */
     shock_recovery() {
         this.all()
-            .filter((i) => this.is_in_shock(i))
-            .forEach((j) => this.#ns.sleeve.setToShockRecovery(j));
+            .filter(this.is_in_shock)
+            .forEach(this.#ns.sleeve.setToShockRecovery);
     }
 
     /**
@@ -316,6 +302,6 @@ export class Sleeve {
     synchronize() {
         this.all()
             .filter((i) => !this.is_in_sync(i))
-            .forEach((j) => this.#ns.sleeve.setToSynchronize(j));
+            .forEach(this.#ns.sleeve.setToSynchronize);
     }
 }
