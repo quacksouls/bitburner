@@ -287,13 +287,12 @@ function total_reputation(ns, fac) {
     }
 
     // The total reputation points we need to earn.
-    const init_value = 0;
-    const max_rep = (aug, curr) => {
-        // (augment, max_rep_cost)
+    const init_value = [empty_string, 0]; // [aug, rep]
+    const max_rep = (aug_rep, aug) => {
         const rep = ns.singularity.getAugmentationRepReq(aug);
-        return Math.max(rep, curr);
+        return aug_rep[1] < rep ? [aug, rep] : aug_rep;
     };
-    return augment.reduce(max_rep, init_value);
+    return augment.reduce(max_rep, init_value)[1];
 }
 
 /**
