@@ -18,7 +18,6 @@
 import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
-import { empty_string } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -89,19 +88,15 @@ export class Sleeve {
     cheapest_augment(idx) {
         // Sanity checks.
         assert(this.#is_valid_index([idx]));
-        // Array of [cost, aug_name].
+        // Array of {cost, aug_name}.
         const aug = this.#ns.sleeve.getSleevePurchasableAugs(idx);
         if (MyArray.is_empty(aug)) {
             return [];
         }
 
         // Find the cheapest Augmentation.
-        const init_value = [Infinity, empty_string];
-        const min_aug = (acc, au) => {
-            const [cost, au_name] = au;
-            return cost < acc[0] ? [cost, au_name] : acc;
-        };
-        const [cost, name] = aug.reduce(min_aug, init_value);
+        const min_aug = (acc, au) => (au.cost < acc.cost ? au : acc);
+        const { cost, name } = aug.reduce(min_aug);
         assert(!is_empty_string(name));
         assert(cost < Infinity);
 
