@@ -111,7 +111,7 @@ async function retrain(ns) {
 async function shock_therapy(ns, tau) {
     assert(tau > 0);
     const sleeve = new Sleeve(ns);
-    const to_therapy = sleeve.all().filter(sleeve.is_in_shock);
+    const to_therapy = sleeve.all().filter((i) => sleeve.is_in_shock(i));
     if (!MyArray.is_empty(to_therapy)) {
         log(ns, "Shock recovery");
         sleeve.shock_recovery();
