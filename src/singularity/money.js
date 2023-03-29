@@ -18,7 +18,7 @@
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { Money } from "/quack/lib/money.js";
+import { Money, money } from "/quack/lib/money.js";
 import { assert, exec } from "/quack/lib/util.js";
 
 /**
@@ -67,8 +67,7 @@ async function commit_crimes(ns, threshold) {
  *     false otherwise.
  */
 function is_upgrade_home_ram(ns) {
-    const home_ram = ns.getServer(home).maxRam;
-    return home_ram < home_t.RAM_HIGH;
+    return ns.getServer(home).maxRam < home_t.RAM_HIGH;
 }
 
 /**
@@ -93,10 +92,10 @@ function load_chain(ns) {
 export async function main(ns) {
     // Suppress various log messages.
     ns.disableLog("sleep");
+
     // Commit crime to raise some money.
-    const player_money = ns.getServerMoneyAvailable(home);
     const threshold = choose_threshold(ns);
-    if (player_money > threshold && !is_upgrade_home_ram(ns)) {
+    if (money(ns) > threshold && !is_upgrade_home_ram(ns)) {
         load_chain(ns);
         return;
     }
@@ -105,6 +104,7 @@ export async function main(ns) {
     // If our home server is not high-end, upgrade the RAM on the home server.
     if (is_upgrade_home_ram(ns)) {
         log(ns, "Raise money to upgrade home RAM");
+
         // Upgrade the RAM on the home server.
         const cost = ns.singularity.getUpgradeHomeRamCost();
         let success = ns.singularity.upgradeHomeRam();

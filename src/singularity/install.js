@@ -19,11 +19,13 @@ import { bool } from "/quack/lib/constant/bool.js";
 import { cheapest_program } from "/quack/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/quack/lib/constant/faction.js";
 import { colour } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/quack/lib/gang/util.js";
 import { log } from "/quack/lib/io.js";
+import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { join_all_factions } from "/quack/lib/singularity/faction.js";
 import { has_ai_api } from "/quack/lib/source.js";
@@ -50,7 +52,6 @@ function buy_exclusive_augmentations(ns) {
     const gang_faction = ns.gang.getGangInformation().faction;
 
     // Attempt to purchase the exclusive Augmentations.
-    const player = new Player(ns);
     const installed = new Set(installed_augmentations(ns));
     for (const faction of Object.keys(exclusive_aug)) {
         for (const aug of exclusive_aug[faction]) {
@@ -62,8 +63,7 @@ function buy_exclusive_augmentations(ns) {
             if (fac_rep < aug_rep) {
                 continue;
             }
-            const cost = ns.singularity.getAugmentationPrice(aug);
-            if (player.money() < cost) {
+            if (money(ns) < ns.singularity.getAugmentationPrice(aug)) {
                 continue;
             }
             ns.singularity.purchaseAugmentation(gang_faction, aug);
@@ -93,7 +93,6 @@ function buy_other_augmentations(ns) {
 
     // Buy other Augmentations available from our gang faction.
     const { faction } = ns.gang.getGangInformation();
-    const player = new Player(ns);
     const aug = ns.singularity
         .getAugmentationsFromFaction(faction)
         .filter((a) => a !== augment.TRP);
@@ -106,8 +105,7 @@ function buy_other_augmentations(ns) {
         if (fac_rep < aug_rep) {
             continue;
         }
-        const cost = ns.singularity.getAugmentationPrice(a);
-        if (player.money() < cost) {
+        if (money(ns) < ns.singularity.getAugmentationPrice(a)) {
             continue;
         }
         assert(ns.singularity.purchaseAugmentation(faction, a));
@@ -211,9 +209,8 @@ function set_neutral_gang(ns) {
     // First, kill our gang script.
     const script = "/quack/gang/crime.js";
     const { faction } = ns.gang.getGangInformation();
-    const player = new Player(ns);
-    if (ns.isRunning(script, player.home(), faction)) {
-        assert(ns.kill(script, player.home(), faction));
+    if (ns.isRunning(script, home, faction)) {
+        assert(ns.kill(script, home, faction));
     }
 
     // Assign vigilantes.
@@ -221,9 +218,7 @@ function set_neutral_gang(ns) {
 
     // Put anyone in combat training to mug people.
     const gangster = new Gangster(ns);
-    const newbie = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_training(s));
+    const newbie = ns.gang.getMemberNames().filter(gangster.is_training);
     gangster.mug(newbie);
 
     // Finally, disengage from turf warfare so members would not be killed
@@ -243,12 +238,12 @@ export async function main(ns) {
     // some shares.
     trade_bot_stop_buy(ns);
     const time = 3 * wse.TICK;
-    log(
-        ns,
-        `Wait ${time / wait_t.SECOND} seconds to sell shares of stocks (if any)`
-    );
+    const time_fmt = `${time / wait_t.SECOND}`;
+    const msg = `Wait ${time_fmt} seconds to sell shares of stocks (if any)`;
+    log(ns, msg);
     await ns.sleep(time);
     trade_bot_resume(ns);
+
     // Now sell all shares of all remaining stocks.
     trade_bot_liquidate(ns);
     log(ns, "Liquidate all stocks (if any)");

@@ -21,7 +21,9 @@ import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { study } from "/quack/lib/singularity/study.js";
-import { assert, exec } from "/quack/lib/util.js";
+import {
+    assert, exec, has_program, is_empty_string,
+} from "/quack/lib/util.js";
 
 /**
  * If our home server is less than a mid-sized server, then run a script to
@@ -51,8 +53,6 @@ async function bootstrap(ns) {
  * @param {string} program The name of the program we want to create.
  */
 async function create_program(ns, program) {
-    // Sanity checks.
-    assert(program.length > 0);
     assert(is_valid_program(program));
 
     // Do we already have the program?  We can have a program without meeting
@@ -88,19 +88,6 @@ function hack_requirement(program) {
 }
 
 /**
- * Whether we have the given program on our home server.
- *
- * @param {NS} ns The Netscript API.
- * @param {string} program The name of a program.
- * @returns {boolean} True if we already have the given program;
- *     false otherwise.
- */
-function has_program(ns, program) {
-    assert(is_valid_program(program));
-    return ns.fileExists(program, home);
-}
-
-/**
  * Whether the given name is a valid program.
  *
  * @param {string} name The name of a program.
@@ -108,7 +95,7 @@ function has_program(ns, program) {
  *     false otherwise.
  */
 function is_valid_program(name) {
-    assert(name.length > 0);
+    assert(!is_empty_string(name));
     const program = all_programs();
     return program.has(name);
 }

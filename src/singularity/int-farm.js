@@ -20,7 +20,7 @@ import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { Money } from "/quack/lib/money.js";
+import { Money, money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { has_ai_api } from "/quack/lib/source.js";
 import { assert } from "/quack/lib/util.js";
@@ -40,18 +40,17 @@ async function farm_intelligence(ns) {
 
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
-    const player = new Player(ns);
     const p = cheapest_program.NAME;
-    ns.rm(p, player.home());
+    ns.rm(p, home);
     for (;;) {
-        if (player.money() < min_money) {
+        if (money(ns) < min_money) {
             await ns.sleep(2 * wait_t.MINUTE);
             continue;
         }
         const [k, time] = purchase_schedule(ns);
         for (let i = 0; i < k; i++) {
             assert(ns.singularity.purchaseProgram(p));
-            assert(ns.rm(p, player.home()));
+            assert(ns.rm(p, home));
         }
         await ns.sleep(time);
     }
@@ -74,10 +73,9 @@ async function farm_intelligence(ns) {
  */
 function purchase_schedule(ns) {
     // Low on funds.  Use a pre-defined purchasing schedule.
-    const funds = ns.getServerMoneyAvailable(home);
-    if (funds < buy_schedule.DYNAMIC_TAU) {
+    if (money(ns) < buy_schedule.DYNAMIC_TAU) {
         for (let i = 0; i < buy_schedule.money.length; i++) {
-            if (funds >= buy_schedule.money[i]) {
+            if (money(ns) >= buy_schedule.money[i]) {
                 return [buy_schedule.howmany[i], buy_schedule.time[i]];
             }
         }
@@ -87,7 +85,7 @@ function purchase_schedule(ns) {
 
     // We are filthy rich.  Use a dynamic purchasing schedule.  We limit the
     // batch size to prevent the script from slowing down the UI.
-    let howmany = Math.floor(funds / buy_schedule.DIVISOR);
+    let howmany = Math.floor(money(ns) / buy_schedule.DIVISOR);
     howmany = Math.min(howmany, buy_schedule.MAX_BATCH_SIZE);
     return [howmany, wait_t.MILLISECOND];
 }

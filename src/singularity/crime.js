@@ -17,9 +17,9 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes, crimes_t } from "/quack/lib/constant/crime.js";
-import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
+import { money } from "/quack/lib/money.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -32,12 +32,10 @@ import { assert } from "/quack/lib/util.js";
  */
 async function commit_other_crime(ns, threshold) {
     assert(threshold > 0);
-    log(
-        ns,
-        `Commit homicide to raise money to ${ns.nFormat(threshold, "$0,0.00a")}`
-    );
+    const money_fmt = `${ns.nFormat(threshold, "$0,0.00a")}`;
+    log(ns, `Commit homicide to raise money to ${money_fmt}`);
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
-    while (ns.getServerMoneyAvailable(home) < threshold) {
+    while (money(ns) < threshold) {
         await ns.sleep(wait_t.SECOND);
     }
     ns.singularity.stopAction();
