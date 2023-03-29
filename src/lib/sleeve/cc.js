@@ -143,7 +143,8 @@ export class Sleeve {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
-        return s.every(this.has_mug_threshold);
+        const has_threshold = (i) => this.has_mug_threshold(i);
+        return s.every(has_threshold);
     }
 
     /**
@@ -159,7 +160,8 @@ export class Sleeve {
             return bool.NOT;
         }
         assert(this.#is_valid_index(s));
-        return s.every(this.has_shoplift_threshold);
+        const has_threshold = (i) => this.has_shoplift_threshold(i);
+        return s.every(has_threshold);
     }
 
     /**
@@ -291,8 +293,8 @@ export class Sleeve {
      */
     shock_recovery() {
         this.all()
-            .filter(this.is_in_shock)
-            .forEach(this.#ns.sleeve.setToShockRecovery);
+            .filter((i) => this.is_in_shock(i))
+            .forEach((i) => this.#ns.sleeve.setToShockRecovery(i));
     }
 
     /**
@@ -302,6 +304,6 @@ export class Sleeve {
     synchronize() {
         this.all()
             .filter((i) => !this.is_in_sync(i))
-            .forEach(this.#ns.sleeve.setToSynchronize);
+            .forEach((i) => this.#ns.sleeve.setToSynchronize(i));
     }
 }
