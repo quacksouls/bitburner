@@ -85,7 +85,7 @@ export async function main(ns) {
     // Continuously trade on the Stock Market.
     const allow_short = can_short(ns);
     log(ns, "Trading on the Stock Market");
-    let portfolio = initial_portfolio(ns, bool.HAS_4S);
+    let portfolio = await initial_portfolio(ns, bool.HAS_4S);
     for (;;) {
         if (is_liquidate(ns)) {
             liquidate_all(ns);
