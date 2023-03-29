@@ -15,12 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { Player } from "/quack/lib/player.js";
+import { money } from "/quack/lib/money.js";
 import { has_sleeve_api } from "/quack/lib/source.js";
 import { Sleeve } from "/quack/lib/sleeve/cc.js";
 import { assert } from "/quack/lib/util.js";
@@ -31,15 +32,14 @@ import { assert } from "/quack/lib/util.js";
  * @param {NS} ns The Netscript API.
  */
 function buy_augmentation(ns) {
-    const player = new Player(ns);
     const sleeve = new Sleeve(ns);
     sleeve.all().forEach((i) => {
         const aug = sleeve.cheapest_augment(i);
-        if (aug.length === 0) {
+        if (MyArray.is_empty(aug)) {
             return;
         }
         const [name, cost] = aug;
-        if (player.money() > cc_t.COST_MULT * cost) {
+        if (money(ns) > cc_t.COST_MULT * cost) {
             sleeve.buy_augment(i, name);
         }
     });
@@ -83,7 +83,7 @@ async function retrain(ns) {
     // Train Dexterity and Agility by shoplift.
     const sleeve = new Sleeve(ns);
     let trainee = sleeve.all().filter((i) => !sleeve.has_shoplift_threshold(i));
-    if (trainee.length > 0) {
+    if (!MyArray.is_empty(trainee)) {
         sleeve.shoplift(trainee);
         while (!sleeve.graduate_shoplift(trainee)) {
             await ns.sleep(wait_t.SECOND);
@@ -92,7 +92,7 @@ async function retrain(ns) {
 
     // Train combat stats by mugging people.
     trainee = sleeve.all().filter((i) => !sleeve.has_mug_threshold(i));
-    if (trainee.length > 0) {
+    if (!MyArray.is_empty(trainee)) {
         sleeve.mug(trainee);
         while (!sleeve.graduate_mug(trainee)) {
             await ns.sleep(wait_t.SECOND);
@@ -111,12 +111,22 @@ async function retrain(ns) {
 async function shock_therapy(ns, tau) {
     assert(tau > 0);
     const sleeve = new Sleeve(ns);
-    const to_therapy = sleeve.all().filter((s) => sleeve.is_in_shock(s));
-    if (to_therapy.length > 0) {
+    const to_therapy = sleeve.all().filter(sleeve.is_in_shock);
+    if (!MyArray.is_empty(to_therapy)) {
         log(ns, "Shock recovery");
         sleeve.shock_recovery();
         await ns.sleep(tau);
     }
+}
+
+/**
+ * Suppress various log messages.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("sleep");
 }
 
 /**
@@ -130,7 +140,7 @@ async function synchronize(ns, tau) {
     assert(tau > 0);
     const sleeve = new Sleeve(ns);
     const to_sync = sleeve.all().filter((s) => !sleeve.is_in_sync(s));
-    if (to_sync.length > 0) {
+    if (!MyArray.is_empty(to_sync)) {
         log(ns, "Synchronize");
         sleeve.synchronize();
         await ns.sleep(tau);
@@ -158,11 +168,8 @@ async function update(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    // Less verbose log.
-    ns.disableLog("getServerMoneyAvailable");
-    ns.disableLog("sleep");
-
     // Sanity check.
+    shush(ns);
     if (!has_sleeve_api(ns)) {
         log(ns, "No access to Sleeve API", colour.RED);
         return;
