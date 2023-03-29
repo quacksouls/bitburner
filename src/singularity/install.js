@@ -218,7 +218,9 @@ function set_neutral_gang(ns) {
 
     // Put anyone in combat training to mug people.
     const gangster = new Gangster(ns);
-    const newbie = ns.gang.getMemberNames().filter(gangster.is_training);
+    const newbie = ns.gang
+        .getMemberNames()
+        .filter((s) => gangster.is_training(s));
     gangster.mug(newbie);
 
     // Finally, disengage from turf warfare so members would not be killed
