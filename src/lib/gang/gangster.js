@@ -1435,9 +1435,9 @@ export class Gangster {
 
         // Train various stats.  The stat(s) to train, and the amount of time
         // spent in training, depend on a member's role.
-        const hacker = name.filter(this.is_hacker);
-        const combatant = name.filter(this.is_combatant);
-        const other = name.filter(this.is_miscellaneous);
+        const hacker = name.filter((s) => this.is_hacker(s));
+        const combatant = name.filter((s) => this.is_combatant(s));
+        const other = name.filter((s) => this.is_miscellaneous(s));
         assert(hacker.length > 0 || combatant.length > 0 || other.length > 0);
         this.train_combat(combatant);
         this.train_hack(hacker);
