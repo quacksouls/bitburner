@@ -35,7 +35,7 @@ function buy_programs(ns) {
         .filter(unbought)
         .forEach((p) => {
             if (buy(p)) {
-                log(ns, `Purchased program: ${p}`);
+                log(ns, `Purchased program ${p}`);
             }
         });
 }

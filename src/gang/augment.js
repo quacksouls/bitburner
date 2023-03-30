@@ -71,7 +71,7 @@ export async function main(ns) {
         await ns.sleep(wait_t.DEFAULT);
     }
     const { faction } = ns.gang.getGangInformation();
-    log(ns, `Purchasing Augmentations from gang faction: ${faction}`);
+    log(ns, `Purchasing Augmentations from gang faction ${faction}`);
     const success = await buy_augment(ns);
     if (success) {
         log(ns, `Bought Augmentations from ${faction}`);
