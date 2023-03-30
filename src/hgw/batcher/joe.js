@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import {
     pbatch_num_hthreads,

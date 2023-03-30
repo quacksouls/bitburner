@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
 import {
     prep_gw, prep_mgw, prep_mwg, prep_wg,
 } from "/quack/lib/hgw.js";

@@ -16,7 +16,8 @@
  */
 
 import { MyArray } from "/quack/lib/array.js";
-import { empty_string, hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";

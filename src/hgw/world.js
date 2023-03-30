@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
 import { server } from "/quack/lib/constant/server.js";
 import { assemble_botnet, hgw_action, prep_gw } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";

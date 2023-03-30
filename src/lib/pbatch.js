@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import {

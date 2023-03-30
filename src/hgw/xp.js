@@ -16,7 +16,7 @@
  */
 
 import { MyArray } from "/quack/lib/array.js";
-import { hgw } from "/quack/lib/constant/misc.js";
+import { hgw } from "/quack/lib/constant/hgw.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { is_action_done, nuke_servers, prep_wg } from "/quack/lib/hgw.js";
