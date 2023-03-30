@@ -28,13 +28,9 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { forecast, wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money, Money } from "/quack/lib/money.js";
+import { MyNumber } from "/quack/lib/number.js";
 import { is_ghost_of_wall_street } from "/quack/lib/source.js";
-import {
-    assert,
-    is_boolean,
-    is_empty_string,
-    number_format,
-} from "/quack/lib/util.js";
+import { assert, is_boolean, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * How many shares are available to be purchased.
@@ -571,7 +567,7 @@ async function sell_stock_long(ns, portfolio) {
     new_portfolio.reserve += keep;
     new_portfolio[sym].cost_long = 0;
     new_portfolio[sym].commission_long = 0;
-    const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Long)`;
+    const prefix = `Sold ${MyNumber.format(nshare)} share(s) of ${sym} (Long)`;
     const suffix = `for ${Money.format(profit)} in profit`;
     log(ns, `${prefix} ${suffix}`);
     ns.printf(`Reserve: ${Money.format(new_portfolio.reserve)}`);
@@ -601,7 +597,7 @@ async function sell_stock_short(ns, portfolio) {
     new_portfolio.reserve += keep;
     new_portfolio[sym].cost_short = 0;
     new_portfolio[sym].commission_short = 0;
-    const prefix = `Sold ${number_format(nshare)} share(s) of ${sym} (Short)`;
+    const prefix = `Sold ${MyNumber.format(nshare)} share(s) of ${sym} (Short)`;
     const suffix = `for ${Money.format(profit)} in profit`;
     log(ns, `${prefix} ${suffix}`);
     ns.printf(`Reserve: ${Money.format(new_portfolio.reserve)}`);

@@ -23,6 +23,7 @@ import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cities } from "/quack/lib/constant/location.js";
+import { number } from "/quack/lib/constant/number.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { money } from "/quack/lib/money.js";
@@ -59,13 +60,12 @@ export function greatest_chance(ns, crime) {
     assert(!MyArray.is_empty(crime));
     let max = 0;
     const chance = new Map();
-    const million = 1e6;
     for (const c of crime) {
         // We want to avoid floating point numbers when we compare the chance
         // of success of various crimes.  Convert the probability of success to
         // an integer.
         const prob = ns.singularity.getCrimeChance(c);
-        const n = Math.round(prob * million);
+        const n = Math.round(prob * number.MILLION);
         if (max < n) {
             max = n;
         }

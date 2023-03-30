@@ -20,7 +20,8 @@ import { home } from "/quack/lib/constant/server.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { Money } from "/quack/lib/money.js";
-import { assert, number_format } from "/quack/lib/util.js";
+import { MyNumber } from "/quack/lib/number.js";
+import { assert } from "/quack/lib/util.js";
 import {
     can_short,
     initial_portfolio,
@@ -50,7 +51,7 @@ function liquidate_all(ns) {
         const price_per_share = ns.stock.sellStock(sym, nshare);
         assert(price_per_share > 0);
         const revenue = price_per_share * nshare;
-        const nshare_fmt = number_format(nshare);
+        const nshare_fmt = MyNumber.format(nshare);
         const money_fmt = Money.format(revenue);
         log(
             ns,

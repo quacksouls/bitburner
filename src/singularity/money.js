@@ -15,10 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { number } from "/quack/lib/constant/number.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { Money, money } from "/quack/lib/money.js";
+import { money } from "/quack/lib/money.js";
 import { assert, exec } from "/quack/lib/util.js";
 
 /**
@@ -35,8 +36,7 @@ function choose_threshold(ns) {
     }
 
     // The default threshold.
-    const m = new Money();
-    return 5 * m.million();
+    return 5 * number.MILLION;
 }
 
 /**

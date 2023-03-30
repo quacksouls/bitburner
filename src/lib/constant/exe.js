@@ -20,6 +20,8 @@
 // via the dark web.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { number } from "/quack/lib/constant/number.js";
+
 /**
  * All programs that can be created.  These programs can also be purchased via
  * the dark web.  Data taken from this file:
@@ -113,13 +115,13 @@ export const buy_schedule = {
      * Various money thresholds.
      */
     money: [
-        10e12, // 10 trillion
-        1e12, // 1 trillion
-        500e9,
-        100e9,
-        1e9, // 1 billion
-        100e6,
-        10e6, // 10 million
+        10 * number.TRILLION,
+        number.TRILLION,
+        500 * number.BILLION,
+        100 * number.BILLION,
+        number.BILLION,
+        100 * number.MILLION,
+        10 * number.MILLION,
     ],
     /**
      * The sleep time.  We sleep a given amount of time, depending on the batch

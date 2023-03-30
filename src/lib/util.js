@@ -421,39 +421,6 @@ export function num_threads(ns, s, host) {
 }
 
 /**
- * Format a number according to whether it is in the thousands, millions,
- * billions, etc.
- *
- * @param {number} num Format this number.
- * @returns {string} The same number, but formatted.
- */
-export function number_format(num) {
-    assert(num >= 0);
-
-    const ndigit = 3; // How many significant digits.
-    const fmt = (divisor, suffix) => {
-        const fstr = (Math.abs(Number(num)) / divisor).toFixed(ndigit);
-        return `${fstr}${suffix}`;
-    };
-
-    // divisor := threshold[0][dindex]
-    // suffix := threshold[0][sindex]
-    const threshold = [
-        [1e18, "Q"],
-        [1e15, "q"],
-        [1e12, "t"],
-        [1e9, "b"],
-        [1e6, "m"],
-        [1e3, "k"],
-        [1, empty_string],
-    ];
-    const dindex = 0;
-    const meet_threshold = (tau) => Math.abs(Number(num)) >= tau[dindex];
-    const [divisor, suffix] = threshold.find(meet_threshold);
-    return fmt(divisor, suffix);
-}
-
-/**
  * A server that has the greatest hack desirability score.
  *
  * @param {NS} ns The Netscript API.

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022--2023 Duck McSouls
+ * Copyright (C) 2023 Duck McSouls
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,33 +16,32 @@
  */
 
 /// ///////////////////////////////////////////////////////////////////////
-// Managing and manipulating money.
+// Various constants related to special numbers.
 /// ///////////////////////////////////////////////////////////////////////
 
-import { home } from "/quack/lib/constant/server.js";
-import { MyNumber } from "/quack/lib/number.js";
-
-/**
- * A class to hold information about money.
- */
-export class Money {
+export const number = {
     /**
-     * Format currency.
-     *
-     * @param {number} amount Format this amount as currency.
-     * @returns {string} The given amount formatted as currency.
+     * One billion, i.e. 10^9.
      */
-    static format(amount) {
-        return `$${MyNumber.format(amount)}`;
-    }
-}
-
-/**
- * The amount of money the player has.
- *
- * @param {NS} ns The Netscript API.
- * @returns {number} Our current amount of money.
- */
-export function money(ns) {
-    return ns.getServerMoneyAvailable(home);
-}
+    BILLION: 1e9,
+    /**
+     * The value for one million.
+     */
+    MILLION: 1e6,
+    /**
+     * One quadrillion, i.e. 10^15.
+     */
+    QUADRILLION: 1e15,
+    /**
+     * One quintillion, i.e. 10^18.
+     */
+    QUINTILLION: 1e18,
+    /**
+     * One thousand, i.e. 10^3.
+     */
+    THOUSAND: 1e3,
+    /**
+     * One trillion, i.e. 10^12.
+     */
+    TRILLION: 1e12,
+};

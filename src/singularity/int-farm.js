@@ -17,10 +17,11 @@
 
 import { buy_schedule, cheapest_program } from "/quack/lib/constant/exe.js";
 import { colour } from "/quack/lib/constant/misc.js";
+import { number } from "/quack/lib/constant/number.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { Money, money } from "/quack/lib/money.js";
+import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { has_ai_api } from "/quack/lib/source.js";
 import { assert } from "/quack/lib/util.js";
@@ -35,8 +36,7 @@ async function farm_intelligence(ns) {
 
     // The minimum amount of money we should have in order to purchase one of
     // the cheapest programs.
-    const m = new Money();
-    const min_money = 10 * m.million();
+    const min_money = 10 * number.MILLION;
 
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
