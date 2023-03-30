@@ -130,10 +130,174 @@ export const wse = {
      */
     SPEND_TAU: 5e6,
     /**
-     * Stock symbols.
+     * Stock symbols and their corresponding servers/organizations.
      */
     stock: {
-        FSIG: "FSIG", // Four Sigma
+        AERO: {
+            name: "AERO",
+            org: "AeroCorp",
+            server: "aerocorp",
+        },
+        APHE: {
+            name: "APHE",
+            org: "Alpha Enterprises",
+            server: "alpha-ent",
+        },
+        BLD: {
+            name: "BLD",
+            org: "Blade Industries",
+            server: "blade",
+        },
+        CLRK: {
+            name: "CLRK",
+            org: "Clarke Incorporated",
+            server: "clarkinc",
+        },
+        CTK: {
+            name: "CTK",
+            org: "CompuTek",
+            server: "computek",
+        },
+        CTYS: {
+            name: "CTYS",
+            org: "Catalyst Ventures",
+            server: "catalyst",
+        },
+        DCOMM: {
+            name: "DCOMM",
+            org: "DefComm",
+            server: "defcomm",
+        },
+        ECP: {
+            name: "ECP",
+            org: "ECorp",
+            server: "ecorp",
+        },
+        FLCM: {
+            name: "FLCM",
+            org: "Fulcrum Technologies",
+            server: "fulcrumtech",
+        },
+        FNS: {
+            name: "FNS",
+            org: "FoodNStuff",
+            server: "foodnstuff",
+        },
+        FSIG: {
+            name: "FSIG",
+            org: "Four Sigma",
+            server: "4sigma",
+        },
+        GPH: {
+            name: "GPH",
+            org: "Global Pharmaceuticals",
+            server: "global-pharm",
+        },
+        HLS: {
+            name: "HLS",
+            org: "Helios Labs",
+            server: "helios",
+        },
+        ICRS: {
+            name: "ICRS",
+            org: "Icarus Microsystems",
+            server: "icarus",
+        },
+        JGN: {
+            name: "JGN",
+            org: "Joe's Guns",
+            server: "joesguns",
+        },
+        KGI: {
+            name: "KGI",
+            org: "KuaiGong International",
+            server: "kuai-gong",
+        },
+        LXO: {
+            name: "LXO",
+            org: "LexoCorp",
+            server: "lexo-corp",
+        },
+        MDYN: {
+            name: "MDYN",
+            org: "Microdyne Technologies",
+            server: "microdyne",
+        },
+        MGCP: {
+            name: "MGCP",
+            org: "MegaCorp",
+            server: "megacorp",
+        },
+        NTLK: {
+            name: "NTLK",
+            org: "NetLink Technologies",
+            server: "netlink",
+        },
+        NVMD: {
+            name: "NVMD",
+            org: "Nova Medical",
+            server: "nova-med",
+        },
+        OMGA: {
+            name: "OMGA",
+            org: "Omega Software",
+            server: "omega-net",
+        },
+        OMN: {
+            name: "OMN",
+            org: "Omnia Cybersystems",
+            server: "omnia",
+        },
+        OMTK: {
+            name: "OMTK",
+            org: "OmniTek Incorporated",
+            server: "omnitek",
+        },
+        RHOC: {
+            name: "RHOC",
+            org: "Rho Construction",
+            server: "rho-construction",
+        },
+        SGC: {
+            name: "SGC",
+            org: "Sigma Cosmetics",
+            server: "sigma-cosmetics",
+        },
+        SLRS: {
+            name: "SLRS",
+            org: "Solaris Space Systems",
+            server: "solaris",
+        },
+        STM: {
+            name: "STM",
+            org: "Storm Technologies",
+            server: "stormtech",
+        },
+        SYSC: {
+            name: "SYSC",
+            org: "SysCore Securities",
+            server: "syscore",
+        },
+        TITN: {
+            name: "TITN",
+            org: "Titan Laboratories",
+            server: "titan-labs",
+        },
+        UNV: {
+            name: "UNV",
+            org: "Universal Energy",
+            server: "univ-energy",
+        },
+        VITA: {
+            name: "VITA",
+            org: "VitaLife",
+            server: "vitalife",
+        },
+        WDS: {
+            name: "WDS",
+            org: "Watchdog Security",
+            server: undefined, // Doesn't have server.
+        },
     },
     /**
      * A file name.  If the trade bot detects the existence of this file on the
