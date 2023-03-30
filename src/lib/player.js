@@ -17,7 +17,8 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { program } from "/quack/lib/constant/exe.js";
-import { empty_string, script } from "/quack/lib/constant/misc.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
+import { script } from "/quack/lib/constant/script.js";
 import { home } from "/quack/lib/constant/server.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
@@ -63,7 +64,7 @@ export class Player {
         this.#ns = ns;
         this.#port_opener = Array.from(program);
         this.#program = ["DeepscanV1.exe", "DeepscanV2.exe", "NUKE.exe"];
-        this.#script = script;
+        this.#script = script.HACK;
     }
 
     /**

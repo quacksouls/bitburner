@@ -131,6 +131,7 @@ function dir_structure() {
         "lib/constant/misc.js",
         "lib/constant/number.js",
         "lib/constant/pserv.js",
+        "lib/constant/script.js",
         "lib/constant/server.js",
         "lib/constant/sleeve.js",
         "lib/constant/study.js",

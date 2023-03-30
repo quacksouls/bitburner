@@ -16,7 +16,7 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { script, script_share } from "/quack/lib/constant/misc.js";
+import { script } from "/quack/lib/constant/script.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -96,9 +96,9 @@ export class Server {
         this.#money_max = server.moneyMax;
         this.#n_ports_required = server.numOpenPortsRequired;
         this.#ns = ns;
-        this.#script = script;
+        this.#script = script.HACK;
         this.#security_min = server.minDifficulty;
-        this.#share_script = script_share;
+        this.#share_script = script.SHARE;
 
         // By default, we do not reserve any RAM.  However, if this is the
         // player's home server, then reserve some RAM.

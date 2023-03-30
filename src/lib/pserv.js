@@ -16,8 +16,8 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { script } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
+import { script } from "/quack/lib/constant/script.js";
 import { home } from "/quack/lib/constant/server.js";
 import { money } from "/quack/lib/money.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
@@ -54,7 +54,7 @@ export class PurchasedServer {
     constructor(ns) {
         this.#home = home;
         this.#ns = ns;
-        this.#script = script;
+        this.#script = script.HACK;
         this.#valid_ram = Array.from(pserv.RAM);
     }
 
