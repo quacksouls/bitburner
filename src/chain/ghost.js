@@ -72,7 +72,7 @@ export async function main(ns) {
     ns.kill(pidx);
     const nthread = 1;
     ns.exec("/quack/kill-script.js", home, nthread, "world");
-    exec(ns, "/quack/stock/tinker.js");
+    // exec(ns, "/quack/stock/tinker.js");  // FIXME: not working ATM
 
     // Launch our gang manager.
     if (has_gang_api(ns) && !ns.gang.inGang()) {
