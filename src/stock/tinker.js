@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { hgw } from "/quack/lib/constant/hgw.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { wse } from "/quack/lib/constant/wse.js";
@@ -47,12 +48,13 @@ function choose_best_stock(ns, position) {
     const profit = (sym) => ns.stock.getSaleGain(sym, nshare(sym), position);
     const best_stock = (acc, curr) => (profit(acc) < profit(curr) ? curr : acc);
     const not_watchdog = (sym) => sym !== wse.stock.WDS.name;
-    const sym = ns.stock
-        .getSymbols()
-        .filter(not_watchdog)
-        .filter(has_shares)
-        .reduce(best_stock, empty_string);
-    return is_empty_string(sym) ? [empty_string, 0] : [sym, profit(sym)];
+    const stock = ns.stock.getSymbols().filter(not_watchdog).filter(has_shares);
+    const empty = [empty_string, 0];
+    if (MyArray.is_empty(stock)) {
+        return empty;
+    }
+    const sym = stock.reduce(best_stock);
+    return is_empty_string(sym) ? empty : [sym, profit(sym)];
 }
 
 /**
