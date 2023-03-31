@@ -35,8 +35,12 @@ export class MyNumber {
      */
     static format(num, ndigit = 3) {
         assert(num >= 0);
+        const abs = (x) => Math.abs(Number(x));
+        if (abs(num) === 0) {
+            return "0.000";
+        }
         const fmt = (divisor, suffix) => {
-            const fstr = (Math.abs(Number(num)) / divisor).toFixed(ndigit);
+            const fstr = (abs(num) / divisor).toFixed(ndigit);
             return `${fstr}${suffix}`;
         };
 
@@ -52,7 +56,7 @@ export class MyNumber {
             [1, empty_string],
         ];
         const dindex = 0;
-        const meet_threshold = (tau) => Math.abs(Number(num)) >= tau[dindex];
+        const meet_threshold = (tau) => abs(num) >= tau[dindex];
         const [divisor, suffix] = threshold.find(meet_threshold);
         return fmt(divisor, suffix);
     }
