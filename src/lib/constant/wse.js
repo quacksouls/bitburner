@@ -59,6 +59,20 @@ export const wse = {
      */
     COMMISSION: 100e3,
     /**
+     * A file containing the market forecast.
+     */
+    FORECAST: "/quack/trade_bot_forecast.txt",
+    /**
+     * The forecast threshold below which we grow a server.  Grow the server in
+     * an attempt to manipulate the price of a stock.
+     */
+    GROW_TAU: 0.5,
+    /**
+     * The forecast threshold above which we hack a server.  Hack the server in
+     * an attempt to manipulate the price of a stock.
+     */
+    HACK_TAU: 0.5,
+    /**
      * A file name.  Tells the trade bot to sell all shares of all stocks.
      */
     LIQUIDATE: "/quack/trade_bot_liquidate.txt",

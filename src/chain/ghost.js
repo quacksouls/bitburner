@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { has_gang_api } from "/quack/lib/source.js";
 import { exec, has_all_popen } from "/quack/lib/util.js";
@@ -67,6 +68,12 @@ export async function main(ns) {
     }
     pid.forEach((p) => ns.kill(p));
 
+    // Launch script to manipulate stock prices.
+    ns.kill(pidx);
+    const nthread = 1;
+    ns.exec("/quack/kill-script.js", home, nthread, "world");
+    exec(ns, "/quack/stock/tinker.js");
+
     // Launch our gang manager.
     if (has_gang_api(ns) && !ns.gang.inGang()) {
         exec(ns, "/quack/sleeve/study.js");
@@ -74,8 +81,6 @@ export async function main(ns) {
     await ns.sleep(wait_t.DEFAULT);
     exec(ns, "/quack/gang/snek.js");
 
-    // Join factions and purchase Augmentations.  Kill the Hack XP farmer.
-    // We need to share our botnet with a faction.
-    ns.kill(pidx);
+    // Join factions and purchase Augmentations.
     exec(ns, "/quack/faction/go.js");
 }

@@ -158,6 +158,7 @@ function get_forecast(ns, portfolio, fourS) {
             new_portfolio[sym].forecast = stock_forecast(sym);
         });
     }
+    write_forecast(ns, new_portfolio);
     return new_portfolio;
 }
 
@@ -719,4 +720,18 @@ export function update_history(ns, portfolio) {
         new_portfolio[sym].prev_price = current_price;
     }
     return new_portfolio;
+}
+
+/**
+ * Write the forecast of each stock to file.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {object} portfolio Our portfolio of stocks.
+ */
+function write_forecast(ns, portfolio) {
+    const stock = {};
+    ns.stock.getSymbols().forEach((sym) => {
+        stock[sym] = portfolio[sym].forecast;
+    });
+    ns.write(wse.FORECAST, JSON.stringify(stock), io.WRITE);
 }
