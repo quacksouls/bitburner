@@ -88,6 +88,18 @@ function find_target(ns) {
 }
 
 /**
+ * Suppress various log messages.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("getHackingLevel");
+    ns.disableLog("getServerMaxRam");
+    ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("sleep");
+}
+
+/**
  * Purchase and update our farm of servers.
  *
  * @param {NS} ns The Netscript API.
@@ -120,7 +132,9 @@ function upgrade_server(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
+    shush(ns);
     assert(has_formulas(ns));
+
     for (;;) {
         update(ns);
         if (
