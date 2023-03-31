@@ -88,7 +88,7 @@ export function join_all_factions(ns) {
  */
 export async function join_faction(ns, fac) {
     assert(is_valid_faction(fac));
-    log(ns, `Join faction: ${fac}`);
+    log(ns, `Join faction ${fac}`);
 
     // Since version 2.0 of the game, we must be working for a megacorporation
     // while waiting for an invitation from the corresponding faction.  We can
@@ -308,13 +308,13 @@ function total_reputation(ns, fac) {
  */
 export async function work_for_faction(ns, fac, work_type) {
     assert(is_valid_faction(fac));
-    log(ns, `Work for faction: ${fac}`);
+    log(ns, `Work for faction ${fac}`);
     assert(job_area.HACK === work_type || job_area.FIELD === work_type);
 
     // Share our home server and botnet with the faction.  Doing so would boost
     // the rate at which we gain reputation points.
     await start_share_home(ns);
-    log(ns, `Share home server with faction: ${fac}`);
+    log(ns, `Share home server with faction ${fac}`);
     share_botnet(ns, fac);
 
     // Start working for the faction.
@@ -338,5 +338,5 @@ export async function work_for_faction(ns, fac, work_type) {
 
     // We no longer need to share our home server with the faction.
     stop_share_home(ns);
-    log(ns, `Stop sharing home server with faction: ${fac}`);
+    log(ns, `Stop sharing home server with faction ${fac}`);
 }

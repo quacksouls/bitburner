@@ -71,7 +71,7 @@ function update(ns) {
 export async function main(ns) {
     shush(ns);
     const faction = ns.args[0];
-    log(ns, `Share botnet with faction: ${faction}`);
+    log(ns, `Share botnet with faction ${faction}`);
     for (;;) {
         update(ns);
         await ns.sleep(5 * wait_t.MINUTE);

@@ -28,7 +28,7 @@ import { exec, has_all_popen } from "/quack/lib/util.js";
  * @param {NS} ns The Netscript API.
  */
 async function commit_crime(ns) {
-    log(ns, `Commit crime to raise money: ${crimes.KILL}`);
+    log(ns, `Commit ${crimes.KILL} to raise money`);
     ns.singularity.commitCrime(crimes.KILL, bool.FOCUS);
     while (!has_all_popen(ns)) {
         await ns.sleep(wait_t.DEFAULT);
