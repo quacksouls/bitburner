@@ -136,5 +136,6 @@ export async function main(ns) {
     log(ns, "Attempt to manipulate prices of stocks");
     for (;;) {
         await manipulate(ns);
+        await ns.sleep(wse.TICK);
     }
 }
