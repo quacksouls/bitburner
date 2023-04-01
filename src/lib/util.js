@@ -259,7 +259,7 @@ export function has_all_popen(ns) {
  * @returns {boolean} True if we have the program Formulas.exe; false otherwise.
  */
 export function has_formulas(ns) {
-    return has_program(ns, darkweb.program.formulas);
+    return has_program(ns, darkweb.program.formulas.NAME);
 }
 
 /**
