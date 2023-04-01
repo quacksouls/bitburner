@@ -25,9 +25,10 @@ import { factions } from "/quack/lib/constant/faction.js";
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
 import { hgw } from "/quack/lib/constant/hgw.js";
 import { cities } from "/quack/lib/constant/location.js";
-import { darkweb, empty_string } from "/quack/lib/constant/misc.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home, server } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { wse } from "/quack/lib/constant/wse.js";
 
 /**

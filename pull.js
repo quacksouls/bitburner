@@ -137,6 +137,7 @@ function dir_structure() {
         "lib/constant/sleeve.js",
         "lib/constant/study.js",
         "lib/constant/time.js",
+        "lib/constant/tor.js",
         "lib/constant/work.js",
         "lib/constant/wse.js",
         "lib/corporation/corp.js",

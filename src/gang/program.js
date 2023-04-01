@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { has_program } from "/quack/lib/util.js";
 

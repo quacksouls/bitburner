@@ -48,52 +48,6 @@ export const colour = {
 };
 
 /**
- * Various constants related to the dark web.
- */
-export const darkweb = {
-    /**
-     * Constants related to various programs that can be purchased via the dark
-     * web.  The cost data are taken from this file:
-     *
-     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/DarkWeb/DarkWebItems.ts
-     */
-    program: {
-        brutessh: {
-            COST: 500e3,
-            NAME: "BruteSSH.exe",
-        },
-        formulas: "Formulas.exe",
-        ftpcrack: {
-            COST: 1.5e6,
-            NAME: "FTPCrack.exe",
-        },
-        httpworm: {
-            COST: 30e6,
-            NAME: "HTTPWorm.exe",
-        },
-        relaysmtp: {
-            COST: 5e6,
-            NAME: "relaySMTP.exe",
-        },
-        sqlinject: {
-            COST: 250e6,
-            NAME: "SQLInject.exe",
-        },
-    },
-    /**
-     * The Tor router.
-     */
-    tor: {
-        /**
-         * Cost of the Tor router.  Data from this file:
-         *
-         * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Constants.ts
-         */
-        COST: 200e3,
-    },
-};
-
-/**
  * The empty string.
  */
 export const empty_string = "";

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { darkweb } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { assemble_botnet, hgw_hack, prep_mwg } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { assert, to_second } from "/quack/lib/util.js";

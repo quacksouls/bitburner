@@ -17,12 +17,9 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { program as popen } from "/quack/lib/constant/exe.js";
-import {
-    darkweb,
-    empty_string,
-    work_hack_lvl,
-} from "/quack/lib/constant/misc.js";
+import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
 import { raise_hack } from "/quack/lib/singularity/study.js";
