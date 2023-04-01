@@ -106,10 +106,10 @@ async function manipulate(ns) {
     }
 
     const host = get_server(sym);
-    const forecast = JSON.parse(ns.read(wse.FORECAST));
-    if (forecast[sym] < wse.HACK_TAU) {
+    const forecast = Number(JSON.parse(ns.read(wse.FORECAST))[sym]);
+    if (forecast < wse.HACK_TAU) {
         await hgw_action(ns, host, nuke_servers(ns), hgw.action.HACK);
-    } else if (forecast[sym] > wse.GROW_TAU) {
+    } else if (forecast > wse.GROW_TAU) {
         await hgw_action(ns, host, nuke_servers(ns), hgw.action.GROW);
     }
 }
