@@ -339,6 +339,16 @@ export function is_empty_string(str) {
 }
 
 /**
+ * Whether a variable is undefined.
+ *
+ * @param {variable} exp Test this variable.
+ * @returns {boolean} True if the given variable is undefined; false otherwise.
+ */
+export function is_undefined(exp) {
+    return exp === undefined;
+}
+
+/**
  * Whether a given string represents a valid city in the game world.
  *
  * @param {string} c A city name.  Cannot be an empty string.

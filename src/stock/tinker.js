@@ -21,7 +21,7 @@ import { empty_string } from "/quack/lib/constant/misc.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { hgw_action, nuke_servers } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
-import { assert, is_empty_string } from "/quack/lib/util.js";
+import { assert, is_empty_string, is_undefined } from "/quack/lib/util.js";
 import { num_long, num_short } from "/quack/lib/wse.js";
 
 /**
@@ -101,7 +101,7 @@ function get_server(sym) {
  */
 async function manipulate(ns) {
     const sym = choose_stock(ns);
-    if (is_empty_string(sym)) {
+    if (is_empty_string(sym) || is_undefined(sym)) {
         return;
     }
 
