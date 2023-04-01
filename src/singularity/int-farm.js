@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { buy_schedule, cheapest_program } from "/quack/lib/constant/exe.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { number } from "/quack/lib/constant/number.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { buy_schedule, cheapest_program } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";

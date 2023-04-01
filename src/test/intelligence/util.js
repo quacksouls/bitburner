@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { all_programs } from "/quack/lib/constant/exe.js";
 import { home } from "/quack/lib/constant/server.js";
+import { all_programs } from "/quack/lib/constant/tor.js";
 import { assert } from "/quack/lib/util.js";
 
 // Miscellaneous utility functions.

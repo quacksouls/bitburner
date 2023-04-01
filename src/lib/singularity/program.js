@@ -16,7 +16,6 @@
  */
 
 import { MyArray } from "/quack/lib/array.js";
-import { program as popen } from "/quack/lib/constant/exe.js";
 import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { darkweb } from "/quack/lib/constant/tor.js";
@@ -59,7 +58,7 @@ export async function buy_all_programs(ns, visit, wrk) {
     }
 
     // Purchase all remaining programs.
-    await buy_programs(ns, popen, wrk);
+    await buy_programs(ns, darkweb.program.popen, wrk);
 }
 
 /**

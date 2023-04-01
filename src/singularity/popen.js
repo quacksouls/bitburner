@@ -17,8 +17,8 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
-import { program } from "/quack/lib/constant/exe.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { assert, has_all_popen, has_program } from "/quack/lib/util.js";
 
@@ -29,7 +29,8 @@ import { assert, has_all_popen, has_program } from "/quack/lib/util.js";
  */
 async function create_program(ns) {
     const not_have = (prog) => !has_program(ns, prog);
-    const candidate = program.filter(not_have);
+    const popen = Array.from(darkweb.program.popen);
+    const candidate = popen.filter(not_have);
     if (MyArray.is_empty(candidate)) {
         return;
     }

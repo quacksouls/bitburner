@@ -20,7 +20,7 @@ import {
     intelligence,
     intelligence_gain,
 } from "/quack/intelligence/util.js";
-import { all_programs } from "/quack/lib/constant/exe.js";
+import { all_programs } from "/quack/lib/constant/tor.js";
 import { Player } from "/quack/lib/player.js";
 import { assert } from "/quack/lib/util.js";
 

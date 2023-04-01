@@ -16,9 +16,9 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { all_programs } from "/quack/lib/constant/exe.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { all_programs } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { study } from "/quack/lib/singularity/study.js";
 import {

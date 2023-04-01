@@ -16,11 +16,11 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { cheapest_program } from "/quack/lib/constant/exe.js";
 import { exclusive_aug, augment } from "/quack/lib/constant/faction.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
+import { cheapest_program } from "/quack/lib/constant/tor.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/quack/lib/gang/util.js";

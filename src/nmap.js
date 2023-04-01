@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { program as popen } from "/quack/lib/constant/exe.js";
 import { io } from "/quack/lib/constant/io.js";
 import { base, colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { network, shortest_path } from "/quack/lib/network.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -265,7 +265,7 @@ function leaf() {
  * @returns {number} How many ports we can open on a world server.
  */
 function num_ports(ns) {
-    let program = Array.from(popen);
+    let program = Array.from(darkweb.program.popen);
     program = program.filter((p) => ns.fileExists(p, home));
     return program.length;
 }

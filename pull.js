@@ -122,7 +122,6 @@ function dir_structure() {
         "lib/constant/cct.js",
         "lib/constant/corp.js",
         "lib/constant/crime.js",
-        "lib/constant/exe.js",
         "lib/constant/faction.js",
         "lib/constant/gang.js",
         "lib/constant/hacknet.js",
