@@ -16,6 +16,7 @@
  */
 
 import { home } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { PservHGW } from "/quack/lib/pbatch.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
@@ -38,6 +39,7 @@ async function hack(ns, host, target) {
         if (!success) {
             await batcher.prep_wg(target);
         }
+        await ns.sleep(wait_t.MILLISECOND);
     }
 }
 

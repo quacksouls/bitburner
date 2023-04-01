@@ -18,6 +18,7 @@
 import { bool } from "/quack/lib/constant/bool.js";
 import { hgw } from "/quack/lib/constant/hgw.js";
 import { home, server } from "/quack/lib/constant/server.js";
+import { wait_t } from "/quack/lib/constant/time.js";
 import {
     pbatch_num_hthreads,
     pbatch_parameters,
@@ -40,6 +41,7 @@ async function hack(ns, target) {
         if (!success) {
             await pbatch_prep(ns, home, target);
         }
+        await ns.sleep(wait_t.MILLISECOND);
     }
 }
 
