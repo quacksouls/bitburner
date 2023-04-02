@@ -22,6 +22,10 @@ import { home, server } from "/quack/lib/constant/server.js";
  */
 export const pserv = {
     /**
+     * A script that implements a parallel batcher for purchased servers.
+     */
+    BATCH: "/quack/hgw/batcher/pp.js",
+    /**
      * The default fraction of money to steal from a world server.
      */
     DEFAULT_MONEY_FRAC: 0.9,

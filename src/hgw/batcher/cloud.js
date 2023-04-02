@@ -37,7 +37,7 @@ import {
  */
 function buy_server(ns) {
     // Sanity checks.
-    const script = pserv.PROTO_BATCH;
+    const script = pserv.BATCH;
     if (!can_run_script(ns, script, home)) {
         return;
     }
@@ -50,7 +50,7 @@ function buy_server(ns) {
         return;
     }
 
-    // Purchase a server and launch a proto batcher on it.
+    // Purchase a server and launch a batcher on it.
     const target = find_target(ns);
     if (is_empty_string(target)) {
         return;
