@@ -71,7 +71,7 @@ function find_target(ns) {
     let candidate = find_candidates(ns);
 
     // All servers being targeted right now.
-    const script = pserv.PROTO_BATCH;
+    const script = pserv.BATCH;
     const current_target = (phost) => {
         for (const target of candidate) {
             if (ns.isRunning(script, home, phost, target)) {
