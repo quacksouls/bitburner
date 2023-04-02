@@ -19,7 +19,7 @@ import { colour } from "/quack/lib/constant/misc.js";
 import { number } from "/quack/lib/constant/number.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { buy_schedule, cheapest_program } from "/quack/lib/constant/tor.js";
+import { buy_schedule, darkweb } from "/quack/lib/constant/tor.js";
 import { log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
@@ -40,7 +40,7 @@ async function farm_intelligence(ns) {
 
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
-    const p = cheapest_program.NAME;
+    const p = darkweb.program.cheapest.NAME;
     ns.rm(p, home);
     for (;;) {
         if (money(ns) < min_money) {
