@@ -20,7 +20,7 @@ import { exclusive_aug, augment } from "/quack/lib/constant/faction.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { cheapest_program } from "/quack/lib/constant/tor.js";
+import { darkweb } from "/quack/lib/constant/tor.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/quack/lib/gang/util.js";
@@ -130,8 +130,8 @@ async function buy_programs(ns) {
     // If our income rises faster than our spending on programs, then it is
     // possible for this function to hang and buys indefinitely.
     const maxtry = 1000;
-    const p = cheapest_program.NAME;
-    const cost = cheapest_program.COST;
+    const p = darkweb.program.cheapest.NAME;
+    const cost = darkweb.program.cheapest.COST;
     ns.rm(p, player.home());
     for (let i = 0; i < maxtry; i++) {
         for (let j = 0; j < maxtry; j++) {
