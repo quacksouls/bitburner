@@ -51,6 +51,10 @@ export const hgw = {
         },
     },
     /**
+     * Run this many batches, then do a prep cycle.
+     */
+    MAX_BATCH: 100,
+    /**
      * The maximum amount of RAM for a purchased server that runs a batcher.
      */
     PSERV_MAX_RAM: 32768, // 2^15

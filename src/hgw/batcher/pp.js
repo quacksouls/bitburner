@@ -35,12 +35,20 @@ async function hack(ns, host, target) {
     const batcher = new PservHGW(ns, host);
     batcher.scp_scripts();
     await batcher.prep_wg(target);
+    let i = 0;
     for (;;) {
         const success = await batcher.launch_batch(target);
-        if (!success) {
+        if (success) {
+            i++;
+        } else {
             while (!is_done(ns, host)) {
                 await ns.sleep(100 * wait_t.MILLISECOND);
             }
+        }
+
+        // Prep the server after we have launched a certain number of batches.
+        if (i >= hgw.MAX_BATCH) {
+            i = 0;
             await batcher.prep_wg(target);
         }
         await ns.sleep(wait_t.MILLISECOND);
