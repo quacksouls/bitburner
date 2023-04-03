@@ -36,37 +36,25 @@ async function hack(ns, host, target) {
     batcher.scp_scripts();
     await batcher.prep_wg(target);
     let i = 0;
+    let fail = 0;
     for (;;) {
         const success = await batcher.launch_batch(target);
         if (success) {
             i++;
+            fail = 0;
         } else {
-            while (!is_done(ns, host)) {
-                await ns.sleep(100 * wait_t.MILLISECOND);
-            }
+            fail++;
         }
 
-        // Prep the server after we have launched a certain number of batches.
-        if (i >= hgw.MAX_BATCH) {
+        // Prep the server after we have launched a certain number of batches or
+        // encounter a given number of failures.
+        if (i >= hgw.MAX_BATCH || fail >= hgw.MAX_FAILURE) {
             i = 0;
+            fail = 0;
             await batcher.prep_wg(target);
         }
         await ns.sleep(wait_t.MILLISECOND);
     }
-}
-
-/**
- * Whether all HGW operations have finished running on a purchased server.
- *
- * @param {NS} ns The Netscript API.
- * @param {string} host Hostname of a purchased server.
- * @returns {boolean} True if a script is running on the given purchased server;
- *     false otherwise.
- */
-function is_done(ns, host) {
-    const file = [hgw.script.GROW, hgw.script.HACK, hgw.script.WEAKEN];
-    const not_running = (s) => !ns.scriptRunning(s, host);
-    return file.every(not_running);
 }
 
 /**

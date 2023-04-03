@@ -53,7 +53,12 @@ export const hgw = {
     /**
      * Run this many batches, then do a prep cycle.
      */
-    MAX_BATCH: 100,
+    MAX_BATCH: 50,
+    /**
+     * How many consecutive failures to launch a batch.  Encounter this many
+     * failures, then launch a prep cycle.
+     */
+    MAX_FAILURE: 180e3,
     /**
      * The maximum amount of RAM for a purchased server that runs a batcher.
      */
