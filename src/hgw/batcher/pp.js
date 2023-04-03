@@ -32,9 +32,13 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
  * @param {string} target Hostname of the world server to target.
  */
 async function hack(ns, host, target) {
+    // Prep the target server.
     const batcher = new PservHGW(ns, host);
     batcher.scp_scripts();
+    ns.printf(`Prepping target ${target}`);
     await batcher.prep_wg(target);
+
+    // Launch parallel batches whenever we can.
     let i = 0;
     let fail = 0;
     for (;;) {
@@ -42,19 +46,41 @@ async function hack(ns, host, target) {
         if (success) {
             i++;
             fail = 0;
+            ns.printf(`Launched batch ${i}`);
         } else {
             fail++;
+            ns.printf(`Failure ${fail} to launch batch`);
         }
 
-        // Prep the server after we have launched a certain number of batches or
-        // encounter a given number of failures.
-        if (i >= hgw.MAX_BATCH || fail >= hgw.MAX_FAILURE) {
+        if (is_prep_time(i, fail)) {
+            ns.printf(
+                `Prep cycle, batches launched = ${i}, failures = ${fail}`
+            );
+            await batcher.prep_wg(target);
             i = 0;
             fail = 0;
-            await batcher.prep_wg(target);
         }
         await ns.sleep(wait_t.MILLISECOND);
     }
+}
+
+/**
+ * Whether it is time to prep a server.  We prep a server provided one of the
+ * following conditions holds:
+ *
+ * (1) We have launched a certain number of batches against the server;
+ * (2) We have encountered a given number of consecutive failures in launching
+ *     batches.
+ *
+ * In general, after several batches have completed it is possible for the
+ * target server to not be in the prepped state.
+ *
+ * @param {number} batch How many batches have run to completion.
+ * @param {number} fail How many consecutive failures we have.
+ * @returns {boolean} True if it is time for a prep cycle; false otherwise.
+ */
+function is_prep_time(batch, fail) {
+    return batch >= hgw.MAX_BATCH || fail >= hgw.MAX_FAILURE;
 }
 
 /**
