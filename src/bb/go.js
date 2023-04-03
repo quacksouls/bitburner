@@ -32,6 +32,7 @@ async function join(ns) {
     while (!ns.bladeburner.joinBladeburnerDivision()) {
         await ns.sleep(wait_t.SECOND);
     }
+    log(ns, "Joined Bladeburner division");
 }
 
 /**
