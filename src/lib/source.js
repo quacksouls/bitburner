@@ -41,6 +41,31 @@ export function has_ai_api(ns) {
 }
 
 /**
+ * Whether we have access to the Bladeburner API.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have access to the Bladeburner API;
+ *     false otherwise.
+ */
+export function has_bladeburner_api(ns) {
+    // Are we in "BitNode-7: Bladeburners 2079"?
+    const bn_name = "Bladeburners 2079";
+    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+        return bool.HAS;
+    }
+
+    // Use the Singularity API to help us find out.
+    if (has_singularity_api(ns)) {
+        for (const sf of ns.singularity.getOwnedSourceFiles()) {
+            if (sf.n === bitnode[bn_name]) {
+                return bool.HAS;
+            }
+        }
+    }
+    return bool.NOT;
+}
+
+/**
  * Whether we have access to the Corporation API.
  *
  * @param {NS} ns The Netscript API.
