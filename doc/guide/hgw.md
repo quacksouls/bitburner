@@ -66,6 +66,53 @@ worker scripts.
 
 <!-- ====================================================================== -->
 
+### Benefits
+
+Advantages of a sequential batcher include:
+
+<!-- prettier-ignore -->
+- Easy to understand. You prep a target, wait for the prepping operation to
+  complete, then hack the target. At the end of the hack operation, you repeat
+  the prep/hack loop. You always wait for an operation to complete before
+  launching the next operation.
+- Easy to implement. A sequential batcher can be implemented with a botnet or
+  a purchased server. However, you might find that it is easier and simpler to
+  use a purchased server in your implementation. Dedicate all RAM in your
+  botnet or purchased server to each of the HGW operations. Wait for one
+  operation to complete, then use all the RAM for another HGW operation.
+- No special tools required. You do not need any port opener programs to
+  assemble a small botnet for your sequential batcher. In the absence of any
+  port openers, nuke as many world servers as you can and use their collective
+  RAM for HGW operations against a chosen target, usually `joesguns`. Every
+  now and then, purchase a port opener via the dark web (you require access to
+  the TOR router) and nuke any world servers you can to expand the collect RAM
+  of your botnet. In case your `home` server has a decent amount of RAM, your
+  sequential batcher can use your `home` RAM as well. On the other hand, buy a
+  server with a decent amount of RAM and use the purchased server to run your
+  sequential batcher. Running a sequential batcher on a purchased server has
+  the advantage that you do not need to worry about buying port openers. The
+  only time when you need to buy port openers is to nuke a target server. The
+  server `joesguns` can be nuked without having to open any of its special
+  ports. You only need to ensure you have the minimum Hack stat in order to
+  hack `joesguns`.
+
+<!-- ====================================================================== -->
+
+### Disadvantages
+
+Cons of a sequential batcher include:
+
+<!-- prettier-ignore -->
+- Must wait for an HGW operation to finish before you can launch another HGW
+  operation. The bottleneck is waiting for the prep operation to complete so
+  you can launch the hack operation.
+- The waiting time between the launching of consecutive HGW operations means
+  that your sequential batcher might not be generating money as quickly as you
+  want. You would not be able to generate money until the target server is
+  prepped and the hack operation completes.
+
+<!-- ====================================================================== -->
+
 ### Algorithm outline
 
 Your sequential batcher accomplishes the following tasks:
