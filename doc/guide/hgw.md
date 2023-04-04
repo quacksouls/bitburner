@@ -78,8 +78,9 @@ Advantages of a sequential batcher include:
 - Easy to implement. A sequential batcher can be implemented with a botnet or
   a purchased server. However, you might find that it is easier and simpler to
   use a purchased server in your implementation. Dedicate all RAM in your
-  botnet or purchased server to each of the HGW operations. Wait for one
-  operation to complete, then use all the RAM for another HGW operation.
+  botnet or purchased server to each of the grow and weaken operations, then
+  hack a percentage of money from the prepped server. Wait for one operation
+  to complete, then launch another HGW operation.
 - No special tools required. You do not need any port opener programs to
   assemble a small botnet for your sequential batcher. In the absence of any
   port openers, nuke as many world servers as you can and use their collective
