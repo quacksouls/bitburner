@@ -21,6 +21,40 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 
 <!-- ====================================================================== -->
 
+## Prepping
+
+At heart, an HGW algorithm relies on a target server being _prepped_. To prep a
+server means to lower the server's security to its minimum and grow the server's
+money to maximum. You typically start by running
+[`ns.weaken`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.weaken.md)
+against the target, followed by
+[`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.grow.md).
+As long as the target is not yet prepped, you repeat the weaken and grow
+operations. A server is in the prepped state when its security is at minimum and
+its money is at maximum. You then run your HGW algorithm against the prepped
+server.
+
+Apart from being used in an HGW algorithm, a prepped server can also be used to
+farm Hack XP. The idea is to continually spam
+[`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.grow.md)
+against a prepped server. A grow operation against a prepped server would not
+increase money on the server because it already has maximum money. For this
+reason, the server's security level does not change but remains at minimum.
+Furthermore, you reap Hack XP from the grow operation. Spamming grow operations
+against a prepped server would always leave the server in the prepped state
+while increasing your Hack XP.
+
+> **Problem 1.** Write a script that uses world servers you have nuked to prep a
+> target server.
+>
+> **Problem 2.** Use a purchased server to prep a target server.
+>
+> **Problem 3.** The server `joesguns` is the best target for farming Hack XP.
+> Write a farming script that uses nuked world servers to farm Hack XP from a
+> prepped `joesguns`.
+
+<!-- ====================================================================== -->
+
 ## Sequential batcher
 
 The first task you might want to do is write a sequential batcher that pools the
