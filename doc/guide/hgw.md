@@ -26,7 +26,7 @@ maximize RAM usage. How you use the worker scripts is a different matter.
 At heart, an HGW algorithm relies on a target server being _prepped_. To prep a
 server means to lower the server's security to its minimum and grow the server's
 money to maximum. You typically start by running
-[`ns.weaken`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.weaken.md)
+[`ns.weaken()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.weaken.md)
 against the target, followed by
 [`ns.grow()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.grow.md).
 As long as the target is not yet prepped, you repeat the weaken and grow
