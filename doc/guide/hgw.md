@@ -116,7 +116,9 @@ Cons of a sequential batcher include:
 
 ### Algorithm outline
 
-Your sequential batcher accomplishes the following tasks:
+Your sequential batcher accomplishes the following tasks. The algorithm
+described below assumes you use the collective RAM of a botnet. However, the
+algorithm can easily be adapted to a purchased server.
 
 1. _Nuke._ Gain root access to as many world servers as possible. The
    compromised servers are your botnet. Adapt one or more of the algorithms
