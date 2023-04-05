@@ -999,7 +999,7 @@ function recruit(ns) {
         const newbie = gangster.recruit();
         gangster.train(newbie);
         if (newbie.length > 0) {
-            newbie.forEach((s) => log(ns, `Recruited new member: ${s}`));
+            newbie.forEach((s) => log(ns, `Recruited new member ${s}`));
         }
     }
 }
