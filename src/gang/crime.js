@@ -978,7 +978,7 @@ function sanity_checks(ns) {
     }
     const faction = ns.args[0];
     if (!is_valid_faction(faction)) {
-        log(ns, `Cannot create criminal gang within faction: ${faction}`);
+        log(ns, `Cannot create criminal gang within faction ${faction}`);
         return bool.FAILURE;
     }
     return bool.SUCCESS;
