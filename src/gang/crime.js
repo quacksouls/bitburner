@@ -550,6 +550,58 @@ function is_valid_faction(fac) {
 }
 
 /**
+ * Manage our gang.  This is the update loop.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} faction The faction to which our gang belongs.
+ */
+async function manage(ns, faction) {
+    // A tick is a period of time as defined by the constant gang_t.TICK.  At
+    // the start of each tick, there is a chance for our gang to clash against
+    // any rival gang.  The tick threshold is the time near the start of a new
+    // tick.  If we are at the tick threshold, then do whatever is necessary to
+    // prepare for a clash against a rival gang.
+    let other_gang = ns.gang.getOtherGangInformation();
+    let tick_threshold = 1;
+
+    // The update loop.
+    for (;;) {
+        // Enable/disable territory warfare.
+        if (enable_turf_war(ns)) {
+            if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
+                log(ns, `Enable territory warfare for gang in ${faction}`);
+                ns.gang.setTerritoryWarfare(bool.ENABLE);
+            }
+        } else if (ns.gang.getGangInformation().territoryWarfareEngaged) {
+            log(ns, `Disable territory warfare for gang in ${faction}`);
+            ns.gang.setTerritoryWarfare(bool.DISABLE);
+        }
+
+        // Are we in a new tick?  If we are having a turf war, then let our
+        // gang members fight until a new tick occurs.
+        if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
+            // The tick threshold should be a little under gang_t.TICK.
+            tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
+            other_gang = ns.gang.getOtherGangInformation();
+            reassign_after_warfare(ns);
+            await ns.sleep(wait_t.MILLISECOND);
+            continue;
+        }
+
+        // We are in the same tick.  Is it time to go to war?
+        if (Date.now() > tick_threshold) {
+            if (ns.gang.getGangInformation().territoryWarfareEngaged) {
+                casus_belli(ns);
+                await ns.sleep(wait_t.MILLISECOND);
+                continue;
+            }
+        }
+        update(ns);
+        await ns.sleep(wait_t.MILLISECOND);
+    }
+}
+
+/**
  * The minimum chance of winning a clash against any rival gang.  The chance is
  * reported as an integer percentage.  For example, if our chance to win a
  * clash is 0.6879, we convert this to the percentage of 68.79 and take only
@@ -1080,45 +1132,5 @@ export async function main(ns) {
     assert(!ns.gang.getGangInformation().isHacking);
     recruit(ns);
 
-    // Manage our gang.
-    // A tick is a period of time as defined by the constant gang_t.TICK.  At
-    // the start of each tick, there is a chance for our gang to clash against
-    // any rival gang.  The tick threshold is the time near the start of a new
-    // tick.  If we are at the tick threshold, then do whatever is necessary to
-    // prepare for a clash against a rival gang.
-    let other_gang = ns.gang.getOtherGangInformation();
-    let tick_threshold = 1;
-    for (;;) {
-        if (enable_turf_war(ns)) {
-            if (!ns.gang.getGangInformation().territoryWarfareEngaged) {
-                log(ns, `Enable territory warfare for gang in ${faction}`);
-                ns.gang.setTerritoryWarfare(bool.ENABLE);
-            }
-        } else if (ns.gang.getGangInformation().territoryWarfareEngaged) {
-            log(ns, `Disable territory warfare for gang in ${faction}`);
-            ns.gang.setTerritoryWarfare(bool.DISABLE);
-        }
-
-        // Are we in a new tick?  If we are having a turf war, then let our
-        // gang members fight until a new tick occurs.
-        if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
-            // The tick threshold should be a little under gang_t.TICK.
-            tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
-            other_gang = ns.gang.getOtherGangInformation();
-            reassign_after_warfare(ns);
-            await ns.sleep(wait_t.MILLISECOND);
-            continue;
-        }
-
-        // We are in the same tick.  Is it time to go to war?
-        if (Date.now() > tick_threshold) {
-            if (ns.gang.getGangInformation().territoryWarfareEngaged) {
-                casus_belli(ns);
-                await ns.sleep(wait_t.MILLISECOND);
-                continue;
-            }
-        }
-        update(ns);
-        await ns.sleep(wait_t.MILLISECOND);
-    }
+    await manage(ns, faction);
 }
