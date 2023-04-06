@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MyArray } from "/quack/lib/array.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import {
     armour,
@@ -47,7 +48,7 @@ import { assert } from "/quack/lib/util.js";
  */
 function ascend(ns) {
     const member = ns.gang.getMemberNames();
-    if (member.length === 0) {
+    if (MyArray.is_empty(member)) {
         return;
     }
     const gangster = new Gangster(ns);
@@ -998,7 +999,7 @@ function recruit(ns) {
     if (ns.gang.getMemberNames().length < members.MAX) {
         const newbie = gangster.recruit();
         gangster.train(newbie);
-        if (newbie.length > 0) {
+        if (!MyArray.is_empty(newbie)) {
             newbie.forEach((s) => log(ns, `Recruited new member ${s}`));
         }
     }
