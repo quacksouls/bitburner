@@ -768,19 +768,19 @@ function reassign_robbery(ns) {
  * @param {NS} ns The Netscript API.
  */
 function reassign_terrorism(ns) {
+    const gangster = new Gangster(ns);
+    const member = ns.gang.getMemberNames();
     if (has_max_members(ns)) {
+        gangster.traffick_arms(member);
         return;
     }
 
     // Reassign high-level candidates to terrorism.
-    const gangster = new Gangster(ns);
     const min = task_t.TERROR;
     const max = Infinity;
-    const candidate = ns.gang
-        .getMemberNames()
-        .filter(
-            (s) => min <= gangster.strength(s) && gangster.strength(s) < max
-        );
+    const candidate = member.filter(
+        (s) => min <= gangster.strength(s) && gangster.strength(s) < max
+    );
     if (MyArray.is_empty(candidate)) {
         return;
     }
