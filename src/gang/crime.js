@@ -97,9 +97,9 @@ function choose_warriors(ns) {
     // We want at most 1 Punk assigned to territory warfare.
     const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
     const punk_warrior = punk.filter((p) => gangster.is_warrior(p));
-    assert(punk.length > 0);
+    assert(!MyArray.is_empty(punk));
     let warrior = [];
-    if (punk_warrior.length > 0) {
+    if (!MyArray.is_empty(punk_warrior)) {
         warrior = combatant.concat([]);
     } else {
         warrior = combatant.concat([strongest_member(ns, punk)]);
@@ -141,26 +141,16 @@ async function create_gang(ns, fac) {
  */
 function decrease_penalty(ns) {
     reassign_vigilante(ns);
-    const combatant = [];
-    const other = [];
-    const trainee = [];
     const gangster = new Gangster(ns);
     const candidate = ns.gang
         .getMemberNames()
         .filter((s) => !gangster.is_vigilante(s));
-    candidate.forEach((s) => {
-        if (gangster.needs_training(s)) {
-            trainee.push(s);
-        } else if (gangster.is_combatant(s)) {
-            combatant.push(s);
-        } else if (gangster.is_miscellaneous(s)) {
-            other.push(s);
-        }
-    });
+
+    const trainee = candidate.filter((s) => gangster.needs_training(s));
+    const other = candidate.filter((s) => !trainee.includes(s));
     gangster.train(trainee);
     graduate(ns);
-    gangster.extort(combatant);
-    gangster.blackmail(other);
+    gangster.extort(other);
 }
 
 /**
@@ -398,11 +388,8 @@ function equip_weapon_def(ns, name) {
  * @param {NS} ns The Netscript API.
  */
 function graduate(ns) {
-    const member = ns.gang.getMemberNames();
     const gangster = new Gangster(ns);
-    gangster.graduate_combatant(member, task_t.COMBAT);
-    gangster.graduate_hacker(member, task_t.HACK);
-    gangster.graduate_other(member, task_t.CHARISMA);
+    gangster.graduate(ns.gang.getMemberNames(), task_t.COMBAT);
 }
 
 /**
@@ -464,12 +451,8 @@ function has_max_members(ns) {
  */
 function has_terrorist(ns) {
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_terrorist(s)) {
-            return true;
-        }
-    }
-    return false;
+    const is_terrorist = (s) => gangster.is_terrorist(s);
+    return ns.gang.getMemberNames().some(is_terrorist);
 }
 
 /**
@@ -481,12 +464,8 @@ function has_terrorist(ns) {
  */
 function has_vigilante(ns) {
     const gangster = new Gangster(ns);
-    for (const s of ns.gang.getMemberNames()) {
-        if (gangster.is_vigilante(s)) {
-            return true;
-        }
-    }
-    return false;
+    const is_vigilante = (s) => gangster.is_vigilante(s);
+    return ns.gang.getMemberNames().some(is_vigilante);
 }
 
 /**
@@ -519,15 +498,10 @@ function is_in_war(ns) {
  */
 function is_new_tick(ns, other) {
     const current = ns.gang.getOtherGangInformation();
-    for (const g of Object.keys(current)) {
-        if (
-            current[g].power !== other[g].power
-            || current[g].territory !== other[g].territory
-        ) {
-            return bool.NEW;
-        }
-    }
-    return bool.NOT_NEW;
+    const changed_power = (g) => current[g].power !== other[g].power;
+    const changed_turf = (g) => current[g].territory !== other[g].territory;
+    const has_changed = (g) => changed_power(g) || changed_turf(g);
+    return Object.keys(current).some(has_changed);
 }
 
 /**
@@ -640,23 +614,18 @@ function para_bellum(ns) {
 
     // We want at most members.WARRIOR members to be engaged in territory
     // warfare.  The remaining members should be in as high-paying jobs as
-    // possible.  The 4 combatants can be assigned to arms trafficking and the
-    // 4 miscellaneous members can be assigned to trafficking humans.  We can
-    // have 8 members be involved in some form of trafficking.  However, we
-    // also need 1 member to be committing acts of terrorism to help raise our
-    // respect so we can recruit more members.  The number of members engaged
-    // in some form of trafficking is effectively 7.  The subtraction of 1
-    // accounts for the lone member who commits acts of terrorism.
+    // possible.  We can have 8 members be involved in trafficking illegal arms.
+    // We also need 1 member to be committing acts of terrorism to help raise
+    // our respect so we can recruit more members.  The number of members
+    // engaged in trafficking illegal arms is effectively 7.  The subtraction of
+    // 1 accounts for the lone member who commits acts of terrorism.
     const threshold = members.MAX - members.WARRIOR - 1;
 
     // Not yet time to send gang members to turf warfare.
     const gangster = new Gangster(ns);
     const trafficker = ns.gang
         .getMemberNames()
-        .filter(
-            (s) => gangster.is_arms_trafficker(s)
-                || gangster.is_human_trafficker(s)
-        );
+        .filter((s) => gangster.is_arms_trafficker(s));
     if (trafficker.length < threshold) {
         return;
     }
@@ -691,9 +660,7 @@ function penalty(ns) {
  * @param {NS} ns The Netscript API.
  */
 function reassign(ns) {
-    reassign_combatant(ns);
-    reassign_hacker(ns);
-    reassign_miscellaneous(ns);
+    reassign_everyone(ns);
     reassign_from_neutral(ns);
 }
 
@@ -722,20 +689,16 @@ function reassign_after_warfare(ns) {
 }
 
 /**
- * Reassign high-level gang members to trafficking illegal arms.  Reassign
- * gang members if their Strength stat is in the half-open interval [min, max).
- * That is, we include the minimum threshold but exclude the maximum threshold.
+ * Reassign high-level gang members to trafficking illegal arms.
  *
  * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to traffick illegal arms.
- * @param {number} min The minimum value for the Strength stat.
- * @param {number} max The maximum value for the Strength stat.
  */
-function reassign_arms_trafficking(ns, member, min, max) {
+function reassign_arms_trafficking(ns) {
+    const min = task_t.TRAFFICK_ARMS;
+    const max = Infinity;
     const gangster = new Gangster(ns);
     const candidate = [];
-    for (const s of member) {
+    for (const s of ns.gang.getMemberNames()) {
         if (!has_all_turf(ns)) {
             if (gangster.is_terrorist(s) || gangster.is_warrior(s)) {
                 continue;
@@ -749,87 +712,40 @@ function reassign_arms_trafficking(ns, member, min, max) {
 }
 
 /**
- * Reassign our miscellaneous gang members to threaten and blackmail
- * high-profile targets.  Reassign our members if their Charisma stat is in the
- * half-open interval [min, max).  We include the minimum threshold but exclude
- * the maximum threshold.
- *
- * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to threaten and blackmail people.
- * @param {number} min The minimum value for the Charisma stat.
- * @param {number} max The maximum value for the Charisma stat.
- */
-function reassign_blackmail(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
-    );
-    gangster.blackmail(candidate);
-}
-
-/**
- * Reassign combatants to other jobs.
+ * Reassign gangsters to other jobs.
  *
  * @param {NS} ns The Netscript API.
  */
-function reassign_combatant(ns) {
-    const gangster = new Gangster(ns);
-    const combatant = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_combatant(s));
-
+function reassign_everyone(ns) {
     // Assign gang members with mid- to advanced-level stats to more
     // profitable jobs.
-    reassign_extortion(ns, combatant, task_t.EXTORT, task_t.ROBBERY);
-    reassign_robbery(ns, combatant, task_t.ROBBERY, task_t.TRAFFICK_ARMS);
+    reassign_extortion(ns);
+    reassign_robbery(ns);
 
     // Try to have at least one gang member assigned to commit acts of
     // terrorism.  This should help to increase our respect so we can recruit
     // more members.  However, if we already have the maximum number of
     // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns, combatant, task_t.TERROR, Infinity);
+    reassign_terrorism(ns);
 
     // Assign other high-level members to trafficking illegal arms.
-    reassign_arms_trafficking(ns, combatant, task_t.TRAFFICK_ARMS, Infinity);
-}
-
-/**
- * Reassign our miscellaneous gang members to run a con.  Reassign our members
- * if their Charisma stat is in the half-open interval [min, max).  We include
- * the minimum threshold but exclude the maximum threshold.
- *
- * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to run a con.
- * @param {number} min The minimum value for the Charisma stat.
- * @param {number} max The maximum value for the Charisma stat.
- */
-function reassign_con(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
-    );
-    gangster.con(candidate);
+    reassign_arms_trafficking(ns);
 }
 
 /**
  * Reassign mid-level gang members to strongarm civilians on our turf.
- * Reassign gang members if their Strength stat is in the half-open interval
- * [min, max).  That is, we include the minimum threshold but exclude the
- * maximum threshold.
  *
  * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to strongarm civilians.
- * @param {number} min The minimum value for the Strength stat.
- * @param {number} max The maximum value for the Strength stat.
  */
-function reassign_extortion(ns, member, min, max) {
+function reassign_extortion(ns) {
+    const min = task_t.EXTORT;
+    const max = task_t.ROBBERY;
     const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.strength(s) && gangster.strength(s) < max
-    );
+    const candidate = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => min <= gangster.strength(s) && gangster.strength(s) < max
+        );
     gangster.extort(candidate);
 }
 
@@ -841,85 +757,10 @@ function reassign_extortion(ns, member, min, max) {
 function reassign_from_neutral(ns) {
     const gangster = new Gangster(ns);
     const idle = ns.gang.getMemberNames().filter((s) => gangster.is_idle(s));
-    if (idle.length === 0) {
+    if (MyArray.is_empty(idle)) {
         return;
     }
-    const combatant = idle.filter((s) => gangster.is_combatant(s));
-    const other = idle.filter(
-        (s) => gangster.is_hacker(s) || gangster.is_miscellaneous(s)
-    );
-    gangster.extort(combatant);
-    gangster.con(other);
-}
-
-/**
- * Reassign our Hacker to some other job.
- *
- * @param {NS} ns The Netscript API.
- */
-function reassign_hacker(ns) {
-    const gangster = new Gangster(ns);
-    const hacker = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_hacker(s));
-    assert(hacker.length === 1);
-
-    // This is not a hacking gang.  Reassign the Hacker to one of the jobs
-    // normally done by a miscellaneous gang member.
-    reassign_con(ns, hacker, task_t.CON, task_t.BLACKMAIL);
-    reassign_blackmail(ns, hacker, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
-
-    // If we already control 100% of the territory, then assign everyone to
-    // trafficking illegal arms because this task generally earns more money
-    // than human trafficking.
-    if (has_all_turf(ns)) {
-        reassign_arms_trafficking(ns, hacker, task_t.TRAFFICK_ARMS, Infinity);
-        return;
-    }
-    reassign_human_trafficking(ns, hacker, task_t.TRAFFICK_HUMAN, Infinity);
-}
-
-/**
- * Reassign our miscellaneous gang members to engage in human trafficking.
- * Reassign our members if their Charisma stat is in the half-open interval
- * [min, max).  We include the minimum threshold but exclude the maximum
- * threshold.
- *
- * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to operate a human trafficking ring.
- * @param {number} min The minimum value for the Charisma stat.
- * @param {number} max The maximum value for the Charisma stat.
- */
-function reassign_human_trafficking(ns, member, min, max) {
-    const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.charisma(s) && gangster.charisma(s) < max
-    );
-    gangster.traffick_human(candidate);
-}
-
-/**
- * Reassign miscellaneous gang members to various jobs.
- *
- * @param {NS} ns The Netscript API.
- */
-function reassign_miscellaneous(ns) {
-    const gangster = new Gangster(ns);
-    const other = ns.gang
-        .getMemberNames()
-        .filter((s) => gangster.is_miscellaneous(s));
-    reassign_con(ns, other, task_t.CON, task_t.BLACKMAIL);
-    reassign_blackmail(ns, other, task_t.BLACKMAIL, task_t.TRAFFICK_HUMAN);
-
-    // If we already control 100% of the territory, then assign everyone to
-    // trafficking illegal arms because this task generally earns more money
-    // than human trafficking.
-    if (has_all_turf(ns)) {
-        reassign_arms_trafficking(ns, other, task_t.TRAFFICK_ARMS, Infinity);
-        return;
-    }
-    reassign_human_trafficking(ns, other, task_t.TRAFFICK_HUMAN, Infinity);
+    gangster.extort(idle);
 }
 
 /**
@@ -928,54 +769,48 @@ function reassign_miscellaneous(ns) {
  * That is, we include the minimum threshold but exclude the maximum threshold.
  *
  * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to armed robbery.
- * @param {number} min The minimum value for the Strength stat.
- * @param {number} max The maximum value for the Strength stat.
  */
-function reassign_robbery(ns, member, min, max) {
+function reassign_robbery(ns) {
+    const min = task_t.ROBBERY;
+    const max = task_t.TRAFFICK_ARMS;
     const gangster = new Gangster(ns);
-    const candidate = member.filter(
-        (s) => min <= gangster.strength(s) && gangster.strength(s) < max
-    );
+    const candidate = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => min <= gangster.strength(s) && gangster.strength(s) < max
+        );
     gangster.robbery(candidate);
 }
 
 /**
- * Reassign advanced-level gang members to commit acts of terrorism.  Reassign
- * gang members if their Strength stat is in the half-open interval [min, max).
- * That is, we include the minimum threshold but exclude the maximum threshold.
- * We usually assign members to acts of terrorism because this task greatly
- * increases respect, which in turn helps to recruit new members, but does not
- * generate income.  However, if we already have the maximum number of members,
- * there is no reason to have any terrorists around.  Only assign a limited
- * number of members to terrorism.
+ * Reassign advanced-level gang members to commit acts of terrorism.  We usually
+ * assign members to acts of terrorism because this task greatly increases
+ * respect, which in turn helps to recruit new members, but does not generate
+ * income.  However, if we already have the maximum number of members, there is
+ * no reason to have any terrorists around.  Only assign a limited number of
+ * members to terrorism.
  *
  * @param {NS} ns The Netscript API.
- * @param {array<string>} member Member names.  We want to reassign these
- *     members to acts of terrorism.
- * @param {number} min The minimum value for the Strength stat.
- * @param {number} max The maximum value for the Strength stat.
  */
-function reassign_terrorism(ns, member, min, max) {
+function reassign_terrorism(ns) {
     if (has_terrorist(ns) && !has_max_members(ns)) {
         return;
     }
 
-    // We already have the maximum number of gang members.  Reassign the
-    // terrorists to trafficking illegal arms.
+    // We already have the maximum number of gang members.  Reassign everyone to
+    // trafficking illegal arms.
+    const member = ns.gang.getMemberNames();
     const gangster = new Gangster(ns);
     if (has_max_members(ns)) {
-        const name = ns.gang
-            .getMemberNames()
-            .filter((s) => gangster.is_terrorist(s));
-        gangster.traffick_arms(name);
+        gangster.traffick_arms(member);
         return;
     }
     assert(!has_terrorist(ns));
     assert(!has_max_members(ns));
 
     // We want our Vanguard to commit acts of terrorism.
+    const min = task_t.TERROR;
+    const max = Infinity;
     const vanguard = member.filter(
         (s) => gangster.is_vanguard(s)
             && min <= gangster.strength(s)

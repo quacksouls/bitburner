@@ -82,27 +82,11 @@ export class Gangster {
         // unexpected behaviour.  It is easier and simpler to compare integers.
         const to_int = (x) => Math.floor(100 * x);
 
-        // See whether we can ascend this gang member.  The cases of combatant,
-        // hacker, and miscellaneous are each handled separately.
+        // See whether we can ascend this gang member.
         const stat = [asc.agi, asc.def, asc.dex, asc.str].map(to_int);
         const tau = to_int(gang_t.ASCEND);
         const over_threshold = (s) => s > tau;
-        let ascend_this_member = false;
-        if (this.is_combatant(name)) {
-            if (stat.some(over_threshold)) {
-                ascend_this_member = true;
-            }
-        } else if (this.is_hacker(name)) {
-            if (to_int(asc.hack) > tau || to_int(asc.cha) > tau) {
-                ascend_this_member = true;
-            }
-        } else {
-            assert(this.is_miscellaneous(name));
-            stat.push(to_int(asc.cha));
-            if (stat.some(over_threshold)) {
-                ascend_this_member = true;
-            }
-        }
+        const ascend_this_member = stat.some(over_threshold);
 
         // Now ascend the gangster.
         if (ascend_this_member) {
@@ -370,6 +354,35 @@ export class Gangster {
      */
     #funds() {
         return money(this.#ns) - gang_t.MONEY_RESERVE;
+    }
+
+    /**
+     * Graduate gang members who have been training their stats.  Assign them to
+     * mug random people.
+     *
+     * @param {array<string>} name Member names.
+     * @param {number} threshold A trainee transitions to mugging once each of
+     *     their combat stats is at least this amount.
+     */
+    graduate(name, threshold) {
+        // Sanity checks.
+        if (MyArray.is_empty(name)) {
+            return;
+        }
+        name.forEach((s) => assert(this.is_member(s)));
+        const min = Math.floor(threshold);
+        assert(min > 0);
+
+        // After training their stats, members graduate to mugging
+        // random people.
+        const graduate = name.filter(
+            (s) => this.is_training_combat(s)
+                && this.strength(s) >= min
+                && this.defense(s) >= min
+                && this.dexterity(s) >= min
+                && this.agility(s) >= min
+        );
+        this.mug(graduate);
     }
 
     /**
@@ -1095,20 +1108,7 @@ export class Gangster {
      *     stats; false otherwise.
      */
     needs_training(name) {
-        if (this.is_combatant(name)) {
-            return this.needs_combat_training(name);
-        }
-        if (this.is_hacker(name)) {
-            return (
-                this.needs_hack_training(name)
-                || this.needs_charisma_training(name)
-            );
-        }
-        assert(this.is_miscellaneous(name));
-        return (
-            this.needs_charisma_training(name)
-            || this.needs_combat_training(name)
-        );
+        return this.needs_combat_training(name);
     }
 
     /**
@@ -1411,16 +1411,7 @@ export class Gangster {
     }
 
     /**
-     * Train one or more stats of a gang member.  The type of stats to train
-     * depends on the role of a member.
-     *
-     * (1) Artillery, Pilot, Punk, Vanguard.  These roles specialize
-     *     exclusively in combat stats.  Any gains in Hack or Charisma are
-     *     incidental.
-     * (2) Hacker.  This role focuses mostly on Hack stat, but also benefits
-     *     from some investment in Charisma.
-     * (3) Medic, Spy, Thief, Traitor.  These roles are primarily
-     *     Charisma-based, but could benefit from some training in combat stats.
+     * Train one or more stats of a gang member.
      *
      * @param {array<string>} name Member names.  Each name follows the format
      *     "[Role] Full Name".  We want to raise various stats of each of these
@@ -1433,15 +1424,7 @@ export class Gangster {
         }
         name.forEach((s) => assert(this.is_member(s)));
 
-        // Train various stats.  The stat(s) to train, and the amount of time
-        // spent in training, depend on a member's role.
-        const hacker = name.filter((s) => this.is_hacker(s));
-        const combatant = name.filter((s) => this.is_combatant(s));
-        const other = name.filter((s) => this.is_miscellaneous(s));
-        assert(hacker.length > 0 || combatant.length > 0 || other.length > 0);
-        this.train_combat(combatant);
-        this.train_hack(hacker);
-        this.train_charisma(other);
+        this.train_combat(name);
     }
 
     /**
