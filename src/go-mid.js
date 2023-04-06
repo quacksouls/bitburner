@@ -52,6 +52,15 @@ async function reboot(ns) {
 }
 
 /**
+ * Disable various messages in the script log.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("sleep");
+}
+
+/**
  * NOTE: Assume our home server has at least 128GB RAM.
  *
  * Restart our source of income and Hack XP.  This script is useful whenever we
@@ -63,6 +72,7 @@ async function reboot(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
+    shush(ns);
     log(ns, "Home server is mid-end. Bootstrap with some scripts.");
     assert(has_singularity_api(ns));
     await reboot(ns);

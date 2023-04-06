@@ -59,6 +59,15 @@ async function reboot(ns) {
 }
 
 /**
+ * Disable various messages in the script log.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function shush(ns) {
+    ns.disableLog("sleep");
+}
+
+/**
  * NOTE: This script assumes our home server has a small amount of RAM,
  * possibly less than 64GB RAM.
  *
@@ -71,6 +80,7 @@ async function reboot(ns) {
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
+    shush(ns);
     log(ns, "Home server is low-end. Bootstrap with some scripts.");
     assert(has_singularity_api(ns));
     await reboot(ns);
