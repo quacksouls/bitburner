@@ -20,9 +20,7 @@ import { wait_t } from "/quack/lib/constant/time.js";
 import { choose_batcher_pserv } from "/quack/lib/hgw.js";
 import { log } from "/quack/lib/io.js";
 import { has_singularity_api } from "/quack/lib/source.js";
-import {
-    assert, exec, farm_hack_xp, init_sleeves,
-} from "/quack/lib/util.js";
+import { assert, exec, farm_hack_xp } from "/quack/lib/util.js";
 
 /**
  * This function should be run immediately after the soft reset of installing a
@@ -48,7 +46,6 @@ async function reboot(ns) {
     await farm_hack_xp(ns);
     exec(ns, "/quack/hgw/world.js");
     exec(ns, choose_batcher_pserv(ns));
-    await init_sleeves(ns);
 }
 
 /**
