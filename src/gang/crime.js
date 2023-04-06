@@ -979,6 +979,6 @@ export async function main(ns) {
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     assert(!ns.gang.getGangInformation().isHacking);
 
-    await recruit_full_house(ns);
+    await recruit_full_house(ns, faction);
     await manage(ns, faction);
 }
