@@ -833,6 +833,26 @@ function recruit(ns) {
 }
 
 /**
+ * Recruit the maximum number of members to our gang.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} fac The faction to which our gang belongs.
+ */
+async function recruit_full_house(ns, fac) {
+    log(ns, `Recruit all members to gang in ${fac}`);
+    while (!has_max_members(ns)) {
+        recruit(ns);
+        retrain(ns);
+        graduate(ns);
+        ascend(ns);
+        equip(ns);
+        reassign(ns);
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    log(ns, `Gang in ${fac} is at capacity`);
+}
+
+/**
  * Retrain the stats of gang members as necessary.
  *
  * @param {NS} ns The Netscript API.
@@ -958,7 +978,7 @@ export async function main(ns) {
     log(ns, `Disable territory warfare for gang in ${faction}`);
     ns.gang.setTerritoryWarfare(bool.DISABLE);
     assert(!ns.gang.getGangInformation().isHacking);
-    recruit(ns);
 
+    await recruit_full_house(ns);
     await manage(ns, faction);
 }
