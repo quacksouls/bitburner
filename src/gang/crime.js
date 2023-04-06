@@ -92,7 +92,7 @@ function choose_warriors(ns) {
                 || gangster.is_artillery(s)
                 || gangster.is_pilot(s)
         );
-    assert(combatant.length > 0);
+    assert(!MyArray.is_empty(combatant));
 
     // We want at most 1 Punk assigned to territory warfare.
     const punk = ns.gang.getMemberNames().filter((s) => gangster.is_punk(s));
@@ -816,7 +816,7 @@ function reassign_terrorism(ns) {
             && min <= gangster.strength(s)
             && gangster.strength(s) < max
     );
-    if (vanguard.length === 0) {
+    if (MyArray.is_empty(vanguard)) {
         return;
     }
     assert(vanguard.length === 1);
