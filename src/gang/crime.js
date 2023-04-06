@@ -404,22 +404,14 @@ function graduate(ns) {
  */
 function has_all_def_equipment(ns, name) {
     const gangster = new Gangster(ns);
-    for (const aug of defensive_equipment_augment()) {
-        if (!gangster.has_augment(name, aug)) {
-            return bool.NOT;
-        }
-    }
-    for (const wpn of defensive_equipment_weapon()) {
-        if (!gangster.has_weapon(name, wpn)) {
-            return bool.NOT;
-        }
-    }
-    for (const amr of Object.values(armour)) {
-        if (!gangster.has_armour(name, amr)) {
-            return bool.NOT;
-        }
-    }
-    return bool.HAS;
+    const has_augment = (aug) => gangster.has_augment(name, aug);
+    const has_weapon = (wpn) => gangster.has_weapon(name, wpn);
+    const has_armour = (amr) => gangster.has_armour(name, amr);
+    return (
+        defensive_equipment_augment().every(has_augment)
+        && defensive_equipment_weapon().every(has_weapon)
+        && Object.values(armour).every(has_armour)
+    );
 }
 
 /**
