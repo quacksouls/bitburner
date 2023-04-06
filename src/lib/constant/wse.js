@@ -59,10 +59,6 @@ export const wse = {
      */
     COMMISSION: 100e3,
     /**
-     * A file containing the market forecast.
-     */
-    FORECAST: "/quack/trade_bot_forecast.txt",
-    /**
      * The forecast threshold below which we grow a server.  Grow the server in
      * an attempt to manipulate the price of a stock.
      */
@@ -81,10 +77,6 @@ export const wse = {
      * the number of shares we own in the Long position.
      */
     LONG_INDEX: 0,
-    /**
-     * Buy this minimum number of shares of a stock.
-     */
-    MIN_SHARES: 5e3,
     /**
      * During any tick, buy shares of at most this many stocks.
      */
@@ -324,12 +316,4 @@ export const wse = {
      * The Stock Market updates approximately every 6 seconds.
      */
     TICK: 6e3,
-    /**
-     * Sleep this many milliseonds if we do not have access to 4S data and API.
-     */
-    TICK_PRE4S: 2e3,
-    /**
-     * Index of the current value in the history array.
-     */
-    TODAY: 0,
 };
