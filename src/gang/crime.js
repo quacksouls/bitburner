@@ -435,19 +435,6 @@ function has_max_members(ns) {
 }
 
 /**
- * Whether any of our gang members are currently committing acts of terrorism.
- *
- * @param {NS} ns The Netscript API.
- * @returns {boolean} True if at least one gang member is committing acts of
- *     terrorism; false otherwise.
- */
-function has_terrorist(ns) {
-    const gangster = new Gangster(ns);
-    const is_terrorist = (s) => gangster.is_terrorist(s);
-    return ns.gang.getMemberNames().some(is_terrorist);
-}
-
-/**
  * Whether any of our gang members are currently on vigilante justice.
  *
  * @param {NS} ns The Netscript API.
@@ -714,14 +701,12 @@ function reassign_everyone(ns) {
     reassign_extortion(ns);
     reassign_robbery(ns);
 
-    // Try to have at least one gang member assigned to commit acts of
-    // terrorism.  This should help to increase our respect so we can recruit
-    // more members.  However, if we already have the maximum number of
-    // gangsters, then there is no need to have anyone be terrorists.
-    reassign_terrorism(ns);
-
     // Assign other high-level members to trafficking illegal arms.
     reassign_arms_trafficking(ns);
+
+    // Assign as many members as possible to commit acts of terrorism.  This
+    // should help to increase our respect so we can recruit more members.
+    reassign_terrorism(ns);
 }
 
 /**
@@ -778,41 +763,28 @@ function reassign_robbery(ns) {
  * Reassign advanced-level gang members to commit acts of terrorism.  We usually
  * assign members to acts of terrorism because this task greatly increases
  * respect, which in turn helps to recruit new members, but does not generate
- * income.  However, if we already have the maximum number of members, there is
- * no reason to have any terrorists around.  Only assign a limited number of
- * members to terrorism.
+ * income.
  *
  * @param {NS} ns The Netscript API.
  */
 function reassign_terrorism(ns) {
-    if (has_terrorist(ns) && !has_max_members(ns)) {
-        return;
-    }
-
-    // We already have the maximum number of gang members.  Reassign everyone to
-    // trafficking illegal arms.
-    const member = ns.gang.getMemberNames();
-    const gangster = new Gangster(ns);
     if (has_max_members(ns)) {
-        gangster.traffick_arms(member);
         return;
     }
-    assert(!has_terrorist(ns));
-    assert(!has_max_members(ns));
 
-    // We want our Vanguard to commit acts of terrorism.
+    // Reassign high-level candidates to terrorism.
+    const gangster = new Gangster(ns);
     const min = task_t.TERROR;
     const max = Infinity;
-    const vanguard = member.filter(
-        (s) => gangster.is_vanguard(s)
-            && min <= gangster.strength(s)
-            && gangster.strength(s) < max
-    );
-    if (MyArray.is_empty(vanguard)) {
+    const candidate = ns.gang
+        .getMemberNames()
+        .filter(
+            (s) => min <= gangster.strength(s) && gangster.strength(s) < max
+        );
+    if (MyArray.is_empty(candidate)) {
         return;
     }
-    assert(vanguard.length === 1);
-    gangster.terrorism(vanguard);
+    gangster.terrorism(candidate);
 }
 
 /**
