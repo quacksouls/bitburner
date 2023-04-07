@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bb } from "/quack/lib/constant/bb.js";
+import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { colour } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
@@ -28,7 +28,7 @@ import {
     has_singularity_api,
     has_sleeve_api,
 } from "/quack/lib/source.js";
-import { assert } from "/quack/lib/util.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Whether we have the required APIs to efficiently automate Bladeburner.
@@ -65,6 +65,11 @@ function has_api_access(ns) {
  * @param {NS} ns The Netscript API.
  */
 async function join(ns) {
+    if (ns.bladeburner.inBladeburner()) {
+        log(ns, "Already in Bladeburner division");
+        return;
+    }
+
     while (!ns.bladeburner.joinBladeburnerDivision()) {
         await ns.sleep(wait_t.SECOND);
     }
@@ -86,7 +91,7 @@ async function required_stats(ns) {
         player.dexterity(),
         player.strength(),
     ];
-    const below_minimum = (s) => s < bb.stat.combat.MIN;
+    const below_minimum = (s) => s < bb_t.stat.combat.MIN;
     while (stat().some(below_minimum)) {
         await ns.sleep(wait_t.DEFAULT);
     }
@@ -116,4 +121,6 @@ export async function main(ns) {
     }
     await required_stats(ns);
     await join(ns);
+
+    exec(ns, "/quack/bladeburner/bb.js");
 }

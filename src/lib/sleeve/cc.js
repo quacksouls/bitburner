@@ -16,6 +16,7 @@
  */
 
 import { MyArray } from "/quack/lib/array.js";
+import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
@@ -228,6 +229,44 @@ export class Sleeve {
     is_in_sync(idx) {
         assert(this.#is_valid_index([idx]));
         return this.#ns.sleeve.getSleeve(idx).sync >= cc_t.MAX_SYNC;
+    }
+
+    /**
+     * Whether a sleeve is taking on Bladeburner contracts that have a likely
+     * chance of success.
+     *
+     * @param {number} idx A sleeve index.  Must be a non-negative integer.
+     * @returns {boolean} True if the given sleeve is taking on contracts whose
+     *     estimated success chance is likely; false otherwise.
+     */
+    is_performing_likely_contracts(idx) {
+        if (!this.is_performing_contracts(idx)) {
+            return bool.NOT;
+        }
+
+        const { actionName } = this.#ns.sleeve.getTask(idx);
+        const min = this.#ns.bladeburner.getActionEstimatedSuccessChance(
+            "Contract",
+            actionName
+        )[0];
+        return min >= bb_t.LIKELY;
+    }
+
+    /**
+     * Whether a sleeve is taking on Bladburner contracts.
+     *
+     * @param {number} idx A sleeve index.  Must be a non-negative integer.
+     * @returns {boolean} True if the given sleeve is taking on Bladeburner
+     *     contracts; false otherwise.
+     */
+    is_performing_contracts(idx) {
+        assert(this.#is_valid_index([idx]));
+        try {
+            const { type, actionType } = this.#ns.sleeve.getTask(idx);
+            return type === "BLADEBURNER" && actionType === "Contracts";
+        } catch {
+            return bool.NOT;
+        }
     }
 
     /**
