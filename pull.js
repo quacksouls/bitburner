@@ -40,7 +40,7 @@ function dir_structure() {
     const filesystem = [
         // Insert directory tree here.  Should contain all scripts for playing
         // Bitburner.
-        "bb/go.js",
+        "bladeburner/go.js",
         "cct/bipartite.js",
         "cct/caesar.js",
         "cct/grid.js",
