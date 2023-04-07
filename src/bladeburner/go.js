@@ -16,12 +16,48 @@
  */
 
 import { bb } from "/quack/lib/constant/bb.js";
+import { bool } from "/quack/lib/constant/bool.js";
 import { colour } from "/quack/lib/constant/misc.js";
+import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
-import { has_bladeburner_api, has_singularity_api } from "/quack/lib/source.js";
+import { has_all_sleeves } from "/quack/lib/sleeve/util.js";
+import {
+    has_bladeburner_api,
+    has_singularity_api,
+    has_sleeve_api,
+} from "/quack/lib/source.js";
 import { assert } from "/quack/lib/util.js";
+
+/**
+ * Whether we have the required APIs to efficiently automate Bladeburner.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have the necessary APIs; false otherwise.
+ */
+function has_api_access(ns) {
+    // Do we have access to the Bladeburner API?
+    assert(has_singularity_api(ns));
+    if (!has_bladeburner_api(ns)) {
+        log(ns, "No access to Bladeburner API", colour.RED);
+        return bool.NOT;
+    }
+
+    // Bladeburner pairs nicely with sleeves.  Require both to efficiently
+    // automate Bladeburner.
+    if (!has_sleeve_api(ns)) {
+        log(ns, "No access to Sleeve API", colour.RED);
+        return bool.NOT;
+    }
+    if (!has_all_sleeves(ns)) {
+        const msg = `Require ${cc_t.MAX_SLEEVE} sleeves for Bladeburner`;
+        log(ns, msg, colour.RED);
+        return bool.NOT;
+    }
+
+    return bool.HAS;
+}
 
 /**
  * Join the Bladeburner division.
@@ -75,13 +111,9 @@ function shush(ns) {
 export async function main(ns) {
     shush(ns);
 
-    // Do we have access to the Bladeburner API?
-    assert(has_singularity_api(ns));
-    if (!has_bladeburner_api(ns)) {
-        log(ns, "No access to Bladeburner API", colour.RED);
+    if (!has_api_access(ns)) {
         return;
     }
-
     await required_stats(ns);
     await join(ns);
 }

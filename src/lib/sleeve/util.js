@@ -37,6 +37,16 @@ export function all_sleeves(ns) {
 }
 
 /**
+ * Whether we have all sleeves.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have all sleeves; false otherwise.
+ */
+export function has_all_sleeves(ns) {
+    return ns.sleeve.getNumSleeves() === cc_t.MAX_SLEEVE;
+}
+
+/**
  * Whether the combat stats of sleeves are at least a given threshold.
  *
  * @param {NS} ns The Netscript API.
