@@ -104,7 +104,7 @@ function shush(ns) {
 /**
  * Initiate the Bladeburner load chain.
  *
- * Usage: run quack/bb/go.js
+ * Usage: run quack/bladeburner/go.js
  *
  * @param {NS} ns The Netscript API.
  */
