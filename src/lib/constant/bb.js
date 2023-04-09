@@ -35,6 +35,34 @@ export const bb_t = {
      */
     LIKELY: 0.9,
     /**
+     * Various skills.
+     */
+    skill: {
+        BLADE: "Blade's Intuition",
+        CIRCUIT: "Short-Circuit",
+        CLOAK: "Cloak",
+        CLOCK: "Overclock",
+        DATA: "Datamancer",
+        DRIVE: "Hyperdrive",
+        EDGE: "Cyber's Edge",
+        EVADE: "Evasive System",
+        MIDAS: "Hands of Midas",
+        OBSERVER: "Digital Observer",
+        REAPER: "Reaper",
+        TRACER: "Tracer",
+        /**
+         * Thresholds for levels of various skills.
+         */
+        tau: {
+            "Short-Circuit": 20,
+            Cloak: 20,
+            Datamancer: 5,
+            Hyperdrive: 15,
+            Overclock: 90,
+            Tracer: 10,
+        },
+    },
+    /**
      * Indices of sleeves that are assigned to specific tasks.
      */
     sleeve: {
@@ -67,5 +95,19 @@ export const bb_t = {
         RECRUIT: "Recruitment",
         REGEN: "Hyperbolic Regeneration Chamber",
         SUPPORT: "Support main sleeve",
+    },
+    /**
+     * Various time constants.
+     */
+    time: {
+        /**
+         * An update interval in milliseconds.  This is our custom update
+         * interval, not Bladeburner's update interval.
+         */
+        TICK: 10e3,
+        /**
+         * Attempt to upgrade our skills once every this many ticks.
+         */
+        UPGRADE: 6,
     },
 };
