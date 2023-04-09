@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { empty_string } from "/quack/lib/constant/misc.js";
 import { number } from "/quack/lib/constant/number.js";
 import { assert } from "/quack/lib/util.js";
 
@@ -34,11 +33,13 @@ export class MyNumber {
      * @returns {string} The same number, but formatted.
      */
     static format(num, ndigit = 3) {
+        // Sanity checks.
         assert(num >= 0);
         const abs = (x) => Math.abs(Number(x));
-        if (abs(num) === 0) {
-            return "0.000";
+        if (abs(num) < 1e3) {
+            return `${abs(num)}`;
         }
+
         const fmt = (divisor, suffix) => {
             const fstr = (abs(num) / divisor).toFixed(ndigit);
             return `${fstr}${suffix}`;
@@ -53,7 +54,6 @@ export class MyNumber {
             [number.BILLION, "b"],
             [number.MILLION, "m"],
             [number.THOUSAND, "k"],
-            [1, empty_string],
         ];
         const dindex = 0;
         const meet_threshold = (tau) => abs(num) >= tau[dindex];
