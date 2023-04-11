@@ -35,6 +35,11 @@ export const bb_t = {
      */
     LIKELY: 0.9,
     /**
+     * There should be at least this many contracts to help us decide whether to
+     * take on a particular type of contracts.
+     */
+    MIN_CONTRACTS: 50,
+    /**
      * Various skills.
      */
     skill: {

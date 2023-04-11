@@ -18,7 +18,8 @@
 import { Bladeburner } from "/quack/lib/bb.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { Sleeve } from "/quack/lib/sleeve/cc.js";
-import { assert, is_empty_string } from "/quack/lib/util.js";
+import { all_sleeves } from "/quack/lib/sleeve/util.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * Assign a sleeve to take on contracts.
@@ -28,10 +29,9 @@ import { assert, is_empty_string } from "/quack/lib/util.js";
 function contracts(ns) {
     // Check whether a sleeve is taking on contracts.
     const sleeve = new Sleeve(ns);
-    const idx = bb_t.sleeve.CONTRACT;
-    if (sleeve.is_performing_contracts(idx)) {
-        if (!sleeve.is_performing_likely_contracts(idx)) {
-            ns.sleeve.setToBladeburnerAction(idx, bb_t.task.INFILT);
+    if (sleeve.is_performing_contracts()) {
+        if (!sleeve.is_performing_likely_contracts()) {
+            ns.sleeve.setToIdle(sleeve.contractor());
         }
         return;
     }
@@ -39,12 +39,9 @@ function contracts(ns) {
     // See whether we can assign a sleeve to contracts.
     const bb = new Bladeburner(ns);
     if (!bb.has_likely_contract()) {
-        ns.sleeve.setToBladeburnerAction(idx, bb_t.task.INFILT);
         return;
     }
-    const ctr = bb.likely_contract();
-    assert(!is_empty_string(ctr));
-    ns.sleeve.setToBladeburnerAction(idx, bb_t.task.CONTRACT, ctr);
+    sleeve.perform_likely_contracts(bb.likely_contract());
 }
 
 /**
@@ -53,15 +50,13 @@ function contracts(ns) {
  * @param {NS} ns The Netscript API.
  */
 function init_sleeves(ns) {
+    all_sleeves(ns).forEach((idx) => ns.sleeve.setToIdle(idx));
     const cc_job = [
-        bb_t.task.FIELD,
-        bb_t.task.FIELD,
-        bb_t.task.DIPLOM,
-        bb_t.task.INFILT,
-        bb_t.task.INFILT,
-        bb_t.task.INFILT,
-        bb_t.task.INFILT,
-        bb_t.task.INFILT,
+        bb_t.task.FIELD, // 0
+        bb_t.task.DIPLOM, // 1
+        bb_t.task.INFILT, // 2
+        bb_t.task.INFILT, // 3
+        bb_t.task.INFILT, // 4
     ];
     const do_task = (task, idx) => ns.sleeve.setToBladeburnerAction(idx, task);
     cc_job.forEach(do_task);
@@ -77,15 +72,6 @@ function is_upgrade_skills(num) {
     const n = Math.floor(num);
     assert(n >= 0);
     return n % bb_t.time.UPGRADE === 0;
-}
-
-/**
- * The update loop for managing our Bladeburner tasks.
- *
- * @param {NS} ns The Netscript API.
- */
-function update(ns) {
-    contracts(ns);
 }
 
 /**
@@ -126,7 +112,7 @@ export async function main(ns) {
     init_sleeves(ns);
 
     for (let ntick = 1; ; ntick++) {
-        update(ns);
+        contracts(ns);
         upgrade_skills(ns, ntick);
         await ns.sleep(bb_t.time.TICK);
     }

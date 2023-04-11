@@ -128,15 +128,26 @@ export class Bladeburner {
         }
 
         const is_likely = (ctr) => this.is_likely_contract(ctr);
-        const contract = Object.values(bb_t.contract).filter(is_likely);
+        let contract = Object.values(bb_t.contract).filter(is_likely);
         assert(!MyArray.is_empty(contract));
 
         // Prioritize Tracking contracts.
-        if (contract.includes(bb_t.contract.TRACK)) {
-            return bb_t.contract.TRACK;
+        const tracking = bb_t.contract.TRACK;
+        if (contract.includes(tracking)) {
+            const count = this.#ns.bladeburner.getActionCountRemaining(
+                "Contracts",
+                tracking
+            );
+            if (count > bb_t.MIN_CONTRACTS) {
+                return tracking;
+            }
         }
 
         // Randomly choose a likely contract.
+        contract = contract.filter((c) => c !== tracking);
+        if (MyArray.is_empty(contract)) {
+            return empty_string;
+        }
         const min = 0;
         const max = contract.length - 1;
         const idx = random_integer(min, max);

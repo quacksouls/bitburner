@@ -20,6 +20,7 @@ import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
+import { random_integer } from "/quack/lib/random.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -124,6 +125,28 @@ export class Sleeve {
     dexterity(idx) {
         assert(this.#is_valid_index([idx]));
         return this.#ns.sleeve.getSleeve(idx).skills.dexterity;
+    }
+
+    /**
+     * Determine which sleeve is taking on Bladeburner contracts.  At most one
+     * sleeve is taking on contracts.
+     *
+     * @returns {number} Index of the sleeve that is taking on Bladeburner
+     *     contracts.
+     */
+    contractor() {
+        assert(this.is_performing_contracts());
+        const is_contractor = (idx) => {
+            try {
+                const { type, actionType } = this.#ns.sleeve.getTask(idx);
+                return type === "BLADEBURNER" && actionType === "Contracts";
+            } catch {
+                return false;
+            }
+        };
+        const worker = this.all().filter(is_contractor);
+        assert(worker.length === 1);
+        return worker[0];
     }
 
     /**
@@ -232,41 +255,42 @@ export class Sleeve {
     }
 
     /**
+     * Whether a sleeve is taking on Bladeburner contracts.
+     *
+     * @returns {boolean} True if a sleeve is taking on Bladeburner contracts;
+     *     false otherwise.
+     */
+    is_performing_contracts() {
+        for (const idx of this.all()) {
+            try {
+                const { type, actionType } = this.#ns.sleeve.getTask(idx);
+                if (type === "BLADEBURNER" && actionType === "Contracts") {
+                    return true;
+                }
+            } catch {}
+        }
+        return false;
+    }
+
+    /**
      * Whether a sleeve is taking on Bladeburner contracts that have a likely
      * chance of success.
      *
-     * @param {number} idx A sleeve index.  Must be a non-negative integer.
-     * @returns {boolean} True if the given sleeve is taking on contracts whose
+     * @returns {boolean} True if a sleeve is taking on contracts whose
      *     estimated success chance is likely; false otherwise.
      */
-    is_performing_likely_contracts(idx) {
-        if (!this.is_performing_contracts(idx)) {
+    is_performing_likely_contracts() {
+        if (!this.is_performing_contracts()) {
             return bool.NOT;
         }
 
+        const idx = this.contractor();
         const { actionName } = this.#ns.sleeve.getTask(idx);
         const min = this.#ns.bladeburner.getActionEstimatedSuccessChance(
             "Contract",
             actionName
         )[0];
         return min >= bb_t.LIKELY;
-    }
-
-    /**
-     * Whether a sleeve is taking on Bladburner contracts.
-     *
-     * @param {number} idx A sleeve index.  Must be a non-negative integer.
-     * @returns {boolean} True if the given sleeve is taking on Bladeburner
-     *     contracts; false otherwise.
-     */
-    is_performing_contracts(idx) {
-        assert(this.#is_valid_index([idx]));
-        try {
-            const { type, actionType } = this.#ns.sleeve.getTask(idx);
-            return type === "BLADEBURNER" && actionType === "Contracts";
-        } catch {
-            return bool.NOT;
-        }
     }
 
     /**
@@ -295,6 +319,26 @@ export class Sleeve {
         }
         assert(this.#is_valid_index(s));
         s.forEach((i) => this.#ns.sleeve.setToCommitCrime(i, crimes.MUG));
+    }
+
+    /**
+     * Assign a sleeve to take on likely contracts.
+     *
+     * @param {string} ctr A likely contract.
+     */
+    perform_likely_contracts(ctr) {
+        assert(!this.is_performing_contracts());
+        assert(!is_empty_string(ctr));
+
+        // Randomly choose a sleeve that is in the idle state.  Assign the
+        // sleeve to perform likely contracts.
+        const is_idle = (idx) => this.#ns.sleeve.getTask(idx) === null;
+        const eric = this.all().filter(is_idle);
+        assert(!MyArray.is_empty(eric));
+        const min = 0;
+        const max = eric.length - 1;
+        const si = eric[random_integer(min, max)];
+        this.#ns.sleeve.setToBladeburnerAction(si, bb_t.task.CONTRACT, ctr);
     }
 
     /**
