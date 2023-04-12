@@ -86,14 +86,14 @@ Advantages of a sequential batcher include:
   port openers, nuke as many world servers as you can and use their collective
   RAM for HGW operations against a chosen target, usually `joesguns`. Every
   now and then, purchase a port opener via the dark web (you require access to
-  the TOR router) and nuke any world servers you can to expand the collect RAM
-  of your botnet. In case your `home` server has a decent amount of RAM, your
-  sequential batcher can use your `home` RAM as well. On the other hand, buy a
-  server with a decent amount of RAM and use the purchased server to run your
-  sequential batcher. Running a sequential batcher on a purchased server has
-  the advantage that you do not need to worry about buying port openers. The
-  only time when you need to buy port openers is to nuke a target server. The
-  server `joesguns` can be nuked without having to open any of its special
+  the TOR router) and nuke any world servers you can to expand the collective
+  RAM of your botnet. In case your `home` server has a decent amount of RAM,
+  your sequential batcher can use your `home` RAM as well. On the other hand,
+  buy a server with a decent amount of RAM and use the purchased server to run
+  your sequential batcher. Running a sequential batcher on a purchased server
+  has the advantage that you do not need to worry about buying port openers.
+  The only time when you need to buy port openers is to nuke a target server.
+  The server `joesguns` can be nuked without having to open any of its special
   ports. You only need to ensure you have the minimum Hack stat in order to
   hack `joesguns`.
 
