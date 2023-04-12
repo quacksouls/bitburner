@@ -35,13 +35,13 @@ export class MyNumber {
     static format(num, ndigit = 3) {
         // Sanity checks.
         assert(num >= 0);
-        const abs = (x) => Math.abs(Number(x));
-        if (abs(num) < 1e3) {
-            return `${abs(num)}`;
+        const n = Math.abs(Number(num));
+        if (n < 1e3) {
+            return `${n.toFixed(ndigit)}`;
         }
 
         const fmt = (divisor, suffix) => {
-            const fstr = (abs(num) / divisor).toFixed(ndigit);
+            const fstr = (n / divisor).toFixed(ndigit);
             return `${fstr}${suffix}`;
         };
 
@@ -56,7 +56,7 @@ export class MyNumber {
             [number.THOUSAND, "k"],
         ];
         const dindex = 0;
-        const meet_threshold = (tau) => abs(num) >= tau[dindex];
+        const meet_threshold = (tau) => n >= tau[dindex];
         const [divisor, suffix] = threshold.find(meet_threshold);
         return fmt(divisor, suffix);
     }
