@@ -20,7 +20,6 @@ import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
-import { random_integer } from "/quack/lib/random.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
@@ -330,14 +329,16 @@ export class Sleeve {
         assert(!this.is_performing_contracts());
         assert(!is_empty_string(ctr));
 
-        // Randomly choose a sleeve that is in the idle state.  Assign the
-        // sleeve to perform likely contracts.
+        // Choose a sleeve that is in the idle state.  Choose the sleeve that
+        // has the highest amount of bonus time and assign that sleeve to take
+        // on contracts.
         const is_idle = (idx) => this.#ns.sleeve.getTask(idx) === null;
         const eric = this.all().filter(is_idle);
         assert(!MyArray.is_empty(eric));
-        const min = 0;
-        const max = eric.length - 1;
-        const si = eric[random_integer(min, max)];
+        const bonus_time = (s) => this.#ns.sleeve.getSleeve(s).storedCycles;
+        const best = (sa, sb) => bonus_time(sb) - bonus_time(sa);
+        eric.sort(best);
+        const si = eric[0];
         this.#ns.sleeve.setToBladeburnerAction(si, bb_t.task.CONTRACT, ctr);
     }
 
