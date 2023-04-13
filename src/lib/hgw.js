@@ -428,7 +428,7 @@ export function pbatch_parameters(ns, host, thread) {
     const htime = ns.getHackTime(host);
     const money_fraction = ns.hackAnalyze(host);
     const money_hacked = hthread * money_fraction * ns.getServerMaxMoney(host);
-    serv.hackDifficulty += hthread * hgw.security.HACK;
+    serv.hackDifficulty += ns.hackAnalyzeSecurity(hthread, host);
     serv.moneyAvailable = serv.moneyMax - money_hacked;
 
     // The number of grow threads required, the grow time, and the effect of
@@ -441,10 +441,10 @@ export function pbatch_parameters(ns, host, thread) {
     const gtime = ns.getGrowTime(host);
 
     // The number of weaken threads required and the weaken time.
-    const hack_sec_increase = hthread * hgw.security.HACK;
-    const grow_sec_increase = gthread * hgw.security.GROW;
+    const hack_sec_increase = ns.hackAnalyzeSecurity(hthread, host);
+    const grow_sec_increase = ns.growthAnalyzeSecurity(gthread, host);
     const total_security_increase = hack_sec_increase + grow_sec_increase;
-    const wthread = Math.ceil(total_security_increase / hgw.security.WEAKEN);
+    const wthread = Math.ceil(total_security_increase / ns.weakenAnalyze(1));
     const wtime = ns.getWeakenTime(host);
 
     const required_ram = (scrpt, nthrd) => nthrd * ns.getScriptRam(scrpt, home);

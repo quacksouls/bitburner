@@ -114,27 +114,6 @@ export const hgw = {
         WEAKEN: "/quack/hgw/weaken.js",
     },
     /**
-     * The change in security for each of the H/G/W actions.  Data taken from
-     * this file:
-     *
-     * https://github.com/bitburner-official/bitburner-src/blob/dev/src/Constants.ts
-     */
-    security: {
-        /**
-         * One thread of ns.hack() increases a server's security by this amount.
-         */
-        HACK: 0.002,
-        /**
-         * One thread of ns.grow() increases a server's security by this amount.
-         */
-        GROW: 0.004,
-        /**
-         * One thread of ns.weaken() decreases a server's security by this
-         * amount.
-         */
-        WEAKEN: 0.05,
-    },
-    /**
      * Various strategies for preparing a server.
      */
     strategy: {
