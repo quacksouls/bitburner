@@ -59,12 +59,10 @@ export const bb_t = {
          * Thresholds for levels of various skills.
          */
         tau: {
-            "Short-Circuit": 20,
-            Cloak: 20,
-            Datamancer: 5,
-            Hyperdrive: 15,
+            Datamancer: 25,
+            Hyperdrive: 25,
             Overclock: 90,
-            Tracer: 10,
+            Tracer: 25,
         },
     },
     /**
@@ -102,17 +100,8 @@ export const bb_t = {
         SUPPORT: "Support main sleeve",
     },
     /**
-     * Various time constants.
+     * An update interval in milliseconds.  This is our custom update interval,
+     * not Bladeburner's update interval.
      */
-    time: {
-        /**
-         * An update interval in milliseconds.  This is our custom update
-         * interval, not Bladeburner's update interval.
-         */
-        TICK: 10e3,
-        /**
-         * Attempt to upgrade our skills once every this many ticks.
-         */
-        UPGRADE: 6,
-    },
+    TICK: 10e3,
 };

@@ -49,9 +49,11 @@ export class Bladeburner {
     choose_high_tier_skill() {
         const skill = [
             bb_t.skill.BLADE,
+            bb_t.skill.CIRCUIT,
+            bb_t.skill.CLOAK,
+            bb_t.skill.EVADE,
             bb_t.skill.OBSERVER,
             bb_t.skill.REAPER,
-            bb_t.skill.EVADE,
         ];
         const level = skill.map((s) => this.#ns.bladeburner.getSkillLevel(s));
         const min = Math.min(...level);
@@ -68,13 +70,7 @@ export class Bladeburner {
      *     any low-tier skill
      */
     choose_low_tier_skill() {
-        const skill = [
-            bb_t.skill.CIRCUIT,
-            bb_t.skill.CLOAK,
-            bb_t.skill.DATA,
-            bb_t.skill.DRIVE,
-            bb_t.skill.TRACER,
-        ];
+        const skill = [bb_t.skill.DATA, bb_t.skill.DRIVE, bb_t.skill.TRACER];
         const level = (s) => this.#ns.bladeburner.getSkillLevel(s);
         const not_max = (s) => level(s) < bb_t.skill.tau[s];
         const candidate = skill.filter(not_max);
