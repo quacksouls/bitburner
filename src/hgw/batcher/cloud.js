@@ -124,8 +124,8 @@ function upgrade_server(ns) {
 /**
  * WARNING: Requires the program Formulas.exe.
  *
- * Manage a farm of purchased servers, each running a proto batcher.  Like AWS
- * cloud computing.
+ * Manage a farm of purchased servers, each running a parallel batcher.  Like
+ * AWS cloud computing.
  *
  * Usage: run quack/hgw/batcher/cloud.js
  *
