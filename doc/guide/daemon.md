@@ -147,6 +147,11 @@ Here are some ways to destroy a BitNode:
    faction in which you created your gang. This can only be done in
    `BitNode-2: Rise of the Underworld`. In other BitNodes, you cannot buy TRP
    from your gang faction.
+1. Destroy `BitNode-6: Bladeburners` and `BitNode-7: Bladeburners 2079` for
+   permanent access to a game mechanic called Bladeburner. Bladeburner has
+   various tasks, each of which is more difficult than the previous ones. The
+   most difficult task of all is destroying the `w0r1d_d43m0n` server.
+   Bladeburner offers another, possibly quicker, way of destroying a BitNode.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](misc.md "Miscellaneous topics")]
