@@ -66,6 +66,18 @@ async function create_popen(ns, pid) {
 }
 
 /**
+ * Kill various scripts.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {array} pid An array of PIDs.
+ */
+function kill_scripts(ns, pid) {
+    pid.forEach((p) => ns.kill(p));
+    const nthread = 1;
+    ns.exec("/quack/kill-script.js", home, nthread, "world");
+}
+
+/**
  * Launch our trade bot.
  *
  * @param {NS} ns The Netscript API.
@@ -76,6 +88,19 @@ function launch_trade_bot(ns) {
         return;
     }
     exec(ns, "/quack/stock/pre4s.js");
+}
+
+/**
+ * Launch our gang manager.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+async function manage_gang(ns) {
+    if (has_gang_api(ns) && !ns.gang.inGang()) {
+        exec(ns, "/quack/sleeve/study.js");
+    }
+    await ns.sleep(wait_t.DEFAULT);
+    exec(ns, "/quack/gang/snek.js");
 }
 
 /**
@@ -100,25 +125,14 @@ export async function main(ns) {
     shush(ns);
     launch_trade_bot(ns);
 
-    // Farm Hack XP.
+    // Launch various scripts, let them run for a while, then kill.
     let pid = [];
     pid.push(exec(ns, "/quack/hgw/xp.js"));
-
-    pid = await commit_crime(ns, []);
+    pid = await commit_crime(ns, pid);
     pid = await create_popen(ns, pid);
+    kill_scripts(ns, pid);
 
-    // Kill various scripts.
-    pid.forEach((p) => ns.kill(p));
-    const nthread = 1;
-    ns.exec("/quack/kill-script.js", home, nthread, "world");
-
-    // Launch our gang manager.
-    if (has_gang_api(ns) && !ns.gang.inGang()) {
-        exec(ns, "/quack/sleeve/study.js");
-    }
-    await ns.sleep(wait_t.DEFAULT);
-    exec(ns, "/quack/gang/snek.js");
-
-    // Join factions and purchase Augmentations.
+    // Launch other scripts.
+    await manage_gang(ns);
     exec(ns, "/quack/faction/go.js");
 }
