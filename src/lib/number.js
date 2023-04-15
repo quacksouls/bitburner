@@ -29,15 +29,17 @@ export class MyNumber {
      *
      * @param {number} num Format this number.  Only support non-negative
      *     numbers for now.
-     * @param {number} ndigit How many significant digits.  Default is 3.
+     * @param {boolean} is_money Whether we are formatting money.  Default is
+     *     false.
      * @returns {string} The same number, but formatted.
      */
-    static format(num, ndigit = 3) {
+    static format(num, is_money = false) {
         // Sanity checks.
         assert(num >= 0);
         const n = Math.abs(Number(num));
+        const ndigit = 3;
         if (n < 1e3) {
-            return `${n.toFixed(ndigit)}`;
+            return is_money ? `${n.toFixed(ndigit)}` : `${n}`;
         }
 
         const fmt = (divisor, suffix) => {

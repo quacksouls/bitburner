@@ -104,6 +104,11 @@ export const bool = {
     MERGE: true,
     NO_MERGE: false,
     /**
+     * Whether or not we are dealing with currency.
+     */
+    MONEY: true,
+    NOT_MONEY: false,
+    /**
      * Whether or not we can move from one state to another.
      */
     MOVE: true,

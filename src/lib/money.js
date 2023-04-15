@@ -19,6 +19,7 @@
 // Managing and manipulating money.
 /// ///////////////////////////////////////////////////////////////////////
 
+import { bool } from "/quack/lib/constant/bool.js";
 import { home } from "/quack/lib/constant/server.js";
 import { MyNumber } from "/quack/lib/number.js";
 
@@ -33,7 +34,7 @@ export class Money {
      * @returns {string} The given amount formatted as currency.
      */
     static format(amount) {
-        return `$${MyNumber.format(amount)}`;
+        return `$${MyNumber.format(amount, bool.MONEY)}`;
     }
 }
 
