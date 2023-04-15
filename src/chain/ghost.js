@@ -19,6 +19,7 @@ import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { has_gang_api } from "/quack/lib/source.js";
 import { exec, has_all_popen } from "/quack/lib/util.js";
+import { has_wse_api } from "/quack/lib/wse.js";
 
 /**
  * Let sleeves commit homicide to lower karma as necessary.
@@ -65,6 +66,19 @@ async function create_popen(ns, pid) {
 }
 
 /**
+ * Launch our trade bot.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function launch_trade_bot(ns) {
+    if (has_wse_api(ns)) {
+        exec(ns, "/quack/stock/trade.js");
+        return;
+    }
+    exec(ns, "/quack/stock/pre4s.js");
+}
+
+/**
  * Suppress various log messages.
  *
  * @param {NS} ns The Netscript API.
@@ -84,12 +98,11 @@ function shush(ns) {
  */
 export async function main(ns) {
     shush(ns);
+    launch_trade_bot(ns);
 
     // Farm Hack XP.
     let pid = [];
     pid.push(exec(ns, "/quack/hgw/xp.js"));
-    // Launch trade bot, pre-4S.
-    exec(ns, "/quack/stock/pre4s.js");
 
     pid = await commit_crime(ns, []);
     pid = await create_popen(ns, pid);
