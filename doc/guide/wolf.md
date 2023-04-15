@@ -9,7 +9,7 @@ Augmentations and/or join various factions to get their exclusive Augmentations.
 The BitNode grants you the following:
 
 -   You are given $250m. When you install Augmentations or perform a soft reset,
-    your money would be reset to $250m.
+    your money would reset to $250m.
 -   Membership at the World Stock Exchange (WSE) and access to the TIX API. You
     must purchase access to Four Sigma data and API.
 -   The ability to short stocks and place limit/stop orders.
@@ -18,7 +18,7 @@ The BitNode grants you the following:
 
 Destroying each level of this BitNode would reward you with the following:
 
--   Level 1. Permanent membership to the WSE and access to the TIX API. Your
+-   Level 1. Permanent membership at the WSE and access to the TIX API. Your
     hacking growth multipliers will be increased by 12%.
 -   Level 2. Permanently able to short stocks in other BitNodes. Your hacking
     growth multipliers will be increased by 18%.
@@ -39,8 +39,8 @@ achievement `BN8: Challenge`.
 ## Pre-4S
 
 Prior to obtaining Four Sigma data and API, your script for trading on the stock
-is essentially the same as the trade bot you have been using in other BitNodes.
-The differences are two-fold:
+market is essentially the same as the trade bot you have been using in other
+BitNodes. The differences are two-fold:
 
 1. You must implement a technique to forecast stocks. Until you have access to
    Four Sigma Market Data TIX API, you cannot use the function
@@ -51,22 +51,22 @@ The differences are two-fold:
 ### Forecast
 
 Without access to Four Sigma data and API, you must implement some way to
-forecast stocks. Here is a technique to forecast stocks. Prior to trading on the
-stock market, gather some data on the prices of each stock. In each tick, record
-the price of each stock. Let $p$ be the price array of a stock, where $p_i$ is
-the price on the $i$-th tick prior to now. Then $p_0$ is the price of the
-current tick, $p_1$ is the price of the previous tick, $p_2$ is the price of two
-ticks prior, and so on. Code the price $p_i$ depending on whether it is
-increasing or decreasing in comparison to $p_{i+1}$. If the price $p_i$ is an
-increase in comparison to $p_{i+1}$, then code the price $p_i$ as 1, otherwise
-code it as 0. One way to detect an increase or decrease is to calculate the
-ratio $r_i = p_i / p_{i+1}$. If $r_i > 1$, then we have an increase and code the
-price as $c_i = 1$, otherwise we have a decrease (or stagnant price) and code it
-as $c_i = 0$. To forecast a stock, sum the coded values and divide the sum by
-the number of coded values. The result is a ratio of how many price increases
-you observed in the limited price history you collected for a particular stock.
-Use that ratio in the same way as you would use the forecast value from the
-function
+forecast prices of stocks. Here is a technique to forecast stock prices. Prior
+to trading on the stock market, gather some data on the prices of each stock. In
+each tick, record the price of each stock. Let $p$ be the price array of a
+stock, where $p_i$ is the price on the $i$-th tick prior to now. Then $p_0$ is
+the price of the current tick, $p_1$ is the price of the previous tick, $p_2$ is
+the price of two ticks prior, and so on. Code the price $p_i$ depending on
+whether it is increasing or decreasing in comparison to $p_{i+1}$. If the price
+$p_i$ is an increase in comparison to $p_{i+1}$, then code the price $p_i$ as 1,
+otherwise code it as 0. One way to detect an increase or decrease is to
+calculate the ratio $r_i = p_i / p_{i+1}$. If $r_i > 1$, then we have an
+increase and code the price as $c_i = 1$, otherwise we have a decrease (or
+stagnant price) and code it as $c_i = 0$. To forecast the price of a stock, sum
+the coded values and divide the sum by the number of coded values. The result is
+a ratio of how many price increases you observed in the limited price history
+you collected for a particular stock. Use that ratio in the same way as you
+would use the forecast value from the function
 [`ns.stock.getForecast()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.tix.getforecast.md).
 
 How large should be the price array? You want at least 14 coded prices, hence at
