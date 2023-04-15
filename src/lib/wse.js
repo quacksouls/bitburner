@@ -162,6 +162,29 @@ function get_forecast(ns, portfolio, fourS) {
 }
 
 /**
+ * Whether we have access to all Stock Market data and APIs.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have access to all Stock Market data and APIs;
+ *     false otherwise.
+ */
+export function has_wse_api(ns) {
+    if (!ns.stock.purchaseWseAccount()) {
+        return bool.NOT;
+    }
+    if (!ns.stock.purchaseTixApi()) {
+        return bool.NOT;
+    }
+    if (!ns.stock.purchase4SMarketData()) {
+        return bool.NOT;
+    }
+    if (!ns.stock.purchase4SMarketDataTixApi()) {
+        return bool.NOT;
+    }
+    return bool.HAS;
+}
+
+/**
  * Whether we have enough money to be held in reserve.  Must have at least a
  * certain amount of money before we start dabbling on the Stock Market.
  *

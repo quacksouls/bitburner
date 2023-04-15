@@ -15,36 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { bool } from "/quack/lib/constant/bool.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { exec } from "/quack/lib/util.js";
-
-/**
- * Whether we have access to Stock Market data and APIs.
- *
- * @param {NS} ns The Netscript API.
- * @returns {boolean} True if we have access to all Stock Market data and APIs;
- *     false otherwise.
- */
-function has_api_access(ns) {
-    if (!ns.stock.purchaseWseAccount()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchaseTixApi()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchase4SMarketData()) {
-        return bool.NOT;
-    }
-    if (!ns.stock.purchase4SMarketDataTixApi()) {
-        return bool.NOT;
-    }
-    return bool.HAS;
-}
+import { has_wse_api } from "/quack/lib/wse.js";
 
 /**
  * Whether we meet the money threshold.  Must have at least a certain amount
@@ -87,7 +64,7 @@ async function prerequisites(ns) {
  * @param {NS} ns The Netscript API.
  */
 async function purchase_api_access(ns) {
-    while (!has_api_access(ns)) {
+    while (!has_wse_api(ns)) {
         await ns.sleep(wait_t.DEFAULT);
     }
     log(ns, "Purchased access to Stock Market data and APIs");
