@@ -44,7 +44,7 @@ The differences are two-fold:
 
 1. You must implement a technique to forecast stocks. Until you have access to
    Four Sigma Market Data TIX API, you cannot use the function
-   `ns.stock.getForecast()`.
+   [`ns.stock.getForecast()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.tix.getforecast.md).
 1. You can now take advantage of shorting stocks to generate even more money.
    You can also implement some logic for placing limit and stop orders.
 
@@ -66,7 +66,8 @@ as $c_i = 0$. To forecast a stock, sum the coded values and divide the sum by
 the number of coded values. The result is a ratio of how many price increases
 you observed in the limited price history you collected for a particular stock.
 Use that ratio in the same way as you would use the forecast value from the
-function `ns.stock.getForecast()`.
+function
+[`ns.stock.getForecast()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.tix.getforecast.md).
 
 How large should be the price array? You want at least 14 coded prices, hence at
 least 15 prices in 15 consecutive ticks. Before you buy or sell shares of any
