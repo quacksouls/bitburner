@@ -16,16 +16,16 @@ $ hack
 ```
 
 A successful hack would result in the game presenting you with a world map. Each
-location on the map is called a BitNode, a simulated world most aspects of which
-are governed by various multipliers. Some multipliers affect the difficulty of
-hacking a server, how much money you can make from various activities, the
-amount of XP you gain from certain tasks, etc. You have been playing in a
-BitNode called `BitNode-1: Source Genesis`, abbreviated as BN1. You have now
-completed level 1 of BN1, shortened as BN1.1. Your reward is a permanent
-increase of 16% in all your multipliers and your `home` server now starts with
-32GB RAM after entering a new BitNode. If you want, you can enter BN1 again to
-play through BN1.2 and complete it to permanently increase all your multipliers
-by 24%. Details on all BitNodes can be
+location on the map is called a _BitNode_, a simulated world most aspects of
+which are governed by various multipliers. Some multipliers affect the
+difficulty of hacking a server, how much money you can make from various
+activities, the amount of XP you gain from certain tasks, etc. You have been
+playing in a BitNode called `BitNode-1: Source Genesis`, abbreviated as BN1. You
+have now completed level 1 of BN1, shortened as BN1.1. Your reward is a
+permanent increase of 16% in all your multipliers and your `home` server now
+starts with 32GB RAM after entering a new BitNode. If you want, you can enter
+BN1 again to play through BN1.2 and complete it to permanently increase all your
+multipliers by 24%. Details on all BitNodes can be
 [found here](https://bitburner-official.readthedocs.io/en/latest/guidesandtips/recommendedbitnodeorder.html).
 
 ## What's next?
