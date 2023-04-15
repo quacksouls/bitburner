@@ -27,6 +27,7 @@ available at these avenues:
 1. [BitNode-4: The Singularity](singularity.md)
 1. [BitNode-5: Artificial Intelligence](intelligence.md)
 1. [BitNode-2: Rise of the Underworld](gang.md)
+1. [BitNode-8: Ghost of Wall Street](wolf.md)
 
 ## License
 
