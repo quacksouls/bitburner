@@ -29,10 +29,12 @@ Destroying each level of this BitNode would reward you with the following:
 
 This BitNode is considered very hard. The primary source of difficulty is
 figuring out how to generate money on the stock market without access to Four
-Sigma data and API. Once you have enough money to purchase Four Sigma data and
-API, you can use the trade bot you have been using in other BitNodes. You should
-beat BN8.1 without using Four Sigma data and API to unlock the achievement
-`BN8: Challenge`.
+Sigma data and API. Even if you figure out a way to forecast the prices of
+stocks, it can take a long time to generate enough money to buy access to the
+relevant data and API. Once you have enough money to purchase Four Sigma data
+and API, you can use the trade bot you have been using in other BitNodes. You
+should beat BN8.1 without using Four Sigma data and API to unlock the
+achievement `BN8: Challenge`.
 
 ## Pre-4S
 
