@@ -255,7 +255,7 @@ async function start_share_home(ns) {
     const serv = new Server(ns, home);
     const ncopy = 1;
     let nthread = serv.threads_per_instance(server.SHARE_SCRIPT, ncopy);
-    if (nthread < 1) {
+    if (Number.isNaN(nthread) || nthread < 1) {
         nthread = 1;
     }
     ns.exec(server.SHARE_SCRIPT, home, nthread);
