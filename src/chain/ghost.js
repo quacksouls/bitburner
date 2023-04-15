@@ -21,6 +21,50 @@ import { has_gang_api } from "/quack/lib/source.js";
 import { exec, has_all_popen } from "/quack/lib/util.js";
 
 /**
+ * Let sleeves commit homicide to lower karma as necessary.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {array} pid An array of PIDs.  Use this to keep track of PIDs of
+ *     scripts of interest.
+ * @returns {Promise<array>} The same as pid, but with added elements as
+ *     necessary.
+ */
+async function commit_crime(ns, pid) {
+    const new_pid = Array.from(pid);
+    if (has_gang_api(ns)) {
+        if (ns.gang.inGang()) {
+            exec(ns, "/quack/sleeve/study.js");
+        } else {
+            const pidh = exec(ns, "/quack/sleeve/homicide.js");
+            new_pid.push(pidh);
+        }
+    }
+    await ns.sleep(wait_t.DEFAULT);
+    return new_pid;
+}
+
+/**
+ * Create port opener programs.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {array} pid An array of PIDs.  Use this to keep track of PIDs of
+ *     scripts of interest.
+ * @returns {Promise<array>} The same as pid, but with added elements as
+ *     necessary.
+ */
+async function create_popen(ns, pid) {
+    const new_pid = Array.from(pid);
+    const pidp = exec(ns, "/quack/singularity/popen.js");
+    new_pid.push(pidp);
+
+    // Wait until we have all port opener programs.
+    while (!has_all_popen(ns)) {
+        await ns.sleep(wait_t.DEFAULT);
+    }
+    return new_pid;
+}
+
+/**
  * Suppress various log messages.
  *
  * @param {NS} ns The Netscript API.
@@ -42,37 +86,18 @@ export async function main(ns) {
     shush(ns);
 
     // Farm Hack XP.
-    const pidx = exec(ns, "/quack/hgw/xp.js");
+    let pid = [];
+    pid.push(exec(ns, "/quack/hgw/xp.js"));
     // Launch trade bot, pre-4S.
     exec(ns, "/quack/stock/pre4s.js");
 
-    // Let sleeves commit homicide to lower karma as necessary.
-    const pid = [];
-    if (has_gang_api(ns)) {
-        if (ns.gang.inGang()) {
-            exec(ns, "/quack/sleeve/study.js");
-        } else {
-            const pidh = exec(ns, "/quack/sleeve/homicide.js");
-            pid.push(pidh);
-        }
-    }
-    await ns.sleep(wait_t.DEFAULT);
+    pid = await commit_crime(ns, []);
+    pid = await create_popen(ns, pid);
 
-    // Create port opener programs.
-    const pidp = exec(ns, "/quack/singularity/popen.js");
-    pid.push(pidp);
-
-    // Wait until we have all port opener programs.
-    while (!has_all_popen(ns)) {
-        await ns.sleep(wait_t.DEFAULT);
-    }
+    // Kill various scripts.
     pid.forEach((p) => ns.kill(p));
-
-    // Launch script to manipulate stock prices.
-    ns.kill(pidx);
     const nthread = 1;
     ns.exec("/quack/kill-script.js", home, nthread, "world");
-    // exec(ns, "/quack/stock/tinker.js");  // FIXME: not working ATM
 
     // Launch our gang manager.
     if (has_gang_api(ns) && !ns.gang.inGang()) {
