@@ -158,10 +158,7 @@ penalty
 ```
 
 Multiply $p$ by 100 to see that the penalty expresses the wanted level as a
-percentage of your respect. Tasks that your gang members engage in would take
-$p$ percent longer as compared to when your wanted level is zero. Note that the
-wanted level can never be lower than 1. Aim to keep the penalty below a certain
-fraction.
+percentage of your respect. 📝 Effects of penalty on your gang.
 
 You should not be worrying about your penalty until you have a full house, i.e.
 12 gang members. Early in your gang's existence, you should focus on raising
