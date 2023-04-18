@@ -158,15 +158,17 @@ penalty
 ```
 
 Multiply $p$ by 100 to see that the penalty expresses the wanted level as a
-percentage of your respect. 📝 Effects of penalty on your gang.
+percentage of your respect.
+
+📝 Effects of penalty on your gang.
 
 You should not be worrying about your penalty until you have a full house, i.e.
 12 gang members. Early in your gang's existence, you should focus on raising
 respect to recruit more members to your gang and building the stats of your
 members, especially the Defense stat. Assign each recruit to train their combat
-stats, after which graduate them to strongarming civilians. Leave the ganster at
-the latter task for a while until their combat stats are high enough to be
-assigned to armed robbery. Let the ganster train their stats in the latter task
+stats, after which graduate them to strongarming civilians. Leave the gangster
+at the latter task for a while until their combat stats are high enough to be
+assigned to armed robbery. Let the gangster train their stats in the latter task
 for a while, then assign them to traffick illegal arms. Finally, graduate the
 gangster to commit acts of terrorism. The above course of tasks would train a
 gangster's combat stats until they are ready for terrorism, where they will farm
@@ -191,8 +193,8 @@ Ascension is a way to permanently boost a gangster's stat multipliers. However,
 the costs include:
 
 1. Reset the gangster's progress and stats. This is usually not a downside
-   because the boosted stat multipliers can help the ascendeded member to
-   quickly level up again.
+   because the boosted stat multipliers can help the ascended member to quickly
+   level up again.
 1. The gangster loses all non-Augmentation equipment. This might or might not be
    a problem, depending on your current funds and the percentage discount you
    get in the equipment shop. Higher respect means you get a higher discount in
