@@ -163,23 +163,30 @@ $p$ percent longer as compared to when your wanted level is zero. Note that the
 wanted level can never be lower than 1. Aim to keep the penalty below a certain
 fraction.
 
-You should not be worrying about your penalty until you have at least 6 gang
-members. Early in your gang's existence, you should focus on raising respect to
-recruit more members to your gang and building the stats of your members,
-especially the Defense stat. Assign one or more members to commit acts of
-(cyber)terrorism, while assigning the remaining members to other tasks that
-generate money. In case you have an excellent source of passive income, you
-might as well assign all members to (cyber)terrorism so as to recruit 12 members
-as soon as possible. Once you have at least 6 members, it is time to constantly
-monitor your penalty. The best tasks for lowering your penalty are vigilante
-justice (in a criminal gang) and ethical hacking (in a hacking gang). Define a
-penalty window $[t, T]$ and constantly monitor your penalty. If your penalty is
-at least $T$, assign one or more members to vigilante justice (or ethical
-hacking). When your penalty has decreased below $t$, reassign members from
-vigilante justice (or ethical hacking) to tasks that earn money. However, if
-your respect increases faster than your wanted level, you might want to ignore
-your penalty altogether and instead assign your members to tasks that generate
-income.
+You should not be worrying about your penalty until you have a full house, i.e.
+12 gang members. Early in your gang's existence, you should focus on raising
+respect to recruit more members to your gang and building the stats of your
+members, especially the Defense stat. Assign each recruit to train their combat
+stats, after which graduate them to strongarming civilians. Leave the ganster at
+the latter task for a while until their combat stats are high enough to be
+assigned to armed robbery. Let the ganster train their stats in the latter task
+for a while, then assign them to traffick illegal arms. Finally, graduate the
+gangster to commit acts of terrorism. The above course of tasks would train a
+gangster's combat stats until they are ready for terrorism, where they will farm
+respect to help you recruit more members. Do not worry about penalty or that
+your gang is not generating money. You should have other sources of income such
+as a batcher, a trade bot, a Coding Contract solver, etc.
+
+Having recruited 12 gang members, assign all of them to traffick illegal arms.
+You can now worry about and monitor your penalty. The best tasks for lowering
+your penalty are vigilante justice (in a criminal gang) and ethical hacking (in
+a hacking gang). Define a penalty window $[t, T]$ and constantly monitor your
+penalty. If your penalty is at least $T$, assign one or more members to
+vigilante justice (or ethical hacking). When your penalty has decreased below
+$t$, reassign members from vigilante justice (or ethical hacking) to tasks that
+earn money. However, if your respect increases faster than your wanted level,
+you might want to ignore your penalty altogether and instead assign your members
+to tasks that generate income.
 
 ## Ascension
 
