@@ -264,6 +264,128 @@ wbatcher techniques.
 > your batcher. Every now and then, upgrade the RAM of any server in your farm
 > or add another server to your farm.
 
+<!-- ====================================================================== -->
+
+## Proto batcher
+
+A proto batcher is similar to a sequential batcher, but without waiting for one
+HGW operation to complete before launching another HGW operation. Recall that in
+the model of a sequential batcher, you must wait for the prep operation to
+complete, then you can launch the hack operation. Furthermore, in the prep
+operation you must wait for the weaken operation to finish before you are able
+to launch the grow operation. The sequential batcher essentially requires you to
+wait for any HGW operation to finish prior to launching the next HGW operation.
+The proto batcher model tries to parallelize each of the hack, grow, and weaken
+operations as much as possible.
+
+### Benefits
+
+Advantages of a proto batcher include:
+
+<!-- prettier-ignore -->
+- Less waiting. The gist of a proto batcher is to parallelize the hack, grow,
+  and weaken operations. Doing so cuts down on the waiting time that is
+  inherent in the model of the sequential batcher.
+- More money. Less time spent on waiting means we are able to launch various
+  HGW operations sooner. The sooner we are able to launch HGW operations, the
+  sooner our hack operation can run to steal money from a target.
+
+### Disadvantages
+
+Cons of a proto batcher include:
+
+<!-- prettier-ignore -->
+- Special tool required. A proto batcher relies on the
+  [Formulas API](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.formulas.md),
+  accessible after purchasing the program `Formulas.exe` via the dark web. You
+  can also create the program provided you have the required Hack stat and
+  willing to wait for the program to finish. See the chapter
+  [_BitNode-5: Artificial Intelligence_](intelligence.md) for a way to have
+  permanent access to `Formulas.exe`. The most useful function you want from
+  the Formulas API is
+  [`ns.formulas.hacking.growThreads()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.hackingformulas.growthreads.md),
+  which allows you to calculate the number of threads required to grow a
+  hacked server back to its maximum money.
+- Memory hog. Depending on how you implement a proto batcher, it might require
+  a dedicated purchased server with plenty of RAM. After a hack operation
+  completes, you want the grow operation to replenish a target server back to
+  its maximum money. Furthermore, you want the weaken operation to lower the
+  target's security level to its minimum. Each of the grow and weaken
+  operations requires plenty of RAM in order to bring the target to the
+  prepped state, ready for the next hack operation.
+
+### Algorithm outline
+
+The algorithm described below assumes you are using a purchased server having
+plenty of RAM. A batch consists of a hack, grow, and weaken operation running in
+parallel. The gist of a proto batcher (and a parallel batcher) is to schedule
+the hack, grow, and weaken operations in such a way that they run in parallel.
+The first operation to finish should be hack, followed by grow, and finally the
+weaken operation. After the hack operation steals the pre-determined percentage
+of money from the target, the grow operation should fully replenishes money on
+the target. The weaken operation counteracts the security increase of the hack
+and grow operations. After the completion of a batch, the target should be in
+the prepped state.
+
+1. _pserv._ Purchase a server having plenty of RAM.
+1. _scp._ Copy the HGW worker scripts over to the purchased server.
+1. _Nuke._ Decide on a target you want to hack and nuke the target.
+1. _Prep._ Grow the target to maximum money. Weaken the target to its lowest
+   security level.
+1. _Hack._ Decide on the percentage of money to steal from a prepped target. The
+   more money you hack from a prepped target, the more grow threads you require
+   to fully replenish the target, and the more weaken threads you need to lower
+   the target's security level to its minimum. Calculate the number of hack
+   threads you need as well as the time in milliseconds required for `ns.hack()`
+   to complete.
+1. _Grow._ Calculate how many grow threads you need to grow the target server to
+   its maximum money. The number of grow threads required is based on the
+   percentage of money you have decided to hack from the target. Use the
+   function
+   [`ns.formulas.hacking.growThreads()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.hackingformulas.growthreads.md)
+   from the Formulas API. Work out the amount of time in milliseconds required
+   for `ns.grow()` to complete.
+1. _Weaken._ Determine how many levels would the hack and grow operations add to
+   the security of the target. One thread of `ns.hack()` usually increases
+   security by 0.002. One thread of `ns.grow()` usually increases security by
+   0.004. One thread of `ns.weaken()` decreases security by 0.05. However, the
+   above security increases (and decrease) do not always hold true and can
+   change depending on how far you are in the game. It is safer to use the
+   functions
+   [`ns.hackAnalyzeSecurity()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.hackanalyzesecurity.md),
+   [`ns.growthAnalyzeSecurity()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.growthanalyzesecurity.md),
+   and
+   [`ns.weakenAnalyze()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.weakenanalyze.md).
+   Use the information to calculate the number of threads required to run
+   `ns.weaken()`. Let $s$ be the total security increase brought about by hack
+   and grow. Let $w_s$ is the amount of security that is lowered by one thread
+   of `ns.weaken()`. Then you require at most $\lceil s / w_s \rceil$
+   `ns.weaken()` threads in order to lower the target's security back to its
+   minimum.
+1. _Schedule._ Each of the hack, grow, and weaken operations in a batch must be
+   scheduled such that one operation finishes a brief moment after another
+   operation. Let $t$ be the amount of time it takes for `ns.hack()` to
+   complete. The time required for `ns.grow()` to complete is $3.2t$, whereas
+   the time required for `ns.weaken()` to complete is $4t$. In general,
+   `ns.weaken()` takes longer to complete than either of `ns.hack()` or
+   `ns.grow()`. Let $d > 0$ be the delay (in milliseconds) between any two
+   operations. You want to schedule `ns.weaken()` to run first, followed by
+   `ns.grow()`, and finally `ns.hack()`. With careful timing, `ns.hack()` would
+   finish first. An amount of time $d$ later, `ns.grow()` would finish and a
+   further amount of time $d$ following that `ns.weaken()` would complete. If
+   $w_t$ is the time required for `ns.weaken()` to complete, then `ns.grow()`
+   should be launched at time $w_t - d - g_t$ after launching `ns.weaken()`,
+   where $g_t$ is the time required for `ns.grow()` to finish running.
+   Similarly, `ns.hack()` should be launched at time $g_t - d - h_t$ after
+   launching `ns.grow()`, where $h_t$ is the time required for `ns.hack()` to
+   complete. All the while you must ensure that the whole batch does not exceed
+   the RAM of the purchased server. In case you cannot fit a batch within the
+   purchased server's RAM, reduce the number of hack threads and recalculate the
+   above batch parameters again.
+1. _Wait._ Launch the batch and wait for each of the hack, grow, and weaken
+   operations to finish.
+1. _Loop._ Repeat everything starting from step 5.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
 [[Next](faction.md "Faction progression")]
