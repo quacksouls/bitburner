@@ -327,8 +327,8 @@ the target. The weaken operation counteracts the security increase of the hack
 and grow operations. After the completion of a batch, the target should be in
 the prepped state.
 
-1. _pserv._ Purchase a server having plenty of RAM.
-1. _scp._ Copy the HGW worker scripts over to the purchased server.
+1. _pserv._ Purchase a server having plenty of RAM. Copy the HGW worker scripts
+   over to the purchased server.
 1. _Nuke._ Decide on a target you want to hack and nuke the target.
 1. _Prep._ Grow the target to maximum money. Weaken the target to its lowest
    security level.
