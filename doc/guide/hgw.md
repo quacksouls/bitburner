@@ -356,9 +356,9 @@ the prepped state.
    [`ns.growthAnalyzeSecurity()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.growthanalyzesecurity.md),
    and
    [`ns.weakenAnalyze()`](https://github.com/bitburner-official/bitburner-src/blob/stable/markdown/bitburner.ns.weakenanalyze.md).
-   Use the information to calculate the number of threads required to run
+   Use the above information to calculate the number of threads required to run
    `ns.weaken()`. Let $s$ be the total security increase brought about by hack
-   and grow. Let $w_s$ is the amount of security that is lowered by one thread
+   and grow. Let $w_s$ be the amount of security that is lowered by one thread
    of `ns.weaken()`. Then you require at most $\lceil s / w_s \rceil$
    `ns.weaken()` threads in order to lower the target's security back to its
    minimum.
@@ -384,7 +384,7 @@ the prepped state.
    above batch parameters again.
 1. _Wait._ Launch the batch and wait for each of the hack, grow, and weaken
    operations to finish.
-1. _Loop._ Repeat everything starting from step 5.
+1. _Loop._ Repeat everything starting from step 4.
 
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
