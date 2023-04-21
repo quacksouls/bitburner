@@ -386,6 +386,16 @@ the prepped state.
    operations to finish.
 1. _Loop._ Repeat everything starting from step 4.
 
+The proto batcher described above is illustrated in the image below. The image
+shows how the hack, grow, weaken operations of one batch is scheduled. The
+horizontal axis measures time. Weaken takes the most time to complete, hence the
+operation is launched first. After an amount of delay time, the grow operation
+is launched. Another amount of delay later, the hack operation is launched. The
+three operations in a batch are scheduled such that hack should finish first,
+followed by grow, and finally weaken.
+
+![Proto batcher](image/batch.png "Proto batcher")
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
 [[Next](faction.md "Faction progression")]
