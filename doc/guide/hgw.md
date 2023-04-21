@@ -396,6 +396,30 @@ followed by grow, and finally weaken.
 
 ![Proto batcher](image/batch.png "Proto batcher")
 
+### Experimental results
+
+Is the proto batcher any better than the sequential batcher?
+[Experimental data](../../data/hgw/world.md#comparison-n00dles) show that the
+sequential batcher requires about 53 minutes to steal $100m from `n00dles`.
+Using a [purchased server](../../data/hgw/pserv-proto.md#n00dles-100m) having
+8,192GB RAM, a proto batcher requires about 54 minutes to steal the same amount
+of money from `n00dles`. As the RAM of the purchased server increases, the time
+required to steal $100m from `n00dles` decreases. Given a purchased server
+having 262,144GB RAM, a proto batcher requires about 38 minutes to hack the
+target amount of money. When it comes to stealing money from `joesguns`, a
+[sequential batcher](../../data/hgw/world.md#comparison-joesguns) using a
+purchased server having 524,288GB RAM requires about 29 minutes to steal $1b
+whereas a [proto batcher](../../data/hgw/pserv-proto.md#joesguns-1b) requires
+half the amount of RAM to steal the same amount of money in about 16 minutes.
+Finally, a [sequential batcher](../../data/hgw/world.md#comparison-phantasy)
+using a purchased server having 524,288GB RAM takes about 1 hour and 59 minutes
+to steal $10b from `phantasy`. A
+[proto batcher](../../data/hgw/pserv-proto.md#phantasy-10b) using a purchased
+server having 262,144GB RAM takes about 1 hour and 9 minutes to steal the same
+amount of money. While a proto batcher can be a RAM hog, it usually requires
+less RAM and time than a sequential batcher to steal a fixed amount of money
+from a world server.
+
 [[TOC](README.md "Table of Contents")]
 [[Previous](reboot.md "After the first reboot")]
 [[Next](faction.md "Faction progression")]
