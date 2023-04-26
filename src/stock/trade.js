@@ -26,6 +26,7 @@ import {
     can_short,
     initial_portfolio,
     num_long,
+    num_short,
     transaction,
 } from "/quack/lib/wse.js";
 
@@ -46,19 +47,28 @@ function is_liquidate(ns) {
  */
 function liquidate_all(ns) {
     const has_long = (sym) => num_long(ns, sym) > 0;
-    const sell_all = (sym) => {
-        const nshare = num_long(ns, sym);
-        const price_per_share = ns.stock.sellStock(sym, nshare);
+    const has_short = (sym) => num_short(ns, sym) > 0;
+    const sell_all = (sym, pos) => {
+        let nshare = 0;
+        let price_per_share = 0;
+        if (pos === "Long") {
+            nshare = num_long(ns, sym);
+            price_per_share = ns.stock.sellStock(sym, nshare);
+        } else {
+            nshare = num_short(ns, sym);
+            price_per_share = ns.stock.sellShort(sym, nshare);
+        }
         assert(price_per_share > 0);
         const revenue = price_per_share * nshare;
         const nshare_fmt = MyNumber.format(nshare);
-        const money_fmt = Money.format(revenue);
-        log(
-            ns,
-            `Sold ${nshare_fmt} share(s) of ${sym} for ${money_fmt} in revenue`
-        );
+        const prefix = `Sold ${nshare_fmt} share(s) of ${sym} (${pos})`;
+        const suffix = `for ${Money.format(revenue)} in revenue`;
+        log(ns, `${prefix} ${suffix}`);
     };
-    ns.stock.getSymbols().filter(has_long).forEach(sell_all);
+    const sell_long = (sym) => sell_all(sym, "Long");
+    const sell_short = (sym) => sell_all(sym, "Short");
+    ns.stock.getSymbols().filter(has_long).forEach(sell_long);
+    ns.stock.getSymbols().filter(has_short).forEach(sell_short);
 }
 
 /**
