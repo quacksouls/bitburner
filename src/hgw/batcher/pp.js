@@ -37,6 +37,7 @@ async function hack(ns, host, target) {
     batcher.scp_scripts();
     ns.printf(`Prepping target ${target}`);
     await batcher.prep_wg(target);
+    ns.printf(`Target ${target} is prepped`);
 
     // Launch parallel batches whenever we can.
     let i = 0;
