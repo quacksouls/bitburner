@@ -47,6 +47,7 @@ async function hack(ns, host, target, amount, greedy) {
     batcher.scp_scripts();
     ns.printf(`Prepping target ${target}`);
     await batcher.prep_wg(target);
+    ns.printf(`Target ${target} is prepped`);
 
     // Launch parallel batches whenever we can.
     const target_money = money(ns) + amount;
