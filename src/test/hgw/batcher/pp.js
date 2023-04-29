@@ -104,7 +104,7 @@ function is_prep_time(batch, fail) {
 function sanity_checks(ns, psram, target, amount) {
     const valid_ram = [
         32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
-        131072, 262144, 524288,
+        131072, 262144, 524288, 1048576,
     ];
     assert(valid_ram.includes(psram));
     assert(!is_empty_string(target) && target !== home);
