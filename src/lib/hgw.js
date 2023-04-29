@@ -344,10 +344,7 @@ export function pbatch_nthread(ns, s, host) {
     const { maxRam, ramUsed } = ns.getServer(host);
     const reserved_ram = host === home ? home_t.reserve.LARGE : 0;
     const server_ram = maxRam - ramUsed - reserved_ram;
-    if (server_ram < 1) {
-        return 0;
-    }
-    return Math.floor(server_ram / script_ram);
+    return server_ram < 1 ? 0 : Math.floor(server_ram / script_ram);
 }
 
 /**
