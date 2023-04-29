@@ -90,11 +90,18 @@ export class PservHGW {
      *
      * @param {string} target Hostname of the server our parallel batcher will
      *     target.
+     * @param {boolean} greedy Whether to use a greedy approach when stealing
+     *     money from the target server.  Default is false.
      * @returns {Promise<boolean>} True if the batch was successfully launched;
      *     false otherwise.
      */
-    async launch_batch(target) {
-        const hthread = pbatch_num_hthreads(this.#ns, this.#phost, target);
+    async launch_batch(target, greedy = false) {
+        const hthread = pbatch_num_hthreads(
+            this.#ns,
+            this.#phost,
+            target,
+            greedy
+        );
         if (hthread === hgw.pbatch.INVALID_NUM_THREAD) {
             return bool.FAILURE;
         }

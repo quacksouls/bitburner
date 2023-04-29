@@ -72,6 +72,10 @@ export const hgw = {
      */
     money: {
         /**
+         * Steal at most 50% of money from a server.
+         */
+        HALF: 0.5,
+        /**
          * Steal at most 95% of money from a server.
          */
         MAX_FRACTION: 0.95,

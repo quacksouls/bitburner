@@ -353,12 +353,17 @@ export function pbatch_nthread(ns, s, host) {
  * @param {NS} ns The Netscript API.
  * @param {string} host Hostname of the server where our batch will run.
  * @param {string} target Hostname of the server our batch will target.
+ * @param {boolean} greedy Whether to use a greedy approach when stealing money
+ *     from the target server.  Default is false.
  * @returns {number} The number of hack threads to use in one batch.
  */
-export function pbatch_num_hthreads(ns, host, target) {
+export function pbatch_num_hthreads(ns, host, target, greedy = false) {
     // The percentage of money we want to hack from the target server.  Maximum
     // is (MAX_FRACTION * 100)% and the minimum is 1%.
-    const max_percent = Math.floor(hgw.money.MAX_FRACTION * 100);
+    let max_percent = Math.floor(hgw.money.HALF * 100);
+    if (greedy) {
+        max_percent = Math.floor(hgw.money.MAX_FRACTION * 100);
+    }
     const percent = [...Array(max_percent + 1).keys()];
     percent.shift();
     percent.reverse();

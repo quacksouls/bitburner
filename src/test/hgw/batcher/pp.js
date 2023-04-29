@@ -38,8 +38,9 @@ import {
  * @param {string} host Hostname of a purchased server.
  * @param {string} target Hostname of the world server to target.
  * @param {number} amount Raise this amount of money.
+ * @param {boolean} greedy Whether to use a greedy approach.
  */
-async function hack(ns, host, target, amount) {
+async function hack(ns, host, target, amount, greedy) {
     // Prep the target server.
     const batcher = new PservHGW(ns, host);
     batcher.scp_scripts();
@@ -52,7 +53,7 @@ async function hack(ns, host, target, amount) {
     let i = 0;
     let fail = 0;
     while (!enough_money()) {
-        const success = await batcher.launch_batch(target);
+        const success = await batcher.launch_batch(target, greedy);
         if (success) {
             i++;
             fail = 0;
@@ -100,8 +101,9 @@ function is_prep_time(batch, fail) {
  * @param {number} psram The amount of RAM for a purchased server.
  * @param {string} target Hostname of the server to target.
  * @param {number} amount The target amount of money to steal.
+ * @param {string} greedy Whether to use a greedy approach.
  */
-function sanity_checks(ns, psram, target, amount) {
+function sanity_checks(ns, psram, target, amount, greedy) {
     const valid_ram = [
         32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
         131072, 262144, 524288, 1048576,
@@ -110,6 +112,7 @@ function sanity_checks(ns, psram, target, amount) {
     assert(!is_empty_string(target) && target !== home);
     assert(ns.getServerMaxMoney(target) > 0);
     assert(amount > 0);
+    assert(greedy === "true" || greedy === "false");
 }
 
 /**
@@ -138,17 +141,20 @@ function shush(ns) {
  *     131072, 262144, 524288.
  * (3) amount := The amount of money to generate.  The script finishes once it
  *     has generated this amount of money.
+ * (4) greedy := Whether to use a greedy approach.  Pass in true to use a greedy
+ *     approch; pass in false otherwise.
  *
- * Usage: run quack/test/hgw/batcher/pp.js [target] [RAM] [amount]
- * Example: run quack/test/hgw/batcher/pp.js n00dles 64 10e6
+ * Usage: run quack/test/hgw/batcher/pp.js [target] [RAM] [amount] [greedy]
+ * Example: run quack/test/hgw/batcher/pp.js n00dles 64 10e6 true
  *
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    const [target, ram, amount] = ns.args;
+    const [target, ram, amount, greedy] = ns.args;
     const psram = parseInt(ram, base.DECIMAL);
     const target_money = parseInt(amount, base.DECIMAL);
-    sanity_checks(ns, psram, target, target_money);
+    sanity_checks(ns, psram, target, target_money, greedy);
+    const greed = greedy === "true";
     shush(ns);
 
     // Purchase a server having the given amount of RAM.
@@ -162,7 +168,7 @@ export async function main(ns) {
     let hack_stat = ns.getPlayer().skills.hacking;
 
     // Gather data.
-    await hack(ns, host, target, target_money);
+    await hack(ns, host, target, target_money, greed);
 
     // Data after hacking.
     const rate = (amt, ms) => amt / to_second(ms);
