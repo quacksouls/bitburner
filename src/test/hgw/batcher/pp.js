@@ -24,6 +24,7 @@ import { log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import {
     assert,
+    is_boolean,
     is_empty_string,
     time_hms,
     to_second,
@@ -112,7 +113,7 @@ function sanity_checks(ns, psram, target, amount, greedy) {
     assert(!is_empty_string(target) && target !== home);
     assert(ns.getServerMaxMoney(target) > 0);
     assert(amount > 0);
-    assert(greedy === "true" || greedy === "false");
+    assert(is_boolean(greedy));
 }
 
 /**
@@ -154,7 +155,6 @@ export async function main(ns) {
     const psram = parseInt(ram, base.DECIMAL);
     const target_money = parseInt(amount, base.DECIMAL);
     sanity_checks(ns, psram, target, target_money, greedy);
-    const greed = greedy === "true";
     shush(ns);
 
     // Purchase a server having the given amount of RAM.
@@ -168,7 +168,7 @@ export async function main(ns) {
     let hack_stat = ns.getPlayer().skills.hacking;
 
     // Gather data.
-    await hack(ns, host, target, target_money, greed);
+    await hack(ns, host, target, target_money, greedy);
 
     // Data after hacking.
     const rate = (amt, ms) => amt / to_second(ms);
