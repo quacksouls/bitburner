@@ -97,7 +97,7 @@ function purchase_schedule(ns) {
  * focus.  At the moment, the action we want to perform periodically is
  * purchase one of the cheapest programs via the dark web.
  *
- * Usage: run quack/singularity/int-farm.js
+ * Usage: run quack/intelligence/exe.js
  *
  * @param {NS} ns The Netscript API.
  */

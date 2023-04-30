@@ -44,8 +44,8 @@ export async function main(ns) {
     // (3) /singularity/daemon.js := This script determines whether we should be
     //     hacking the w0r1d_d43m0n server.  It terminates if the conditions are
     //     not met for the server to appear in the game world.
-    // (4) /singularity/int-farm.js := This script passively farms Intelligence
-    //     XP.
+    // (4) /intelligence/exe.js := This script passively farms Intelligence
+    //     XP by purchasing/deleting the cheapest program.
     // (5) /singularity/program.js := This script attempts to purchase port
     //     opener programs.  We need all five port opener programs so we can
     //     open all ports of each server.
@@ -54,7 +54,7 @@ export async function main(ns) {
     const script = [
         // "/corporation/go.js", // FIXME: update to use v2.2 API
         "/quack/singularity/daemon.js",
-        "/quack/singularity/int-farm.js",
+        "/quack/intelligence/exe.js",
         "/quack/sleeve/cc.js",
         gang_script[0],
     ];
