@@ -16,9 +16,8 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import {
     augment_to_install,
     purchase_augment,
@@ -62,7 +61,7 @@ export async function main(ns) {
 
     // Sanity check.
     if (!has_gang_api(ns)) {
-        log(ns, "No access to Gang API", colour.RED);
+        error(ns, "No access to Gang API");
         return;
     }
 

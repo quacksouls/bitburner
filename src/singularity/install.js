@@ -17,14 +17,13 @@
 
 import { bool } from "/quack/lib/constant/bool.js";
 import { exclusive_aug, augment } from "/quack/lib/constant/faction.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { darkweb } from "/quack/lib/constant/tor.js";
 import { wse } from "/quack/lib/constant/wse.js";
 import { Gangster } from "/quack/lib/gang/gangster.js";
 import { reassign_soft_reset } from "/quack/lib/gang/util.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { join_all_factions } from "/quack/lib/singularity/faction.js";
@@ -201,7 +200,7 @@ function purchased_augmentations(ns) {
  */
 function set_neutral_gang(ns) {
     if (!ns.gang.inGang()) {
-        log(ns, "No access to Gang API", colour.RED);
+        error(ns, "No access to Gang API");
         return;
     }
     log(ns, "Prepare gang for soft reset");
@@ -259,7 +258,7 @@ export async function main(ns) {
         buy_other_augmentations(ns);
         await buy_programs(ns);
     } else {
-        log(ns, "No access to Artificial Intelligence API", colour.RED);
+        error(ns, "No access to Artificial Intelligence API");
     }
 
     // Set our gang to a state where it at least is working to lower the

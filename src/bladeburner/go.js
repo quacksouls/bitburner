@@ -17,10 +17,9 @@
 
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { Player } from "/quack/lib/player.js";
 import { has_all_sleeves } from "/quack/lib/sleeve/util.js";
 import {
@@ -40,19 +39,18 @@ function has_api_access(ns) {
     // Do we have access to the Bladeburner API?
     assert(has_singularity_api(ns));
     if (!has_bladeburner_api(ns)) {
-        log(ns, "No access to Bladeburner API", colour.RED);
+        error(ns, "No access to Bladeburner API");
         return bool.NOT;
     }
 
     // Bladeburner pairs nicely with sleeves.  Require both to efficiently
     // automate Bladeburner.
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API", colour.RED);
+        error(ns, "No access to Sleeve API");
         return bool.NOT;
     }
     if (!has_all_sleeves(ns)) {
-        const msg = `Require ${cc_t.MAX_SLEEVE} sleeves for Bladeburner`;
-        log(ns, msg, colour.RED);
+        error(ns, `Require ${cc_t.MAX_SLEEVE} sleeves for Bladeburner`);
         return bool.NOT;
     }
 

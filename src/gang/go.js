@@ -15,8 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour } from "/quack/lib/constant/misc.js";
-import { log } from "/quack/lib/io.js";
+import { error } from "/quack/lib/io.js";
 import { has_gang_api } from "/quack/lib/source.js";
 import { exec } from "/quack/lib/util.js";
 
@@ -75,7 +74,7 @@ import { exec } from "/quack/lib/util.js";
  */
 export async function main(ns) {
     if (!has_gang_api(ns)) {
-        log(ns, "No access to Gang API", colour.RED);
+        error(ns, "No access to Gang API");
         return;
     }
 

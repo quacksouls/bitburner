@@ -21,8 +21,8 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { io } from "/quack/lib/constant/io.js";
-import { colour, empty_string } from "/quack/lib/constant/misc.js";
-import { log } from "/quack/lib/io.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
+import { error, log } from "/quack/lib/io.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -260,8 +260,7 @@ export function parity_position(p) {
  * @param {string} cct The file name of the CCT.
  */
 export function print_error(ns, host, cct) {
-    const msg = `${host}: ${cct}: FAILURE`;
-    log(ns, msg, colour.RED);
+    error(ns, `${host}: ${cct}: FAILURE`);
 }
 
 /**

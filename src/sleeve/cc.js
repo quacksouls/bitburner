@@ -17,10 +17,9 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { crimes } from "/quack/lib/constant/crime.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { has_sleeve_api } from "/quack/lib/source.js";
 import { Sleeve } from "/quack/lib/sleeve/cc.js";
@@ -171,7 +170,7 @@ export async function main(ns) {
     // Sanity check.
     shush(ns);
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API", colour.RED);
+        error(ns, "No access to Sleeve API");
         return;
     }
 

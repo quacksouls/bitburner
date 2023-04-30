@@ -16,11 +16,10 @@
  */
 
 import { hnet_t } from "/quack/lib/constant/hacknet.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { has_hacknet_server_api } from "/quack/lib/source.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { log } from "/quack/lib/io.js";
+import { error } from "/quack/lib/io.js";
 
 /**
  * Whether we have the prerequisites for continuing with this script.
@@ -83,7 +82,7 @@ function spend_hash(ns) {
 export async function main(ns) {
     shush(ns);
     if (!has_prerequisite(ns)) {
-        log(ns, "No Hacknet servers found", colour.RED);
+        error(ns, "No Hacknet servers found");
         return;
     }
 

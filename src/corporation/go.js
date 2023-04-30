@@ -17,7 +17,6 @@
 
 import { agriculture, corp, corp_t } from "/quack/lib/constant/corp.js";
 import { cities } from "/quack/lib/constant/location.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { Corporation } from "/quack/lib/corporation/corp.js";
@@ -26,7 +25,7 @@ import {
     hire_advert,
     smart_supply,
 } from "/quack/lib/corporation/util.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { has_corporation_api } from "/quack/lib/source.js";
 import { exec } from "/quack/lib/util.js";
 
@@ -199,7 +198,7 @@ export async function main(ns) {
     ns.disableLog("sleep");
     // Sanity check.
     if (!has_corporation_api(ns)) {
-        log(ns, "No access to Corporation API", colour.RED);
+        error(ns, "No access to Corporation API");
         return;
     }
     if (resume(ns)) {
@@ -212,7 +211,7 @@ export async function main(ns) {
     await create_corp(ns);
     const org = new Corporation(ns);
     if (!org.has_office_warehouse_api()) {
-        log(ns, "No access to Warehouse and/or Office APIs", colour.RED);
+        error(ns, "No access to Warehouse and/or Office APIs");
         return;
     }
     // Early management of our corporation.

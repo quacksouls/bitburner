@@ -15,12 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour } from "/quack/lib/constant/misc.js";
 import { number } from "/quack/lib/constant/number.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { buy_schedule, darkweb } from "/quack/lib/constant/tor.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
 import { has_ai_api } from "/quack/lib/source.js";
@@ -103,7 +102,7 @@ function purchase_schedule(ns) {
  */
 export async function main(ns) {
     if (!has_ai_api(ns)) {
-        log(ns, "No access to Artificial Intelligence API", colour.RED);
+        error(ns, "No access to Artificial Intelligence API");
         return;
     }
     // Suppress various log messages.

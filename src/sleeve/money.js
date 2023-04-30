@@ -16,9 +16,8 @@
  */
 
 import { crimes } from "/quack/lib/constant/crime.js";
-import { colour } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { has_sleeve_api } from "/quack/lib/source.js";
 import {
     all_sleeves,
@@ -71,7 +70,7 @@ async function commit_crimes(ns) {
 export async function main(ns) {
     ns.disableLog("sleep");
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API", colour.RED);
+        error(ns, "No access to Sleeve API");
         return;
     }
     log(ns, "Sleeves commit crimes to raise money");

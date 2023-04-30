@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { colour, empty_string } from "/quack/lib/constant/misc.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { home, home_t } from "/quack/lib/constant/server.js";
-import { log } from "/quack/lib/io.js";
+import { error } from "/quack/lib/io.js";
 import {
     has_singularity_api,
     is_ghost_of_wall_street,
@@ -58,8 +58,7 @@ export async function main(ns) {
     // Check whether we have access to the Singularity API.  If the check fails,
     // then we cannot automate the game play so we exit the script.
     if (!has_singularity_api(ns)) {
-        const msg = "No access to Singularity API. Cannot automate gameplay.";
-        log(ns, msg, colour.RED);
+        error(ns, "No access to Singularity API. Cannot automate gameplay.");
         return;
     }
 

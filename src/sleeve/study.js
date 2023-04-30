@@ -16,9 +16,9 @@
  */
 
 import { cities } from "/quack/lib/constant/location.js";
-import { colour, empty_string } from "/quack/lib/constant/misc.js";
+import { empty_string } from "/quack/lib/constant/misc.js";
 import { course } from "/quack/lib/constant/study.js";
-import { log } from "/quack/lib/io.js";
+import { error, log } from "/quack/lib/io.js";
 import { all_sleeves } from "/quack/lib/sleeve/util.js";
 import { has_sleeve_api } from "/quack/lib/source.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
@@ -49,7 +49,7 @@ function choose_university(ns, i) {
 export async function main(ns) {
     // Sanity check.
     if (!has_sleeve_api(ns)) {
-        log(ns, "No access to Sleeve API", colour.RED);
+        error(ns, "No access to Sleeve API");
         return;
     }
 
