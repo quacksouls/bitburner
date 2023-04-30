@@ -186,6 +186,7 @@ function dir_structure() {
         "singularity/study.js",
         "sleeve/cc.js",
         "sleeve/homicide.js",
+        "sleeve/larceny.js",
         "sleeve/money.js",
         "sleeve/study.js",
         "stock/go.js",
