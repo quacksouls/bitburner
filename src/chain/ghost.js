@@ -22,8 +22,8 @@ import { exec, has_all_popen } from "/quack/lib/util.js";
 import { has_wse_api } from "/quack/lib/wse.js";
 
 /**
- * Let sleeves commit homicide to lower karma as necessary so we can create a
- * gang.  If we already have a gang, commit larceny to farm Intelligence XP.
+ * Commit homicide to lower karma as necessary so we can create a gang.  If we
+ * already have a gang, commit larceny to farm Intelligence XP.
  *
  * @param {NS} ns The Netscript API.
  * @param {array} pid An array of PIDs.  Use this to keep track of PIDs of
@@ -32,6 +32,8 @@ import { has_wse_api } from "/quack/lib/wse.js";
  *     necessary.
  */
 async function commit_crime(ns, pid) {
+    exec(ns, "/quack/intelligence/larcency.js");
+    await ns.sleep(wait_t.DEFAULT);
     const new_pid = Array.from(pid);
     if (has_gang_api(ns)) {
         if (ns.gang.inGang()) {

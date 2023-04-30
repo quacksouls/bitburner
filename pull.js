@@ -116,6 +116,7 @@ function dir_structure() {
         "hgw/xp.js",
         "hnet.js",
         "intelligence/exe.js",
+        "intelligence/larceny.js",
         "karma.js",
         "kill-script.js",
         "kill-server.js",

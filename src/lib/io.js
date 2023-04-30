@@ -38,6 +38,16 @@ export function create_file(ns, fname, data) {
 }
 
 /**
+ * Print an error message to the terminal.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} msg Print this message to the terminal.
+ */
+export function error(ns, msg) {
+    log(ns, msg, colour.RED);
+}
+
+/**
  * Print a log to the terminal.
  *
  * @param {NS} ns The Netscript API.
