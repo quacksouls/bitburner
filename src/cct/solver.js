@@ -174,9 +174,6 @@ function solve(ns, fname, host) {
         return true;
     }
 
-    // const pre = `${host}: ${fname}`;
-    // const msg = `No free RAM to run ${script} on ${home}`;
-    // log(ns, `${pre}: ${msg}`, colour.RED);
     return false;
 }
 
