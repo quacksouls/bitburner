@@ -63,11 +63,6 @@ function has_api_access(ns) {
  * @param {NS} ns The Netscript API.
  */
 async function join(ns) {
-    if (ns.bladeburner.inBladeburner()) {
-        log(ns, "Already in Bladeburner division");
-        return;
-    }
-
     while (!ns.bladeburner.joinBladeburnerDivision()) {
         await ns.sleep(wait_t.SECOND);
     }
@@ -115,6 +110,11 @@ export async function main(ns) {
     shush(ns);
 
     if (!has_api_access(ns)) {
+        return;
+    }
+    if (ns.bladeburner.inBladeburner()) {
+        log(ns, "Already in Bladeburner division");
+        exec(ns, "/quack/bladeburner/bb.js");
         return;
     }
     await required_stats(ns);
