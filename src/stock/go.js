@@ -20,6 +20,7 @@ import { wse } from "/quack/lib/constant/wse.js";
 import { log } from "/quack/lib/io.js";
 import { money } from "/quack/lib/money.js";
 import { Player } from "/quack/lib/player.js";
+import { has_ghost_of_wall_street } from "/quack/lib/source.js";
 import { exec } from "/quack/lib/util.js";
 import { has_wse_api } from "/quack/lib/wse.js";
 
@@ -90,7 +91,17 @@ function shush(ns) {
  */
 export async function main(ns) {
     shush(ns);
+
+    // Launch the Pre-4S trade bot if we have the necessary access.
+    let pid = -1;
+    if (has_ghost_of_wall_street(ns)) {
+        pid = exec(ns, "/quack/stock/pre4s.js");
+    }
+
     await prerequisites(ns);
     await purchase_api_access(ns);
+    if (pid > 0) {
+        ns.kill(pid);
+    }
     exec(ns, "/quack/stock/trade.js");
 }

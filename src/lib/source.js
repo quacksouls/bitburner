@@ -114,6 +114,31 @@ export function has_gang_api(ns) {
 }
 
 /**
+ * Whether we have access to "Source-File 8: Ghost of Wall Street", in
+ * particular access to the WSE and TIX API.  We have access to the latter if:
+ *
+ * (1) We are in "BitNode-8: Ghost of Wall Street"; or
+ * (2) We have destroyed at least BN8.1.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if we have "Source-File 8: Ghost of Wall Street";
+ *     false otherwise.
+ */
+export function has_ghost_of_wall_street(ns) {
+    const bn_name = "Ghost of Wall Street";
+    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+        return bool.HAS;
+    }
+
+    // Use the Singularity API to help us find out.
+    if (has_singularity_api(ns)) {
+        const has_ghost = (sf) => sf.n === bitnode[bn_name];
+        return ns.singularity.getOwnedSourceFiles().some(has_ghost);
+    }
+    return bool.NOT;
+}
+
+/**
  * Whether we have access to the Hacknet server API.  We have access to Hacknet
  * servers and the relevant API provided that:
  *
