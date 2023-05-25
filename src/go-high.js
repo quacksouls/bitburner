@@ -67,7 +67,7 @@ async function reboot(ns) {
     const other_script = [choose_batcher(ns)];
     // In "BitNode-9: Hacktocracy", we cannot buy servers so there is no point
     // in setting up a farm of purchased servers.
-    if (bitnode.Hacktocracy !== ns.getPlayer().bitNodeN) {
+    if (bitnode.Hacktocracy !== ns.getResetInfo().currentNode) {
         other_script.unshift(choose_batcher_pserv(ns));
     }
     other_script.forEach((s) => exec(ns, s));

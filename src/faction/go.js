@@ -140,7 +140,7 @@ function join_next(ns, fac) {
         return bool.NO_JOIN;
     }
     if (
-        bitnode.Hacktocracy === ns.getPlayer().bitNodeN
+        bitnode.Hacktocracy === ns.getResetInfo().currentNode
         && fac === "Netburners"
     ) {
         return bool.NO_JOIN;

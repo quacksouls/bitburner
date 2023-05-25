@@ -35,7 +35,7 @@ import { assert } from "/quack/lib/util.js";
  * @returns {number} The karma threshold.
  */
 function karma_threshold(ns) {
-    if (bitnode["Rise of the Underworld"] === ns.getPlayer().bitNodeN) {
+    if (bitnode["Rise of the Underworld"] === ns.getResetInfo().currentNode) {
         return faction_req["Slum Snakes"].karma;
     }
     return gang_t.KARMA;

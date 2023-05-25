@@ -82,7 +82,7 @@ export class Player {
      * @returns {number} The current BitNode number.
      */
     bitnode() {
-        return this.#ns.getPlayer().bitNodeN;
+        return this.#ns.getResetInfo().currentNode;
     }
 
     /**

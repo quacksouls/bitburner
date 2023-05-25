@@ -50,7 +50,7 @@ export function has_ai_api(ns) {
 export function has_bladeburner_api(ns) {
     // Are we in "BitNode-7: Bladeburners 2079"?
     const bn_name = "Bladeburners 2079";
-    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+    if (bitnode[bn_name] === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -74,7 +74,7 @@ export function has_bladeburner_api(ns) {
  */
 export function has_corporation_api(ns) {
     // Are we in "BitNode-3: Corporatocracy"?
-    if (bitnode.Corporatocracy === ns.getPlayer().bitNodeN) {
+    if (bitnode.Corporatocracy === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -98,7 +98,7 @@ export function has_corporation_api(ns) {
 export function has_gang_api(ns) {
     // Are we in "BitNode-2: Rise of the Underworld"?
     const bn_name = "Rise of the Underworld";
-    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+    if (bitnode[bn_name] === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -126,7 +126,7 @@ export function has_gang_api(ns) {
  */
 export function has_ghost_of_wall_street(ns) {
     const bn_name = "Ghost of Wall Street";
-    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+    if (bitnode[bn_name] === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -150,7 +150,7 @@ export function has_ghost_of_wall_street(ns) {
  *     API; false otherwise.
  */
 export function has_hacknet_server_api(ns) {
-    if (bitnode.Hacktocracy === ns.getPlayer().bitNodeN) {
+    if (bitnode.Hacktocracy === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -192,7 +192,7 @@ export function has_singularity_api(ns) {
 export function has_sleeve_api(ns) {
     // Are we in "BitNode 10: Digital Carbon"?
     const bn_name = "Digital Carbon";
-    if (bitnode[bn_name] === ns.getPlayer().bitNodeN) {
+    if (bitnode[bn_name] === ns.getResetInfo().currentNode) {
         return bool.HAS;
     }
 
@@ -215,7 +215,7 @@ export function has_sleeve_api(ns) {
  */
 export function is_ghost_of_wall_street(ns) {
     const bn_name = "Ghost of Wall Street";
-    return bitnode[bn_name] === ns.getPlayer().bitNodeN;
+    return bitnode[bn_name] === ns.getResetInfo().currentNode;
 }
 
 /**
