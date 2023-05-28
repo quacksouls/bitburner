@@ -61,7 +61,10 @@ function grow_server(ns, host, botnet) {
     const script = hgw.script.GROW;
     const can_run = (serv) => can_run_script(ns, script, serv);
     const nthread = (serv) => num_threads(ns, script, serv);
-    const exec = (serv) => ns.exec(script, serv, nthread(serv), host);
+    const exec = (serv) => {
+        const option = { preventDuplicates: true, threads: nthread(serv) };
+        ns.exec(script, serv, option, host);
+    };
     return botnet.filter(can_run).map(exec);
 }
 

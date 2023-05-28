@@ -50,8 +50,8 @@ function karma_threshold(ns) {
  */
 function load_chain(ns, faction) {
     const script = "/quack/gang/crime.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread, faction);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, faction);
 }
 
 /**

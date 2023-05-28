@@ -40,8 +40,8 @@ import { assert } from "/quack/lib/util.js";
 export async function commit_crime(ns, threshold) {
     assert(threshold > 0);
     const script = "/quack/singularity/crime.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread, threshold);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, threshold);
     while (money(ns) < threshold || ns.singularity.isBusy()) {
         await ns.sleep(wait_t.DEFAULT);
     }

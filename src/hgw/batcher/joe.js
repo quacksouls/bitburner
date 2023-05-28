@@ -61,7 +61,10 @@ async function launch_batch(ns, target) {
     }
 
     const param = pbatch_parameters(ns, target, hthread);
-    const exec = (script, nthread) => ns.exec(script, home, nthread, target);
+    const exec = (script, nthread) => {
+        const option = { preventDuplicates: true, threads: nthread };
+        ns.exec(script, home, option, target);
+    };
     const sleep = (time) => ns.sleep(time);
     const pidw = exec(hgw.script.WEAKEN, param.weaken.thread);
     await sleep(param.weaken.time - hgw.pbatch.DELAY - param.grow.time);

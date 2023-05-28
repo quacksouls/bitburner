@@ -50,11 +50,11 @@ async function destroy(ns) {
     join_all_factions(ns);
 
     // Kill all running scripts.
-    const nthread = 1;
+    const option = { preventDuplicates: true, threads: 1 };
     const pid = ns.exec(
         "/quack/kill-script.js",
         player.home(),
-        nthread,
+        option,
         "world"
     );
     while (ns.isRunning(pid)) {

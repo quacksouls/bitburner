@@ -118,8 +118,8 @@ function choose_faction(ns) {
             break;
     }
     assert(!is_empty_string(script));
-    const nthread = 1;
-    ns.exec(script, home, nthread, faction);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, faction);
 }
 
 /**

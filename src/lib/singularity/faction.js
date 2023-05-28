@@ -238,11 +238,11 @@ export async function raise_hack(ns, threshold) {
  */
 function share_botnet(ns, fac) {
     // Kill all scripts running on world servers.
-    const nthread = 1;
-    ns.exec("/quack/kill-script.js", home, nthread, "world");
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec("/quack/kill-script.js", home, option, "world");
 
     const script = "/quack/faction/share.js";
-    ns.exec(script, home, nthread, fac);
+    ns.exec(script, home, option, fac);
 }
 
 /**
@@ -258,7 +258,8 @@ async function start_share_home(ns) {
     if (Number.isNaN(nthread) || nthread < 1) {
         nthread = 1;
     }
-    ns.exec(server.SHARE_SCRIPT, home, nthread);
+    const option = { preventDuplicates: true, threads: nthread };
+    ns.exec(server.SHARE_SCRIPT, home, option);
 }
 
 /**

@@ -70,12 +70,12 @@ async function buy_servers(ns) {
  */
 function deploy(ns, phost, host) {
     const script = pserv.PBATCH;
-    const nthread = 1;
     const frac = pserv.DEFAULT_MONEY_FRAC;
     assert(!is_bankrupt(ns, host));
     const target = new Server(ns, host);
     assert(target.gain_root_access());
-    ns.exec(script, home, nthread, phost, target.hostname(), frac);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, phost, target.hostname(), frac);
 }
 
 /**

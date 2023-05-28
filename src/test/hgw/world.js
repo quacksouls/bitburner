@@ -34,13 +34,13 @@ async function hack(ns, strat, host, amount) {
     assert(amount > 0);
     const target_money = money(ns) + amount;
     const script = worker_script(strat);
-    const nthread = 1;
-    const pid = ns.exec(script, home, nthread, host);
+    const option = { preventDuplicates: true, threads: 1 };
+    const pid = ns.exec(script, home, option, host);
     while (money(ns) < target_money) {
         await ns.sleep(wait_t.SECOND);
     }
     ns.kill(pid);
-    ns.exec("/quack/kill-script.js", home, nthread, "world");
+    ns.exec("/quack/kill-script.js", home, option, "world");
 }
 
 /**

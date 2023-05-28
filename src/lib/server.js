@@ -180,7 +180,8 @@ export class Server {
         // Copy our script over to this server.  Use the server to hack the
         // target.
         this.#ns.scp(this.#script, this.hostname(), this.#home);
-        this.#ns.exec(this.#script, this.hostname(), nthread, targ.hostname);
+        const option = { preventDuplicates: true, threads: nthread };
+        this.#ns.exec(this.#script, this.hostname(), option, targ.hostname);
         return bool.SUCCESS;
     }
 
@@ -429,7 +430,8 @@ export class Server {
         // Copy our share script over to this server and share its RAM with a
         // faction.
         this.#ns.scp(this.#share_script, this.hostname(), this.#home);
-        this.#ns.exec(this.#share_script, this.hostname(), nthread);
+        const option = { preventDuplicates: true, threads: nthread };
+        this.#ns.exec(this.#share_script, this.hostname(), option);
         return bool.SUCCESS;
     }
 

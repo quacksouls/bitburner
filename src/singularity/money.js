@@ -50,8 +50,8 @@ async function commit_crimes(ns, threshold) {
     assert(threshold > 0);
     log(ns, "Commit crimes to raise money and lower karma");
     const script = "/quack/singularity/crime.js";
-    const nthread = 1;
-    ns.exec(script, home, nthread, threshold);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, threshold);
 
     // Wait for the crime script to end.
     while (ns.scriptRunning(script, home)) {

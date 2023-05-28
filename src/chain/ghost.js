@@ -76,8 +76,8 @@ async function create_popen(ns, pid) {
  */
 function kill_scripts(ns, pid) {
     pid.forEach((p) => ns.kill(p));
-    const nthread = 1;
-    ns.exec("/quack/kill-script.js", home, nthread, "world");
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec("/quack/kill-script.js", home, option, "world");
 }
 
 /**

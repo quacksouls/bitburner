@@ -56,8 +56,8 @@ function buy_server(ns) {
         return;
     }
     const host = psv.purchase(pserv.PREFIX, pserv.DEFAULT_RAM_HGW);
-    const nthread = 1;
-    ns.exec(script, home, nthread, host, target);
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec(script, home, option, host, target);
 }
 
 /**

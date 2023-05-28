@@ -230,7 +230,10 @@ async function hgw_action(ns, host, action) {
     const s = hgw_script(action);
     const has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const nthread = (serv) => num_threads(ns, s, serv);
-    const run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    const run_script = (serv) => {
+        const option = { preventDuplicates: true, threads: nthread(serv) };
+        ns.exec(s, serv, option, host);
+    };
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     if (pid.length === 0) {
         return;

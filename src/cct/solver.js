@@ -69,7 +69,6 @@ function shush(ns) {
  *     given CCT; false otherwise.
  */
 function solve(ns, fname, host) {
-    const nthread = 1;
     const type = ns.codingcontract.getContractType(fname, host);
 
     // Determine the type of the CCT and set the appropriate solution script.
@@ -170,7 +169,8 @@ function solve(ns, fname, host) {
 
     // Run the appropriate script to solve the CCT.
     if (can_run_script(ns, script)) {
-        ns.exec(script, home, nthread, fname, host);
+        const option = { preventDuplicates: true, threads: 1 };
+        ns.exec(script, home, option, fname, host);
         return true;
     }
 

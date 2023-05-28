@@ -33,13 +33,13 @@ import { assert, to_second } from "/quack/lib/util.js";
 async function hack(ns, host, target, frac, amount) {
     const target_money = money(ns) + amount;
     const script = "/quack/test/hgw/pbatch.js";
-    const nthread = 1;
-    const pid = ns.exec(script, home, nthread, host, target, frac);
+    const option = { preventDuplicates: true, threads: 1 };
+    const pid = ns.exec(script, home, option, host, target, frac);
     while (money(ns) < target_money) {
         await ns.sleep(wait_t.SECOND);
     }
     ns.kill(pid);
-    ns.exec("/quack/kill-script.js", home, nthread, "world");
+    ns.exec("/quack/kill-script.js", home, option, "world");
 }
 
 /**

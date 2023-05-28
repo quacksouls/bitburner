@@ -77,7 +77,8 @@ export class PservHGW {
         const s = hgw_script(action);
         assert(can_run_script(this.#ns, s, this.#phost));
         const nthread = num_threads(this.#ns, s, this.#phost);
-        const pid = this.#ns.exec(s, this.#phost, nthread, host);
+        const option = { preventDuplicates: true, threads: nthread };
+        const pid = this.#ns.exec(s, this.#phost, option, host);
         await this.#ns.sleep(time);
         const is_action_done = () => !this.#ns.isRunning(pid);
         while (!is_action_done()) {
@@ -113,7 +114,8 @@ export class PservHGW {
             nthread = max_server_threads;
         }
 
-        const pid = this.#ns.exec(s, this.#phost, nthread, host);
+        const option = { preventDuplicates: true, threads: nthread };
+        const pid = this.#ns.exec(s, this.#phost, option, host);
         await this.#ns.sleep(time);
         const is_action_done = () => !this.#ns.isRunning(pid);
         while (!is_action_done()) {
@@ -137,7 +139,10 @@ export class PservHGW {
 
         const param = pbatch_parameters(this.#ns, target, hthread);
         // eslint-disable-next-line
-        const exec = (script, nthread) => this.#ns.exec(script, this.#phost, nthread, target);
+        const exec = (script, nthread) => {
+            const option = { preventDuplicates: true, threads: nthread };
+            this.#ns.exec(script, this.#phost, option, target);
+        };
         const sleep = (time) => this.#ns.sleep(time);
         const pidw = exec(hgw.script.WEAKEN, param.weaken.thread);
         await sleep(param.weaken.time - hgw.pbatch.DELAY - param.grow.time);

@@ -144,8 +144,8 @@ export function compromised_servers(ns, s, candidate) {
  * @returns {number} The PID of the running script.
  */
 export function exec(ns, s) {
-    const nthread = 1;
-    return ns.exec(s, home, nthread);
+    const option = { preventDuplicates: true, threads: 1 };
+    return ns.exec(s, home, option);
 }
 
 /**

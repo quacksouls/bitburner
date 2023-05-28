@@ -192,10 +192,16 @@ export async function hgw_action(ns, host, botnet, action) {
     const s = hgw_script(action);
     let has_ram_to_run_script = (serv) => can_run_script(ns, s, serv);
     const nthread = (serv) => num_threads(ns, s, serv);
-    let run_script = (serv) => ns.exec(s, serv, nthread(serv), host);
+    let run_script = (serv) => {
+        const option = { preventDuplicates: true, threads: nthread(serv) };
+        ns.exec(s, serv, option, host);
+    };
     if (action === hgw.action.HACK) {
         has_ram_to_run_script = (obj) => can_run_script(ns, s, obj.host);
-        run_script = (obj) => ns.exec(s, obj.host, obj.thread, host);
+        run_script = (obj) => {
+            const option = { preventDuplicates: true, threads: obj.thread };
+            ns.exec(s, obj.host, option, host);
+        };
     }
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     if (MyArray.is_empty(pid)) {
@@ -318,7 +324,8 @@ export async function pbatch_action(ns, host, target, action) {
     if (nthread < 1) {
         return;
     }
-    const pid = ns.exec(s, host, nthread, target);
+    const option = { preventDuplicates: true, threads: nthread };
+    const pid = ns.exec(s, host, option, target);
     const time = hgw_wait_time(ns, target, action);
     await ns.sleep(time);
     const is_done = () => !ns.isRunning(pid);
