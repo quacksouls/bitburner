@@ -66,7 +66,7 @@ export const hgw = {
     /**
      * The minimum Hack stat to reach when farming for Hack XP.
      */
-    MIN_HACK: 150,
+    MIN_HACK: 50,
     /**
      * The fraction of money to steal from a server.
      */
