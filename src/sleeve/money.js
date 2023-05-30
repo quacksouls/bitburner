@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { is_bb_running } from "/quack/lib/bb.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { error, log } from "/quack/lib/io.js";
@@ -73,6 +74,13 @@ export async function main(ns) {
         error(ns, "No access to Sleeve API");
         return;
     }
+
+    // The Bladeburner manager needs to use sleeves.  If the Bladeburner manager
+    // is running, leave the sleeves alone.
+    if (is_bb_running(ns)) {
+        return;
+    }
+
     log(ns, "Sleeves commit crimes to raise money");
     await commit_crimes(ns);
 }

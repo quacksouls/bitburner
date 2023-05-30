@@ -16,6 +16,7 @@
  */
 
 import { MyArray } from "/quack/lib/array.js";
+import { is_bb_running } from "/quack/lib/bb.js";
 import { crimes } from "/quack/lib/constant/crime.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
@@ -153,6 +154,14 @@ async function synchronize(ns, tau) {
  */
 async function update(ns) {
     buy_augmentation(ns);
+
+    // The Bladeburner manager needs to use sleeves.  If the Bladeburner manager
+    // is running, leave the sleeves alone.
+    if (is_bb_running(ns)) {
+        await ns.sleep(wait_t.DEFAULT);
+        return;
+    }
+
     await retrain(ns);
     await commit_crime(ns, crimes.KILL, 10 * wait_t.MINUTE);
     await synchronize(ns, wait_t.MINUTE);

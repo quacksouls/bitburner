@@ -18,6 +18,7 @@
 import { MyArray } from "/quack/lib/array.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
+import { home } from "/quack/lib/constant/server.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -175,4 +176,17 @@ export class Bladeburner {
             this.#ns.bladeburner.upgradeSkill(skill);
         }
     }
+}
+
+/**
+ * Whether the Bladeburner manager is running.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {boolean} True if the Bladeburner manager is running;
+ *     false otherwise.
+ */
+export function is_bb_running(ns) {
+    const script = ["/quack/bladeburner/go.js", "/quack/bladeburner/bb.js"];
+    const is_running = (s) => ns.isRunning(s, home);
+    return script.some(is_running);
 }

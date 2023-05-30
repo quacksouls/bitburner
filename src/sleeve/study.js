@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { is_bb_running } from "/quack/lib/bb.js";
 import { cities } from "/quack/lib/constant/location.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { course } from "/quack/lib/constant/study.js";
@@ -50,6 +51,12 @@ export async function main(ns) {
     // Sanity check.
     if (!has_sleeve_api(ns)) {
         error(ns, "No access to Sleeve API");
+        return;
+    }
+
+    // The Bladeburner manager needs to use sleeves.  If the Bladeburner manager
+    // is running, leave the sleeves alone.
+    if (is_bb_running(ns)) {
         return;
     }
 
