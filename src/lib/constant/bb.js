@@ -33,7 +33,7 @@ export const bb_t = {
     /**
      * The likely success chance of an action.
      */
-    LIKELY: 0.9,
+    LIKELY: 0.95,
     /**
      * There should be at least this many contracts to help us decide whether to
      * take on a particular type of contracts.
