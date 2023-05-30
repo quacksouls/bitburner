@@ -59,10 +59,7 @@ export const bb_t = {
          * Thresholds for levels of various skills.
          */
         tau: {
-            Datamancer: 25,
-            Hyperdrive: 25,
             Overclock: 90,
-            Tracer: 25,
         },
     },
     /**

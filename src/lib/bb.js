@@ -19,7 +19,7 @@ import { MyArray } from "/quack/lib/array.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { random_integer } from "/quack/lib/random.js";
-import { assert, is_empty_string } from "/quack/lib/util.js";
+import { assert } from "/quack/lib/util.js";
 
 /**
  * A class for managing Bladeburner.
@@ -55,34 +55,33 @@ export class Bladeburner {
             bb_t.skill.OBSERVER,
             bb_t.skill.REAPER,
         ];
+        return this.#choose_skill(skill);
+    }
+
+    /**
+     * Determine a low-tier skill to upgrade.  Level up these skills as many
+     * times as possible.  Try to keep the levels of all low-tier skills
+     * approximately equal.
+     *
+     * @returns {string} A low-tier skill.
+     */
+    choose_low_tier_skill() {
+        const skill = [bb_t.skill.DATA, bb_t.skill.DRIVE, bb_t.skill.TRACER];
+        return this.#choose_skill(skill);
+    }
+
+    /**
+     * Choose a skill to upgrade.
+     *
+     * @param {array} skill Choose a skill from this array.
+     * @return {string} A skill to upgrade.
+     */
+    #choose_skill(skill) {
         const level = skill.map((s) => this.#ns.bladeburner.getSkillLevel(s));
         const min = Math.min(...level);
         const is_min = (lvl) => lvl === min;
         const idx = level.findIndex(is_min);
         return skill[idx];
-    }
-
-    /**
-     * Determine a low-tier skill to upgrade.  We want some levels in these
-     * skills.  However, upgrade each of these skills up to various thresholds.
-     *
-     * @returns {string} A low-tier skill.  Empty string if we cannot upgrade
-     *     any low-tier skill
-     */
-    choose_low_tier_skill() {
-        const skill = [bb_t.skill.DATA, bb_t.skill.DRIVE, bb_t.skill.TRACER];
-        const level = (s) => this.#ns.bladeburner.getSkillLevel(s);
-        const not_max = (s) => level(s) < bb_t.skill.tau[s];
-        const candidate = skill.filter(not_max);
-        if (MyArray.is_empty(candidate)) {
-            return empty_string;
-        }
-
-        // Randomly choose a skill.
-        const min = 0;
-        const max = candidate.length - 1;
-        const idx = random_integer(min, max);
-        return candidate[idx];
     }
 
     /**
@@ -163,9 +162,6 @@ export class Bladeburner {
      */
     upgrade_low_tier_skill() {
         const skill = this.choose_low_tier_skill();
-        if (is_empty_string(skill)) {
-            return;
-        }
         this.#ns.bladeburner.upgradeSkill(skill);
     }
 
