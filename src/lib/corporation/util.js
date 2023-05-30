@@ -29,6 +29,8 @@ import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { Corporation } from "/quack/lib/corporation/corp.js";
 import { log } from "/quack/lib/io.js";
+import { Money } from "/quack/lib/money.js";
+import { MyNumber } from "/quack/lib/number.js";
 import { random_integer } from "/quack/lib/random.js";
 import { assert, is_boolean } from "/quack/lib/util.js";
 
@@ -352,7 +354,7 @@ export async function investment_offer(ns, r) {
     // Need to wait for our corporation to make a certain amount of profit per
     // second, and have a certain amount of funds.
     log(ns, `Round ${to_number(r)} of investment`);
-    const profit_tau = ns.nFormat(corp_t.profit.round[r].N, "$0,0.00a");
+    const profit_tau = Money.format(corp_t.profit.round[r].N);
     log(ns, `Waiting for sufficient profit: ${profit_tau}/s`);
     const org = new Corporation(ns);
     while (org.profit() < corp_t.profit.round[r].N) {
@@ -360,8 +362,8 @@ export async function investment_offer(ns, r) {
     }
     const { funds, shares } = ns.corporation.getInvestmentOffer();
     ns.corporation.acceptInvestmentOffer();
-    const fundsf = ns.nFormat(funds, "$0,0.00a");
-    const sharesf = ns.nFormat(shares, "0,0.00a");
+    const fundsf = Money.format(funds);
+    const sharesf = MyNumber.format(shares);
     log(
         ns,
         `Received ${fundsf} in exchange for ${sharesf} shares of corporation`

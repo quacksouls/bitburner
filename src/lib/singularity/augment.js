@@ -25,7 +25,7 @@ import { augment } from "/quack/lib/constant/faction.js";
 import { empty_string, work_hack_lvl } from "/quack/lib/constant/misc.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
-import { money } from "/quack/lib/money.js";
+import { Money, money } from "/quack/lib/money.js";
 import { commit_crime } from "/quack/lib/singularity/crime.js";
 import { work } from "/quack/lib/singularity/work.js";
 import { assert, is_empty_string, is_valid_faction } from "/quack/lib/util.js";
@@ -342,7 +342,7 @@ async function purchase_aug(ns, aug, fac, raise_money) {
                     await commit_crime(ns, cost);
                 } else {
                     const prefix = "Raising money to target";
-                    const suffix = `${ns.nFormat(cost, "$0,0.000a")}`;
+                    const suffix = `${Money.format(cost)}`;
                     log(ns, `${prefix}: ${suffix}`);
                     await work(ns, cost);
                 }

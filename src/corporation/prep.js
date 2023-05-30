@@ -27,6 +27,7 @@ import {
     to_number,
 } from "/quack/lib/corporation/util.js";
 import { create_file, log } from "/quack/lib/io.js";
+import { MyNumber } from "/quack/lib/number.js";
 import { has_corporation_api } from "/quack/lib/source.js";
 import { assert, exec } from "/quack/lib/util.js";
 
@@ -128,7 +129,7 @@ async function level_up_storage(ns, n) {
         upgrade_warehouse(ns, n);
         await ns.sleep(wait_t.SECOND);
     }
-    const size = ns.nFormat(agriculture.warehouse.round[n].SIZE, "0,00.00a");
+    const size = MyNumber.format(agriculture.warehouse.round[n].SIZE);
     log(ns, `New storage capacity of each warehouse: ${size}`);
 }
 
@@ -202,7 +203,7 @@ async function material_buy(ns, n) {
                 continue;
             }
             const prefix = `${div}: ${ct}`;
-            const amt = ns.nFormat(amount[i], "0,00.00a");
+            const amt = MyNumber.format(amount[i]);
             log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
             await org.material_buy(div, ct, material[i], amount[i]);
         }
