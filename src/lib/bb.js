@@ -18,7 +18,6 @@
 import { MyArray } from "/quack/lib/array.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
-import { random_integer } from "/quack/lib/random.js";
 import { assert } from "/quack/lib/util.js";
 
 /**
@@ -111,11 +110,10 @@ export class Bladeburner {
     }
 
     /**
-     * A random contract whose estimated success chance is likely.  We
-     * prioritize Tracking contracts.
+     * A random contract whose estimated success chance is likely.
      *
      * @returns {string} A contract whose estimated success chance is likely.
-     *     Empty string if none of the contracts are likely to succeed.
+     *     Empty string if we cannot perform any of the contracts.
      */
     likely_contract() {
         if (!this.has_likely_contract()) {
@@ -126,27 +124,28 @@ export class Bladeburner {
         let contract = Object.values(bb_t.contract).filter(is_likely);
         assert(!MyArray.is_empty(contract));
 
-        // Prioritize Tracking contracts.
-        const tracking = bb_t.contract.TRACK;
-        if (contract.includes(tracking)) {
-            const count = this.#ns.bladeburner.getActionCountRemaining(
-                "Contracts",
-                tracking
-            );
-            if (count > bb_t.MIN_CONTRACTS) {
-                return tracking;
-            }
-        }
-
-        // Randomly choose a likely contract.
-        contract = contract.filter((c) => c !== tracking);
+        // An array of the prioritized contracts, sorted in descending order of
+        // Intelligence XP to be gained from successful completion.  Choose the
+        // earliest element in the array that has a likely chance of success.
+        const priority = [
+            bb_t.contract.BOUNTY,
+            bb_t.contract.RETIRE,
+            bb_t.contract.TRACK,
+        ];
+        contract = priority.filter((ctr) => contract.includes(ctr));
         if (MyArray.is_empty(contract)) {
             return empty_string;
         }
-        const min = 0;
-        const max = contract.length - 1;
-        const idx = random_integer(min, max);
-        return contract[idx];
+
+        const best_ctr = contract[0];
+        const count = this.#ns.bladeburner.getActionCountRemaining(
+            "Contracts",
+            best_ctr
+        );
+        if (count > bb_t.MIN_CONTRACTS) {
+            return best_ctr;
+        }
+        return empty_string;
     }
 
     /**
