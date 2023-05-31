@@ -270,7 +270,7 @@ export class Sleeve {
             actionType,
             actionName
         );
-        return count >= bb_t.CONTRACT_THRESHOLD;
+        return count < bb_t.CONTRACT_THRESHOLD;
     }
 
     /**
