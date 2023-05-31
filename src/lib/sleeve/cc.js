@@ -254,6 +254,26 @@ export class Sleeve {
     }
 
     /**
+     * Whether a sleeve is running out of contracts to perform.  As a sleeve is
+     * performing a particular type of contracts, a success would decrease the
+     * number of contracts by one. If the number of remaining contracts is low
+     * enough, the sleeve is low on that particular type of contracts and should
+     * stop performing contracts.
+     *
+     * @returns {boolean} True if a sleeve is running out of contracts to solve;
+     *     false otherwise.
+     */
+    is_low_on_contracts() {
+        const idx = this.contractor();
+        const { actionType, actionName } = this.#ns.sleeve.getTask(idx);
+        const count = this.#ns.bladeburner.getActionCountRemaining(
+            actionType,
+            actionName
+        );
+        return count >= bb_t.CONTRACT_THRESHOLD;
+    }
+
+    /**
      * Whether a sleeve is taking on Bladeburner contracts.
      *
      * @returns {boolean} True if a sleeve is taking on Bladeburner contracts;

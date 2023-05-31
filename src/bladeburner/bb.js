@@ -29,7 +29,10 @@ function contracts(ns) {
     // Check whether a sleeve is taking on contracts.
     const sleeve = new Sleeve(ns);
     if (sleeve.is_performing_contracts()) {
-        if (!sleeve.is_performing_likely_contracts()) {
+        if (
+            !sleeve.is_performing_likely_contracts()
+            || sleeve.is_low_on_contracts()
+        ) {
             ns.sleeve.setToIdle(sleeve.contractor());
         }
         return;

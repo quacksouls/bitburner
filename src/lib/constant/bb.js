@@ -31,6 +31,11 @@ export const bb_t = {
         TRACK: "Tracking",
     },
     /**
+     * The number of contracts remaining, at which point we should stop
+     * performing a particular type of contracts.
+     */
+    CONTRACT_THRESHOLD: 5,
+    /**
      * The likely success chance of an action.
      */
     LIKELY: 0.95,
