@@ -57,8 +57,6 @@ function init_sleeves(ns) {
         bb_t.task.FIELD, // 0
         bb_t.task.DIPLOM, // 1
         bb_t.task.INFILT, // 2
-        bb_t.task.INFILT, // 3
-        bb_t.task.INFILT, // 4
     ];
     const do_task = (task, idx) => ns.sleeve.setToBladeburnerAction(idx, task);
     cc_job.forEach(do_task);
