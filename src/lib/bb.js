@@ -66,7 +66,12 @@ export class Bladeburner {
      * @returns {string} A low-tier skill.
      */
     choose_low_tier_skill() {
-        const skill = [bb_t.skill.DATA, bb_t.skill.DRIVE, bb_t.skill.TRACER];
+        const skill = [
+            bb_t.skill.DATA,
+            bb_t.skill.DRIVE,
+            bb_t.skill.MIDAS,
+            bb_t.skill.TRACER,
+        ];
         return this.#choose_skill(skill);
     }
 
