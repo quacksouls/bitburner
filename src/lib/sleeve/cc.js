@@ -347,7 +347,9 @@ export class Sleeve {
      */
     perform_likely_contracts(ctr) {
         assert(!this.is_performing_contracts());
-        assert(!is_empty_string(ctr));
+        if (is_empty_string(ctr)) {
+            return;
+        }
 
         // Choose a sleeve that is in the idle state.  Choose the sleeve that
         // has the highest amount of bonus time and assign that sleeve to take
