@@ -19,7 +19,6 @@ import { MyArray } from "/quack/lib/array.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
-import { assert } from "/quack/lib/util.js";
 
 /**
  * A class for managing Bladeburner.
@@ -126,10 +125,6 @@ export class Bladeburner {
             return empty_string;
         }
 
-        const is_likely = (ctr) => this.is_likely_contract(ctr);
-        let contract = Object.values(bb_t.contract).filter(is_likely);
-        assert(!MyArray.is_empty(contract));
-
         // An array of the prioritized contracts, sorted in descending order of
         // Intelligence XP to be gained from successful completion.  Choose the
         // earliest element in the array that has a likely chance of success.
@@ -138,20 +133,18 @@ export class Bladeburner {
             bb_t.contract.RETIRE,
             bb_t.contract.TRACK,
         ];
-        contract = priority.filter((ctr) => contract.includes(ctr));
+        const is_likely = (ctr) => this.is_likely_contract(ctr);
+        let contract = priority.filter(is_likely);
         if (MyArray.is_empty(contract)) {
             return empty_string;
         }
 
-        const best_ctr = contract[0];
-        const count = this.#ns.bladeburner.getActionCountRemaining(
-            "Contracts",
-            best_ctr
-        );
-        if (count > bb_t.MIN_CONTRACTS) {
-            return best_ctr;
-        }
-        return empty_string;
+        // eslint-disable-next-line max-len
+        const count = (ctr) => this.#ns.bladeburner.getActionCountRemaining("Contract", ctr);
+        const is_plentiful = (ctr) => count(ctr) > bb_t.MIN_CONTRACTS;
+        contract = contract.filter(is_plentiful);
+
+        return MyArray.is_empty(contract) ? empty_string : contract[0];
     }
 
     /**
