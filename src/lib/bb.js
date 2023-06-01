@@ -75,6 +75,28 @@ export class Bladeburner {
     }
 
     /**
+     * Choose a type of operations to perform.
+     *
+     * @returns {string} A type of operations to perform.  An empty string if we
+     *     cannot perform any of the operations.
+     */
+    choose_operations() {
+        // All operations ordered by most desirable to least desirable.
+        const candidate = [
+            bb_t.operation.KILL,
+            bb_t.operation.STEALTH,
+            bb_t.operation.RAID,
+            bb_t.operation.STING,
+            bb_t.operation.UNDERCOVER,
+            bb_t.operation.INVESTIGATE,
+        ];
+        const is_plentiful = (opr) => !this.is_low_on_operations(opr);
+        const is_likely = (opr) => this.is_likely_operation(opr);
+        const choice = candidate.filter(is_plentiful).filter(is_likely);
+        return MyArray.is_empty(choice) ? empty_string : choice[0];
+    }
+
+    /**
      * Choose a skill to upgrade.
      *
      * @param {array} skill Choose a skill from this array.
@@ -115,6 +137,21 @@ export class Bladeburner {
     }
 
     /**
+     * Whether an operation has an estimated likely chance of success.
+     *
+     * @param {string} opr An operation name.
+     * @returns {boolean} True if the given operation has an estimated likely
+     *     chance of success; false otherwise.
+     */
+    is_likely_operation(opr) {
+        const min = this.#ns.bladeburner.getActionEstimatedSuccessChance(
+            "Operation",
+            opr
+        )[0];
+        return min >= bb_t.LIKELY;
+    }
+
+    /**
      * Whether we are low on each type of contracts.
      *
      * @returns {boolean} True if we are low on each type of contracts;
@@ -125,6 +162,32 @@ export class Bladeburner {
         const count = (ctr) => this.#ns.bladeburner.getActionCountRemaining("Contract", ctr);
         const is_low = (ctr) => count(ctr) < bb_t.MIN_CONTRACTS;
         return Object.values(bb_t.contract).every(is_low);
+    }
+
+    /**
+     * Whether we are low on a type of operations.
+     *
+     * @param {string} opr Check this type of operations.
+     * @returns {boolean} True if we are low on the given type of operations;
+     *     false otherwise.
+     */
+    is_low_on_operations(opr) {
+        const count = this.#ns.bladeburner.getActionCountRemaining(
+            "Operation",
+            opr
+        );
+        return count < bb_t.MIN_OPERATIONS;
+    }
+
+    /**
+     * Whether we are performing a type of operations.
+     *
+     * @returns {boolean} True if we are undertaking a type of operations;
+     *     false otherwise.
+     */
+    is_performing_operations() {
+        const { type } = this.#ns.bladeburner.getCurrentAction();
+        return type !== bb_t.operation.IDLE;
     }
 
     /**

@@ -45,6 +45,23 @@ export const bb_t = {
      */
     MIN_CONTRACTS: 200,
     /**
+     * There should be at least this many operations to help us decide whether
+     * to undertake a particular type of operations.
+     */
+    MIN_OPERATIONS: 200,
+    /**
+     * Various types of operations.
+     */
+    operation: {
+        IDLE: "Idle",
+        INVESTIGATE: "Investigation",
+        KILL: "Assassination",
+        RAID: "Raid",
+        STEALTH: "Stealth Retirement Operation",
+        STING: "Sting Operation",
+        UNDERCOVER: "Undercover Operation",
+    },
+    /**
      * Various skills.
      */
     skill: {

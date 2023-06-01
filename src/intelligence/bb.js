@@ -19,6 +19,7 @@ import { Bladeburner } from "/quack/lib/bb.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { Sleeve } from "/quack/lib/sleeve/cc.js";
 import { all_sleeves } from "/quack/lib/sleeve/util.js";
+import { is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Assign a sleeve to take on contracts.
@@ -76,6 +77,25 @@ function init_sleeves(ns) {
 }
 
 /**
+ * Take on a type of operations.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function operations(ns) {
+    const bb = new Bladeburner(ns);
+    if (bb.is_performing_operations()) {
+        return;
+    }
+
+    // See whether we can perform a type of operations.
+    const opr = bb.choose_operations();
+    if (is_empty_string(opr)) {
+        return;
+    }
+    ns.bladeburner.startAction("Operation", opr);
+}
+
+/**
  * Suppress various log messages.
  *
  * @param {NS} ns The Netscript API.
@@ -110,6 +130,7 @@ export async function main(ns) {
     for (;;) {
         generate_contracts(ns);
         contracts(ns);
+        operations(ns);
         upgrade_skills(ns);
         await ns.sleep(bb_t.TICK);
     }
