@@ -152,6 +152,7 @@ export class Sleeve {
      * Assign a sleeve to infiltration to generate more contracts.
      */
     generate_contracts() {
+        this.#ns.sleeve.setToIdle(this.infiltrator());
         const idx = this.most_bonus_time();
         this.#ns.sleeve.setToBladeburnerAction(idx, bb_t.task.INFILT);
     }
@@ -234,6 +235,27 @@ export class Sleeve {
         }
         assert(this.#is_valid_index(s));
         s.forEach((i) => this.#ns.sleeve.setToCommitCrime(i, crimes.KILL));
+    }
+
+    /**
+     * Determine which sleeve is taking on Bladeburner infiltration.  At most
+     * one sleeve is taking on infiltration.
+     *
+     * @returns {number} Index of the sleeve that is taking on Bladeburner
+     *     infiltration.
+     */
+    infiltrator() {
+        const is_infiltrator = (idx) => {
+            try {
+                const { type } = this.#ns.sleeve.getTask(idx);
+                return type === "INFILTRATE";
+            } catch {
+                return false;
+            }
+        };
+        const worker = this.all().filter(is_infiltrator);
+        assert(worker.length === 1);
+        return worker[0];
     }
 
     /**
