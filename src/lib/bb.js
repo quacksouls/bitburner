@@ -148,7 +148,7 @@ export class Bladeburner {
             "Operation",
             opr
         )[0];
-        return min >= bb_t.LIKELY;
+        return min >= bb_t.MOST_LIKELY;
     }
 
     /**

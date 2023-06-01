@@ -50,6 +50,10 @@ export const bb_t = {
      */
     MIN_OPERATIONS: 200,
     /**
+     * The near certain success chance of an action.
+     */
+    MOST_LIKELY: 0.99,
+    /**
      * Various types of operations.
      */
     operation: {
