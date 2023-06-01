@@ -43,7 +43,7 @@ export const bb_t = {
      * There should be at least this many contracts to help us decide whether to
      * take on a particular type of contracts.
      */
-    MIN_CONTRACTS: 50,
+    MIN_CONTRACTS: 200,
     /**
      * Various skills.
      */

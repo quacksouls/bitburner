@@ -123,7 +123,7 @@ export class Bladeburner {
     is_low_on_contracts() {
         // eslint-disable-next-line max-len
         const count = (ctr) => this.#ns.bladeburner.getActionCountRemaining("Contract", ctr);
-        const is_low = (ctr) => count(ctr) < 2 * bb_t.MIN_CONTRACTS;
+        const is_low = (ctr) => count(ctr) < bb_t.MIN_CONTRACTS;
         return Object.values(bb_t.contract).every(is_low);
     }
 
