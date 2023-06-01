@@ -149,6 +149,14 @@ export class Sleeve {
     }
 
     /**
+     * Assign a sleeve to infiltration to generate more contracts.
+     */
+    generate_contracts() {
+        const idx = this.most_bonus_time();
+        this.#ns.sleeve.setToBladeburnerAction(idx, bb_t.task.INFILT);
+    }
+
+    /**
      * Whether to graduate sleeves from training stats by mugging people.
      *
      * @param {array<number>} s Sleeve indices.  We want to graduate these
@@ -328,6 +336,22 @@ export class Sleeve {
     }
 
     /**
+     * Choose the sleeve that has the highest amount of bonus time.
+     *
+     * @returns {number} Index of the sleeve having the highest amount of bonus
+     *     time.
+     */
+    most_bonus_time() {
+        const is_idle = (idx) => this.#ns.sleeve.getTask(idx) === null;
+        const eric = this.all().filter(is_idle);
+        assert(!MyArray.is_empty(eric));
+        const bonus_time = (s) => this.#ns.sleeve.getSleeve(s).storedCycles;
+        const best = (sa, sb) => bonus_time(sb) - bonus_time(sa);
+        eric.sort(best);
+        return eric[0];
+    }
+
+    /**
      * Assign sleeves to mug people.
      *
      * @param {array<number>} s Sleeve indices.
@@ -351,16 +375,7 @@ export class Sleeve {
             return;
         }
 
-        // Choose a sleeve that is in the idle state.  Choose the sleeve that
-        // has the highest amount of bonus time and assign that sleeve to take
-        // on contracts.
-        const is_idle = (idx) => this.#ns.sleeve.getTask(idx) === null;
-        const eric = this.all().filter(is_idle);
-        assert(!MyArray.is_empty(eric));
-        const bonus_time = (s) => this.#ns.sleeve.getSleeve(s).storedCycles;
-        const best = (sa, sb) => bonus_time(sb) - bonus_time(sa);
-        eric.sort(best);
-        const si = eric[0];
+        const si = this.most_bonus_time();
         this.#ns.sleeve.setToBladeburnerAction(si, bb_t.task.CONTRACT, ctr);
     }
 

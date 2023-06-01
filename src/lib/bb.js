@@ -115,6 +115,19 @@ export class Bladeburner {
     }
 
     /**
+     * Whether we are low on each type of contracts.
+     *
+     * @returns {boolean} True if we are low on each type of contracts;
+     *     false otherwise.
+     */
+    is_low_on_contracts() {
+        // eslint-disable-next-line max-len
+        const count = (ctr) => this.#ns.bladeburner.getActionCountRemaining("Contract", ctr);
+        const is_low = (ctr) => count(ctr) < 2 * bb_t.MIN_CONTRACTS;
+        return Object.values(bb_t.contract).every(is_low);
+    }
+
+    /**
      * A random contract whose estimated success chance is likely.
      *
      * @returns {string} A contract whose estimated success chance is likely.

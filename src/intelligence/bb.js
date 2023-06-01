@@ -47,6 +47,19 @@ function contracts(ns) {
 }
 
 /**
+ * Attempt to generate more contracts if we are low on them.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function generate_contracts(ns) {
+    const bb = new Bladeburner(ns);
+    if (bb.is_low_on_contracts()) {
+        const sleeve = new Sleeve(ns);
+        sleeve.generate_contracts();
+    }
+}
+
+/**
  * Set the sleeves to perform various initial tasks.
  *
  * @param {NS} ns The Netscript API.
@@ -95,6 +108,7 @@ export async function main(ns) {
     init_sleeves(ns);
 
     for (;;) {
+        generate_contracts(ns);
         contracts(ns);
         upgrade_skills(ns);
         await ns.sleep(bb_t.TICK);
