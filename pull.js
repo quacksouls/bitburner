@@ -316,5 +316,8 @@ export async function main(ns) {
             ns.tprintf(file);
         }
     }
-    ns.tprintf("Download complete.");
+
+    const msg = "Download complete";
+    ns.tprintf(msg);
+    ns.toast(msg);
 }
