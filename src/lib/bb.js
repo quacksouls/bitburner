@@ -17,6 +17,7 @@
 
 import { MyArray } from "/quack/lib/array.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
+import { cities } from "/quack/lib/constant/location.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { home } from "/quack/lib/constant/server.js";
 
@@ -36,6 +37,22 @@ export class Bladeburner {
      */
     constructor(ns) {
         this.#ns = ns;
+    }
+
+    /**
+     * Choose a city having a minimum population.
+     *
+     * @returns {string} A city having a minimum population.  An empty string if
+     *     the population of each city is below minimum.
+     */
+    choose_city() {
+        // eslint-disable-next-line max-len
+        const population = (ct) => this.#ns.bladeburner.getCityEstimatedPopulation(ct);
+        const is_plentiful = (ct) => population(ct) > bb_t.MIN_POPULATION;
+        const best = (cta, ctb) => population(ctb) - population(cta);
+        const city = cities.all.filter(is_plentiful);
+        city.sort(best);
+        return MyArray.is_empty(city) ? empty_string : city[0];
     }
 
     /**
@@ -177,6 +194,18 @@ export class Bladeburner {
             opr
         );
         return count < bb_t.MIN_OPERATIONS;
+    }
+
+    /**
+     * Whether the population in the current city is low.
+     *
+     * @returns {boolean} True if the population in the current city is low;
+     *     false otherwise.
+     */
+    is_low_population() {
+        const city = this.#ns.bladeburner.getCity();
+        const pop = this.#ns.bladeburner.getCityEstimatedPopulation(city);
+        return pop < bb_t.MIN_POPULATION;
     }
 
     /**

@@ -19,7 +19,7 @@ import { Bladeburner } from "/quack/lib/bb.js";
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { Sleeve } from "/quack/lib/sleeve/cc.js";
 import { all_sleeves } from "/quack/lib/sleeve/util.js";
-import { is_empty_string } from "/quack/lib/util.js";
+import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
  * Assign a sleeve to take on contracts.
@@ -105,6 +105,20 @@ function shush(ns) {
 }
 
 /**
+ * Switch to a different city if the population in the current city is low.
+ *
+ * @param {NS} ns The Netscript API.
+ */
+function switch_city(ns) {
+    const bb = new Bladeburner(ns);
+    if (bb.is_low_population()) {
+        const city = bb.choose_city();
+        assert(!is_empty_string(city));
+        ns.bladeburner.switchCity(city);
+    }
+}
+
+/**
  * Attempt to upgrade our various skills.
  *
  * @param {NS} ns The Netscript API.
@@ -132,6 +146,7 @@ export async function main(ns) {
         contracts(ns);
         operations(ns);
         upgrade_skills(ns);
+        switch_city(ns);
         await ns.sleep(bb_t.TICK);
     }
 }
