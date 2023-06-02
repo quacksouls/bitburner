@@ -14,6 +14,7 @@ $ run pull.js
 ```
 
 <!-- prettier-ignore -->
+- [Guide](https://github.com/quacksouls/bitwalk#readme)
 - [Source code](https://github.com/bitburner-official/bitburner-src)
 - [Play online](https://danielyxie.github.io/bitburner/)
 - [Steam version](https://store.steampowered.com/app/1812820/Bitburner/)
