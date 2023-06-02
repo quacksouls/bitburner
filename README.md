@@ -2,8 +2,8 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-A bunch of scripts for a walkthrough of the game Bitburner. Run these commands
-from the terminal of the game to pull all scripts into your game.
+A bunch of scripts for playing the game Bitburner. Run these commands from the
+terminal of the game to pull all scripts into your game.
 
 ```sh
 # Run this command and wait for it to finish.
