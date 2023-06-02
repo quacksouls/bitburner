@@ -101,7 +101,6 @@ export class Bladeburner {
         // All operations ordered by most desirable to least desirable.
         const candidate = [
             bb_t.operation.KILL,
-            bb_t.operation.STEALTH,
             bb_t.operation.STING,
             bb_t.operation.UNDERCOVER,
             bb_t.operation.INVESTIGATE,
