@@ -102,7 +102,6 @@ export class Bladeburner {
         const candidate = [
             bb_t.operation.KILL,
             bb_t.operation.STEALTH,
-            bb_t.operation.RAID,
             bb_t.operation.STING,
             bb_t.operation.UNDERCOVER,
             bb_t.operation.INVESTIGATE,
