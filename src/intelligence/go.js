@@ -123,9 +123,16 @@ export async function main(ns) {
         return;
     }
 
+    // Various sources of money.
+    exec(ns, "/quack/gang/go.js");
+    exec(ns, "/quack/stock/go.js");
+    exec(ns, "/quack/cct/solver.js");
+    exec(ns, "/quack/hgw/batcher/cloud.js");
+    await ns.sleep(10 * wait_t.SECOND);
+
+    // Intelligence XP farmers.
     exec(ns, "/quack/intelligence/exe.js");
     exec(ns, "/quack/intelligence/larceny.js");
-
     if (ns.bladeburner.inBladeburner()) {
         log(ns, "Already in Bladeburner division");
         exec(ns, "/quack/intelligence/bb.js");
