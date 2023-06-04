@@ -61,7 +61,7 @@ export const bb_t = {
      * The minimum population of a city.  Any lower than this and we should
      * switch to a different city.
      */
-    MIN_POPULATION: 1e9,
+    MIN_POPULATION: 500e6,
     /**
      * The near certain success chance of an action.
      */
