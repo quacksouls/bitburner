@@ -37,5 +37,5 @@ export async function main(ns) {
         return;
     }
 
-    ns.singularity.commitCrime(crimes.LARCENY, bool.FOCUS);
+    ns.singularity.commitCrime(crimes.LARCENY, bool.NO_FOCUS);
 }

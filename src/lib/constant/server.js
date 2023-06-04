@@ -97,6 +97,10 @@ export const home_t = {
  */
 export const server = {
     /**
+     * The server ecorp.
+     */
+    ECORP: "ecorp",
+    /**
      * The server foodnstuff.
      */
     FOOD: "foodnstuff",

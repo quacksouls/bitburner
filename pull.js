@@ -116,6 +116,7 @@ function dir_structure() {
         "hgw/xp.js",
         "hnet.js",
         "intelligence/bb.js",
+        "intelligence/ecorp.js",
         "intelligence/exe.js",
         "intelligence/go.js",
         "intelligence/larceny.js",

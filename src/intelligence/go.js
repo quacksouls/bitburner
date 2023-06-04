@@ -133,6 +133,7 @@ export async function main(ns) {
     // Intelligence XP farmers.
     exec(ns, "/quack/intelligence/exe.js");
     exec(ns, "/quack/intelligence/larceny.js");
+    exec(ns, "/quack/intelligence/ecorp.js");
     if (ns.bladeburner.inBladeburner()) {
         log(ns, "Already in Bladeburner division");
         exec(ns, "/quack/intelligence/bb.js");
