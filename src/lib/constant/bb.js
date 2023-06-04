@@ -36,6 +36,14 @@ export const bb_t = {
      */
     CONTRACT_THRESHOLD: 5,
     /**
+     * Miscellaneous general actions.
+     */
+    general: {
+        DIPLOM: "Diplomacy",
+        FIELD: "Field Analysis",
+        VIOLENCE: "Incite Violence",
+    },
+    /**
      * The likely success chance of an action.
      */
     LIKELY: 0.95,

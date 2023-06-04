@@ -81,7 +81,7 @@ function init_sleeves(ns) {
  *
  * @param {NS} ns The Netscript API.
  */
-function operations(ns) {
+async function operations(ns) {
     const bb = new Bladeburner(ns);
     if (bb.is_performing_operations()) {
         return;
@@ -89,10 +89,25 @@ function operations(ns) {
 
     // See whether we can perform a type of operations.
     const opr = bb.choose_operations();
-    if (is_empty_string(opr)) {
+    if (!is_empty_string(opr)) {
+        ns.bladeburner.startAction("Operation", opr);
         return;
     }
-    ns.bladeburner.startAction("Operation", opr);
+
+    // Cannot perform any of the desirable operations.  Perform other actions.
+    const action = [
+        bb_t.general.VIOLENCE,
+        bb_t.general.DIPLOM,
+        bb_t.general.FIELD,
+    ];
+    for (const act of action) {
+        const buffer = 10;
+        let time = Math.ceil(ns.bladeburner.getActionTime("General", act));
+        time += buffer;
+        ns.bladeburner.startAction("General", act);
+        await ns.sleep(time);
+        ns.bladeburner.stopBladeburnerAction();
+    }
 }
 
 /**
@@ -144,7 +159,7 @@ export async function main(ns) {
     for (;;) {
         generate_contracts(ns);
         contracts(ns);
-        operations(ns);
+        await operations(ns);
         upgrade_skills(ns);
         switch_city(ns);
         await ns.sleep(bb_t.TICK);
