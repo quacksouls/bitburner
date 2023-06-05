@@ -4,7 +4,7 @@
     "description": "A bunch of scripts for a walkthrough of the game Bitburner.",
     "main": "",
     "scripts": {
-        "clean": "bash pull.sh && bash doc/guide/pull.sh && prettier --write . && eslint --fix --ext js,jsx,ts,tsx --max-warnings 0 .",
+        "clean": "bash pull.sh && prettier --write . && eslint --fix --ext js,jsx,ts,tsx --max-warnings 0 .",
         "format": "prettier --write .",
         "lint": "eslint --fix --ext js,jsx,ts,tsx --max-warnings 0 .",
         "test": "echo \"Error: no test specified\" && exit 1"
