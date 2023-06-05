@@ -96,9 +96,11 @@ async function operations(ns) {
 
     // Cannot perform any of the desirable operations.  Perform other actions.
     const action = [
+        bb_t.general.DIPLOM,
         bb_t.general.VIOLENCE,
         bb_t.general.DIPLOM,
         bb_t.general.FIELD,
+        bb_t.general.DIPLOM,
     ];
     for (const act of action) {
         const buffer = 10;
