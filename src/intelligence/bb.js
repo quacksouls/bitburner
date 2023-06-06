@@ -22,6 +22,15 @@ import { all_sleeves } from "/quack/lib/sleeve/util.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
+ * Contracts to which a sleeve should not be assigned.
+ *
+ * @returns {array<string>} An array of contract names.
+ */
+function blacklist() {
+    return [bb_t.contract.BOUNTY, bb_t.contract.RETIRE];
+}
+
+/**
  * Assign a sleeve to take on contracts.
  *
  * @param {NS} ns The Netscript API.
@@ -39,12 +48,16 @@ function contracts(ns) {
         return;
     }
 
-    // See whether we can assign a sleeve to contracts.
+    // See whether we can assign a sleeve to contracts.  Do not assign a sleeve
+    // to contracts that lower the population.
     const bb = new Bladeburner(ns);
     if (!bb.has_likely_contract()) {
         return;
     }
-    sleeve.perform_likely_contracts(bb.likely_contract());
+    const ctr = bb.likely_contract(blacklist());
+    if (!is_empty_string(ctr)) {
+        sleeve.perform_likely_contracts(ctr);
+    }
 }
 
 /**
@@ -54,7 +67,7 @@ function contracts(ns) {
  */
 function generate_contracts(ns) {
     const bb = new Bladeburner(ns);
-    if (bb.is_low_on_contracts()) {
+    if (bb.is_low_on_contracts(blacklist())) {
         const sleeve = new Sleeve(ns);
         sleeve.generate_contracts();
     }
@@ -100,7 +113,6 @@ async function operations(ns) {
         bb_t.general.VIOLENCE,
         bb_t.general.DIPLOM,
         bb_t.general.FIELD,
-        bb_t.general.DIPLOM,
     ];
     for (const act of action) {
         const buffer = 10;

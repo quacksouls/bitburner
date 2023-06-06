@@ -167,16 +167,21 @@ export class Bladeburner {
     }
 
     /**
-     * Whether we are low on each type of contracts.
+     * Whether we are low on some types of contracts.
      *
-     * @returns {boolean} True if we are low on each type of contracts;
+     * @param {array<string>} blacklist Exclude these contracts.  Default is
+     *     empty array.
+     * @returns {boolean} True if we are low on some types of contracts;
      *     false otherwise.
      */
-    is_low_on_contracts() {
+    is_low_on_contracts(blacklist = []) {
         // eslint-disable-next-line max-len
         const count = (ctr) => this.#ns.bladeburner.getActionCountRemaining("Contract", ctr);
         const is_low = (ctr) => count(ctr) < bb_t.MIN_CONTRACTS;
-        return Object.values(bb_t.contract).every(is_low);
+        const not_blacklisted = (ctr) => !blacklist.includes(ctr);
+        return Object.values(bb_t.contract)
+            .filter(not_blacklisted)
+            .every(is_low);
     }
 
     /**
@@ -220,10 +225,12 @@ export class Bladeburner {
     /**
      * A random contract whose estimated success chance is likely.
      *
+     * @param {array<string>} blacklist Do not choose contracts from this array.
+     *     Default is empty array.
      * @returns {string} A contract whose estimated success chance is likely.
      *     Empty string if we cannot perform any of the contracts.
      */
-    likely_contract() {
+    likely_contract(blacklist = []) {
         if (!this.has_likely_contract()) {
             return empty_string;
         }
@@ -237,7 +244,8 @@ export class Bladeburner {
             bb_t.contract.TRACK,
         ];
         const is_likely = (ctr) => this.is_likely_contract(ctr);
-        let contract = priority.filter(is_likely);
+        const not_blacklisted = (ctr) => !blacklist.includes(ctr);
+        let contract = priority.filter(is_likely).filter(not_blacklisted);
         if (MyArray.is_empty(contract)) {
             return empty_string;
         }
