@@ -63,7 +63,7 @@ function grow_server(ns, host, botnet) {
     const nthread = (serv) => num_threads(ns, script, serv);
     const exec = (serv) => {
         const option = { preventDuplicates: true, threads: nthread(serv) };
-        ns.exec(script, serv, option, host);
+        return ns.exec(script, serv, option, host);
     };
     return botnet.filter(can_run).map(exec);
 }

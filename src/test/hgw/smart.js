@@ -232,7 +232,7 @@ async function hgw_action(ns, host, action) {
     const nthread = (serv) => num_threads(ns, s, serv);
     const run_script = (serv) => {
         const option = { preventDuplicates: true, threads: nthread(serv) };
-        ns.exec(s, serv, option, host);
+        return ns.exec(s, serv, option, host);
     };
     const pid = botnet.filter(has_ram_to_run_script).map(run_script);
     if (pid.length === 0) {

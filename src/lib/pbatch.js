@@ -141,7 +141,7 @@ export class PservHGW {
         // eslint-disable-next-line
         const exec = (script, nthread) => {
             const option = { preventDuplicates: true, threads: nthread };
-            this.#ns.exec(script, this.#phost, option, target);
+            return this.#ns.exec(script, this.#phost, option, target);
         };
         const sleep = (time) => this.#ns.sleep(time);
         const pidw = exec(hgw.script.WEAKEN, param.weaken.thread);
