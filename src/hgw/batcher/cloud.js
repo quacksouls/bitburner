@@ -94,6 +94,7 @@ function shush(ns) {
     ns.disableLog("getHackingLevel");
     ns.disableLog("getServerMaxRam");
     ns.disableLog("getServerMoneyAvailable");
+    ns.disableLog("scan");
     ns.disableLog("sleep");
 }
 
