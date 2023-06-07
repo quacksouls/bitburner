@@ -19,7 +19,7 @@ import { MyArray } from "/quack/lib/array.js";
 import { hgw } from "/quack/lib/constant/hgw.js";
 import { empty_string } from "/quack/lib/constant/misc.js";
 import { pserv } from "/quack/lib/constant/pserv.js";
-import { home, home_t } from "/quack/lib/constant/server.js";
+import { home } from "/quack/lib/constant/server.js";
 import { find_candidates } from "/quack/lib/hgw.js";
 import { money } from "/quack/lib/money.js";
 import { PurchasedServer } from "/quack/lib/pserv.js";
@@ -136,12 +136,6 @@ export async function main(ns) {
 
     for (;;) {
         update(ns);
-        if (
-            ns.getServer(home).maxRam < home_t.RAM_HIGH
-            && ns.getPurchasedServers().length >= pserv.SMALL_FARM
-        ) {
-            return;
-        }
         await ns.sleep(pserv.TICK);
     }
 }
