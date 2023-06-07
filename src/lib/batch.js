@@ -74,7 +74,10 @@ export class PservHGW {
         assert(is_valid_target(host));
         const time = hgw_wait_time(this.#ns, host, action);
         const s = hgw_script(action);
-        assert(can_run_script(this.#ns, s, this.#phost));
+        if (!can_run_script(this.#ns, s, this.#phost)) {
+            return;
+        }
+
         const nthread = num_threads(this.#ns, s, this.#phost);
         const option = { preventDuplicates: true, threads: nthread };
         const pid = this.#ns.exec(s, this.#phost, option, host);
