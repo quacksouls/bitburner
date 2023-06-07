@@ -51,6 +51,7 @@ async function hack(ns, host, target) {
         } else {
             fail++;
             ns.printf(`Failure ${fail} to launch batch`);
+            await ns.sleep(wait_t.SECOND);
         }
 
         if (is_prep_time(i, fail)) {
