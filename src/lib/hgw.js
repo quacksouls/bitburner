@@ -381,7 +381,7 @@ export function pbatch_num_hthreads(ns, host, target, greedy = false) {
     const available_ram = free_ram(ns, host) - reserved_ram;
     for (const pc of percent) {
         const money = (pc / 100) * ns.getServerMaxMoney(target);
-        const max_threads = Math.floor(ns.hackAnalyzeThreads(target, money));
+        const max_threads = Math.ceil(ns.hackAnalyzeThreads(target, money));
         const param = pbatch_parameters(ns, target, max_threads);
         const thread = [
             param.hack.thread,
