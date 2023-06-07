@@ -127,6 +127,7 @@ export async function main(ns) {
     exec(ns, "/quack/gang/go.js");
     exec(ns, "/quack/stock/go.js");
     exec(ns, "/quack/cct/solver.js");
+    exec(ns, "/quack/hgw/batcher/joe.js");
     exec(ns, "/quack/hgw/batcher/cloud.js");
     await ns.sleep(10 * wait_t.SECOND);
 
