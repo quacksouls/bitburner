@@ -53,7 +53,7 @@ export const hgw = {
     /**
      * Run this many batches, then do a prep cycle.
      */
-    MAX_BATCH: 30,
+    MAX_BATCH: 100,
     /**
      * How many consecutive failures to launch a batch.  Encounter this many
      * failures, then launch a prep cycle.
