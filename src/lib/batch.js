@@ -124,8 +124,11 @@ export class PservHGW {
             );
         };
 
-        const wait_g = param.weaken.time - hgw.pbatch.DELAY - param.grow.time;
+        let wait_g = param.weaken.time - hgw.pbatch.DELAY - param.grow.time;
         const wait_h = param.grow.time - hgw.pbatch.DELAY - param.hack.time;
+        if (Math.floor(wait_g) <= 0) {
+            wait_g = hgw.pbatch.DELAY;
+        }
         exec(hgw.script.WEAKEN, param.weaken.thread, 0);
         exec(hgw.script.GROW, param.grow.thread, wait_g);
         exec(hgw.script.HACK, param.hack.thread, wait_g + wait_h);
