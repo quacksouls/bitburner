@@ -62,7 +62,7 @@ async function hack(ns, host, target) {
             i = 0;
             fail = 0;
         }
-        await ns.sleep(wait_t.MILLISECOND);
+        await ns.sleep(hgw.pbatch.SLEEP);
     }
 }
 
