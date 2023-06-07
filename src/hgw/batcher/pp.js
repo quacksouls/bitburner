@@ -43,7 +43,7 @@ async function hack(ns, host, target) {
     let i = 0;
     let fail = 0;
     for (;;) {
-        const success = await batcher.launch_batch(target);
+        const success = batcher.launch_batch(target);
         if (success) {
             i++;
             fail = 0;

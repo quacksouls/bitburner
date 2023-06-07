@@ -96,10 +96,10 @@ export class PservHGW {
      *     target.
      * @param {boolean} greedy Whether to use a greedy approach when stealing
      *     money from the target server.  Default is false.
-     * @returns {Promise<boolean>} True if the batch was successfully launched;
+     * @returns {boolean} True if the batch was successfully launched;
      *     false otherwise.
      */
-    async launch_batch(target, greedy = false) {
+    launch_batch(target, greedy = false) {
         const hthread = pbatch_num_hthreads(
             this.#ns,
             this.#phost,
@@ -112,22 +112,23 @@ export class PservHGW {
 
         const param = pbatch_parameters(this.#ns, target, hthread);
         // eslint-disable-next-line
-        const exec = (script, nthread) => {
+        const exec = (script, nthread, time) => {
             const option = { preventDuplicates: true, threads: nthread };
             this.#ns.exec(
                 script,
                 this.#phost,
                 option,
                 target,
+                time,
                 performance.now()
             );
         };
-        const sleep = (time) => this.#ns.sleep(time);
-        exec(hgw.script.WEAKEN, param.weaken.thread);
-        await sleep(param.weaken.time - hgw.pbatch.DELAY - param.grow.time);
-        exec(hgw.script.GROW, param.grow.thread);
-        await sleep(param.grow.time - hgw.pbatch.DELAY - param.hack.time);
-        exec(hgw.script.HACK, param.hack.thread);
+
+        const wait_g = param.weaken.time - hgw.pbatch.DELAY - param.grow.time;
+        const wait_h = param.grow.time - hgw.pbatch.DELAY - param.hack.time;
+        exec(hgw.script.WEAKEN, param.weaken.thread, 0);
+        exec(hgw.script.GROW, param.grow.thread, wait_g);
+        exec(hgw.script.HACK, param.hack.thread, wait_g + wait_h);
         return bool.SUCCESS;
     }
 
