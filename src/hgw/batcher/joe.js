@@ -24,6 +24,7 @@ import {
     pbatch_parameters,
     pbatch_prep,
 } from "/quack/lib/hgw.js";
+import { Server } from "/quack/lib/server.js";
 import { log } from "/quack/lib/io.js";
 
 /**
@@ -83,6 +84,19 @@ async function launch_batch(ns, target) {
 }
 
 /**
+ * Gain root access to target server.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} target Hostname of server to nuke.
+ */
+async function nuke(ns, target) {
+    const serv = new Server(ns, target);
+    while (!serv.gain_root_access()) {
+        await ns.sleep(wait_t.SECOND);
+    }
+}
+
+/**
  * Suppress various log messages.
  *
  * @param {NS} ns The Netscript API.
@@ -109,5 +123,6 @@ export async function main(ns) {
     const target = server.JOES;
     shush(ns);
     log(ns, `Launch proto batcher against ${target}`);
+    await nuke(ns, target);
     await hack(ns, target);
 }
