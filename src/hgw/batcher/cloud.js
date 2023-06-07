@@ -71,13 +71,11 @@ function find_target(ns) {
     let candidate = find_candidates(ns);
 
     // All servers being targeted right now.
-    const script = pserv.BATCH;
     const current_target = (phost) => {
-        for (const target of candidate) {
-            if (ns.isRunning(script, home, phost, target)) {
-                return target;
-            }
-        }
+        // The world server that this purchased server is targeting.
+        // eslint-disable-next-line max-len
+        const is_running = (target) => ns.isRunning(pserv.BATCH, home, phost, target);
+        return candidate.find(is_running);
     };
     const targets = ns.getPurchasedServers().map(current_target);
 
