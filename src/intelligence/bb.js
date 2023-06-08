@@ -169,6 +169,7 @@ function upgrade_skills(ns) {
 export async function main(ns) {
     shush(ns);
     init_sleeves(ns);
+    ns.atExit(() => ns.bladeburner.stopBladeburnerAction());
 
     for (;;) {
         generate_contracts(ns);
