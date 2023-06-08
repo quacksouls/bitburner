@@ -62,7 +62,7 @@ export const hgw = {
     /**
      * The maximum amount of RAM for a purchased server that runs a batcher.
      */
-    PSERV_MAX_RAM: 16384, // 2^14
+    PSERV_MAX_RAM: 1048576, // 2^20
     /**
      * The minimum Hack stat to reach when farming for Hack XP.
      */
