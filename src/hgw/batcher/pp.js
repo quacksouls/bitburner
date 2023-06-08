@@ -20,7 +20,7 @@ import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { log } from "/quack/lib/io.js";
 import { PservHGW } from "/quack/lib/batch.js";
-import { assert, is_empty_string } from "/quack/lib/util.js";
+import { assert, is_empty_string, to_second } from "/quack/lib/util.js";
 
 /**
  * Use a parallel batcher to continuously hack a server.  Steal a certain
@@ -42,6 +42,7 @@ async function hack(ns, host, target) {
     // Launch parallel batches whenever we can.
     let i = 0;
     let fail = 0;
+    let max_fail = max_failures(ns, target);
     for (;;) {
         const success = batcher.launch_batch(target);
         if (success) {
@@ -54,13 +55,14 @@ async function hack(ns, host, target) {
             await ns.sleep(wait_t.SECOND);
         }
 
-        if (is_prep_time(i, fail)) {
+        if (is_prep_time(i, fail, max_fail)) {
             ns.printf(
                 `Prep cycle, batches launched = ${i}, failures = ${fail}`
             );
             await batcher.prep_wg(target);
             i = 0;
             fail = 0;
+            max_fail = max_failures(ns, target);
         }
         await ns.sleep(hgw.pbatch.SLEEP);
     }
@@ -79,10 +81,26 @@ async function hack(ns, host, target) {
  *
  * @param {number} batch How many batches have run to completion.
  * @param {number} fail How many consecutive failures we have.
+ * @param {number} max_fail Tolerate this many consecutive failures.
  * @returns {boolean} True if it is time for a prep cycle; false otherwise.
  */
-function is_prep_time(batch, fail) {
-    return batch >= hgw.MAX_BATCH || fail >= hgw.MAX_FAILURE;
+function is_prep_time(batch, fail, max_fail) {
+    return batch >= hgw.MAX_BATCH || fail >= max_fail;
+}
+
+/**
+ * The maximum number of failures we can tolerate before entering the prep
+ * state.  If we have too many failures to launch a batch, the issue might be
+ * due to desynchronization or insufficient RAM.  In any case, prepping the
+ * target again solves the problem.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} target Hostname of the server to hack.
+ * @returns {number} Tolerate this many failures to launch a batch.
+ */
+function max_failures(ns, target) {
+    const nsecond = Math.ceil(to_second(ns.getWeakenTime(target)));
+    return Math.ceil(1.2 * nsecond);
 }
 
 /**
