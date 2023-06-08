@@ -133,8 +133,8 @@ function shush(ns) {
  * A parallel batcher together with a purchased server to hack a target.  This
  * script accepts the command line arguments:
  *
- * (1) host := Hostname of the purhased server where we will run our batcher.
- * (2) target := Hostnmame of the server to hack.
+ * (1) host := Hostname of the purchased server where we will run our batcher.
+ * (2) target := Hostname of the server to hack.
  *
  * Usage: run quack/hgw/batcher/pp.js [host] [target]
  * Example: run quack/hgw/batcher/pp.js pserv phantasy
