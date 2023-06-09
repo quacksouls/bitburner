@@ -41,7 +41,7 @@ import {
  */
 function choose_batcher(ns) {
     if (ns.getServerMaxRam(home) >= home_t.RAM_HUGE && has_formulas(ns)) {
-        return "/quack/hgw/batcher/joe.js";
+        return "/quack/hgw/batcher/go.js";
     }
     return "/quack/hgw/world.js";
 }

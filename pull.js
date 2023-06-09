@@ -104,7 +104,7 @@ function dir_structure() {
         "hack.js",
         "hash.js",
         "hgw/batcher/cloud.js",
-        "hgw/batcher/joe.js",
+        "hgw/batcher/go.js",
         "hgw/batcher/pp.js",
         "hgw/batcher/pserv.js",
         "hgw/grow.js",

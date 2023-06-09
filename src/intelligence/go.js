@@ -130,7 +130,7 @@ export async function main(ns) {
 
     // Wait some time for all port openers to be purchased.
     await ns.sleep(wait_t.MINUTE);
-    exec(ns, "/quack/hgw/batcher/joe.js");
+    exec(ns, "/quack/hgw/batcher/go.js");
     exec(ns, "/quack/hgw/batcher/cloud.js");
     await ns.sleep(10 * wait_t.SECOND);
 

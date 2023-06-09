@@ -112,15 +112,20 @@ function shush(ns) {
 /**
  * WARNING: Requires the program Formulas.exe.
  *
- * Use a proto batcher against joesguns.  The batcher uses the RAM of our
- * home server.
+ * Launch a proto batcher against a target server.  The batcher uses the RAM of
+ * our home server.
  *
- * Usage: run quack/hgw/batcher/joe.js
+ * Usage: run quack/hgw/batcher/go.js [target]
+ * Example: run quack/hgw/batcher/go.js joesguns
  *
  * @param {NS} ns The Netscript API.
  */
 export async function main(ns) {
-    const target = server.JOES;
+    let target = ns.args[0];
+    if (target === undefined) {
+        target = server.JOES;
+    }
+
     shush(ns);
     log(ns, `Launch proto batcher against ${target}`);
     await nuke(ns, target);
