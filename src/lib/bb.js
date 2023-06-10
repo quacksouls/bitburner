@@ -40,6 +40,18 @@ export class Bladeburner {
     }
 
     /**
+     * The chaos level in the current city.  The current city is the city we are
+     * in for the purposes of Bladeburner.  This is not the same as the city in
+     * which our avatar is located.
+     *
+     * @returns {number} The chaos level in the current city.
+     */
+    chaos() {
+        const city = this.#ns.bladeburner.getCity();
+        return this.#ns.bladeburner.getCityChaos(city);
+    }
+
+    /**
      * Choose a city having a minimum population.
      *
      * @returns {string} A city having a minimum population.  An empty string if

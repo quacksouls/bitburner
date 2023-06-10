@@ -21,6 +21,14 @@
 
 export const bb_t = {
     /**
+     * Various thresholds of chaos.
+     */
+    chaos: {
+        HIGH: 1000,
+        MID: 500,
+        LOW: 200,
+    },
+    /**
      * Various contracts that we or a sleeve can perform.  Complete contracts
      * to increase our Bladeburner rank and earn money.  Failure results in
      * loss of HP.
@@ -35,6 +43,32 @@ export const bb_t = {
      * performing a particular type of contracts.
      */
     CONTRACT_THRESHOLD: 5,
+    /**
+     * Various levels of diplomacy, depending on the chaos in the current city.
+     */
+    diplomacy: {
+        DIPLOM: "Diplomacy",
+        FIELD: "Field Analysis",
+        VIOLENCE: "Incite Violence",
+        get HIGH() {
+            return [
+                this.DIPLOM,
+                this.VIOLENCE,
+                this.DIPLOM,
+                this.FIELD,
+                this.DIPLOM,
+            ];
+        },
+        get MID() {
+            return [this.DIPLOM, this.VIOLENCE, this.DIPLOM, this.FIELD];
+        },
+        get LOW() {
+            return [this.VIOLENCE, this.DIPLOM, this.FIELD];
+        },
+        get NONE() {
+            return [this.VIOLENCE, this.FIELD];
+        },
+    },
     /**
      * Miscellaneous general actions.
      */

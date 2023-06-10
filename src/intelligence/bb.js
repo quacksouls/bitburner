@@ -22,6 +22,28 @@ import { all_sleeves } from "/quack/lib/sleeve/util.js";
 import { assert, is_empty_string } from "/quack/lib/util.js";
 
 /**
+ * The sequence of general actions to perform.  The exact sequence of actions
+ * depends on the level of chaos in the current city.
+ *
+ * @param {NS} ns The Netscript API.
+ * @returns {array<string>} A sequence of general actions.
+ */
+function action_sequence(ns) {
+    const bb = new Bladeburner(ns);
+    const chaos = bb.chaos();
+    if (chaos >= bb_t.chaos.HIGH) {
+        return bb_t.diplomacy.HIGH;
+    }
+    if (bb_t.chaos.MID <= chaos && chaos < bb_t.chaos.HIGH) {
+        return bb_t.diplomacy.MID;
+    }
+    if (bb_t.chaos.LOW <= chaos && chaos < bb_t.chaos.MID) {
+        return bb_t.diplomacy.LOW;
+    }
+    return bb_t.diplomacy.NONE;
+}
+
+/**
  * Contracts to which a sleeve should not be assigned.
  *
  * @returns {array<string>} An array of contract names.
@@ -108,16 +130,10 @@ async function operations(ns) {
     }
 
     // Cannot perform any of the desirable operations.  Perform other actions.
-    const action = [
-        bb_t.general.DIPLOM,
-        bb_t.general.VIOLENCE,
-        bb_t.general.DIPLOM,
-        bb_t.general.FIELD,
-    ];
-    for (const act of action) {
+    for (const act of action_sequence(ns)) {
         const buffer = 10;
-        let time = Math.ceil(ns.bladeburner.getActionTime("General", act));
-        time += buffer;
+        // eslint-disable-next-line max-len
+        const time = Math.ceil(ns.bladeburner.getActionTime("General", act)) + buffer;
         ns.bladeburner.startAction("General", act);
         await ns.sleep(time);
         ns.bladeburner.stopBladeburnerAction();
