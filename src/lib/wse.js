@@ -648,7 +648,7 @@ function total_cost(sym, portfolio, position) {
  * position.
  *
  * @param {string} sym We want to sell all shares of this stock.
- * @param {object} portfolio We stock portfolio.
+ * @param {object} portfolio Our stock portfolio.
  * @param {string} position The position of the given stock.
  * @returns {number} The total commission from selling all shares of the stock
  *     in the given position.
