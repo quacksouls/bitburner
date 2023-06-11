@@ -188,6 +188,7 @@ export async function main(ns) {
     ns.atExit(() => ns.bladeburner.stopBladeburnerAction());
 
     for (;;) {
+        upgrade_skills(ns);
         generate_contracts(ns);
         contracts(ns);
         await operations(ns);
