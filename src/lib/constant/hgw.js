@@ -53,7 +53,7 @@ export const hgw = {
     /**
      * Run this many batches, then do a prep cycle.
      */
-    MAX_BATCH: 100,
+    MAX_BATCH: 500,
     /**
      * How many consecutive failures to launch a batch.  Encounter this many
      * failures, then launch a prep cycle.
@@ -88,7 +88,7 @@ export const hgw = {
          * The delay time between the firing of each HGW action.  Time is in
          * milliseconds.
          */
-        DELAY: 250,
+        DELAY: 50,
         /**
          * An invalid number of threads.
          */
@@ -97,7 +97,7 @@ export const hgw = {
          * Sleep for this amount of time while waiting for a batch to complete.
          * Time is in milliseconds.
          */
-        SLEEP: 100,
+        SLEEP: 10,
     },
     /**
      * Various scripts in the HGW model.
