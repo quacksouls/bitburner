@@ -17,6 +17,7 @@
 
 import { bb_t } from "/quack/lib/constant/bb.js";
 import { bool } from "/quack/lib/constant/bool.js";
+import { home, server } from "/quack/lib/constant/server.js";
 import { cc_t } from "/quack/lib/constant/sleeve.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { error, log } from "/quack/lib/io.js";
@@ -130,7 +131,8 @@ export async function main(ns) {
 
     // Wait some time for all port openers to be purchased.
     await ns.sleep(wait_t.MINUTE);
-    exec(ns, "/quack/hgw/batcher/go.js");
+    const option = { preventDuplicates: true, threads: 1 };
+    ns.exec("/quack/hgw/batcher/go.js", home, option, server.RHO);
     exec(ns, "/quack/hgw/batcher/cloud.js");
     await ns.sleep(10 * wait_t.SECOND);
 

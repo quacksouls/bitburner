@@ -126,6 +126,10 @@ export const server = {
      */
     PHANTASY: "phantasy",
     /**
+     * The server rho-construction.
+     */
+    RHO: "rho-construction",
+    /**
      * The name of a text file.  If a file with the given name appears on our
      * home server, then it means one of the following:
      *
