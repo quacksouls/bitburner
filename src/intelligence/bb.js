@@ -130,6 +130,11 @@ async function operations(ns) {
     }
 
     // Cannot perform any of the desirable operations.  Perform other actions.
+    // Set a sleeve to diplomacy to counteract the increase in chaos as a result
+    // of the action "Incite Violence".
+    const sleeve = new Sleeve(ns);
+    const idx = sleeve.most_bonus_time();
+    ns.sleeve.setToBladeburnerAction(idx, bb_t.task.DIPLOM);
     for (const act of action_sequence(ns)) {
         const buffer = 10;
         // eslint-disable-next-line max-len
@@ -138,6 +143,7 @@ async function operations(ns) {
         await ns.sleep(time);
         ns.bladeburner.stopBladeburnerAction();
     }
+    ns.sleeve.setToIdle(idx);
 }
 
 /**
