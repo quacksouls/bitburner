@@ -32,11 +32,6 @@ export const hgw = {
         WEAKEN: "weaken",
     },
     /**
-     * Wait this extra amount of time in milliseconds when we perform an HGW
-     * action.
-     */
-    BUFFER_TIME: 100,
-    /**
      * The fraction of money to steal from a server.
      */
     hack: {
