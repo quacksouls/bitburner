@@ -1,0 +1,30 @@
+From Mughur#6872 on Bitburner server of Discord.
+
+BB is quite simple tho.
+sleeves:
+-1 sleeve to do field analysis (this will keep the population estimate accurate, which means you'll know the actual success chance of stuff you do)
+-1 to do diplomacy (this will keep chaos down. high chaos, >50, decreases success chances)
+- 1 to take on contracts ( switching between them as their count goes to 0)
+- rest to infiltrate synthoids (this will create more contracts/operations)
+
+your tasks:
+assassination, undercover operation, investigation, tracking. in that priority order, do the first one that has 100% success chance, if none of them do, get more combat stat exp by doing crimes or training general action
+skills: get overclock to 90, buy stats so that assassination gets to 100% chance. when your rank gets high enough start buying skills so that blackops chance hits 100%.
+
+last black ops beats WD
+
+
+From _Jakob_#6443
+
+small tip for the sleeves that do infiltration
+only let one of them do infiltration at a time and let the other idle to generate bonus time
+than switch wich of those does infiltration to use up the bonus cycles
+to get max generation out of each task
+
+My notes
+========
+
+The augmentation "The Blade's Simulacrum" is available from the faction
+Bladeburners. Purchase and install the augmentation to allow you to perform
+Bladeburner actions and other actions simultaneously.  With the augmentation
+installed, you can perform a Bladeburner operation while committing a crime.
