@@ -134,6 +134,8 @@ export async function main(ns) {
     const option = { preventDuplicates: true, threads: 1 };
     ns.exec("/quack/hgw/batcher/go.js", home, option, server.RHO);
     exec(ns, "/quack/hgw/batcher/cloud.js");
+    exec(ns, "/quack/hgw/batcher/cloud-reassign-target.js");
+    exec(ns, "/quack/hgw/batcher/cloud-upgrade.js");
     await ns.sleep(10 * wait_t.SECOND);
 
     // Intelligence XP farmers.

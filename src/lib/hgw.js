@@ -98,9 +98,10 @@ export function assemble_botnet(ns, host, frac, is_prep) {
  * @param {NS} ns The Netscript API.
  * @returns {string} Name of the batcher script to use.
  */
-export function choose_batcher_pserv(ns) {
+export function choose_batcher_pserv(ns, isGoMid = false) {
     if (has_formulas(ns)) {
-        return "/quack/hgw/batcher/cloud.js";
+        if (isGoMid) return "/quack/hgw/batcher/cloud.js";
+        return ["/quack/hgw/batcher/cloud.js", "/quack/hgw/batcher/cloud-reassign-target.js", "/quack/hgw/batcher/cloud-upgrade.js"];
     }
     return "/quack/hgw/pserv.js";
 }

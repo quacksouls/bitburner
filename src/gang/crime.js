@@ -476,7 +476,7 @@ function is_in_war(ns) {
  * @returns {boolean} True if we are in a new tick; false otherwise.
  */
 function is_new_tick(ns, other) {
-    const current = ns.gang.getOtherGangInformation();
+    const current = ns.gang.getAllGangInformation ();
     const changed_power = (g) => current[g].power !== other[g].power;
     const changed_turf = (g) => current[g].territory !== other[g].territory;
     const has_changed = (g) => changed_power(g) || changed_turf(g);
@@ -515,7 +515,7 @@ async function manage(ns, faction) {
     // any rival gang.  The tick threshold is the time near the start of a new
     // tick.  If we are at the tick threshold, then do whatever is necessary to
     // prepare for a clash against a rival gang.
-    let other_gang = ns.gang.getOtherGangInformation();
+    let other_gang = ns.gang.getAllGangInformation ();
     let tick_threshold = 1;
 
     // The update loop.
@@ -536,7 +536,7 @@ async function manage(ns, faction) {
         if (is_in_war(ns) && is_new_tick(ns, other_gang)) {
             // The tick threshold should be a little under gang_t.TICK.
             tick_threshold = Date.now() + (gang_t.TICK - wait_t.SECOND);
-            other_gang = ns.gang.getOtherGangInformation();
+            other_gang = ns.gang.getAllGangInformation ();
             reassign_after_warfare(ns);
             await ns.sleep(wait_t.MILLISECOND);
             continue;
@@ -568,7 +568,7 @@ async function manage(ns, faction) {
 function min_victory_chance(ns) {
     let chance = Infinity;
     const our_gang = ns.gang.getGangInformation().faction;
-    const other_gang = ns.gang.getOtherGangInformation();
+    const other_gang = ns.gang.getAllGangInformation();
     for (const g of Object.keys(other_gang)) {
         if (our_gang === g) {
             continue;

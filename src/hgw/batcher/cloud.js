@@ -77,7 +77,7 @@ function find_target(ns) {
         const is_running = (target) => ns.isRunning(pserv.BATCH, home, phost, target);
         return candidate.find(is_running);
     };
-    const targets = ns.getPurchasedServers().map(current_target);
+    const targets = ns.cloud.getServerNames().map(current_target);
 
     // Exclude the servers being targeted.
     const not_target = (host) => !targets.includes(host);
@@ -99,28 +99,6 @@ function shush(ns) {
 }
 
 /**
- * Purchase and update our farm of servers.
- *
- * @param {NS} ns The Netscript API.
- */
-function update(ns) {
-    buy_server(ns);
-    upgrade_server(ns);
-}
-
-/**
- * Upgrade the RAM of an existing purchased server.
- *
- * @param {NS} ns The Netscript API.
- */
-function upgrade_server(ns) {
-    const psv = new PurchasedServer(ns);
-    const can_upgrade = (host) => psv.max_ram(host) < hgw.PSERV_MAX_RAM;
-    const upgrade_ram = (host) => psv.upgrade(host, 2 * psv.max_ram(host));
-    psv.farm().filter(can_upgrade).forEach(upgrade_ram);
-}
-
-/**
  * WARNING: Requires the program Formulas.exe.
  *
  * Manage a farm of purchased servers, each running a parallel batcher.  Like
@@ -135,7 +113,7 @@ export async function main(ns) {
     assert(has_formulas(ns));
 
     for (;;) {
-        update(ns);
+        buy_server(ns);
         await ns.sleep(pserv.TICK);
     }
 }

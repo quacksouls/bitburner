@@ -26,7 +26,7 @@
  */
 export const course = {
     ALGO: "Algorithms",
-    CS: "Study Computer Science",
+    CS: "Computer Science",
     DATA: "Data Structures",
     LEAD: "Leadership",
     MANAGE: "Management",

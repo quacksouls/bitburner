@@ -1527,10 +1527,10 @@ export const task_t = {
  * https://github.com/danielyxie/bitburner/blob/dev/src/Gang/data/upgrades.ts
  */
 export const vehicle = {
-    FORD: "Ford Flex V20",
-    ATX: "ATX1070 Superbike",
-    MB: "Mercedes-Benz S9001",
-    FERRARI: "White Ferrari",
+    FORD: "Herrera Outlaw GTS",
+    ATX: "Yaiba ASM-R250 Muramasa",
+    MB: "Rayfield Caliburn",
+    FERRARI: "Quadra Sport R-7",
 };
 
 /**
@@ -1543,10 +1543,10 @@ export const vehicle = {
 export const weapon = {
     BAT: "Baseball Bat",
     KATANA: "Katana",
-    GLOCK: "Glock 18C",
-    PNINE: "P90C",
-    STEYR: "Steyr AUG",
-    AK: "AK-47",
-    MFIFTEEN: "M15A10 Assault Rifle",
-    AWM: "AWM Sniper Rifle",
+    GLOCK: "Malorian-3516",
+    PNINE: "Hansen-HA7",
+    STEYR: "Arasaka-HJSH18",
+    AK: "Militech-M251s",
+    MFIFTEEN: "Nokota-D5",
+    AWM: "Techtronika-SPT32",
 };
