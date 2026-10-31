@@ -26,10 +26,10 @@ import {
     new_hire,
     to_number,
 } from "/quack/lib/corporation/util.js";
-import { create_file, log } from "/quack/lib/io.js";
+import { create_file, error, log } from "/quack/lib/io.js";
 import { MyNumber } from "/quack/lib/number.js";
 import { has_corporation_api } from "/quack/lib/source.js";
-import { assert, exec } from "/quack/lib/util.js";
+import { assert, exec, exec_chain } from "/quack/lib/util.js";
 
 /**
  * Whether each warehouse has been upgraded for this round.
@@ -322,11 +322,17 @@ function upgrade_warehouse(ns, n) {
 export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("sleep");
+    log(ns, "prep.js starting");
     // Sanity checks.
     const org = new Corporation(ns);
-    assert(has_corporation_api(ns));
-    assert(org.has_corp());
-    assert(org.has_office_warehouse_api());
+    try {
+        assert(has_corporation_api(ns));
+        assert(org.has_corp());
+        assert(org.has_office_warehouse_api());
+    } catch (e) {
+        error(ns, `prep.js assertion failed: ${e.message}`);
+        return;
+    }
     // Various rounds of preparation.
     create_file(ns, corp.PREP, ns.getScriptName());
     await round_one(ns);
@@ -334,7 +340,10 @@ export async function main(ns) {
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
     // Next scripts in the load chain.
-    exec(ns, "/quack/corporation/agriculture.js");
-    exec(ns, "/quack/corporation/tobacco.js");
+    log(ns, "Spawning /quack/corporation/agriculture.js ...");
+    exec_chain(ns, "/quack/corporation/agriculture.js");
+    log(ns, "Spawning /quack/corporation/tobacco.js ...");
+    exec_chain(ns, "/quack/corporation/tobacco.js");
     ns.rm(corp.PREP, home);
+    log(ns, "prep.js done");
 }

@@ -145,7 +145,32 @@ export function compromised_servers(ns, s, candidate) {
  */
 export function exec(ns, s) {
     const option = { preventDuplicates: true, threads: 1 };
-    return ns.exec(s, home, option);
+    const pid = ns.exec(s, home, option);
+    if (pid === 0) {
+        ns.print(`WARNING: exec(${s}) failed (pid=0). Maybe already running or not found.`);
+    }
+    return pid;
+}
+
+/**
+ * Spawn a chain script.  Unlike exec(), this does NOT use preventDuplicates
+ * because the load-chain scripts (go.js -> prep.js -> agriculture.js -> ...) are
+ * expected to spawn exactly once at the end of the parent script.  Logs the
+ * resulting PID for visibility.
+ *
+ * @param {NS} ns The Netscript API.
+ * @param {string} s The name of the script to run.
+ * @returns {number} The PID of the running script (0 on failure).
+ */
+export function exec_chain(ns, s) {
+    const option = { threads: 1 };
+    const pid = ns.exec(s, home, option);
+    if (pid === 0) {
+        ns.print(`WARNING: exec_chain(${s}) failed (pid=0). Maybe not found.`);
+    } else {
+        ns.print(`exec_chain(${s}) spawned PID ${pid}`);
+    }
+    return pid;
 }
 
 /**

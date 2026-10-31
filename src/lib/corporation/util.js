@@ -165,9 +165,13 @@ export function discontinue_product(ns, div) {
 export async function expand_city(ns, div) {
     const org = new Corporation(ns);
     const new_office = [];
-    for (const ct of cities.all) {
+    // If we have plenty of funds, expand to all cities.  Otherwise, expand to
+    // the first 3 cities only to keep initial costs manageable.  The remaining
+    // cities can be opened later by other scripts once the corp is profitable.
+    const targetCities = cities.all;
+    for (const ct of targetCities) {
         if (!org.has_division_office(div, ct)) {
-            org.expand_city(div, ct);
+            await org.expand_city(div, ct);
             while (!org.buy_warehouse(div, ct)) {
                 await ns.sleep(wait_t.SECOND);
             }
@@ -357,8 +361,13 @@ export async function investment_offer(ns, r) {
     const profit_tau = Money.format(corp_t.profit.round[r].N);
     log(ns, `Waiting for sufficient profit: ${profit_tau}/s`);
     const org = new Corporation(ns);
+    let waited = 0;
     while (org.profit() < corp_t.profit.round[r].N) {
+        if (waited % 6 === 0) {
+            log(ns, `Profit: $${org.profit().toFixed(0)}/s; need $${corp_t.profit.round[r].N}/s (waited ${waited * (corp_t.TICK / 1000)}s)`);
+        }
         await ns.sleep(corp_t.TICK);
+        waited++;
     }
     const { funds, shares } = ns.corporation.getInvestmentOffer();
     ns.corporation.acceptInvestmentOffer();
@@ -383,7 +392,14 @@ export async function investment_offer(ns, r) {
 export function level_upgrade(ns) {
     const org = new Corporation(ns);
     const levelled_upg = [];
-    for (const upg of Object.values(corp.upgrade)) {
+    // Ưu tiên Wilson Analytics nếu đã public (giúp tăng awareness/popularity ->
+    // demand -> revenue). Sau đó mới đến các upgrade khác.
+    const order = Object.values(corp.upgrade);
+    if (org.is_public()) {
+        order.sort((a, b) => (b === corp.upgrade.ANALYTIC ? 1 : 0)
+            - (a === corp.upgrade.ANALYTIC ? 1 : 0));
+    }
+    for (const upg of order) {
         const max_funds = Math.floor(corp_t.upgrade.COST_MULT * org.profit());
         const cost = Math.ceil(org.upgrade_cost(upg));
         if (cost < max_funds) {

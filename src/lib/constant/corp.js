@@ -426,6 +426,11 @@ export const corp_t = {
              * Sell at the market price.
              */
             MP: "MP",
+            /**
+             * Sell at the market price with a 10% markup.  Better revenue
+             * than selling at MP alone.
+             */
+            MP_PLUS_10: "MP+10%",
         },
     },
     /**

@@ -21,13 +21,20 @@ import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
+    corp_cleanup,
     expand_city,
-    hire_advert,
     smart_supply,
 } from "/quack/lib/corporation/util.js";
 import { error, log } from "/quack/lib/io.js";
 import { has_corporation_api } from "/quack/lib/source.js";
-import { exec } from "/quack/lib/util.js";
+import { exec_chain } from "/quack/lib/util.js";
+
+/**
+ * Format a number as compact currency (e.g. $1.23B).  Replaces ns.nFormat
+ * which was removed in Bitburner 3.0.0.
+ */
+const fmtMoney = (n) =>
+    `$${new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 2 }).format(n)}`;
 
 /**
  * Create a corporation.
@@ -78,6 +85,7 @@ async function initial_level_upgrade(ns) {
     ];
     for (let i = 0; i < corp_t.upgrade.INIT_LEVEL; i++) {
         for (const upg of upgrade) {
+            log(ns, `Level up ${upg} (level ${org.level(upg)} -> ${org.level(upg) + 1}); cost ${fmtMoney(org.upgrade_cost(upg))}`);
             while (!org.level_upgrade(upg)) {
                 await ns.sleep(wait_t.SECOND);
             }
@@ -111,7 +119,10 @@ async function initial_material_buy(ns) {
     for (let i = 0; i < material.length; i++) {
         const org = new Corporation(ns);
         for (const ct of cities.all) {
-            if (org.material_qty(div, ct, material[i]) < amount[i]) {
+            const have = org.material_qty(div, ct, material[i]);
+            const need = amount[i] - have;
+            if (need > 0) {
+                log(ns, `${div}/${ct}: buy ${need}x ${material[i]} (have ${have}/${amount[i]})`);
                 await org.material_buy(div, ct, material[i], amount[i]);
             }
         }
@@ -142,19 +153,19 @@ function initial_material_sell(ns) {
 function resume(ns) {
     let is_resume = false;
     if (ns.fileExists(corp.PREP, home)) {
-        exec(ns, "/corporation/prep.js");
+        exec_chain(ns, "/quack/corporation/prep.js");
         is_resume = true;
     }
     if (ns.fileExists(corp.AGRI, home)) {
-        exec(ns, "/corporation/agriculture.js");
+        exec_chain(ns, "/quack/corporation/agriculture.js");
         is_resume = true;
     }
     if (ns.fileExists(corp.TOBA, home)) {
-        exec(ns, "/corporation/tobacco.js");
+        exec_chain(ns, "/quack/corporation/tobacco.js");
         is_resume = true;
     }
     if (ns.fileExists(corp.JANI, home)) {
-        exec(ns, "/corporation/janitor.js");
+        exec_chain(ns, "/quack/corporation/janitor.js");
         is_resume = true;
     }
     return is_resume;
@@ -168,20 +179,34 @@ function resume(ns) {
 async function stage_one(ns) {
     const org = new Corporation(ns);
     const div = corp.industry.AGRI;
+    log(ns, `=== Stage one: division ${div} ===`);
+    log(ns, `Funds: ${fmtMoney(org.funds())}`);
     if (org.has_division(div)) {
+        log(ns, `${div}: division already exists; skip stage_one`);
         return;
     }
+    log(ns, `Expanding into industry: ${div}`);
     org.expand_industry(div);
     log(ns, `Created new division: ${div}`);
     const new_office = await expand_city(ns, div);
     log(ns, `${div}: expanded to ${new_office.join(", ")}`);
-    cities.all.forEach((ct) => org.warehouse_init_upgrade(div, ct));
+    log(ns, `Upgrading warehouses to initial size...`);
+    cities.all.forEach((ct) => {
+        if (org.has_division_office(div, ct)) {
+            org.warehouse_init_upgrade(div, ct);
+        }
+    });
+    log(ns, `Enabling Smart Supply (with leftovers option)...`);
     smart_supply(ns);
+    log(ns, `Hiring initial employees (3 per office)...`);
     initial_hire(ns);
-    await hire_advert(ns, div);
+    log(ns, `Setting initial sell orders for materials...`);
     initial_material_sell(ns);
+    log(ns, `Levelling up initial upgrades (FocusWires, Neural, Speech, Injector, Factory)...`);
     await initial_level_upgrade(ns);
+    log(ns, `Buying initial materials (AI Cores, Hardware, Real Estate)...`);
     await initial_material_buy(ns);
+    log(ns, `=== Stage one complete. Funds: ${fmtMoney(org.funds())} ===`);
 }
 
 /**
@@ -196,12 +221,18 @@ export async function main(ns) {
     // Make the log less verbose.
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep");
+    ns.disableLog("corporation.createCorporation");
+    log(ns, "go.js starting");
     // Sanity check.
     if (!has_corporation_api(ns)) {
         error(ns, "No access to Corporation API");
         return;
     }
+    // Clean up any stale marker files from a previous run so resume() does
+    // not false-positive against leftover .txt files.
+    corp_cleanup(ns);
     if (resume(ns)) {
+        log(ns, "Resumed from a previous script; exit go.js");
         return;
     }
     // Create our corporation.  If we do not have access to the Office and
@@ -210,8 +241,11 @@ export async function main(ns) {
     // Without the above APIs, quit the script as soon as possible.
     await create_corp(ns);
     const org = new Corporation(ns);
+    log(ns, `Office API? ${org.has_unlock_upgrade(corp.unlock.OFFICE)}`);
+    log(ns, `Warehouse API? ${org.has_unlock_upgrade(corp.unlock.WAREHOUSE)}`);
     if (!org.has_office_warehouse_api()) {
         error(ns, "No access to Warehouse and/or Office APIs");
+        log(ns, "You need to purchase these unlock upgrades in the Corporation UI (or via API).");
         return;
     }
     // Early management of our corporation.
@@ -219,5 +253,6 @@ export async function main(ns) {
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
     // Next script in the load chain.
-    exec(ns, "/quack/corporation/prep.js");
+    log(ns, "Vivacious! Spawning /quack/corporation/prep.js ...");
+    exec_chain(ns, "/quack/corporation/prep.js");
 }
