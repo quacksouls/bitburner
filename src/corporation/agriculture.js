@@ -42,19 +42,73 @@ import { assert } from "/quack/lib/util.js";
 async function research(ns, div, res) {
     log(ns, `${div}: expand the research unit of each office`);
     await hire(ns, div, bool.NO_WAIT);
-    // We must setup a research lab for the division before we are able to buy
-    // other useful research.
-    if (!setup_research_lab(ns, div)) {
-        log(ns, `${div}: unable to setup research lab`);
-        return;
+    // Ensure each office has at least one R&D employee; without R&D
+    // body, research points do not accumulate.  Prefer to reassign an
+    // existing employee from another role rather than hiring a new one
+    // (which costs salary and may push the office past capacity,
+    // triggering an expensive office upgrade).  Preference order for
+    // the donor role: Unassigned > Operations > Engineer > Management >
+    // Business (i.e. take from where we have the most slack first).
+    const org = new Corporation(ns);
+    const donorRoles = [
+        "Unassigned",
+        "Operations",
+        "Engineer",
+        "Management",
+        "Business",
+    ];
+    cities.all.forEach((ct) => {
+        if (!org.has_division_office(div, ct)) return;
+        const office = ns.corporation.getOffice(div, ct);
+        const rndCount = office.employeeJobs["Research & Development"] ?? 0;
+        if (rndCount > 0) return;
+        // Try to take 1 employee from a donor role that has spare
+        // employees, in preference order.  setJobAssignment sets the
+        // total count for that role (not a delta), so we decrement the
+        // donor's count by 1 and increment R&D by 1.
+        for (const role of donorRoles) {
+            const count = office.employeeJobs[role] ?? 0;
+            if (count > 0) {
+                ns.corporation.setJobAssignment(div, ct, role, count - 1);
+                ns.corporation.setJobAssignment(
+                    div, ct, "Research & Development", rndCount + 1
+                );
+                log(ns, `${div}/${ct}: reassigned 1 ${role} -> Research & Development`);
+                return;
+            }
+        }
+        // No donor available (office empty or all in Training/Intern);
+        // as a last resort, hire directly into R&D.
+        try {
+            ns.corporation.hireEmployee(div, ct, "Research & Development");
+            log(ns, `${div}/${ct}: hired 1 employee directly into Research & Development`);
+        } catch {
+            // Office at capacity or no funds; skip this office.
+        }
+    });
+    // We must setup a research lab for the division before we are able to
+    // buy other useful research.  Hi-Tech R&D Laboratory costs 5e3
+    // research points (and has_enough_research_points requires 2x that =
+    // 10e3).  A fresh Agriculture division after prep.js rarely has that
+    // many points yet, so we poll here until enough accumulate.  While
+    // waiting, keep energy/morale topped up so R&D employees keep
+    // producing research points instead of decaying.
+    while (!org.has_research(div, corp.research.RND_LAB)) {
+        if (org.has_enough_research_points(div, corp.research.RND_LAB)) {
+            log(ns, `${div}: buying research: ${corp.research.RND_LAB}`);
+            await buy_research(ns, div, corp.research.RND_LAB);
+            break;
+        }
+        org.buy_tea_all();
+        org.party_all();
+        await ns.sleep(wait_t.MINUTE);
     }
     setup_market_ta(ns, div);
     if (!buy_market_ta(ns, div)) {
-        log(ns, `${div}: cannot buy research: Market-TA.I, Market-TA.II`);
+        log(ns, `${div}: cannot buy research yet: Market-TA.I, Market-TA.II (will retry next round)`);
         return;
     }
     // Purchase other research we care about.
-    const org = new Corporation(ns);
     for (const r of res) {
         if (!org.has_research(div, r) && org.is_research_available(div, r)) {
             if (org.has_enough_research_points(div, r)) {
@@ -117,7 +171,6 @@ export async function main(ns) {
         corp.research.DRUG,
         corp.research.INJECT,
         corp.research.JUICE,
-        corp.research.JOY,
         corp.research.OVERCLOCK,
         corp.research.STIMULATE,
         // Division research.

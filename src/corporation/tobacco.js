@@ -149,7 +149,6 @@ async function more_research(ns) {
         corp.research.DRUG,
         corp.research.INJECT,
         corp.research.JUICE,
-        corp.research.JOY,
         corp.research.OVERCLOCK,
         corp.research.STIMULATE,
         // Division research
@@ -277,7 +276,6 @@ function setup_division(ns) {
  */
 async function upgrade(ns, n) {
     const upg = [
-        "DreamSense",
         "FocusWires",
         "Neural Accelerators",
         "Speech Processor Implants",
@@ -286,7 +284,6 @@ async function upgrade(ns, n) {
         "Wilson Analytics",
     ];
     log(ns, `Round ${to_number(n)} of upgrades: ${upg.join(", ")}`);
-    const dream_lvl = tobacco.upgrade.round[n].DreamSense;
     const focus_lvl = tobacco.upgrade.round[n].FocusWires;
     const neural_lvl = tobacco.upgrade.round[n]["Neural Accelerators"];
     const speech_lvl = tobacco.upgrade.round[n]["Speech Processor Implants"];
@@ -298,8 +295,7 @@ async function upgrade(ns, n) {
     for (;;) {
         // Have we levelled up enough?
         if (
-            org.level(corp.upgrade.DREAM) >= dream_lvl
-            && org.level(corp.upgrade.FOCUS) >= focus_lvl
+            org.level(corp.upgrade.FOCUS) >= focus_lvl
             && org.level(corp.upgrade.NEURAL) >= neural_lvl
             && org.level(corp.upgrade.SPEECH) >= speech_lvl
             && org.level(corp.upgrade.INJECTOR) >= injector_lvl
@@ -309,9 +305,6 @@ async function upgrade(ns, n) {
             break;
         }
         // Level up various upgrades.
-        if (org.level(corp.upgrade.DREAM) < dream_lvl) {
-            org.level_upgrade(corp.upgrade.DREAM);
-        }
         if (org.level(corp.upgrade.FOCUS) < focus_lvl) {
             org.level_upgrade(corp.upgrade.FOCUS);
         }

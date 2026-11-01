@@ -307,16 +307,48 @@ export class Corporation {
      * Should be called periodically to keep employees vivacious faster.
      */
     buy_tea_all() {
+        // Strategy: only buy tea for the office(s) that are furthest
+        // from vivacious.  Energy decays slowly over time, so an office
+        // at 98 energy will reach the 99.998 threshold on its own soon
+        // and is a waste of funds to top up.  Focus tea on the office
+        // with the lowest energy first; only buy for the next office
+        // if the first is already within a small margin of vivacious
+        // (i.e. its tea purchase would be wasted too).  This guarantees
+        // at least one office always gets tea, and avoids the case
+        // where funds are spent spreading tea thinly across many
+        // offices none of which reach vivacious.
+        const offices = [];
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
                 if (!this.has_division_office(div, ct)) return;
-                try {
-                    this.#ns.corporation.buyTea(div, ct);
-                } catch {
-                    // No funds or not available; ignore.
-                }
+                const office = this.#ns.corporation.getOffice(div, ct);
+                // Skip offices where energy is already at/above the
+                // vivacious threshold.  Tea only restores energy, so
+                // buying it for a maxed office wastes funds.
+                if (office.avgEnergy >= corp_t.employee.ENERGY) return;
+                offices.push({ div, ct, energy: office.avgEnergy });
             });
         });
+        if (offices.length === 0) return;
+        offices.sort((a, b) => a.energy - b.energy);
+        // Strategy: buy tea for all offices that are still below the
+        // vivacious threshold (capped to ensure progress), but buy for
+        // the lowest first so that if funds run out, the office that
+        // most needs tea gets served.  Offices that have already
+        // crossed the threshold were filtered out above (no tea
+        // needed).  The "skip near-vivacious" idea was tried and
+        // discarded: an office at 99.5 energy is not yet vivacious
+        // (need 99.998) and tea is the much faster path than waiting
+        // for natural decay+recovery.
+        for (const { div, ct } of offices) {
+            try {
+                this.#ns.corporation.buyTea(div, ct);
+            } catch {
+                // No funds or not available; stop trying further
+                // offices on this tick so we don't waste the call.
+                break;
+            }
+        }
     }
 
     /**
@@ -328,6 +360,11 @@ export class Corporation {
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
                 if (!this.has_division_office(div, ct)) return;
+                // Skip offices where morale is already at/above the
+                // vivacious threshold.  Parties only boost morale, so
+                // throwing one for a maxed office wastes funds.
+                const office = this.#ns.corporation.getOffice(div, ct);
+                if (office.avgMorale >= corp_t.employee.MORALE) return;
                 try {
                     this.#ns.corporation.throwParty(div, ct, maxPerEmployee);
                 } catch {
@@ -863,8 +900,15 @@ export class Corporation {
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns.corporation.bulkPurchase(div, ct, name, amt);
-        return bool.SUCCESS;
+        try {
+            this.#ns.corporation.bulkPurchase(div, ct, name, amt);
+            return bool.SUCCESS;
+        } catch (e) {
+            // Most common cause: warehouse too small to fit the bulk
+            // purchase.  Return FAILURE so the caller can skip and let
+            // the warehouse-upgrade step (or janitor.js) catch up later.
+            return bool.FAILURE;
+        }
     }
 
     /**

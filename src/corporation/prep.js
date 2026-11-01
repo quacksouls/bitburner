@@ -181,7 +181,25 @@ async function hire_round_one_stage(ns, n) {
  */
 async function level_up_storage(ns, n) {
     log(ns, `Round ${to_number(n)} of warehouse upgrade`);
+    const target = agriculture.warehouse.round[n].SIZE;
+    const div = corp.industry.AGRI;
+    const org = new Corporation(ns);
+    let stuck = 0; // consecutive ticks where no warehouse leveld up
+    let prev_total = 0;
     while (!all_warehouses_upgraded(ns, n)) {
+        const curr_total = cities.all.reduce(
+            (sum, ct) => sum + org.warehouse_capacity(div, ct), 0
+        );
+        if (curr_total === prev_total) {
+            stuck++;
+        } else {
+            stuck = 0;
+        }
+        prev_total = curr_total;
+        if (stuck >= 30) {
+            log(ns, `level_up_storage: funds-starved for ${(stuck * wait_t.SECOND / 1000)}s; forwarding (target ${MyNumber.format(target)} each).`);
+            break;
+        }
         upgrade_warehouse(ns, n);
         await ns.sleep(wait_t.SECOND);
     }
@@ -195,14 +213,16 @@ async function level_up_storage(ns, n) {
  * (1) AI Cores
  * (2) Chemicals
  * (3) Drugs
- * (4) Energy
- * (5) Food
- * (7) Hardware
- * (8) Real Estate
- * (9) Metal
- * (10) Plants
- * (11) Robots
- * (12) Water
+ * (4) Food
+ * (5) Hardware
+ * (6) Real Estate
+ * (7) Metal
+ * (8) Plants
+ * (9) Robots
+ * (10) Water
+ *
+ * NOTE: "Energy" was removed from CorpMaterialName in Bitburner 3.0+;
+ * Agriculture now uses Water + Chemicals as required materials.
  *
  * @param ns The Netscript API.
  * @param n A string representing the round number.  This is the same as the
@@ -214,7 +234,6 @@ async function material_buy(ns, n) {
         corp.material.AI,
         corp.material.CHEMICAL,
         corp.material.DRUG,
-        corp.material.ENERGY,
         corp.material.FOOD,
         corp.material.HARDWARE,
         corp.material.LAND,
@@ -227,7 +246,6 @@ async function material_buy(ns, n) {
         agriculture.material.ai.buy.round[n].N,
         agriculture.material.chemical.buy.round[n].N,
         agriculture.material.drug.buy.round[n].N,
-        agriculture.material.energy.buy.round[n].N,
         agriculture.material.food.buy.round[n].N,
         agriculture.material.hardware.buy.round[n].N,
         agriculture.material.land.buy.round[n].N,
@@ -240,7 +258,6 @@ async function material_buy(ns, n) {
         agriculture.material.ai.buy.round[n].TARGET,
         agriculture.material.chemical.buy.round[n].TARGET,
         agriculture.material.drug.buy.round[n].TARGET,
-        agriculture.material.energy.buy.round[n].TARGET,
         agriculture.material.food.buy.round[n].TARGET,
         agriculture.material.hardware.buy.round[n].TARGET,
         agriculture.material.land.buy.round[n].TARGET,
@@ -261,7 +278,10 @@ async function material_buy(ns, n) {
             const prefix = `${div}: ${ct}`;
             const amt = MyNumber.format(amount[i]);
             log(ns, `${prefix}: Buying ${amt} units of ${material[i]}`);
-            await org.material_buy(div, ct, material[i], amount[i]);
+            const ok = await org.material_buy(div, ct, material[i], amount[i]);
+            if (!ok) {
+                log(ns, `${prefix}: cannot buy ${material[i]} (insufficient funds or warehouse size); skipping`);
+            }
         }
     }
 }
@@ -286,13 +306,22 @@ async function round_one(ns) {
     // with good production and pricing.  AdVert cost scales linearly, so
     // we only buy a small fixed number of rounds here; further rounds can
     // be bought later from the maintenance script (janitor.js).
-    log(ns, "Buying 3 rounds of AdVert to raise sales multiplier...");
-    for (let i = 0; i < 3; i++) {
-        try {
-            await hire_advert(ns, corp.industry.AGRI);
-        } catch (e) {
-            log(ns, `AdVert round ${i + 1} failed: ${e.message}`);
-            break;
+    {
+        const AGRI = corp.industry.AGRI;
+        const numAdVerts = ns.corporation.getDivision(AGRI).numAdVerts;
+        if (numAdVerts >= 3) {
+            log(ns, `AdVert already bought ${numAdVerts} time(s); skipping (diminishing returns).`);
+        } else {
+            const rounds = 3 - numAdVerts;
+            log(ns, `Buying ${rounds} round(s) of AdVert to raise sales multiplier...`);
+            for (let i = 0; i < rounds; i++) {
+                try {
+                    await hire_advert(ns, AGRI);
+                } catch (e) {
+                    log(ns, `AdVert round ${i + 1} failed: ${e.message}`);
+                    break;
+                }
+            }
         }
     }
     await investment_offer(ns, "one");
@@ -329,15 +358,40 @@ async function upgrade_round_one(ns) {
     log(ns, `Level up these upgrades: ${upg.join(", ")}`);
     const lvl = corp_t.upgrade.round.one.LEVEL;
     const org = new Corporation(ns);
+    const max_wait_ticks = 600; // ~10 minutes max; avoid infinite loop
+    let tick = 0;
+    let stuck = 0; // consecutive ticks where nothing levelled up
+    let prev_factory = org.level(corp.upgrade.FACTORY);
+    let prev_storage = org.level(corp.upgrade.STORAGE);
     for (;;) {
-        if (
-            org.level(corp.upgrade.FACTORY) >= lvl
-            && org.level(corp.upgrade.STORAGE) >= lvl
-        ) {
+        const curr_factory = org.level(corp.upgrade.FACTORY);
+        const curr_storage = org.level(corp.upgrade.STORAGE);
+        if (curr_factory >= lvl && curr_storage >= lvl) {
+            break;
+        }
+        // Detect funds-starvation: no level change for many consecutive
+        // ticks.  Level upgrades usually cost < corporate profit/s, so
+        // if we cannot afford one for 30s straight, we are out of funds
+        // and waiting forever would just burn the corp's cash on salary
+        // while materials sit unbought.
+        if (curr_factory === prev_factory && curr_storage === prev_storage) {
+            stuck++;
+        } else {
+            stuck = 0;
+        }
+        prev_factory = curr_factory;
+        prev_storage = curr_storage;
+        if (stuck >= 6 || tick >= max_wait_ticks) {
+            if (stuck >= 6) {
+                log(ns, `upgrade_round_one: funds-starved for ${(stuck * corp_t.TICK / 1000)}s; forwarding (factory lvl ${curr_factory}/${lvl}, storage lvl ${curr_storage}/${lvl}).`);
+            } else {
+                log(ns, `upgrade_round_one: timed out after ${(tick * corp_t.TICK / 1000)}s (factory lvl ${curr_factory}/${lvl}, storage lvl ${curr_storage}/${lvl}).`);
+            }
             break;
         }
         upgrade_round_one_level_up(ns);
         await ns.sleep(corp_t.TICK);
+        tick++;
     }
     const lvl_factory = org.level(corp.upgrade.FACTORY);
     const lvl_storage = org.level(corp.upgrade.STORAGE);
@@ -354,7 +408,11 @@ function upgrade_round_one_level_up(ns) {
     const lvl = corp_t.upgrade.round.one.LEVEL;
     const org = new Corporation(ns);
     if (org.level(corp.upgrade.FACTORY) < lvl) {
-        org.level_upgrade(corp.upgrade.FACTORY);
+        if (!org.level_upgrade(corp.upgrade.FACTORY)) {
+            // Out of funds; do not spam the log every tick.  The
+            // upgrade_round_one loop detects starvation via the
+            // stuck-counter.
+        }
     }
     if (org.level(corp.upgrade.STORAGE) < lvl) {
         org.level_upgrade(corp.upgrade.STORAGE);

@@ -85,16 +85,23 @@ running two at once exceeds a 1 TB home server).
   the corp actually becomes profitable while waiting for the $200k/s
   threshold (otherwise the threshold is unreachable and the script waits
   forever).
-- `round_one()` also buys **3 rounds of AdVert** before
-  `investment_offer()`. This is critical: a brand-new Agriculture division
-  starts with a sales multiplier of about 0.07 (7%), which caps revenue at
-  a small fraction of production no matter what sell price is set. AdVert
-  raises awareness and therefore the sales multiplier; without it the
-  $200k/s threshold is effectively unreachable. AdVert cost scales per
-  purchase but the first few rounds are affordable with the leftover funds
-  after `go.js` (typically a few hundred million to ~$1B each). 3 rounds
-  roughly takes the multiplier from 0.07 to 0.3-0.5 and lets the corp
-  actually sell what it produces.
+- `round_one()` also buys **AdVert** before `investment_offer()`. This is
+  critical: a brand-new Agriculture division starts with a sales multiplier of
+  about 0.07 (7%), which caps revenue at a small fraction of production no
+  matter what sell price is set. AdVert raises awareness and therefore the
+  sales multiplier; without it the $200k/s threshold is effectively
+  unreachable. AdVert cost scales per purchase (linearly) so the first few
+  rounds are affordable with the leftover funds after `go.js` (typically a
+  few hundred million to ~$1B each). 3 rounds roughly takes the multiplier
+  from 0.07 to 0.3-0.5 and lets the corp actually sell what it produces.
+  - The AdVert buy is now **idempotent across restarts**: it reads
+    `ns.corporation.getDivision(div).numAdVerts` first and only buys
+    `(3 - numAdVerts)` rounds (skipping entirely when `numAdVerts >= 3`).
+    AdVert's marginal benefit drops sharply after the first purchase
+    (awareness decays back to a floor between buys; the cost climbs ~$1B+
+    per round) so beyond 3 rounds it is not worth it in `prep.js`. The
+    `janitor.js` maintenance script still buys AdVert frugally later via
+    `hire_advert_frugal()` when profit justifies the cost.
 - An earlier `boost_production()` helper (aggressive hiring + office
   upgrades + bulk material buys) was **removed** because it raised expenses
   faster than revenue scaled, which made the profit situation worse.
@@ -159,10 +166,12 @@ running two at once exceeds a 1 TB home server).
 - If `prep.js` stalls at `Waiting for sufficient profit: $200k/s` and profit
   is plateauing well below 200k, **first check the Agriculture division's
   sales multiplier in the Corporation UI**. If it is below ~0.3, the
-  division needs AdVert — the new `prep.js` buys 3 rounds automatically,
-  but if you are running an older copy or the script crashed before
-  reaching that step, buy AdVert manually in the UI (1-2 clicks) to push
-  the multiplier up. The cycle-price probing in `boost_revenue` may also
+  division needs AdVert — `prep.js` buys up to 3 rounds automatically (and
+  is now idempotent: it tops up to 3 based on `getDivision().numAdVerts`,
+  so restarting `prep.js` won't keep re-buying). If you are running an
+  older copy or the script crashed before reaching that step, buy AdVert
+  manually in the UI (1-2 clicks) to push the multiplier up. The
+  cycle-price probing in `boost_revenue` may also
   have selected a bad markup; in that case rerun `prep.js` after deleting
   `/quack/corporation/invest.txt`.
 - If a chain script exits without spawning the next one, check the home

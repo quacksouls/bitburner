@@ -164,9 +164,7 @@ export const corp = {
      */
     research: {
         ASSEMBLER: "Self-Correcting Assemblers",
-        ASSIST: "sudo.Assist",
         BREW: "AutoBrew",
-        BUY: "Bulk Purchasing",
         CAPACITY_I: "uPgrade: Capacity.I",
         CAPACITY_II: "uPgrade: Capacity.II",
         DASHBOARD: "uPgrade: Dashboard",
@@ -176,7 +174,6 @@ export const corp = {
         DRUG: "Automatic Drug Administration",
         FULCRUM: "uPgrade: Fulcrum",
         INJECT: "CPH4 Injections",
-        JOY: "JoyWire",
         JUICE: "Go-Juice",
         OVERCLOCK: "Overclock",
         PARTY: "AutoPartyManager",
@@ -214,10 +211,6 @@ export const corp = {
          * Shady tactics to reduce our corporation's tax.
          */
         ACCOUNT: "Shady Accounting",
-        /**
-         * Statistics about our corporation and its supply chain.
-         */
-        CHAIN: "VeChain",
         /**
          * Display the competition of each material or product.
          */
@@ -258,7 +251,6 @@ export const corp = {
      */
     upgrade: {
         ANALYTIC: "Wilson Analytics",
-        DREAM: "DreamSense",
         FACTORY: "Smart Factories",
         FOCUS: "FocusWires",
         INJECTOR: "Nuoptimal Nootropic Injector Implants",
@@ -1605,7 +1597,6 @@ export const tobacco = {
              * The maximum level of each upgrade.
              */
             one: {
-                DreamSense: 20,
                 FocusWires: 20,
                 "Neural Accelerators": 20,
                 "Speech Processor Implants": 20,
@@ -1614,7 +1605,7 @@ export const tobacco = {
                 "Wilson Analytics": 0,
             },
             two: {
-                DreamSense: 25, // +5
+
                 FocusWires: 25, // +5
                 "Neural Accelerators": 25, // +5
                 "Speech Processor Implants": 25, // +5
@@ -1623,7 +1614,7 @@ export const tobacco = {
                 "Wilson Analytics": 0, // +0
             },
             three: {
-                DreamSense: 30, // +5
+
                 FocusWires: 30, // +5
                 "Neural Accelerators": 30, // +5
                 "Speech Processor Implants": 30, // +5
@@ -1632,7 +1623,7 @@ export const tobacco = {
                 "Wilson Analytics": 10, // +10
             },
             four: {
-                DreamSense: 31, // +1
+
                 FocusWires: 31, // +1
                 "Neural Accelerators": 31, // +1
                 "Speech Processor Implants": 31, // +1
@@ -1641,7 +1632,7 @@ export const tobacco = {
                 "Wilson Analytics": 11, // +1
             },
             five: {
-                DreamSense: 32, // +1
+
                 FocusWires: 32, // +1
                 "Neural Accelerators": 32, // +1
                 "Speech Processor Implants": 32, // +1
@@ -1650,7 +1641,7 @@ export const tobacco = {
                 "Wilson Analytics": 11, // +0
             },
             six: {
-                DreamSense: 33, // +1
+
                 FocusWires: 33, // +1
                 "Neural Accelerators": 33, // +1
                 "Speech Processor Implants": 33, // +1
@@ -1659,7 +1650,7 @@ export const tobacco = {
                 "Wilson Analytics": 11, // +0
             },
             seven: {
-                DreamSense: 34, // +1
+
                 FocusWires: 34, // +1
                 "Neural Accelerators": 34, // +1
                 "Speech Processor Implants": 34, // +1
@@ -1668,7 +1659,7 @@ export const tobacco = {
                 "Wilson Analytics": 11, // +0
             },
             eight: {
-                DreamSense: 35, // +1
+
                 FocusWires: 35, // +1
                 "Neural Accelerators": 35, // +1
                 "Speech Processor Implants": 35, // +1
@@ -1677,7 +1668,7 @@ export const tobacco = {
                 "Wilson Analytics": 11, // +0
             },
             nine: {
-                DreamSense: 36, // +1
+
                 FocusWires: 36, // +1
                 "Neural Accelerators": 36, // +1
                 "Speech Processor Implants": 36, // +1
