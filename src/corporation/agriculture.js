@@ -140,4 +140,8 @@ export async function main(ns) {
     }
     log(ns, `${div}: all research units fully developed`);
     ns.rm(corp.AGRI, home);
+    // Spawn the next script in the load chain.  Use ns.spawn so this script
+    // exits before tobacco.js starts (avoids stacking RAM across chain).
+    log(ns, "Spawning /quack/corporation/tobacco.js ...");
+    ns.spawn("/quack/corporation/tobacco.js", 1);
 }

@@ -59,7 +59,7 @@ export function error(ns, msg) {
 export function log(ns, msg, clr = "") {
     const date = new Date(Date.now()).toISOString();
     const suffix = is_empty_string(clr) ? empty_string : colour.RESET;
-    ns.tprintf(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
+    ns.tprint(`[${date}] ${clr}${ns.getScriptName()}: ${msg}${suffix}`);
 }
 
 /**

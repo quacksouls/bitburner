@@ -39,7 +39,7 @@ import {
 } from "/quack/lib/corporation/util.js";
 import { create_file, log } from "/quack/lib/io.js";
 import { has_corporation_api } from "/quack/lib/source.js";
-import { assert, exec, exec_chain } from "/quack/lib/util.js";
+import { assert, exec } from "/quack/lib/util.js";
 
 /**
  * Everything we need to do before taking our corporation to public.
@@ -370,6 +370,9 @@ export async function main(ns) {
     }
     // Some last minute house keeping.
     await before_going_public(ns);
-    exec_chain(ns, "/quack/corporation/janitor.js");
     ns.rm(corp.TOBA, home);
+    // Spawn janitor.js as the maintenance script.  Use ns.spawn so this script
+    // exits first to avoid stacking RAM.
+    log(ns, "Spawning /quack/corporation/janitor.js ...");
+    ns.spawn("/quack/corporation/janitor.js", 1);
 }

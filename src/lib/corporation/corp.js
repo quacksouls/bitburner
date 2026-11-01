@@ -357,13 +357,19 @@ export class Corporation {
     }
 
     enable_smart_supply() {
+        // "Energy" is not a valid CorpMaterialName in the current API and is
+        // not produced/consumed by any industry via warehouse storage, so we
+        // skip it to avoid noisy warnings in setSmartSupplyOption.
+        const validMaterials = Object.values(corp.material).filter(
+            (m) => m !== corp.material.ENERGY
+        );
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
                 if (!this.has_division_office(div, ct)) {
                     return;
                 }
                 this.#ns.corporation.setSmartSupply(div, ct, bool.ENABLE);
-                Object.values(corp.material).forEach((mat) => {
+                validMaterials.forEach((mat) => {
                     try {
                         this.#ns.corporation.setSmartSupplyOption(
                             div,

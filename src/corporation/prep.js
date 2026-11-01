@@ -18,10 +18,12 @@
 import { bool } from "/quack/lib/constant/bool.js";
 import { agriculture, corp, corp_t } from "/quack/lib/constant/corp.js";
 import { cities } from "/quack/lib/constant/location.js";
+import { buy_market_ta, setup_research_lab } from "/quack/lib/corporation/util.js";
 import { home } from "/quack/lib/constant/server.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
+    hire_advert,
     investment_offer,
     new_hire,
     to_number,
@@ -29,7 +31,61 @@ import {
 import { create_file, error, log } from "/quack/lib/io.js";
 import { MyNumber } from "/quack/lib/number.js";
 import { has_corporation_api } from "/quack/lib/source.js";
-import { assert, exec, exec_chain } from "/quack/lib/util.js";
+import { assert, exec } from "/quack/lib/util.js";
+
+/**
+ * Set up Smart Supply, then cycle through a few candidate sell markups to
+ * find the one that yields the best profit.  A fixed markup guess (e.g.
+ * MP+10%) often fails because the warehouse is empty or demand is weak, so
+ * the game sells nothing.  Cycling empirically finds a price that works.
+ */
+async function boost_revenue(ns, div) {
+    log(ns, `${div}: boosting revenue...`);
+    const org = new Corporation(ns);
+    if (!org.has_unlock_upgrade(corp.unlock.SMART)) {
+        org.buy_unlock_upgrade(corp.unlock.SMART);
+    }
+    org.enable_smart_supply();
+
+    // Cycle sell prices.  Use short waits (5s) to gather a few production
+    // cycles; pick the markup with the highest average profit delta over
+    // the test window.
+    const materials = agriculture.material.sold;
+    const price_candidates = ["MP-30%", "MP-10%", "MP", "MP+10%", "MP+50%"];
+    for (const mat of materials) {
+        let best = "MP";
+        let best_profit = -Infinity;
+        for (const p of price_candidates) {
+            cities.all.forEach((ct) => {
+                if (org.has_division_office(div, ct)) {
+                    ns.corporation.sellMaterial(div, ct, mat, "MAX", p);
+                }
+            });
+            // Wait two short samples to smooth out single-cycle noise.
+            const s1 = org.profit();
+            await ns.sleep(5000);
+            const s2 = org.profit();
+            await ns.sleep(5000);
+            const s3 = org.profit();
+            const delta = (s2 - s1 + (s3 - s2)) / 2;
+            log(ns, `${div}/${mat} @ ${p}: avg profit ${delta.toFixed(0)}/s`);
+            if (delta > best_profit) {
+                best_profit = delta;
+                best = p;
+            }
+        }
+        log(ns, `${div}/${mat}: best price = ${best} (${best_profit.toFixed(0)}/s)`);
+        cities.all.forEach((ct) => {
+            if (org.has_division_office(div, ct)) {
+                ns.corporation.sellMaterial(div, ct, mat, "MAX", best);
+            }
+        });
+    }
+
+    // Kick off research buying in case the lab is affordable already.
+    setup_research_lab(ns, div);
+    buy_market_ta(ns, div);
+}
 
 /**
  * Whether each warehouse has been upgraded for this round.
@@ -222,6 +278,23 @@ async function material_buy(ns, n) {
  * @param ns The Netscript API.
  */
 async function round_one(ns) {
+    // Find a profitable sell price first; otherwise we wait forever for
+    // $200k/s while selling nothing.
+    await boost_revenue(ns, corp.industry.AGRI);
+    // Buy a few AdVert rounds to raise awareness -> demand -> sales
+    // multiplier.  A low sales multiplier (e.g. 0.07) caps revenue even
+    // with good production and pricing.  AdVert cost scales linearly, so
+    // we only buy a small fixed number of rounds here; further rounds can
+    // be bought later from the maintenance script (janitor.js).
+    log(ns, "Buying 3 rounds of AdVert to raise sales multiplier...");
+    for (let i = 0; i < 3; i++) {
+        try {
+            await hire_advert(ns, corp.industry.AGRI);
+        } catch (e) {
+            log(ns, `AdVert round ${i + 1} failed: ${e.message}`);
+            break;
+        }
+    }
     await investment_offer(ns, "one");
     await hire_round_one(ns);
     await upgrade_round_one(ns);
@@ -339,11 +412,9 @@ export async function main(ns) {
     await round_two(ns);
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
-    // Next scripts in the load chain.
+    // Next scripts in the load chain.  Use ns.spawn so prep.js exits before
+    // agriculture.js starts; agriculture.js will then spawn tobacco.js itself
+    // (via ns.spawn) to avoid stacking RAM across chain scripts.
     log(ns, "Spawning /quack/corporation/agriculture.js ...");
-    exec_chain(ns, "/quack/corporation/agriculture.js");
-    log(ns, "Spawning /quack/corporation/tobacco.js ...");
-    exec_chain(ns, "/quack/corporation/tobacco.js");
-    ns.rm(corp.PREP, home);
-    log(ns, "prep.js done");
+    ns.spawn("/quack/corporation/agriculture.js", 1);
 }

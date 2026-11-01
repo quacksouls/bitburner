@@ -252,7 +252,8 @@ export async function main(ns) {
     await stage_one(ns);
     log(ns, "Waiting for each office to be vivacious");
     await org.vivacious_office();
-    // Next script in the load chain.
+    // Next script in the load chain.  Use ns.spawn so go.js exits before
+    // prep.js starts (otherwise prep.js's RAM stacks on top of go.js's).
     log(ns, "Vivacious! Spawning /quack/corporation/prep.js ...");
-    exec_chain(ns, "/quack/corporation/prep.js");
+    ns.spawn("/quack/corporation/prep.js", 1);
 }
