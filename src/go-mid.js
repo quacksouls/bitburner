@@ -45,7 +45,7 @@ async function reboot(ns) {
     exec(ns, "/quack/gang/program.js");
     await farm_hack_xp(ns);
     exec(ns, "/quack/hgw/world.js");
-    exec(ns, choose_batcher_pserv(ns));
+    exec(ns, choose_batcher_pserv(ns, true));
 }
 
 /**

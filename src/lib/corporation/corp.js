@@ -89,38 +89,13 @@ export class Corporation {
     avg_employee_stats(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const employee = this.#ns.corporation.getOffice(div, ct).employees;
-        assert(employee.length > 0);
-        // Default is average of 0 in each attribute.
-        const { attribute } = corp.employee;
-        const avg_stat = {};
-        attribute.forEach((a) => {
-            avg_stat[a] = 0;
-        });
-        // A function to abbreviate the name of an attribute.  We get the first
-        // 3 characters of the string.  The reason is that the function
-        // getOffice() of the Office API returns an object where the keys are
-        // each the first 3 characters of the above attribute names.
-        const start = 0;
-        const end = 3;
-        const abbreviate = (x) => x.slice(start, end);
-        // The average of each attribute for all employees in an office.  Use
-        // the following formula to calculate the average:
-        //
-        // a_{i+1} = (x_{i+1} + (i * a_i)) / (i + 1)
-        //
-        // a_{i+1} := The current average value.
-        // a_i := The previous average value.
-        // x_{i+1} := The current data point.
-        // i := Index of the current data point; zero-based.
-        for (let i = 0; i < employee.length; i++) {
-            const stat = this.#ns.corporation.getEmployee(div, ct, employee[i]);
-            attribute.forEach((a) => {
-                const b = abbreviate(a);
-                avg_stat[a] = (stat[b] + i * avg_stat[a]) / (i + 1);
-            });
-        }
-        return avg_stat;
+        const office = this.#ns.corporation.getOffice(div, ct);
+        assert(office.numEmployees > 0);
+        return {
+            morale: office.avgMorale,
+            happiness: office.avgMorale,
+            energy: office.avgEnergy,
+        };
     }
 
     /**
@@ -156,11 +131,11 @@ export class Corporation {
         if (this.has_unlock_upgrade(upg)) {
             return bool.SUCCESS;
         }
-        const cost = this.#ns.corporation.getUnlockUpgradeCost(upg);
+        const cost = this.#ns.corporation.getUnlockCost(upg);
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
-        this.#ns.corporation.unlockUpgrade(upg);
+        this.#ns.corporation.purchaseUnlock(upg);
         return this.has_unlock_upgrade(upg);
     }
 
@@ -174,7 +149,7 @@ export class Corporation {
     buy_warehouse(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const cost = this.#ns.corporation.getPurchaseWarehouseCost();
+        const cost = this.#ns.corporation.getConstants().warehouseInitialCost;
         if (this.funds() < cost) {
             return bool.FAILURE;
         }
@@ -194,6 +169,9 @@ export class Corporation {
      * @return True if our corporation is successfully created; false otherwise.
      */
     create() {
+        if (this.has_corp()) {
+            return bool.SUCCESS;
+        }
         const player = new Player(this.#ns);
         // Assume we are in BN3.  Use our own money to start a corporation,
         // otherwise take out a loan.
@@ -265,7 +243,7 @@ export class Corporation {
      */
     division_research(div) {
         assert(this.has_division(div));
-        return this.#ns.corporation.getDivision(div).research;
+        return this.#ns.corporation.getDivision(div).researchPoints;
     }
 
     /**
@@ -322,12 +300,150 @@ export class Corporation {
     }
 
     /**
-     * Enable Smart Supply for the warehouse of each division in each city.
+     * Buy tea for all offices of all divisions to boost morale/energy.
+     * Should be called periodically to keep employees vivacious faster.
+     *
+     * @param threshold Skip offices whose avgEnergy is at or above this.
+     *     Default: the vivacious threshold (corp_t.employee.ENERGY = 99.998),
+     *     meaning tea is bought whenever energy is below "fully maxed" —
+     *     appropriate for vivacious_office which strictly needs 99.998+.
+     *     Callers that only want production throughput (not strict
+     *     vivaciousness) can pass a lower threshold (e.g. 97) to skip tea
+     *     while energy is "good enough" and save funds.
      */
-    enable_smart_supply() {
+    buy_tea_all(threshold = corp_t.employee.ENERGY) {
+        // Tea gives a flat +2 to avgEnergy per cycle, capped at maxEnergy.
+        // Buying tea while avgEnergy is already within ~2 of max wastes
+        // part of the +2 (the cap eats it).  The default threshold of
+        // 99.998 still buys every cycle because the office drifts below
+        // it between cycles; a caller that does not need strict
+        // vivaciousness can lower this threshold to e.g. 97 so tea is
+        // only bought when energy has drifted down far enough that the
+        // +2 is not mostly wasted.
+        const offices = [];
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
+                if (!this.has_division_office(div, ct)) return;
+                const office = this.#ns.corporation.getOffice(div, ct);
+                if (office.avgEnergy >= threshold) return;
+                offices.push({ div, ct, energy: office.avgEnergy });
+            });
+        });
+        if (offices.length === 0) return;
+        offices.sort((a, b) => a.energy - b.energy);
+        // Buy for the lowest-energy office first; stop on the first office
+        // we cannot afford so we don't waste API calls (and funds) on larger
+        // offices that would also fail.  ns.corporation.buyTea() returns
+        // false silently when funds < teaCost OR when teaPending is already
+        // true for this cycle (Actions.ts:384-389) — it does NOT throw — so
+        // we must check funds() ourselves before calling.  This also lets
+        // us distinguish "skipped: insufficient funds" from "skipped: tea
+        // already pending", which matters for diagnostics.
+        const teaCostPerEmp =
+            this.#ns.corporation.getConstants().teaCostPerEmployee;
+        for (const { div, ct } of offices) {
+            const office = this.#ns.corporation.getOffice(div, ct);
+            const teaCost = teaCostPerEmp * office.numEmployees;
+            if (this.funds() < teaCost) break;
+            this.#ns.corporation.buyTea(div, ct);
+        }
+    }
+
+    /**
+     * Throw a party at each office to boost morale.
+     *
+     * @param threshold Skip offices whose avgMorale is at or above this.
+     *     Default: corp_t.employee.MORALE (100), i.e. buy for any office
+     *     that is not fully maxed.  Lower this (e.g. 95) to skip parties
+     *     while morale is "good enough" and save funds.
+     * @param costPerEmployee Cost per employee per party.  Default 1e6
+     *     gives morale multiplier 1.1 (10% boost per cycle, fast
+     *     recovery from low morale).  Lower values give smaller boosts
+     *     but cost less — useful for maintenance once morale is near
+     *     max.  Adaptive cost is left to the caller; this helper applies
+     *     one cost to all eligible offices on this tick.
+     */
+    party_all(threshold = corp_t.employee.MORALE, costPerEmployee = 1e6) {
+        // Collect all sub-threshold offices, sort ascending by morale,
+        // and throw a party for the lowest-morale office first.  Earlier
+        // this iterated cities.all in static order, so when funds were
+        // tight only the first few offices (alphabetical by city) got a
+        // party — not the ones that actually needed it most.  Offices
+        // that fell behind on morale stayed behind, decaying further
+        // each cycle and never recovering, because the script kept
+        // refreshing offices that were already near 100.
+        //
+        // ns.corporation.throwParty() returns 0 silently when funds <
+        // cost OR when partyMult is already > 1 for this cycle
+        // (Actions.ts:391-404) — it does NOT throw — so we check funds
+        // ourselves.  We do NOT break on the first failure, because a
+        // smaller office downstream may still be affordable.
+        const offices = [];
+        this.all_divisions().forEach((div) => {
+            cities.all.forEach((ct) => {
+                if (!this.has_division_office(div, ct)) return;
+                const office = this.#ns.corporation.getOffice(div, ct);
+                if (office.avgMorale >= threshold) return;
+                offices.push({
+                    div,
+                    ct,
+                    morale: office.avgMorale,
+                    cost: costPerEmployee * office.numEmployees,
+                });
+            });
+        });
+        if (offices.length === 0) return;
+        offices.sort((a, b) => a.morale - b.morale);
+        for (const { div, ct, cost } of offices) {
+            if (this.funds() < cost) continue;
+            this.#ns.corporation.throwParty(div, ct, costPerEmployee);
+        }
+    }
+
+    /**
+     * Set all idle/unassigned employees in an office to Training, so their
+     * stats (and morale/energy) recover faster.
+     */
+    train_idle(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
+        const office = this.#ns.corporation.getOffice(div, ct);
+        const idle = office.employeeJobs.Unassigned ?? 0;
+        if (idle > 0) {
+            this.#ns.corporation.setJobAssignment(
+                div,
+                ct,
+                "Training",
+                idle + (office.employeeJobs.Training ?? 0)
+            );
+        }
+    }
+
+    enable_smart_supply() {
+        // "Energy" is not a valid CorpMaterialName in the current API and is
+        // not produced/consumed by any industry via warehouse storage, so we
+        // skip it to avoid noisy warnings in setSmartSupplyOption.
+        const validMaterials = Object.values(corp.material).filter(
+            (m) => m !== corp.material.ENERGY
+        );
+        this.all_divisions().forEach((div) => {
+            cities.all.forEach((ct) => {
+                if (!this.has_division_office(div, ct)) {
+                    return;
+                }
                 this.#ns.corporation.setSmartSupply(div, ct, bool.ENABLE);
+                validMaterials.forEach((mat) => {
+                    try {
+                        this.#ns.corporation.setSmartSupplyOption(
+                            div,
+                            ct,
+                            mat,
+                            "leftovers"
+                        );
+                    } catch {
+                        // Material not relevant to this division; ignore.
+                    }
+                });
             });
         });
     }
@@ -343,10 +459,22 @@ export class Corporation {
      * @return True if the expansion is successful or we already have a division
      *     office in the given city; false otherwise.
      */
-    expand_city(div, ct) {
+    async expand_city(div, ct) {
+        assert(this.has_division(div));
+        assert(is_valid_city(ct));
         if (this.has_division_office(div, ct)) {
             return bool.SUCCESS;
         }
+        const cost = this.#ns.corporation.getConstants().officeInitialCost;
+        let waited = 0;
+        while (this.funds() < cost) {
+            if (waited === 0) {
+                this.#ns.print(`Waiting for funds ${this.funds()}/${cost} to expand ${div} to ${ct}`);
+            }
+            await this.#ns.sleep(wait_t.SECOND);
+            waited++;
+        }
+        this.#ns.print(`Expanding ${div} to ${ct} (cost ${cost})`);
         this.#ns.corporation.expandCity(div, ct);
         return this.has_division_office(div, ct);
     }
@@ -385,12 +513,7 @@ export class Corporation {
      * @return True if we have already created a corporation; false otherwise.
      */
     has_corp() {
-        try {
-            assert(this.#ns.corporation.getCorporation().name === corp.NAME);
-            return bool.HAS;
-        } catch {
-            return bool.NOT;
-        }
+        return this.#ns.corporation.hasCorporation() ? bool.HAS : bool.NOT;
     }
 
     /**
@@ -417,11 +540,7 @@ export class Corporation {
     has_division_office(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        for (const d of this.#ns.corporation.getCorporation().divisions) {
-            if (d.name === div) {
-                return d.cities.includes(ct);
-            }
-        }
+        return this.#ns.corporation.getDivision(div).cities.includes(ct);
     }
 
     /**
@@ -487,13 +606,9 @@ export class Corporation {
      */
     has_product(div, name) {
         assert(this.has_division(div));
-        try {
-            const product = this.#ns.corporation.getProduct(div, name);
-            assert(product.name === name);
-            return bool.HAS;
-        } catch {
-            return bool.NOT;
-        }
+        return this.#ns.corporation.getDivision(div).products.includes(name)
+            ? bool.HAS
+            : bool.NOT;
     }
 
     /**
@@ -518,7 +633,7 @@ export class Corporation {
      */
     has_unlock_upgrade(upg) {
         assert(this.is_valid_unlock_upgrade(upg));
-        return this.#ns.corporation.hasUnlockUpgrade(upg);
+        return this.#ns.corporation.hasUnlock(upg);
     }
 
     /**
@@ -532,8 +647,7 @@ export class Corporation {
     hire(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const worker = this.#ns.corporation.hireEmployee(div, ct);
-        return worker !== undefined ? worker.name : "";
+        return this.#ns.corporation.hireEmployee(div, ct) ? "(hired)" : "";
     }
 
     /**
@@ -562,10 +676,7 @@ export class Corporation {
     initial_hire(div, ct) {
         const max = corp_t.office.INIT_HIRE;
         for (let i = this.num_employees(div, ct); i < max; i++) {
-            const name = this.hire(div, ct);
-            if (name !== "") {
-                this.#ns.corporation.assignJob(div, ct, name, corp.position[i]);
-            }
+            this.#ns.corporation.hireEmployee(div, ct, corp.position[i]);
         }
     }
 
@@ -580,8 +691,8 @@ export class Corporation {
     is_at_capacity(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const { employees, size } = this.#ns.corporation.getOffice(div, ct);
-        return employees.length === size;
+        const { numEmployees, size } = this.#ns.corporation.getOffice(div, ct);
+        return numEmployees === size;
     }
 
     /**
@@ -593,8 +704,9 @@ export class Corporation {
      */
     is_product_complete(div, name) {
         assert(this.has_product(div, name));
+        const ct = this.#ns.corporation.getDivision(div).cities[0];
         return (
-            this.#ns.corporation.getProduct(div, name).developmentProgress
+            this.#ns.corporation.getProduct(div, ct, name).developmentProgress
             >= corp_t.MAX_PROGRESS
         );
     }
@@ -740,12 +852,11 @@ export class Corporation {
     is_vivacious(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        const stat = this.avg_employee_stats(div, ct);
+        const office = this.#ns.corporation.getOffice(div, ct);
         const int = (x) => Math.floor(x * 1000);
         return (
-            int(stat.morale) >= int(corp_t.employee.MORALE)
-            && int(stat.happiness) >= int(corp_t.employee.HAPPINESS)
-            && int(stat.energy) >= int(corp_t.employee.ENERGY)
+            int(office.avgMorale) >= int(corp_t.employee.MORALE)
+            && int(office.avgEnergy) >= int(corp_t.employee.ENERGY)
         );
     }
 
@@ -811,15 +922,19 @@ export class Corporation {
         assert(is_valid_city(ct));
         assert(this.is_valid_material(name));
         assert(amt > 0);
-        const rate = amt / corp_t.TICK_SECOND; // Amount per second.
-        let { qty } = this.#ns.corporation.getMaterial(div, ct, name);
-        const target = qty + amt;
-        this.#ns.corporation.buyMaterial(div, ct, name, rate);
-        while (qty < target) {
-            await this.#ns.sleep(wait_t.MILLISECOND);
-            qty = this.#ns.corporation.getMaterial(div, ct, name).qty;
+        const cost = this.#ns.corporation.getMaterial(div, ct, name).marketPrice * amt;
+        if (this.funds() < cost) {
+            return bool.FAILURE;
         }
-        this.#ns.corporation.buyMaterial(div, ct, name, 0);
+        try {
+            this.#ns.corporation.bulkPurchase(div, ct, name, amt);
+            return bool.SUCCESS;
+        } catch (e) {
+            // Most common cause: warehouse too small to fit the bulk
+            // purchase.  Return FAILURE so the caller can skip and let
+            // the warehouse-upgrade step (or janitor.js) catch up later.
+            return bool.FAILURE;
+        }
     }
 
     /**
@@ -839,7 +954,7 @@ export class Corporation {
             ct,
             name,
             corp_t.sell.amount.MAX,
-            corp_t.sell.price.MP
+            corp_t.sell.price.MP_PLUS_10
         );
     }
 
@@ -856,7 +971,7 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(this.is_valid_material(name));
-        return this.#ns.corporation.getMaterial(div, ct, name).qty;
+        return this.#ns.corporation.getMaterial(div, ct, name).stored;
     }
 
     /**
@@ -871,11 +986,9 @@ export class Corporation {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
         assert(this.is_valid_role(role));
-        const name = this.hire(div, ct);
-        if (name === "") {
+        if (!this.#ns.corporation.hireEmployee(div, ct, role)) {
             return bool.FAILURE;
         }
-        this.#ns.corporation.assignJob(div, ct, name, role);
         return bool.SUCCESS;
     }
 
@@ -889,7 +1002,7 @@ export class Corporation {
     num_employees(div, ct) {
         assert(this.has_division(div));
         assert(is_valid_city(ct));
-        return this.#ns.corporation.getOffice(div, ct).employees.length;
+        return this.#ns.corporation.getOffice(div, ct).numEmployees;
     }
 
     /**
@@ -1031,7 +1144,8 @@ export class Corporation {
      */
     product_rating(div, name) {
         assert(this.has_product(div, name));
-        return this.#ns.corporation.getProduct(div, name).rat;
+        const ct = this.#ns.corporation.getDivision(div).cities[0];
+        return this.#ns.corporation.getProduct(div, ct, name).rating;
     }
 
     /**
@@ -1050,7 +1164,7 @@ export class Corporation {
             ct,
             name,
             corp_t.sell.amount.MAX,
-            corp_t.sell.price.MP,
+            corp_t.sell.price.MP_PLUS_10,
             bool.NOT
         );
     }
@@ -1136,10 +1250,33 @@ export class Corporation {
      */
     async vivacious_office() {
         for (const div of this.all_divisions()) {
+            const expanded = cities.all.filter((c) =>
+                this.has_division_office(div, c)
+            );
             const vivacious = (c) => this.is_vivacious(div, c);
-            while (!cities.all.every(vivacious)) {
+            // Buy tea + throw party periodically to speed up morale/energy
+            // recovery while we wait for offices to become vivacious.
+            let tick = 0;
+            while (!expanded.every(vivacious)) {
+                if (tick % 10 === 0) {
+                    this.buy_tea_all();
+                }
+                if (tick % 60 === 0) {
+                    this.party_all();
+                    // Log progress every 60 seconds.
+                    const status = expanded.map((c) => {
+                        const o = this.#ns.corporation.getOffice(div, c);
+                        return `${c}(M${o.avgMorale.toFixed(1)}/E${o.avgEnergy.toFixed(1)})`;
+                    });
+                    const done = expanded.filter(vivacious).length;
+                    this.#ns.print(
+                        `vivacious: ${done}/${expanded.length} ready | ${status.join(" ")} | funds ${this.funds().toFixed(0)}`
+                    );
+                }
                 await this.#ns.sleep(wait_t.SECOND);
+                tick++;
             }
+            this.#ns.print(`vivacious: all offices in ${div} are vivacious`);
         }
     }
 

@@ -40,7 +40,9 @@ async function farm_intelligence(ns) {
     // Must delete the program if we have it.  After purchasing a program,
     // delete it again.
     const p = darkweb.program.cheapest.NAME;
-    ns.rm(p, home);
+    // ns.rm(p, home);
+    // const programs = [...darkweb.program.popen, ...darkweb.program.util].filter(e => e !== "Formulas.exe");
+    const programs = ["relaySMTP.exe","SQLInject.exe"];
     for (;;) {
         if (money(ns) < min_money) {
             await ns.sleep(2 * wait_t.MINUTE);
@@ -48,8 +50,13 @@ async function farm_intelligence(ns) {
         }
         const [k, time] = purchase_schedule(ns);
         for (let i = 0; i < k; i++) {
-            assert(ns.singularity.purchaseProgram(p));
-            assert(ns.rm(p, home));
+            // assert(ns.singularity.purchaseProgram(p));
+            // assert(ns.rm(p, home));
+            for (const program of programs) {
+                if (ns.singularity.purchaseProgram(program)) {
+                    ns.rm(program, home);
+                }
+            }
         }
         await ns.sleep(time);
     }

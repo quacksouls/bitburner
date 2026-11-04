@@ -149,7 +149,6 @@ async function more_research(ns) {
         corp.research.DRUG,
         corp.research.INJECT,
         corp.research.JUICE,
-        corp.research.JOY,
         corp.research.OVERCLOCK,
         corp.research.STIMULATE,
         // Division research
@@ -169,16 +168,19 @@ async function more_research(ns) {
         }
         log(ns, `${div}: expand the research unit of each office`);
         await hire(ns, div, bool.NO_WAIT);
+        // Strict priority: buy only the highest-priority research in
+        // `res` that is still wanted and available.  If that research
+        // is not yet affordable, wait — do NOT skip it to buy a
+        // cheaper lower-priority one (e.g. DRONE before DRUG), since
+        // the `res` array expresses the intended purchase order.
         for (const r of res) {
-            if (
-                !org.has_research(div, r)
-                && org.is_research_available(div, r)
-            ) {
-                if (org.has_enough_research_points(div, r)) {
-                    log(ns, `${div}: buying research: ${r}`);
-                    await buy_research(ns, div, r);
-                }
+            if (org.has_research(div, r)) continue;
+            if (!org.is_research_available(div, r)) continue;
+            if (org.has_enough_research_points(div, r)) {
+                log(ns, `${div}: buying research: ${r}`);
+                await buy_research(ns, div, r);
             }
+            break;
         }
         await ns.sleep(5 * wait_t.MINUTE);
     }
@@ -277,7 +279,6 @@ function setup_division(ns) {
  */
 async function upgrade(ns, n) {
     const upg = [
-        "DreamSense",
         "FocusWires",
         "Neural Accelerators",
         "Speech Processor Implants",
@@ -286,7 +287,6 @@ async function upgrade(ns, n) {
         "Wilson Analytics",
     ];
     log(ns, `Round ${to_number(n)} of upgrades: ${upg.join(", ")}`);
-    const dream_lvl = tobacco.upgrade.round[n].DreamSense;
     const focus_lvl = tobacco.upgrade.round[n].FocusWires;
     const neural_lvl = tobacco.upgrade.round[n]["Neural Accelerators"];
     const speech_lvl = tobacco.upgrade.round[n]["Speech Processor Implants"];
@@ -298,8 +298,7 @@ async function upgrade(ns, n) {
     for (;;) {
         // Have we levelled up enough?
         if (
-            org.level(corp.upgrade.DREAM) >= dream_lvl
-            && org.level(corp.upgrade.FOCUS) >= focus_lvl
+            org.level(corp.upgrade.FOCUS) >= focus_lvl
             && org.level(corp.upgrade.NEURAL) >= neural_lvl
             && org.level(corp.upgrade.SPEECH) >= speech_lvl
             && org.level(corp.upgrade.INJECTOR) >= injector_lvl
@@ -309,9 +308,6 @@ async function upgrade(ns, n) {
             break;
         }
         // Level up various upgrades.
-        if (org.level(corp.upgrade.DREAM) < dream_lvl) {
-            org.level_upgrade(corp.upgrade.DREAM);
-        }
         if (org.level(corp.upgrade.FOCUS) < focus_lvl) {
             org.level_upgrade(corp.upgrade.FOCUS);
         }
@@ -370,6 +366,9 @@ export async function main(ns) {
     }
     // Some last minute house keeping.
     await before_going_public(ns);
-    exec(ns, "/quack/corporation/janitor.js");
     ns.rm(corp.TOBA, home);
+    // Spawn janitor.js as the maintenance script.  Use ns.spawn so this script
+    // exits first to avoid stacking RAM.
+    log(ns, "Spawning /quack/corporation/janitor.js ...");
+    ns.spawn("/quack/corporation/janitor.js", 1);
 }
