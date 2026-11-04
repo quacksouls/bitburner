@@ -300,78 +300,104 @@ export class Corporation {
     }
 
     /**
-     * Enable Smart Supply for the warehouse of each division in each city.
-     */
-    /**
      * Buy tea for all offices of all divisions to boost morale/energy.
      * Should be called periodically to keep employees vivacious faster.
+     *
+     * @param threshold Skip offices whose avgEnergy is at or above this.
+     *     Default: the vivacious threshold (corp_t.employee.ENERGY = 99.998),
+     *     meaning tea is bought whenever energy is below "fully maxed" —
+     *     appropriate for vivacious_office which strictly needs 99.998+.
+     *     Callers that only want production throughput (not strict
+     *     vivaciousness) can pass a lower threshold (e.g. 97) to skip tea
+     *     while energy is "good enough" and save funds.
      */
-    buy_tea_all() {
-        // Strategy: only buy tea for the office(s) that are furthest
-        // from vivacious.  Energy decays slowly over time, so an office
-        // at 98 energy will reach the 99.998 threshold on its own soon
-        // and is a waste of funds to top up.  Focus tea on the office
-        // with the lowest energy first; only buy for the next office
-        // if the first is already within a small margin of vivacious
-        // (i.e. its tea purchase would be wasted too).  This guarantees
-        // at least one office always gets tea, and avoids the case
-        // where funds are spent spreading tea thinly across many
-        // offices none of which reach vivacious.
+    buy_tea_all(threshold = corp_t.employee.ENERGY) {
+        // Tea gives a flat +2 to avgEnergy per cycle, capped at maxEnergy.
+        // Buying tea while avgEnergy is already within ~2 of max wastes
+        // part of the +2 (the cap eats it).  The default threshold of
+        // 99.998 still buys every cycle because the office drifts below
+        // it between cycles; a caller that does not need strict
+        // vivaciousness can lower this threshold to e.g. 97 so tea is
+        // only bought when energy has drifted down far enough that the
+        // +2 is not mostly wasted.
         const offices = [];
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
                 if (!this.has_division_office(div, ct)) return;
                 const office = this.#ns.corporation.getOffice(div, ct);
-                // Skip offices where energy is already at/above the
-                // vivacious threshold.  Tea only restores energy, so
-                // buying it for a maxed office wastes funds.
-                if (office.avgEnergy >= corp_t.employee.ENERGY) return;
+                if (office.avgEnergy >= threshold) return;
                 offices.push({ div, ct, energy: office.avgEnergy });
             });
         });
         if (offices.length === 0) return;
         offices.sort((a, b) => a.energy - b.energy);
-        // Strategy: buy tea for all offices that are still below the
-        // vivacious threshold (capped to ensure progress), but buy for
-        // the lowest first so that if funds run out, the office that
-        // most needs tea gets served.  Offices that have already
-        // crossed the threshold were filtered out above (no tea
-        // needed).  The "skip near-vivacious" idea was tried and
-        // discarded: an office at 99.5 energy is not yet vivacious
-        // (need 99.998) and tea is the much faster path than waiting
-        // for natural decay+recovery.
+        // Buy for the lowest-energy office first; stop on the first office
+        // we cannot afford so we don't waste API calls (and funds) on larger
+        // offices that would also fail.  ns.corporation.buyTea() returns
+        // false silently when funds < teaCost OR when teaPending is already
+        // true for this cycle (Actions.ts:384-389) — it does NOT throw — so
+        // we must check funds() ourselves before calling.  This also lets
+        // us distinguish "skipped: insufficient funds" from "skipped: tea
+        // already pending", which matters for diagnostics.
+        const teaCostPerEmp =
+            this.#ns.corporation.getConstants().teaCostPerEmployee;
         for (const { div, ct } of offices) {
-            try {
-                this.#ns.corporation.buyTea(div, ct);
-            } catch {
-                // No funds or not available; stop trying further
-                // offices on this tick so we don't waste the call.
-                break;
-            }
+            const office = this.#ns.corporation.getOffice(div, ct);
+            const teaCost = teaCostPerEmp * office.numEmployees;
+            if (this.funds() < teaCost) break;
+            this.#ns.corporation.buyTea(div, ct);
         }
     }
 
     /**
-     * Throw a party at each office to boost morale.  Spend up to
-     * corp_t.upgrade.COST_MULT * profit per party per employee.
+     * Throw a party at each office to boost morale.
+     *
+     * @param threshold Skip offices whose avgMorale is at or above this.
+     *     Default: corp_t.employee.MORALE (100), i.e. buy for any office
+     *     that is not fully maxed.  Lower this (e.g. 95) to skip parties
+     *     while morale is "good enough" and save funds.
+     * @param costPerEmployee Cost per employee per party.  Default 1e6
+     *     gives morale multiplier 1.1 (10% boost per cycle, fast
+     *     recovery from low morale).  Lower values give smaller boosts
+     *     but cost less — useful for maintenance once morale is near
+     *     max.  Adaptive cost is left to the caller; this helper applies
+     *     one cost to all eligible offices on this tick.
      */
-    party_all() {
-        const maxPerEmployee = 1e6;
+    party_all(threshold = corp_t.employee.MORALE, costPerEmployee = 1e6) {
+        // Collect all sub-threshold offices, sort ascending by morale,
+        // and throw a party for the lowest-morale office first.  Earlier
+        // this iterated cities.all in static order, so when funds were
+        // tight only the first few offices (alphabetical by city) got a
+        // party — not the ones that actually needed it most.  Offices
+        // that fell behind on morale stayed behind, decaying further
+        // each cycle and never recovering, because the script kept
+        // refreshing offices that were already near 100.
+        //
+        // ns.corporation.throwParty() returns 0 silently when funds <
+        // cost OR when partyMult is already > 1 for this cycle
+        // (Actions.ts:391-404) — it does NOT throw — so we check funds
+        // ourselves.  We do NOT break on the first failure, because a
+        // smaller office downstream may still be affordable.
+        const offices = [];
         this.all_divisions().forEach((div) => {
             cities.all.forEach((ct) => {
                 if (!this.has_division_office(div, ct)) return;
-                // Skip offices where morale is already at/above the
-                // vivacious threshold.  Parties only boost morale, so
-                // throwing one for a maxed office wastes funds.
                 const office = this.#ns.corporation.getOffice(div, ct);
-                if (office.avgMorale >= corp_t.employee.MORALE) return;
-                try {
-                    this.#ns.corporation.throwParty(div, ct, maxPerEmployee);
-                } catch {
-                    // No funds; ignore.
-                }
+                if (office.avgMorale >= threshold) return;
+                offices.push({
+                    div,
+                    ct,
+                    morale: office.avgMorale,
+                    cost: costPerEmployee * office.numEmployees,
+                });
             });
         });
+        if (offices.length === 0) return;
+        offices.sort((a, b) => a.morale - b.morale);
+        for (const { div, ct, cost } of offices) {
+            if (this.funds() < cost) continue;
+            this.#ns.corporation.throwParty(div, ct, costPerEmployee);
+        }
     }
 
     /**

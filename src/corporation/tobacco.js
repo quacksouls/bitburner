@@ -168,16 +168,19 @@ async function more_research(ns) {
         }
         log(ns, `${div}: expand the research unit of each office`);
         await hire(ns, div, bool.NO_WAIT);
+        // Strict priority: buy only the highest-priority research in
+        // `res` that is still wanted and available.  If that research
+        // is not yet affordable, wait — do NOT skip it to buy a
+        // cheaper lower-priority one (e.g. DRONE before DRUG), since
+        // the `res` array expresses the intended purchase order.
         for (const r of res) {
-            if (
-                !org.has_research(div, r)
-                && org.is_research_available(div, r)
-            ) {
-                if (org.has_enough_research_points(div, r)) {
-                    log(ns, `${div}: buying research: ${r}`);
-                    await buy_research(ns, div, r);
-                }
+            if (org.has_research(div, r)) continue;
+            if (!org.is_research_available(div, r)) continue;
+            if (org.has_enough_research_points(div, r)) {
+                log(ns, `${div}: buying research: ${r}`);
+                await buy_research(ns, div, r);
             }
+            break;
         }
         await ns.sleep(5 * wait_t.MINUTE);
     }
