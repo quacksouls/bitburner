@@ -72,7 +72,7 @@ export const corp = {
         FISH: "Fishing",
         FOOD: "Food",
         HEALTH: "Healthcare",
-        LAND: "RealEstate",
+        LAND: "Real Estate",
         MINE: "Mining",
         PHARMA: "Pharmaceutical",
         ROBO: "Robotics",

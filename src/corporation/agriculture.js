@@ -49,40 +49,86 @@ async function research(ns, div, res) {
     // the donor role: Unassigned > Operations > Engineer > Management >
     // Business (i.e. take from where we have the most slack first).
     const org = new Corporation(ns);
-    const donorRoles = [
+    // Reassign aggressively toward R&D: keep at least 1 employee in
+    // each production/sales role (Operations, Engineer, Business,
+    // Management) so material production and sales keep functioning,
+    // but move every other spare employee (Unassigned, Training, and
+    // the surplus of Ops/Eng/Mgmt/Business) into Research & Development.
+    // Earlier this block only moved 1 employee per office into R&D
+    // (leaving each office with a single R&D worker), which made RP
+    // accumulate at a trickle — 6 R&D employees across 6 offices
+    // produced a few tens of RP per cycle, so buying e.g. AutoBrew
+    // (10k cost x RESEARCH_MULT=2 = 20k threshold) took many minutes
+    // of real time even in bonus time, and the user saw no log lines
+    // between purchases because the loop has no progress log when it
+    // is just waiting for RP.  Maximizing R&D staffing here makes the
+    // whole research phase complete in a few minutes of real time.
+    const donorOrder = [
         "Unassigned",
+        "Training",
         "Operations",
         "Engineer",
         "Management",
         "Business",
     ];
+    const keepAtLeast = {
+        Operations: 10,
+        Engineer: 10,
+        Business: 10,
+        Management: 5,
+        Unassigned: 0,
+        Training: 0,
+    };
     cities.all.forEach((ct) => {
         if (!org.has_division_office(div, ct)) return;
         const office = ns.corporation.getOffice(div, ct);
-        const rndCount = office.employeeJobs["Research & Development"] ?? 0;
-        if (rndCount > 0) return;
-        // Try to take 1 employee from a donor role that has spare
-        // employees, in preference order.  setJobAssignment sets the
-        // total count for that role (not a delta), so we decrement the
-        // donor's count by 1 and increment R&D by 1.
-        for (const role of donorRoles) {
-            const count = office.employeeJobs[role] ?? 0;
-            if (count > 0) {
-                ns.corporation.setJobAssignment(div, ct, role, count - 1);
-                ns.corporation.setJobAssignment(
-                    div, ct, "Research & Development", rndCount + 1
-                );
-                log(ns, `${div}/${ct}: reassigned 1 ${role} -> Research & Development`);
-                return;
+        const jobs = office.employeeJobs;
+        let freed = 0;
+        for (const role of donorOrder) {
+            const cur = jobs[role] ?? 0;
+            const keep = keepAtLeast[role] ?? 0;
+            if (cur <= keep) continue;
+            const move = cur - keep;
+            // setJobAssignment writes to employeeNextJobs which is
+            // applied at the next process cycle; reducing this role
+            // releases `move` employees into Unassigned.  The next
+            // call (setting R&D) then takes them back out of Unassigned.
+            // The intermediate state (after this call but before the
+            // R&D call) is fine because Unassigned absorbs the diff.
+            try {
+                ns.corporation.setJobAssignment(div, ct, role, keep);
+            } catch {
+                // Role name not accepted by this API version; skip.
+                continue;
             }
+            freed += move;
         }
-        // No donor available (office empty or all in Training/Intern);
-        // as a last resort, hire directly into R&D.
-        try {
-            ns.corporation.hireEmployee(div, ct, "Research & Development");
-            log(ns, `${div}/${ct}: hired 1 employee directly into Research & Development`);
-        } catch {
-            // Office at capacity or no funds; skip this office.
+        const curRnd = jobs["Research & Development"] ?? 0;
+        if (freed > 0) {
+            try {
+                ns.corporation.setJobAssignment(
+                    div, ct, "Research & Development", curRnd + freed
+                );
+                log(
+                    ns,
+                    `${div}/${ct}: reassigned ${freed} -> R&D (now ${curRnd + freed}/${office.numEmployees})`
+                );
+            } catch {
+                // If we somehow cannot grow R&D, the freed employees
+                // will sit in Unassigned until next cycle; not harmful.
+            }
+            return;
+        }
+        // No donor had spare employees (everyone already at the
+        // minimum we want to keep, or office empty).  As a last
+        // resort, hire directly into R&D if the office has room.
+        if (curRnd === 0 && office.numEmployees < office.size) {
+            try {
+                ns.corporation.hireEmployee(div, ct, "Research & Development");
+                log(ns, `${div}/${ct}: hired 1 employee directly into Research & Development`);
+            } catch {
+                // Office at capacity or no funds; skip this office.
+            }
         }
     });
     // Single maintenance + research-buying loop.  Earlier this only
@@ -126,6 +172,7 @@ async function research(ns, div, res) {
     //
     // getBonusTime() returns MILLISECONDS (NetscriptDefinitions.d.ts
     // ~10722).  Use 60s as the "we have meaningful bonus time" cutoff.
+    let cycle = 0;
     while (!has_all_research(ns, div, res)) {
         const inBonus =
             typeof ns.corporation.getBonusTime === "function" &&
@@ -133,11 +180,15 @@ async function research(ns, div, res) {
         const teaThreshold = inBonus ? 97 : corp_t.employee.ENERGY;
         const partyThreshold = inBonus ? 95 : corp_t.employee.MORALE;
         let lowestMorale = Infinity;
+        let lowestEnergy = Infinity;
+        let totalRnd = 0;
         for (const d of org.all_divisions()) {
             for (const ct of cities.all) {
                 if (!org.has_division_office(d, ct)) continue;
                 const o = ns.corporation.getOffice(d, ct);
                 if (o.avgMorale < lowestMorale) lowestMorale = o.avgMorale;
+                if (o.avgEnergy < lowestEnergy) lowestEnergy = o.avgEnergy;
+                totalRnd += o.employeeJobs["Research & Development"] ?? 0;
             }
         }
         const partyCost = inBonus
@@ -145,6 +196,27 @@ async function research(ns, div, res) {
                 ? 1e6
                 : 1e5
             : 1e6;
+        cycle++;
+        if (cycle % 30 === 0) {
+            const rp = org.division_research(div);
+            let nextTarget = "(none)";
+            for (const r of res) {
+                if (org.has_research(div, r)) continue;
+                if (!org.is_research_available(div, r)) continue;
+                nextTarget = r;
+                break;
+            }
+            const targetCost = nextTarget === "(none)"
+                ? 0
+                : org.research_cost(div, nextTarget);
+            const targetNeeded = nextTarget === "(none)"
+                ? 0
+                : Math.ceil(corp_t.RESEARCH_MULT * targetCost);
+            log(
+                ns,
+                `${div}: RP ${rp.toFixed(0)}/${targetNeeded} for ${nextTarget} | R&D ${totalRnd} | M${lowestMorale.toFixed(1)}/E${lowestEnergy.toFixed(1)} | funds ${org.funds().toFixed(0)} | ${inBonus ? "BONUS" : "real"}`
+            );
+        }
         org.buy_tea_all(teaThreshold);
         org.party_all(partyThreshold, partyCost);
         // Try to buy any affordable research we still want.  RND_LAB
@@ -210,6 +282,68 @@ function setup_market_ta(ns, div) {
 }
 
 /**
+ * Move employees out of Research & Development and back into production
+ * roles (Operations, Engineer, Business, Management) so the division
+ * earns revenue during the tobacco phase instead of paying salaries to
+ * R&D employees who have nothing left to research.  We keep 1 R&D
+ * employee per office as a residual — the cost is negligible and it
+ * keeps research points trickling in case a future script (e.g.
+ * janitor.js) wants to buy additional Agriculture research.
+ *
+ * Distribution after reassignment (for each office of the division):
+ *
+ *   - R&D: 1
+ *   - Operations: floor(remaining * 0.4)
+ *   - Engineer:   floor(remaining * 0.3)
+ *   - Business:   floor(remaining * 0.2)
+ *   - Management: remainder  (so the totals add up to numEmployees)
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ */
+function reassign_to_production(ns, div) {
+    const org = new Corporation(ns);
+    const rndTarget = 1;
+    cities.all.forEach((ct) => {
+        if (!org.has_division_office(div, ct)) return;
+        const office = ns.corporation.getOffice(div, ct);
+        const total = office.numEmployees;
+        if (total === 0) return;
+        const remaining = Math.max(0, total - rndTarget);
+        const operations = Math.floor(remaining * 0.4);
+        const engineer = Math.floor(remaining * 0.3);
+        const business = Math.floor(remaining * 0.2);
+        const management = remaining - operations - engineer - business;
+        const target = {
+            "Research & Development": rndTarget,
+            Operations: operations,
+            Engineer: engineer,
+            Business: business,
+            Management: management,
+            Training: 0,
+            Unassigned: 0,
+        };
+        let changed = false;
+        for (const [role, amount] of Object.entries(target)) {
+            const cur = office.employeeJobs[role] ?? 0;
+            if (cur === amount) continue;
+            try {
+                ns.corporation.setJobAssignment(div, ct, role, amount);
+                changed = true;
+            } catch {
+                // Role not accepted by this API version; skip.
+            }
+        }
+        if (changed) {
+            log(
+                ns,
+                `${div}/${ct}: reassign to production -> R&D ${rndTarget}, Ops ${operations}, Eng ${engineer}, Bus ${business}, Mgmt ${management}`
+            );
+        }
+    });
+}
+
+/**
  * Develop our Agriculture division.
  *
  * Usage: run quack/corporation/agriculture.js
@@ -253,15 +387,15 @@ export async function main(ns) {
         corp.research.FULCRUM,
     ];
     // Develop our research unit so we can buy all research we care about.
+    // research() already loops internally until `has_all_research` is
+    // true, so we only need to call it once; no outer retry-sleep loop.
     const div = corp.industry.AGRI;
-    for (;;) {
-        if (has_all_research(ns, div, res)) {
-            break;
-        }
-        await research(ns, div, res);
-        await ns.sleep(10 * wait_t.MINUTE);
-    }
+    await research(ns, div, res);
     log(ns, `${div}: all research units fully developed`);
+    // Move employees out of R&D and back into production so the
+    // Agriculture division keeps generating revenue (instead of paying
+    // R&D salaries for nothing) while tobacco.js runs.
+    reassign_to_production(ns, div);
     ns.rm(corp.AGRI, home);
     // Spawn the next script in the load chain.  Use ns.spawn so this script
     // exits before tobacco.js starts (avoids stacking RAM across chain).

@@ -16,13 +16,13 @@
  */
 
 import { bool } from "/quack/lib/constant/bool.js";
-import { corp, corp_t } from "/quack/lib/constant/corp.js";
+import { corp, corp_t, tobacco } from "/quack/lib/constant/corp.js";
+import { cities } from "/quack/lib/constant/location.js";
 import { wait_t } from "/quack/lib/constant/time.js";
 import { Corporation } from "/quack/lib/corporation/corp.js";
 import {
     create_product,
     discontinue_product,
-    finishing_product,
     hire_advert_frugal,
     hire,
     level_upgrade,
@@ -35,16 +35,34 @@ import { assert } from "/quack/lib/util.js";
 /**
  * Take our corporation public and list it on the Stock Exchange.
  *
+ * Earlier this looped `while (!is_public()) { go_public(); sleep(1s) }`
+ * forever with no log when the corp was already public (is_public()
+ * returns true after the first call, so the loop exits normally —
+ * but if `go_public()` silently failed, e.g. due to a transient UI
+ * state, the loop spun with no progress log).  Now we make a single
+ * attempt and log the result.
+ *
  * @param ns The Netscript API.
  */
 async function go_public(ns) {
     const org = new Corporation(ns);
+    if (org.is_public()) {
+        log(ns, "Corporation is already public; skip IPO step");
+        return;
+    }
+    log(ns, "Listing corporation on the Stock Exchange...");
+    let attempt = 0;
     while (!org.is_public()) {
-        log(ns, "corporation is listed on Stock Exchange");
         org.go_public();
+        attempt++;
+        if (attempt % 10 === 0) {
+            log(ns, `go_public: still not public after ${attempt}s; retrying`);
+        }
         await ns.sleep(wait_t.SECOND);
     }
+    log(ns, "corporation is listed on Stock Exchange");
     org.issue_dividends();
+    log(ns, `issued dividends`);
 }
 
 /**
@@ -60,6 +78,70 @@ async function go_public(ns) {
 function has_max_products(ns, div) {
     const org = new Corporation(ns);
     return org.all_products(div).length === corp_t.product.MAX;
+}
+
+/**
+ * Wait for a product to finish development, polling once per state
+ * cycle (1s) and logging progress periodically so the user can see
+ * the script is alive.  Replaces the silent `finishing_product`
+ * helper from util.js, which was `while (!complete) sleep(1s)` with
+ * no log — could hang forever with no output if Aevum office had 0
+ * Engineers/Operations (Product.ts:106-110 returns early when the
+ * sum of engr/ops/mgmt production is 0).  Mirrors `wait_product` in
+ * tobacco.js, simplified for janitor (no maintain_offices, no
+ * boost_developer_city — janitor only runs every 10 minutes so we
+ * trust the corp state is roughly steady).
+ *
+ * Stuck detection: after MAX_STUCK_CHECKS consecutive 30s checks
+ * with no integer percent change, log STUCK and bail out — the
+ * caller continues to the sell step which asserts
+ * is_product_complete, so the script will fail loudly on the assert
+ * instead of silently burning funds.
+ *
+ * @param ns The Netscript API.
+ * @param div A string representing the name of a division.
+ * @param name A string representing the name of a product.
+ */
+async function wait_product(ns, div, name) {
+    const org = new Corporation(ns);
+    let cycle = 0;
+    let lastPct = -1;
+    let noChangeStreak = 0;
+    const MAX_STUCK_CHECKS = 10;
+    while (!org.is_product_complete(div, name)) {
+        if (cycle % 30 === 0) {
+            const ct = ns.corporation.getDivision(div).cities[0];
+            const p = ns.corporation.getProduct(div, ct, name);
+            const pct = Math.floor(p.developmentProgress);
+            const ae = ns.corporation.getOffice(div, tobacco.DEVELOPER_CITY);
+            const eng = ae.employeeJobs.Engineer ?? 0;
+            const ops = ae.employeeJobs.Operations ?? 0;
+            const mgmt = ae.employeeJobs.Management ?? 0;
+            const progressed = pct !== lastPct;
+            if (progressed) {
+                noChangeStreak = 0;
+            } else {
+                noChangeStreak++;
+            }
+            lastPct = pct;
+            if (noChangeStreak >= MAX_STUCK_CHECKS) {
+                log(
+                    ns,
+                    `${div}/${name}: STUCK at ${pct}% for ${noChangeStreak * 30}s | ${eng}E+${ops}O+${mgmt}M in ${tobacco.DEVELOPER_CITY} — Aevum needs Engineers/Operations/Mgmt to develop; check office assignments in the UI`
+                );
+                return;
+            }
+            if (progressed || noChangeStreak % 3 === 0) {
+                log(
+                    ns,
+                    `${div}/${name}: ${pct}% | ${eng}E+${ops}O in ${tobacco.DEVELOPER_CITY}${progressed ? "" : ` (no progress ${noChangeStreak * 30}s)`}`
+                );
+            }
+        }
+        cycle++;
+        await ns.sleep(wait_t.SECOND);
+    }
+    log(ns, `${div}/${name}: development complete`);
 }
 
 /**
@@ -82,7 +164,7 @@ async function product_cycle(ns, div) {
         log(ns, `${div}: levelled up upgrade(s): ${upg.join(", ")}`);
     }
     log(ns, `${div}: waiting for product to complete: ${name}`);
-    await finishing_product(ns, div, name);
+    await wait_product(ns, div, name);
     log(ns, `${div}: hire AdVert.inc to advertise`);
     await hire_advert_frugal(ns, div);
     log(ns, `${div}: selling product: ${name}`);
@@ -121,6 +203,11 @@ function sanity_checks(ns) {
  * @param div A string representing the name of a division.
  */
 async function update(ns, div) {
+    const org = new Corporation(ns);
+    log(
+        ns,
+        `${div}: maintenance cycle | funds ${org.funds().toFixed(0)} | products ${org.all_products(div).length}/${corp_t.product.MAX}`
+    );
     // If we have developed the maximum number of products, then we must
     // discontinue a product to make room for a new product (possibly of higher
     // rating).
@@ -129,7 +216,6 @@ async function update(ns, div) {
         log(ns, `${div}: discontinued a product: ${name}`);
     }
     await product_cycle(ns, div);
-    const org = new Corporation(ns);
     log(ns, `${div}: waiting for each office to be vivacious`);
     await org.vivacious_office();
 }
@@ -148,8 +234,12 @@ export async function main(ns) {
     // Maintain our corporation.
     create_file(ns, corp.JANI, ns.getScriptName());
     await go_public(ns);
+    let cycle = 0;
     for (;;) {
+        cycle++;
+        log(ns, `=== janitor maintenance cycle ${cycle} ===`);
         await update(ns, corp.industry.TOBACCO);
+        log(ns, `sleeping 10 minutes before next maintenance cycle`);
         await ns.sleep(10 * wait_t.MINUTE);
     }
 }

@@ -259,7 +259,23 @@ export async function hire_advert_frugal(ns, div) {
     if (cost >= max_funds) {
         return;
     }
+    // Funds-starvation guard.  Earlier this was
+    // `while (!org.hire_advert(div)) sleep(1s)` — if `hire_advert`
+    // returns FAILURE (cost > funds), the loop spun forever with no
+    // log.  Now bound by MAX_ATTEMPTS so janitor.js does not hang if
+    // the upfront cost check passed but funds dropped (race) before
+    // the actual purchase.
+    const MAX_ATTEMPTS = 60;
+    let attempt = 0;
     while (!org.hire_advert(div)) {
+        attempt++;
+        if (attempt >= MAX_ATTEMPTS) {
+            log(
+                ns,
+                `${div}: hire_advert_frugal: gave up after ${attempt}s (cost $${cost.toFixed(0)} > funds $${org.funds().toFixed(0)})`
+            );
+            return;
+        }
         await ns.sleep(wait_t.SECOND);
     }
 }
@@ -422,15 +438,47 @@ export async function more_unlock_upgrade(ns) {
     const org = new Corporation(ns);
     const unlock_upgrade = [];
     const unlock = [corp.unlock.ACCOUNT, corp.unlock.PPP];
+    // Funds-starvation detection.  These unlock upgrades are expensive
+    // (Shady Accounting ~$500T, Government Partnership ~$2Q).  When the
+    // corp cannot afford them, `buy_unlock_upgrade` returns FAILURE
+    // silently and `has_unlock_upgrade` stays false, so the previous
+    // `while (!has_unlock_upgrade(...))` loop hung forever with no log
+    // — exactly the bug pattern fixed in `prep.js::upgrade_round_one`
+    // and `tobacco.js::upgrade`.  Here we track consecutive failed
+    // ticks; after MAX_NO_CHANGE we log a funds-starved warning and
+    // break, leaving the upgrade for a later maintenance script to
+    // purchase once funds accumulate.  These unlocks are nice-to-have
+    // (slight tribute reduction), not required for the corp to
+    // function, so it is safe to defer.
+    const MAX_NO_CHANGE = 60;
     for (const upg of unlock) {
         if (org.has_unlock_upgrade(upg)) {
             continue;
         }
+        const cost = ns.corporation.getUnlockCost(upg);
+        if (org.funds() < cost) {
+            log(
+                ns,
+                `Cannot afford ${upg} ($${cost.toFixed(0)} > funds $${org.funds().toFixed(0)}); deferring — script will proceed without this unlock upgrade`
+            );
+            continue;
+        }
+        let noChangeTicks = 0;
         while (!org.has_unlock_upgrade(upg)) {
-            org.buy_unlock_upgrade(upg);
+            if (org.buy_unlock_upgrade(upg)) {
+                unlock_upgrade.push(upg);
+                break;
+            }
+            noChangeTicks++;
+            if (noChangeTicks >= MAX_NO_CHANGE) {
+                log(
+                    ns,
+                    `${upg}: funds-starved, ${noChangeTicks}s with no purchase; deferring`
+                );
+                break;
+            }
             await ns.sleep(wait_t.SECOND);
         }
-        unlock_upgrade.push(upg);
     }
     return unlock_upgrade;
 }
